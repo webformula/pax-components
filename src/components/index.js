@@ -1,1 +1,2 @@
 require('./button');
+require('./checkbox');

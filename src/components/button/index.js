@@ -1,5 +1,6 @@
-const path = require('path');
-const fs = require('fs');
+// TODO impliment ripple
+// TODO impliment icon
+
 const {
   customElements,
   HTMLElementExtended,
@@ -7,10 +8,7 @@ const {
   css
 } = require('../../core');
 
-// TODO impliment ripple
-// TODO impliment icon
-
-customElements.define('md-button', class extends HTMLElementExtended {
+customElements.define('mdc-button', class extends HTMLElementExtended {
   constructor() {
     super();
     this.cloneTemplate();
@@ -60,13 +58,5 @@ customElements.define('md-button', class extends HTMLElementExtended {
 
   cssFile() {
     return '/src/components/button/style.css'
-  }
-
-  externalCSS() {
-    return css`
-      html {
-        font-size: 16px;
-      }
-    `;
   }
 });
