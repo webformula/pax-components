@@ -1,14 +1,16 @@
- const {
-   customElements,
-   HTMLElementExtended,
-   html,
-   css
- } = require('../../core');
-
- customElements.define('mdc-checkbox', class extends HTMLElementExtended {
+customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    constructor() {
      super();
      this.cloneTemplate();
+   }
+
+   connectedCallback() {
+     this.ripple = new Ripple({
+       element: this.shadowRoot.querySelector('.ripple'),
+       triggerElement: this.input,
+       radius: 20,
+       centered: true
+     });
    }
 
    static get observedAttributes() {
@@ -63,7 +65,8 @@
    html() {
     return html`
       <div class="container">
-        <input type="checkbox" onchange="$mdcCheckbox.handleChange(this)">
+        <input type="checkbox" onchange="$mdwCheckbox.handleChange(this)">
+        <div class="ripple checkbox-ripple"></div>
         <div class="background">
           <svg class="checkmark" viewBox="0 0 24 24">
             <path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
@@ -75,6 +78,6 @@
   }
 
   cssFile() {
-    return '/src/components/checkbox/style.css'
+    return '/src/components/checkbox/internal.css'
   }
 });

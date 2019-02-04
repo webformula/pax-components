@@ -1,0 +1,54 @@
+mdw-text-field + mdw-helper-text,
+mdw-helper-text + mdw-helper-text {
+  position: absolute;
+  color: rgba(0,0,0,.6);
+
+  margin-right: 12px;
+  margin-left: 12px;
+
+  font-family: Roboto, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-size: .75rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: .03333em;
+  text-decoration: inherit;
+  text-transform: inherit;
+  display: block;
+  line-height: normal;
+  transition: transform .24s cubic-bezier(.4,0,.2,1),
+              opacity .18s cubic-bezier(.4,0,.2,1);
+  transform: translateY(0);
+  opacity: 1;
+  will-change: transform,opacity;
+}
+
+mdw-helper-text:before {
+  display: inline-block;
+  width: 0;
+  height: 16px;
+  content: "";
+  vertical-align: 0;
+}
+
+mdw-helper-text[validation] {
+  transition: none;
+  transform: translateY(-50%);
+  opacity: 0;
+  color: var(--mdw-theme-error-default);
+}
+
+mdw-text-field.invalid + mdw-helper-text:not([validation]) {
+  transition: none;
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+mdw-text-field.invalid + mdw-helper-text[validation],
+mdw-text-field.invalid + mdw-helper-text + mdw-helper-text[validation] {
+  transition: transform .24s cubic-bezier(.4,0,.2,1),
+              opacity .18s cubic-bezier(.4,0,.2,1);
+  transform: translateY(0);
+  opacity: 1;
+}

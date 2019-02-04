@@ -27,7 +27,6 @@
   left: calc(50% - 50%);
   width: 100%;
   height: 100%;
-  background-color: #018786;
 }
 
 .container::before {
@@ -62,7 +61,6 @@
   pointer-events: none;
   content: "";
   will-change: opacity, transform;
-  background-color: #018786;
 }
 
 .background {
@@ -161,14 +159,6 @@ input:enabled:not(:checked):not(:indeterminate) ~ .background {
   background-color: transparent;
 }
 
-input:enabled:checked ~ .background,
-input:enabled:indeterminate ~ .background {
-  border-color: #018786;
-  border-color: var(--mdc-theme-secondary, #018786);
-  background-color: #018786;
-  background-color: var(--mdc-theme-secondary, #018786);
-}
-
 input:disabled:not(:checked):not(:indeterminate) ~ .background {
   border-color: rgba(0, 0, 0, 0.26);
 }
@@ -240,4 +230,85 @@ input:indeterminate ~ .background .mixedmark {
       -ms-transform: scaleX(1) rotate(0deg);
           transform: scaleX(1) rotate(0deg);
   opacity: 1;
+}
+
+
+
+/* --- Ripple --- */
+.ripple {
+  overflow: hidden;
+}
+
+.ripple.ripple-unbounded {
+  overflow: visible;
+}
+
+.ripple-element {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
+  transform: scale(0)
+}
+
+.checkbox-ripple {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+
+/* --- theme --- */
+
+/* basic */
+.container::before,
+.container::after {
+  background-color: var(--mdw-theme-secondary-default);
+}
+
+.ripple-element {
+  background-color: rgba(var(--mdw-theme-secondary-default--rgb), 0.16);
+}
+
+input:enabled:checked ~ .background,
+input:enabled:indeterminate ~ .background {
+  border-color: var(--mdw-theme-secondary-default);
+  background-color: var(--mdw-theme-secondary-default);
+}
+
+/* primary */
+:host(.primary) .container::before,
+:host(.primary) .container::after {
+  background-color: var(--mdw-theme-primary-default);
+}
+
+:host(.primary) .ripple-element {
+  background-color: rgba(var(--mdw-theme-primary-default--rgb), 0.16);
+}
+
+:host(.primary) input:enabled:checked ~ .background,
+:host(.primary) input:enabled:indeterminate ~ .background {
+  border-color: var(--mdw-theme-primary-default);
+  background-color: var(--mdw-theme-primary-default);
+}
+
+/* error */
+:host(.error) .container::before,
+:host(.error) .container::after {
+  background-color: var(--mdw-theme-error-default);
+}
+
+:host(.error) .ripple-element {
+  background-color: rgba(var(--mdw-theme-error-default--rgb), 0.16);
+}
+
+:host(.error) input:enabled:checked ~ .background,
+:host(.error) input:enabled:indeterminate ~ .background {
+  border-color: var(--mdw-theme-error-default);
+  background-color: var(--mdw-theme-error-default);
 }

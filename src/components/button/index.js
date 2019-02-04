@@ -1,21 +1,21 @@
-// TODO impliment ripple
-// TODO impliment icon
+customElements.define('mdw-button', class extends HTMLElementExtended {
+  // TODO impliment ripple
+  // TODO impliment icon
 
-const {
-  customElements,
-  HTMLElementExtended,
-  html,
-  css
-} = require('../../core');
-
-customElements.define('mdc-button', class extends HTMLElementExtended {
   constructor() {
     super();
     this.cloneTemplate();
   }
 
+  connectedCallback() {
+    this.ripple = new Ripple({
+      element: this.shadowRoot.querySelector('.ripple'),
+      triggerElement: this.button
+    });
+  }
+
   static get observedAttributes() {
-    return ['raised', 'unelevated', 'outlined', 'disabled', 'icon'];
+    return ['raised', 'unelevated', 'outlined', 'disabled', 'icon', 'shaped', 'dense'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -39,6 +39,14 @@ customElements.define('mdc-button', class extends HTMLElementExtended {
     this.button.classList.toggle('outlined', !!value || value === '');
   }
 
+  set shaped(value) {
+    this.button.classList.toggle('shaped', !!value || value === '');
+  }
+
+  set dense(value) {
+    this.button.classList.toggle('dense', !!value || value === '');
+  }
+
   set disabled(value) {
     if (!!value || value === '') this.button.setAttribute('disabled', 'disabled');
     else this.button.removeAttribute('disabled');
@@ -52,11 +60,12 @@ customElements.define('mdc-button', class extends HTMLElementExtended {
     return html`
       <button>
         <slot></slot>
+        <div class="ripple button-ripple"></div>
       </button>
     `;
   }
 
   cssFile() {
-    return '/src/components/button/style.css'
+    return '/src/components/button/internal.css'
   }
 });
