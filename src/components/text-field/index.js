@@ -2,12 +2,11 @@ customElements.define('mdw-text-field', class extends HTMLElementExtended {
   constructor() {
     super();
     this.outlined = this.hasAttribute('outlined');
-    this.cloneTemplate();
+    this.cloneTemplate(true);
   }
 
   connectedCallback() {
     this.valid = this.input.validity.valid;
-    this.render();
     if (this.outlined) this.setOutlined();
 
     this.input.addEventListener('focus', this.onFocus.bind(this));

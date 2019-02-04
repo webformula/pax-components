@@ -77,11 +77,13 @@ function buildHTMLElementExtended(content) {
           renderBlock.innerHTML = this.html();
         }
 
-        cloneTemplate() {
+        cloneTemplate(rerender = false) {
           var template = document.getElementById('${name}');
           var templateContent = template.content;
           var shadowRoot = this.shadowRoot ? this.shadowRoot : this.attachShadow({mode: 'open'});
-          shadowRoot.appendChild(templateContent.cloneNode(true));
+          var clone = templateContent.cloneNode(true);
+          if (rerender) clone.querySelector('render-block').innerHTML = this.html();
+          shadowRoot.appendChild(clone);
         }
       }
     `
