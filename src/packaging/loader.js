@@ -1,5 +1,3 @@
-// const customElements = require('./customElements');
-// const HTMLElementExtended = require('./HTMLElementExtended');
 const fs = require('fs');
 const path = require('path');
 const { html, css } = require('./template-literal-tags')
