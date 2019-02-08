@@ -1,0 +1,61 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+svg {
+  position: absolute;
+  transform: rotate(-90deg);
+  top: 0;
+  left: 0;
+  transform-origin: center;
+  overflow: visible;
+}
+
+circle {
+  /* @include _noop-animation() */
+  /* transition: none; */
+  /* animation: none; */
+  fill: transparent;
+  transform-origin: center;
+  transition: stroke-dashoffset 225ms linear;
+}
+
+
+:host([mode='indeterminate']) {
+  /* @include _noop-animation(); */
+  animation: mat-progress-spinner-linear-rotate 2000ms linear infinite;
+}
+
+:host([mode='indeterminate']) circle {
+  /* @include _noop-animation(); */
+  transition-property: stroke;
+  animation-duration: 4000ms;
+  animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+  animation-iteration-count: infinite;
+}
+
+@keyframes mat-progress-spinner-linear-rotate {
+  0%       { transform: rotate(0deg); }
+  100%     { transform: rotate(360deg); }
+}
+
+
+/* @mixin _noop-animation() {
+  // @at-root is used to steps outside of the hierarchy of the scss rules. This is
+  // done to allow a class to be added to be added to base of the scss nesting
+  // context.
+  // For example:
+  // .my-root {
+  //   .my-subclass {
+  //      @include _noop-animation();
+  //    }
+  // }
+  // results in:
+  // ._mat-animation-noopable.my-root .my-subclass { ... }
+  @at-root ._mat-animation-noopable#{&} {
+    transition: none;
+    animation: none;
+    @content;
+  }
+} */

@@ -1,10 +1,10 @@
 customElements.define('mdw-button', class extends HTMLElementExtended {
-  // TODO impliment ripple
   // TODO impliment icon
 
   constructor() {
     super();
     this.cloneTemplate();
+    this.setupAsync();
   }
 
   connectedCallback() {
@@ -20,6 +20,39 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
 
   attributeChangedCallback(name, oldValue, newValue) {
     this[name] = newValue;
+  }
+
+  setupAsync() {
+    const asyncValue = this.getAttribute('async');
+    if (!asyncValue) return;
+    let pending = false;
+    this.button.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (!pending) {
+        this.showSpinner();
+        pending = true;
+        eval(asyncValue)
+          .then(() => {
+            pending = false
+            this.hideSpinner();
+          })
+          .catch((e) => {
+            this.hideSpinner();
+            pending = false;
+            throw e;
+          });
+      }
+    });
+  }
+
+  showSpinner() {
+    console.log('showSpinner')
+  }
+
+  hideSpinner() {
+    console.log('hideSpinner')
   }
 
   get button() {
