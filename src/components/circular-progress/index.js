@@ -1,41 +1,56 @@
 customElements.define('mdw-circular-progress', class extends HTMLElementExtended {
   constructor() {
     super();
+    this.insertedDiameters = [];
     this.cloneTemplate();
+  }
 
-    this.diameter = this.getAttrbute('diameter') || 100;
+  connectedCallback() {
+    this.diameter = this.getAttribute('diameter') || 100;
+    this.render();
+    this.style.width = this.style.height = this.diameter + 'px';
   }
 
   get diameter() {
     return this._diameter;
   }
   set diameter(value) {
-    this._diameter = parseInt(value.replace('px', ''));
-    if (!CircularProgressStyleManager.exists(this._diameter)) {
-      CircularProgressStyleManager.create(this._diameter, this._getAnimationText());
+    this._diameter = parseInt((''+value).replace('px', ''));
+    if (!this.insertedDiameters[this._diameter]) {
+      this.insertedDiameters.push(this._diameter);
+      this.shadowRoot.querySelector('style').sheet.insertRule(this._getAnimationText(), 0);
     }
+  }
+
+  get svg() {
+    if (!this._svg) this._svg = this.shadowRoot.querySelector('svg');
+    return this._svg;
   }
 
   get strokeWidth() {
     return this._strokeWidth || this.diameter / 10;
   }
   set strikeWidth(value) {
-    this._strokeWidth = parseInt(value.replace('px', ''));
+    this._strokeWidth = parseInt((''+value).replace('px', ''));
   }
 
   get value() {
     return this.mode === 'determinate' ? this._value : 0;
   }
   set value(value) {
-    this._value = Math.max(0, Math.min(100, parseInt(value.replace('px', ''))));
+    this._value = Math.max(0, Math.min(100, parseInt((''+value).replace('px', ''))));
   }
 
   get mode() {
-    return this.getAttrbute('mode') === 'determinate' ? 'determinate' : 'indeterminate';
+    return this.getAttribute('mode') === 'determinate' ? 'determinate' : 'indeterminate';
   }
 
   get _circleRadius() {
     return (this.diameter - 10) / 2;
+  }
+
+  get _circleStrokeWidth() {
+    return this.strokeWidth / this.diameter * 100;
   }
 
   get _strokeCircumference() {
@@ -66,33 +81,30 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
   }
 
   _getAnimationText() {
-    return this.  INDETERMINATE_ANIMATION_TEMPLATE
+    return this.INDETERMINATE_ANIMATION_TEMPLATE
       .replace(/START_VALUE/g, `${0.95 * this._strokeCircumference}`)
       .replace(/END_VALUE/g, `${0.2 * this._strokeCircumference}`)
       .replace(/DIAMETER/g, `${this.diameter}`);
   }
 
-  // [style.width.px]="diameter"
-  // [style.height.px]="diameter"
-  // [attr.viewBox]="_viewBox"
-  // preserveAspectRatio="xMidYMid meet"
-  // focusable="false"
-  // [ngSwitch]="mode === 'indeterminate'"
-
-
-  // cx="50%"
-  // cy="50%"
-  // [attr.r]="_circleRadius"
-  // [style.animation-name]="'mat-progress-spinner-stroke-rotate-' + diameter"
-  // [style.stroke-dashoffset.px]="_strokeDashOffset"
-  // [style.stroke-dasharray.px]="_strokeCircumference"
-  // [style.stroke-width.%]="_circleStrokeWidth"
-
   html() {
     return html`
-      <svg>
-        <circle></circle>
+      <svg style="width: ${this.diameter}px; height: ${this.diameter}px;">
+        <circle
+          cx="50%"
+          cy="50%"
+          r="${this._circleRadius}"
+          style="
+            animation-name: mat-progress-spinner-stroke-rotate-${this.diameter};
+            stroke-dasharray: ${this._strokeCircumference}px;
+            stroke-width: ${this._circleStrokeWidth}%;
+          "
+          ></circle>
       </svg>
     `;
+  }
+
+  cssFile() {
+    return '/src/components/circular-progress/internal.css'
   }
 });

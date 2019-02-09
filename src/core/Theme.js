@@ -79,7 +79,8 @@ new class Theme {
       `--mdw-theme-text--secondary-${contrast}`,
       `--mdw-theme-text--hint-${contrast}`,
       `--mdw-theme-text--disabled-${contrast}`,
-      `--mdw-theme-text--icon-${contrast}`
+      `--mdw-theme-text--icon-${contrast}`,
+      `--mdw-theme-divider-${contrast}`
     ];
   }
 

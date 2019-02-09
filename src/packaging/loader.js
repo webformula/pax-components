@@ -7,16 +7,16 @@ module.exports = function(content) {
   const { name, partial, full } = buildHTMLElementExtended(content);
   const instance = eval('new '+partial);
 
-  let css = '';
-  if (instance.cssFile) css = fs.readFileSync(path.join(__dirname, '../../',  instance.cssFile()));
-  else css = instance.css();
+  let cssSTR = '';
+  if (instance.cssFile) cssSTR = fs.readFileSync(path.join(__dirname, '../../',  instance.cssFile()));
+  else cssSTR = instance.css();
 
   const templateIIFE = `(function(){
     var t=document.createElement('template');
     t.setAttribute('id','${name}');
     t.innerHTML=\`
     <style>
-      ${css}
+      ${cssSTR}
     </style>
     <render-block>
       ${instance.html()}
@@ -43,7 +43,7 @@ function buildHTMLElementExtended(content) {
   const id = toCamelCase(name);
   const classContent = getClassContent(content);
   let { preConstructor, constructor, postConstructor } = splitOnConstructor(classContent)
-  constructor = addLineToConstructor(constructor, `this.setAttribute('id', '$${id}');`);
+  // constructor = addLineToConstructor(constructor, `this.setAttribute('id', '$${id}');`);
   const hasCSS = content.includes('css()'); // TODO use regex to allow for space
   const hasHTML = content.includes('html()'); // TODO use regex to allow for space
 

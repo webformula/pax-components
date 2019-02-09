@@ -48,11 +48,21 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   }
 
   showSpinner() {
-    console.log('showSpinner')
+    this._showSpinner = true;
+    this.classList.add('show-spinner');
+    const isWhite = this.classList.contains('primary') || this.classList.contains('secondary') || this.classList.contains('error');
+    this.spinnerContainer.innerHTML = `<mdw-circular-progress mode="indeterminate" class="${isWhite ? 'white' : 'grey'}" diameter="24" style="position: absolute; left: calc(50% - 12px); top: 6px;"></mdw-circular-progress>`;
   }
 
   hideSpinner() {
-    console.log('hideSpinner')
+    this._showSpinner = false;
+    this.classList.remove('show-spinner');
+    this.spinnerContainer.innerHTML = '';
+  }
+
+  get spinnerContainer() {
+    if (!this._spinnerContainer) this._spinnerContainer = this.shadowRoot.querySelector('.spinner-container');
+    return this._spinnerContainer;
   }
 
   get button() {
@@ -92,7 +102,8 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   html() {
     return html`
       <button>
-        <slot></slot>
+        <span class="text"><slot></slot></span>
+        <span class="spinner-container"></span>
         <div class="ripple button-ripple"></div>
       </button>
     `;

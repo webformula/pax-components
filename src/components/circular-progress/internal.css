@@ -13,22 +13,33 @@ svg {
 }
 
 circle {
-  /* @include _noop-animation() */
-  /* transition: none; */
-  /* animation: none; */
   fill: transparent;
   transform-origin: center;
   transition: stroke-dashoffset 225ms linear;
+  stroke: var(--mdw-theme-primary-default);
 }
 
+:host(.white) circle {
+  stroke: white;
+}
+
+:host(.grey) circle {
+  stroke: grey;
+}
+
+:host(.secondary) circle {
+  stroke: var(--mdw-theme-secondary-default);
+}
+
+:host(.error) circle {
+  stroke: var(--mdw-theme-error-default);
+}
 
 :host([mode='indeterminate']) {
-  /* @include _noop-animation(); */
   animation: mat-progress-spinner-linear-rotate 2000ms linear infinite;
 }
 
 :host([mode='indeterminate']) circle {
-  /* @include _noop-animation(); */
   transition-property: stroke;
   animation-duration: 4000ms;
   animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
@@ -40,22 +51,69 @@ circle {
   100%     { transform: rotate(360deg); }
 }
 
-
-/* @mixin _noop-animation() {
-  // @at-root is used to steps outside of the hierarchy of the scss rules. This is
-  // done to allow a class to be added to be added to base of the scss nesting
-  // context.
-  // For example:
-  // .my-root {
-  //   .my-subclass {
-  //      @include _noop-animation();
-  //    }
-  // }
-  // results in:
-  // ._mat-animation-noopable.my-root .my-subclass { ... }
-  @at-root ._mat-animation-noopable#{&} {
-    transition: none;
-    animation: none;
-    @content;
+@keyframes mat-progress-spinner-stroke-rotate-100 {
+  0% {
+    stroke-dashoffset: 268.606171575px;
+    transform: rotate(0);
   }
-} */
+  12.5% {
+    stroke-dashoffset: 56.5486677px;
+    transform: rotate(0);
+  }
+  12.5001% {
+    stroke-dashoffset: 56.5486677px;
+    transform: rotateX(180deg) rotate(72.5deg);
+  }
+  25% {
+    stroke-dashoffset: 268.606171575px;
+    transform: rotateX(180deg) rotate(72.5deg);
+  }
+  25.0001% {
+    stroke-dashoffset: 268.606171575px;
+    transform: rotate(270deg);
+  }
+  37.5% {
+    stroke-dashoffset: 56.5486677px;
+    transform: rotate(270deg);
+  }
+  37.5001% {
+    stroke-dashoffset: 56.5486677px;
+    transform: rotateX(180deg) rotate(161.5deg);
+  }
+  50% {
+    stroke-dashoffset: 268.606171575px;
+    transform: rotateX(180deg) rotate(161.5deg);
+  }
+  50.0001% {
+    stroke-dashoffset: 268.606171575px;
+    transform: rotate(180deg);
+  }
+  62.5% {
+    stroke-dashoffset: 56.5486677px;
+    transform: rotate(180deg);
+  }
+  62.5001% {
+    stroke-dashoffset: 56.5486677px;
+    transform: rotateX(180deg) rotate(251.5deg);
+  }
+  75% {
+    stroke-dashoffset: 268.606171575px;
+    transform: rotateX(180deg) rotate(251.5deg);
+  }
+  75.0001% {
+    stroke-dashoffset: 268.606171575px;
+    transform: rotate(90deg);
+  }
+  87.5% {
+    stroke-dashoffset: 56.5486677px;
+    transform: rotate(90deg);
+  }
+  87.5001% {
+    stroke-dashoffset: 56.5486677px;
+    transform: rotateX(180deg) rotate(341.5deg);
+  }
+  100% {
+    stroke-dashoffset: 268.606171575px;
+    transform: rotateX(180deg) rotate(341.5deg);
+  }
+}

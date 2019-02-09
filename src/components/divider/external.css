@@ -1,0 +1,23 @@
+mdw-divider {
+  display: block;
+  margin: 0;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--mdw-theme-divider);
+}
+
+mdw-divider[vertical] {
+  border-top: 0;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: var(--mdw-theme-divider);
+}
+
+mdw-divider[inset] {
+  margin-left: 80px;
+}
+
+mdw-divider[inset][dir='rtl'] {
+  margin-left: auto;
+  margin-right: 80px;
+}

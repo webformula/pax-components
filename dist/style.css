@@ -164,15 +164,16 @@
   --mdw-theme-error-default: var(--mdw-theme-palette--error-500, #b00020);
   --mdw-theme-error-dark--on: #000000;
   --mdw-theme-error-light--on: #ffffff;
-  --mdw-theme-error--on: var(--mdw-theme-error-light--on);
 
   --mdw-theme-surface--default: #ffffff;
   --mdw-theme-surface-dark--on: #000000;
   --mdw-theme-surface-light--on: #ffffff;
-  --mdw-theme-surface--on: var(--mdw-theme-surface-light--on);
 
   --mdw-theme-background--default: #fafafa; /* alt #fff */
   --mdw-theme-foreground--default: #000000;
+
+  --mdw-theme-divider-dark: rgba(0, 0, 0, 0.12);
+  --mdw-theme-divider-light: rgba(255, 255, 255, 0.12);
 
   /* text */
   --mdw-theme-text--primary-dark: rgba(black, .87);
@@ -245,5 +246,86 @@ mdw-text-field.invalid + mdw-helper-text + mdw-helper-text[validation] {
               opacity .18s cubic-bezier(.4,0,.2,1);
   transform: translateY(0);
   opacity: 1;
+}
+
+mdw-expander-arrow {
+  float: right;
+  border: solid #b3b3b3;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-top: 7px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+mdw-expander-arrow.open {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+mdw-expander-content {
+  display: none;
+}
+
+mdw-expander-content.indent {
+  padding-left: 16px;
+}
+
+mdw-expander-header {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+  align-items: center;
+  user-select: none;
+  outline: none;
+  border: 0;
+  background: transparent;
+  font-size: 1rem;
+  overflow: hidden;
+  transition: box-shadow .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1);
+  border-radius: 0;
+  white-space: nowrap;
+  color: #b3b3b3;
+
+  margin: 0;
+  line-height: 18px;
+  padding: 12px 24px;
+}
+
+mdw-expander-header .expander-label {
+  color: #b3b3b3;
+  font-weight: 400;
+}
+
+mdw-expander-header .expander-label.active {
+  color: #b3b3b3;
+  font-weight: 400;
+}
+
+mdw-divider {
+  display: block;
+  margin: 0;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--mdw-theme-divider);
+}
+
+mdw-divider[vertical] {
+  border-top: 0;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: var(--mdw-theme-divider);
+}
+
+mdw-divider[inset] {
+  margin-left: 80px;
+}
+
+mdw-divider[inset][dir='rtl'] {
+  margin-left: auto;
+  margin-right: 80px;
 }
 
