@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="pax-components.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="pax-components.js"></script>
+
+    <script>
+      
+        window.html = function (strings, ...expressionValues) {
+          let finalString = '';
+          let i = 0;
+          let length = strings.length;
+          for(; i < length; i++) {
+            if (i > 0) finalString += expressionValues[i - 1];
+            finalString += strings[i];
+          }
+          return finalString;
+        };
+        window.htmlSafe = window.html;
+        window.cssStr = window.html;
+      
+      
+      const router = new class Router {
+        constructor(routes) {
+          this.routes = routes;
+          if (this.routes['/404']) this._notFountRoute = this.routes['/404'];
+      
+          this.PARAMETER_REGEXP = /([:*])(\w+)/g;
+          this.WILDCARD_REGEXP = /\*/g;
+          this.REPLACE_VARIABLE_REGEXP = '([^\/]+)';
+          this.REPLACE_WILDCARD = '(?:.*)';
+          this.FOLLOWED_BY_SLASH_REGEXP = '(?:\/$|$)';
+          this.MATCH_REGEXP_FLAGS = '';
+      
+          window.addEventListener('hashchange', this.resolve.bind(this));
+          window.addEventListener('DOMContentLoaded', () => {
+            this.resolve();
+          });
+        }
+      
+        resolve() {
+          const path = this.path();
+          const match = this.match(path);
+      
+          if (match === false && this._notFountRoute) {
+            return this.changePage(this._notFountRoute);
+          }
+      
+          let url = path;
+          let GETParameters = this.extractGETParameters(this.getCurrent());
+          if (GETParameters) url += `?${GETParameters}`;
+          window.location.hash = url;
+          return this.changePage(match.className);
+        }
+      
+        changePage(className) {
+          window['$'+className] = eval('new ' + className + '()');
+          window['$'+className].render();
+        }
+      
+        path() {
+          let path = window.location.hash.replace(/.*#/, '');
+          if (path.includes('?')) path = path.split('?')[0];
+          if (path.charAt(0) !== '/') { path = '/'+path; }
+          return path;
+        }
+      
+        getCurrent() {
+          return this.clean(window.location.href);
+        }
+      
+        clean(str) {
+          if (str instanceof RegExp) return s;
+          return str.replace(/\/+$/, '').replace(/^\/+/, '/');
+        }
+      
+        extractGETParameters(url) {
+          return url.split(/\?(.*)?$/).slice(1).join('');
+        }
+      
+        match(url) {
+          let matched = this.findMatchedRoutes(url);
+          if (!matched.length) return false;
+          else if (matched.length === 1) return matched[0];
+          else {
+            return matched.sort((a, b) => {
+              if (b.params) return 1;
+              return -1;
+            })[0];
+          }
+        }
+      
+        findMatchedRoutes(url) {
+          return Object.keys(this.routes)
+            .map(route => {
+              var { regexp, paramNames } = this.replaceDynamicURLParts(this.clean(route));
+              var match = url.replace(/^\/+/, '/').match(regexp);
+              var params = this.regExpResultToParams(match, paramNames);
+              return !match ? false : {
+                match,
+                route,
+                params,
+                className: this.routes[route]
+              };
+            })
+            .filter(m => m && m.match[0] !== '');
+        }
+      
+        replaceDynamicURLParts(route) {
+          let paramNames = [];
+          let regexp = '';
+      
+          if (route instanceof RegExp) {
+            regexp = route;
+          } else {
+            regexp = new RegExp(
+              this.clean(route)
+                .replace(this.PARAMETER_REGEXP, (full, dots, name) => {
+                  paramNames.push(name);
+                  return this.REPLACE_VARIABLE_REGEXP;
+                })
+                .replace(this.WILDCARD_REGEXP, this.REPLACE_WILDCARD) + this.FOLLOWED_BY_SLASH_REGEXP, this.MATCH_REGEXP_FLAGS
+            );
+          }
+          return { regexp, paramNames };
+        }
+      
+        regExpResultToParams(match, names) {
+          if (names.length === 0) return null;
+          if (!match) return null;
+          return match
+            .slice(1, match.length)
+            .reduce((params, value, index) => {
+              if (params === null) params = {};
+              params[names[index]] = decodeURIComponent(value);
+              return params;
+            }, null);
+        }
+      }({
+        "/components/buttons": "Buttons",
+        "/home": "Home",
+        "/404": "noop",
+        "/": "Home"
+      });
+      
+      class Page {
+        constructor() {}
+        connectedCallback() {}
+        template() { return ''; }
+        css() { return ''; }
+        render() {
+          const renderBlock = document.querySelector('render-block-page');
+          if (!renderBlock) throw Error('Could not find <render-block-page>');
+          renderBlock.innerHTML = this.template();
+        }
+      }
+    
+      
+          document.addEventListener("DOMContentLoaded", function (event) {
+            
+          });
+        
+    
+      class Buttons extends Page {
+        constructor() {
+          super();
+        }
+      
+        get title() {
+          return 'Buttons';
+        }
+      
+        mockWait() {
+          return new Promise(resolve => {
+            setTimeout(resolve, 3000);
+          });
+        }
+      
+        template() {
+          return html`
+            <article class="page-article">
+              <h3>Buttons</h3>
+      
+              <div class="showcase">
+                <mdw-button>basic</mdw-button>
+                <mdw-button raised class="primary">raised</mdw-button>
+              </div>
+      
+              <div>
+                <mdw-button>basic</mdw-button>
+                <mdw-button raised>raised</mdw-button>
+                <mdw-button unelevated class="primary">unelevated primary</mdw-button>
+                <mdw-button outlined class="secondary">outlined secondary</mdw-button>
+                <mdw-button raised shaped class="primary">shaped primary</mdw-button>
+                <mdw-button dense raised>dense raised</mdw-button>
+                <mdw-button dense outlined shaped class="error">dense outlined shaped error</mdw-button>
+                <mdw-button raised class="primary" async="$Buttons.mockWait()" onclick="console.log('should not log')">Async</mdw-button>
+              </div>
+            </article>
+          `;
+        }
+      }
+      
+      class Home extends Page {
+        constructor() {
+          super();
+        }
+      
+        get title() {
+          return 'Home';
+        }
+      
+        template() {
+          return html`
+            <span>hello world</span>
+          `;
+        }
+      }
+    
+      window.$Home = new Home();
+      setTimeout(function () {
+        $Home.connectedCallback();
+      }, 0);
+    </script>
+    
+    <style>
+      
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <nav>
+        <span class="main-title">PAX</span>
+        <span class="main-title">WEB</span>
+        <span class="main-title">COMPONENTS</span>
+      
+        <section>
+          <span class="title">Documentation</span>
+          <a href="/documentation/getting-started" >Getting started</a>
+        </section>
+      
+        <section>
+          <span class="title">Components</span>
+          <a href="#/components/buttons" >Buttons</a>
+        </section>
+      </nav>
+      <section class="page-container">
+        <div style="height: 56px;">
+          <header>
+            <h2>PAX web components</h2>
+            <span class="version" style="margin-left: 12px;"><a href="https://github.com/webformula/pax-core/releases/tag/vfile:../pax-core" target="_blank">file:../pax-core</a></span>
+            <span style="margin-left: 24px;">
+              <a href="https://github.com/webformula/pax-documentation" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>github-circle-black-transparent</title><path d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V19c0 .27.16.59.67.5C17.14 18.16 20 14.42 20 10A10 10 0 0 0 10 0z" fill="#333" fill-rule="evenodd"/></svg>
+              </a>
+            </span>
+          </header>
+        </div>
+        <section class="body-container">
+          <render-block-page>
+            <span>hello world</span>
+          </render-block-page>
+        </section>
+      </section>
+    </div>
+  </body>
+</html>

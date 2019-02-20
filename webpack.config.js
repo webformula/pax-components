@@ -5,9 +5,9 @@ const devMode = 'development';
 
 module.exports = {
   mode: devMode,
-  entry: './index.js',
+  entry: './src/index.js',
   output: {
-    filename: 'main.js',
+    filename: 'pax-components.js',
     path: path.resolve(__dirname, 'dist')
   },
 
@@ -18,7 +18,7 @@ module.exports = {
         include: [
           path.resolve(__dirname, 'src/components')
         ],
-        loader: require.resolve('./src/packaging/loader')
+        loader: require.resolve('./scripts-build/loader')
       },
 
       {
@@ -26,7 +26,7 @@ module.exports = {
         include: [
           path.resolve(__dirname, 'src/core')
         ],
-        loader: require.resolve('./src/packaging/classLoader')
+        loader: require.resolve('./scripts-build/classLoader')
       },
 
       {
@@ -54,7 +54,7 @@ module.exports = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: devMode ? 'style.css' : 'style.min.css'
+      filename: devMode ? 'pax-components.css' : 'pax-components.min.css'
     })
   ]
 };

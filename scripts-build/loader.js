@@ -1,14 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-const { html, css } = require('./template-literal-tags')
+const { html, cssStr } = require('./template-literal-tags')
 const HTMLElement = require('./HTMLElement');
 
 module.exports = function(content) {
   const { name, partial, full } = buildHTMLElementExtended(content);
   const instance = eval('new '+partial);
-
   let cssSTR = '';
-  if (instance.cssFile) cssSTR = fs.readFileSync(path.join(__dirname, '../../',  instance.cssFile()));
+  if (instance.cssFile) cssSTR = fs.readFileSync(path.join(process.cwd(),  instance.cssFile()));
   else cssSTR = instance.css();
 
   const templateIIFE = `(function(){

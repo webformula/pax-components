@@ -1,0 +1,409 @@
+:root {
+  /* --- palettes --- */
+  /* By default, shades 500, 300 800 and A100 are used for primary and warn intentions, while A200, A100, A400 and A700 are used for accent */
+  /* blue */
+  --mdw-theme-palette--blue-50: #e3f2fd;
+  --mdw-theme-palette--blue-100: #bbdefb;
+  --mdw-theme-palette--blue-200: #90caf9;
+  --mdw-theme-palette--blue-300: #64b5f6;
+  --mdw-theme-palette--blue-400: #42a5f5;
+  --mdw-theme-palette--blue-500: #2196f3;
+  --mdw-theme-palette--blue-600: #1e88e5;
+  --mdw-theme-palette--blue-700: #1976d2;
+  --mdw-theme-palette--blue-800: #1565c0;
+  --mdw-theme-palette--blue-900: #0d47a1;
+  --mdw-theme-palette--blue-A100: #82b1ff;
+  --mdw-theme-palette--blue-A200: #448aff;
+  --mdw-theme-palette--blue-A400: #2979ff;
+  --mdw-theme-palette--blue-A700: #2962ff;
+  --mdw-theme-palette--blue-contrast-50: rgba(black, 0.87);
+  --mdw-theme-palette--blue-contrast-100: rgba(black, 0.87);
+  --mdw-theme-palette--blue-contrast-200: rgba(black, 0.87);
+  --mdw-theme-palette--blue-contrast-300: rgba(black, 0.87);
+  --mdw-theme-palette--blue-contrast-400: rgba(black, 0.87);
+  --mdw-theme-palette--blue-contrast-500: white;
+  --mdw-theme-palette--blue-contrast-600: white;
+  --mdw-theme-palette--blue-contrast-700: white;
+  --mdw-theme-palette--blue-contrast-800: rgba(white, 0.87);
+  --mdw-theme-palette--blue-contrast-900: rgba(white, 0.87);
+  --mdw-theme-palette--blue-contrast-A100: rgba(black, 0.87);
+  --mdw-theme-palette--blue-contrast-A200: white;
+  --mdw-theme-palette--blue-contrast-A400: white;
+  --mdw-theme-palette--blue-contrast-A700: white;
+
+  /* purple */
+  --mdw-theme-palette--purple-50: #f3e5f5;
+  --mdw-theme-palette--purple-100: #e1bee7;
+  --mdw-theme-palette--purple-200: #ce93d8;
+  --mdw-theme-palette--purple-300: #ba68c8;
+  --mdw-theme-palette--purple-400: #ab47bc;
+  --mdw-theme-palette--purple-500: #9c27b0;
+  --mdw-theme-palette--purple-600: #8e24aa;
+  --mdw-theme-palette--purple-700: #7b1fa2;
+  --mdw-theme-palette--purple-800: #6a1b9a;
+  --mdw-theme-palette--purple-900: #4a148c;
+  --mdw-theme-palette--purple-A100: #ea80fc;
+  --mdw-theme-palette--purple-A200: #e040fb;
+  --mdw-theme-palette--purple-A400: #d500f9;
+  --mdw-theme-palette--purple-A700: #aa00ff;
+  --mdw-theme-palette--purple-contrast-50: rgba(black, 0.87);
+  --mdw-theme-palette--purple-contrast-100: rgba(black, 0.87);
+  --mdw-theme-palette--purple-contrast-200: rgba(black, 0.87);
+  --mdw-theme-palette--purple-contrast-300: white;
+  --mdw-theme-palette--purple-contrast-400: white;
+  --mdw-theme-palette--purple-contrast-500: rgba(white, 0.87);
+  --mdw-theme-palette--purple-contrast-600: rgba(white, 0.87);
+  --mdw-theme-palette--purple-contrast-700: rgba(white, 0.87);
+  --mdw-theme-palette--purple-contrast-800: rgba(white, 0.87);
+  --mdw-theme-palette--purple-contrast-900: rgba(white, 0.87);
+  --mdw-theme-palette--purple-contrast-A100: rgba(black, 0.87);
+  --mdw-theme-palette--purple-contrast-A200: white;
+  --mdw-theme-palette--purple-contrast-A400: white;
+  --mdw-theme-palette--purple-contrast-A700: white;
+
+  --mdw-theme-palette--deep-purple-50: #ede7f6;
+  --mdw-theme-palette--deep-purple-100: #d1c4e9;
+  --mdw-theme-palette--deep-purple-200: #b39ddb;
+  --mdw-theme-palette--deep-purple-300: #9575cd;
+  --mdw-theme-palette--deep-purple-400: #7e57c2;
+  --mdw-theme-palette--deep-purple-500: #673ab7;
+  --mdw-theme-palette--deep-purple-600: #5e35b1;
+  --mdw-theme-palette--deep-purple-700: #512da8;
+  --mdw-theme-palette--deep-purple-800: #4527a0;
+  --mdw-theme-palette--deep-purple-900: #311b92;
+  --mdw-theme-palette--deep-purple-A100: #b388ff;
+  --mdw-theme-palette--deep-purple-A200: #7c4dff;
+  --mdw-theme-palette--deep-purple-A400: #651fff;
+  --mdw-theme-palette--deep-purple-A700: #6200ea;
+  --mdw-theme-palette--deep-purple-contrast-50: rgba(black, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-100: rgba(black, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-200: rgba(black, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-300: white;
+  --mdw-theme-palette--deep-purple-contrast-400: white;
+  --mdw-theme-palette--deep-purple-contrast-500: rgba(white, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-600: rgba(white, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-700: rgba(white, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-800: rgba(white, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-900: rgba(white, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-A100: rgba(black, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-A200: white;
+  --mdw-theme-palette--deep-purple-contrast-A400: rgba(white, 0.87);
+  --mdw-theme-palette--deep-purple-contrast-A700: rgba(white, 0.87);
+
+
+  /* teal */
+  --mdw-theme-palette--teal-50: #e0f2f1;
+  --mdw-theme-palette--teal-100: #b2dfdb;
+  --mdw-theme-palette--teal-200: #80cbc4;
+  --mdw-theme-palette--teal-300: #4db6ac;
+  --mdw-theme-palette--teal-400: #26a69a;
+  --mdw-theme-palette--teal-500: #009688;
+  --mdw-theme-palette--teal-600: #00897b;
+  --mdw-theme-palette--teal-700: #00796b;
+  --mdw-theme-palette--teal-800: #00695c;
+  --mdw-theme-palette--teal-900: #004d40;
+  --mdw-theme-palette--teal-A100: #a7ffeb;
+  --mdw-theme-palette--teal-A200: #64ffda;
+  --mdw-theme-palette--teal-A400: #1de9b6;
+  --mdw-theme-palette--teal-A700: #00bfa5;
+  --mdw-theme-palette--tealcontrast-50: rgba(black, 0.87);
+  --mdw-theme-palette--tealcontrast-100: rgba(black, 0.87);
+  --mdw-theme-palette--tealcontrast-200: rgba(black, 0.87);
+  --mdw-theme-palette--tealcontrast-300: rgba(black, 0.87);
+  --mdw-theme-palette--tealcontrast-400: rgba(black, 0.87);
+  --mdw-theme-palette--tealcontrast-500: white;
+  --mdw-theme-palette--tealcontrast-600: white;
+  --mdw-theme-palette--tealcontrast-700: white;
+  --mdw-theme-palette--tealcontrast-800: rgba(white, 0.87);
+  --mdw-theme-palette--tealcontrast-900: rgba(white, 0.87);
+  --mdw-theme-palette--tealcontrast-A100: rgba(black, 0.87);
+  --mdw-theme-palette--tealcontrast-A200: rgba(black, 0.87);
+  --mdw-theme-palette--tealcontrast-A400: rgba(black, 0.87);
+  --mdw-theme-palette--tealcontrast-A700: rgba(black, 0.87);
+
+  /* red */
+  --mdw-theme-palette--red-50: #ffebee;
+  --mdw-theme-palette--red-100: #ffcdd2;
+  --mdw-theme-palette--red-200: #ef9a9a;
+  --mdw-theme-palette--red-300: #e57373;
+  --mdw-theme-palette--red-400: #ef5350;
+  --mdw-theme-palette--red-500: #f44336;
+  --mdw-theme-palette--red-600: #e53935;
+  --mdw-theme-palette--red-700: #d32f2f;
+  --mdw-theme-palette--red-800: #c62828;
+  --mdw-theme-palette--red-900: #b71c1c;
+  --mdw-theme-palette--red-A100: #ff8a80;
+  --mdw-theme-palette--red-A200: #ff5252;
+  --mdw-theme-palette--red-A400: #ff1744;
+  --mdw-theme-palette--red-A700: #d50000;
+  --mdw-theme-palette--red-contrast-50: rgba(black, 0.87);
+  --mdw-theme-palette--red-contrast-100: rgba(black, 0.87);
+  --mdw-theme-palette--red-contrast-200: rgba(black, 0.87);
+  --mdw-theme-palette--red-contrast-300: rgba(black, 0.87);
+  --mdw-theme-palette--red-contrast-400: rgba(black, 0.87);
+  --mdw-theme-palette--red-contrast-500: white;
+  --mdw-theme-palette--red-contrast-600: white;
+  --mdw-theme-palette--red-contrast-700: white;
+  --mdw-theme-palette--red-contrast-800: rgba(white, 0.87);
+  --mdw-theme-palette--red-contrast-900: rgba(white, 0.87);
+  --mdw-theme-palette--red-contrast-A100: rgba(black, 0.87);
+  --mdw-theme-palette--red-contrast-A200: white;
+  --mdw-theme-palette--red-contrast-A400: white;
+  --mdw-theme-palette--red-contrast-A700: white;
+
+
+  /* --- theming --- */
+  --mdw-theme-primary-default: var(--mdw-theme-palette--primary-500, #6200ee);
+  --mdw-theme-primary-dark--on: #000000;
+  --mdw-theme-primary-light--on: #ffffff;
+
+  --mdw-theme-secondary-default: var(--mdw-theme-palette--secondary-600, #018786);
+  --mdw-theme-secondary-dark--on: #000000;
+  --mdw-theme-secondary-light--on: #ffffff;
+
+  --mdw-theme-error-default: var(--mdw-theme-palette--error-500, #b00020);
+  --mdw-theme-error-dark--on: #000000;
+  --mdw-theme-error-light--on: #ffffff;
+
+  --mdw-theme-surface--default: #ffffff;
+  --mdw-theme-surface-dark--on: #000000;
+  --mdw-theme-surface-light--on: #ffffff;
+
+  --mdw-theme-background--default: #fafafa; /* alt #fff */
+  --mdw-theme-foreground--default: #000000;
+
+  --mdw-theme-divider-dark: rgba(0, 0, 0, 0.12);
+  --mdw-theme-divider-light: rgba(255, 255, 255, 0.12);
+
+  /* text */
+  --mdw-theme-text--primary-dark: rgba(black, .87);
+  --mdw-theme-text--secondary-dark: rgba(black, .54);
+  --mdw-theme-text--hint-dark: rgba(black, .38);
+  --mdw-theme-text--disabled-dark: rgba(black, .38);
+  --mdw-theme-text--icon-dark: rgba(black, .38);
+
+  --mdw-theme-text--primary-light: white;
+  --mdw-theme-text--secondary-light: rgba(white, .7);
+  --mdw-theme-text--hint-light: rgba(white, .5);
+  --mdw-theme-text--disabled-light: rgba(white, .5);
+  --mdw-theme-text--icon-light: rgba(white, .5);
+
+  --mdw-theme-text--emphasis-high: 0.87;
+  --mdw-theme-text--emphasis-medium: 0.6;
+  --mdw-theme-text--emphasis-disabled: 0.38;
+}
+
+html {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+}
+
+body {
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.03125em;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- headings --- */
+
+h1, h2, h3, h4, h5, h6 {
+  color: #202124;
+  font-weight: 300;
+  margin: 0 0 8px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: 6rem;
+  line-height: 1.2;
+  letter-spacing: -1.5;
+}
+
+h2 {
+  font-size: 3.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.5;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 3rem;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+h4 {
+  font-weight: 400;
+  font-size: 2.125rem;
+  line-height: 1.2;
+  letter-spacing: 0.25;
+}
+
+h5 {
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+h6 {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: 0.15;
+}
+
+.subtitle {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.2;
+  letter-spacing: 0.15;
+}
+
+p {
+  margin: 0 0 16px;
+  font-size: 1rem;
+  letter-spacing: 0.5;
+}
+
+mdw-text-field + mdw-helper-text,
+mdw-helper-text + mdw-helper-text {
+  position: absolute;
+  color: rgba(0,0,0,.6);
+
+  margin-right: 12px;
+  margin-left: 12px;
+
+  font-family: Roboto, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-size: .75rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: .03333em;
+  text-decoration: inherit;
+  text-transform: inherit;
+  display: block;
+  line-height: normal;
+  transition: transform .24s cubic-bezier(.4,0,.2,1),
+              opacity .18s cubic-bezier(.4,0,.2,1);
+  transform: translateY(0);
+  opacity: 1;
+  will-change: transform,opacity;
+}
+
+mdw-helper-text:before {
+  display: inline-block;
+  width: 0;
+  height: 16px;
+  content: "";
+  vertical-align: 0;
+}
+
+mdw-helper-text[validation] {
+  transition: none;
+  transform: translateY(-50%);
+  opacity: 0;
+  color: var(--mdw-theme-error-default);
+}
+
+mdw-text-field.invalid + mdw-helper-text:not([validation]) {
+  transition: none;
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+mdw-text-field.invalid + mdw-helper-text[validation],
+mdw-text-field.invalid + mdw-helper-text + mdw-helper-text[validation] {
+  transition: transform .24s cubic-bezier(.4,0,.2,1),
+              opacity .18s cubic-bezier(.4,0,.2,1);
+  transform: translateY(0);
+  opacity: 1;
+}
+
+mdw-expander-arrow {
+  float: right;
+  border: solid #b3b3b3;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-top: 7px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+mdw-expander-arrow.open {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+mdw-expander-content {
+  display: none;
+}
+
+mdw-expander-content.indent {
+  padding-left: 16px;
+}
+
+mdw-expander-header {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+  align-items: center;
+  user-select: none;
+  outline: none;
+  border: 0;
+  background: transparent;
+  font-size: 1rem;
+  overflow: hidden;
+  transition: box-shadow .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1);
+  border-radius: 0;
+  white-space: nowrap;
+  color: #b3b3b3;
+
+  margin: 0;
+  line-height: 18px;
+  padding: 12px 24px;
+}
+
+mdw-expander-header .expander-label {
+  color: #b3b3b3;
+  font-weight: 400;
+}
+
+mdw-expander-header .expander-label.active {
+  color: #b3b3b3;
+  font-weight: 400;
+}
+
+mdw-divider {
+  display: block;
+  margin: 0;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--mdw-theme-divider);
+}
+
+mdw-divider[vertical] {
+  border-top: 0;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: var(--mdw-theme-divider);
+}
+
+mdw-divider[inset] {
+  margin-left: 80px;
+}
+
+mdw-divider[inset][dir='rtl'] {
+  margin-left: auto;
+  margin-right: 80px;
+}
+

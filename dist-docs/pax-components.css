@@ -193,6 +193,84 @@
   --mdw-theme-text--emphasis-disabled: 0.38;
 }
 
+html {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+}
+
+body {
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: 0.03125em;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- headings --- */
+
+h1, h2, h3, h4, h5, h6 {
+  color: #202124;
+  font-weight: 300;
+  margin: 0 0 8px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: 6rem;
+  line-height: 1.2;
+  letter-spacing: -1.5;
+}
+
+h2 {
+  font-size: 3.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.5;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 3rem;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+h4 {
+  font-weight: 400;
+  font-size: 2.125rem;
+  line-height: 1.2;
+  letter-spacing: 0.25;
+}
+
+h5 {
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+h6 {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: 0.15;
+}
+
+.subtitle {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.2;
+  letter-spacing: 0.15;
+}
+
+p {
+  margin: 0 0 16px;
+  font-size: 1rem;
+  letter-spacing: 0.5;
+}
+
 mdw-text-field + mdw-helper-text,
 mdw-helper-text + mdw-helper-text {
   position: absolute;

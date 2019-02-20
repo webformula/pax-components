@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "watch": "nodemon --watch src --watch src-docs -e js,css --exec npm start",
+    "start": "npm run build && http-server dist-docs/",
+    "build": "npm run build:components && npm run build:docs && npm run build:copy-files",
+    "build:components": "webpack --config webpack.config.js",
+    "build:docs": "node src-docs/index.js",
+    "build:copy-files": "cp -r src-docs/public/* dist-docs/ && cp -r dist/* dist-docs",
+    "serve": "http-server dist/",
+    "temp": "node ./src/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,11 +24,15 @@
   },
   "homepage": "https://github.com/webformula/pax-components#readme",
   "devDependencies": {
+    "css-loader": "^2.1.0",
     "mini-css-extract-plugin": "^0.5.0",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "css-loader": "^2.1.0"
+    "@webformula/pax-core": "file:../pax-core",
+    "common-tags": "^1.8.0",
+    "glob": "^7.1.3",
+    "http-server": "^0.11.1"
   }
 }

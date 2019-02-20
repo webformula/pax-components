@@ -1,5 +1,5 @@
 module.exports = {
-  css: basic,
+  cssStr: basic,
   html: basic
 };
 

@@ -63,7 +63,7 @@ customElements.define('mdw-expander-content', class extends HTMLElementExtended 
   }
 
   css() {
-    return css`
+    return cssStr`
       :host {
         display: block;
         overflow: hidden;
