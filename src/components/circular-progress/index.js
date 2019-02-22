@@ -87,7 +87,7 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
       .replace(/DIAMETER/g, `${this.diameter}`);
   }
 
-  html() {
+  template() {
     return html`
       <svg style="width: ${this.diameter}px; height: ${this.diameter}px;">
         <circle

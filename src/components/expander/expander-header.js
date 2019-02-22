@@ -20,7 +20,7 @@ customElements.define('mdw-expander-header', class extends HTMLElementExtended {
     if (this.arrow) this.arrow.close();
   }
 
-  html() {
+  htmtemplatel() {
     return html`
       <slot></slot>
     `;

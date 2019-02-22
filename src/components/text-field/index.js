@@ -59,8 +59,7 @@ customElements.define('mdw-text-field', class extends HTMLElementExtended {
     this.input.classList.add('outlined');
   }
 
-  html() {
-    console.log(this.outlined)
+  template() {
     return `
       <slot></slot>
       ${this.outlined ? '' : '<div class="line-ripple"></div>'}

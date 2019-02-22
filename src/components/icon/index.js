@@ -4,7 +4,7 @@ customElements.define('mdw-icon', class extends HTMLElementExtended {
     this.cloneTemplate();
   }
 
-  html() {
+  template() {
     return '<slot></slot>';
   }
 

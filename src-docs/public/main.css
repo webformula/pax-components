@@ -8,6 +8,23 @@ body {
   flex-direction: column;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  color: #5f6368;
+  display: block;
+  line-height: 20px;
+  margin: 24px 0 4px;
+}
+
 .page {
   display: flex;
   flex: 1;
@@ -255,6 +272,21 @@ flex {
   background-color: #f2f2f2;
 }
 
+/* links */
+article a {
+  font-family: Roboto,Arial,Helvetica,sans-serif;
+  font-size: 1rem;
+  line-height: 1.6rem;
+  letter-spacing: .2px;
+  font-weight: 500;
+  text-transform: true;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  color: #6200ee;
+  cursor: pointer;
+}
+
 
 /* --- codecase: for displaying demoo next too code --- */
 
@@ -262,22 +294,33 @@ flex {
   width: 100%;
   padding: 12px 0;
   margin: 36px 0;
-  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),
-              0 1px 1px 0 rgba(0,0,0,.14),
-              0 1px 3px 0 rgba(0,0,0,.12);
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),
+              0 2px 2px 0 rgba(0,0,0,.14),
+              0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .codecase .title {
   color: #202124;
-  font-weight: 300;
-  margin: 0 0 8px;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
   font-weight: 400;
   font-size: 1.25rem;
   letter-spacing: normal;
   padding-left: 20px;
   line-height: 46px;
+}
+
+.codecase .description {
+  color: #202124;
+  font-weight: 400;
+  margin: 0 0 8px;
+  font-size: 1rem;
+  letter-spacing: normal;
+  padding-left: 20px;
+  line-height: 46px;
+}
+
+.codecase a {
+  padding-left: 20px;
+  margin: 0;
 }
 
 .codecase pre {

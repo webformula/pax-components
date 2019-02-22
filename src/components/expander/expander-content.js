@@ -79,7 +79,7 @@ customElements.define('mdw-expander-content', class extends HTMLElementExtended 
     `;
   }
 
-  html() {
+  template() {
     return html`
       <slot></slot>
     `;

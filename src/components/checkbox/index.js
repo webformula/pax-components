@@ -62,10 +62,10 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      this.dispatchEvent(new CustomEvent('change', this));
    }
 
-   html() {
+   template() {
     return html`
       <div class="container">
-        <input type="checkbox" onchange="$mdwCheckbox.handleChange(this)">
+        <input type="checkbox" onchange="this.getRootNode().host.handleChange(this)">
         <div class="ripple checkbox-ripple"></div>
         <div class="background">
           <svg class="checkmark" viewBox="0 0 24 24">

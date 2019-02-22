@@ -9,7 +9,6 @@ module.exports = function(content) {
   let cssSTR = '';
   if (instance.cssFile) cssSTR = fs.readFileSync(path.join(process.cwd(),  instance.cssFile()));
   else cssSTR = instance.css();
-
   const templateIIFE = `(function(){
     var t=document.createElement('template');
     t.setAttribute('id','${name}');
@@ -18,7 +17,7 @@ module.exports = function(content) {
       ${cssSTR}
     </style>
     <render-block>
-      ${instance.html()}
+      ${instance.template()}
     </render-block>
     \`;
     document.body.insertAdjacentElement('beforeend', t);
@@ -44,7 +43,7 @@ function buildHTMLElementExtended(content) {
   let { preConstructor, constructor, postConstructor } = splitOnConstructor(classContent)
   // constructor = addLineToConstructor(constructor, `this.setAttribute('id', '$${id}');`);
   const hasCSS = content.includes('css()'); // TODO use regex to allow for space
-  const hasHTML = content.includes('html()'); // TODO use regex to allow for space
+  const hasHTML = content.includes('template()'); // TODO use regex to allow for space
 
   const modifiedContent = `
     ${preConstructor}
@@ -52,7 +51,7 @@ function buildHTMLElementExtended(content) {
     ${postConstructor}
 
     ${hasCSS ? '' : 'css() { return ""; }'}
-    ${hasHTML ? '' : 'html() { return ""; }'}
+    ${hasHTML ? '' : 'template() { return ""; }'}
   `;
 
   return {
@@ -71,7 +70,7 @@ function buildHTMLElementExtended(content) {
         render() {
           const renderBlock = this.shadowRoot.querySelector('render-block');
           if (!renderBlock) throw Error('Could not find <render-block>');
-          renderBlock.innerHTML = this.html();
+          renderBlock.innerHTML = this.template();
         }
 
         cloneTemplate(rerender = false) {
@@ -79,7 +78,7 @@ function buildHTMLElementExtended(content) {
           var templateContent = template.content;
           var shadowRoot = this.shadowRoot ? this.shadowRoot : this.attachShadow({mode: 'open'});
           var clone = templateContent.cloneNode(true);
-          if (rerender) clone.querySelector('render-block').innerHTML = this.html();
+          if (rerender) clone.querySelector('render-block').innerHTML = this.template();
           shadowRoot.appendChild(clone);
         }
       }

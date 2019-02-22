@@ -31,7 +31,7 @@ customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
     this.bar.style.width = `${value}%`;
   }
 
-  html() {
+  template() {
     return html`
       <div class="bar"></div>
     `;

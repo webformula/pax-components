@@ -3,6 +3,8 @@ const {
   buildClient,
   html
 } = require('@webformula/pax-core');
+require('./components/codemirror.js');
+require('./components/anchor-link.js');
 
 const layout = require('./layout');
 const pageMapper = new PageMapper('src-docs/pages');

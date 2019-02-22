@@ -99,7 +99,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     // this.shadowRoot.classList.toggle('md-disabled', !!value);
   }
 
-  html() {
+  template() {
     return html`
       <button>
         <span class="text"><slot></slot></span>
