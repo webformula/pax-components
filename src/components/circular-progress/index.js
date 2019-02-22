@@ -9,6 +9,15 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
     this.diameter = this.getAttribute('diameter') || 100;
     this.render();
     this.style.width = this.style.height = this.diameter + 'px';
+    if (this.value) this.value = this.value;
+  }
+
+  static get observedAttributes() {
+    return ['value'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this[name] = newValue;
   }
 
   get diameter() {
@@ -35,14 +44,21 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
   }
 
   get value() {
-    return this.mode === 'determinate' ? this._value : 0;
+    return this.getAttribute('value');
   }
   set value(value) {
     this._value = Math.max(0, Math.min(100, parseInt((''+value).replace('px', ''))));
+    if (this.diameter === undefined) return;
+    this.circle.style.strokeDashoffset = (this._strokeCircumference * (100 - this._value) / 100) + 'px';
   }
 
   get mode() {
     return this.getAttribute('mode') === 'determinate' ? 'determinate' : 'indeterminate';
+  }
+
+  get circle() {
+    if (!this._circle) this._circle = this.shadowRoot.querySelector('circle');
+    return this._circle;
   }
 
   get _circleRadius() {

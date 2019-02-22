@@ -9,12 +9,6 @@ module.exports = class Checkboxes extends Page {
     return 'Checkboxes';
   }
 
-  mockWait() {
-    return new Promise(resolve => {
-      setTimeout(resolve, 3000);
-    });
-  }
-
   template() {
     return html`
       <article class="page-article">
