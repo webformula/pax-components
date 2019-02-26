@@ -268,47 +268,47 @@ input:indeterminate ~ .background .mixedmark {
 /* basic */
 .container::before,
 .container::after {
-  background-color: var(--mdw-theme-secondary-default);
+  background-color: var(--mdw-theme-secondary);
 }
 
 .ripple-element {
-  background-color: rgba(var(--mdw-theme-secondary-default--rgb), 0.16);
+  background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
 }
 
 input:enabled:checked ~ .background,
 input:enabled:indeterminate ~ .background {
-  border-color: var(--mdw-theme-secondary-default);
-  background-color: var(--mdw-theme-secondary-default);
+  border-color: var(--mdw-theme-secondary);
+  background-color: var(--mdw-theme-secondary);
 }
 
 /* primary */
 :host(.primary) .container::before,
 :host(.primary) .container::after {
-  background-color: var(--mdw-theme-primary-default);
+  background-color: var(--mdw-theme-primary);
 }
 
 :host(.primary) .ripple-element {
-  background-color: rgba(var(--mdw-theme-primary-default--rgb), 0.16);
+  background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
 }
 
 :host(.primary) input:enabled:checked ~ .background,
 :host(.primary) input:enabled:indeterminate ~ .background {
-  border-color: var(--mdw-theme-primary-default);
-  background-color: var(--mdw-theme-primary-default);
+  border-color: var(--mdw-theme-primary);
+  background-color: var(--mdw-theme-primary);
 }
 
 /* error */
 :host(.error) .container::before,
 :host(.error) .container::after {
-  background-color: var(--mdw-theme-error-default);
+  background-color: var(--mdw-theme-error);
 }
 
 :host(.error) .ripple-element {
-  background-color: rgba(var(--mdw-theme-error-default--rgb), 0.16);
+  background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
 }
 
 :host(.error) input:enabled:checked ~ .background,
 :host(.error) input:enabled:indeterminate ~ .background {
-  border-color: var(--mdw-theme-error-default);
-  background-color: var(--mdw-theme-error-default);
+  border-color: var(--mdw-theme-error);
+  background-color: var(--mdw-theme-error);
 }

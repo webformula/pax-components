@@ -16,7 +16,7 @@ circle {
   fill: transparent;
   transform-origin: center;
   transition: stroke-dashoffset 225ms linear;
-  stroke: var(--mdw-theme-primary-default);
+  stroke: var(--mdw-theme-primary);
 }
 
 :host(.white) circle {
@@ -28,11 +28,11 @@ circle {
 }
 
 :host(.secondary) circle {
-  stroke: var(--mdw-theme-secondary-default);
+  stroke: var(--mdw-theme-secondary);
 }
 
 :host(.error) circle {
-  stroke: var(--mdw-theme-error-default);
+  stroke: var(--mdw-theme-error);
 }
 
 :host([mode='indeterminate']) {

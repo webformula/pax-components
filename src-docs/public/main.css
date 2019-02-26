@@ -68,17 +68,17 @@ section.body-container {
   }
 }
 
-article section {
+article > section {
   padding-top: 80px;
 }
 
-nav section {
+nav > section {
   padding-top: 24px;
   padding-bottom: 24px;
   /* border-top: 1px solid #50545a; */
 }
 
-nav section:first-of-type {
+nav > section:first-of-type {
   border-top:  none;
   padding-top: 36px;
 }

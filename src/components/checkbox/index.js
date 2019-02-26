@@ -5,7 +5,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    }
 
    connectedCallback() {
-     this.ripple = new Ripple({
+     this.ripple = new MDWRipple({
        element: this.shadowRoot.querySelector('.ripple'),
        triggerElement: this.input,
        radius: 20,

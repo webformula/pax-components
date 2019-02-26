@@ -5,10 +5,12 @@ require('./core/elivation.css');
 require('./components/text-field/external.css');
 require('./components/expander/external.css');
 require('./components/divider/external.css');
+require('./components/top-app-bar/external.css');
 
 // core
 require('./core/Ripple');
 require('./core/Theme');
+require('./core/Utils');
 
 // components
 require('./components/button');
@@ -22,3 +24,4 @@ require('./components/expander/expander-header');
 require('./components/expander/expander-content');
 require('./components/expander/expander-arrow');
 require('./components/divider');
+require('./components/top-app-bar');

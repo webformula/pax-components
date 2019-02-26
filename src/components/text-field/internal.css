@@ -70,7 +70,7 @@
 
   border-bottom-color: rgba(0,0,0,.42);
   color: rgba(0,0,0,.87);
-  caret-color: var(--mdc-theme-primary-default);
+  caret-color: var(--mdc-theme-primary);
 }
 
 ::slotted(input.outlined) {
@@ -83,7 +83,7 @@
 }
 
 :host(.invalid) ::slotted(input) {
-  border-bottom-color: var(--mdw-theme-error-default);
+  border-bottom-color: var(--mdw-theme-error);
 }
 
 ::slotted(input:focus) {
@@ -129,7 +129,7 @@
 :host(.not-empty) ::slotted(label) {
   cursor: auto;
   transform: translateY(-50%) scale(.75);
-  color: var(--mdw-theme-primary-default);
+  color: var(--mdw-theme-primary);
 }
 
 :host(.outlined.focused) ::slotted(label),
@@ -138,7 +138,7 @@
 }
 
 :host(.invalid) ::slotted(label) {
-  color: var(--mdw-theme-error-default);
+  color: var(--mdw-theme-error);
 }
 
 .line-ripple {
@@ -171,16 +171,16 @@
 }
 
 .line-ripple {
-  background-color: var(--mdw-theme-primary-default);
+  background-color: var(--mdw-theme-primary);
 }
 
 :host(.secondary) .line-ripple {
-  background-color: var(--mdw-theme-secondary-default);
+  background-color: var(--mdw-theme-secondary);
 }
 
 :host(.error) .line-ripple,
 :host(.invalid) .line-ripple {
-  background-color: var(--mdw-theme-error-default);
+  background-color: var(--mdw-theme-error);
 }
 
 
@@ -241,13 +241,13 @@
 :host(.focused) .outlined-notch,
 :host(.focused) .outlined-trailing {
   border-width: 2px;
-  border-color: var(--mdw-theme-primary-default);
+  border-color: var(--mdw-theme-primary);
 }
 
 :host(.invalid) .outlined-leading,
 :host(.invalid) .outlined-notch,
 :host(.invalid) .outlined-trailing {
-  border-color: var(--mdw-theme-error-default);
+  border-color: var(--mdw-theme-error);
 }
 
 

@@ -36,7 +36,7 @@ mdw-helper-text[validation] {
   transition: none;
   transform: translateY(-50%);
   opacity: 0;
-  color: var(--mdw-theme-error-default);
+  color: var(--mdw-theme-error);
 }
 
 mdw-text-field.invalid + mdw-helper-text:not([validation]) {

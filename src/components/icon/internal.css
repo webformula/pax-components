@@ -22,13 +22,13 @@
 
 
 :host(.primary) {
-  color: var(--mdw-theme-primary-default);
+  color: var(--mdw-theme-primary);
 }
 
 :host(.secondary) {
-  color: var(--mdw-theme-secondary-default);
+  color: var(--mdw-theme-secondary);
 }
 
 :host(.error) {
-  color: var(--mdw-theme-error-default);
+  color: var(--mdw-theme-error);
 }

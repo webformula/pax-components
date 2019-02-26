@@ -8,7 +8,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    this.ripple = new Ripple({
+    this.ripple = new MDWRipple({
       element: this.shadowRoot.querySelector('.ripple'),
       triggerElement: this.button
     });

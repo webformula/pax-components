@@ -1,9 +1,9 @@
-new class Theme {
+new class MDWTheme {
   constructor() {
     this.hexREGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
     this.setContrast();
     this.setPalettes();
-    this.configure();
+    this.configureVars();
   }
 
   setPalettes({ primary, secondary, error } = {}) {
@@ -18,10 +18,11 @@ new class Theme {
     this.contrast = contrast;
   }
 
-  configure() {
+  configureVars() {
     this.setTheme();
     this.createRGBValues();
     this.applyContrast();
+    this.createBaseVars();
   }
 
   setTheme() {
@@ -35,13 +36,21 @@ new class Theme {
 
   createRGBValues() {
     this.rgbConversionList().forEach(name => {
-      this.setVar(`${name}--rgb`, this.convertToRGB(this.getVar(name)));
+      this.setVar(`${name.replace(`--default`, '')}--rgb`, this.convertToRGB(this.getVar(name)));
     });
   }
 
   applyContrast() {
     this.contrastList(this.contrast).forEach(name => {
-      this.setVar(name.replace(`-${this.contrast}`, ''), this.getVar(name));
+      this.setVar(name.replace(`--${this.contrast}`, ''), this.getVar(name));
+    });
+  }
+
+  // this will take any var with --default and create a var without default in it
+  // example: --mdw-theme-primary--default -> --mdw-theme-primary
+  createBaseVars() {
+    this.defaultList().forEach(name => {
+      this.setVar(name.replace(`--default`, ''), this.getVar(name));
     });
   }
 
@@ -54,15 +63,23 @@ new class Theme {
     return getComputedStyle(document.documentElement).getPropertyValue(name);
   }
 
+  getAllVars() {
+    return getComputedStyle(document.documentElement);
+  }
+
   setVar(name, value) {
     document.documentElement.style.setProperty(name, value);
   }
 
+  defaultList() {
+    return this.rgbConversionList();
+  }
+
   rgbConversionList() {
     return [
-      '--mdw-theme-primary-default',
-      '--mdw-theme-secondary-default',
-      '--mdw-theme-error-default',
+      '--mdw-theme-primary--default',
+      '--mdw-theme-secondary--default',
+      '--mdw-theme-error--default',
       '--mdw-theme-surface--default',
       '--mdw-theme-background--default',
       '--mdw-theme-foreground--default'
@@ -71,16 +88,16 @@ new class Theme {
 
   contrastList(contrast) {
     return [
-      `--mdw-theme-primary-${contrast}--on`,
-      `--mdw-theme-secondary-${contrast}--on`,
-      `--mdw-theme-error-${contrast}--on`,
-      `--mdw-theme-surface-${contrast}--on`,
-      `--mdw-theme-text--primary-${contrast}`,
-      `--mdw-theme-text--secondary-${contrast}`,
-      `--mdw-theme-text--hint-${contrast}`,
-      `--mdw-theme-text--disabled-${contrast}`,
-      `--mdw-theme-text--icon-${contrast}`,
-      `--mdw-theme-divider-${contrast}`
+      `--mdw-theme-primary--${contrast}--on`,
+      `--mdw-theme-secondary--${contrast}--on`,
+      `--mdw-theme-error--${contrast}--on`,
+      `--mdw-theme-surface--${contrast}--on`,
+      `--mdw-theme-text--primary--${contrast}`,
+      `--mdw-theme-text--secondary--${contrast}`,
+      `--mdw-theme-text--hint--${contrast}`,
+      `--mdw-theme-text--disabled--${contrast}`,
+      `--mdw-theme-text--icon--${contrast}`,
+      `--mdw-theme-divider--${contrast}`
     ];
   }
 

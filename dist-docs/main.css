@@ -8,6 +8,23 @@ body {
   flex-direction: column;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  color: #5f6368;
+  display: block;
+  line-height: 20px;
+  margin: 24px 0 4px;
+}
+
 .page {
   display: flex;
   flex: 1;
@@ -39,6 +56,7 @@ section.body-container {
   width: 100%;
   max-width: 840px;
   padding: 0 40px;
+  margin-top: 56px;
 }
 
 @media screen and (max-width: 1084px) {
@@ -46,16 +64,21 @@ section.body-container {
     padding: 0;
     width: 96%;
     margin: 0 auto;
+    margin-top: 56px;
   }
 }
 
-nav section {
+article > section {
+  padding-top: 80px;
+}
+
+nav > section {
   padding-top: 24px;
   padding-bottom: 24px;
   /* border-top: 1px solid #50545a; */
 }
 
-nav section:first-of-type {
+nav > section:first-of-type {
   border-top:  none;
   padding-top: 36px;
 }
@@ -179,10 +202,10 @@ li a {
 
 .page-article {
   width: 100%;
-    max-width: 100vw;
-    margin: 0 auto;
-    padding-top: 30px;
-    padding-bottom: 80px;
+  max-width: 100vw;
+  margin: 0 auto;
+  padding-top: 30px;
+  padding-bottom: 56px;
 }
 
 .into-article {
@@ -245,6 +268,68 @@ flex {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  margin: 24px 0 78px;
+  margin: 24px 0;
   background-color: #f2f2f2;
+}
+
+/* links */
+article a {
+  font-family: Roboto,Arial,Helvetica,sans-serif;
+  font-size: 1rem;
+  line-height: 1.6rem;
+  letter-spacing: .2px;
+  font-weight: 500;
+  text-transform: true;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  color: #6200ee;
+  cursor: pointer;
+}
+
+
+/* --- codecase: for displaying demoo next too code --- */
+
+.codecase {
+  width: 100%;
+  padding: 12px 0;
+  margin: 36px 0;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),
+              0 2px 2px 0 rgba(0,0,0,.14),
+              0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.codecase .title {
+  color: #202124;
+  font-weight: 400;
+  font-size: 1.25rem;
+  letter-spacing: normal;
+  padding-left: 20px;
+  line-height: 46px;
+}
+
+.codecase .description {
+  color: #202124;
+  font-weight: 400;
+  margin: 0 0 8px;
+  font-size: 1rem;
+  letter-spacing: normal;
+  padding-left: 20px;
+}
+
+.codecase a {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.codecase pre {
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.codecase .demo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
 }

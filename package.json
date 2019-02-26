@@ -4,14 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "nodemon --watch src --watch src-docs -e js,css --exec npm start",
-    "start": "npm run build && http-server dist-docs/",
-    "build": "npm run build:components && npm run build:docs && npm run build:copy-files",
-    "build:components": "webpack --config webpack.config.js",
-    "build:docs": "node src-docs/index.js",
-    "build:copy-files": "cp -r src-docs/public/* dist-docs/ && cp -r dist/* dist-docs",
-    "serve": "http-server dist/",
-    "temp": "node ./src/index.js"
+    "watch": "npm run watch:components & npm run watch:docs & npm run serve",
+    "watch:components": "watch 'npm run build:components' src/",
+    "watch:docs": "watch 'npm run build:docs' src-docs/",
+    "build:components": "webpack --config webpack.config.js && cp -r dist/* dist-docs",
+    "build:docs": "node src-docs/index.js && cp -r src-docs/public/* dist-docs/",
+    "serve": "http-server dist-docs/"
   },
   "repository": {
     "type": "git",
@@ -26,6 +24,7 @@
   "devDependencies": {
     "css-loader": "^2.1.0",
     "mini-css-extract-plugin": "^0.5.0",
+    "watch": "^1.0.2",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },

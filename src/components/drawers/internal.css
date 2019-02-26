@@ -1,0 +1,33 @@
+:root(aside) {
+  border-radius: 0 0 0 0;
+  z-index: 6;
+  width: 256px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: 100%;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  border-right-width: 1px;
+  border-right-style: solid;
+  overflow: hidden;
+
+  border-color: var(--mdw-theme-divider);
+  background-color: var(--mdw-theme-surface);
+}
+
+::slotted(.header) {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-height: 64px;
+  padding: 0 16px 4px;
+}
+
+
+::slotted(aside .content) {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-height: 64px;
+  padding: 0 16px 4px;
+}
