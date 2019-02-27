@@ -1,6 +1,7 @@
 new class MDWUtils {
   constructor() {
     this._uid = 1;
+    this._setupTransitionEvent();
   }
 
   uid() {
@@ -49,5 +50,23 @@ new class MDWUtils {
         });
       }
     };
+  }
+
+  get transitionEventName() {
+    return this._transitionEventName;
+  }
+
+  _setupTransitionEvent() {
+    const el = document.createElement('fakeelement');
+    const transitions = {
+      transition: 'transitionend',
+      OTransition: 'oTransitionEnd',
+      MozTransition: 'transitionend',
+      WebkitTransition: 'webkitTransitionEnd'
+    };
+
+    for (let t in transitions){
+      if (el.style[t] !== undefined) this._transitionEventName = transitions[t];
+    }
   }
 }

@@ -7,6 +7,42 @@ mdw-banner {
   background-color: var(--mdw-theme-surface);
   border-bottom: 1px solid var(--mdw-theme-divider--dark);
   z-index: 1;
+  margin-top: calc(-100%);
+}
+
+/* initial state */
+body.mdw-top-app-bar mdw-banner {
+  margin-top: 0;
+}
+
+/* show states */
+body.mdw-top-app-bar mdw-banner.mdw-show {
+  margin-top: 65px;
+}
+
+body.mdw-top-app-bar--prominent mdw-banner.mdw-show {
+  margin-top: 130px;
+}
+
+body.mdw-top-app-bar--dense mdw-banner.mdw-show {
+  margin-top: 56px;
+}
+
+body.mdw-top-app-bar--prominent-dense mdw-banner.mdw-show {
+  margin-top: 112px;
+}
+
+mdw-banner.mdw-dismiss {
+  transition: margin-top 75ms var(--mdw-animation--exit);
+  margin-top: calc(-100%);
+}
+
+mdw-banner.mdw-show {
+  transition: margin-top 150ms var(--mdw-animation--enter);
+}
+
+body.mdw-top-app-bar mdw-banner.mdw-dismiss {
+  margin-top: 0;
 }
 
 /* message */

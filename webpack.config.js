@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /index\.js$/,
         include: [
           path.resolve(__dirname, 'src/components')
         ],
@@ -25,6 +25,14 @@ module.exports = {
         test: /\.js$/,
         include: [
           path.resolve(__dirname, 'src/core')
+        ],
+        loader: require.resolve('./scripts-build/classLoader')
+      },
+
+      {
+        test: /service\.js$/,
+        include: [
+          path.resolve(__dirname, 'src/components')
         ],
         loader: require.resolve('./scripts-build/classLoader')
       },

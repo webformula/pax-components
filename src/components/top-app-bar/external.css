@@ -34,24 +34,18 @@ mdw-top-app-bar section.align-end {
   order: 1;
 }
 
-
-.mdw-top-app-bar {
+div.mdw-top-app-bar {
   height: 65px;
 }
 
-.mdw-top-app-bar.mdw-prominent {
+div.mdw-top-app-bar.mdw-prominent {
   height: 130px;
 }
 
-.mdw-top-app-bar.mdw-dense {
+div.mdw-top-app-bar.mdw-dense {
   height: 56px;
 }
 
-.mdw-top-app-bar.mdw-prominent-dense {
+div.mdw-top-app-bar.mdw-prominent-dense {
   height: 112px;
-}
-
-mdw-top-app-bar + mdw-banner {
-  margin-top: 65px;
-  margin-bottom: -65px;
 }

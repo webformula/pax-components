@@ -21,7 +21,8 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     // TODO add another class based on prominent, dense
     if (this.hasContent && !this.scrollTarget.querySelector('.mdw-top-app-bar')) {
       const div = document.createElement('div');
-      div.classList.add('mdw-top-app-bar')
+      div.classList.add('mdw-top-app-bar');
+      document.body.classList.add('mdw-top-app-bar');
       this.scrollTarget.prepend(div);
     }
 

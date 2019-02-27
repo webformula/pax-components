@@ -6,7 +6,6 @@ customElements.define('mdw-expander-content', class extends HTMLElementExtended 
 
   connectedCallback() {
     if (this.hasAttribute('height')) this.height = this.getAttribute('height').replace('px', '');
-    this.transitionEventName = this.getTransitionEventName();
     this.parentNode.registerContent(this);
   }
 
@@ -42,24 +41,10 @@ customElements.define('mdw-expander-content', class extends HTMLElementExtended 
 
   onHideComplete() {
     const self = this;
-    self.addEventListener(self.transitionEventName, function handler() {
+    self.addEventListener(MDWUtils.transitionEventName, function handler() {
       self.style.display= 'none';
-      self.removeEventListener(self.transitionEventName, handler);
+      self.removeEventListener(MDWUtils.transitionEventName, handler);
     });
-  }
-
-  getTransitionEventName() {
-    const el = document.createElement('fakeelement');
-    const transitions = {
-      transition: 'transitionend',
-      OTransition: 'oTransitionEnd',
-      MozTransition: 'transitionend',
-      WebkitTransition: 'webkitTransitionEnd'
-    };
-
-    for (let t in transitions){
-      if (el.style[t] !== undefined) return transitions[t];
-    }
   }
 
   css() {
