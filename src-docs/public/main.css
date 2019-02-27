@@ -1,13 +1,3 @@
-/*  layout */
-html {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
 .row {
   display: flex;
   flex-direction: row;
@@ -25,24 +15,90 @@ body {
   margin: 24px 0 4px;
 }
 
-.page {
+article > section {
+  padding-top: 80px;
+}
+
+.navigation {
+  width: 220px;
+  background-color: #364051;
+}
+
+.navigation .main-title {
+  color: #7b99c7;
+  display: block;
+  font-size: 24px;
+  /* padding-left: 24px; */
+  line-height: 25px;
+}
+.navigation .main-title:first-child {
+  margin-top: 16px;
+}
+
+nav {
+  padding-top: 24px;
+}
+
+nav .title {
+  color: #5a6b86;
+  display: block;
+  font-size: 18px;
+  padding-bottom: 12px;
+  padding-top: 24px;
+  margin-left: 16px;
+}
+
+nav mdw-divider {
+  margin-top: 24px;
+}
+
+nav a {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+  align-items: center;
+  user-select: none;
+  outline: none;
+  border: 0;
+  background: transparent;
+  font-size: 0.9375rem;
+  overflow: hidden;
+  transition: box-shadow .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1);
+  border-radius: 0;
+  color: #b3b3b3;
+  font-weight: 400;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+
+  width: 100%;
+  line-height: 18px;
+  padding: 12px 8px;
+  margin-left: 8px;
+  /* margin: 8px; */
+}
+
+/* .page {
   display: flex;
   flex: 1;
   box-sizing: border-box;
   height: 100vh;
-  /* height: calc(100vh - 72px); */
   width: 100%;
-}
+} */
 
-nav {
+/* nav {
   max-height: 100vh;
   overflow-y: auto;
   width: 220px;
   background-color: #364051;
   padding-top: 20px;
-}
+} */
 
-section.page-container {
+/* section.page-container {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -57,25 +113,20 @@ section.body-container {
   max-width: 840px;
   padding: 0 40px;
   margin-top: 56px;
-}
+} */
 
-@media screen and (max-width: 1084px) {
+/* @media screen and (max-width: 1084px) {
   section.body-container {
     padding: 0;
     width: 96%;
     margin: 0 auto;
     margin-top: 56px;
   }
-}
+} */
 
-article > section {
-  padding-top: 80px;
-}
-
-nav > section {
+/* nav > section {
   padding-top: 24px;
   padding-bottom: 24px;
-  /* border-top: 1px solid #50545a; */
 }
 
 nav > section:first-of-type {
@@ -97,7 +148,6 @@ nav .title {
   font-size: 18px;
   padding-bottom: 12px;
   padding-left: 24px;
-  /* padding-top: 40px; */
 }
 
 nav a {
@@ -187,7 +237,7 @@ header .version a {
   color: #5e8dff;
   font-weight: bold;
   text-decoration: none;
-}
+} */
 
 
 

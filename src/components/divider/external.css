@@ -1,6 +1,6 @@
 mdw-divider {
   display: block;
-  margin: 0;
+  margin: 3px 0 4px;
   border-top-width: 1px;
   border-top-style: solid;
   border-top-color: var(--mdw-theme-divider);

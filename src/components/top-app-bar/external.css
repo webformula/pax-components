@@ -33,3 +33,20 @@ mdw-top-app-bar section.align-end {
   justify-content: flex-end;
   order: 1;
 }
+
+
+.mdw-top-app-bar {
+  height: 56px;
+}
+
+.mdw-top-app-bar.mdw-prominent {
+  height: 112px;
+}
+
+.mdw-top-app-bar.mdw-dense {
+  height: 36px;
+}
+
+.mdw-top-app-bar.mdw-prominent-dense {
+  height: 72px;
+}

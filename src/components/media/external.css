@@ -1,0 +1,9 @@
+@media screen and (max-width: 1084px) {
+  mdw-page {
+    margin: 0 auto;
+  }
+
+  mdw-content {
+    padding: 0 6px;
+  }
+}

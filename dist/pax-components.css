@@ -196,6 +196,7 @@
 html {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   font-size: 16px;
+  margin: 0;
 }
 
 body {
@@ -539,7 +540,7 @@ mdw-expander-header .expander-label.active {
 
 mdw-divider {
   display: block;
-  margin: 0;
+  margin: 3px 0 4px;
   border-top-width: 1px;
   border-top-style: solid;
   border-top-color: var(--mdw-theme-divider);
@@ -595,5 +596,84 @@ mdw-top-app-bar section + section,
 mdw-top-app-bar section.align-end {
   justify-content: flex-end;
   order: 1;
+}
+
+
+.mdw-top-app-bar {
+  height: 56px;
+}
+
+.mdw-top-app-bar.mdw-prominent {
+  height: 112px;
+}
+
+.mdw-top-app-bar.mdw-dense {
+  height: 36px;
+}
+
+.mdw-top-app-bar.mdw-prominent-dense {
+  height: 72px;
+}
+
+mdw-drawer {
+  border-radius: 0 0 0 0;
+  z-index: 6;
+  width: 256px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: 100%;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  border-right-width: 1px;
+  border-right-style: solid;
+  overflow: hidden;
+
+  border-color: rgba(0, 0, 0, 0.12);
+  background-color: var(--mdw-theme-surface);
+}
+
+
+mdw-drawer .header {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-height: 64px;
+  padding: 0 16px 4px;
+}
+
+mdw-drawer .content {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-height: 64px;
+}
+
+mdw-body {
+  display: flex;
+  height: 100vh;
+}
+
+mdw-page {
+  display: block;
+  position: relative;
+  max-width: 840px;
+  width: 100%;
+}
+
+mdw-content {
+  overflow: auto;
+  display: block;
+  height: 100%;
+  padding: 0 40px;
+}
+
+@media screen and (max-width: 1084px) {
+  mdw-page {
+    margin: 0 auto;
+  }
+
+  mdw-content {
+    padding: 0 6px;
+  }
 }
 

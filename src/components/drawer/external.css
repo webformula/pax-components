@@ -1,4 +1,4 @@
-:root(aside) {
+mdw-drawer {
   border-radius: 0 0 0 0;
   z-index: 6;
   width: 256px;
@@ -13,21 +13,20 @@
   border-right-style: solid;
   overflow: hidden;
 
-  border-color: var(--mdw-theme-divider);
+  border-color: rgba(0, 0, 0, 0.12);
   background-color: var(--mdw-theme-surface);
 }
 
-::slotted(.header) {
+
+mdw-drawer .header {
   flex-shrink: 0;
   box-sizing: border-box;
   min-height: 64px;
   padding: 0 16px 4px;
 }
 
-
-::slotted(aside .content) {
+mdw-drawer .content {
   flex-shrink: 0;
   box-sizing: border-box;
   min-height: 64px;
-  padding: 0 16px 4px;
 }

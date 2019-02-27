@@ -1,7 +1,7 @@
 customElements.define('mdw-drawer', class extends HTMLElementExtended {
   constructor() {
     super();
-    this.cloneTemplate();
+    // this.cloneTemplate();
   }
 
   connectedCallback() {
@@ -33,13 +33,11 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
 
   template() {
     return html`
-      <aside>
-        <slot></slot>
-      </aside>
+      <slot></slot>
     `;
   }
 
   cssFile() {
-    return 'src/components/drawers/internal.css'
+    return 'src/components/drawer/internal.css'
   }
 });

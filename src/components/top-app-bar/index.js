@@ -13,9 +13,17 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    this.scrollTarget = window;
+    this.scrollTarget = this.getScrollTarget();
     this.lastScrollPosition = this.getViewportScrollY();
     this.topAppBarHeight = this.height;
+
+    // add spacer to content area
+    // TODO add another class based on prominent, dense
+    if (this.hasContent && !this.scrollTarget.querySelector('.mdw-top-app-bar')) {
+      const div = document.createElement('div');
+      div.classList.add('mdw-top-app-bar')
+      this.scrollTarget.prepend(div);
+    }
 
     if (!this.fixed) {
       this.throttledScrollHandler = MDWUtils.rafThrottle(this.scrollHandler);
@@ -38,6 +46,17 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
 
   get height() {
     return this.clientHeight;
+  }
+
+  getScrollTarget() {
+    if (this.parentNode.nodeName === 'MDW-PAGE') {
+      const content = document.querySelector('mdw-content');
+      if (content) {
+        this.hasContent = true;
+        return content;
+      }
+    }
+    return window;
   }
 
   topAppBarScrollHandler() {

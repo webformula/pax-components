@@ -27,15 +27,15 @@ module.exports = ({ head, body, title }) => html`
     </head>
 
     <body>
-      <div class="page">
+      <mdw-body>
         ${nav({ title })}
-        <section class="page-container">
+        <mdw-page>
           ${header({ title })}
-          <section class="body-container">
-            ${body}
-          </section>
-        </section>
-      </div>
+          <mdw-content>
+          ${body}
+          </mdw-content>
+        </mdw-page>
+      </mdw-body>
     </body>
   </html>
 `;
