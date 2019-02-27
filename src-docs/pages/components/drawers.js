@@ -17,12 +17,14 @@ module.exports = class Drawers extends Page {
         <div class="showcase">
           <mdw-drawer style="z-index: 1;">
             <div class="header">
-              <span class="title">Nav title</span>
+              <h5>Nav title</h5>
             </div>
 
             <div class="content">
               <nav>
-                <mdw-button>Link</mdw-button>
+                <a>link 1</a>
+                <mdw-divider></mdw-divider>
+                <a>link 2</a>
               </nav>
             </div>
           </mdw-drawer>
@@ -41,19 +43,23 @@ module.exports = class Drawers extends Page {
               <mdw-body>
                 <mdw-drawer>
                   <div class="header">
-                    <span class="title">Nav title</span>
+                    <h5>Nav title</h5>
                   </div>
 
                   <div class="content">
                     <nav>
-                      <mdw-button>Link</mdw-button>
+                      <a>link 1</a>
+                      <mdw-divider></mdw-divider>
+                      <a>link 2</a>
                     </nav>
                   </div>
                 </mdw-drawer>
 
                 <mdw-page>
                   <mdw-top-app-bar>
-                    <!-- content -->
+                    <section>
+                      <span class="title">Example</span>
+                    </section>
                   </mdw-top-app-bar>
                   <mdw-content>
                     <!-- main page content -->
@@ -62,7 +68,7 @@ module.exports = class Drawers extends Page {
               </mdw-body>
             </code-mirror>
             <div class="demo">
-              <iframe style="width: 100%; height: 200px; border: 1px solid #ddd" src="drawer-standard.html"></iframe>
+              <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="drawer-standard.html"></iframe>
             </div>
           </div>
 

@@ -11,18 +11,31 @@
     <mdw-body>
       <mdw-drawer>
         <div class="header">
-          <span class="title">Nav title</span>
+          <h5>Nav title</h5>
         </div>
 
         <div class="content">
           <nav>
-            <mdw-button>Link</mdw-button>
+            <a>link 1</a>
+            <a>link 2</a>
+            <mdw-divider class="dark"></mdw-divider>
+            <a>link 3</a>
+            <a>link 4</a>
+            <a>link 5</a>
+            <a>link 6</a>
+            <mdw-divider class="dark"></mdw-divider>
+            <a>link 7</a>
           </nav>
         </div>
       </mdw-drawer>
 
-      <mdw-content>
-        <!-- <div style="overflow: auto; height: 100%;"> -->
+      <mdw-page>
+        <mdw-top-app-bar>
+          <section>
+            <span class="title">Example</span>
+          </section>
+        </mdw-top-app-bar>
+        <mdw-content>
           <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit,
     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -50,8 +63,8 @@
     occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
     anim id est laborum.
           </p>
-        <!-- </div> -->
-      </mdw-content>
+        </mdw-content>
+      </mdw-page>
     </mdw-body>
   </body>
 </html>

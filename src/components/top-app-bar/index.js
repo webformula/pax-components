@@ -25,19 +25,15 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
       this.scrollTarget.prepend(div);
     }
 
-    if (!this.fixed) {
-      this.throttledScrollHandler = MDWUtils.rafThrottle(this.scrollHandler);
-      this.throttledResizeHandler = MDWUtils.rafThrottle(this.resizeHandler);
-      this.scrollTarget.addEventListener('scroll', this.throttledScrollHandler.bind(this));
-      window.addEventListener('resize', this.throttledResizeHandler.bind(this));
-    }
+    this.throttledScrollHandler = MDWUtils.rafThrottle(this.scrollHandler);
+    this.throttledResizeHandler = MDWUtils.rafThrottle(this.resizeHandler);
+    this.scrollTarget.addEventListener('scroll', this.throttledScrollHandler.bind(this));
+    window.addEventListener('resize', this.throttledResizeHandler.bind(this));
   }
 
   disconnectedCallback() {
-    if (!this.fixed) {
-      this.scrollTarget.removeEventListener('scroll', this.throttledScrollHandler.bind(this));
-      window.removeEventListener('resize', this.throttledResizeHandler.bind(this));
-    }
+    this.scrollTarget.removeEventListener('scroll', this.throttledScrollHandler.bind(this));
+    window.removeEventListener('resize', this.throttledResizeHandler.bind(this));
   }
 
   get fixed() {
@@ -134,21 +130,36 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
 
   scrollHandler() {
     const currentScrollPosition = Math.max(this.getViewportScrollY(), 0);
-    const diff = currentScrollPosition - this.lastScrollPosition;
-    this.lastScrollPosition = currentScrollPosition;
 
-    // If the window is being resized the lastScrollPosition_ needs to be updated but the
-    // current scroll of the top app bar should stay in the same position.
-    if (!this.isCurrentlyBeingResized) {
-      this.currentAppBarOffsetTop -= diff;
+    if (!this.fixed) {
+      const diff = currentScrollPosition - this.lastScrollPosition;
+      this.lastScrollPosition = currentScrollPosition;
 
-      if (this.currentAppBarOffsetTop > 0) {
-        this.currentAppBarOffsetTop = 0;
-      } else if (Math.abs(this.currentAppBarOffsetTop) > this.topAppBarHeight) {
-        this.currentAppBarOffsetTop = -this.topAppBarHeight;
+      // If the window is being resized the lastScrollPosition_ needs to be updated but the
+      // current scroll of the top app bar should stay in the same position.
+      if (!this.isCurrentlyBeingResized) {
+        this.currentAppBarOffsetTop -= diff;
+
+        if (this.currentAppBarOffsetTop > 0) {
+          this.currentAppBarOffsetTop = 0;
+        } else if (Math.abs(this.currentAppBarOffsetTop) > this.topAppBarHeight) {
+          this.currentAppBarOffsetTop = -this.topAppBarHeight;
+        }
+
+        this.moveTopAppBar();
       }
-
-      this.moveTopAppBar();
+    } else {
+      if (currentScrollPosition <= 0) {
+        if (this.wasScrolled_) {
+          this.classList.remove('scrolled');
+          this.wasScrolled_ = false;
+        }
+      } else {
+        if (!this.wasScrolled_) {
+          this.classList.add('scrolled');
+          this.wasScrolled_ = true;
+        }
+      }
     }
   }
 

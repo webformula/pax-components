@@ -546,6 +546,10 @@ mdw-divider {
   border-top-color: var(--mdw-theme-divider);
 }
 
+mdw-divider.dark {
+  border-top-color: var(--mdw-theme-divider--dark);
+}
+
 mdw-divider[vertical] {
   border-top: 0;
   border-right-width: 1px;
@@ -643,9 +647,13 @@ mdw-drawer .header {
 }
 
 mdw-drawer .content {
+  flex: 1;
   flex-shrink: 0;
   box-sizing: border-box;
   min-height: 64px;
+
+  height: 100%;
+  overflow-y: auto;
 }
 
 mdw-body {

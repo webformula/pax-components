@@ -2,7 +2,7 @@ const { html } = require('@webformula/pax-core');
 const { dependencies } = require('../../package.json');
 
 module.exports = ({ title }) => html`
-  <mdw-top-app-bar>
+  <mdw-top-app-bar fixed class="mdw-white">
     <section>
       <mdw-icon>menu</mdw-icon>
       <span class="title">PAX web components</span>

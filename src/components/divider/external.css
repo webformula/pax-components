@@ -6,6 +6,10 @@ mdw-divider {
   border-top-color: var(--mdw-theme-divider);
 }
 
+mdw-divider.dark {
+  border-top-color: var(--mdw-theme-divider--dark);
+}
+
 mdw-divider[vertical] {
   border-top: 0;
   border-right-width: 1px;

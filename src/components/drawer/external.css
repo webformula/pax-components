@@ -26,7 +26,11 @@ mdw-drawer .header {
 }
 
 mdw-drawer .content {
+  flex: 1;
   flex-shrink: 0;
   box-sizing: border-box;
   min-height: 64px;
+
+  height: 100%;
+  overflow-y: auto;
 }
