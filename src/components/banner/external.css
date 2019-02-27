@@ -1,0 +1,49 @@
+mdw-banner {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+  background-color: var(--mdw-theme-surface);
+  border-bottom: 1px solid var(--mdw-theme-divider--dark);
+  z-index: 1;
+}
+
+/* message */
+mdw-banner > div {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  letter-spacing: .03125em;
+  text-decoration: inherit;
+  text-transform: inherit;
+  flex-grow: 1;
+  box-sizing: border-box;
+  margin: 0;
+  padding-left: 16px;
+  padding-top: 10px;
+  padding-bottom: 8px;
+  padding-right: 16px;
+  overflow: auto;
+}
+
+/* actions container */
+mdw-banner > div:nth-child(2) {
+  display: flex;
+  position: relative;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  min-height: 52px;
+  margin: 0;
+  padding: 0;
+  padding-right: 8px;
+  border-top: 1px solid transparent;
+}
+
+mdw-banner > div:nth-child(2) mdw-button:first-child {
+  margin-left: 0;
+  margin-right: 0;
+}

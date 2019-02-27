@@ -36,17 +36,22 @@ mdw-top-app-bar section.align-end {
 
 
 .mdw-top-app-bar {
-  height: 56px;
+  height: 65px;
 }
 
 .mdw-top-app-bar.mdw-prominent {
-  height: 112px;
+  height: 130px;
 }
 
 .mdw-top-app-bar.mdw-dense {
-  height: 36px;
+  height: 56px;
 }
 
 .mdw-top-app-bar.mdw-prominent-dense {
-  height: 72px;
+  height: 112px;
+}
+
+mdw-top-app-bar + mdw-banner {
+  margin-top: 65px;
+  margin-bottom: -65px;
 }

@@ -33,7 +33,16 @@ customElements.define('code-mirror', class extends HTMLElementExtended {
   }
 
   css() {
-    return '@import "one-dark.css";';
+    return `
+      @import "one-dark.css";
+
+      @media screen and (max-width: 1084px) {
+        :host {
+          display: block;
+          max-width: calc(100vw - 232px);
+        }
+      }
+    `;
   }
   template() {
     return '<pre class="cm-s-one-dark"><code></code></pre>';

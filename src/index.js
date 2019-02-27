@@ -10,6 +10,8 @@ require('./components/drawer/external.css');
 require('./components/body/external.css');
 require('./components/page/external.css');
 require('./components/content/external.css');
+require('./components/banner/external.css');
+
 require('./components/media/external.css');
 
 // core
