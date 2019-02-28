@@ -14,6 +14,7 @@ require('./components/body/external.css');
 require('./components/page/external.css');
 require('./components/content/external.css');
 require('./components/banner/external.css');
+require('./components/card/external.css');
 
 require('./components/media/external.css');
 
@@ -39,3 +40,4 @@ require('./components/circular-progress');
 require('./components/top-app-bar');
 require('./components/drawer');
 require('./components/banner');
+require('./components/card');

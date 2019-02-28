@@ -176,17 +176,17 @@
   --mdw-theme-divider--light: rgba(255, 255, 255, 0.12);
 
   /* text */
-  --mdw-theme-text--primary--dark: rgba(black, .87);
-  --mdw-theme-text--secondary--dark: rgba(black, .54);
-  --mdw-theme-text--hint--dark: rgba(black, .38);
-  --mdw-theme-text--disabled--dark: rgba(black, .38);
-  --mdw-theme-text--icon--dark: rgba(black, .38);
+  --mdw-theme-text--primary--light: rgba(0,0,0, .87);
+  --mdw-theme-text--secondary--light: rgba(0,0,0, .54);
+  --mdw-theme-text--hint--light: rgba(0,0,0, .38);
+  --mdw-theme-text--disabled--light: rgba(0,0,0, .38);
+  --mdw-theme-text--icon--light: rgba(0,0,0, .38);
 
-  --mdw-theme-text--primary--light: white;
-  --mdw-theme-text--secondary--light: rgba(white, .7);
-  --mdw-theme-text--hint--light: rgba(white, .5);
-  --mdw-theme-text--disabled--light: rgba(white, .5);
-  --mdw-theme-text--icon--light: rgba(white, .5);
+  --mdw-theme-text--primary--dark: white;
+  --mdw-theme-text--secondary--dark: rgba(255,255,255, .7);
+  --mdw-theme-text--hint--dark: rgba(255,255,255, .5);
+  --mdw-theme-text--disabled--dark: rgba(255,255,255, .5);
+  --mdw-theme-text--icon--dark: rgba(255,255,255, .5);
 
   --mdw-theme-text--emphasis-high: 0.87;
   --mdw-theme-text--emphasis-medium: 0.6;

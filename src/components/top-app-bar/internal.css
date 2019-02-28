@@ -12,7 +12,7 @@
 
 :host(.mdw-white) {
   background-color: white;
-  color: var(--mdw-theme-text--primary--dark);
+  color: var(--mdw-theme-text--primary);
   border-bottom: 1px solid var(--mdw-theme-divider--dark);
 }
 
