@@ -1,6 +1,7 @@
 customElements.define('mdw-text-field', class extends HTMLElementExtended {
   constructor() {
     super();
+    // set outlined once since this will not be changed
     this.outlined = this.hasAttribute('outlined');
     this.cloneTemplate(true);
   }
@@ -14,21 +15,21 @@ customElements.define('mdw-text-field', class extends HTMLElementExtended {
     this.input.addEventListener('input', this.onInput.bind(this));
   }
 
-  onFocus(event) {
+  onFocus() {
     this.classList.add('focused');
     if (this.outlined) {
       this.notch.style.width = this.labelWidth + 'px';
     }
   }
 
-  onBlur(event) {
+  onBlur() {
     this.classList.remove('focused');
     this.classList.toggle('not-empty', !!this.input.value.length);
     this.valid = this.input.validity.valid;
     this.classList.toggle('invalid', !this.valid);
   }
 
-  onInput(event) {
+  onInput() {
     if (this.valid !== this.input.validity.valid) {
       this.valid = this.input.validity.valid;
       this.classList.toggle('invalid', !this.valid);

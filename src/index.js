@@ -41,3 +41,4 @@ require('./components/top-app-bar');
 require('./components/drawer');
 require('./components/banner');
 require('./components/card');
+require('./components/select');

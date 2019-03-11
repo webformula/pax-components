@@ -176,17 +176,36 @@
   --mdw-theme-divider--light: rgba(255, 255, 255, 0.12);
 
   /* text */
-  --mdw-theme-text--primary--light: rgba(0,0,0, .87);
-  --mdw-theme-text--secondary--light: rgba(0,0,0, .54);
-  --mdw-theme-text--hint--light: rgba(0,0,0, .38);
-  --mdw-theme-text--disabled--light: rgba(0,0,0, .38);
-  --mdw-theme-text--icon--light: rgba(0,0,0, .38);
+  --mdw-theme-text--primary--dark: rgba(0,0,0, .87);
+  --mdw-theme-text--secondary--dark: rgba(0,0,0, .54);
+  --mdw-theme-text--hint--dark: rgba(0,0,0, .38);
+  --mdw-theme-text--disabled--dark: rgba(0,0,0, .38);
+  --mdw-theme-text--icon--dark: rgba(0,0,0, .38);
 
-  --mdw-theme-text--primary--dark: white;
-  --mdw-theme-text--secondary--dark: rgba(255,255,255, .7);
-  --mdw-theme-text--hint--dark: rgba(255,255,255, .5);
-  --mdw-theme-text--disabled--dark: rgba(255,255,255, .5);
-  --mdw-theme-text--icon--dark: rgba(255,255,255, .5);
+  --mdw-theme-text--primary--light: #ffffff;
+  --mdw-theme-text--secondary--light: rgba(255,255,255, .7);
+  --mdw-theme-text--hint--light: rgba(255,255,255, .5);
+  --mdw-theme-text--disabled--light: rgba(255,255,255, .5);
+  --mdw-theme-text--icon--light: rgba(255,255,255, .5);
+
+
+  --mdw-theme-text--primary--on-background: rgba(0,0,0,.87);
+  --mdw-theme-text--secondary--on-background: rgba(0,0,0,.54);
+  --mdw-theme-text--hint--on-background: rgba(0,0,0,.38);
+  --mdw-theme-text--disabled--on-background: rgba(0,0,0,.38);
+  --mdw-theme-text--icon--on-background: rgba(0,0,0,.38);
+
+  --mdw-theme-text--primary--on-dark: #ffffff;
+  --mdw-theme-text--secondary--on-dark: rgba(255,255,255,.54);
+  --mdw-theme-text--hint--on-dark: rgba(255,255,255,.38);
+  --mdw-theme-text--disabled--on-dark: rgba(255,255,255,.38);
+  --mdw-theme-text--icon--on-dark: rgba(255,255,255,.38);
+
+  --mdw-theme-text--primary--on-light: #000000;
+  --mdw-theme-text--secondary--on-light: rgba(0,0,0,.54);
+  --mdw-theme-text--hint--on-light: rgba(0,0,0,.38);
+  --mdw-theme-text--disabled--on-light: rgba(0,0,0,.38);
+  --mdw-theme-text--icon--on-light: rgba(0,0,0,.38);
 
   --mdw-theme-text--emphasis-high: 0.87;
   --mdw-theme-text--emphasis-medium: 0.6;

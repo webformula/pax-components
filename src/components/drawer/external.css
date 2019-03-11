@@ -30,7 +30,7 @@ mdw-drawer .content {
   flex-shrink: 0;
   box-sizing: border-box;
   min-height: 64px;
-
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 }

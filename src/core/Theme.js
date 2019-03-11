@@ -97,7 +97,12 @@ new class MDWTheme {
       `--mdw-theme-text--hint--${contrast}`,
       `--mdw-theme-text--disabled--${contrast}`,
       `--mdw-theme-text--icon--${contrast}`,
-      `--mdw-theme-divider--${contrast}`
+      `--mdw-theme-divider--${contrast}`,
+      `--mdw-theme-text--primary--on-${contrast}`,
+      `--mdw-theme-text--secondary--on-${contrast}`,
+      `--mdw-theme-text--hint--on-${contrast}`,
+      `--mdw-theme-text--disabled--on-${contrast}`,
+      `--mdw-theme-text--icon--on-${contrast}`
     ];
   }
 
