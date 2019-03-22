@@ -2,6 +2,7 @@ new class MDWUtils {
   constructor() {
     this._uid = 1;
     this._setupTransitionEvent();
+    this._setTransformPropertyName();
   }
 
   uid() {
@@ -53,7 +54,11 @@ new class MDWUtils {
   }
 
   get transitionEventName() {
-    return this._transitionEventName;
+    return this.transitionEventName_;
+  }
+
+  get transformPropertyName() {
+    return this.transformPropertyName_;
   }
 
   _setupTransitionEvent() {
@@ -66,7 +71,14 @@ new class MDWUtils {
     };
 
     for (let t in transitions){
-      if (el.style[t] !== undefined) this._transitionEventName = transitions[t];
+      if (el.style[t] !== undefined) this.transitionEventName_ = transitions[t];
+    }
+  }
+
+  _setTransformPropertyName(forceRefresh = false) {
+    if (this.transformPropertyName_ === undefined || forceRefresh) {
+      const el = document.createElement('div');
+      this.transformPropertyName_ = 'transform' in el.style ? 'transform' : 'webkitTransform';
     }
   }
 }

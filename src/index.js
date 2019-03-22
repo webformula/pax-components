@@ -17,6 +17,7 @@ require('./components/banner/external.css');
 require('./components/card/external.css');
 
 require('./components/media/external.css');
+require('./components/panel/external.css');
 
 // core
 require('./core/Ripple');
@@ -42,3 +43,4 @@ require('./components/drawer');
 require('./components/banner');
 require('./components/card');
 require('./components/select');
+require('./components/panel');
