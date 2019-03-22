@@ -1,15 +1,43 @@
 customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
+    this.enhanced = this.getAttribute('enhanced') !== null;
     this.setOutlined();
     this.cloneTemplate(true);
+    this.bound_onFocus = this.onFocus.bind(this);
+    this.bound_onBlur = this.onBlur.bind(this);
+    this.bound_onChange = this.onChange.bind(this);
+    this.bound_onClick = this.onClick.bind(this);
   }
 
   connectedCallback() {
     this.valid = this.selectElement.validity.valid;
-    this.selectElement.addEventListener('focus', this.onFocus.bind(this));
-    this.selectElement.addEventListener('blur', this.onBlur.bind(this));
-    this.selectElement.addEventListener('change', this.onChange.bind(this));
+    this.selectElement.addEventListener('focus', this.bound_onFocus);
+    this.selectElement.addEventListener('blur', this.bound_onBlur);
+    this.selectElement.addEventListener('change', this.bound_onChange);
+    if (this.enhanced) this.setupEnhanced_();
+  }
+
+  setupEnhanced_() {
+    const enhancedEl = document.createElement('div');
+    enhancedEl.classList.add('mdw-select__selected-text');
+    enhancedEl.style.width = `${this.selectElement.offsetWidth}px`;
+    const options = this.selectElement.innerHTML;
+    this.selectElement.parentNode.replaceChild(enhancedEl, this.selectElement);
+    this._selectElement = enhancedEl;
+    this.panel.position = 'inner_left bottom';
+    this.panel.hoistToBody();
+    this.panel.anchor = this._selectElement;
+    this.selectElement.addEventListener('click', this.bound_onClick);
+  }
+
+  get panel() {
+    if (!this.panel_) this.panel_ = this.shadowRoot.querySelector('mdw-panel');
+    return this.panel_;
+  }
+
+  onClick(event) {
+    this.panel.open();
   }
 
   onChange() {
@@ -71,6 +99,13 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return `
       <i class="mdw-select__icon"></i>
       <slot></slot>
+      ${!this.enhanced ? '' : `
+        <mdw-panel>
+          <div style="padding: 12px;">
+            hello
+          </div>
+        </mdw-panel>
+      `}
       ${this.outlined ? '' : '<div class="line-ripple"></div>'}
       ${!this.outlined ? '' : `
         <div class="outlined-border-container">

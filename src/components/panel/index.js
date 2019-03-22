@@ -29,6 +29,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     cancelAnimationFrame(this.animationRequestId_);
   }
 
+  set anchor(value) {
+    this.anchorElement = value;
+  }
+
   set clickOutsideClose(value) {
     this.clickOutsideClose_ = value;
   }
@@ -99,6 +103,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   positionPanel_() {
+    console.log('this.hasAnchor', this.hasAnchor)
     if (this.hasAnchor) return this.positionAnchor_();
     this.positionBounding_();
   }
@@ -146,8 +151,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   positionAnchor_() {
     const boundingBox = this.getParentDemensions_();
     const anchorBox = this.getAnchorDimensions_();
-    console.log(boundingBox);
-    console.log(anchorBox);
 
     // x
     switch (this.xPos_) {
@@ -197,10 +200,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   getParentDemensions_() {
+    if (this.isHoistedElement_) return { x: 0, y: 0, width: document.body.clientWidth, height: document.body.clientHeight };
     return this.parentNode.getBoundingClientRect();
   }
 
-  hasAnchor() {
+  get hasAnchor() {
     return !!this.anchorElement;
   }
 
@@ -291,15 +295,15 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.dispatchEvent(new Event('MDWPanel:open'));
   }
 
-  // hoistToBody() {
-  //   document.body.appendChild(this);
-  //   this.setIsHoisted(true);
-  // }
-  //
-  // /** Sets the foundation to use page offsets for an positioning when the menu is hoisted to the body. */
-  // setIsHoisted(isHoisted) {
-  //   this.isHoistedElement_ = isHoisted;
-  // }
+  hoistToBody() {
+    document.body.appendChild(this);
+    this.setIsHoisted(true);
+  }
+
+  /** Sets the foundation to use page offsets for an positioning when the menu is hoisted to the body. */
+  setIsHoisted(value) {
+    this.isHoistedElement_ = value;
+  }
 
   // setAbsolutePosition(x, y) {
   //   this.position_.x = this.isFinite_(x) ? x : 0;
