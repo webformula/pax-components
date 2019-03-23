@@ -68,6 +68,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   close() {
     if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-closed');
+    this.removeBodyClickEvent_();
     this.animationRequestId_ = requestAnimationFrame(() => {
       this.classList.remove('mdw-panel--open');
       if (this.isQuickOpen_) this.notifyClose();
@@ -103,7 +104,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   positionPanel_() {
-    console.log('this.hasAnchor', this.hasAnchor)
     if (this.hasAnchor) return this.positionAnchor_();
     this.positionBounding_();
   }
