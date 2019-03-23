@@ -32,6 +32,16 @@ module.exports = class Selects extends Page {
             </select>
             <label>Select</label>
           </mdw-select>
+
+          <mdw-select>
+            <i class="mdw-select__icon"></i>
+            <select>
+              <option value="" disabled="" selected=""></option>
+              <option value="a">aoptiomn</option>
+              <option value="b">b</option>
+            </select>
+            <label>Select</label>
+          </mdw-select>
         </div>
 
         <!-- <a href="https://material.io/design/components/buttons.html">Material Design Guidlines: Buttons</a>

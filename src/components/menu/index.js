@@ -2,6 +2,7 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_onClick = this.onClick.bind(this);
+    this.bound_onPanelClick = this.onPanelClick.bind(this);
   }
 
   connectedCallback() {
@@ -14,6 +15,11 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
 
   onClick(event) {
     this.panel.open();
+    this.panel.addEventListener('click', this.bound_onPanelClick);
+  }
+
+  onPanelClick(event) {
+    this.panel.close();
   }
 
   get button() {

@@ -12,6 +12,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
+    this.querySlotted('label').classList.add('mdw-empty-no-float'); // do noot float id no selection
     this.valid = this.selectElement.validity.valid;
     if (this.enhanced) this.setupEnhanced_();
     else {

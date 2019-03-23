@@ -18,6 +18,7 @@ require('./components/card/external.css');
 require('./components/media/external.css');
 require('./components/panel/external.css');
 require('./components/menu/external.css');
+require('./components/select/external.css');
 
 // core
 require('./core/Ripple');
