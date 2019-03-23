@@ -1,0 +1,298 @@
+mdw-button {
+  -moz-osx-font-smoothing: grayscale;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  -webkit-appearance: none;
+  -webkit-box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-family: Roboto, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  height: 36px;
+  justify-content: center;
+  letter-spacing: 0.08929em;
+  line-height: 2.25rem;
+  min-width: 64px;
+  outline: none;
+  overflow: hidden;
+  padding: 0 8px 0 8px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  vertical-align: middle;
+  will-change: transform, opacity;
+  margin-left: 8px;
+  margin-right: 0;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  color: inherit;
+  background-color: transparent;
+}
+
+mdw-button.full-height {
+  height: 48px;
+}
+
+mdw-button.full-width {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+
+mdw-button::before,
+mdw-button::after {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  top: calc(50% - 100%);
+  left: calc(50% - 100%);
+  width: 200%;
+  height: 200%;
+  background-color: var(--mdw-theme-foreground);
+}
+
+mdw-button::before {
+  -webkit-transition: opacity 15ms linear, background-color 15ms linear;
+  -o-transition: opacity 15ms linear, background-color 15ms linear;
+  transition: opacity 15ms linear, background-color 15ms linear;
+  z-index: 1;
+}
+
+mdw-button:hover {
+  cursor: pointer;
+}
+
+mdw-button:hover::before {
+  opacity: 0.04;
+}
+
+mdw-button[disabled],
+mdw-button.mdw-disabled {
+  background-color: transparent !important;
+  color: rgba(var(--mdw-theme-surface--on-rgb), 0.37);
+  cursor: default;
+  pointer-events: none;
+}
+
+mdw-button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+mdw-button:active {
+  outline: none;
+}
+
+mdw-button[raised],
+mdw-button.raised,
+mdw-button[unelevated],
+mdw-button.unelevated {
+  background-color: white;
+  color: inherit;
+  padding: 0 16px 0 16px;
+}
+
+mdw-button[raised]::before,
+mdw-button.raised::before,
+mdw-button[unelevated]::before,
+mdw-button.unelevated::before {
+  opacity: 0.08;
+}
+
+mdw-button[raised],
+mdw-button.raised {
+  -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+          box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  -webkit-transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  -o-transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+mdw-button[raised]:hover,
+mdw-button.raised:hover,
+mdw-button[raised]:focus,
+mdw-button.raised:focus {
+  -webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+          box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+mdw-button[raised]:active,
+mdw-button.raised:active {
+  -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+          box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+mdw-button[raised][disabled],
+mdw-button.raised[disabled] {
+  -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+          box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+}
+
+mdw-button[outlined],
+mdw-button.outlined {
+  border-color: rgba(0, 0, 0, 0.37);
+  line-height: inherit;
+  border-style: solid;
+  padding: 0 14px 0 14px;
+  border-width: 2px;
+}
+
+mdw-button[shaped],
+mdw-button.shaped {
+  border-radius: 18px;
+}
+
+mdw-button[dense],
+mdw-button.dense {
+  border-radius: 4px;
+  height: 32px;
+  font-size: .8125rem;
+  line-height: inherit;
+}
+
+mdw-button[dense][shaped],
+mdw-button.dense.shaped {
+  border-radius: 16px;
+}
+
+mdw-button .icon {
+  margin-left: 0;
+  margin-right: 8px;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  vertical-align: top;
+}
+
+mdw-button svg.icon {
+  fill: currentColor;
+}
+
+
+/* primary */
+
+mdw-button.primary {
+  color: var(--mdw-theme-primary);
+}
+
+mdw-button.primary[raised],
+mdw-button.primary.raised,
+mdw-button.primary[unelevated],
+mdw-button.primary.unelevated  {
+  background-color: var(--mdw-theme-primary);
+  color: var(--mdw-theme-primary--on);
+}
+
+mdw-button.primary[outlined],
+mdw-button.primary.outlined {
+  border-color: var(--mdw-theme-primary);
+}
+
+mdw-button.primary .ripple-element {
+  background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
+}
+
+mdw-button.primary[raised] .ripple-element,
+mdw-button.primary.raised .ripple-element,
+mdw-button.primary[unelevated] .ripple-element,
+mdw-button.primary.unelevated .ripple-element {
+  background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+}
+
+mdw-button.primary::before,
+mdw-button.primary::after {
+  background-color: var(--mdw-theme-primary);
+}
+
+
+/* secondary */
+
+mdw-button.secondary {
+  color: var(--mdw-theme-secondary);
+}
+
+mdw-button.secondary[raised],
+mdw-button.secondary.raised,
+mdw-button.secondary[unelevated],
+mdw-button.secondary.unelevated {
+  background-color: var(--mdw-theme-secondary);
+  color: var(--mdw-theme-secondary--on);
+}
+
+mdw-button.secondary[outlined],
+mdw-button.secondary.outlined {
+  border-color: var(--mdw-theme-secondary);
+}
+
+mdw-button.secondary .ripple-element {
+  background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
+}
+
+mdw-button.secondary[raised] .ripple-element,
+mdw-button.secondary.raised .ripple-element,
+mdw-button.secondary[unelevated] .ripple-element,
+mdw-button.secondary.unelevated .ripple-element {
+  background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+}
+
+mdw-button.secondary::before,
+mdw-button.secondary::after {
+  background-color: var(--mdw-theme-secondary);
+}
+
+/* error */
+
+mdw-button.error {
+  color: var(--mdw-theme-error);
+}
+
+mdw-button.error[raised],
+mdw-button.error.raised,
+mdw-button.error[unelevated],
+mdw-button.error.unelevated {
+  background-color: var(--mdw-theme-error);
+  color: var(--mdw-theme-error--on);
+}
+
+mdw-button.error[outlined],
+mdw-button.error.outlined {
+  border-color: var(--mdw-theme-error);
+}
+
+mdw-button.error .ripple-element {
+  background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
+}
+
+mdw-button.error[raised] .ripple-element,
+mdw-button.error.raised .ripple-element,
+mdw-button.error[unelevated] .ripple-element,
+mdw-button.error.unelevated .ripple-element {
+  background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+}
+
+mdw-button.error::before,
+mdw-button.error::after {
+  background-color: var(--mdw-theme-error);
+}
+
+mdw-button.show-spinner span.text {
+  opacity: 0;
+}

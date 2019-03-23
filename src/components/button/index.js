@@ -10,7 +10,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   connectedCallback() {
     this.ripple = new MDWRipple({
       element: this.shadowRoot.querySelector('.ripple'),
-      triggerElement: this.button
+      triggerElement: this
     });
   }
 
@@ -26,7 +26,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     const asyncValue = this.getAttribute('async');
     if (!asyncValue) return;
     let pending = false;
-    this.button.addEventListener('click', event => {
+    this.addEventListener('click', event => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -65,34 +65,29 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     return this._spinnerContainer;
   }
 
-  get button() {
-    if (!this._button) this._button = this.shadowRoot.querySelector('button');
-    return this._button;
-  }
-
   set raised(value) {
-    this.button.classList.toggle('raised', !!value || value === '');
+    this.classList.toggle('raised', !!value || value === '');
   }
 
   set unelevated(value) {
-    this.button.classList.toggle('unelevated', !!value|| value === '');
+    this.classList.toggle('unelevated', !!value|| value === '');
   }
 
   set outlined(value) {
-    this.button.classList.toggle('outlined', !!value || value === '');
+    this.classList.toggle('outlined', !!value || value === '');
   }
 
   set shaped(value) {
-    this.button.classList.toggle('shaped', !!value || value === '');
+    this.classList.toggle('shaped', !!value || value === '');
   }
 
   set dense(value) {
-    this.button.classList.toggle('dense', !!value || value === '');
+    this.classList.toggle('dense', !!value || value === '');
   }
 
   set disabled(value) {
-    if (!!value || value === '') this.button.setAttribute('disabled', 'disabled');
-    else this.button.removeAttribute('disabled');
+    if (!!value || value === '') this.setAttribute('disabled', 'disabled');
+    else this.removeAttribute('disabled');
   }
 
   set icon(value) {
@@ -101,11 +96,9 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
 
   template() {
     return html`
-      <button>
-        <span class="text"><slot></slot></span>
-        <span class="spinner-container"></span>
-        <div class="ripple button-ripple"></div>
-      </button>
+      <span class="text"><slot></slot></span>
+      <span class="spinner-container"></span>
+      <div class="ripple button-ripple"></div>
     `;
   }
 
