@@ -79,6 +79,17 @@ button::before, button::after {
   background-color: var(--mdw-theme-foreground);
 }
 
+:host(.full-height) button {
+  height: 48px;
+}
+
+:host(.full-width) button {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
 /* primary */
 
 :host(.primary) button {
