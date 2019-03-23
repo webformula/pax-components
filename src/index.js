@@ -20,6 +20,8 @@ require('./components/panel/external.css');
 require('./components/menu/external.css');
 require('./components/select/external.css');
 require('./components/button/external.css');
+require('./components/list/external.css');
+require('./components/list-item/external.css');
 
 // core
 require('./core/Ripple');
@@ -47,3 +49,5 @@ require('./components/card');
 require('./components/panel');
 require('./components/menu');
 require('./components/select');
+require('./components/list');
+require('./components/list-item');

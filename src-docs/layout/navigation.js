@@ -26,6 +26,7 @@ module.exports = () => html`
         <a href="#/components/panel">Panel</a>
         <a href="#/components/menu">Menu</a>
         <a href="#/components/select">Selects</a>
+        <a href="#/components/lists">lists</a>
       </nav>
     </div>
   </mdw-drawer>
