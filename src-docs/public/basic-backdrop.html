@@ -1,0 +1,86 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
+  <link rel="stylesheet" href="pax-components.css">
+  <link rel="stylesheet" href="main.css">
+  <script src="pax-components.js"></script>
+</head>
+
+  <body>
+    <mdw-body>
+      <mdw-backdrop id="backdropOne">
+        <mdw-backdrop-back>
+          <mdw-backdrop-header>
+            <mdw-button icon onclick="backdropOne.toggle()">
+              <mdw-icon>menu</mdw-icon>
+            </mdw-button>
+            <span>Title</span>
+          </mdw-backdrop-header>
+
+          <mdw-backdrop-content>
+            <mdw-button raised shaped class="secondary">one</mdw-button>
+            <mdw-button raised shaped class="secondary">two</mdw-button>
+            <mdw-button raised shaped class="secondary">three</mdw-button>
+          </mdw-backdrop-content>
+        </mdw-backdrop-back>
+
+        <mdw-backdrop-front>
+          <mdw-backdrop-header>
+            <span>Subtitle</span>
+            <mdw-arrow></mdw-arrow>
+          </mdw-backdrop-header>
+
+          <mdw-backdrop-content>
+            <mdw-backdrop-contet-scroll>
+              <mdw-card>
+                <div class="mdw-card__content">
+                  <h6>Card title</h6>
+                  <subtitle2>subtitle text</subtitle2>
+                  <body2 class="mdw-card__supporting">This is some supporting text for the card conent</body2>
+                </div>
+
+                <div class="mdw-card__actions">
+                  <div>
+                    <mdw-button>action 1</mdw-button>
+                    <mdw-button>action 2</mdw-button>
+                  </div>
+                </div>
+              </mdw-card>
+
+              <mdw-card>
+                <div class="mdw-card__content">
+                  <h6>Card title</h6>
+                  <subtitle2>subtitle text</subtitle2>
+                  <body2 class="mdw-card__supporting">This is some supporting text for the card conent</body2>
+                </div>
+
+                <div class="mdw-card__actions">
+                  <div>
+                    <mdw-button>action 1</mdw-button>
+                    <mdw-button>action 2</mdw-button>
+                  </div>
+                </div>
+              </mdw-card>
+
+              <mdw-card>
+                <div class="mdw-card__content">
+                  <h6>Card title</h6>
+                  <subtitle2>subtitle text</subtitle2>
+                  <body2 class="mdw-card__supporting">This is some supporting text for the card conent</body2>
+                </div>
+
+                <div class="mdw-card__actions">
+                  <div>
+                    <mdw-button>action 1</mdw-button>
+                    <mdw-button>action 2</mdw-button>
+                  </div>
+                </div>
+              </mdw-card>
+            </mdw-backdrop-contet-scroll>
+          </mdw-backdrop-content>
+        </mdw-backdrop-front>
+      </mdw-backdrop>
+    </mdw-body>
+  </body>
+</html>
