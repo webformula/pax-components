@@ -51,9 +51,19 @@ module.exports = class List extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror type="html">
-                <mdw-list style="background-color: white">
-                  <mdw-list-item>item</mdw-list-item>
-                </mdw-list>
+                <mdw-list-item active>
+                  <span class="mdw-list-item__graphic material-icons">inbox</span>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">
+                      Two
+                    </div>
+                    <div class="mdw-list-item__secondary-text">
+                      Secondary
+                    </div>
+                  </div>
+                  <span class="mdw-list-item__meta material-icons">info</span>
+                  <div class="ripple list-item-ripple"></div>
+                </mdw-list-item>
               </code-mirror>
             </div>
 
