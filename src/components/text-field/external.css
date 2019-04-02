@@ -1,14 +1,298 @@
-mdw-text-field + mdw-helper-text,
-mdw-helper-text + mdw-helper-text {
+mdw-textfield {
+  border-radius: 4px 4px 0 0;
+  display: inline-flex;
+  position: relative;
+  box-sizing: border-box;
+  height: 56px;
+  overflow: hidden;
+  will-change: opacity,transform,color;
+
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+  border-bottom-color: rgba(0,0,0,.12);
+  background-color: #f5f5f5;
+}
+
+mdw-textfield:not([outlined]):after,
+mdw-textfield:not([outlined]):before {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  background-color: rgba(0,0,0,.87);
+  transition: opacity 15ms linear,
+              background-color 15ms linear;
+}
+
+mdw-textfield:focus-within:not([outlined]):before {
+  transition-duration: 75ms;
+  opacity: 0.12;
+}
+
+/* outlined */
+mdw-textfield[outlined] {
+  background-color: transparent;
+  border: none;
+  overflow: visible;
+  box-sizing: content-box;
+}
+
+mdw-textfield[outlined]:not(.mdw-upgraded) {
+  border: 1px solid;
+  border-color: rgba(0,0,0,.24);
+  border-radius: 4px;
+}
+
+mdw-textfield[outlined]:not(.mdw-upgraded):focus-within {
+  border: 2px solid;
+  border-color: var(--mdw-theme-primary);
+}
+
+
+/* --- input --- */
+
+mdw-textfield input {
+  font-family: Roboto,sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  letter-spacing: .00937em;
+  text-decoration: inherit;
+  text-transform: inherit;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 20px 16px 6px;
+  -o-transition: opacity .18s cubic-bezier(.4,0,.2,1);
+  transition: opacity .18s cubic-bezier(.4,0,.2,1);
+  border: none;
+  border-bottom: 1px solid;
+  border-radius: 0;
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  border-bottom-color: rgba(0,0,0,.42);
+  color: rgba(0,0,0,.87);
+  caret-color: var(--mdw-theme-primary);
+}
+
+
+mdw-textfield input:focus {
+  outline: none;
+}
+
+/* outlined */
+mdw-textfield[outlined] input {
+  display: flex;
+  padding: 12px 16px 14px;
+  border: none;
+  background-color: transparent;
+  z-index: 1;
+}
+
+mdw-textfield[outlined]:not(.mdw-upgraded) input {
+  padding: 24px 16px 14px;
+}
+
+
+
+
+/* --- label --- */
+
+mdw-textfield label {
+  font-family: Roboto,sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  letter-spacing: .00937em;
+  text-decoration: inherit;
+  text-transform: inherit;
+  position: absolute;
+  -webkit-transform-origin: left top;
+  -ms-transform-origin: left top;
+  transform-origin: left top;
+  transition: color .15s cubic-bezier(.4,0,.2,1),-webkit-transform .15s cubic-bezier(.4,0,.2,1);
+  -o-transition: transform .15s cubic-bezier(.4,0,.2,1),color .15s cubic-bezier(.4,0,.2,1);
+  transition: transform .15s cubic-bezier(.4,0,.2,1),color .15s cubic-bezier(.4,0,.2,1);
+  transition: transform .15s cubic-bezier(.4,0,.2,1),color .15s cubic-bezier(.4,0,.2,1),-webkit-transform .15s cubic-bezier(.4,0,.2,1);
+  line-height: 1.15rem;
+  text-align: left;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: text;
+  overflow: hidden;
+  will-change: transform;
+
+  left: 16px;
+  right: auto;
+  top: 18px;
+  pointer-events: none;
+
+  color: rgba(0,0,0,.6);
+}
+
+/* transform label when focused, not empty, or not upgraded */
+mdw-textfield:not(.mdw-upgraded) label,
+mdw-textfield.mdw-upgraded:focus-within label,
+mdw-textfield.mdw-upgraded.not-empty label {
+  cursor: auto;
+  transform: translateY(-50%) scale(.75);
+  color: var(--mdw-theme-primary);
+}
+
+mdw-textfield input:invalid + label {
+  color: var(--mdw-theme-error);
+}
+
+/* outlined */
+mdw-textfield[outlined].mdw-upgraded:focus-within label,
+mdw-textfield[outlined].mdw-upgraded.not-empty label {
+  transform: translateY(-130%) scale(.75);
+}
+
+
+
+/* --- line ripple --- */
+
+.line-ripple {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  -webkit-transform: scaleX(0);
+  -ms-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: opacity .18s cubic-bezier(.4,0,.2,1),
+                      -webkit-transform .18s cubic-bezier(.4,0,.2,1);
+  transition: opacity .18s cubic-bezier(.4,0,.2,1),
+              -webkit-transform .18s cubic-bezier(.4,0,.2,1);
+  -o-transition: transform .18s cubic-bezier(.4,0,.2,1),
+                  opacity .18s cubic-bezier(.4,0,.2,1);
+  transition: transform .18s cubic-bezier(.4,0,.2,1),
+              opacity .18s cubic-bezier(.4,0,.2,1);
+  transition: transform .18s cubic-bezier(.4,0,.2,1),
+              opacity .18s cubic-bezier(.4,0,.2,1),
+              -webkit-transform .18s cubic-bezier(.4,0,.2,1);
+  opacity: 0;
+  z-index: 2;
+  background-color: var(--mdw-theme-primary);
+}
+
+mdw-textfield:not([outlined]) input:focus + label + div.line-ripple {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* if no line-ripple element exists then use this methode to make the line 2px and primary color */
+mdw-textfield:not([outlined]):not(.mdw-upgraded) input:focus:nth-last-child(2) {
+  border-bottom: 2px solid;
+  border-bottom-color: var(--mdw-theme-primary);
+}
+
+
+
+/* --- outline border --- */
+
+mdw-textfield .outlined-border-container {
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  text-align: left;
+  pointer-events: none;
+}
+
+mdw-textfield .outlined-leading {
+  border-radius: 4px 0 0 4px;
+  border-left: 1px solid;
+  border-right: none;
+  width: 12px;
+}
+
+mdw-textfield .outlined-notch {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  width: auto;
+  max-width: calc(100% - 12px * 2);
+}
+
+mdw-textfield .outlined-trailing {
+  border-left: none;
+  border-right: 1px solid;
+  border-radius: 0 4px 4px 0;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+mdw-textfield .outlined-leading,
+mdw-textfield .outlined-notch,
+mdw-textfield .outlined-trailing {
+  box-sizing: border-box;
+  height: 100%;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  pointer-events: none;
+
+  border-color: rgba(0,0,0,.24);
+}
+
+mdw-textfield:focus-within .outlined-leading,
+mdw-textfield:focus-within .outlined-notch,
+mdw-textfield:focus-within .outlined-trailing {
+  border-width: 2px;
+  border-color: var(--mdw-theme-primary);
+}
+
+mdw-textfield:invalid .outlined-leading,
+mdw-textfield:invalid .outlined-notch,
+mdw-textfield:invalid .outlined-trailing {
+  border-color: var(--mdw-theme-error);
+}
+
+
+mdw-textfield:focus-within .outlined-notch,
+mdw-textfield.not-empty .outlined-notch {
+  border-top: none;
+}
+
+
+
+/* --- hint text ---  */
+
+/* hide honts until i figure out how to handle them */
+mdw-textfield:not(.mdw-upgraded) + mdw-hint {
+  display: none;
+}
+
+mdw-textfield + mdw-hint {
   position: absolute;
   color: rgba(0,0,0,.6);
 
   margin-right: 12px;
   margin-left: 12px;
-
-  font-family: Roboto, sans-serif;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
+  
   font-size: .75rem;
   line-height: 1.25rem;
   font-weight: 400;
@@ -24,7 +308,7 @@ mdw-helper-text + mdw-helper-text {
   will-change: transform,opacity;
 }
 
-mdw-helper-text:before {
+mdw-hint:before {
   display: inline-block;
   width: 0;
   height: 16px;
@@ -32,21 +316,21 @@ mdw-helper-text:before {
   vertical-align: 0;
 }
 
-mdw-helper-text[validation] {
+mdw-hint[validation] {
   transition: none;
   transform: translateY(-50%);
   opacity: 0;
   color: var(--mdw-theme-error);
 }
 
-mdw-text-field.invalid + mdw-helper-text:not([validation]) {
+mdw-text-field:invalid + mdw-hint:not([validation]) {
   transition: none;
   transform: translateY(-50%);
   opacity: 0;
 }
 
-mdw-text-field.invalid + mdw-helper-text[validation],
-mdw-text-field.invalid + mdw-helper-text + mdw-helper-text[validation] {
+mdw-textfield:invalid + mdw-hint[validation],
+mdw-textfield:invalid + mdw-hint + mdw-hint[validation] {
   transition: transform .24s cubic-bezier(.4,0,.2,1),
               opacity .18s cubic-bezier(.4,0,.2,1);
   transform: translateY(0);

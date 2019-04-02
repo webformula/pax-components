@@ -172,6 +172,14 @@ mdw-button.dense.shaped {
   border-radius: 16px;
 }
 
+mdw-button[icon],
+mdw-button.icon {
+  border-radius: 50%;
+  min-width: 0;
+  width: 40px;
+  padding: 0;
+}
+
 mdw-button .icon {
   margin-left: 0;
   margin-right: 8px;

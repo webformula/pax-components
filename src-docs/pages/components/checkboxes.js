@@ -15,7 +15,13 @@ module.exports = class Checkboxes extends Page {
         <h3>Checkboxes</h3>
 
         <div class="showcase">
-          <mdw-checkbox indeterminate></mdw-checkbox>
+          <mdw-checkbox indeterminate>
+            <input type="checkbox">
+            <div class="background">
+              <div class="checkmark"></div>
+              <div class="mixedmark"></div>
+            </div>
+          </mdw-checkbox>
         </div>
 
         <a href="https://material.io/design/components/selection-controls.html#checkboxes">Material Design Guidlines: Checkboxes</a>

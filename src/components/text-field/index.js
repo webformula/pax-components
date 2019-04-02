@@ -1,14 +1,24 @@
-customElements.define('mdw-text-field', class extends HTMLElementExtended {
+customElements.define('mdw-textfield', class extends HTMLElementExtended {
   constructor() {
     super();
     // set outlined once since this will not be changed
-    this.outlined = this.hasAttribute('outlined');
-    this.cloneTemplate(true);
+    this.outlined_ = this.hasAttribute('outlined');
+
+    // TODO make classlist work in constructor
+    // this.classList.add('mdw-upgraded');
+    // this.insertAdjacentHTML('beforeend', this.outlinedHTML);
+
+
+    // this.cloneTemplate(true);
   }
 
   connectedCallback() {
+    this.classList.add('mdw-upgraded');
     this.valid = this.input.validity.valid;
-    if (this.outlined) this.setOutlined();
+
+    // this should go in constructor if posible
+    if (this.outlined) this.insertAdjacentHTML('beforeend', this.outlinedHTML);
+    if (!this.querySelector('.line-ripple')) this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
 
     this.input.addEventListener('focus', this.onFocus.bind(this));
     this.input.addEventListener('blur', this.onBlur.bind(this));
@@ -16,14 +26,12 @@ customElements.define('mdw-text-field', class extends HTMLElementExtended {
   }
 
   onFocus() {
-    this.classList.add('focused');
     if (this.outlined) {
       this.notch.style.width = this.labelWidth + 'px';
     }
   }
 
   onBlur() {
-    this.classList.remove('focused');
     this.classList.toggle('not-empty', !!this.input.value.length);
     this.valid = this.input.validity.valid;
     this.classList.toggle('invalid', !this.valid);
@@ -37,48 +45,39 @@ customElements.define('mdw-text-field', class extends HTMLElementExtended {
   }
 
   get input() {
-    if (!this._input) this._input = this.querySlotted('input');
+    if (!this._input) this._input = this.querySelector('input');
     return this._input;
   }
 
   get notch() {
-    if (!this._notch) this._notch = this.shadowRoot.querySelector('.outlined-notch');
+    if (!this._notch) this._notch = this.querySelector('.outlined-notch');
     return this._notch;
   }
 
   get label() {
-    if (!this._label) this._label = this.querySlotted('label');
+    if (!this._label) this._label = this.querySelector('label');
     return this._label;
   }
 
   get labelWidth() {
-    return this.label.offsetWidth * 0.9;
+    return this.label.offsetWidth;
   }
 
-  setOutlined() {
-    this.classList.add('outlined');
-    this.input.classList.add('outlined');
+  get outlined() {
+    return this.outlined_;
   }
 
-  template() {
+  get outlinedHTML() {
     return `
-      <slot></slot>
-      ${this.outlined ? '' : '<div class="line-ripple"></div>'}
-      ${!this.outlined ? '' : `
-        <div class="outlined-border-container">
-          <div class="outlined-leading"></div>
-          <div class="outlined-notch"></div>
-          <div class="outlined-trailing"></div>
-        </div>
-      `}
+      <div class="outlined-border-container">
+        <div class="outlined-leading"></div>
+        <div class="outlined-notch"></div>
+        <div class="outlined-trailing"></div>
+      </div>
     `;
   }
 
-  cssFile() {
-    return '/src/components/text-field/internal.css';
-  }
-
-  querySlotted(selector) {
-    return this.shadowRoot.querySelector('slot').assignedNodes().find(el => el.matches && el.matches(selector));
+  get lineRippleHTML() {
+    return '<div class="line-ripple"></div>';
   }
 });

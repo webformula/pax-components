@@ -174,6 +174,8 @@
 
   --mdw-theme-divider--dark: rgba(0, 0, 0, 0.12);
   --mdw-theme-divider--light: rgba(255, 255, 255, 0.12);
+  --mdw-theme-divider--on--dark: var(--mdw-theme-divider--light);
+  --mdw-theme-divider--on--light: var(--mdw-theme-divider--dark);
 
   /* text */
   --mdw-theme-text--primary--dark: rgba(0,0,0, .87);
