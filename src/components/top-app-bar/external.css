@@ -8,6 +8,10 @@ header {
   z-index: 4;
 }
 
+header + mdw-content {
+  margin-top: 64px;
+}
+
 mdw-top-app-bar {
   display: flex;
   position: relative;
@@ -22,6 +26,10 @@ mdw-top-app-bar {
 @media (max-width: 599px) {
   mdw-top-app-bar {
     height: 56px;
+  }
+
+  header + mdw-content {
+    margin-top: 56px;
   }
 }
 
