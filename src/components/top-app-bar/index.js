@@ -1,10 +1,7 @@
 customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
   constructor() {
     super();
-    this.cloneTemplate();
-
     this.MAX_TOP_APP_BAR_HEIGHT = 128;
-
     this.isCurrentlyBeingResized = false;
     this.currentAppBarOffsetTop = 0;
     this.wasDocked = true;
@@ -166,17 +163,5 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
 
   getViewportScrollY() {
     return this.scrollTarget[this.scrollTarget === window ? 'pageYOffset' : 'scrollTop'];
-  }
-
-  template() {
-    return html`
-      <header>
-        <slot></slot>
-      </header>
-    `;
-  }
-
-  cssFile() {
-    return 'src/components/top-app-bar/internal.css'
   }
 });
