@@ -191,13 +191,7 @@ mdw-panel[position="center inner-right"] {
   transform: translate(0, -50%);
 }
 
-
-/* .mdw-panel__container {
-  position: relative;
-  overflow: visible;
-} */
-
-/* mdw-panel .options-list {
+mdw-panel .options-list {
   font-family: Roboto,sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -271,7 +265,7 @@ mdw-panel option.mdw-selected:not(.disabled):before,
 mdw-panel option.mdw-selected:not(.disabled):after {
   background-color: var(--mdw-theme-primary);
   opacity: .08;
-} */
+}
 
 
 

@@ -26,18 +26,18 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     const enhancedEl = document.createElement('div');
     enhancedEl.classList.add('mdw-select__selected-text');
     enhancedEl.style.width = `${this.selectElement.offsetWidth}px`;
+    this.insertAdjacentHTML('beforeend', this.panelHTML);
     this.panel.innerHTML = `<div class="options-list">${this.selectElement.innerHTML}</div>`;
     this.panel.style.minWidth = `${this.selectElement.offsetWidth}px`;
     this.selectElement.parentNode.replaceChild(enhancedEl, this.selectElement);
     this._selectElement = enhancedEl;
-    this.panel.position = 'inner_left bottom';
-    this.panel.hoistToBody();
-    this.panel.anchor = this._selectElement;
+    // this.panel.hoistToBody();
+    // this.panel.anchor = this._selectElement;
     this.selectElement.addEventListener('click', this.bound_onClick);
   }
 
   get panel() {
-    if (!this.panel_) this.panel_ = this.shadowRoot.querySelector('mdw-panel');
+    if (!this.panel_) this.panel_ = this.querySelector('mdw-panel');
     return this.panel_;
   }
 
@@ -129,7 +129,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return `
       <i class="mdw-select__icon"></i>
       <slot></slot>
-      ${!this.enhanced ? '' : '<mdw-panel></mdw-panel>'}
       ${this.outlined ? '' : '<div class="line-ripple"></div>'}
       ${!this.outlined ? '' : `
         <div class="outlined-border-container">
@@ -139,6 +138,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         </div>
       `}
     `;
+  }
+
+  get panelHTML() {
+    return '<mdw-panel position="bottom inner-left"></mdw-panel>';
   }
 
   cssFile() {
