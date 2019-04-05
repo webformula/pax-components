@@ -31,8 +31,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.panel.style.minWidth = `${this.selectElement.offsetWidth}px`;
     this.selectElement.parentNode.replaceChild(enhancedEl, this.selectElement);
     this._selectElement = enhancedEl;
-    // this.panel.hoistToBody();
-    // this.panel.anchor = this._selectElement;
     this.selectElement.addEventListener('click', this.bound_onClick);
   }
 
