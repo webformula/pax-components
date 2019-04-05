@@ -3,11 +3,6 @@ const { Page, html } = require('@webformula/pax-core');
 module.exports = class Panel extends Page {
   constructor() {
     super();
-    this.isAnchor = false;
-  }
-
-  connectedCallback() {
-    this.anchorSelect.style.display = 'none';
   }
 
   get title() {
@@ -34,22 +29,18 @@ module.exports = class Panel extends Page {
     return this.containerSelect_;
   }
 
-  setDemoPanelPosition(value) {
-    this.demoPanel.setAttribute('position', value);
+  setDemoPanelPositionY(value) {
+    this.posY = value;
+    this.setDemoPanelPosition();
   }
 
-  setDemoPanelContainer(value) {
-    if (value === 'anchor') {
-      this.containerSelect.style.display = 'none';
-      this.anchorSelect.style.display = 'inline-flex';
-      this.anchor.classList.add('mdw-panel--anchor');
-      this.anchor.classList.remove('mdw-panel--container');
-    } else {
-      this.anchorSelect.style.display = 'none';
-      this.containerSelect.style.display = 'inline-flex';
-      this.anchor.classList.remove('mdw-panel--anchor');
-      this.anchor.classList.add('mdw-panel--container');
-    }
+  setDemoPanelPositionX(value) {
+    this.posX = value;
+    this.setDemoPanelPosition();
+  }
+
+  setDemoPanelPosition() {
+    this.demoPanel.setAttribute('position', `${this.posY || 'top'} ${this.posX || 'left'}`);
   }
 
   template() {
@@ -75,55 +66,29 @@ module.exports = class Panel extends Page {
         <div style="display: flex; align-items: center;">
           <div style="padding-right: 24px; flex-direction: column; display: flex;">
             <mdw-select>
-              <select onchange="$Panel.setDemoPanelContainer(this.value)" style="width: 200px;">
+              <select onchange="$Panel.setDemoPanelPositionY(this.value)" style="width: 200px;">
                 <option selected disabled></option>
-                <option value="container">container</option>
-                <option value="anchor">anchor</option>
+                <option value="top">top</option>
+                <option value="inner-top">inner-top</option>
+                <option value="bottom">bottom</option>
+                <option value="inner-bottom">inner-bottom</option>
+                <option value="center">center</option>
               </select>
-              <label>Container</label>
+              <label>Positon Y</label>
             </mdw-select>
 
             <div style="padding: 12px;"></div>
 
-            <mdw-select id="containerSelect">
-              <select onchange="$Panel.setDemoPanelPosition(this.value)" style="width: 200px;">
+            <mdw-select>
+              <select onchange="$Panel.setDemoPanelPositionX(this.value)" style="width: 200px;">
                 <option selected disabled></option>
-                <option value="top left">top left</option>
-                <option value="top right">top right</option>
-                <option value="bottom left">bottom left</option>
-                <option value="bottom right">bottom right</option>
-
-                <option value="top center">top center</option>
-                <option value="bottom center">bottom center</option>
-                <option value="center left">center left</option>
-                <option value="center right">center right</option>
-                <option value="center center">center center</option>
+                <option value="left">left</option>
+                <option value="inner-left">inner-left</option>
+                <option value="right">right</option>
+                <option value="inner-right">inner-right</option>
+                <option value="center">center</option>
               </select>
-              <label>Positon</label>
-            </mdw-select>
-
-            <mdw-select id="anchorSelect">
-              <select onchange="$Panel.setDemoPanelPosition(this.value)" style="width: 200px;">
-                <option selected disabled></option>
-                <option value="top left">top left</option>
-                <option value="top right">top right</option>
-                <option value="bottom left">bottom left</option>
-                <option value="bottom right">bottom right</option>
-                <option value="top center">top center</option>
-                <option value="bottom center">bottom center</option>
-                <option value="center left">center left</option>
-                <option value="center right">center right</option>
-                <option value="center center">center center</option>
-                <option value="top inner-left">top inner-left</option>
-                <option value="top inner-right">top inner-right</option>
-                <option value="bottom inner-left">bottom inner-left</option>
-                <option value="bottom inner-right">bottom inner-right</option>
-                <option value="inner-top left">inner-top left</option>
-                <option value="inner-top right">inner-top right</option>
-                <option value="inner-bottom left">inner-bottom left</option>
-                <option value="inner-bottom right">inner-bottom right</option>
-              </select>
-              <label>Positon</label>
+              <label>Positon X</label>
             </mdw-select>
           </div>
 

@@ -6,7 +6,7 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    this.classList.add('mdw-panel--anchor');
+    this.classList.add('mdw-panel--container');
     this.button.addEventListener('click', this.bound_onClick);
     [...this.panel.querySelectorAll('mdw-button')].forEach(el => {
       el.classList.add('full-height');
@@ -30,7 +30,7 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   }
 
   get panelPosition() {
-    return this.panelPosition_ || 'bottom inner-left';
+    return this.panelPosition_ || 'inner-top inner-left';
   }
 
   get button() {

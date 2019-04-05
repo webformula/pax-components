@@ -32,10 +32,7 @@ mdw-button {
   text-transform: uppercase;
   vertical-align: middle;
   will-change: transform, opacity;
-  margin-left: 8px;
-  margin-right: 0;
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin: 0;
   color: inherit;
   background-color: transparent;
 }

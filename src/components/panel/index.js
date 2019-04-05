@@ -2,6 +2,7 @@
  * The panel allows you to create positions floating elements.
  * mdw-panel is used for menu, dialog, tooltip
  */
+ // TODO fix open and close animations
 customElements.define('mdw-panel', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -90,12 +91,12 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-closed');
     this.removeBodyClickEvent_();
     this.animationRequestId_ = requestAnimationFrame(() => {
-      this.setAttribute('open', 'open');
+      this.removeAttribute('open');
       if (this.isQuickOpen_) this.notifyClose();
       else {
         this.closeAnimationEndTimerId_ = setTimeout(() => {
           this.closeAnimationEndTimerId_ = 0;
-          tthis.classList.remove('mdw-panel--animating-closed');
+          this.classList.remove('mdw-panel--animating-closed');
           this.notifyClose();
         }, 75);
       }
