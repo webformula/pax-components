@@ -17,8 +17,9 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   connectedCallback() {
     this.transformPropertyName = MDWUtils.transformPropertyName;
     const parentEl = this.parentElement;
-    this.anchorElement = parentEl && parentEl.classList.contains('mdw-panel__anchor') ? parentEl : null;
-    if (this.anchorElement) this.anchorElement = this.anchorElement.children[0];
+    // might not ned anchor
+    // this.anchorElement = parentEl && parentEl.classList.contains('mdw-panel__anchor') ? parentEl : null;
+    // if (this.anchorElement) this.anchorElement = this.anchorElement.children[0];
   }
 
   disconnectedCallback() {
@@ -29,12 +30,30 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     cancelAnimationFrame(this.animationRequestId_);
   }
 
-  set anchor(value) {
-    this.anchorElement = value;
-  }
+  // get hasAnchor() {
+  //   return !!this.anchorElement;
+  // }
+
+  // set anchor(value) {
+  //   this.anchorElement = value;
+  // }
 
   set clickOutsideClose(value) {
     this.clickOutsideClose_ = value;
+  }
+
+  set setQuickOpen(value) {
+    this.isQuickOpen_ = value;
+  }
+
+  setPosition(value) {
+    const split = value.split(' ');
+    this.position_ = `${split[0] || 'top'} ${split[1] || 'left'}`;
+    this.setAttribute('position', this.position_);
+  }
+
+  get position() {
+    return this.position_;
   }
 
   isOpen() {
@@ -42,15 +61,16 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   open() {
+    // handle focused element
     const focusableElements = this.querySelectorAll(this.FOCUSABLE_ELEMENTS);
     this.firstFocusableElement_ = focusableElements[0];
     this.lastFocusableElement_ = focusableElements[focusableElements.length - 1];
     this.saveFocus();
 
+    // handle animation
     if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-open');
     this.animationRequestId_ = requestAnimationFrame(() => {
-      this.classList.add('mdw-panel--open');
-      this.positionPanel_();
+      this.setAttribute('open', 'open');
       if (this.isQuickOpen_) this.notifyOpen();
       else {
         this.openAnimationEndTimerId_ = setTimeout(() => {
@@ -70,12 +90,12 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-closed');
     this.removeBodyClickEvent_();
     this.animationRequestId_ = requestAnimationFrame(() => {
-      this.classList.remove('mdw-panel--open');
+      this.setAttribute('open', 'open');
       if (this.isQuickOpen_) this.notifyClose();
       else {
         this.closeAnimationEndTimerId_ = setTimeout(() => {
           this.closeAnimationEndTimerId_ = 0;
-          this.classList.remove('mdw-panel--animating-closed');
+          tthis.classList.remove('mdw-panel--animating-closed');
           this.notifyClose();
         }, 75);
       }
@@ -88,129 +108,110 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     if (isRootFocused || childHasFocus) this.restoreFocus();
   }
 
-  set setQuickOpen(value) {
-    this.isQuickOpen_ = value;
-  }
+  // positionPanel_() {
+  //   if (this.hasAnchor) return this.positionAnchor_();
+  //   this.positionBounding_();
+  // }
+  //
+  // positionBounding_() {
+  //   const boundingBox = this.getParentDemensions_();
+  //
+  //   // x
+  //   switch (this.xPos_) {
+  //     case 'right':
+  //       this.style.left = undefined;
+  //       this.style.right = 0;
+  //       break;
+  //
+  //     case 'center':
+  //       this.style.left = (boundingBox.width / 2) - (this.offsetWidth / 2) + 'px';
+  //       this.style.right = undefined;
+  //       break;
+  //
+  //     default: // left
+  //       this.style.left = 0;
+  //       this.style.right = undefined;
+  //       break;
+  //   }
+  //
+  //   // y
+  //   switch (this.yPos_) {
+  //     case 'bottom':
+  //       this.style.top = undefined;
+  //       this.style.bottom = 0;
+  //       break;
+  //
+  //     case 'center':
+  //       this.style.top = (boundingBox.height / 2) - (this.offsetHeight / 2) + 'px';
+  //       this.style.bottom = undefined;
+  //       break;
+  //
+  //     default: // top
+  //       this.style.top = 0;
+  //       this.style.bottom = undefined;
+  //       break;
+  //   }
+  // }
+  //
+  // positionAnchor_() {
+  //   const boundingBox = this.getParentDemensions_();
+  //   const anchorBox = this.getAnchorDimensions_();
+  //
+  //   // x
+  //   switch (this.xPos_) {
+  //     case 'right':
+  //       this.style.left = ((anchorBox.x - boundingBox.x) + (anchorBox.width)) + 'px';
+  //       break;
+  //
+  //     case 'inner_right':
+  //       this.style.left = (anchorBox.x - boundingBox.x) + 'px';
+  //       break;
+  //
+  //     case 'center':
+  //       this.style.left = ((anchorBox.x - boundingBox.x) + (anchorBox.width / 2) - (this.offsetWidth / 2)) + 'px';
+  //       break;
+  //
+  //     case 'inner_left':
+  //       this.style.left = (anchorBox.x - boundingBox.x) + 'px';
+  //       break;
+  //
+  //     default: // left
+  //       this.style.left = ((anchorBox.x - boundingBox.x) - this.offsetWidth) + 'px';
+  //       break;
+  //   }
+  //
+  //   // y
+  //   switch (this.yPos_) {
+  //     case 'bottom':
+  //       this.style.top = ((anchorBox.y - boundingBox.y) + anchorBox.height) + 'px';
+  //       break;
+  //
+  //     case 'inner_bottom':
+  //       this.style.top = ((anchorBox.y - boundingBox.y) + anchorBox.height - this.offsetHeight) + 'px';
+  //       break;
+  //
+  //     case 'center':
+  //       this.style.top = ((anchorBox.y - boundingBox.y) + (anchorBox.height / 2) - (this.offsetHeight / 2)) + 'px';
+  //       break;
+  //
+  //     case 'inner_top':
+  //       this.style.top = (anchorBox.x - boundingBox.x) + (anchorBox.width - this.offsetWidth) + 'px';
+  //       break;
+  //
+  //     default: // top
+  //       this.style.top = ((anchorBox.y - boundingBox.y) - this.offsetHeight) + 'px';
+  //       break;
+  //   }
+  // }
 
-  set position(value) {
-    this.position_ = value;
-    const split = value.split(' ');
-    this.xPos_ = split[0];
-    this.yPos_ = split[1] || 'top';
-  }
-
-  get position() {
-    return this.position_;
-  }
-
-  positionPanel_() {
-    if (this.hasAnchor) return this.positionAnchor_();
-    this.positionBounding_();
-  }
-
-  positionBounding_() {
-    const boundingBox = this.getParentDemensions_();
-
-    // x
-    switch (this.xPos_) {
-      case 'right':
-        this.style.left = undefined;
-        this.style.right = 0;
-        break;
-
-      case 'center':
-        this.style.left = (boundingBox.width / 2) - (this.offsetWidth / 2) + 'px';
-        this.style.right = undefined;
-        break;
-
-      default: // left
-        this.style.left = 0;
-        this.style.right = undefined;
-        break;
-    }
-
-    // y
-    switch (this.yPos_) {
-      case 'bottom':
-        this.style.top = undefined;
-        this.style.bottom = 0;
-        break;
-
-      case 'center':
-        this.style.top = (boundingBox.height / 2) - (this.offsetHeight / 2) + 'px';
-        this.style.bottom = undefined;
-        break;
-
-      default: // top
-        this.style.top = 0;
-        this.style.bottom = undefined;
-        break;
-    }
-  }
-
-  positionAnchor_() {
-    const boundingBox = this.getParentDemensions_();
-    const anchorBox = this.getAnchorDimensions_();
-
-    // x
-    switch (this.xPos_) {
-      case 'right':
-        this.style.left = ((anchorBox.x - boundingBox.x) + (anchorBox.width)) + 'px';
-        break;
-
-      case 'inner_right':
-        this.style.left = (anchorBox.x - boundingBox.x) + 'px';
-        break;
-
-      case 'center':
-        this.style.left = ((anchorBox.x - boundingBox.x) + (anchorBox.width / 2) - (this.offsetWidth / 2)) + 'px';
-        break;
-
-      case 'inner_left':
-        this.style.left = (anchorBox.x - boundingBox.x) + 'px';
-        break;
-
-      default: // left
-        this.style.left = ((anchorBox.x - boundingBox.x) - this.offsetWidth) + 'px';
-        break;
-    }
-
-    // y
-    switch (this.yPos_) {
-      case 'bottom':
-        this.style.top = ((anchorBox.y - boundingBox.y) + anchorBox.height) + 'px';
-        break;
-
-      case 'inner_bottom':
-        this.style.top = ((anchorBox.y - boundingBox.y) + anchorBox.height - this.offsetHeight) + 'px';
-        break;
-
-      case 'center':
-        this.style.top = ((anchorBox.y - boundingBox.y) + (anchorBox.height / 2) - (this.offsetHeight / 2)) + 'px';
-        break;
-
-      case 'inner_top':
-        this.style.top = (anchorBox.x - boundingBox.x) + (anchorBox.width - this.offsetWidth) + 'px';
-        break;
-
-      default: // top
-        this.style.top = ((anchorBox.y - boundingBox.y) - this.offsetHeight) + 'px';
-        break;
-    }
-  }
-
-  getParentDemensions_() {
-    if (this.isHoistedElement_) return { x: 0, y: 0, width: document.body.clientWidth, height: document.body.clientHeight };
-    return this.parentNode.getBoundingClientRect();
-  }
-
-  get hasAnchor() {
-    return !!this.anchorElement;
-  }
-
-  getAnchorDimensions_() {
-    return this.anchorElement ? this.anchorElement.getBoundingClientRect() : null;
-  }
+  // getParentDemensions_() {
+  //   if (this.isHoistedElement_) return { x: 0, y: 0, width: document.body.clientWidth, height: document.body.clientHeight };
+  //   return this.parentNode.getBoundingClientRect();
+  // }
+  //
+  // getAnchorDimensions_() {
+  //   return this.anchorElement ? this.anchorElement.getBoundingClientRect() : null;
+  // }
 
   isFocused() {
     return document.activeElement === this;

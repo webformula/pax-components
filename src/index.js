@@ -17,7 +17,6 @@ require('./components/banner/external.css');
 require('./components/card/external.css');
 require('./components/media/external.css');
 require('./components/panel/external.css');
-require('./components/menu/external.css');
 require('./components/select/external.css');
 require('./components/button/external.css');
 require('./components/list/external.css');

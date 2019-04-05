@@ -15,7 +15,7 @@ module.exports = class Menu extends Page {
         <h3>Menu</h3>
 
         <div class="showcase">
-          <mdw-menu class="mdw-panel--open">
+          <mdw-menu>
             <mdw-button>show menu</mdw-button>
             <mdw-panel>
               <mdw-button>one</mdw-button>

@@ -6,20 +6,31 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
+    this.classList.add('mdw-panel--anchor');
     this.button.addEventListener('click', this.bound_onClick);
     [...this.panel.querySelectorAll('mdw-button')].forEach(el => {
       el.classList.add('full-height');
-      el.classList.add('full-width')
+      el.classList.add('full-width');
     });
   }
 
-  onClick(event) {
+  onClick() {
+    this.panel.setPosition(this.panelPosition);
     this.panel.open();
     this.panel.addEventListener('click', this.bound_onPanelClick);
   }
 
-  onPanelClick(event) {
+  onPanelClick() {
     this.panel.close();
+  }
+
+  set panelPosition(value) {
+    // TODO validate
+    this.panelPosition_ = value;
+  }
+
+  get panelPosition() {
+    return this.panelPosition_ || 'bottom inner-left';
   }
 
   get button() {
