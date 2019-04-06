@@ -13,7 +13,7 @@ class MDWRipple {
     if (!config.triggerElement) throw Error('requires config.triggerElement');
 
     this.element = config.element;
-    this.triggerElement = config.triggerElement;
+    this.triggerElement = [].concat(config.triggerElement).filter(el => !!el);
     this.centered = !!config.centered;
     this.speedFactor = config.speedFactor || 1;
     this.radius = config.radius;
@@ -21,29 +21,44 @@ class MDWRipple {
     this.persistent = !!config.persistent;
     this.activeRipples = new Set();
     this.isMousedown = false;
+    this.bound_mousesdown_ = this.mousesdown_.bind(this);
+    this.bound_mouseup_ = this.mouseup_.bind(this);
+    this.bound_mouseleave_ = this.mouseleave_.bind(this);
 
-    this.triggerElement.addEventListener('mousedown', this._mousesdown.bind(this));
+    this.triggerElement.forEach(el => {
+      el.addEventListener('mousedown', this.bound_mousesdown_);
+    });
   }
 
-  _mousesdown(event) {
+  destroy() {
+    this.triggerElement.forEach(el => {
+      el.removeEventListener('mousedown', this.bound_mousesdown_);
+    });
+  }
+
+  mousesdown_(event) {
     this.isMousedown = true;
-    this.triggerElement.addEventListener('mouseup', this._mouseup.bind(this));
-    this.triggerElement.addEventListener('mouseleave', this._mouseleave.bind(this));
+    this.triggerElement.forEach(el => {
+      el.addEventListener('mouseup', this.bound_mouseup_);
+      el.addEventListener('mouseleave', this.bound_mouseleave_);
+    });
     this.fadeInRipple(event.pageX, event.pageY);
   }
 
-  _mouseup(event) {
+  mouseup_(event) {
     this.isMousedown = false;
     // Fade-out all ripples that are completely visible and not persistent.
     this.activeRipples.forEach(ripple => {
       if (!ripple.config.persistent && ripple.state === this.RIPPLE_STATE.VISIBLE) ripple.fadeOut();
     });
-    this.triggerElement.removeEventListener('mouseup', this._mouseup.bind(this));
-    this.triggerElement.removeEventListener('mouseleave', this._mouseleave.bind(this));
+    this.triggerElement.forEach(el => {
+      el.removeEventListener('mouseup', this.bound_mouseup_);
+      el.removeEventListener('mouseleave', this.bound_mouseleave_);
+    });
   }
 
-  _mouseleave() {
-    if (this.isMousedown) this._mouseup();
+  mouseleave_() {
+    if (this.isMousedown) this.mouseup_();
   }
 
 

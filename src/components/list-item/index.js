@@ -11,4 +11,8 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
       triggerElement: this
     });
   }
+
+  disconnectedCallback() {
+    this.ripple.destroy();
+  }
 });

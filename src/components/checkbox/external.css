@@ -15,6 +15,21 @@ mdw-checkbox {
   will-change: transform, opacity;
 }
 
+mdw-checkbox label {
+  font-family: Roboto,sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  letter-spacing: .00937em;
+  text-decoration: inherit;
+  text-transform: inherit;
+  line-height: 20px;
+  padding-left: 25px;
+  cursor: pointer;
+}
+
 mdw-checkbox::before,
 mdw-checkbox::after {
   position: absolute;

@@ -12,6 +12,10 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
     });
   }
 
+  disconnectedCallback() {
+    this.ripple.destroy();
+  }
+
   template() {
     return html`
       <span class="text"><slot></slot></span>

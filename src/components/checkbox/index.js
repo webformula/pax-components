@@ -4,6 +4,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    }
 
    connectedCallback() {
+     console.log(this.innerText)
      if (!this.querySelector('input')) this.insertAdjacentHTML('beforeend', this.inputHTML);
      if (!this.querySelector('.background')) this.insertAdjacentHTML('beforeend', this.backgroundHTML);
      if (!this.querySelector('.ripple')) this.insertAdjacentHTML('beforeend', this.rippleHTML);
@@ -11,15 +12,32 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      if (this.hasAttribute('checked')) this.checked = true;
      this.ripple = new MDWRipple({
        element: this.querySelector('.ripple'),
-       triggerElement: this.input,
+       triggerElement: [this.input, this.label],
        radius: 20,
        centered: true
      });
      this.connected_ = true;
+
+     if (this.label) {
+       this.boundHandleLabelClick_ = this.toggle.bind(this);
+       this.label.addEventListener('click', this.boundHandleLabelClick_);
+       if (this.hasAttribute('right')) {
+         const labelWidth = this.label.offsetWidth;
+         this.style.marginLeft = `${labelWidth - 16}px`;
+         this.label.style.marginLeft = `-${labelWidth + 8}px`;
+       }
+     }
+   }
+
+   disconnectedCallback() {
+     if (this.label) {
+       this.label.removeEventListener('click', this.boundHandleLabelClick_);
+     }
+     this.ripple.destroy();
    }
 
    static get observedAttributes() {
-     return ['checked', 'indeterminate', 'disabled', 'value'];
+     return ['checked', 'indeterminate', 'disabled'];
    }
 
    attributeChangedCallback(name, oldValue, newValue) {
@@ -27,17 +45,14 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      this[name] = newValue;
    }
 
+   get label() {
+     if (!this.label_) this.label_ = this.querySelector('label');
+     return this.label_;
+   }
+
    get input() {
      if (!this.input_) this.input_ = this.querySelector('input');
      return this.input_;
-   }
-
-   get value() {
-     return this.input.value;
-   }
-
-   set value(value) {
-     this.input.value = value;
    }
 
    get checked() {
@@ -64,10 +79,6 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      else this.input.removeAttribute('disabled');
    }
 
-   handleChange() {
-     this.dispatchEvent(new CustomEvent('change', this));
-   }
-
    get rippleHTML() {
      return '<div class="ripple checkbox-ripple"></div>';
    }
@@ -83,5 +94,13 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
          <div class="mixedmark"></div>
        </div>
      `;
+   }
+
+   handleChange() {
+     this.dispatchEvent(new CustomEvent('change', this));
+   }
+
+   toggle() {
+     this.checked = !this.checked;
    }
 });

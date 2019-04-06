@@ -36,57 +36,114 @@ module.exports = class Checkboxes extends Page {
         <section id="types">
           <h4>States</h4>
 
-          <div class="codecase">
-            <div class="title">Unselected</div>
-            <code-mirror mode="html">
-              <mdw-checkbox></mdw-checkbox>
-            </code-mirror>
-            <div class="demo">
-              <mdw-checkbox></mdw-checkbox>
+          <!-- labels -->
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>labels</h6>
             </div>
-          </div>
 
-          <div class="codecase">
-            <div class="title">Selected</div>
-            <code-mirror mode="html">
-              <mdw-checkbox checked></mdw-checkbox>
-            </code-mirror>
-            <div class="demo">
-              <mdw-checkbox checked></mdw-checkbox>
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
+                <mdw-checkbox right>
+                  <label>Label</label>
+                </mdw-checkbox>
+                <mdw-checkbox>
+                  <label>Label</label>
+                </mdw-checkbox>
+              </code-mirror>
             </div>
-          </div>
 
-          <div class="codecase">
-            <div class="title">Indeterminate</div>
-            <code-mirror mode="html">
-              <mdw-checkbox indeterminate></mdw-checkbox>
-            </code-mirror>
-            <div class="demo">
-              <mdw-checkbox indeterminate></mdw-checkbox>
+            <div class="mdw-card__content">
+              <mdw-checkbox right>
+                <label left>Label</label>
+              </mdw-checkbox>
+              <mdw-checkbox>
+                <label left>Label</label>
+              </mdw-checkbox>
             </div>
-          </div>
+          </mdw-card>
+
+
+          <!-- Unselected -->
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Unselected</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
+                <mdw-checkbox></mdw-checkbox>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
+              <mdw-checkbox></mdw-checkbox>
+            </div>
+          </mdw-card>
+
+
+          <!-- Checked -->
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Checked</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
+                <mdw-checkbox checked></mdw-checkbox>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
+              <mdw-checkbox checked></mdw-checkbox>
+            </div>
+          </mdw-card>
+
+          <!-- Indeterminate -->
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Indeterminate</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
+                <mdw-checkbox indeterminate class="primary"></mdw-checkbox>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
+              <mdw-checkbox indeterminate class="primary"></mdw-checkbox>
+            </div>
+          </mdw-card>
 
         </section>
 
         <section id="theming">
           <h4>Theming</h4>
 
-          <div class="codecase">
-            <div class="title">Colors</div>
-            <div class="description">The default color for checkboxes is "secondary"</div>
-            <code-mirror mode="html">
-              <mdw-checkbox checked></mdw-checkbox>
-              <mdw-checkbox checked class="primary"></mdw-checkbox>
-              <mdw-checkbox checked class="secondary"></mdw-checkbox>
-              <mdw-checkbox checked class="error"></mdw-checkbox>
-            </code-mirror>
-            <div class="demo">
+          <!-- Colors -->
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Colors</h6>
+              <div class="description">The default color for checkboxes is "secondary"</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
+                <mdw-checkbox checked></mdw-checkbox>
+                <mdw-checkbox checked class="primary"></mdw-checkbox>
+                <mdw-checkbox checked class="secondary"></mdw-checkbox>
+                <mdw-checkbox checked class="error"></mdw-checkbox>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
               <mdw-checkbox checked></mdw-checkbox>
               <mdw-checkbox checked class="primary"></mdw-checkbox>
               <mdw-checkbox checked class="secondary"></mdw-checkbox>
               <mdw-checkbox checked class="error"></mdw-checkbox>
             </div>
-          </div>
+          </mdw-card>
         </section>
 
       </article>

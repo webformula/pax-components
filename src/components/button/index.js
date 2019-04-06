@@ -12,6 +12,10 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     });
   }
 
+  disconnectedCallback() {
+    this.ripple.destroy();
+  }
+
   get spinnerContainer() {
     if (!this._spinnerContainer) this._spinnerContainer = this.shadowRoot.querySelector('.spinner-container');
     return this._spinnerContainer;
