@@ -4,7 +4,7 @@ require('./core/animation-vars.css');
 
 // css
 require('./core/core.css');
-require('./core/elivation.css');
+require('./core/elevation.css');
 require('./components/text-field/external.css');
 // require('./components/expander/external.css');
 require('./components/divider/external.css');
@@ -19,10 +19,12 @@ require('./components/media/external.css');
 require('./components/panel/external.css');
 require('./components/select/external.css');
 require('./components/button/external.css');
+require('./components/fab/external.css');
 require('./components/list/external.css');
 require('./components/list-item/external.css');
 require('./components/backdrop/external.css');
 require('./components/checkbox/external.css');
+require('./components/icon/external.css');
 
 // core
 require('./core/Ripple');
@@ -34,8 +36,8 @@ require('./components/banner/service')
 
 // components
 require('./components/button');
+require('./components/fab');
 require('./components/checkbox');
-require('./components/icon');
 require('./components/text-field');
 require('./components/linear-progress');
 require('./components/circular-progress');

@@ -1,7 +1,7 @@
 const {
   customElements,
   HTMLElementExtended,
-  cssStr
+  css
 } = require('@webformula/pax-core');
 
 customElements.define('anchor-link', class extends HTMLElementExtended {
@@ -19,8 +19,8 @@ customElements.define('anchor-link', class extends HTMLElementExtended {
     }
   }
 
-  externalCSS() {
-    return cssStr`
+  externalStyles() {
+    return css`
       anchor-link {
         font-family: Roboto,Arial,Helvetica,sans-serif;
         font-size: 1rem;

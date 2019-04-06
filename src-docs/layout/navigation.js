@@ -17,6 +17,7 @@ module.exports = () => html`
 
         <span class="title">Components</span>
         <a href="#/components/buttons">Buttons</a>
+        <a href="#/components/fab">FAB</a>
         <a href="#/components/checkboxes">Checkboxes</a>
         <a href="#/components/circular-progress">Circular Progress</a>
         <a href="#/components/top-app-bar">Top app bar</a>

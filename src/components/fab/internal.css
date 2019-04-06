@@ -21,8 +21,8 @@
   transform: scale(0);
 }
 
-.button-ripple,
-.button-focus-overlay {
+.fab-ripple,
+.fab-focus-overlay {
   border-radius: inherit;
   position: absolute;
   top: 0;
@@ -34,34 +34,13 @@
 
 
 :host(.primary) .ripple-element {
-  background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
-}
-
-:host(.primary[raised]) .ripple-element,
-:host(.primary.raised) .ripple-element,
-:host(.primary[unelevated]) .ripple-element,
-:host(.primary.unelevated) .ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }
 
 :host(.secondary) .ripple-element {
-  background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
-}
-
-:host(.secondary[raised]) .ripple-element,
-:host(.secondary.raised) .ripple-element,
-:host(.secondary[unelevated]) .ripple-element,
-:host(.secondary.unelevated) .ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }
 
 :host(.error) .ripple-element {
-  background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
-}
-
-:host(.error[raised]) .ripple-element,
-:host(.error.raised) .ripple-element,
-:host(.error[unelevated]) .ripple-element,
-:host(.error.unelevated) .ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }

@@ -1,4 +1,4 @@
-customElements.define('mdw-button', class extends HTMLElementExtended {
+customElements.define('mdw-fab', class extends HTMLElementExtended {
   constructor() {
     super();
     this.cloneTemplate();
@@ -12,9 +12,26 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     });
   }
 
+  template() {
+    return html`
+      <span class="text"><slot></slot></span>
+      <span class="spinner-container"></span>
+      <div class="ripple fab-ripple"></div>
+    `;
+  }
+
+  get dense() {
+    return this.hasAttribute('dense');
+  }
+
   get spinnerContainer() {
     if (!this._spinnerContainer) this._spinnerContainer = this.shadowRoot.querySelector('.spinner-container');
     return this._spinnerContainer;
+  }
+
+  set disabled(value) {
+    if (!!value || value === '') this.setAttribute('disabled', 'disabled');
+    else this.removeAttribute('disabled');
   }
 
   setupAsync() {
@@ -42,11 +59,16 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     });
   }
 
+  get spinnerStyle() {
+    if (this.dense) return 'position: absolute; left: calc(50% - 16px); top: 4px;';
+    return 'position: absolute; left: calc(50% - 16px); top: 12px;';
+  }
+
   showSpinner() {
     this._showSpinner = true;
     this.classList.add('show-spinner');
     const isWhite = this.classList.contains('primary') || this.classList.contains('secondary') || this.classList.contains('error');
-    this.spinnerContainer.innerHTML = `<mdw-circular-progress mode="indeterminate" class="${isWhite ? 'white' : 'grey'}" diameter="24" style="position: absolute; left: calc(50% - 12px); top: 6px;"></mdw-circular-progress>`;
+    this.spinnerContainer.innerHTML = `<mdw-circular-progress mode="indeterminate" class="${isWhite ? 'white' : 'grey'}" diameter="32" style="${this.spinnerStyle}"></mdw-circular-progress>`;
   }
 
   hideSpinner() {
@@ -55,15 +77,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this.spinnerContainer.innerHTML = '';
   }
 
-  template() {
-    return html`
-      <span class="text"><slot></slot></span>
-      <span class="spinner-container"></span>
-      <div class="ripple button-ripple"></div>
-    `;
-  }
-
   cssFile() {
-    return 'src/components/button/internal.css'
+    return 'src/components/fab/internal.css'
   }
 });

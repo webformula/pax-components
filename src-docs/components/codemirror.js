@@ -32,7 +32,7 @@ customElements.define('code-mirror', class extends HTMLElementExtended {
     return this._content;
   }
 
-  css() {
+  styles() {
     return `
       @import "one-dark.css";
 

@@ -153,3 +153,8 @@ mdw-card .mdw-subtitle2 {
   flex-grow: 1;
   justify-content: flex-end;
 }
+
+
+mdw-card + mdw-card {
+  margin-top: 24px;
+}

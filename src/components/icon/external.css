@@ -1,10 +1,4 @@
-:host {
-  background-repeat: no-repeat;
-  display: inline-block;
-  fill: currentColor;
-  height: 24px;
-  width: 24px;
-
+mdw-icon {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
@@ -16,19 +10,20 @@
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
+  font-feature-settings: 'liga';
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
 
 
-:host(.primary) {
+mdw-icon.primary {
   color: var(--mdw-theme-primary);
 }
 
-:host(.secondary) {
+mdw-icon.secondary {
   color: var(--mdw-theme-secondary);
 }
 
-:host(.error) {
+mdw-icon.error {
   color: var(--mdw-theme-error);
 }
