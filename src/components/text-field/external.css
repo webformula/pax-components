@@ -4,7 +4,7 @@ mdw-textfield {
   position: relative;
   box-sizing: border-box;
   height: 56px;
-  overflow: hidden;
+  margin-bottom: 16px;
   will-change: opacity,transform,color;
 
   -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -13,14 +13,18 @@ mdw-textfield {
   background-color: #f5f5f5;
 }
 
+mdw-textfield.block {
+  display: block;
+}
+
 mdw-textfield:not([outlined]):after,
 mdw-textfield:not([outlined]):before {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  border-radius: 50%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
   opacity: 0;
   pointer-events: none;
   content: "";
@@ -265,9 +269,9 @@ mdw-textfield:focus-within .outlined-trailing {
   border-color: var(--mdw-theme-primary);
 }
 
-mdw-textfield:invalid .outlined-leading,
-mdw-textfield:invalid .outlined-notch,
-mdw-textfield:invalid .outlined-trailing {
+mdw-textfield input:invalid ~ .outlined-leading,
+mdw-textfield input:invalid ~ .outlined-notch,
+mdw-textfield input:invalid ~ .outlined-trailing {
   border-color: var(--mdw-theme-error);
 }
 
@@ -281,58 +285,65 @@ mdw-textfield.not-empty .outlined-notch {
 
 /* --- hint text ---  */
 
-/* hide honts until i figure out how to handle them */
-mdw-textfield:not(.mdw-upgraded) + mdw-hint {
-  display: none;
+mdw-textfield-helper {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
-mdw-textfield + mdw-hint {
+mdw-helper-text {
   position: absolute;
-  color: rgba(0,0,0,.6);
-
-  margin-right: 12px;
-  margin-left: 12px;
-  
+  left: 16px;
+  bottom: -20px;
   font-size: .75rem;
   line-height: 1.25rem;
   font-weight: 400;
-  letter-spacing: .03333em;
-  text-decoration: inherit;
-  text-transform: inherit;
+  letter-spacing: .0333333333em;
   display: block;
+  margin-top: 0;
   line-height: normal;
-  transition: transform .24s cubic-bezier(.4,0,.2,1),
-              opacity .18s cubic-bezier(.4,0,.2,1);
-  transform: translateY(0);
+  margin: 0;
+  transition: opacity .15s cubic-bezier(.4,0,.2,1);
+  opacity: 0;
+  will-change: opacity;
+  color: var(--mdw-theme-text--secondary--on-background);
+}
+
+mdw-helper-text[persistent] {
+  transition: none;
   opacity: 1;
-  will-change: transform,opacity;
+  will-change: auto;
 }
 
-mdw-hint:before {
-  display: inline-block;
-  width: 0;
-  height: 16px;
-  content: "";
-  vertical-align: 0;
-}
-
-mdw-hint[validation] {
+mdw-helper-text[validation] {
   transition: none;
   transform: translateY(-50%);
   opacity: 0;
   color: var(--mdw-theme-error);
 }
 
-mdw-text-field:invalid + mdw-hint:not([validation]) {
+mdw-textfield input:invalid ~ mdw-textfield-helper mdw-helper-text:not([validation]) {
   transition: none;
   transform: translateY(-50%);
   opacity: 0;
 }
 
-mdw-textfield:invalid + mdw-hint[validation],
-mdw-textfield:invalid + mdw-hint + mdw-hint[validation] {
+mdw-textfield input:invalid ~ mdw-textfield-helper mdw-helper-text[validation] {
   transition: transform .24s cubic-bezier(.4,0,.2,1),
               opacity .18s cubic-bezier(.4,0,.2,1);
   transform: translateY(0);
   opacity: 1;
+}
+
+mdw-textfield input:valid ~ mdw-textfield-helper mdw-helper-text:not([validation]) {
+  transition: transform .24s cubic-bezier(.4,0,.2,1),
+              opacity .18s cubic-bezier(.4,0,.2,1);
+  transform: translateY(0);
+  opacity: 1;
+}
+
+mdw-textfield input:valid ~ mdw-textfield-helper mdw-helper-text[validation] {
+  transition: none;
+  transform: translateY(-50%);
+  opacity: 0;
 }

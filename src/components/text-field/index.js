@@ -18,7 +18,13 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
     // this should go in constructor if posible
     if (this.outlined) this.insertAdjacentHTML('beforeend', this.outlinedHTML);
-    if (!this.querySelector('.line-ripple')) this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
+
+    // make sure the ripple element is inserted after all the elements except for mdw-textfield-helper
+    if (!this.querySelector('.line-ripple')) {
+      const helperTextElement = this.querySelector('mdw-textfield-helper');
+      if (helperTextElement) helperTextElement.insertAdjacentHTML('beforebegin', this.lineRippleHTML);
+      else this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
+    }
 
     this.input.addEventListener('focus', this.onFocus.bind(this));
     this.input.addEventListener('blur', this.onBlur.bind(this));
@@ -60,7 +66,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
   }
 
   get labelWidth() {
-    return this.label.offsetWidth;
+    return this.label.offsetWidth * 0.95;
   }
 
   get outlined() {

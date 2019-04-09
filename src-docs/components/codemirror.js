@@ -16,7 +16,14 @@ customElements.define('code-mirror', class extends HTMLElementExtended {
   }
 
   get mode() {
-    let mode = this.hasAttribute('mode') ? this.getAttribute('mode') : 'javascript';
+    const modeAttr = this.hasAttribute('mode') ? 'mode' : this.hasAttribute('type') ? 'type' : undefined;
+    let mode = modeAttr ? this.getAttribute(modeAttr) : 'javascript';
+    if (mode === 'html') mode = 'xml';
+    return mode;
+  }
+
+  get type() {
+    let mode = this.hasAttribute('type') ? this.getAttribute('type') : 'javascript';
     if (mode === 'html') mode = 'xml';
     return mode;
   }
