@@ -22,6 +22,7 @@ customElements.define('anchor-link', class extends HTMLElementExtended {
   externalStyles() {
     return css`
       anchor-link {
+        display: block;
         font-family: Roboto,Arial,Helvetica,sans-serif;
         font-size: 1rem;
         line-height: 1.6rem;

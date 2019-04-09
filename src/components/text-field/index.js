@@ -21,10 +21,13 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
     // make sure the ripple element is inserted after all the elements except for mdw-textfield-helper
     if (!this.querySelector('.line-ripple')) {
-      const helperTextElement = this.querySelector('mdw-textfield-helper');
-      if (helperTextElement) helperTextElement.insertAdjacentHTML('beforebegin', this.lineRippleHTML);
+      if (this.iconElement) this.iconElement.insertAdjacentHTML('beforebegin', this.lineRippleHTML);
+      else if (this.helperTextElement) this.helperTextElement.insertAdjacentHTML('beforebegin', this.lineRippleHTML);
       else this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
     }
+
+    // add padding to input if has trailing icon
+    if (this.isTrailingIcon()) this.classList.add('mdw-trailing-icon');
 
     this.input.addEventListener('focus', this.onFocus.bind(this));
     this.input.addEventListener('blur', this.onBlur.bind(this));
@@ -50,19 +53,21 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     }
   }
 
+  isTrailingIcon() {
+    if (!this.iconElement) return false;
+    return [...this.children].indexOf(this.iconElement) > 1;
+  }
+
   get input() {
-    if (!this._input) this._input = this.querySelector('input');
-    return this._input;
+    return this.querySelector('input');
   }
 
   get notch() {
-    if (!this._notch) this._notch = this.querySelector('.outlined-notch');
-    return this._notch;
+    return this.querySelector('.outlined-notch');
   }
 
   get label() {
-    if (!this._label) this._label = this.querySelector('label');
-    return this._label;
+    return this.querySelector('label');
   }
 
   get labelWidth() {
@@ -71,6 +76,14 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   get outlined() {
     return this.outlined_;
+  }
+
+  get helperTextElement() {
+    return this.querySelector('mdw-textfield-helper');
+  }
+
+  get iconElement() {
+    return this.querySelector('mdw-icon');
   }
 
   get outlinedHTML() {

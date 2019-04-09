@@ -91,6 +91,13 @@ mdw-textfield input {
   caret-color: var(--mdw-theme-primary);
 }
 
+mdw-textfield mdw-icon + input {
+  padding-left: 48px;
+}
+
+mdw-textfield.mdw-trailing-icon input {
+  padding-right: 48px;
+}
 
 mdw-textfield input:focus {
   outline: none;
@@ -147,6 +154,10 @@ mdw-textfield label {
   pointer-events: none;
 
   color: rgba(0,0,0,.6);
+}
+
+mdw-textfield mdw-icon + input + label {
+  left: 48px;
 }
 
 /* transform label when focused, not empty, or not upgraded */
@@ -346,4 +357,28 @@ mdw-textfield input:valid ~ mdw-textfield-helper mdw-helper-text[validation] {
   transition: none;
   transform: translateY(-50%);
   opacity: 0;
+}
+
+
+
+/* --- icons --- */
+
+mdw-textfield mdw-icon {
+  position: absolute;
+  bottom: 16px;
+  cursor: pointer;
+}
+
+mdw-textfield:not(:disabled) mdw-icon {
+  color: var(--mdw-theme-text--secondary--on-background);
+}
+
+mdw-textfield > mdw-icon {
+  left: 16px;;
+  right: auto;
+}
+
+mdw-textfield input ~ mdw-icon {
+  left: auto;
+  right: 12px;
 }

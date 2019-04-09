@@ -38,7 +38,7 @@ module.exports = class CircularProgress extends Page {
         <a href="https://material.io/design/components/progress-indicators.html#circular-progress-indicators">Material Design Guidlines: Circular progress</a>
         <p>Circular progress indicators display progress by animating an indicator along an invisible circular track in a clockwise direction. They can be applied directly to a surface, such as a button or card</p>
 
-        <div class="column">
+        <div class="links">
           <div class="eyebrow">contents</div>
           <anchor-link selector="#Types">Types</anchor-link>
           <anchor-link selector="#theming">Theming</anchor-link>

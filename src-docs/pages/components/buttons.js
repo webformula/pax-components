@@ -36,7 +36,7 @@ module.exports = class Buttons extends Page {
         <a href="https://material.io/design/components/buttons.html">Material Design Guidlines: Buttons</a>
         <p>Buttons allow users to take actions, and make choices, with a single tap</p>
 
-        <div class="column">
+        <div class="links">
           <div class="eyebrow">contents</div>
           <anchor-link selector="#Types">Types</anchor-link>
           <anchor-link selector="#theming">Theming</anchor-link>

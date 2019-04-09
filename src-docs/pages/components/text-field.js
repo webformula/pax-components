@@ -18,7 +18,6 @@ module.exports = class Textfield extends Page {
           <mdw-textfield>
             <input>
             <label>Test</label>
-
             <mdw-textfield-helper>
               <mdw-helper-text persistent>Helper text</mdw-helper-text>
             </mdw-textfield-helper>
@@ -28,7 +27,7 @@ module.exports = class Textfield extends Page {
         <a href="https://material.io/design/components/text-fields.html">Material Design Guidlines: Text fields</a>
         <p>Text fields let users enter and edit text</p>
 
-        <div class="column">
+        <div class="links">
           <div class="eyebrow">contents</div>
           <anchor-link selector="#Types">Types</anchor-link>
           <anchor-link selector="#theming">Theming</anchor-link>
@@ -122,6 +121,41 @@ module.exports = class Textfield extends Page {
                   <mdw-helper-text validation>Required</mdw-helper-text>
                 </mdw-textfield-helper>
               </mdw-textfield>
+            </div>
+          </mdw-card>
+
+          <!-- icons -->
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Icons</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror type="html">
+                <mdw-textfield>
+                  <mdw-icon>calendar</mdw-icon>
+                  <input required>
+                  <label>With validation text</label>
+                </mdw-textfield>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
+              <div style="flex: 1">
+                <mdw-textfield>
+                  <mdw-icon>events</mdw-icon>
+                  <input>
+                  <label>Begin icon</label>
+                </mdw-textfield>
+              </div>
+
+              <div style="flex: 1">
+                <mdw-textfield>
+                  <input>
+                  <label>End icon</label>
+                  <mdw-icon>delete</mdw-icon>
+                </mdw-textfield>
+              </div>
             </div>
           </mdw-card>
 
