@@ -63,7 +63,7 @@ module.exports = class Textfield extends Page {
 
         <div row>
           <div flex=".33" column>
-            <mdw-select class="mdw-padding">
+            <mdw-select class="mdw-padding" enhanced>
               <select onchange="$Textfield.onVarientChange(this.value)">
                 <option value="filled" selected>Filled</option>
                 <option value="outlined">outlined</option>
@@ -71,7 +71,7 @@ module.exports = class Textfield extends Page {
               <label>Varient</label>
             </mdw-select>
 
-            <mdw-select class="mdw-padding">
+            <mdw-select class="mdw-padding" enhanced>
               <select onchange="$Textfield.onPreIconChange(this.value)">
                 <option value="hide" selected>Hide</option>
                 <option value="show">show</option>
@@ -79,7 +79,7 @@ module.exports = class Textfield extends Page {
               <label>Pre Icon</label>
             </mdw-select>
 
-            <mdw-select class="mdw-padding">
+            <mdw-select class="mdw-padding" enhanced>
               <select onchange="$Textfield.onPostIconChange(this.value)">
               <option value="hide" selected>Hide</option>
               <option value="show">show</option>
@@ -136,11 +136,11 @@ module.exports = class Textfield extends Page {
 
         <div class="links">
           <div class="eyebrow">contents</div>
-          <anchor-link selector="#outlined">Outlined</anchor-link>
-          <anchor-link selector="#helper-text">Helper text</anchor-link>
-          <anchor-link selector="#validation">Validation</anchor-link>
-          <anchor-link selector="#icons">Icons</anchor-link>
-          <anchor-link selector="#textarea">Textarea</anchor-link>
+          <anchor-link selector="#outlined" offset="64">Outlined</anchor-link>
+          <anchor-link selector="#helper-text" offset="64">Helper text</anchor-link>
+          <anchor-link selector="#validation" offset="64">Validation</anchor-link>
+          <anchor-link selector="#icons" offset="64">Icons</anchor-link>
+          <anchor-link selector="#textarea" offset="64">Textarea</anchor-link>
         </div>
 
         <section id="types">
