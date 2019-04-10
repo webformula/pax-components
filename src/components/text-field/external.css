@@ -97,6 +97,7 @@ mdw-textfield input {
 }
 
 mdw-textfield mdw-icon + textarea,
+mdw-textfield[outlined] mdw-icon + input,
 mdw-textfield mdw-icon + input {
   padding-left: 48px;
 }
@@ -257,6 +258,10 @@ mdw-textfield .outlined-leading {
   border-left: 1px solid;
   border-right: none;
   width: 12px;
+}
+
+mdw-textfield:not(.mdw-trailing-icon) mdw-icon ~ .outlined-border-container .outlined-leading {
+  width: 42px;
 }
 
 mdw-textfield .outlined-notch {
