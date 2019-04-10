@@ -169,6 +169,7 @@ mdw-select label {
   overflow: hidden;
   will-change: transform;
   transform: none;
+  pointer-events: none;
 
   left: 16px;
   right: initial;

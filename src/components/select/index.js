@@ -23,9 +23,18 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     // capture option selected attribute and float the label
     this.onChange();
+    console.log(this.value)
   }
 
   setupEnhanced_() {
+    // lift on change event
+    const selectOnchange = this.selectElement.getAttribute('onchange');
+    if (selectOnchange) this.setAttribute('onchange', selectOnchange);
+
+    // grab selected
+    const selected = this.selectElement.querySelector('[selected]');
+    if (selected) this.value_ = selected.value;
+
     const enhancedEl = document.createElement('div');
     enhancedEl.classList.add('mdw-select__selected-text');
     enhancedEl.style.width = `${this.selectElement.offsetWidth}px`;
@@ -36,6 +45,9 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.selectElement.parentNode.replaceChild(enhancedEl, this.selectElement);
     this._selectElement = enhancedEl;
     this.selectElement.addEventListener('click', this.bound_onClick);
+
+    // set value text
+    if (this.value_) this.setSelectedText(this.value_);
   }
 
   get panel() {
@@ -95,7 +107,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   set value(value) {
     this.value_ = value;
     this.onChange();
-    // this.dispatch('change');
+
+    // const event = document.createEvent('Event');
+    // event.initEvent('onchange', true, true);
+    this.dispatchEvent(new Event('change'));
   }
 
   get value() {

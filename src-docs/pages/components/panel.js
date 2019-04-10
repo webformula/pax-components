@@ -43,6 +43,14 @@ module.exports = class Panel extends Page {
     this.demoPanel.setAttribute('position', `${this.posY || 'top'} ${this.posX || 'left'}`);
   }
 
+  setDemoPanelState(value) {
+    if (value === 'closed') {
+      this.demoPanel.removeAttribute('open');
+    } else {
+      this.demoPanel.setAttribute('open', 'open');
+    }
+  }
+
   template() {
     return html`
       <style>
@@ -63,12 +71,11 @@ module.exports = class Panel extends Page {
       <article class="page-article">
         <h3>Panel</h3>
 
-        <div style="display: flex; align-items: center;">
-          <div style="padding-right: 24px; flex-direction: column; display: flex;">
-            <mdw-select>
-              <select onchange="$Panel.setDemoPanelPositionY(this.value)" style="width: 200px;">
-                <option selected disabled></option>
-                <option value="top">top</option>
+        <div row>
+          <div flex=".33" column>
+            <mdw-select class="mdw-padding" enhanced>
+              <select onchange="$Panel.setDemoPanelPositionY(this.value)">
+                <option value="top" selected>top</option>
                 <option value="inner-top">inner-top</option>
                 <option value="bottom">bottom</option>
                 <option value="inner-bottom">inner-bottom</option>
@@ -77,12 +84,9 @@ module.exports = class Panel extends Page {
               <label>Positon Y</label>
             </mdw-select>
 
-            <div style="padding: 12px;"></div>
-
-            <mdw-select>
-              <select onchange="$Panel.setDemoPanelPositionX(this.value)" style="width: 200px;">
-                <option selected disabled></option>
-                <option value="left">left</option>
+            <mdw-select class="mdw-padding" enhanced>
+              <select onchange="$Panel.setDemoPanelPositionX(this.value)">
+                <option value="left" selected>left</option>
                 <option value="inner-left">inner-left</option>
                 <option value="right">right</option>
                 <option value="inner-right">inner-right</option>
@@ -90,58 +94,48 @@ module.exports = class Panel extends Page {
               </select>
               <label>Positon X</label>
             </mdw-select>
+
+            <mdw-select class="mdw-padding" enhanced>
+              <select onchange="$Panel.setDemoPanelState(this.value)">
+                <option value="open" selected>Open</option>
+                <option value="closed">Closed</option>
+              </select>
+              <label>State</label>
+            </mdw-select>
           </div>
 
-          <div class="showcase" style="flex: 1;">
-            <div class="container mdw-panel--container">
-              <mdw-panel id="demoPanel" position="top left" open>
-                <div style="padding: 12px;">
-                  hello
-                </div>
-              </mdw-panel>
-            </div>
-          </div>
-        </div>
-
-        <section id="types">
-          <h4>Examples</h4>
-
-          <mdw-card>
-            <div class="mdw-card__content">
-              <h6>Position top left - container</h6>
-            </div>
-
-            <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
-              <code-mirror type="html">
-                <mdw-panel position="top left" open>
+          <div flex=".66">
+            <div class="showcase">
+              <div class="container mdw-panel--container">
+                <mdw-panel id="demoPanel" position="top left" open>
                   <div style="padding: 12px;">
                     hello
                   </div>
                 </mdw-panel>
-              </code-mirror>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <div class="mdw-card__content mdw-panel--container" style="height: 54px;">
-              <mdw-panel position="top left" open>
-                <div style="padding: 12px;">
-                  hello
-                </div>
-              </mdw-panel>
-            </div>
-          </mdw-card>
 
-          <div style="padding:12px;"></div>
+        <div class="links">
+          <div class="eyebrow">contents</div>
+          <anchor-link selector="#positon-top-left" offset="64">Position: top left</anchor-link>
+          <anchor-link selector="#positon-inner-top-inner-left" offset="64">Position: inner-top inner-left</anchor-link>
+        </div>
 
-          <mdw-card>
+
+        <section id="types">
+          <h4>Examples</h4>
+
+          <mdw-card id="positon-top-left">
             <div class="mdw-card__content">
-              <h6>Position top left - anchor</h6>
+              <h6>Position: inner-top inner-left</h6>
             </div>
 
             <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
               <code-mirror type="html">
-                <div class="small-container mdw-panel--anchor">
-                  <span style="padding: 20px; line-height: 40px;">Anchor</span>
-
+                <div class="small-container mdw-panel--container">
                   <mdw-panel position="top left" open>
                     <div style="padding: 12px;">
                       hello
@@ -152,10 +146,36 @@ module.exports = class Panel extends Page {
             </div>
 
             <div class="mdw-card__content" style="height: 120px;">
-              <div class="small-container mdw-panel--anchor">
-                <span style="padding: 20px; line-height: 40px;">Anchor</span>
-
+              <div class="small-container mdw-panel--container">
                 <mdw-panel position="top left" open>
+                  <div style="padding: 12px;">
+                    hello
+                  </div>
+                </mdw-panel>
+              </div>
+            </div>
+          </mdw-card>
+
+          <mdw-card id="positon-inner-top-inner-left">
+            <div class="mdw-card__content">
+              <h6>Position: top left</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
+              <code-mirror type="html">
+                <div class="mdw-panel--container">
+                  <mdw-panel position="inner-top inner-left" open>
+                    <div style="padding: 12px;">
+                      hello
+                    </div>
+                  </mdw-panel>
+                </div>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content" style="height: 120px;">
+              <div class="mdw-panel--container">
+                <mdw-panel position="inner-top inner-left" open>
                   <div style="padding: 12px;">
                     hello
                   </div>
