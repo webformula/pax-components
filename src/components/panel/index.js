@@ -17,10 +17,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   connectedCallback() {
     this.transformPropertyName = MDWUtils.transformPropertyName;
-    const parentEl = this.parentElement;
-    // might not ned anchor
-    // this.anchorElement = parentEl && parentEl.classList.contains('mdw-panel__anchor') ? parentEl : null;
-    // if (this.anchorElement) this.anchorElement = this.anchorElement.children[0];
   }
 
   disconnectedCallback() {
@@ -30,14 +26,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     clearTimeout(this.closeAnimationEndTimerId_);
     cancelAnimationFrame(this.animationRequestId_);
   }
-
-  // get hasAnchor() {
-  //   return !!this.anchorElement;
-  // }
-
-  // set anchor(value) {
-  //   this.anchorElement = value;
-  // }
 
   set clickOutsideClose(value) {
     this.clickOutsideClose_ = value;
@@ -71,6 +59,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     // handle animation
     if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-open');
     this.animationRequestId_ = requestAnimationFrame(() => {
+      if (this.isHoisted_) this.setHoisetedPosition();
       this.setAttribute('open', 'open');
       if (this.isQuickOpen_) this.notifyOpen();
       else {
@@ -108,111 +97,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const childHasFocus = document.activeElement && this.contains(document.activeElement);
     if (isRootFocused || childHasFocus) this.restoreFocus();
   }
-
-  // positionPanel_() {
-  //   if (this.hasAnchor) return this.positionAnchor_();
-  //   this.positionBounding_();
-  // }
-  //
-  // positionBounding_() {
-  //   const boundingBox = this.getParentDemensions_();
-  //
-  //   // x
-  //   switch (this.xPos_) {
-  //     case 'right':
-  //       this.style.left = undefined;
-  //       this.style.right = 0;
-  //       break;
-  //
-  //     case 'center':
-  //       this.style.left = (boundingBox.width / 2) - (this.offsetWidth / 2) + 'px';
-  //       this.style.right = undefined;
-  //       break;
-  //
-  //     default: // left
-  //       this.style.left = 0;
-  //       this.style.right = undefined;
-  //       break;
-  //   }
-  //
-  //   // y
-  //   switch (this.yPos_) {
-  //     case 'bottom':
-  //       this.style.top = undefined;
-  //       this.style.bottom = 0;
-  //       break;
-  //
-  //     case 'center':
-  //       this.style.top = (boundingBox.height / 2) - (this.offsetHeight / 2) + 'px';
-  //       this.style.bottom = undefined;
-  //       break;
-  //
-  //     default: // top
-  //       this.style.top = 0;
-  //       this.style.bottom = undefined;
-  //       break;
-  //   }
-  // }
-  //
-  // positionAnchor_() {
-  //   const boundingBox = this.getParentDemensions_();
-  //   const anchorBox = this.getAnchorDimensions_();
-  //
-  //   // x
-  //   switch (this.xPos_) {
-  //     case 'right':
-  //       this.style.left = ((anchorBox.x - boundingBox.x) + (anchorBox.width)) + 'px';
-  //       break;
-  //
-  //     case 'inner_right':
-  //       this.style.left = (anchorBox.x - boundingBox.x) + 'px';
-  //       break;
-  //
-  //     case 'center':
-  //       this.style.left = ((anchorBox.x - boundingBox.x) + (anchorBox.width / 2) - (this.offsetWidth / 2)) + 'px';
-  //       break;
-  //
-  //     case 'inner_left':
-  //       this.style.left = (anchorBox.x - boundingBox.x) + 'px';
-  //       break;
-  //
-  //     default: // left
-  //       this.style.left = ((anchorBox.x - boundingBox.x) - this.offsetWidth) + 'px';
-  //       break;
-  //   }
-  //
-  //   // y
-  //   switch (this.yPos_) {
-  //     case 'bottom':
-  //       this.style.top = ((anchorBox.y - boundingBox.y) + anchorBox.height) + 'px';
-  //       break;
-  //
-  //     case 'inner_bottom':
-  //       this.style.top = ((anchorBox.y - boundingBox.y) + anchorBox.height - this.offsetHeight) + 'px';
-  //       break;
-  //
-  //     case 'center':
-  //       this.style.top = ((anchorBox.y - boundingBox.y) + (anchorBox.height / 2) - (this.offsetHeight / 2)) + 'px';
-  //       break;
-  //
-  //     case 'inner_top':
-  //       this.style.top = (anchorBox.x - boundingBox.x) + (anchorBox.width - this.offsetWidth) + 'px';
-  //       break;
-  //
-  //     default: // top
-  //       this.style.top = ((anchorBox.y - boundingBox.y) - this.offsetHeight) + 'px';
-  //       break;
-  //   }
-  // }
-
-  // getParentDemensions_() {
-  //   if (this.isHoistedElement_) return { x: 0, y: 0, width: document.body.clientWidth, height: document.body.clientHeight };
-  //   return this.parentNode.getBoundingClientRect();
-  // }
-  //
-  // getAnchorDimensions_() {
-  //   return this.anchorElement ? this.anchorElement.getBoundingClientRect() : null;
-  // }
 
   isFocused() {
     return document.activeElement === this;
@@ -297,51 +181,16 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.dispatchEvent(new Event('MDWPanel:open'));
   }
 
-  hoistToBody() {
+  hoistToBody(target) {
+    this.container_ = target || this.parentNode;
     document.body.appendChild(this);
-    this.setIsHoisted(true);
+    this.classList.add('mdw-panel-hoisted');
+    this.isHoisted_ = true;
   }
 
-  /** Sets the foundation to use page offsets for an positioning when the menu is hoisted to the body. */
-  setIsHoisted(value) {
-    this.isHoistedElement_ = value;
+  setHoisetedPosition() {
+    const bounds = this.container_.getBoundingClientRect();
+    this.style.top = `${bounds.top}px`;
+    this.style.left = `${bounds.left}px`;
   }
-
-  // setAbsolutePosition(x, y) {
-  //   this.position_.x = this.isFinite_(x) ? x : 0;
-  //   this.position_.y = this.isFinite_(y) ? y : 0;
-  //   this.setIsHoisted(true);
-  // }
-  //
-  // isFinite_(num) {
-  //   return typeof num === 'number' && isFinite(num);
-  // }
-
-  // setFixedPosition(isFixed) {
-  //   if (isFixed) this.classList.add('mdw-panel--fixed');
-  //   else this.classList.remove('mdw-panel--fixed');
-  //   this.isFixedPosition_ = isFixed
-  // }
-
-  // getWindowDimensions() {
-  //   return { width: window.innerWidth, height: window.innerHeight };
-  // }
-
-  // getBodyDimensions() {
-  //   return { width: document.body.clientWidth, height: document.body.clientHeight };
-  // }
-
-  // isRtl() {
-  //   return getComputedStyle(this).getPropertyValue('direction') === 'rtl';
-  // }
-
-  // setTransformOrigin(origin) {
-  //   const propertyName = `${this.transformPropertyName}-origin`;
-  //   this.style.setProperty(propertyName, origin);
-  // }
-
-  // setMaxHeight(height) {
-  //   this.style.maxHeight = height;
-  // }
-
 });

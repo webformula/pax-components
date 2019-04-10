@@ -41,151 +41,151 @@ mdw-panel[open] {
 
 
 /* containered */
-mdw-panel[position="top left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="top left"] {
   top: 0;
   left: 0;
   transform: translate(-100%, -100%);
 }
 
-mdw-panel[position="top right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="top right"] {
   top: 0;
   right: 0;
   transform: translate(100%, -100%);
 }
 
-mdw-panel[position="bottom left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="bottom left"] {
   bottom: 0;
   left: 0;
   transform: translate(-100%, 100%);
 }
 
-mdw-panel[position="bottom right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="bottom right"] {
   bottom: 0;
   right: 0;
   transform: translate(100%, 100%);
 }
 
-mdw-panel[position="top center"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="top center"] {
   top: 0;
   left: 50%;
   transform: translate(-50%, -100%);
 }
 
-mdw-panel[position="bottom center"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="bottom center"] {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 100%);
 }
 
-mdw-panel[position="center left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="center left"] {
   top: 50%;
   left: 0;
   transform: translate(-100%, -50%);
 }
 
-mdw-panel[position="center right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="center right"] {
   top: 50%;
   right: 0;
   transform: translate(100%, -50%);
 }
 
-mdw-panel[position="center center"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="center center"] {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-mdw-panel[position="top inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="top inner-left"] {
   top: 0;
   left: 0;
   transform: translate(0, -100%);
 }
 
-mdw-panel[position="top inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="top inner-right"] {
   top: 0;
   right: 0;
   transform: translate(0, -100%);
 }
 
-mdw-panel[position="bottom inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="bottom inner-left"] {
   bottom: 0;
   left: 0;
   transform: translate(0, 100%);
 }
 
-mdw-panel[position="bottom inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="bottom inner-right"] {
   bottom: 0;
   right: 0;
   transform: translate(0, 100%);
 }
 
-mdw-panel[position="inner-top left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-top left"] {
   top: 0;
   left: 0;
   transform: translate(-100%, 0);
 }
 
-mdw-panel[position="inner-top right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-top right"] {
   top: 0;
   right: 0;
   transform: translate(100%, 0);
 }
 
-mdw-panel[position="inner-bottom left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom left"] {
   bottom: 0;
   left: 0;
   transform: translate(-100%, 0);
 }
 
-mdw-panel[position="inner-bottom right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom right"] {
   bottom: 0;
   right: 0;
   transform: translate(100%, 0);
 }
 
-mdw-panel[position="inner-top inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-top inner-left"] {
   top: 0;
   left: 0;
   transform: translate(0, 0);
 }
 
-mdw-panel[position="inner-top inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-top inner-right"] {
   top: 0;
   right: 0;
   transform: translate(0, 0);
 }
 
-mdw-panel[position="inner-bottom inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom inner-left"] {
   bottom: 0;
   left: 0;
   transform: translate(0, 0);
 }
 
-mdw-panel[position="inner-bottom inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom inner-right"] {
   bottom: 0;
   right: 0;
   transform: translate(0, 0);
 }
 
-mdw-panel[position="inner-top center"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-top center"] {
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
 }
 
-mdw-panel[position="inner-bottom center"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom center"] {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);
 }
 
-mdw-panel[position="center inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="center inner-left"] {
   top: 50%;
   left: 0;
   transform: translate(0, -50%);
 }
 
-mdw-panel[position="center inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[position="center inner-right"] {
   top: 50%;
   right: 0;
   transform: translate(0, -50%);

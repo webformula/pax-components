@@ -29,8 +29,10 @@ module.exports = class Checkboxes extends Page {
 
         <div class="links">
           <div class="eyebrow">contents</div>
-          <anchor-link selector="#Types">Types</anchor-link>
-          <anchor-link selector="#theming">Theming</anchor-link>
+          <anchor-link selector="#unselected" offset="64">Unselected</anchor-link>
+          <anchor-link selector="#checked" offset="64">Checked</anchor-link>
+          <anchor-link selector="#indeterminate" offset="64">Indeterminate</anchor-link>
+          <anchor-link selector="#theming" offset="64">Theming</anchor-link>
         </div>
 
         <section id="types">
@@ -65,7 +67,7 @@ module.exports = class Checkboxes extends Page {
 
 
           <!-- Unselected -->
-          <mdw-card>
+          <mdw-card id="unselected">
             <div class="mdw-card__content">
               <h6>Unselected</h6>
             </div>
@@ -83,7 +85,7 @@ module.exports = class Checkboxes extends Page {
 
 
           <!-- Checked -->
-          <mdw-card>
+          <mdw-card id="checked">
             <div class="mdw-card__content">
               <h6>Checked</h6>
             </div>
@@ -100,7 +102,7 @@ module.exports = class Checkboxes extends Page {
           </mdw-card>
 
           <!-- Indeterminate -->
-          <mdw-card>
+          <mdw-card id="indeterminate">
             <div class="mdw-card__content">
               <h6>Indeterminate</h6>
             </div>

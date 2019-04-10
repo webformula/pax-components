@@ -32,6 +32,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.insertAdjacentHTML('beforeend', this.panelHTML);
     this.panel.innerHTML = `<div class="options-list">${this.selectElement.innerHTML}</div>`;
     this.panel.style.minWidth = `${this.selectElement.offsetWidth}px`;
+    this.panel.hoistToBody(this);
     this.selectElement.parentNode.replaceChild(enhancedEl, this.selectElement);
     this._selectElement = enhancedEl;
     this.selectElement.addEventListener('click', this.bound_onClick);

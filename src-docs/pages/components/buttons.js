@@ -38,15 +38,19 @@ module.exports = class Buttons extends Page {
 
         <div class="links">
           <div class="eyebrow">contents</div>
-          <anchor-link selector="#Types">Types</anchor-link>
-          <anchor-link selector="#theming">Theming</anchor-link>
+          <anchor-link selector="#contained" offset="64">Contained button</anchor-link>
+          <anchor-link selector="#outlined" offset="64">Outlined button</anchor-link>
+          <anchor-link selector="#shaped" offset="64">Shaped button</anchor-link>
+          <anchor-link selector="#async" offset="64">Async with spinner</anchor-link>
+          <anchor-link selector="#icons" offset="64">Buttons with icons</anchor-link>
+          <anchor-link selector="#theming" offset="64">Theming</anchor-link>
         </div>
 
         <section id="types">
           <h4>Types</h4>
 
           <!-- contained -->
-          <mdw-card>
+          <mdw-card id="contained">
             <div class="mdw-card__content">
               <h6>Contained button</h6>
               <div class="description">Contained buttons have more emphasis, as they use use a color fill and shadow</div>
@@ -67,7 +71,7 @@ module.exports = class Buttons extends Page {
 
 
           <!-- Outlined -->
-          <mdw-card>
+          <mdw-card id="outlined">
             <div class="mdw-card__content">
               <h6>Outlined button</h6>
               <div class="description">Outlined buttons are used for more emphasis than text buttons due to the stroke</div>
@@ -88,7 +92,7 @@ module.exports = class Buttons extends Page {
 
 
           <!-- shaped -->
-          <mdw-card>
+          <mdw-card id="shaped">
             <div class="mdw-card__content">
               <h6>Shaped button</h6>
               <a href="https://material.io/design/shape/about-shape.html">Material Design Guidlines: Shape</a>
@@ -110,7 +114,7 @@ module.exports = class Buttons extends Page {
 
 
           <!-- async -->
-          <mdw-card>
+          <mdw-card id="async">
             <div class="mdw-card__content">
               <h6>Async with spinner</h6>
             </div>
@@ -143,7 +147,7 @@ module.exports = class Buttons extends Page {
 
 
           <!-- icons -->
-          <mdw-card>
+          <mdw-card id="icons">
             <div class="mdw-card__content">
               <h6>Buttons with icons</h6>
             </div>
