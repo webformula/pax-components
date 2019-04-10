@@ -4,40 +4,55 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     // set outlined once since this will not be changed
     this.outlined_ = this.hasAttribute('outlined');
 
-    // TODO make classlist work in constructor
-    // this.classList.add('mdw-upgraded');
-    // this.insertAdjacentHTML('beforeend', this.outlinedHTML);
-
-
-    // this.cloneTemplate(true);
+    this.bound_onFocus = this.onFocus.bind(this);
+    this.bound_onBlur = this.onBlur.bind(this);
+    this.bound_onInput = this.onInput.bind(this);
   }
 
   connectedCallback() {
-    this.classList.add('mdw-upgraded');
-    this.valid = this.input.validity.valid;
+    this.compose();
 
-    // this should go in constructor if posible
+    // add listeners
+    this.input.addEventListener('focus', this.bound_onFocus);
+    this.input.addEventListener('blur', this.bound_onBlur);
+    this.input.addEventListener('input', this.bound_onInput);
+  }
+
+  disconnectedCallback() {
+    // remove listeners
+    this.input.removeEventListener('focus', this.bound_onFocus);
+    this.input.removeEventListener('blur', this.bound_onBlur);
+    this.input.removeEventListener('input', this.bound_onInput);
+  }
+
+  compose() {
+    /* For backwards compatability most of the features are built with css and the code is treated as an upgrade
+     *  'mdw-upgraded' lets us know that the code is hooked up
+     */
+    this.classList.add('mdw-upgraded');
+
+    /* textarea css marker
+     *  test area mostly works without wc compatability. The only thing that does not work is some overlapping with the label
+     */
+    if (this.isTextarea()) this.classList.add('mdw-textarea');
+
+    /* Add html for outlined
+     *  outlined does not work without compatability
+     */
     if (this.outlined) this.insertAdjacentHTML('beforeend', this.outlinedHTML);
 
-    // make sure the ripple element is inserted after all the elements except for mdw-textfield-helper
-    if (!this.querySelector('.line-ripple')) {
-      if (this.iconElement) this.iconElement.insertAdjacentHTML('beforebegin', this.lineRippleHTML);
-      else if (this.helperTextElement) this.helperTextElement.insertAdjacentHTML('beforebegin', this.lineRippleHTML);
-      else this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
-    }
+    /* Add ripple html if it does not exist
+     */
+    if (!this.querySelector('.line-ripple')) this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
 
-    // add padding to input if has trailing icon
+    /* Fix layout for icons blaced before he input
+     *  This is not handled in non compatable browsers
+     */
     if (this.isTrailingIcon()) this.classList.add('mdw-trailing-icon');
-
-    this.input.addEventListener('focus', this.onFocus.bind(this));
-    this.input.addEventListener('blur', this.onBlur.bind(this));
-    this.input.addEventListener('input', this.onInput.bind(this));
   }
 
   onFocus() {
-    if (this.outlined) {
-      this.notch.style.width = this.labelWidth + 'px';
-    }
+    if (this.outlined) this.notch.style.width = this.labelWidth + 'px';
   }
 
   onBlur() {
@@ -53,15 +68,24 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     }
   }
 
+  /* Icons can be places at the begining ro end of a text field
+   * there is some css that is hard to apply when the icon is at the begining, this helps
+   */
   isTrailingIcon() {
     if (!this.iconElement) return false;
     return [...this.children].indexOf(this.iconElement) > 1;
   }
 
-  get input() {
-    return this.querySelector('input');
+  isTextarea() {
+    return !!this.querySelector('textarea');
   }
 
+  get input() {
+    if (!this.inputType_) this.inputType_ = this.querySelector('input') ? 'input' : 'textarea';
+    return this.querySelector(this.inputType_);
+  }
+
+  // this is the section where the labels sits when in outlined mode
   get notch() {
     return this.querySelector('.outlined-notch');
   }
@@ -70,6 +94,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     return this.querySelector('label');
   }
 
+  // figure out a more acurate way or getting the width
   get labelWidth() {
     return this.label.offsetWidth * 0.95;
   }

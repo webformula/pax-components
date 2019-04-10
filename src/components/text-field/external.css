@@ -3,7 +3,7 @@ mdw-textfield {
   display: inline-flex;
   position: relative;
   box-sizing: border-box;
-  height: 56px;
+  min-height: 56px;
   margin-bottom: 16px;
   will-change: opacity,transform,color;
 
@@ -11,6 +11,10 @@ mdw-textfield {
 
   border-bottom-color: rgba(0,0,0,.12);
   background-color: #f5f5f5;
+}
+
+mdw-textfield.mdw-textarea {
+  padding-top: 18px;
 }
 
 mdw-textfield.block {
@@ -60,6 +64,7 @@ mdw-textfield[outlined]:not(.mdw-upgraded):focus-within {
 
 /* --- input --- */
 
+mdw-textfield textarea,
 mdw-textfield input {
   font-family: Roboto,sans-serif;
   -moz-osx-font-smoothing: grayscale;
@@ -91,19 +96,23 @@ mdw-textfield input {
   caret-color: var(--mdw-theme-primary);
 }
 
+mdw-textfield mdw-icon + textarea,
 mdw-textfield mdw-icon + input {
   padding-left: 48px;
 }
 
+mdw-textfield.mdw-trailing-icon textarea,
 mdw-textfield.mdw-trailing-icon input {
   padding-right: 48px;
 }
 
+mdw-textfield textarea:focus,
 mdw-textfield input:focus {
   outline: none;
 }
 
 /* outlined */
+mdw-textfield[outlined] textarea,
 mdw-textfield[outlined] input {
   display: flex;
   padding: 12px 16px 14px;
@@ -112,6 +121,7 @@ mdw-textfield[outlined] input {
   z-index: 1;
 }
 
+mdw-textfield[outlined]:not(.mdw-upgraded) textarea,
 mdw-textfield[outlined]:not(.mdw-upgraded) input {
   padding: 24px 16px 14px;
 }
@@ -156,6 +166,7 @@ mdw-textfield label {
   color: rgba(0,0,0,.6);
 }
 
+mdw-textfield mdw-icon + textarea + label,
 mdw-textfield mdw-icon + input + label {
   left: 48px;
 }
@@ -169,6 +180,7 @@ mdw-textfield.mdw-upgraded.not-empty label {
   color: var(--mdw-theme-primary);
 }
 
+mdw-textfield textarea:invalid + label,
 mdw-textfield input:invalid + label {
   color: var(--mdw-theme-error);
 }
@@ -208,12 +220,13 @@ mdw-textfield[outlined].mdw-upgraded.not-empty label {
   background-color: var(--mdw-theme-primary);
 }
 
-mdw-textfield:not([outlined]) input:focus + label + div.line-ripple {
+mdw-textfield:not([outlined]):focus-within div.line-ripple,
+mdw-textfield:not([outlined]):focus-within div.line-ripple {
   transform: scaleX(1);
   opacity: 1;
 }
 
-/* if no line-ripple element exists then use this methode to make the line 2px and primary color */
+/* if no line-ripple element exists then use this method to make the line 2px and primary color */
 mdw-textfield:not([outlined]):not(.mdw-upgraded) input:focus:nth-last-child(2) {
   border-bottom: 2px solid;
   border-bottom-color: var(--mdw-theme-primary);
@@ -282,7 +295,10 @@ mdw-textfield:focus-within .outlined-trailing {
 
 mdw-textfield input:invalid ~ .outlined-leading,
 mdw-textfield input:invalid ~ .outlined-notch,
-mdw-textfield input:invalid ~ .outlined-trailing {
+mdw-textfield input:invalid ~ .outlined-trailing,
+mdw-textfield textarea:invalid ~ .outlined-leading,
+mdw-textfield textarea:invalid ~ .outlined-notch,
+mdw-textfield textarea:invalid ~ .outlined-trailing {
   border-color: var(--mdw-theme-error);
 }
 
@@ -333,12 +349,14 @@ mdw-helper-text[validation] {
   color: var(--mdw-theme-error);
 }
 
+mdw-textfield textarea:invalid ~ mdw-textfield-helper mdw-helper-text:not([validation]),
 mdw-textfield input:invalid ~ mdw-textfield-helper mdw-helper-text:not([validation]) {
   transition: none;
   transform: translateY(-50%);
   opacity: 0;
 }
 
+mdw-textfield textarea:invalid ~ mdw-textfield-helper mdw-helper-text[validation],
 mdw-textfield input:invalid ~ mdw-textfield-helper mdw-helper-text[validation] {
   transition: transform .24s cubic-bezier(.4,0,.2,1),
               opacity .18s cubic-bezier(.4,0,.2,1);
@@ -346,6 +364,7 @@ mdw-textfield input:invalid ~ mdw-textfield-helper mdw-helper-text[validation] {
   opacity: 1;
 }
 
+mdw-textfield textarea:valid ~ mdw-textfield-helper mdw-helper-text:not([validation]),
 mdw-textfield input:valid ~ mdw-textfield-helper mdw-helper-text:not([validation]) {
   transition: transform .24s cubic-bezier(.4,0,.2,1),
               opacity .18s cubic-bezier(.4,0,.2,1);
@@ -353,6 +372,7 @@ mdw-textfield input:valid ~ mdw-textfield-helper mdw-helper-text:not([validation
   opacity: 1;
 }
 
+mdw-textfield textarea:valid ~ mdw-textfield-helper mdw-helper-text[validation],
 mdw-textfield input:valid ~ mdw-textfield-helper mdw-helper-text[validation] {
   transition: none;
   transform: translateY(-50%);
@@ -378,7 +398,23 @@ mdw-textfield > mdw-icon {
   right: auto;
 }
 
+mdw-textfield textarea ~ mdw-icon,
 mdw-textfield input ~ mdw-icon {
   left: auto;
   right: 12px;
+}
+
+
+/* --- textarea --- */
+
+mdw-textfield textarea {
+  display: inline-flex;
+  width: auto;
+  height: auto;
+  transition: none;
+  overflow: hidden;
+}
+
+mdw-textfield textarea:before {
+  margin-top: 18px;
 }

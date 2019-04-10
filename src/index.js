@@ -4,6 +4,7 @@ require('./core/animation-vars.css');
 
 // css
 require('./core/core.css');
+require('./core/layout.css');
 require('./core/elevation.css');
 require('./components/text-field/external.css');
 // require('./components/expander/external.css');
