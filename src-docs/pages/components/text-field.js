@@ -19,6 +19,15 @@ module.exports = class Textfield extends Page {
     this.switchExample();
   }
 
+  onPostIconChange(value) {
+    if (value === 'hide') {
+      [...document.querySelectorAll('.post-icon')].forEach(el => el.style.display = 'none');
+    } else {
+      [...document.querySelectorAll('.post-icon')].forEach(el => el.style.display = '');
+    }
+  }
+
+
   switchExample() {
     if (this.varient_ === 'outlined') {
       if (this.preIcon_ === 'show') {
@@ -46,15 +55,6 @@ module.exports = class Textfield extends Page {
       }
     }
   }
-
-  onPostIconChange(value) {
-    if (value === 'hide') {
-      [...document.querySelectorAll('.post-icon')].forEach(el => el.style.display = 'none');
-    } else {
-      [...document.querySelectorAll('.post-icon')].forEach(el => el.style.display = '');
-    }
-  }
-
 
   template() {
     return html`

@@ -20,6 +20,9 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       this.selectElement.addEventListener('blur', this.bound_onBlur);
       this.selectElement.addEventListener('change', this.bound_onChange);
     }
+
+    // capture option selected attribute and float the label
+    this.onChange();
   }
 
   setupEnhanced_() {
