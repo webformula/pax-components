@@ -4,7 +4,6 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    }
 
    connectedCallback() {
-     console.log(this.innerText)
      if (!this.querySelector('input')) this.insertAdjacentHTML('beforeend', this.inputHTML);
      if (!this.querySelector('.background')) this.insertAdjacentHTML('beforeend', this.backgroundHTML);
      if (!this.querySelector('.ripple')) this.insertAdjacentHTML('beforeend', this.rippleHTML);

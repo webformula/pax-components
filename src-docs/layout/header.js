@@ -5,7 +5,7 @@ module.exports = ({ title }) => html`
   <header>
     <mdw-top-app-bar fixed class="mdw-white">
       <section>
-        <mdw-icon>menu</mdw-icon>
+        <mdw-icon onclick="document.querySelector('mdw-drawer.navigation').toggle()">menu</mdw-icon>
         <span class="title">PAX web components</span>
       </section>
 

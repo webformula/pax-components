@@ -5,7 +5,8 @@ new class MDWBanner {
     if (!message && !template) throw Error('Either `message` or `template` is required');
     if (!template && !dismissLabel && !acceptLabel) throw Error('When not using a `template` you are required to provide either a `dismissLabel` or an `acceptLabel`');
 
-    if (!template) template = this.template(message, dismissLabel, acceptLabel);
+    const uid = MDWUtils.uid();
+    if (!template) template = this.template(message, dismissLabel, acceptLabel, uid);
 
     // try to find the correct parent if not passed in
     let parentElement = parent || document.querySelector('mdw-page > mdw-top-app-bar');
@@ -15,20 +16,20 @@ new class MDWBanner {
     let bannerElement = undefined;
     if (parentElement.nodeName === 'MDW-TOP-APP-BAR') {
       parentElement.insertAdjacentHTML('afterend', template);
-      bannerElement = parentElement.nextSibling;
-      if (!bannerElement.nodeName !== 'MDW-BANNER') bannerElement = bannerElement.nextSibling;
+      bannerElement = document.querySelector(`mdw-banner#${uid}`);
     } else {
       parentElement.insertAdjacentHTML('afterbegin', template);
-      bannerElement = parentElement.firstChild;
+      bannerElement = document.querySelector(`mdw-banner#${uid}`);
     }
 
     setTimeout(() => {
+      console.log(bannerElement);
+      console.log(bannerElement.show);
       bannerElement.show();
     }, 0);
   }
 
-  template(message, dismissLabel, acceptLabel) {
-    const uid = MDWUtils.uid();
+  template(message, dismissLabel, acceptLabel, uid) {
     return html`
       <mdw-banner id="${uid}">
         <div>${message}</div>

@@ -19,9 +19,10 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     if (this.hasContent && !this.scrollTarget.querySelector('.mdw-top-app-bar')) {
       const div = document.createElement('div');
       div.classList.add('mdw-top-app-bar');
-      document.body.classList.add('mdw-top-app-bar');
       this.scrollTarget.prepend(div);
     }
+
+    document.body.classList.add('mdw-top-app-bar');
 
     this.throttledScrollHandler = MDWUtils.rafThrottle(this.scrollHandler);
     this.throttledResizeHandler = MDWUtils.rafThrottle(this.resizeHandler);
