@@ -23,7 +23,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     // capture option selected attribute and float the label
     this.onChange();
-    console.log(this.value)
   }
 
   setupEnhanced_() {

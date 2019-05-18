@@ -1,0 +1,111 @@
+
+:host() .mdw-track {
+  box-sizing: border-box;
+  width: 32px;
+  height: 14px;
+  border: 1px solid;
+  border-radius: 7px;
+  opacity: .38;
+  transition: opacity 90ms cubic-bezier(.4,0,.2,1),
+              background-color 90ms cubic-bezier(.4,0,.2,1),
+              border-color 90ms cubic-bezier(.4,0,.2,1);
+}
+
+:host(:not(.checked)) .mdw-track {
+  background-color: #000;
+  border-color: #000;
+}
+
+:host(.checked) .mdw-track {
+  background-color: var(--mdw-theme-secondary);
+  border-color: var(--mdw-theme-secondary);
+  opacity: .54;
+}
+
+
+
+/* --- thumb underlay --- */
+
+:host() .mdw-thumb-underlay {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  display: flex;
+  position: absolute;
+  will-change: transform,opacity;
+  left: -18px;
+  right: auto;
+  top: -17px;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  transform: translateX(0);
+  transition: transform 90ms cubic-bezier(.4,0,.2,1),
+              background-color 90ms cubic-bezier(.4,0,.2,1),
+              border-color 90ms cubic-bezier(.4,0,.2,1);
+}
+
+:host(.checked) .mdw-thumb-underlay {
+  transform: translateX(20px);
+}
+
+:host() .mdw-thumb-underlay:after,
+:host() .mdw-thumb-underlay:before {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  background-color: var(--mdw-theme-secondary);
+}
+
+:host() .mdw-thumb-underlay:before {
+  transition: opacity 15ms linear,background-color 15ms linear;
+  z-index: 1;
+}
+
+
+
+/* --- thumb --- */
+
+:host() .mdw-thumb {
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),
+              0 2px 2px 0 rgba(0,0,0,.14),
+              0 1px 5px 0 rgba(0,0,0,.12);
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 10px solid;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+:host(.checked) .mdw-thumb {
+  background-color: var(--mdw-theme-secondary);
+  border-color: var(--mdw-theme-secondary);
+}
+
+:host(:not(.checked)) .mdw-thumb {
+  background-color: #fff;
+  border-color: #fff;
+}
+
+
+/* --- input --- */
+
+:host() input {
+  left: 0;
+  right: auto;
+  position: absolute;
+  top: 0;
+  width: 68px;
+  height: 48px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+:host(.checked) input {
+  transform: translateX(-20px);
+}

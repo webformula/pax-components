@@ -1,0 +1,6 @@
+mdw-switch {
+  display: inline-block;
+  position: relative;
+  outline: none;
+  user-select: none;
+}

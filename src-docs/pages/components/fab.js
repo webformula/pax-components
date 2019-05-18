@@ -40,8 +40,8 @@ module.exports = class FAB extends Page {
         <h3>FAB (Floating action buttons)</h3>
 
         <div style="display: flex; align-items: center;">
-          <div style="padding-right: 24px; flex-direction: column; display: flex;">
-            <mdw-select>
+          <div style="padding-right: 24px; flex-direction: column; display: flex; width: 200px;">
+            <mdw-select id="vertical-position">
               <select onchange="$FAB.setPositionY(this.value)" style="width: 200px;">
                 <option selected disabled></option>
                 <option value=" ">none</option>
@@ -54,7 +54,7 @@ module.exports = class FAB extends Page {
 
             <div style="padding: 12px;"></div>
 
-            <mdw-select>
+            <mdw-select id="horizontal-position">
               <select onchange="$FAB.setPositionX(this.value)" style="width: 200px;">
                 <option selected disabled></option>
                 <option value=" ">none</option>
@@ -100,7 +100,7 @@ module.exports = class FAB extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-            <mdw-fab dense class="error">
+            <mdw-fab id="dense-error" dense class="error">
               <mdw-icon>delete</mdw-icon>
             </mdw-fab>
             </div>
