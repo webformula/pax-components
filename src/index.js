@@ -26,6 +26,7 @@ require('./components/list-item/external.css');
 require('./components/backdrop/external.css');
 require('./components/checkbox/external.css');
 require('./components/icon/external.css');
+require('./components/dialog/external.css');
 
 // core
 require('./core/Ripple');
@@ -34,6 +35,7 @@ require('./core/Utils');
 
 // component services
 require('./components/banner/service')
+require('./components/dialog/service')
 
 // components
 require('./components/button');
@@ -56,3 +58,4 @@ require('./components/select');
 require('./components/list');
 require('./components/list-item');
 require('./components/backdrop');
+require('./components/dialog');

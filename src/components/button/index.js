@@ -32,6 +32,8 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       if (!pending) {
         this.showSpinner();
         pending = true;
+        // TODO reconsider this feature
+        // using evale for demostration purposes
         eval(asyncValue)
           .then(() => {
             pending = false

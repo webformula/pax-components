@@ -12,6 +12,7 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
       el.classList.add('full-height');
       el.classList.add('full-width');
     });
+    this.panel.classList.add('mdw-menu');
   }
 
   onClick() {
