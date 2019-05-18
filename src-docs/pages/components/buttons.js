@@ -29,7 +29,7 @@ module.exports = class Buttons extends Page {
         <h3>Buttons</h3>
 
         <div class="showcase">
-          <mdw-button>basic</mdw-button>
+          <mdw-button id="basic">basic</mdw-button>
           <mdw-button raised class="primary">raised</mdw-button>
         </div>
 
@@ -64,8 +64,8 @@ module.exports = class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button raised>raised</mdw-button>
-              <mdw-button raised class="primary">raised primary</mdw-button>
+              <mdw-button id="raised" raised>raised</mdw-button>
+              <mdw-button id="raised-primary" raised class="primary">raised primary</mdw-button>
             </div>
           </mdw-card>
 
@@ -85,8 +85,8 @@ module.exports = class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button outlined>outlined</mdw-button>
-              <mdw-button outlined dense class="secondary">outlined dense secondary</mdw-button>
+              <mdw-button id="outlined" outlined>outlined</mdw-button>
+              <mdw-button id="outlined-dense" outlined dense class="secondary">outlined dense secondary</mdw-button>
             </div>
           </mdw-card>
 
@@ -107,8 +107,8 @@ module.exports = class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button shaped raised class="primary">shaped raised</mdw-button>
-              <mdw-button shaped outlined class="error">shaped outlined</mdw-button>
+              <mdw-button id="shaped" shaped raised class="primary">shaped raised</mdw-button>
+              <mdw-button id="shaped-outlined" shaped outlined class="error">shaped outlined</mdw-button>
             </div>
           </mdw-card>
 
@@ -162,7 +162,7 @@ module.exports = class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button raised class="primary">
+              <mdw-button id="icon" raised class="primary">
                 <mdw-icon>star</mdw-icon>
                 Icon
               </mdw-button>
@@ -205,10 +205,10 @@ module.exports = class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button raised>base</mdw-button>
-              <mdw-button raised class="primary">primary</mdw-button>
-              <mdw-button raised class="secondary">secondary</mdw-button>
-              <mdw-button raised class="error">error</mdw-button>
+              <mdw-button id="base-raised" raised>base</mdw-button>
+              <mdw-button id="primary-raised" raised class="primary">primary</mdw-button>
+              <mdw-button id="secondary-raised" raised class="secondary">secondary</mdw-button>
+              <mdw-button id="error-raised" raised class="error">error</mdw-button>
             </div>
           </mdw-card>
         </section>

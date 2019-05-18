@@ -9,7 +9,9 @@
     "watch:docs": "watch 'npm run build:docs' src-docs/",
     "build:components": "webpack --config webpack.config.js && cp -r dist/* dist-docs",
     "build:docs": "node src-docs/index.js && cp -r src-docs/public/* dist-docs/",
-    "serve": "http-server dist-docs/"
+    "serve": "http-server dist-docs/",
+    "cypress:open": "cypress open",
+    "cypress:open-and-serve": "npm run watch & cypress open"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
   "homepage": "https://github.com/webformula/pax-components#readme",
   "devDependencies": {
     "css-loader": "^2.1.0",
+    "cypress": "^3.3.0",
     "mini-css-extract-plugin": "^0.5.0",
     "watch": "^1.0.2",
     "webpack": "^4.29.0",

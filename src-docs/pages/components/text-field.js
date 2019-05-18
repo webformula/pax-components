@@ -63,7 +63,7 @@ module.exports = class Textfield extends Page {
 
         <div row>
           <div flex=".33" column>
-            <mdw-select class="mdw-padding" enhanced>
+            <mdw-select id="varient-select" class="mdw-padding" enhanced>
               <select onchange="$Textfield.onVarientChange(this.value)">
                 <option value="filled" selected>Filled</option>
                 <option value="outlined">outlined</option>
@@ -71,7 +71,7 @@ module.exports = class Textfield extends Page {
               <label>Varient</label>
             </mdw-select>
 
-            <mdw-select class="mdw-padding" enhanced>
+            <mdw-select id="pre-icon-select" class="mdw-padding" enhanced>
               <select onchange="$Textfield.onPreIconChange(this.value)">
                 <option value="hide" selected>Hide</option>
                 <option value="show">show</option>
@@ -79,7 +79,7 @@ module.exports = class Textfield extends Page {
               <label>Pre Icon</label>
             </mdw-select>
 
-            <mdw-select class="mdw-padding" enhanced>
+            <mdw-select id="post-icon-select" class="mdw-padding" enhanced>
               <select onchange="$Textfield.onPostIconChange(this.value)">
               <option value="hide" selected>Hide</option>
               <option value="show">show</option>
@@ -222,7 +222,7 @@ module.exports = class Textfield extends Page {
             </div>
 
             <div class="mdw-card__content block">
-              <mdw-textfield>
+              <mdw-textfield id="validation-input">
                 <input required>
                 <label>With validation text</label>
 
