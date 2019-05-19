@@ -9,7 +9,7 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
     this.input.addEventListener('change', this.bound_onInputChange);
     this.ripple = new MDWRipple({
       element: this.shadowRoot.querySelector('.ripple'),
-      triggerElement: [this.input, this.label],
+      triggerElement: [this.input],
       radius: 20,
       centered: true
     });
@@ -18,7 +18,6 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    if (this.label) this.label.removeEventListener('click', this.boundHandleLabelClick_);
     this.input.addEventListener('click', this.bound_click);
     this.ripple.destroy();
   }
@@ -30,11 +29,6 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   attributeChangedCallback(name, oldValue, newValue) {
     if (!this.connected_) return;
     this[name] = newValue;
-  }
-
-  get label() {
-    if (!this.label_) this.label_ = this.shadowRoot.querySelector('label');
-    return this.label_;
   }
 
   get input() {

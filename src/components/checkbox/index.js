@@ -4,34 +4,22 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    }
 
    connectedCallback() {
-     if (!this.querySelector('input')) this.insertAdjacentHTML('beforeend', this.inputHTML);
-     if (!this.querySelector('.background')) this.insertAdjacentHTML('beforeend', this.backgroundHTML);
-     if (!this.querySelector('.ripple')) this.insertAdjacentHTML('beforeend', this.rippleHTML);
+     this.cloneTemplate();
+
      if (this.hasAttribute('indeterminate')) this.indeterminate = true;
      if (this.hasAttribute('checked')) this.checked = true;
+
      this.ripple = new MDWRipple({
-       element: this.querySelector('.ripple'),
-       triggerElement: [this.input, this.label],
+       element: this.shadowRoot.querySelector('.ripple'),
+       triggerElement: [this.input],
        radius: 20,
        centered: true
      });
-     this.connected_ = true;
 
-     if (this.label) {
-       this.boundHandleLabelClick_ = this.toggle.bind(this);
-       this.label.addEventListener('click', this.boundHandleLabelClick_);
-       if (this.hasAttribute('right')) {
-         const labelWidth = this.label.offsetWidth;
-         this.style.marginLeft = `${labelWidth - 16}px`;
-         this.label.style.marginLeft = `-${labelWidth + 8}px`;
-       }
-     }
+     this.connected_ = true;
    }
 
    disconnectedCallback() {
-     if (this.label) {
-       this.label.removeEventListener('click', this.boundHandleLabelClick_);
-     }
      this.ripple.destroy();
    }
 
@@ -44,13 +32,8 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      this[name] = newValue;
    }
 
-   get label() {
-     if (!this.label_) this.label_ = this.querySelector('label');
-     return this.label_;
-   }
-
    get input() {
-     if (!this.input_) this.input_ = this.querySelector('input');
+     if (!this.input_) this.input_ = this.shadowRoot.querySelector('input');
      return this.input_;
    }
 
@@ -78,28 +61,26 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      else this.input.removeAttribute('disabled');
    }
 
-   get rippleHTML() {
-     return '<div class="ripple checkbox-ripple"></div>';
-   }
-
-   get inputHTML() {
-     return '<input type="checkbox">';
-   }
-
-   get backgroundHTML() {
-     return `
-       <div class="background">
-         <div class="checkmark"></div>
-         <div class="mixedmark"></div>
-       </div>
-     `;
-   }
-
    handleChange() {
      this.dispatchEvent(new CustomEvent('change', this));
    }
 
    toggle() {
      this.checked = !this.checked;
+   }
+
+   cssFile() {
+     return '/src/components/checkbox/internal.css'
+   }
+
+   template() {
+     return html`
+       <input type="checkbox">
+       <div class="background">
+         <div class="checkmark"></div>
+         <div class="mixedmark"></div>
+       </div>
+       <div class="ripple checkbox-ripple"></div>
+     `;
    }
 });

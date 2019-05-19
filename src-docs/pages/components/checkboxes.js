@@ -49,22 +49,28 @@ module.exports = class Checkboxes extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-checkbox right>
+                <span>
+                  <label class="mdw-checkbox-label">Label</label>
+                  <mdw-checkbox></mdw-checkbox>
+                </span>
+
+                <span>
+                  <mdw-checkbox></mdw-checkbox>
                   <label>Label</label>
-                </mdw-checkbox>
-                <mdw-checkbox>
-                  <label>Label</label>
-                </mdw-checkbox>
+                </span>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content">
-              <mdw-checkbox right>
-                <label left>Label</label>
-              </mdw-checkbox>
-              <mdw-checkbox>
-                <label left>Label</label>
-              </mdw-checkbox>
+              <span>
+                <label class="mdw-checkbox-label">Label</label>
+                <mdw-checkbox></mdw-checkbox>
+              </span>
+
+              <span>
+                <mdw-checkbox></mdw-checkbox>
+                <label>Label</label>
+              </span>
             </div>
           </mdw-card>
 
@@ -112,12 +118,12 @@ module.exports = class Checkboxes extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-checkbox indeterminate class="primary"></mdw-checkbox>
+                <mdw-checkbox indeterminate class="mdw-primary"></mdw-checkbox>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content">
-              <mdw-checkbox indeterminate class="primary"></mdw-checkbox>
+              <mdw-checkbox indeterminate class="mdw-primary"></mdw-checkbox>
             </div>
           </mdw-card>
 
@@ -136,17 +142,17 @@ module.exports = class Checkboxes extends Page {
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
                 <mdw-checkbox checked></mdw-checkbox>
-                <mdw-checkbox checked class="primary"></mdw-checkbox>
-                <mdw-checkbox checked class="secondary"></mdw-checkbox>
-                <mdw-checkbox checked class="error"></mdw-checkbox>
+                <mdw-checkbox checked class="mdw-primary"></mdw-checkbox>
+                <mdw-checkbox checked class="mdw-secondary"></mdw-checkbox>
+                <mdw-checkbox checked class="mdw-error"></mdw-checkbox>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content">
               <mdw-checkbox checked></mdw-checkbox>
-              <mdw-checkbox checked class="primary"></mdw-checkbox>
-              <mdw-checkbox checked class="secondary"></mdw-checkbox>
-              <mdw-checkbox checked class="error"></mdw-checkbox>
+              <mdw-checkbox checked class="mdw-primary"></mdw-checkbox>
+              <mdw-checkbox checked class="mdw-secondary"></mdw-checkbox>
+              <mdw-checkbox checked class="mdw-error"></mdw-checkbox>
             </div>
           </mdw-card>
         </section>
