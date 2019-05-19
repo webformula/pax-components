@@ -22,7 +22,7 @@ mdw-panel {
   color: var(--mdw-theme-on-surface);
 }
 
-mdw-panel[open] {
+mdw-panel[mdw-open] {
   display: inline-block;
   transform: scale(1);
   opacity: 1;
@@ -41,157 +41,157 @@ mdw-panel[open] {
 
 
 /* containered */
-mdw-panel:not(.mdw-panel-hoisted)[position="top left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="top left"] {
   top: 0;
   left: 0;
   transform: translate(-100%, -100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="top right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="top right"] {
   top: 0;
   right: 0;
   transform: translate(100%, -100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="bottom left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="bottom left"] {
   bottom: 0;
   left: 0;
   transform: translate(-100%, 100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="bottom right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="bottom right"] {
   bottom: 0;
   right: 0;
   transform: translate(100%, 100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="top center"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="top center"] {
   top: 0;
   left: 50%;
   transform: translate(-50%, -100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="bottom center"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="bottom center"] {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="center left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="center left"] {
   top: 50%;
   left: 0;
   transform: translate(-100%, -50%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="center right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="center right"] {
   top: 50%;
   right: 0;
   transform: translate(100%, -50%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="center center"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="center center"] {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="top inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="top inner-left"] {
   top: 0;
   left: 0;
   transform: translate(0, -100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="top inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="top inner-right"] {
   top: 0;
   right: 0;
   transform: translate(0, -100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="bottom inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="bottom inner-left"] {
   bottom: 0;
   left: 0;
   transform: translate(0, 100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="bottom inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="bottom inner-right"] {
   bottom: 0;
   right: 0;
   transform: translate(0, 100%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-top left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-top left"] {
   top: 0;
   left: 0;
   transform: translate(-100%, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-top right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-top right"] {
   top: 0;
   right: 0;
   transform: translate(100%, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-bottom left"] {
   bottom: 0;
   left: 0;
   transform: translate(-100%, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-bottom right"] {
   bottom: 0;
   right: 0;
   transform: translate(100%, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-top inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-top inner-left"] {
   top: 0;
   left: 0;
   transform: translate(0, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-top inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-top inner-right"] {
   top: 0;
   right: 0;
   transform: translate(0, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-bottom inner-left"] {
   bottom: 0;
   left: 0;
   transform: translate(0, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-bottom inner-right"] {
   bottom: 0;
   right: 0;
   transform: translate(0, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-top center"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-top center"] {
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="inner-bottom center"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="inner-bottom center"] {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 0);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="center inner-left"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="center inner-left"] {
   top: 50%;
   left: 0;
   transform: translate(0, -50%);
 }
 
-mdw-panel:not(.mdw-panel-hoisted)[position="center inner-right"] {
+mdw-panel:not(.mdw-panel-hoisted)[mdw-position="center inner-right"] {
   top: 50%;
   right: 0;
   transform: translate(0, -50%);
 }
 
-mdw-panel .options-list {
+mdw-panel .mdw-options-list {
   font-family: Roboto,sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;

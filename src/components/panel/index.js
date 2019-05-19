@@ -38,7 +38,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   setPosition(value) {
     const split = value.split(' ');
     this.position_ = `${split[0] || 'top'} ${split[1] || 'left'}`;
-    this.setAttribute('position', this.position_);
+    this.setAttribute('mdw-position', this.position_);
   }
 
   get position() {
@@ -60,7 +60,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-open');
     this.animationRequestId_ = requestAnimationFrame(() => {
       if (this.isHoisted_) this.setHoisetedPosition();
-      this.setAttribute('open', 'open');
+      this.setAttribute('mdw-open', 'open');
       if (this.isQuickOpen_) this.notifyOpen();
       else {
         this.openAnimationEndTimerId_ = setTimeout(() => {
@@ -80,7 +80,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-closed');
     this.removeBodyClickEvent_();
     this.animationRequestId_ = requestAnimationFrame(() => {
-      this.removeAttribute('open');
+      this.removeAttribute('mdw-open');
       if (this.isQuickOpen_) this.notifyClose();
       else {
         this.closeAnimationEndTimerId_ = setTimeout(() => {
