@@ -10,7 +10,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      if (this.hasAttribute('checked')) this.checked = true;
 
      this.ripple = new MDWRipple({
-       element: this.shadowRoot.querySelector('.ripple'),
+       element: this.shadowRoot.querySelector('.mdw-ripple'),
        triggerElement: [this.input],
        radius: 20,
        centered: true
@@ -76,11 +76,11 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    template() {
      return html`
        <input type="checkbox">
-       <div class="background">
-         <div class="checkmark"></div>
-         <div class="mixedmark"></div>
+       <div class="mdw-background">
+         <div class="mdw-checkmark"></div>
+         <div class="mdw-mixedmark"></div>
        </div>
-       <div class="ripple checkbox-ripple"></div>
+       <div class="mdw-ripple mdw-checkbox-ripple"></div>
      `;
    }
 });

@@ -48,12 +48,12 @@ mdw-checkbox:hover::before {
   opacity: 0.04;
 }
 
-mdw-checkbox.primary::before,
-mdw-checkbox.primary::after {
+mdw-checkbox.mdw-primary::before,
+mdw-checkbox.mdw-primary::after {
   background-color: var(--mdw-theme-primary);
 }
 
-mdw-checkbox.error::before,
-mdw-checkbox.error::after {
+mdw-checkbox.mdw-error::before,
+mdw-checkbox.mdw-error::after {
   background-color: var(--mdw-theme-error);
 }
