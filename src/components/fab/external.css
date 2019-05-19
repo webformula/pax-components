@@ -27,7 +27,7 @@ mdw-fab:not(.mdw-fab--extended) {
   border-radius: 50%;
 }
 
-mdw-fab[extended] {
+mdw-fab.mdw-extended {
   font-size: .875rem;
   font-weight: 500;
   line-height: 24px;
@@ -63,8 +63,7 @@ mdw-fab:before {
   z-index: 1;
 }
 
-mdw-fab[dense],
-mdw-fab.dense {
+mdw-fab.mdw-dense {
   height: 40px;
   width: 40px;
   font-size: .8125rem;
@@ -79,13 +78,19 @@ mdw-fab mdw-icon {
 
 
 /* primary */
-mdw-fab.primary {
+mdw-fab.mdw-primary {
   background-color: var(--mdw-theme-primary);
   color: var(--mdw-theme-primary--on);
 }
 
+/* secondary */
+mdw-fab.mdw-secondary {
+  background-color: var(--mdw-theme-secondary);
+  color: var(--mdw-theme-secondary--on);
+}
+
 /* error */
-mdw-fab.error {
+mdw-fab.mdw-error {
   background-color: var(--mdw-theme-error);
   color: var(--mdw-theme-error--on);
 }
@@ -93,7 +98,7 @@ mdw-fab.error {
 
 /* --- positions --- */
 
-mdw-fab[position="top"] {
+mdw-fab[mdw-position="top"] {
   top: 20px;
   right: auto;
   bottom: auto;
@@ -101,7 +106,7 @@ mdw-fab[position="top"] {
   position: absolute;
 }
 
-mdw-fab[position="bottom"] {
+mdw-fab[mdw-position="bottom"] {
   top: auto;
   right: auto;
   bottom: 20px;
@@ -109,7 +114,7 @@ mdw-fab[position="bottom"] {
   position: absolute;
 }
 
-mdw-fab[position="left"] {
+mdw-fab[mdw-position="left"] {
   top: auto;
   right: auto;
   bottom: auto;
@@ -117,7 +122,7 @@ mdw-fab[position="left"] {
   position: absolute;
 }
 
-mdw-fab[position="right"] {
+mdw-fab[mdw-position="right"] {
   top: auto;
   right: 20px;
   bottom: auto;
@@ -125,7 +130,7 @@ mdw-fab[position="right"] {
   position: absolute;
 }
 
-mdw-fab[position="top left"] {
+mdw-fab[mdw-position="top left"] {
   top: 20px;
   right: auto;
   bottom: auto;
@@ -133,7 +138,7 @@ mdw-fab[position="top left"] {
   position: absolute;
 }
 
-mdw-fab[position="top right"] {
+mdw-fab[mdw-position="top right"] {
   top: 20px;
   right: 20px;
   bottom: auto;
@@ -141,7 +146,7 @@ mdw-fab[position="top right"] {
   position: absolute;
 }
 
-mdw-fab[position="bottom left"] {
+mdw-fab[mdw-position="bottom left"] {
   top: auto;
   right: auto;
   bottom: 20px;
@@ -149,7 +154,7 @@ mdw-fab[position="bottom left"] {
   position: absolute;
 }
 
-mdw-fab[position="bottom right"] {
+mdw-fab[mdw-position="bottom right"] {
   top: auto;
   right: 20px;
   bottom: 20px;
@@ -157,7 +162,7 @@ mdw-fab[position="bottom right"] {
   position: absolute;
 }
 
-mdw-fab[position="top center"] {
+mdw-fab[mdw-position="top center"] {
   top: 20px;
   right: auto;
   bottom: auto;
@@ -166,7 +171,7 @@ mdw-fab[position="top center"] {
   transform: translateX(-50%);
 }
 
-mdw-fab[position="bottom center"] {
+mdw-fab[mdw-position="bottom center"] {
   top: auto;
   right: auto;
   bottom: 20px;
@@ -175,7 +180,7 @@ mdw-fab[position="bottom center"] {
   transform: translateX(-50%);
 }
 
-mdw-fab[position="center left"] {
+mdw-fab[mdw-position="center left"] {
   top: 50%;
   right: auto;
   bottom: auto;
@@ -184,7 +189,7 @@ mdw-fab[position="center left"] {
   transform: translateY(-50%);
 }
 
-mdw-fab[position="center right"] {
+mdw-fab[mdw-position="center right"] {
   top: 50%;
   right: 20px;
   bottom: auto;

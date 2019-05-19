@@ -9,10 +9,11 @@ module.exports = class FAB extends Page {
     return 'FAB (Floating action button)';
   }
 
-  mockWait() {
-    return new Promise(resolve => {
-      setTimeout(resolve, 3000);
-    });
+  mockWait(fab) {
+    if (fab.pending) return;
+    setTimeout(() => {
+      fab.resolve();
+    }, 3000);
   }
 
   get demoFAB() {
@@ -31,7 +32,7 @@ module.exports = class FAB extends Page {
   }
 
   setDemoPanelPosition() {
-    this.demoFAB.setAttribute('position', `${this.posY || ''} ${this.posX || ''}`.trim());
+    this.demoFAB.setAttribute('mdw-position', `${this.posY || ''} ${this.posX || ''}`.trim());
   }
 
   template() {
@@ -93,14 +94,14 @@ module.exports = class FAB extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-fab dense class="error">
+                <mdw-fab class="mdw-dense mdw-error">
                   <mdw-icon>delete</mdw-icon>
                 </mdw-fab>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-            <mdw-fab id="dense-error" dense class="error">
+            <mdw-fab id="dense-error" class="mdw-dense mdw-error">
               <mdw-icon>delete</mdw-icon>
             </mdw-fab>
             </div>
@@ -115,34 +116,34 @@ module.exports = class FAB extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-fab extended class="primary">
+                <mdw-fab class="mdw-extended mdw-primary">
                   <mdw-icon>add</mdw-icon>
                   create
                 </mdw-fab>
 
-                <mdw-fab extended class="secondary">
+                <mdw-fab class="mdw-extended mdw-secondary">
                   <mdw-icon>edit</mdw-icon>
                   edit
                 </mdw-fab>
 
-                <mdw-fab extended class="error">
+                <mdw-fab class="mdw-extended mdw-error">
                   remove
                 </mdw-fab>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-fab extended class="primary">
+              <mdw-fab class="mdw-extended mdw-primary">
                 <mdw-icon>add</mdw-icon>
                 create
               </mdw-fab>
 
-              <mdw-fab extended class="secondary">
+              <mdw-fab class="mdw-extended mdw-secondary">
                 <mdw-icon>edit</mdw-icon>
                 edit
               </mdw-fab>
 
-              <mdw-fab extended class="error">
+              <mdw-fab class="mdw-extended mdw-error">
                 remove
               </mdw-fab>
             </div>
@@ -157,11 +158,11 @@ module.exports = class FAB extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-fab class="primary" async="$FAB.mockWait()">
+                <mdw-fab class="mdw-primary" mdw-async onclick="$FAB.mockWait(this)">
                   <mdw-icon>create</mdw-icon>
                 </mdw-fab>
 
-                <mdw-fab dense class="secondary" async="$FAB.mockWait()">
+                <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="$FAB.mockWait(this)">
                   <mdw-icon>create</mdw-icon>
                 </mdw-fab>
               </code-mirror>
@@ -172,10 +173,11 @@ module.exports = class FAB extends Page {
                       super();
                     }
 
-                    mockWait() {
-                      return new Promise(resolve => {
-                        setTimeout(resolve, 3000);
-                      });
+                    mockWait(fab) {
+                      if (fab.pending) return;
+                      setTimeout(() => {
+                        fab.resolve();
+                      }, 3000);
                     }
                   }
                 </code>
@@ -183,11 +185,11 @@ module.exports = class FAB extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-fab class="primary" async="$FAB.mockWait()">
+              <mdw-fab class="mdw-primary" mdw-async onclick="$FAB.mockWait(this)">
                 <mdw-icon>create</mdw-icon>
               </mdw-fab>
 
-              <mdw-fab dense class="secondary" async="$FAB.mockWait()">
+              <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="$FAB.mockWait(this)">
                 <mdw-icon>create</mdw-icon>
               </mdw-fab>
             </div>

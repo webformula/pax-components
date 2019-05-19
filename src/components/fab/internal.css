@@ -1,18 +1,18 @@
-:host(.show-spinner) span.text {
+:host(.mdw-show-spinner) span.text {
   opacity: 0;
 }
 
 /* --- Ripple --- */
 
-.ripple {
+.mdw-ripple {
   overflow: hidden;
 }
 
-.ripple.ripple-unbounded {
+.mdw-ripple.mdw-ripple-unbounded {
   overflow: visible;
 }
 
-.ripple-element {
+.mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);
   position: absolute;
   border-radius: 50%;
@@ -21,8 +21,8 @@
   transform: scale(0);
 }
 
-.fab-ripple,
-.fab-focus-overlay {
+.mdw-fab-ripple,
+.mdw-fab-focus-overlay {
   border-radius: inherit;
   position: absolute;
   top: 0;
@@ -33,14 +33,14 @@
 }
 
 
-:host(.primary) .ripple-element {
+:host(.mdw-primary) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }
 
-:host(.secondary) .ripple-element {
+:host(.mdw-secondary) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }
 
-:host(.error) .ripple-element {
+:host(.mdw-error) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }
