@@ -1,33 +1,26 @@
 customElements.define('mdw-switch', class extends HTMLElementExtended {
   constructor() {
     super();
+    this.bound_onInputChange = this.onInputChange.bind(this);
   }
 
   connectedCallback() {
-    if (!this.querySelector('input')) this.cloneTemplate();
-    // this.ripple = new MDWRipple({
-    //   element: this.querySelector('.ripple'),
-    //   triggerElement: [this.input, this.label],
-    //   radius: 20,
-    //   centered: true
-    // });
+    this.cloneTemplate();
+    this.input.addEventListener('change', this.bound_onInputChange);
+    this.ripple = new MDWRipple({
+      element: this.shadowRoot.querySelector('.ripple'),
+      triggerElement: [this.input, this.label],
+      radius: 20,
+      centered: true
+    });
 
     this.connected_ = true;
-
-    // if (this.label) {
-    //   this.boundHandleLabelClick_ = this.toggle.bind(this);
-    //   this.label.addEventListener('click', this.boundHandleLabelClick_);
-    //   if (this.hasAttribute('right')) {
-    //     const labelWidth = this.label.offsetWidth;
-    //     this.style.marginLeft = `${labelWidth - 16}px`;
-    //     this.label.style.marginLeft = `-${labelWidth + 8}px`;
-    //   }
-    // }
   }
 
   disconnectedCallback() {
     if (this.label) this.label.removeEventListener('click', this.boundHandleLabelClick_);
-    // this.ripple.destroy();
+    this.input.addEventListener('click', this.bound_click);
+    this.ripple.destroy();
   }
 
   static get observedAttributes() {
@@ -40,12 +33,12 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   }
 
   get label() {
-    if (!this.label_) this.label_ = this.querySelector('label');
+    if (!this.label_) this.label_ = this.shadowRoot.querySelector('label');
     return this.label_;
   }
 
   get input() {
-    if (!this.input_) this.input_ = this.querySelector('input');
+    if (!this.input_) this.input_ = this.shadowRoot.querySelector('input');
     return this.input_;
   }
 
@@ -54,8 +47,9 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   }
 
   set checked(value) {
-  if (value === '') value = true;
-  this.input.checked = value;
+    if (value === '') value = true;
+    this.input.checked = value;
+    this.updateCheckedClass();
   }
 
   set disabled(value) {
@@ -64,12 +58,18 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
     else this.input.removeAttribute('disabled');
   }
 
-  handleChange() {
+  updateCheckedClass() {
+    if (this.checked) this.classList.add('checked');
+    else this.classList.remove('checked');
+  }
+
+  dispatchChange() {
     this.dispatchEvent(new CustomEvent('change', this));
   }
 
-  toggle() {
-   this.checked = !this.checked;
+  onInputChange(e) {
+    this.updateCheckedClass();
+    this.dispatchChange();
   }
 
   cssFile() {
@@ -82,9 +82,9 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
       <div class="mdw-thumb-underlay">
         <div class="mdw-thumb">
           <input type="checkbox" role="switch">
+          <div class="ripple switch-ripple"></div>
         </div>
       </div>
     `;
-    // <div class="ripple switch-ripple"></div>
   }
 });

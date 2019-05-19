@@ -4,3 +4,12 @@ mdw-switch {
   outline: none;
   user-select: none;
 }
+
+mdw-switch + label {
+  margin-left: 10px;
+}
+
+label + mdw-switch {
+  margin-left: 10px;
+  margin-right: 10px;
+}

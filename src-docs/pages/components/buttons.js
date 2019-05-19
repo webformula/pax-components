@@ -141,7 +141,7 @@ module.exports = class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button raised class="primary" async="$Buttons.mockWait()">Async</mdw-button>
+              <mdw-button id="async" raised class="primary" async-eval="$Buttons.mockWait()">Async</mdw-button>
             </div>
           </mdw-card>
 

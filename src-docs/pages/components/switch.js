@@ -9,13 +9,18 @@ module.exports = class Switch extends Page {
     return 'Switch';
   }
 
+  change(e) {
+    console.log('change', e);
+  }
+
   template() {
     return html`
       <article class="page-article">
         <h3>Switch</h3>
 
         <div class="showcase">
-          <mdw-switch></mdw-switch>
+          <label>Label</label>
+          <mdw-switch onchange="$Switch.change(this)"></mdw-switch>
         </div>
 
       </article>
