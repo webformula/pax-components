@@ -53,7 +53,7 @@ mdw-list-item:not([disabled]):after {
   content: "";
 }
 
-mdw-list[two-line] mdw-list-item {
+mdw-list.mdw-two-line mdw-list-item {
   height: 72px;
 }
 

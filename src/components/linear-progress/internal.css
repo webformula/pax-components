@@ -8,7 +8,7 @@
   background-color: #d4e5ff;
 }
 
-.bar {
+.mdw-bar {
   position: absolute;
   left: 0;
   top: 0;
@@ -18,7 +18,7 @@
   background-color: #7499cb;
 }
 
-:host(.query) .bar {
+:host(.mdw-query) .mdw-bar {
   transition: all 0.2s linear;
   animation: query .8s infinite cubic-bezier(0.390, 0.575, 0.565, 1.000);
 }

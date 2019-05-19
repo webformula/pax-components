@@ -62,13 +62,13 @@ module.exports = class List extends Page {
                     </div>
                   </div>
                   <span class="mdw-list-item__meta material-icons">info</span>
-                  <div class="ripple list-item-ripple"></div>
+                  <div class="mdw-ripple mdw-list-item-ripple"></div>
                 </mdw-list-item>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content">
-              <mdw-list two-line style="background-color: white">
+              <mdw-list class="mdw-two-line" style="background-color: white">
                 ${this.listHugeData.map(t => `
                   <mdw-list-item ${t.id === 1 ? 'active' : ''}>
                     <span class="mdw-list-item__graphic material-icons">inbox</span>
@@ -81,7 +81,7 @@ module.exports = class List extends Page {
                       </div>
                     </div>
                     <span class="mdw-list-item__meta material-icons">info</span>
-                    <div class="ripple list-item-ripple"></div>
+                    <div class="mdw-ripple mdw-list-item-ripple"></div>
                   </mdw-list-item>
                 `).join('\n')}
               </mdw-list>

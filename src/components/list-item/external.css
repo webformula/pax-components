@@ -1,14 +1,14 @@
 /* --- Ripple --- */
 
-mdw-list-item .ripple {
+mdw-list-item .mdw-ripple {
   overflow: hidden;
 }
 
-mdw-list-item .ripple.ripple-unbounded {
+mdw-list-item .mdw-ripple.mdw-ripple-unbounded {
   overflow: visible;
 }
 
-mdw-list-item .ripple-element {
+mdw-list-item .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);
   position: absolute;
   border-radius: 50%;
@@ -17,7 +17,7 @@ mdw-list-item .ripple-element {
   transform: scale(0);
 }
 
-mdw-list-item .list-item-ripple {
+mdw-list-item .mdw-list-item-ripple {
   border-radius: inherit;
   position: absolute;
   top: 0;
@@ -27,6 +27,6 @@ mdw-list-item .list-item-ripple {
   pointer-events: none;
 }
 
-mdw-list-item[active]:not([disabled]) .ripple-element {
+mdw-list-item[active]:not([disabled]) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
 }

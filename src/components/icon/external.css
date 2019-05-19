@@ -16,14 +16,14 @@ mdw-icon {
 }
 
 
-mdw-icon.primary {
+mdw-icon.mdw-primary {
   color: var(--mdw-theme-primary);
 }
 
-mdw-icon.secondary {
+mdw-icon.mdw-secondary {
   color: var(--mdw-theme-secondary);
 }
 
-mdw-icon.error {
+mdw-icon.mdw-error {
   color: var(--mdw-theme-error);
 }

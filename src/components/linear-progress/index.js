@@ -5,11 +5,11 @@ customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    if (this.percent === null) this.classList.add('query')
+    if (this.percent === null) this.classList.add('mdw-query')
   }
 
   static get observedAttributes() {
-    return ['percent'];
+    return ['mdw-percent'];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
@@ -17,12 +17,12 @@ customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
   }
 
   get bar() {
-    if (!this._bar) this._bar = this.shadowRoot.querySelector('.bar');
+    if (!this._bar) this._bar = this.shadowRoot.querySelector('.mdw-bar');
     return this._bar;
   }
 
   get percent() {
-    return this.getAttribute('percent');
+    return this.getAttribute('mdw-percent');
   }
 
   set percent(value) {
@@ -33,7 +33,7 @@ customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
 
   template() {
     return html`
-      <div class="bar"></div>
+      <div class="mdw-bar"></div>
     `;
   }
 

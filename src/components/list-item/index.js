@@ -4,7 +4,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    const element = this.querySelector('.ripple');
+    const element = this.querySelector('.mdw-ripple');
     if (!element) return;
     this.ripple = new MDWRipple({
       element,
