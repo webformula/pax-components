@@ -9,10 +9,11 @@ module.exports = class Buttons extends Page {
     return 'Buttons';
   }
 
-  mockWait() {
-    return new Promise(resolve => {
-      setTimeout(resolve, 3000);
-    });
+  mockWait(button) {
+    if (button.pending) return;
+    setTimeout(() => {
+      button.resolve();
+    }, 3000);
   }
 
   styles() {
@@ -30,7 +31,7 @@ module.exports = class Buttons extends Page {
 
         <div class="showcase">
           <mdw-button id="basic">basic</mdw-button>
-          <mdw-button raised class="primary">raised</mdw-button>
+          <mdw-button class="mdw-raised mdw-primary">raised</mdw-button>
         </div>
 
         <a href="https://material.io/design/components/buttons.html">Material Design Guidlines: Buttons</a>
@@ -58,14 +59,14 @@ module.exports = class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-button raised>raised</mdw-button>
-                <mdw-button raised class="primary">raised primary</mdw-button>
+                <mdw-button class="mdw-raised">raised</mdw-button>
+                <mdw-button class="mdw-raised mdw-primary">raised primary</mdw-button>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="raised" raised>raised</mdw-button>
-              <mdw-button id="raised-primary" raised class="primary">raised primary</mdw-button>
+              <mdw-button id="raised" class="mdw-raised">raised</mdw-button>
+              <mdw-button id="raised-primary" class="mdw-raised  mdw-primary">raised primary</mdw-button>
             </div>
           </mdw-card>
 
@@ -79,14 +80,14 @@ module.exports = class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-button outlined>outlined</mdw-button>
-                <mdw-button outlined dense class="secondary">outlined shaped secondary</mdw-button>
+                <mdw-button class="mdw-outlined">outlined</mdw-button>
+                <mdw-button class="mdw-outlined mdw-dense mdw-secondary">outlined shaped secondary</mdw-button>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="outlined" outlined>outlined</mdw-button>
-              <mdw-button id="outlined-dense" outlined dense class="secondary">outlined dense secondary</mdw-button>
+              <mdw-button id="outlined" class="mdw-outlined">outlined</mdw-button>
+              <mdw-button id="outlined-dense" class="mdw-outlined mdw-dense mdw-secondary">outlined dense secondary</mdw-button>
             </div>
           </mdw-card>
 
@@ -101,14 +102,14 @@ module.exports = class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-button shaped raised>shaped raised</mdw-button>
-                <mdw-button shaped outlined class="secondary">shaped outlined dense</mdw-button>
+                <mdw-button class="mdw-shaped mdw-raised mdw-primary">shaped raised</mdw-button>
+                <mdw-button class="mdw-shaped mdw-outlined mdw-secondary">shaped outlined dense</mdw-button>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="shaped" shaped raised class="primary">shaped raised</mdw-button>
-              <mdw-button id="shaped-outlined" shaped outlined class="error">shaped outlined</mdw-button>
+              <mdw-button id="shaped" class="mdw-shaped mdw-raised mdw-primary">shaped raised</mdw-button>
+              <mdw-button id="shaped-outlined" class="mdw-shaped mdw-outlined mdw-error">shaped outlined</mdw-button>
             </div>
           </mdw-card>
 
@@ -121,7 +122,7 @@ module.exports = class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-button raised class="primary" async="$Buttons.mockWait()">Async</mdw-button>
+                <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="$Buttons.mockWait(this)">Async</mdw-button>
               </code-mirror>
               <code-mirror mode="javascript">
                 <code>
@@ -130,10 +131,11 @@ module.exports = class Buttons extends Page {
                       super();
                     }
 
-                    mockWait() {
-                      return new Promise(resolve => {
-                        setTimeout(resolve, 3000);
-                      });
+                    mockWait(button) {
+                      if (button.pending) return;
+                      setTimeout(() => {
+                        button.resolve();
+                      }, 3000);
                     }
                   }
                 </code>
@@ -141,7 +143,7 @@ module.exports = class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="async" raised class="primary" async-eval="$Buttons.mockWait()">Async</mdw-button>
+              <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="$Buttons.mockWait(this)">Async</mdw-button>
             </div>
           </mdw-card>
 
@@ -162,7 +164,7 @@ module.exports = class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="icon" raised class="primary">
+              <mdw-button id="icon" class="mdw-raised mdw-primary">
                 <mdw-icon>star</mdw-icon>
                 Icon
               </mdw-button>
@@ -176,12 +178,12 @@ module.exports = class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-button disabled class="primary">Disabled</mdw-button>
+                <mdw-button disabled class="mdw-primary">Disabled</mdw-button>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button disabled class="primary">Disabled</mdw-button>
+              <mdw-button disabled class="mdw-primary">Disabled</mdw-button>
             </div>
           </mdw-card>
         </section>
@@ -197,18 +199,18 @@ module.exports = class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-button raised>base</mdw-button>
-                <mdw-button raised class="primary">primary</mdw-button>
-                <mdw-button raised class="secondary">secondary</mdw-button>
-                <mdw-button raised class="error">error</mdw-button>
+                <mdw-button class="mdw-raised">base</mdw-button>
+                <mdw-button class="mdw-raised mdw-primary">primary</mdw-button>
+                <mdw-button class="mdw-raised mdw-secondary">secondary</mdw-button>
+                <mdw-button class="mdw-raised mdw-error">error</mdw-button>
               </code-mirror>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="base-raised" raised>base</mdw-button>
-              <mdw-button id="primary-raised" raised class="primary">primary</mdw-button>
-              <mdw-button id="secondary-raised" raised class="secondary">secondary</mdw-button>
-              <mdw-button id="error-raised" raised class="error">error</mdw-button>
+              <mdw-button id="base-raised" class="mdw-raised">base</mdw-button>
+              <mdw-button id="primary-raised" class="mdw-raised mdw-primary">primary</mdw-button>
+              <mdw-button id="secondary-raised" class="mdw-raised mdw-secondary">secondary</mdw-button>
+              <mdw-button id="error-raised" class="mdw-raised mdw-error">error</mdw-button>
             </div>
           </mdw-card>
         </section>

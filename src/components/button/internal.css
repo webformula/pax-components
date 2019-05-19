@@ -1,18 +1,18 @@
-:host(.show-spinner) span.text {
+:host(.mdw-show-spinner) span.text {
   opacity: 0;
 }
 
 /* --- Ripple --- */
 
-.ripple {
+.mdw-ripple {
   overflow: hidden;
 }
 
-.ripple.ripple-unbounded {
+.mdw-ripple.mdw-ripple-unbounded {
   overflow: visible;
 }
 
-.ripple-element {
+.mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);
   position: absolute;
   border-radius: 50%;
@@ -21,8 +21,8 @@
   transform: scale(0);
 }
 
-.button-ripple,
-.button-focus-overlay {
+.mdw-button-ripple,
+.mdw-button-focus-overlay {
   border-radius: inherit;
   position: absolute;
   top: 0;
@@ -33,35 +33,29 @@
 }
 
 
-:host(.primary) .ripple-element {
+:host(.mdw-primary) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
 }
 
-:host(.primary[raised]) .ripple-element,
-:host(.primary.raised) .ripple-element,
-:host(.primary[unelevated]) .ripple-element,
-:host(.primary.unelevated) .ripple-element {
+:host(.mdw-primary.mdw-raised) .mdw-ripple-element,
+:host(.mdw-primary.mdw-unelevated) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }
 
-:host(.secondary) .ripple-element {
+:host(.mdw-secondary) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
 }
 
-:host(.secondary[raised]) .ripple-element,
-:host(.secondary.raised) .ripple-element,
-:host(.secondary[unelevated]) .ripple-element,
-:host(.secondary.unelevated) .ripple-element {
+:host(.mdw-secondary.mdw-raised) .mdw-ripple-element,
+:host(.mdw-secondary.mdw-unelevated) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }
 
-:host(.error) .ripple-element {
+:host(.error) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
 }
 
-:host(.error[raised]) .ripple-element,
-:host(.error.raised) .ripple-element,
-:host(.error[unelevated]) .ripple-element,
-:host(.error.unelevated) .ripple-element {
+:host(.error.mdw-raised) .mdw-ripple-element,
+:host(.error.mdw-unelevated) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }

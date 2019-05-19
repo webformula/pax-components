@@ -1,3 +1,17 @@
+/* --- possibly unused --- */
+
+/* mdw-button.full-height {
+  height: 48px;
+}
+
+mdw-button.full-width {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-radius: 0;
+} */
+
+
 mdw-button {
   -moz-osx-font-smoothing: grayscale;
   -ms-flex-align: center;
@@ -37,17 +51,6 @@ mdw-button {
   background-color: transparent;
 }
 
-mdw-button.full-height {
-  height: 48px;
-}
-
-mdw-button.full-width {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  border-radius: 0;
-}
-
 
 mdw-button::before,
 mdw-button::after {
@@ -78,8 +81,7 @@ mdw-button:hover::before {
   opacity: 0.04;
 }
 
-mdw-button[disabled],
-mdw-button.mdw-disabled {
+mdw-button[disabled] {
   background-color: transparent !important;
   color: rgba(var(--mdw-theme-surface--on-rgb), 0.37);
   cursor: default;
@@ -95,24 +97,19 @@ mdw-button:active {
   outline: none;
 }
 
-mdw-button[raised],
-mdw-button.raised,
-mdw-button[unelevated],
-mdw-button.unelevated {
+mdw-button.mdw-raised,
+mdw-button.mdw-unelevated {
   background-color: white;
   color: inherit;
   padding: 0 16px 0 16px;
 }
 
-mdw-button[raised]::before,
-mdw-button.raised::before,
-mdw-button[unelevated]::before,
-mdw-button.unelevated::before {
+mdw-button.mdw-raised::before,
+mdw-button.mdw-unelevated::before {
   opacity: 0.08;
 }
 
-mdw-button[raised],
-mdw-button.raised {
+mdw-button.mdw-raised {
   -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
           box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   -webkit-transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -122,28 +119,23 @@ mdw-button.raised {
   transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-mdw-button[raised]:hover,
-mdw-button.raised:hover,
-mdw-button[raised]:focus,
-mdw-button.raised:focus {
+mdw-button.mdw-raised:hover,
+mdw-button.mdw-raised:focus {
   -webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
           box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 }
 
-mdw-button[raised]:active,
-mdw-button.raised:active {
+mdw-button.mdw-raised:active {
   -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
           box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-mdw-button[raised][disabled],
-mdw-button.raised[disabled] {
+mdw-button.mdw-raised[disabled] {
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
           box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
 }
 
-mdw-button[outlined],
-mdw-button.outlined {
+mdw-button.mdw-outlined {
   border-color: rgba(0, 0, 0, 0.37);
   line-height: inherit;
   border-style: solid;
@@ -151,33 +143,29 @@ mdw-button.outlined {
   border-width: 2px;
 }
 
-mdw-button[shaped],
-mdw-button.shaped {
+mdw-button.mdw-shaped {
   border-radius: 18px;
 }
 
-mdw-button[dense],
-mdw-button.dense {
+mdw-button.mdw-dense {
   border-radius: 4px;
   height: 32px;
   font-size: .8125rem;
   line-height: inherit;
 }
 
-mdw-button[dense][shaped],
-mdw-button.dense.shaped {
+mdw-button.mdw-dense.mdw-shaped {
   border-radius: 16px;
 }
 
-mdw-button[icon],
-mdw-button.icon {
+mdw-button.mdw-icon {
   border-radius: 50%;
   min-width: 0;
   width: 40px;
   padding: 0;
 }
 
-mdw-button .icon {
+mdw-button .mdw-icon {
   margin-left: 0;
   margin-right: 8px;
   display: inline-block;
@@ -187,86 +175,77 @@ mdw-button .icon {
   vertical-align: top;
 }
 
-mdw-button svg.icon {
+mdw-button svg.mdw-icon {
   fill: currentColor;
 }
 
 
 /* primary */
 
-mdw-button.primary {
+mdw-button.mdw-primary {
   color: var(--mdw-theme-primary);
 }
 
-mdw-button.primary[raised],
-mdw-button.primary.raised,
-mdw-button.primary[unelevated],
-mdw-button.primary.unelevated  {
+mdw-button.mdw-primary.mdw-raised,
+mdw-button.mdw-primary.mdw-unelevated  {
   background-color: var(--mdw-theme-primary);
   color: var(--mdw-theme-primary--on);
 }
 
-mdw-button.primary[outlined],
-mdw-button.primary.outlined {
+mdw-button.mdw-primary.mdw-outlined {
   border-color: var(--mdw-theme-primary);
 }
 
-mdw-button.primary::before,
-mdw-button.primary::after {
+mdw-button.mdw-primary::before,
+mdw-button.mdw-primary::after {
   background-color: var(--mdw-theme-primary);
 }
 
 
 /* secondary */
 
-mdw-button.secondary {
+mdw-button.mdw-secondary {
   color: var(--mdw-theme-secondary);
 }
 
-mdw-button.secondary[raised],
-mdw-button.secondary.raised,
-mdw-button.secondary[unelevated],
-mdw-button.secondary.unelevated {
+mdw-button.mdw-secondary.mdw-raised,
+mdw-button.mdw-secondary.mdw-unelevated {
   background-color: var(--mdw-theme-secondary);
   color: var(--mdw-theme-secondary--on);
 }
 
-mdw-button.secondary[outlined],
-mdw-button.secondary.outlined {
+mdw-button.mdw-secondary.mdw-outlined {
   border-color: var(--mdw-theme-secondary);
 }
 
-mdw-button.secondary::before,
-mdw-button.secondary::after {
+mdw-button.mdw-secondary::before,
+mdw-button.mdw-secondary::after {
   background-color: var(--mdw-theme-secondary);
 }
 
 /* error */
 
-mdw-button.error {
+mdw-button.mdw-error {
   color: var(--mdw-theme-error);
 }
 
-mdw-button.error[raised],
-mdw-button.error.raised,
-mdw-button.error[unelevated],
-mdw-button.error.unelevated {
+mdw-button.mdw-error.mdw-raised,
+mdw-button.mdw-error.mdw-unelevated {
   background-color: var(--mdw-theme-error);
   color: var(--mdw-theme-error--on);
 }
 
-mdw-button.error[outlined],
-mdw-button.error.outlined {
+mdw-button.mdw-error.mdw-outlined {
   border-color: var(--mdw-theme-error);
 }
 
-mdw-button.error::before,
-mdw-button.error::after {
+mdw-button.mdw-error::before,
+mdw-button.mdw-error::after {
   background-color: var(--mdw-theme-error);
 }
 
 
-/* icon */
+/* mdw-icon */
 mdw-button mdw-icon {
   width: 18px;
   height: 18px;

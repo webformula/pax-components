@@ -82,7 +82,7 @@ class MDWRipple {
     const offsetY = pageY - containerRect.top;
 
     const ripple = document.createElement('div');
-    ripple.classList.add('ripple-element');
+    ripple.classList.add('mdw-ripple-element');
     ripple.style.left = `${offsetX - radius}px`;
     ripple.style.top = `${offsetY - radius}px`;
     ripple.style.height = `${radius * 2}px`;
