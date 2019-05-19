@@ -73,7 +73,7 @@ module.exports = class Panel extends Page {
 
         <div row>
           <div flex=".33" column>
-            <mdw-select class="mdw-padding" enhanced>
+            <mdw-select class="mdw-padding" mdw-enhanced>
               <select onchange="$Panel.setDemoPanelPositionY(this.value)">
                 <option value="top" selected>top</option>
                 <option value="inner-top">inner-top</option>
@@ -84,7 +84,7 @@ module.exports = class Panel extends Page {
               <label>Positon Y</label>
             </mdw-select>
 
-            <mdw-select class="mdw-padding" enhanced>
+            <mdw-select class="mdw-padding" mdw-enhanced>
               <select onchange="$Panel.setDemoPanelPositionX(this.value)">
                 <option value="left" selected>left</option>
                 <option value="inner-left">inner-left</option>
@@ -95,7 +95,7 @@ module.exports = class Panel extends Page {
               <label>Positon X</label>
             </mdw-select>
 
-            <mdw-select class="mdw-padding" enhanced>
+            <mdw-select class="mdw-padding" mdw-enhanced>
               <select onchange="$Panel.setDemoPanelState(this.value)">
                 <option value="open" selected>Open</option>
                 <option value="closed">Closed</option>

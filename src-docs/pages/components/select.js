@@ -15,7 +15,7 @@ module.exports = class Selects extends Page {
         <h3>Selects</h3>
 
         <div class="showcase">
-          <mdw-select enhanced>
+          <mdw-select mdw-enhanced>
             <select>
               <option value="" disabled="" selected=""></option>
               <option value="a">aoptiomn</option>

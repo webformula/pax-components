@@ -1,8 +1,8 @@
 customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
-    this.enhanced = this.getAttribute('enhanced') !== null;
-    this.setOutlined();
+    this.enhanced = this.getAttribute('mdw-enhanced') !== null;
+    // this.setOutlined();
     this.cloneTemplate(true);
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);
@@ -12,7 +12,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    this.querySlotted('label').classList.add('mdw-empty-no-float'); // do noot float id no selection
+    this.querySlotted('label').classList.add('mdw-empty-no-float');
     this.valid = this.selectElement.validity.valid;
     if (this.enhanced) this.setupEnhanced_();
     else {
@@ -72,8 +72,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   onChange() {
-    if (this.value && this.label) this.label.classList.add('mdw-select--float-above');
-    else this.label.classList.remove('mdw-select--float-above');
+    if (this.value && this.label) {
+      this.label.classList.add('mdw-select--float-above');
+      this.querySlotted('label').classList.remove('mdw-empty-no-float');
+      if (this.outlined) this.notch.style.width = this.labelWidth + 'px';
+    } else {
+      this.label.classList.remove('mdw-select--float-above');
+      this.querySlotted('label').classList.add('mdw-empty-no-float');
+      if (this.outlined) this.notch.style.width = '0';
+    }
   }
 
   onFocus() {
@@ -122,7 +129,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   get notch() {
-    if (!this._notch) this._notch = this.shadowRoot.querySelector('.outlined-notch');
+    if (!this._notch) this._notch = this.shadowRoot.querySelector('.mdw-outlined-notch');
     return this._notch;
   }
 
@@ -135,29 +142,27 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this.label.offsetWidth * 0.9;
   }
 
-  setOutlined() {
-    this.outlined = this.hasAttribute('outlined');
-    if (!this.outlined) return;
-    this.classList.add('mdw-select--outlined');
+  get outlined() {
+    return [].slice.apply(this.classList || []).includes('mdw-outlined');
   }
 
   template() {
     return `
       <i class="mdw-select__icon"></i>
       <slot></slot>
-      ${this.outlined ? '' : '<div class="line-ripple"></div>'}
+      ${this.outlined ? '' : '<div class="mdw-line-ripple"></div>'}
       ${!this.outlined ? '' : `
-        <div class="outlined-border-container">
-          <div class="outlined-leading"></div>
-          <div class="outlined-notch"></div>
-          <div class="outlined-trailing"></div>
+        <div class="mdw-outlined-border-container">
+          <div class="mdw-outlined-leading"></div>
+          <div class="mdw-outlined-notch"></div>
+          <div class="mdw-outlined-trailing"></div>
         </div>
       `}
     `;
   }
 
   get panelHTML() {
-    return '<mdw-panel position="bottom inner-left"></mdw-panel>';
+    return '<mdw-panel mdw-position="bottom inner-left"></mdw-panel>';
   }
 
   cssFile() {

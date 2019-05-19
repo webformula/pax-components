@@ -13,6 +13,6 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    this.ripple.destroy();
+    if (this.ripple) this.ripple.destroy();
   }
 });
