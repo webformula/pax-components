@@ -42,7 +42,7 @@ module.exports = class Dialog extends Page {
               </mdw-dialog-content>
 
               <mdw-dialog-actions>
-                <mdw-button class="error" onclick="d1.close()">cancel</mdw-button>
+                <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
                 <mdw-button onclick="$Dialog.ok()">ok</mdw-button>
               </mdw-dialog-actions>
 

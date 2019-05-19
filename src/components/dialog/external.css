@@ -2,7 +2,7 @@ mdw-dialog:not(.mdw-show) {
   display: none;
 }
 
-mdw-dialog .backdrop:not(.hide) {
+mdw-dialog .mdw-dialog-backdrop:not(.mdw-hide) {
   position: absolute;
   top: 0;
   bottom: 0;
