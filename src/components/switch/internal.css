@@ -22,6 +22,16 @@
   opacity: .54;
 }
 
+:host(.checked.mdw-primary) .mdw-track {
+  background-color: var(--mdw-theme-primary);
+  border-color: var(--mdw-theme-primary);
+}
+
+:host(.checked.mdw-error) .mdw-track {
+  background-color: var(--mdw-theme-error);
+  border-color: var(--mdw-theme-error);
+}
+
 
 
 /* --- thumb underlay --- */
@@ -58,6 +68,16 @@
   background-color: var(--mdw-theme-secondary);
 }
 
+:host(.mdw-primary) .mdw-thumb-underlay:after,
+:host(.mdw-primary) .mdw-thumb-underlay:before {
+  background-color: var(--mdw-theme-primary);
+}
+
+:host(.mdw-error) .mdw-thumb-underlay:after,
+:host(.mdw-error) .mdw-thumb-underlay:before {
+  background-color: var(--mdw-theme-error);
+}
+
 .mdw-thumb-underlay:before {
   transition: opacity 15ms linear,background-color 15ms linear;
   z-index: 1;
@@ -83,6 +103,16 @@
 :host(.checked) .mdw-thumb {
   background-color: var(--mdw-theme-secondary);
   border-color: var(--mdw-theme-secondary);
+}
+
+:host(.checked.mdw-primary) .mdw-thumb {
+  background-color: var(--mdw-theme-primary);
+  border-color: var(--mdw-theme-primary);
+}
+
+:host(.checked.mdw-error) .mdw-thumb {
+  background-color: var(--mdw-theme-error);
+  border-color: var(--mdw-theme-error);
 }
 
 :host(:not(.checked)) .mdw-thumb {
@@ -129,6 +159,14 @@ input {
   transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
   transform: scale(0);
   background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
+}
+
+:host(.mdw-primary) .ripple-element {
+  background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
+}
+
+:host(.mdw-error) .ripple-element {
+  background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
 }
 
 .switch-ripple {
