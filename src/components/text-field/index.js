@@ -1,9 +1,6 @@
 customElements.define('mdw-textfield', class extends HTMLElementExtended {
   constructor() {
     super();
-    // set outlined once since this will not be changed
-    this.outlined_ = this.hasAttribute('outlined');
-
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);
     this.bound_onInput = this.onInput.bind(this);
@@ -43,7 +40,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
     /* Add ripple html if it does not exist
      */
-    if (!this.querySelector('.line-ripple')) this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
+    if (!this.querySelector('.mdw-line-ripple')) this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
 
     /* Fix layout for icons blaced before he input
      *  This is not handled in non compatable browsers
@@ -80,6 +77,10 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     return !!this.querySelector('textarea');
   }
 
+  get outlined() {
+    return [].slice.apply(this.classList || []).includes('mdw-outlined');
+  }
+
   get input() {
     if (!this.inputType_) this.inputType_ = this.querySelector('input') ? 'input' : 'textarea';
     return this.querySelector(this.inputType_);
@@ -87,7 +88,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   // this is the section where the labels sits when in outlined mode
   get notch() {
-    return this.querySelector('.outlined-notch');
+    return this.querySelector('.mdw-outlined-notch');
   }
 
   get label() {
@@ -97,10 +98,6 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
   // figure out a more acurate way or getting the width
   get labelWidth() {
     return this.label.offsetWidth * 0.95;
-  }
-
-  get outlined() {
-    return this.outlined_;
   }
 
   get helperTextElement() {
@@ -113,15 +110,15 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   get outlinedHTML() {
     return `
-      <div class="outlined-border-container">
-        <div class="outlined-leading"></div>
-        <div class="outlined-notch"></div>
-        <div class="outlined-trailing"></div>
+      <div class="mdw-outlined-border-container">
+        <div class="mdw-outlined-leading"></div>
+        <div class="mdw-outlined-notch"></div>
+        <div class="mdw-outlined-trailing"></div>
       </div>
     `;
   }
 
   get lineRippleHTML() {
-    return '<div class="line-ripple"></div>';
+    return '<div class="mdw-line-ripple"></div>';
   }
 });

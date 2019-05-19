@@ -63,7 +63,7 @@ module.exports = class Textfield extends Page {
 
         <div row>
           <div flex=".33" column>
-            <mdw-select id="varient-select" class="mdw-padding" enhanced>
+            <mdw-select id="varient-select" class="mdw-padding" mdw-enhanced>
               <select onchange="$Textfield.onVarientChange(this.value)">
                 <option value="filled" selected>Filled</option>
                 <option value="outlined">outlined</option>
@@ -71,7 +71,7 @@ module.exports = class Textfield extends Page {
               <label>Varient</label>
             </mdw-select>
 
-            <mdw-select id="pre-icon-select" class="mdw-padding" enhanced>
+            <mdw-select id="pre-icon-select" class="mdw-padding" mdw-enhanced>
               <select onchange="$Textfield.onPreIconChange(this.value)">
                 <option value="hide" selected>Hide</option>
                 <option value="show">show</option>
@@ -79,7 +79,7 @@ module.exports = class Textfield extends Page {
               <label>Pre Icon</label>
             </mdw-select>
 
-            <mdw-select id="post-icon-select" class="mdw-padding" enhanced>
+            <mdw-select id="post-icon-select" class="mdw-padding" mdw-enhanced>
               <select onchange="$Textfield.onPostIconChange(this.value)">
               <option value="hide" selected>Hide</option>
               <option value="show">show</option>
@@ -109,7 +109,7 @@ module.exports = class Textfield extends Page {
                 </mdw-textfield-helper>
               </mdw-textfield>
 
-              <mdw-textfield outlined id="two-pre" style="display: none;">
+              <mdw-textfield id="two-pre" class="mdw-outlined" style="display: none;">
                 <mdw-icon>event</mdw-icon>
                 <input>
                 <label>Outlined</label>
@@ -119,7 +119,7 @@ module.exports = class Textfield extends Page {
                 </mdw-textfield-helper>
               </mdw-textfield>
 
-              <mdw-textfield outlined id="two" style="display: none;">
+              <mdw-textfield id="two" class="mdw-outlined" style="display: none;">
                 <input>
                 <label>Outlined</label>
                 <mdw-icon class="post-icon" style="display: none;">delete</mdw-icon>
@@ -154,7 +154,7 @@ module.exports = class Textfield extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror type="html">
-                <mdw-textfield outlined>
+                <mdw-textfield class="mdw-outlined">
                   <input>
                   <label>label</label>
                 </mdw-textfield>
@@ -162,7 +162,7 @@ module.exports = class Textfield extends Page {
             </div>
 
             <div class="mdw-card__content block">
-              <mdw-textfield outlined>
+              <mdw-textfield class="mdw-outlined">
                 <input>
                 <label>label</label>
               </mdw-textfield>
