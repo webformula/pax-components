@@ -2,13 +2,13 @@ const { html } = require('@webformula/pax-core');
 
 module.exports = () => html`
   <mdw-drawer class="navigation">
-    <div class="header">
+    <div class="mdw-header">
       <span class="main-title">PAX</span>
       <span class="main-title">WEB</span>
       <span class="main-title">COMPONENTS</span>
     </div>
 
-    <div class="content">
+    <div class="mdw-content">
       <nav>
         <span class="title">Documentation</span>
         <a href="#/">Getting started</a>

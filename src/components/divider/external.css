@@ -6,22 +6,22 @@ mdw-divider {
   border-top-color: var(--mdw-theme-divider);
 }
 
-mdw-divider.dark {
+mdw-divider.mdw-dark {
   border-top-color: var(--mdw-theme-divider--dark);
 }
 
-mdw-divider[vertical] {
+mdw-divider.mdw-vertical {
   border-top: 0;
   border-right-width: 1px;
   border-right-style: solid;
   border-right-color: var(--mdw-theme-divider);
 }
 
-mdw-divider[inset] {
+mdw-divider.mdw-inset {
   margin-left: 80px;
 }
 
-mdw-divider[inset][dir='rtl'] {
+mdw-divider.mdw-inset[dir='rtl'] {
   margin-left: auto;
   margin-right: 80px;
 }

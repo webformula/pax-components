@@ -16,11 +16,11 @@ module.exports = class Drawers extends Page {
 
         <div class="showcase">
           <mdw-drawer style="z-index: 1;">
-            <div class="header">
+            <div class="mdw-header">
               <h5>Nav title</h5>
             </div>
 
-            <div class="content">
+            <div class="mdw-content">
               <nav>
                 <a>link 1</a>
                 <mdw-divider></mdw-divider>
@@ -42,11 +42,11 @@ module.exports = class Drawers extends Page {
             <code-mirror mode="html">
               <mdw-body>
                 <mdw-drawer>
-                  <div class="header">
+                  <div class="mdw-header">
                     <h5>Nav title</h5>
                   </div>
 
-                  <div class="content">
+                  <div class="mdw-content">
                     <nav>
                       <a>link 1</a>
                       <mdw-divider></mdw-divider>

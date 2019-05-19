@@ -18,14 +18,14 @@ mdw-drawer {
 }
 
 
-mdw-drawer .header {
+mdw-drawer .mdw-header {
   flex-shrink: 0;
   box-sizing: border-box;
   min-height: 64px;
   padding: 0 16px 4px;
 }
 
-mdw-drawer .content {
+mdw-drawer .mdw-content {
   flex: 1;
   flex-shrink: 0;
   box-sizing: border-box;
