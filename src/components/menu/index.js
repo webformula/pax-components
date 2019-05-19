@@ -9,8 +9,8 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
     this.classList.add('mdw-panel--container');
     this.button.addEventListener('click', this.bound_onClick);
     [...this.panel.querySelectorAll('mdw-button')].forEach(el => {
-      el.classList.add('full-height');
-      el.classList.add('full-width');
+      el.classList.add('mdw-full-height');
+      el.classList.add('mdw-full-width');
     });
     this.panel.classList.add('mdw-menu');
   }
