@@ -6,7 +6,7 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
   }
 
   connectedCallback() {
-    this.diameter = this.getAttribute('diameter') || 100;
+    this.diameter = this.getAttribute('mdw-diameter') || 100;
     this.render();
     this.style.width = this.style.height = this.diameter + 'px';
     if (this.value) this.value = this.value;
@@ -53,7 +53,7 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
   }
 
   get mode() {
-    return this.getAttribute('mode') === 'determinate' ? 'determinate' : 'indeterminate';
+    return this.getAttribute('mdw-mode') === 'determinate' ? 'determinate' : 'indeterminate';
   }
 
   get circle() {

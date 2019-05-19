@@ -19,19 +19,19 @@ circle {
   stroke: var(--mdw-theme-primary);
 }
 
-:host(.white) circle {
+:host(.mdw-white) circle {
   stroke: white;
 }
 
-:host(.grey) circle {
+:host(.mdw-grey) circle {
   stroke: grey;
 }
 
-:host(.secondary) circle {
+:host(.mdw-secondary) circle {
   stroke: var(--mdw-theme-secondary);
 }
 
-:host(.error) circle {
+:host(.mdw-error) circle {
   stroke: var(--mdw-theme-error);
 }
 

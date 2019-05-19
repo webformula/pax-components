@@ -32,7 +32,7 @@ module.exports = class CircularProgress extends Page {
         <h3>Circular Progress</h3>
 
         <div class="showcase">
-          <mdw-circular-progress mode="indeterminate"></mdw-circular-progress>
+          <mdw-circular-progress mdw-mode="indeterminate"></mdw-circular-progress>
         </div>
 
         <a href="https://material.io/design/components/progress-indicators.html#circular-progress-indicators">Material Design Guidlines: Circular progress</a>
@@ -51,10 +51,10 @@ module.exports = class CircularProgress extends Page {
             <div class="title">Determinate</div>
             <div class="description">circular indicators fill the invisible, circular track with color, as the indicator moves from 0 to 360 degrees</div>
             <code-mirror mode="html">
-              <mdw-circular-progress value="50" diameter="50"></mdw-circular-progress>
+              <mdw-circular-progress value="50" mdw-diameter="50"></mdw-circular-progress>
             </code-mirror>
             <div class="demo">
-              <mdw-circular-progress id="dynamic-pc" value="0" diameter="50"></mdw-circular-progress>
+              <mdw-circular-progress id="dynamic-pc" value="0" mdw-diameter="50"></mdw-circular-progress>
             </div>
           </div>
 
@@ -62,10 +62,10 @@ module.exports = class CircularProgress extends Page {
             <div class="title">Indeterminate</div>
             <div class="description">circular indicators grow and shrink in size while moving along the invisible track</div>
             <code-mirror mode="html">
-              <mdw-circular-progress mode="indeterminate" diameter="50"></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="50"></mdw-circular-progress>
             </code-mirror>
             <div class="demo">
-              <mdw-circular-progress mode="indeterminate" diameter="50"></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="50"></mdw-circular-progress>
             </div>
           </div>
 
@@ -77,16 +77,16 @@ module.exports = class CircularProgress extends Page {
           <div class="codecase">
             <div class="title">Colors</div>
             <code-mirror mode="html">
-              <mdw-circular-progress mode="indeterminate" diameter="60" class="primary" ></mdw-circular-progress>
-              <mdw-circular-progress mode="indeterminate" diameter="50" class="secondary" ></mdw-circular-progress>
-              <mdw-circular-progress mode="indeterminate" diameter="40" class="error" ></mdw-circular-progress>
-              <mdw-circular-progress mode="indeterminate" diameter="30" class="grey"></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="60" class="mdw-primary" ></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="50" class="mdw-secondary" ></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="40" class="mdw-error" ></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="30" class="mdw-grey"></mdw-circular-progress>
             </code-mirror>
             <div class="demo">
-              <mdw-circular-progress mode="indeterminate" diameter="60" class="primary" ></mdw-circular-progress>
-              <mdw-circular-progress mode="indeterminate" diameter="50" class="secondary" ></mdw-circular-progress>
-              <mdw-circular-progress mode="indeterminate" diameter="40" class="error" ></mdw-circular-progress>
-              <mdw-circular-progress mode="indeterminate" diameter="30" class="grey"></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="60" class="mdw-primary" ></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="50" class="mdw-secondary" ></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="40" class="mdw-error" ></mdw-circular-progress>
+              <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="30" class="mdw-grey"></mdw-circular-progress>
             </div>
           </div>
         </section>
