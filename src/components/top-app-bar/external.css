@@ -39,13 +39,17 @@ mdw-top-app-bar.mdw-white {
   border-bottom: 1px solid var(--mdw-theme-divider--dark);
 }
 
-mdw-top-app-bar[fixed].scrolled {
+mdw-top-app-bar.mdw-fixed {
+  
+}
+
+mdw-top-app-bar.mdw-fixed.mdw-scrolled {
   box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
               0 4px 5px 0 rgba(0,0,0,.14),
               0 1px 10px 0 rgba(0,0,0,.12);
 }
 
-mdw-top-app-bar .title {
+mdw-top-app-bar .mdw-title {
   font-family: Roboto,sans-serif;
   font-size: 1.25rem;
   line-height: 2rem;
@@ -70,13 +74,13 @@ mdw-top-app-bar section {
   z-index: 1;
 }
 
-mdw-top-app-bar section.align-start {
+mdw-top-app-bar section.mdw-align-start {
   justify-content: flex-start;
   order: -1;
 }
 
 mdw-top-app-bar section + section,
-mdw-top-app-bar section.align-end {
+mdw-top-app-bar section.mdw-align-end {
   justify-content: flex-end;
   order: 1;
 }

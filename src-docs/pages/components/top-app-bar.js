@@ -37,7 +37,7 @@ module.exports = class TopAppBar extends Page {
           <div class="codecase">
             <div class="title">Standard</div>
             <code-mirror mode="html">
-              <mdw-top-app-bar>
+              <mdw-top-app-bar class="mdw-fixed">
                 <section>
                   <mdw-icon>menu</mdw-icon>
                   <span class="title">Standard</span>
@@ -55,7 +55,7 @@ module.exports = class TopAppBar extends Page {
           <div class="codecase">
             <div class="title">Fixed</div>
             <code-mirror mode="html">
-              <mdw-top-app-bar fixed>
+              <mdw-top-app-bar class="mdw-fixed">
                 <section>
                   <mdw-icon>menu</mdw-icon>
                   <span class="title">Fixed</span>

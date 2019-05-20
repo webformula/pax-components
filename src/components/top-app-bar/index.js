@@ -36,7 +36,7 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
   }
 
   get fixed() {
-    return this.hasAttribute('fixed');
+    return this.classList.contains('mdw-fixed');
   }
 
   get height() {
@@ -150,12 +150,12 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     } else {
       if (currentScrollPosition <= 0) {
         if (this.wasScrolled_) {
-          this.classList.remove('scrolled');
+          this.classList.remove('mdw-scrolled');
           this.wasScrolled_ = false;
         }
       } else {
         if (!this.wasScrolled_) {
-          this.classList.add('scrolled');
+          this.classList.add('mdw-scrolled');
           this.wasScrolled_ = true;
         }
       }
