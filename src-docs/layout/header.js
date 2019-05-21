@@ -3,10 +3,10 @@ const { dependencies } = require('../../package.json');
 
 module.exports = ({ title }) => html`
   <header>
-    <mdw-top-app-bar fixed class="mdw-white">
+    <mdw-top-app-bar class="mdw-fixed mdw-white">
       <section>
         <mdw-icon onclick="document.querySelector('mdw-drawer.navigation').toggle()">menu</mdw-icon>
-        <span class="title">PAX web components</span>
+        <span class="mdw-title">PAX web components</span>
       </section>
 
       <section>

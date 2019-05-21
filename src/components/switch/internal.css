@@ -144,15 +144,15 @@ input {
 
 /* --- ripple --- */
 
-.ripple {
+.mdw-ripple {
   overflow: hidden;
 }
 
-.ripple.ripple-unbounded {
+.mdw-ripple.mdw-ripple-unbounded {
   overflow: visible;
 }
 
-.ripple-element {
+.mdw-ripple-element {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
@@ -161,15 +161,15 @@ input {
   background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
 }
 
-:host(.mdw-primary) .ripple-element {
+:host(.mdw-primary) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
 }
 
-:host(.mdw-error) .ripple-element {
+:host(.mdw-error) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
 }
 
-.switch-ripple {
+.mdw-switch-ripple {
   position: absolute;
   left: 0;
   top: 0;

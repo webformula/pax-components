@@ -32,6 +32,7 @@ module.exports = () => html`
         <a href="#/components/lists">lists</a>
         <a href="#/components/backdrop">backdrop</a>
         <a href="#/components/text-field">Textfield</a>
+        <a href="#/components/radio">Radio</a>
       </nav>
     </div>
   </mdw-drawer>

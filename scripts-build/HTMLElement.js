@@ -15,6 +15,20 @@ module.exports = class HTMLElement {
   getAttribute() { return ''; }
   hasAttribute() {}
   setAttribute() {}
+  insertAdjacentHTML() {}
+  get parentNode() {
+    return {
+      hasAttribute() {},
+      getAttribute() {},
+      setAttribute() {},
+      removeAttribute() {},
+      addEventListener() {},
+      removeEventListener() {},
+      getAttribute() { return ''; },
+      hasAttribute() {},
+      setAttribute() {}
+    };
+  }
 };
 
 class ShadowRoot {

@@ -8,7 +8,7 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
     this.cloneTemplate();
     this.input.addEventListener('change', this.bound_onInputChange);
     this.ripple = new MDWRipple({
-      element: this.shadowRoot.querySelector('.ripple'),
+      element: this.shadowRoot.querySelector('.mdw-ripple'),
       triggerElement: [this.input],
       radius: 20,
       centered: true
@@ -76,7 +76,7 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
       <div class="mdw-thumb-underlay">
         <div class="mdw-thumb">
           <input type="checkbox" role="switch">
-          <div class="ripple switch-ripple"></div>
+          <div class="mdw-ripple mdw-switch-ripple"></div>
         </div>
       </div>
     `;
