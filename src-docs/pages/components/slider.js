@@ -27,7 +27,7 @@ module.exports = class Slider extends Page {
         <h3>Slider</h3>
 
         <div class="showcase">
-          <mdw-slider id="slider1" min="0" max="100" step="1" value="50"></mdw-slider>
+          <mdw-slider id="slider1" min="50" max="200" step="1" value="50"></mdw-slider>
         </div>
 
       </article>

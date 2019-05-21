@@ -65,7 +65,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     const x = (this.thumbContainer.style.left || '0px').replace('px', '');
     const percent = x / width;
     const range = this.range;
-    this.value_ = percent * range;
+    this.value_ = this.min + (percent * range);
     // check if the step is a integer and then garentee the value is an int
     // becuase of how math works in javascript(floating point) this is not a garentee without parseInt
     if (!(''+this.step).includes('.')) this.value_ = parseInt(this.value_);
