@@ -14,8 +14,17 @@ module.exports = class Dialog extends Page {
   }
 
   showDialog() {
-    this.d1.hoistToBody();
-    this.d1.show();
+    // this.d1.hoistToBody();
+    // this.d1.show();
+
+    MDWDialog.show({
+      title: 'Title',
+      message: 'message message 123',
+      okLabel: 'ok',
+      cancelLabel: 'cancel'
+    }).then(data => {
+      console.log(data);
+    });
   }
 
   ok() {

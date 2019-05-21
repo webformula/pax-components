@@ -56,7 +56,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   onClick(event) {
     this.onFocus();
-    this.panel.open();
+    this.panel.open(true);
     this.panel.addEventListener('MDWPanel:closed', this.bound_onBlur);
     this.panel.addEventListener('click', this.bound_onPanelClick);
   }

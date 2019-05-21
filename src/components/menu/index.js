@@ -17,7 +17,7 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
 
   onClick() {
     this.panel.setPosition(this.panelPosition);
-    this.panel.open();
+    this.panel.open(true);
     this.panel.addEventListener('click', this.bound_onPanelClick);
   }
 

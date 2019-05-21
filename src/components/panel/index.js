@@ -10,7 +10,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
       'button:not(:disabled)', '[href]:not([aria-disabled="true"])', 'input:not(:disabled)',
       'select:not(:disabled)', 'textarea:not(:disabled)', '[tabindex]:not([tabindex="-1"]):not([aria-disabled="true"])',
     ].join(', ');
-    this.clickOutsideClose_ = true;
+    this.clickOutsideClose_ = false;
     this.boundHandleBodyClick_ = this.handleBodyClick_.bind(this);
     this.boundHandleKeydown_ = this.handleKeydown_.bind(this);
   }
@@ -49,7 +49,8 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     return this.isOpen_;
   }
 
-  open() {
+  open(clickBodyToClose) {
+    if (clickBodyToClose !== undefined) this.clickOutsideClose_ = clickBodyToClose
     // handle focused element
     const focusableElements = this.querySelectorAll(this.FOCUSABLE_ELEMENTS);
     this.firstFocusableElement_ = focusableElements[0];

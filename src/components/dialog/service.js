@@ -1,47 +1,39 @@
 new class MDWDialog {
-  constructor() {}
+  show({ title, message, okLabel, cancelLabel }) {
+    return new Promise(resolve => {
+      const id = this.uid();
+      const template = this.template({ id, title, message, okLabel, cancelLabel });
 
-  show({  }) {
-
+      document.body.insertAdjacentHTML('beforeend', template);
+      const el = document.querySelector(`#${id}`);
+      const onclose = (e) => {
+        resolve(e.detail.ok);
+        el.removeEventListener('close', onclose);
+        el.remove();
+      };
+      el.addEventListener('close', onclose);
+      el.show();
+    });
   }
 
-  // create({ message, dismissLabel = "dismiss", acceptLabel = null, template, parent }) {
-  //   if (!message && !template) throw Error('Either `message` or `template` is required');
-  //   if (!template && !dismissLabel && !acceptLabel) throw Error('When not using a `template` you are required to provide either a `dismissLabel` or an `acceptLabel`');
-  //
-  //   const uid = MDWUtils.uid();
-  //   if (!template) template = this.template(message, dismissLabel, acceptLabel, uid);
-  //
-  //   // try to find the correct parent if not passed in
-  //   let parentElement = parent || document.querySelector('mdw-page > mdw-top-app-bar');
-  //   if (!parentElement) parentElement = document.querySelector('mdw-page');
-  //   if (!parentElement) parentElement = document.querySelector('body');
-  //
-  //   let bannerElement = undefined;
-  //   if (parentElement.nodeName === 'MDW-TOP-APP-BAR') {
-  //     parentElement.insertAdjacentHTML('afterend', template);
-  //     bannerElement = document.querySelector(`mdw-banner#${uid}`);
-  //   } else {
-  //     parentElement.insertAdjacentHTML('afterbegin', template);
-  //     bannerElement = document.querySelector(`mdw-banner#${uid}`);
-  //   }
-  //
-  //   setTimeout(() => {
-  //     console.log(bannerElement);
-  //     console.log(bannerElement.show);
-  //     bannerElement.show();
-  //   }, 0);
-  // }
-  //
-  // template(message, dismissLabel, acceptLabel, uid) {
-  //   return html`
-  //     <mdw-banner id="${uid}">
-  //       <div>${message}</div>
-  //       <div>
-  //         ${dismissLabel ? `<mdw-button onclick="${uid}.dismiss()">${dismissLabel}</mdw-button>` : ''}
-  //         ${acceptLabel ? `<mdw-button onclick="${uid}.accept()">${acceptLabel}</mdw-button>` : ''}
-  //       </div>
-  //     </mdw-banner>
-  //   `;
-  // }
+  uid() {
+    return `dialog_${parseInt(Math.random() * 99999)}`
+  }
+
+  template({ id, title, message, okLabel, cancelLabel }) {
+    return html`
+      <mdw-dialog id="${id}">
+        <mdw-panel>
+          <mdw-dialog-container>
+            ${!!title ? `<mdw-dialog-title>${title}</mdw-dialog-title>` : ''}
+            <mdw-dialog-content>${message}</mdw-dialog-content>
+            <mdw-dialog-actions>
+              ${!!cancelLabel ? `<mdw-button class="mdw-error" onclick="${id}.close(false)">${cancelLabel}</mdw-button>` : ''}
+              ${!!okLabel ? `<mdw-button onclick="${id}.close(true)">${okLabel}</mdw-button>` : ''}
+            </mdw-dialog-actions>
+          </mdw-dialog-container>
+        </mdw-panel>
+      </mdw-dialog>
+    `;
+  }
 }

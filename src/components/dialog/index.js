@@ -7,6 +7,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
   connectedCallback() {
     if (!this.hasBckdrop) this.insertAdjacentHTML('afterbegin', '<div class="mdw-dialog-backdrop mdw-hide"></div>');
     this.hasBckdrop = true;
+    this.panel.clickOutsideClose = false;
   }
 
   disconnectedCallback() {
@@ -33,10 +34,11 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.classList.add('mdw-show');
   }
 
-  close() {
+  close(ok) {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.close();
     this.backdrop.classList.add('mdw-hide');
+    this.dispatchClose(ok);
   }
 
   hoistToBody() {
@@ -48,5 +50,13 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
   onPanelClose() {
     this.backdrop.classList.add('mdw-hide');
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+  }
+
+  dispatchClose(isOk = false) {
+    this.dispatchEvent(new CustomEvent('close', {
+      detail: {
+        ok: isOk
+      }
+    }));
   }
 });
