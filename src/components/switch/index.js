@@ -2,10 +2,10 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_onInputChange = this.onInputChange.bind(this);
+    this.cloneTemplate();
   }
 
   connectedCallback() {
-    this.cloneTemplate();
     this.input.addEventListener('change', this.bound_onInputChange);
     this.ripple = new MDWRipple({
       element: this.shadowRoot.querySelector('.mdw-ripple'),

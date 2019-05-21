@@ -29,6 +29,7 @@ require('./components/icon/external.css');
 require('./components/dialog/external.css');
 require('./components/switch/external.css');
 require('./components/radio/external.css');
+require('./components/slider/external.css');
 
 // core
 require('./core/Ripple');
@@ -64,3 +65,4 @@ require('./components/dialog');
 require('./components/switch');
 require('./components/radio');
 require('./components/radio-group');
+require('./components/slider');
