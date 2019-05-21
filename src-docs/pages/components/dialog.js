@@ -68,7 +68,7 @@ module.exports = class Dialog extends Page {
                   message: 'message message 123',
                   okLabel: 'ok',
                   cancelLabel: 'cancel'
-                }).then(data => {
+                }).then(function (data) {
                   console.log(data);
                 });
               </code-mirror>
