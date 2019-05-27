@@ -7,19 +7,23 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     this.bound_onMouseMove = this.onMouseMove.bind(this);
     this.bound_onMouseEnter = this.onMouseEnter.bind(this);
     this.bound_onMouseLeave = this.onMouseLeave.bind(this);
+    this.bound_trackClick = this.trackClick.bind(this);
   }
 
   connectedCallback() {
-    this.thumbContainer.style.left = `${(this.value / this.range) * this.offsetWidth}px`;
+    this.value = this.attrValue;
+    this.thumbContainer.style.left = `${((this.attrValue - this.min) / this.range) * this.offsetWidth}px`;
     this.throttled_dispatchChange = MDWUtils.rafThrottle(this.dispatchChange);
     this.thumb.addEventListener('mousedown', this.bound_onMouseDown);
     this.thumb.addEventListener('mouseenter', this.bound_onMouseEnter);
+    this.track.addEventListener('click', this.bound_trackClick);
   }
 
   disconnectedCallback() {
     this.thumb.removeEventListener('mousedown', this.bound_onMouseDown);
     this.thumb.removeEventListener('mouseenter', this.bound_onMouseEnter);
     this.thumb.removeEventListener('mouseleave', this.bound_onMouseLeave);
+    this.track.removeEventListener('click', this.bound_trackClick);
     document.removeEventListener('mouseup', this.bound_onMouseUp);
     document.removeEventListener('mousemove', this.bound_onMouseMove);
   }
@@ -60,6 +64,12 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     this.step_ = parseFloat(value);
   }
 
+  get attrValue() {
+    let value = parseFloat(this.getAttribute('value') || 0);
+    if (value < this.min) value = this.min;
+    return value;
+  }
+
   get value() {
     const { width } = this.getBoundingClientRect();
     const x = (this.thumbContainer.style.left || '0px').replace('px', '');
@@ -69,7 +79,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     // check if the step is a integer and then garentee the value is an int
     // becuase of how math works in javascript(floating point) this is not a garentee without parseInt
     if (!(''+this.step).includes('.')) this.value_ = parseInt(this.value_);
-    return this.value_;
+    return this.value_ || 0;
   }
 
   set value(value) {
@@ -83,6 +93,19 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
   get thumbContainer() {
     if (!this.thumbContainer_) this.thumbContainer_ = this.shadowRoot.querySelector('.mdw-slider__thumb-container');
     return this.thumbContainer_;
+  }
+
+  get track() {
+    return this.shadowRoot.querySelector('.mdw-slider__track-container');
+  }
+
+  trackClick(e) {
+    const { left, width } = this.getBoundingClientRect();
+    let x = e.layerX;
+    if (e.clientX < left) x = 0;
+    if (x > width) x = width;
+    this.thumbContainer.style.left = `${this.snap(x, width)}px`;
+    this.dispatchChange();
   }
 
   onMouseDown(e) {
