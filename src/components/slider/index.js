@@ -13,6 +13,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
   connectedCallback() {
     this.value = this.attrValue;
     this.thumbContainer.style.left = `${((this.attrValue - this.min) / this.range) * this.offsetWidth}px`;
+    this.notchContainer.style.marginLeft = `-${this.offsetWidth - (((this.attrValue - this.min) / this.range) * this.offsetWidth)}px`;
     this.throttled_dispatchChange = MDWUtils.rafThrottle(this.dispatchChange);
     this.thumb.addEventListener('mousedown', this.bound_onMouseDown);
     this.thumb.addEventListener('mouseenter', this.bound_onMouseEnter);
@@ -34,6 +35,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
 
   attributeChangedCallback(name, oldValue, newValue) {
     this[name] = newValue;
+    if (['min', 'max', 'step'].includes(name)) this.render();
   }
 
   get min() {
@@ -62,6 +64,10 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
 
   set step(value) {
     this.step_ = parseFloat(value);
+  }
+
+  get stepCount() {
+    return !this.step ? 0 : Math.floor(this.range / this.step);
   }
 
   get attrValue() {
@@ -95,6 +101,11 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     return this.thumbContainer_;
   }
 
+  get notchContainer() {
+    if (!this.notchContainer_) this.notchContainer_ = this.shadowRoot.querySelector('.mdw-slider__notch-container');
+    return this.notchContainer_;
+  }
+
   get track() {
     return this.shadowRoot.querySelector('.mdw-slider__track-container');
   }
@@ -105,6 +116,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     if (e.clientX < left) x = 0;
     if (x > width) x = width;
     this.thumbContainer.style.left = `${this.snap(x, width)}px`;
+    this.notchContainer.style.marginLeft = `-${this.offsetWidth - this.snap(x, width)}px`;
     this.dispatchChange();
   }
 
@@ -126,6 +138,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     if (e.clientX < left) x = 0;
     if (x > width) x = width;
     this.thumbContainer.style.left = `${this.snap(x, width)}px`;
+    this.notchContainer.style.marginLeft = `-${this.offsetWidth - this.snap(x, width)}px`;
     this.throttled_dispatchChange();
   }
 
@@ -160,6 +173,16 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     return html`
       <div class="mdw-slider__track-container">
         <div class="mdw-slider__track"></div>
+
+        <div class="mdw-slider__notch-container">
+          <div class="mdw-slider__notch-pre-container">
+            ${[...new Array(this.stepCount)].map(i => `<div class="mdw-slider__notch"></div>`).join('\n')}
+          </div>
+
+          <div class="mdw-slider__notch-post-container">
+            ${[...new Array(this.stepCount)].map(i => `<div class="mdw-slider__notch"></div>`).join('\n')}
+          </div>
+        </div>
       </div>
       <div class="mdw-slider__thumb-container">
         <div class="mdw-slider__thumb"></div>
