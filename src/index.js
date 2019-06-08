@@ -30,6 +30,7 @@ require('./components/dialog/external.css');
 require('./components/switch/external.css');
 require('./components/radio/external.css');
 require('./components/slider/external.css');
+require('./components/snackbar/external.css');
 
 // core
 require('./core/Ripple');
@@ -39,6 +40,7 @@ require('./core/Utils');
 // component services
 require('./components/banner/service')
 require('./components/dialog/service')
+require('./components/snackbar/service')
 
 // components
 require('./components/button');
@@ -66,3 +68,4 @@ require('./components/switch');
 require('./components/radio');
 require('./components/radio-group');
 require('./components/slider');
+require('./components/snackbar');

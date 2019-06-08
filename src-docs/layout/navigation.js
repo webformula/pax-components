@@ -24,6 +24,7 @@ module.exports = () => html`
         <a href="#/components/top-app-bar">Top app bar</a>
         <a href="#/components/drawers">Drawers</a>
         <a href="#/components/banners">Banners</a>
+        <a href="#/components/snackbar">Snackbar</a>
         <a href="#/components/cards">Cards</a>
         <a href="#/components/panel">Panel</a>
         <a href="#/components/menu">Menu</a>

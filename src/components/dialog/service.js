@@ -17,7 +17,7 @@ new class MDWDialog {
   }
 
   uid() {
-    return `dialog_${parseInt(Math.random() * 99999)}`
+    return `dialog_${parseInt(Math.random() * 99999)}`;
   }
 
   template({ id, title, message, okLabel, cancelLabel }) {

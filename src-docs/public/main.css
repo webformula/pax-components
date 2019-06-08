@@ -64,7 +64,7 @@ nav a {
   outline: none;
   border: 0;
   background: transparent;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   overflow: hidden;
   transition: box-shadow .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1);
   border-radius: 0;
