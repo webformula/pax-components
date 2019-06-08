@@ -28,7 +28,7 @@ new class MDWSnackbar {
             <mdw-snackbar-content>${message}</mdw-snackbar-content>
             <mdw-snackbar-actions>
               ${!!actionLabel ? `<mdw-button class="mdw-action-button">${actionLabel}</mdw-button>` : ''}
-              <mdw-button onclick="${id}.close(true)" class="mdw-close-button">
+              <mdw-button onclick="${id}.close(true)" class="mdw-close-button mdw-icon">
                 <mdw-icon>close</mdw-icon>
               </mdw-button>
             </mdw-snackbar-actions>
