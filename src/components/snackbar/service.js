@@ -10,7 +10,7 @@ new class MDWSnackbar {
 
   remove(el, ok) {
     if (this.current && this.current.el === el) el._close(ok);
-    else this.queue = this.queue.filter(e => e !== el);
+    else this.queue = this.queue.filter(e => e.el !== el);
   }
 
   handleQueue() {

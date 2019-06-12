@@ -1,5 +1,32 @@
 new class MDWBanner {
-  constructor() {}
+  constructor() {
+    this.queue = [];
+  }
+
+  add(el) {
+    this.queue.push({el});
+    this.handleQueue();
+  }
+
+  remove(el) {
+    if (this.current && this.current.el === el) el._dissmiss();
+    else this.queue = this.queue.filter(e => e.el !== el);
+  }
+
+  handleQueue() {
+    if (this.queue.length === 0) return;
+
+    if (!this.current) {
+      this.current = this.queue.shift();
+      this.current.el._show();
+      this.current.el.addEventListener('close', () => {
+        this.current = undefined;
+        setTimeout(() => {
+          this.handleQueue();
+        }, 300);
+      });
+    }
+  }
 
   create({ message, dismissLabel = "dismiss", acceptLabel = null, template, parent }) {
     if (!message && !template) throw Error('Either `message` or `template` is required');
@@ -22,11 +49,8 @@ new class MDWBanner {
       bannerElement = document.querySelector(`mdw-banner#${uid}`);
     }
 
-    setTimeout(() => {
-      console.log(bannerElement);
-      console.log(bannerElement.show);
-      bannerElement.show();
-    }, 0);
+    // NOTE may need timeout
+    this.add(bannerElement);
   }
 
   template(message, dismissLabel, acceptLabel, uid) {
