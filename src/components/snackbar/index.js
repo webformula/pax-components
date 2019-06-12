@@ -22,23 +22,29 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
   }
 
   show() {
-    this.panel.setPosition(this.position);
-    this.panel.open();
-    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    MDWSnackbar.add(this);
   }
 
   close(ok) {
+    MDWSnackbar.remove(this, ok);
+  }
+
+  _open() {
+    this.panel.setPosition(this.position);
+    this.panel.open();
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.autoCancelTimeout = setTimeout(() => {
+      this.close();
+    }, 3000);
+  }
+
+  _close(ok) {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.close();
     this.dispatchClose(ok);
+    clearTimeout(this.autoCancelTimeout);
   }
-
-  // hoistToBody() {
-  //   document.body.appendChild(this);
-  //   this.classList.add('mdw-dialog-backdrop-hoisted');
-  //   this.isHoisted_ = true;
-  // }
-
+  
   onPanelClose() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
   }

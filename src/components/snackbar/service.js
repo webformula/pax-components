@@ -1,4 +1,33 @@
 new class MDWSnackbar {
+  constructor() {
+    this.queue = [];
+  }
+
+  add(el) {
+    this.queue.push({el});
+    this.handleQueue();
+  }
+
+  remove(el, ok) {
+    if (this.current && this.current.el === el) el._close(ok);
+    else this.queue = this.queue.filter(e => e !== el);
+  }
+
+  handleQueue() {
+    if (this.queue.length === 0) return;
+
+    if (!this.current) {
+      this.current = this.queue.shift();
+      this.current.el._open();
+      this.current.el.addEventListener('close', () => {
+        this.current = undefined;
+        setTimeout(() => {
+          this.handleQueue();
+        }, 300);
+      });
+    }
+  }
+
   show({ message, actionLabel }) {
     return new Promise(resolve => {
       const id = this.uid();
