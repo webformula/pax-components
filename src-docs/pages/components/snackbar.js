@@ -27,6 +27,9 @@ module.exports = class Snackbar extends Page {
           <mdw-button onclick="$Snackbar.showSnackbar()">show snackbar</mdw-button>
         </div>
 
+        <a href="https://material.io/design/components/snackbars.html">Material Design Guidlines: Snackbars</a>
+        <p>Snackbars provide brief messages about app processes at the bottom of the screen</p>
+
       </article>
     `;
   }

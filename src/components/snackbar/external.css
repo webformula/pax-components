@@ -1,5 +1,5 @@
-mdw-snackbar:not(.mdw-show) {
-  display: none;
+mdw-snackbar mdw-panel {
+  margin: 24px;
 }
 
 mdw-snackbar-container {
@@ -31,7 +31,6 @@ mdw-snackbar-actions {
   margin-left: 0;
   margin-right: 8px;
 }
-
 
 mdw-snackbar-actions .mdw-close-button {
   color: var(--mdw-theme-text--secondary);

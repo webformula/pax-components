@@ -4,7 +4,7 @@ new class MDWSnackbar {
       const id = this.uid();
       const template = this.template({ id, message, actionLabel });
 
-      document.body.insertAdjacentHTML('beforeend', template);
+      this.topLevelElement.insertAdjacentHTML('beforeend', template);
       const el = document.querySelector(`#${id}`);
       const onclose = (e) => {
         resolve(e.detail.ok);
@@ -14,6 +14,16 @@ new class MDWSnackbar {
       el.addEventListener('close', onclose);
       el.show();
     });
+  }
+
+  get topLevelElement() {
+    let el = document.body.querySelector('mdw-page');
+    if (el) return el;
+
+    el = document.bodyquerySelector('mdw-body');
+    if (el) return el;
+
+    return document.body;
   }
 
   uid() {

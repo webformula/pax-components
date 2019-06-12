@@ -58,45 +58,63 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.saveFocus();
 
     // handle animation
-    if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-open');
-    this.animationRequestId_ = requestAnimationFrame(() => {
-      if (this.isHoisted_) this.setHoisetedPosition();
-      this.setAttribute('mdw-open', 'open');
-      if (this.isQuickOpen_) this.notifyOpen();
-      else {
-        this.openAnimationEndTimerId_ = setTimeout(() => {
-          this.openAnimationEndTimerId_ = 0;
-          this.classList.remove('mdw-panel--animating-open');
-          this.notifyOpen();
-        });
-      }
-    });
+    if (!this.isQuickOpen_) {
+      this.classList.add('mdw-panel--animating-open');
+      this.animationRequestId_ = this._runNextAnimationFrame(() => {
+        if (this.isHoisted_) this.setHoisetedPosition();
+        this.classList.add('mdw-open');
+        if (this.isQuickOpen_) this.notifyOpen();
+        else {
+          this.openAnimationEndTimerId_ = setTimeout(() => {
+            this.openAnimationEndTimerId_ = 0;
+            this.classList.remove('mdw-panel--animating-open');
+            this.notifyOpen();
+          }, 150);
+        }
+      });
+    } else {
+      this.classList.add('mdw-open');
+    }
 
     this.addBodyClickEvent_();
     this.addKeydownEvent_();
     this.isOpen_ = true;
   }
-
+  
+  // TODO FIX THE CLOSING ANIMATION
   close() {
-    if (!this.isQuickOpen_) this.classList.add('mdw-panel--animating-closed');
-    this.removeBodyClickEvent_();
-    this.animationRequestId_ = requestAnimationFrame(() => {
-      this.removeAttribute('mdw-open');
-      if (this.isQuickOpen_) this.notifyClose();
-      else {
-        this.closeAnimationEndTimerId_ = setTimeout(() => {
-          this.closeAnimationEndTimerId_ = 0;
-          this.classList.remove('mdw-panel--animating-closed');
-          this.notifyClose();
-        }, 75);
-      }
-    });
+    if (!this.isQuickOpen_) {
+      this.classList.add('mdw-panel--animating-closed');
+      this.removeBodyClickEvent_();
+      this.animationRequestId_ = this._runNextAnimationFrame(() => {
+        this.classList.remove('mdw-open');
+        if (this.isQuickOpen_) this.notifyClose();
+        else {
+          this.closeAnimationEndTimerId_ = setTimeout(() => {
+            this.closeAnimationEndTimerId_ = 0;
+            this.classList.remove('mdw-panel--animating-closed');
+            this.notifyClose();
+          }, 75);
+        }
+      });
+    } else {
+      this.classList.remove('mdw-open');
+    }
 
     this.removeKeydownEvent_();
     this.isOpen_ = false;
     const isRootFocused = this.isFocused();
     const childHasFocus = document.activeElement && this.contains(document.activeElement);
     if (isRootFocused || childHasFocus) this.restoreFocus();
+  }
+
+  _runNextAnimationFrame(callback) {
+    cancelAnimationFrame(this._animationFrame);
+    this._animationFrame = requestAnimationFrame(() => {
+      this._animationFrame = 0;
+      clearTimeout(this._animationTimer);
+      this._animationTimer = setTimeout(callback, 0);
+    });
   }
 
   isFocused() {

@@ -45,9 +45,9 @@ module.exports = class Panel extends Page {
 
   setDemoPanelState(value) {
     if (value === 'closed') {
-      this.demoPanel.removeAttribute('mdw-open');
+      this.demoPanel.classList.remove('mdw-open');
     } else {
-      this.demoPanel.setAttribute('mdw-open', 'open');
+      this.demoPanel.classList.add('mdw-open');
     }
   }
 
@@ -107,7 +107,7 @@ module.exports = class Panel extends Page {
           <div flex=".66">
             <div class="showcase">
               <div class="container mdw-panel--container">
-                <mdw-panel id="demoPanel" mdw-position="top left" mdw-open>
+                <mdw-panel id="demoPanel" mdw-position="top left" class="mdw-open">
                   <div style="padding: 12px;">
                     hello
                   </div>
@@ -136,7 +136,7 @@ module.exports = class Panel extends Page {
             <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
               <code-mirror type="html">
                 <div class="small-container mdw-panel--container">
-                  <mdw-panel mdw-position="top left" mdw-open>
+                  <mdw-panel mdw-position="top left" class="mdw-open">
                     <div style="padding: 12px;">
                       hello
                     </div>
@@ -147,7 +147,7 @@ module.exports = class Panel extends Page {
 
             <div class="mdw-card__content" style="height: 120px;">
               <div class="small-container mdw-panel--container">
-                <mdw-panel mdw-position="top left" mdw-open>
+                <mdw-panel mdw-position="top left" class="mdw-open">
                   <div style="padding: 12px;">
                     hello
                   </div>
@@ -164,7 +164,7 @@ module.exports = class Panel extends Page {
             <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
               <code-mirror type="html">
                 <div class="mdw-panel--container">
-                  <mdw-panel mdw-position="inner-top inner-left" mdw-open>
+                  <mdw-panel mdw-position="inner-top inner-left" class="mdw-open">
                     <div style="padding: 12px;">
                       hello
                     </div>
@@ -175,7 +175,7 @@ module.exports = class Panel extends Page {
 
             <div class="mdw-card__content" style="height: 120px;">
               <div class="mdw-panel--container">
-                <mdw-panel mdw-position="inner-top inner-left" mdw-open>
+                <mdw-panel mdw-position="inner-top inner-left" class="mdw-open">
                   <div style="padding: 12px;">
                     hello
                   </div>

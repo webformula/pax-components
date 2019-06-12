@@ -18,14 +18,13 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
   }
 
   get position() {
-    return this.position_ || 'center center';
+    return this.position_ || 'inner-bottom inner-left';
   }
 
   show() {
     this.panel.setPosition(this.position);
     this.panel.open();
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
-    this.classList.add('mdw-show');
   }
 
   close(ok) {
