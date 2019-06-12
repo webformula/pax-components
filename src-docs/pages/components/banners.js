@@ -45,14 +45,16 @@ module.exports = class Banners extends Page {
           <h4>Examples</h4>
 
           <div class="codecase">
-            <div class="title">Simple message</div>
-            <div class="description">Text buttons are typically used for less important actions</div>
+            <div class="title">Banner service</div>
+            <div class="description">Banners must be dissmissed by the user</div>
             <code-mirror mode="javascript">
-              <code>
-                MDWBanner.create({
-                  message: 'This is a message and it is awesome!'
-                });
-              </code>
+              // MDWBanner is globally available
+              // Only 1 item will show at a time
+              //   The rest of the items are queued up and will
+              //   automatically display when the current item is removed
+              MDWBanner.create({
+                message: 'This is a message and it is awesome!'
+              });
             </code-mirror>
             <div class="demo">
               <mdw-button onclick="$Banners.makeBanner()">show banner</mdw-button>
