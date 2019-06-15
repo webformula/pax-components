@@ -35,6 +35,7 @@ require('./components/tabs/tabs-bar/external.css');
 require('./components/tabs/tab-button/external.css');
 require('./components/tabs/tabs-content/external.css');
 require('./components/tabs/tab-body/external.css');
+require('./components/autocomplete/external.css');
 
 // core
 require('./core/Ripple');
@@ -77,3 +78,4 @@ require('./components/tabs/tabs-bar');
 require('./components/tabs/tab-button');
 require('./components/tabs/tabs-content');
 require('./components/tabs/tab-body');
+require('./components/autocomplete');

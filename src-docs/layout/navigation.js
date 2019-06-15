@@ -33,6 +33,7 @@ module.exports = () => html`
         <a href="#/components/lists">lists</a>
         <a href="#/components/backdrop">backdrop</a>
         <a href="#/components/text-field">Textfield</a>
+        <a href="#/components/autocomplete">Autocomplete</a>
         <a href="#/components/radio">Radio</a>
         <a href="#/components/tabs">Tabs</a>
         <a href="#/components/slider">Slider</a>
