@@ -1,4 +1,4 @@
-mdw-tab {
+mdw-tab-button {
   flex: 1;
   align-items: center;
   border: none;
@@ -25,8 +25,8 @@ mdw-tab {
   transition: color .2s cubic-bezier(.4,0,.2,1);
 }
 
-mdw-tab::before,
-mdw-tab::after {
+mdw-tab-button::before,
+mdw-tab-button::after {
   position: absolute;
   opacity: 0;
   pointer-events: none;
@@ -36,55 +36,45 @@ mdw-tab::after {
   background-color: var(--mdw-theme-foreground);
 }
 
-mdw-tab::before {
+mdw-tab-button::before {
   -webkit-transition: opacity 15ms linear, background-color 15ms linear;
   -o-transition: opacity 15ms linear, background-color 15ms linear;
   transition: opacity 15ms linear, background-color 15ms linear;
   z-index: 1;
 }
 
-mdw-tab:hover {
+mdw-tab-button:hover {
   cursor: pointer;
 }
 
-mdw-tab:hover::before {
+mdw-tab-button:hover::before {
   opacity: 0.04;
 }
 
-mdw-tab[disabled] {
+mdw-tab-button[disabled] {
   background-color: transparent !important;
   color: rgba(var(--mdw-theme-surface--on-rgb), 0.37);
   cursor: default;
   pointer-events: none;
 }
 
-mdw-tab::-moz-focus-inner {
+mdw-tab-button::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
 
-mdw-tab:active {
+mdw-tab-button:active {
   outline: none;
 }
 
 
 /* theme */
 
-mdw-tab.mdw-active {
+mdw-tab-button.mdw-active {
   color: var(--mdw-theme-primary);
 }
 
-/* mdw-tab.mdw-primary.mdw-raised,
-mdw-tab.mdw-primary.mdw-unelevated  {
-  background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-primary--on);
-}
-
-mdw-tab.mdw-primary.mdw-outlined {
-  border-color: var(--mdw-theme-primary);
-} */
-
-mdw-tab.mdw-active::before,
-mdw-tab.mdw-active::after {
+mdw-tab-button.mdw-active::before,
+mdw-tab-button.mdw-active::after {
   background-color: var(--mdw-theme-primary);
 }

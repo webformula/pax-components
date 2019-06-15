@@ -1,4 +1,4 @@
-customElements.define('mdw-tab', class extends HTMLElementExtended {
+customElements.define('mdw-tab-button', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_click = this.click.bind(this);
@@ -17,10 +17,11 @@ customElements.define('mdw-tab', class extends HTMLElementExtended {
   disconnectedCallback() {
     this.ripple.destroy();
     this.parentNode.unregisterTab(this);
+    this.removeEventListener('click', this.bound_click);
   }
 
   get indicator() {
-    return this.shadowRoot.querySelector('.mdw-tab-indicator__content');
+    return this.shadowRoot.querySelector('.mdw-tab-button-indicator__content');
   }
 
   click(e) {
@@ -57,15 +58,14 @@ customElements.define('mdw-tab', class extends HTMLElementExtended {
   template() {
     return html`
       <span class="text"><slot></slot></span>
-      <span class="mdw-tab-indicator">
-        <span class="mdw-tab-indicator__content mdw-tab-indicator__content--underline"></span>
+      <span class="mdw-tab-button-indicator">
+        <span class="mdw-tab-button-indicator__content mdw-tab-button-indicator__content--underline"></span>
       </span>
-      <!-- <span class="mdw-spinner-container"></span> -->
-      <div class="mdw-ripple mdw-tab-ripple"></div>
+      <div class="mdw-ripple mdw-tab-button-ripple"></div>
     `;
   }
 
   cssFile() {
-    return 'src/components/tab/internal.css'
+    return 'src/components/tabs/tab-button/internal.css'
   }
 });

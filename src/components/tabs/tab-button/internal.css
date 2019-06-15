@@ -3,7 +3,7 @@
 }
 
 /* Add this to button or creat a new componenet mdw-tab */
-.mdw-tab-indicator {
+.mdw-tab-button-indicator {
   display: flex;
   position: absolute;
   top: 0;
@@ -14,21 +14,21 @@
   z-index: 1;
 }
 
-:host(.mdw-active) .mdw-tab-indicator .mdw-tab-indicator__content {
+:host(.mdw-active) .mdw-tab-button-indicator .mdw-tab-button-indicator__content {
   transition: transform .2s cubic-bezier(.4,0,.2,1);
 }
 
-.mdw-tab-indicator__content {
+.mdw-tab-button-indicator__content {
   opacity: 0;
   transform-origin: left;
 }
 
-:host(.mdw-active) .mdw-tab-indicator__content {
+:host(.mdw-active) .mdw-tab-button-indicator__content {
   opacity: 1;
   transform: translateX(0);
 }
 
-.mdw-tab-indicator .mdw-tab-indicator__content--underline {
+.mdw-tab-button-indicator .mdw-tab-button-indicator__content--underline {
   align-self: flex-end;
   width: 100%;
   background-color: var(--mdw-theme-primary);
@@ -55,8 +55,8 @@
   transform: scale(0);
 }
 
-.mdw-tab-ripple,
-.mdw-tab-focus-overlay {
+.mdw-tab-button-ripple,
+.mdw-tab-button-focus-overlay {
   border-radius: inherit;
   position: absolute;
   top: 0;

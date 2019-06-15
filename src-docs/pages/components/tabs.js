@@ -15,11 +15,27 @@ module.exports = class Tabs extends Page {
         <h3>Tabs</h3>
 
         <div class="showcase">
-          <mdw-tabs>
-            <mdw-tab>one</mdw-tab>
-            <mdw-tab>two</mdw-tab>
-            <mdw-tab>three</mdw-tab>
-          </mdw-tabs>
+          <mdw-tabs-container>
+            <mdw-tabs-bar id="tabs-one">
+              <mdw-tab-button>one</mdw-tab-button>
+              <mdw-tab-button>two</mdw-tab-button>
+              <mdw-tab-button>three</mdw-tab-button>
+            </mdw-tabs-bar>
+
+            <mdw-tabs-content tabs-id="tabs-one">
+              <mdw-tab-body>
+                one
+              </mdw-tab-body>
+
+              <mdw-tab-body>
+                two
+              </mdw-tab-body>
+
+              <mdw-tab-body>
+                threes
+              </mdw-tab-body>
+            </mdw-tabs-content>
+          </mdw-tabs-container>
         </div>
 
       </article>

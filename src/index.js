@@ -31,8 +31,10 @@ require('./components/switch/external.css');
 require('./components/radio/external.css');
 require('./components/slider/external.css');
 require('./components/snackbar/external.css');
-require('./components/tabs/external.css');
-require('./components/tab/external.css');
+require('./components/tabs/tabs-bar/external.css');
+require('./components/tabs/tab-button/external.css');
+require('./components/tabs/tabs-content/external.css');
+require('./components/tabs/tab-body/external.css');
 
 // core
 require('./core/Ripple');
@@ -71,5 +73,7 @@ require('./components/radio');
 require('./components/radio-group');
 require('./components/slider');
 require('./components/snackbar');
-require('./components/tabs');
-require('./components/tab');
+require('./components/tabs/tabs-bar');
+require('./components/tabs/tab-button');
+require('./components/tabs/tabs-content');
+require('./components/tabs/tab-body');
