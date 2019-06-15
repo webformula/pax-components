@@ -96,6 +96,10 @@ mdw-textfield input {
   caret-color: var(--mdw-theme-primary);
 }
 
+mdw-textfield mdw-icon {
+  pointer-events: none;
+}
+
 mdw-textfield mdw-icon + textarea,
 mdw-textfield.mdw-outlined mdw-icon + input,
 mdw-textfield mdw-icon + input {
@@ -181,6 +185,10 @@ mdw-textfield.mdw-upgraded.not-empty label {
   color: var(--mdw-theme-primary);
 }
 
+mdw-textfield input[type="date"] + label {
+  transform: translateY(-50%) scale(.75);
+}
+
 mdw-textfield textarea:invalid + label,
 mdw-textfield input:invalid + label {
   color: var(--mdw-theme-error);
@@ -191,7 +199,6 @@ mdw-textfield.mdw-outlined.mdw-upgraded:focus-within label,
 mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
   transform: translateY(-130%) scale(.75);
 }
-
 
 
 /* --- line ripple --- */

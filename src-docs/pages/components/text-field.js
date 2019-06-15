@@ -254,7 +254,7 @@ module.exports = class Textfield extends Page {
               <div style="flex: 1">
                 <mdw-textfield>
                   <mdw-icon>events</mdw-icon>
-                  <input>
+                  <input type="date">
                   <label>Begin icon</label>
                 </mdw-textfield>
               </div>
