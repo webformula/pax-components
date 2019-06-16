@@ -63,7 +63,6 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
 
   onPanelClose(e) {
     const target = this.targetInput;
-    // this.panel.removeEventListener('MDWPanel:close', this.bound_onPanelClose);
     this.panel.removeEventListener('click', this.bound_onPanelClick);
     target.removeEventListener('change', this.bound_onTargetChange);
   }
@@ -72,7 +71,6 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
     const target = this.targetInput;
     this._focusIndex = undefined;
     this.panel.open(true);
-    // this.panel.addEventListener('MDWPanel:close', this.bound_onPanelClose);
     this.panel.addEventListener('click', this.bound_onPanelClick);
     target.addEventListener('change', this.bound_onTargetChange);
   }
