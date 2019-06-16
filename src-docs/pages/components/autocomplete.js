@@ -18,11 +18,9 @@ module.exports = class Autocomplete extends Page {
           <mdw-textfield id="one">
             <input name="one">
             <label>Filled</label>
-            <mdw-autocomplete for="one">
-              <div class="options-list">
-                <option>hello</option>
-                <option>hello</option>
-              </div>
+            <mdw-autocomplete for="one" filter>
+              <option value="one">one</option>
+              <option value="two">top</option>
             </mdw-autocomplete>
           </mdw-textfield>
         </div>

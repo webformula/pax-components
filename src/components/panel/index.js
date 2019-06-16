@@ -13,6 +13,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.clickOutsideClose_ = false;
     this.boundHandleBodyClick_ = this.handleBodyClick_.bind(this);
     this.boundHandleKeydown_ = this.handleKeydown_.bind(this);
+    this._clickOutsideCloseIgnorElement = [];
   }
 
   connectedCallback() {
@@ -80,7 +81,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.addKeydownEvent_();
     this.isOpen_ = true;
   }
-  
+
   // TODO FIX THE CLOSING ANIMATION
   close() {
     if (!this.isQuickOpen_) {
@@ -168,8 +169,13 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.hasKeydownEvent = false;
   }
 
+  ignoreElementOnClickToClose(el) {
+    this._clickOutsideCloseIgnorElement.push(el);
+  }
+
   handleBodyClick_(event) {
     const el = event.target;
+    if (this._clickOutsideCloseIgnorElement.includes(el)) return;
     if (this.contains(el)) return;
     this.removeBodyClickEvent_();
     this.close();
