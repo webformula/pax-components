@@ -199,11 +199,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   notifyClose() {
-    this.dispatchEvent(new Event('MDWPanel:closed'));
+    this.dispatchEvent(new Event('MDWPanel:closed', this));
   }
 
   notifyOpen() {
-    this.dispatchEvent(new Event('MDWPanel:open'));
+    this.dispatchEvent(new Event('MDWPanel:open'), this);
   }
 
   hoistToBody(target) {

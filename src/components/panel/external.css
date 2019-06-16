@@ -328,6 +328,11 @@ mdw-panel option {
   overflow: hidden;
 }
 
+mdw-panel option.mdw-focused {
+  /* TODO figure out what theme color to use */
+  background-color: rgba(0,0,0,0.1);
+}
+
 mdw-panel option:not(.disabled):before {
   -webkit-transition: opacity 15ms linear,background-color 15ms linear;
   -o-transition: opacity 15ms linear,background-color 15ms linear;
