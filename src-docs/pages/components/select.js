@@ -15,7 +15,17 @@ module.exports = class Selects extends Page {
         <h3>Selects</h3>
 
         <div class="showcase">
-          <mdw-select mdw-enhanced>
+          <mdw-select class="mdw-padding" mdw-enhanced style="width: 200px">
+            <select>
+              <option value="top" selected>top</option>
+              <option value="inner-top">inner-top</option>
+              <option value="bottom">bottom</option>
+              <option value="inner-bottom">inner-bottom</option>
+              <option value="center">center</option>
+            </select>
+            <label>Positon Y</label>
+          </mdw-select>
+          <!-- <mdw-select mdw-enhanced>
             <select>
               <option value="" disabled="" selected=""></option>
               <option value="a">aoptiomn</option>
@@ -41,7 +51,7 @@ module.exports = class Selects extends Page {
               <option value="b">b</option>
             </select>
             <label>Select</label>
-          </mdw-select>
+          </mdw-select> -->
         </div>
 
         <!-- <a href="https://material.io/design/components/buttons.html">Material Design Guidlines: Buttons</a>

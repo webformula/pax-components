@@ -9,6 +9,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.bound_onChange = this.onChange.bind(this);
     this.bound_onClick = this.onClick.bind(this);
     this.bound_onPanelClick = this.onPanelClick.bind(this);
+    this.bound_onKeyDown = this.onKeyDown.bind(this);
   }
 
   connectedCallback() {
@@ -23,6 +24,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     // capture option selected attribute and float the label
     this.onChange();
+  }
+
+  disconnectedCallback() {
+    document.body.removeEventListener('keydown', this.bound_onKeyDown);
+    this.selectElement.removeEventListener('focus', this.bound_onFocus);
+    this.selectElement.removeEventListener('blur', this.bound_onBlur);
+    this.selectElement.removeEventListener('change', this.bound_onChange);
+    this.selectElement.removeEventListener('click', this.bound_onClick);
+    // Make sure panel does not linger
   }
 
   setupEnhanced_() {
@@ -45,6 +55,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.selectElement.parentNode.replaceChild(enhancedEl, this.selectElement);
     this._selectElement = enhancedEl;
     this.selectElement.addEventListener('click', this.bound_onClick);
+    document.body.addEventListener('keydown', this.bound_onKeyDown);
 
     // set value text
     if (this.value_) this.setSelectedText(this.value_);
@@ -56,6 +67,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   onClick(event) {
+    this._focusIndex === undefined;
     this.onFocus();
     this.panel.open(true);
     this.panel.addEventListener('MDWPanel:closed', this.bound_onBlur);
@@ -145,6 +157,94 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   get outlined() {
     return [].slice.apply(this.classList || []).includes('mdw-outlined');
+  }
+
+  onKeyDown(e) {
+    if (!this.panel.isOpen()) return
+
+    switch (e.keyCode) {
+      case 40: //down
+      case 39: //right
+        this.focusNext();
+        break;
+
+      case 38: //up
+      case 37: //left
+        this.focusPrevious();
+        break;
+
+      case 13: //enter
+        this.selectFocused();
+        break;
+
+      default:
+        if (e.keyCode >= 31 || e.keyCode <= 90) {
+          const nodeIndex = this.keyboardSearchNodes(e.keyCode);
+          if (nodeIndex !== undefined) this.selectNode(nodeIndex);
+          e.stopPropagation();
+          e.preventDefault();
+        }
+    }
+  }
+
+  keyboardSearchNodes(keyCode) {
+    if (this._clearSearchTimeout !== undefined) clearTimeout(this._clearSearchTimeout);
+    this._clearSearchTimeout = setTimeout(() => {
+      this._clearSearchTimeout = undefined;
+      this._keyboardSearchStr = '';
+      this._keyboardOptionNames = undefined;
+    }, 300);
+    if (this._keyboardSearchStr === undefined) this._keyboardSearchStr = '';
+    this._keyboardSearchStr += String.fromCharCode(keyCode);
+    const search = new RegExp('^' + this._keyboardSearchStr, 'i');
+
+    if (!this._keyboardOptionNames) this._keyboardOptionNames = [...this.panel.firstChild.children].map(el => el.innerText);
+
+    const length = this._keyboardOptionNames.length;
+    let i = 0;
+    while (i < length) {
+      if (search.test(this._keyboardOptionNames[i])) {
+        return i;
+      }
+      i += 1;
+    }
+  }
+
+  selectNode(index) {
+    const optionElements = [...this.panel.firstChild.children];
+    this._focusIndex = index;
+    if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
+    this._focusedOption = optionElements[this._focusIndex];
+    this._focusedOption.classList.add('mdw-focused');
+  }
+
+  focusNext() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.firstChild.children];
+    if (this._focusIndex === undefined) this._focusIndex = 0;
+    else this._focusIndex += 1;
+    if (this._focusIndex > optionElements.length - 1) this._focusIndex = optionElements.length - 1;
+    if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
+    this._focusedOption = optionElements[this._focusIndex];
+    this._focusedOption.classList.add('mdw-focused');
+  }
+
+  focusPrevious() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.firstChild.children];
+    if (this._focusIndex === undefined) this._focusIndex = 0;
+    else this._focusIndex -= 1;
+    if (this._focusIndex <= 0) this._focusIndex = 0;
+    if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
+    this._focusedOption = optionElements[this._focusIndex];
+    this._focusedOption.classList.add('mdw-focused');
+  }
+
+  selectFocused() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.firstChild.children];
+    if (this._focusIndex == undefined || this._focusIndex > optionElements.length - 1) this._focusIndex = 0;
+    this.onPanelClick({ target: optionElements[this._focusIndex] });
   }
 
   template() {
