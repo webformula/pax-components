@@ -88,6 +88,10 @@ mdw-list.mdw-two-line mdw-list-item {
   height: 72px;
 }
 
+mdw-list.mdw-three-line mdw-list-item {
+  height: 88px;
+}
+
 .mdw-list-item__text {
   text-overflow: ellipsis;
   white-space: nowrap;
