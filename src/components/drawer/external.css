@@ -54,12 +54,6 @@ mdw-drawer.mdw-closed {
   transform: translate3d(0, 0, 0);
 }
 
-/* mdw-drawer.mdw-hide {
-  width: 0;
-  min-width: 0;
-  max-width: 0;
-} */
-
 mdw-drawer.mdw-border-left {
   border-width: 0 0 0 1px;
   border-style: solid;
