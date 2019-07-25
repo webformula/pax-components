@@ -153,7 +153,7 @@
 
 
   /* --- theming --- */
-  --mdw-theme-primary--default: var(--mdw-theme-palette--primary-500, #6200ee);
+  --mdw-theme-primary--default: var(--mdw-theme-palette--primary-A700, #6200ee);
   --mdw-theme-primary--dark--on: #000000;
   --mdw-theme-primary--light--on: #ffffff;
 

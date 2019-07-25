@@ -31,12 +31,12 @@
   flex: .75;
 }
 
-[row] {
+[row], .row {
   display: flex;
   flex-direction: row;
 }
 
-[column] {
+[column], .column {
   display: flex;
   flex-direction: column;
 }

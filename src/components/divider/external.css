@@ -6,6 +6,11 @@ mdw-divider {
   border-top-color: var(--mdw-theme-divider);
 }
 
+mdw-divider.mdw-large-padding {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 mdw-divider.mdw-dark {
   border-top-color: var(--mdw-theme-divider--dark);
 }

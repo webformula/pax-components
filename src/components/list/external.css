@@ -35,8 +35,39 @@ mdw-list-item[active]:not([disabled]):before {
   background-color: var(--mdw-theme-primary);
 }
 
-mdw-list-item[active]:not([disabled]):before {
+mdw-list-item:not(.mdw-has-ripple):not([disabled])::after {
+  transition: opacity .15s linear;
+}
+
+/* active (state) */
+mdw-list-item[active]:not(.mdw-has-ripple):not([disabled])::before {
   opacity: .12;
+}
+
+/* :active (mouse down) */
+mdw-list-item[active]:not(.mdw-has-ripple):not([disabled]):active::after {
+  transition-duration: 75ms;
+  opacity: .24;
+}
+
+mdw-list-item:not(.mdw-has-ripple):not([active]):not([disabled]):active::after {
+  transition-duration: 75ms;
+  opacity: .12;
+}
+
+/* focus */
+mdw-list-item[active]:not(.mdw-has-ripple):not([disabled]):focus::before {
+  transition-duration: 75ms;
+  opacity: .24;
+}
+
+/* hover */
+mdw-list-item:not([disabled]):not([active]):hover::before {
+  opacity: .04;
+}
+
+mdw-list-item:not([disabled])[active]:hover::before {
+  opacity: .16;
 }
 
 mdw-list-item:not([disabled]):before,

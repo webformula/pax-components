@@ -2,16 +2,35 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
   constructor() {
     super();
     this.isShowing = true;
+    this.isRightAligned = this.hasAttribute('right-aligned');
+  }
+
+  get isLockedOpen() {
+    return this.classList.contains('mdw-locked-open');
+  }
+
+  lockOpen() {
+    this.classList.add('mdw-locked-open');
+  }
+
+  unlockOpen() {
+    this.classList.remove('mdw-locked-open');
   }
 
   hide() {
-    const width = this.offsetWidth;
-    this.style.marginLeft = `-${width}px`
+    this.classList.add('mdw-closed');
+    if (this.isLockedOpen) {
+      this.classList.remove('mdw-locked-open');
+      this.wasLockedOpen = true;
+    }
     this.isShowing = false;
   }
 
   show() {
-    this.style.marginLeft = '';
+    this.classList.remove('mdw-closed');
+    if (this.wasLockedOpen) {
+      this.classList.add('mdw-locked-open');
+    }
     this.isShowing = true;
   }
 

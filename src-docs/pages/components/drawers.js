@@ -9,24 +9,38 @@ module.exports = class Drawers extends Page {
     return 'Drawers';
   }
 
+  handleNavLClick(listItem) {
+    const currentActive = document.querySelector('#top-example mdw-list-item[active]');
+    if (currentActive) currentActive.removeAttribute('active');
+    listItem.setAttribute('active', 'active');
+  }
+
   template() {
     return html`
       <article class="page-article">
         <h3>Drawers</h3>
 
         <div class="showcase">
-          <mdw-drawer style="z-index: 1;">
-            <div class="mdw-header">
-              <h5>Nav title</h5>
-            </div>
+          <mdw-drawer class="mdw-locked-open" id="top-example">
 
-            <div class="mdw-content">
-              <nav>
-                <a>link 1</a>
-                <mdw-divider></mdw-divider>
-                <a>link 2</a>
-              </nav>
-            </div>
+            <mdw-drawer-header>
+              <div class="mdw-title">Nav title</div>
+              <div class="mdw-subtitle">Pages</div>
+            </mdw-drawer-header>
+
+            <mdw-drawer-content>
+              <mdw-list>
+                <mdw-list-item active onclick="$Drawers.handleNavLClick(this)">
+                  <span class="mdw-list-item__graphic material-icons">inbox</span>
+                  Inbox
+                </mdw-list-item>
+
+                <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+                  <span class="mdw-list-item__graphic material-icons">star</span>
+                  Two
+                </mdw-list-item>
+              </mdw-list>
+            </mdw-drawer-content>
           </mdw-drawer>
         </div>
 
@@ -41,18 +55,25 @@ module.exports = class Drawers extends Page {
             <div class="title">Standard</div>
             <code-mirror mode="html">
               <mdw-body>
-                <mdw-drawer>
-                  <div class="mdw-header">
-                    <h5>Nav title</h5>
-                  </div>
+                <mdw-drawer class="mdw-locked-open">
+                  <mdw-drawer-header>
+                    <div class="mdw-title">Nav title</div>
+                    <div class="mdw-subtitle">Pages</div>
+                  </mdw-drawer-header>
 
-                  <div class="mdw-content">
-                    <nav>
-                      <a>link 1</a>
-                      <mdw-divider></mdw-divider>
-                      <a>link 2</a>
-                    </nav>
-                  </div>
+                  <mdw-drawer-content>
+                    <mdw-list>
+                      <mdw-list-item active onclick="$Drawers.handleNavLClick(this)">
+                        <span class="mdw-list-item__graphic material-icons">inbox</span>
+                        Inbox
+                      </mdw-list-item>
+
+                      <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+                        <span class="mdw-list-item__graphic material-icons">star</span>
+                        Two
+                      </mdw-list-item>
+                    </mdw-list>
+                  </mdw-drawer-content>
                 </mdw-drawer>
 
                 <mdw-page>

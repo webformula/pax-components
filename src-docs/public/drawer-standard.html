@@ -9,24 +9,47 @@
 
   <body>
     <mdw-body>
-      <mdw-drawer>
-        <div class="header">
-          <h5>Nav title</h5>
-        </div>
+      <mdw-drawer class="mdw-locked-open">
+        <mdw-drawer-header>
+          <div class="mdw-title">Nav title</div>
+          <div class="mdw-subtitle">Pages</div>
+        </mdw-drawer-header>
 
-        <div class="content">
-          <nav>
-            <a>link 1</a>
-            <a>link 2</a>
-            <mdw-divider class="dark"></mdw-divider>
-            <a>link 3</a>
-            <a>link 4</a>
-            <a>link 5</a>
-            <a>link 6</a>
-            <mdw-divider class="dark"></mdw-divider>
-            <a>link 7</a>
-          </nav>
-        </div>
+        <mdw-drawer-content>
+          <mdw-list>
+            <mdw-list-item active onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">inbox</span>
+              Inbox
+            </mdw-list-item>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Two
+            </mdw-list-item>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Three
+            </mdw-list-item>
+
+            <mdw-divider></mdw-divider>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Four
+            </mdw-list-item>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Five
+            </mdw-list-item>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Six
+            </mdw-list-item>
+          </mdw-list>
+        </mdw-drawer-content>
       </mdw-drawer>
 
       <mdw-page>
