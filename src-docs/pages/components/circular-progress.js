@@ -40,7 +40,7 @@ module.exports = class CircularProgress extends Page {
 
         <div class="links">
           <div class="eyebrow">contents</div>
-          <anchor-link selector="#Types">Types</anchor-link>
+          <anchor-link selector="#types">Types</anchor-link>
           <anchor-link selector="#theming">Theming</anchor-link>
         </div>
 

@@ -20,6 +20,7 @@ module.exports = () => html`
         <a href="#/components/fab">FAB</a>
         <a href="#/components/checkboxes">Checkboxes</a>
         <a href="#/components/switch">Switch</a>
+        <a href="#/components/linear-progress">Linear Progress</a>
         <a href="#/components/circular-progress">Circular Progress</a>
         <a href="#/components/top-app-bar">Top app bar</a>
         <a href="#/components/drawers">Drawers</a>

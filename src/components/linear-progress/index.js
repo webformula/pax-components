@@ -13,7 +13,11 @@ customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
-    this[name] = newValue;
+    switch(name) {
+      case 'mdw-percent':
+        this.percent = newValue;
+        break;
+    }
   }
 
   get bar() {
