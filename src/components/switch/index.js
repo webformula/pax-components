@@ -13,8 +13,6 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
       radius: 20,
       centered: true
     });
-
-    this.connected_ = true;
   }
 
   disconnectedCallback() {
@@ -27,7 +25,6 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (!this.connected_) return;
     this[name] = newValue;
   }
 

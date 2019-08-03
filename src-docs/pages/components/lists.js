@@ -50,6 +50,14 @@ module.exports = class List extends Page {
     }
   }
 
+  toggleListOnclickSelect(value) {
+    if (value) {
+      document.querySelector('#select-list').setAttribute('mdw-select-onclick', '');
+    } else {
+      document.querySelector('#select-list').removeAttribute('mdw-select-onclick');
+    }
+  }
+
   template() {
     return html`
       <article class="page-article">
@@ -102,11 +110,16 @@ module.exports = class List extends Page {
                   <label>Toggle Select single/multiple</label>
                   <mdw-switch onchange="$List.toggleListSelect(this.checked)"></mdw-switch>
                 </div>
-                <mdw-button class="" onclick="document.querySelector('#select-list').deselectAll()">deselect</mdw-button>
-                <mdw-button class="mdw-secondary" onclick="document.querySelector('#show-selected').innerText = document.querySelector('#select-list').selected.join(', ')">print selected</mdw-button>
+
+                <div>
+                  <label>Toggle mdw-select-onclick</label>
+                  <mdw-switch onchange="$List.toggleListOnclickSelect(this.checked)" checked></mdw-switch>
+                </div>
+
+                <mdw-button class="mdw-error" onclick="document.querySelector('#select-list').deselectAll()">deselect</mdw-button>
                 <span id="show-selected" class="flex-1" style="padding-left: 24px; font-weight: 500"></span>
               </div>
-              <mdw-list id="select-list" mdw-select="single" mdw-select-onclick class="mdw-two-line" style="background-color: white">
+              <mdw-list id="select-list" mdw-select="single" mdw-select-onclick onchange="document.querySelector('#show-selected').innerText = this.selected.join(', ')" class="mdw-two-line" style="background-color: white">
                 ${this.selectListData.map(t => `
                   <mdw-list-item>
                     <span class="mdw-list-item__graphic material-icons">inbox</span>

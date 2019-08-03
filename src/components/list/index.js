@@ -2,17 +2,19 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   constructor() {
     super();
     this.selectedIndexes_ = [];
-    this.selectOnclick = this.hasAttribute('mdw-select-onclick');
   }
 
   static get observedAttributes() {
-    return ['mdw-select'];
+    return ['mdw-select', 'mdw-select-onclick'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch(name) {
       case 'mdw-select':
         this.selectType = newValue;
+        break;
+      case 'mdw-select-onclick':
+        this.selectOnclick = newValue !== null;
         break;
     }
   }
@@ -50,10 +52,16 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
       this.selectedIndexes_ = [];
     }
     this.selectedIndexes_.push(index);
+    this.handleChange();
   }
 
   itemDeselected(listItem) {
     const index = Array.prototype.indexOf.call(this.children, listItem);
     this.selectedIndexes_.splice(this.selectedIndexes_.indexOf(index), 1);
+    this.handleChange();
+  }
+
+  handleChange() {
+    this.dispatchEvent(new CustomEvent('change', this));
   }
 });

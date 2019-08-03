@@ -56,6 +56,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   }
 
   onclickSelect(e) {
+    if (!this.selectOnclick()) return;
     if (e.target === this.selectEl_) return;
     this.selectEl_.checked = !this.selectEl_.checked;
   }
