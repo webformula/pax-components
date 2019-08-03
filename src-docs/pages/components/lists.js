@@ -25,6 +25,31 @@ module.exports = class List extends Page {
     }));
   }
 
+  get selectListData() {
+    return [
+      {
+        id: 1,
+        label: 'Item 1',
+        secondary: 'secondary title' },
+      {
+        id: 2,
+        label: 'Item 2',
+        secondary: 'secondary title' },
+      {
+        id: 3,
+        label: 'Item 3',
+        secondary: 'secondary title' } ];
+  }
+
+  toggleListSelect(value) {
+    document.querySelector('#select-list').deselectAll();
+    if (!value) {
+      document.querySelector('#select-list').setAttribute('mdw-select', 'single');
+    } else {
+      document.querySelector('#select-list').setAttribute('mdw-select', 'multiple');
+    }
+  }
+
   template() {
     return html`
       <article class="page-article">
@@ -44,6 +69,63 @@ module.exports = class List extends Page {
         <section id="types">
           <h4>Examples</h4>
 
+
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Selectable list</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror type="html">
+                <!-- mdw-select-onclick will make the entire list-item select on click. Otherwise it will be just the checkbox -->
+                <mdw-list mdw-select="single or multiple" mdw-select-onclick class="mdw-two-line">
+                  <mdw-list-item>
+                    <span class="mdw-list-item__graphic material-icons">inbox</span>
+                    <div class="mdw-list-item__text">
+                      <div class="mdw-list-item__primary-text">
+                        Two
+                      </div>
+                      <div class="mdw-list-item__secondary-text">
+                        Secondary
+                      </div>
+                    </div>
+                    <mdw-checkbox class="mdw-list-item__meta"></mdw-checkbox>
+                    <div class="mdw-ripple mdw-list-item-ripple"></div>
+                  </mdw-list-item>
+                </mdw-list>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
+              <div class="row" style="align-items: center;">
+                <div>
+                  <label>Toggle Select single/multiple</label>
+                  <mdw-switch onchange="$List.toggleListSelect(this.checked)"></mdw-switch>
+                </div>
+                <mdw-button class="" onclick="document.querySelector('#select-list').deselectAll()">deselect</mdw-button>
+                <mdw-button class="mdw-secondary" onclick="document.querySelector('#show-selected').innerText = document.querySelector('#select-list').selected.join(', ')">print selected</mdw-button>
+                <span id="show-selected" class="flex-1" style="padding-left: 24px; font-weight: 500"></span>
+              </div>
+              <mdw-list id="select-list" mdw-select="single" mdw-select-onclick class="mdw-two-line" style="background-color: white">
+                ${this.selectListData.map(t => `
+                  <mdw-list-item>
+                    <span class="mdw-list-item__graphic material-icons">inbox</span>
+                    <div class="mdw-list-item__text">
+                      <div class="mdw-list-item__primary-text">
+                        ${t.label}
+                      </div>
+                      <div class="mdw-list-item__secondary-text">
+                        ${t.secondary}
+                      </div>
+                    </div>
+                    <mdw-checkbox class="mdw-list-item__meta"></mdw-checkbox>
+                    <div class="mdw-ripple mdw-list-item-ripple"></div>
+                  </mdw-list-item>
+                `).join('\n')}
+              </mdw-list>
+            </div>
+          </mdw-card>
+
           <mdw-card>
             <div class="mdw-card__content">
               <h6>Huge ass list</h6>
@@ -55,7 +137,7 @@ module.exports = class List extends Page {
                   <span class="mdw-list-item__graphic material-icons">inbox</span>
                   <div class="mdw-list-item__text">
                     <div class="mdw-list-item__primary-text">
-                      Two
+                      Main
                     </div>
                     <div class="mdw-list-item__secondary-text">
                       Secondary

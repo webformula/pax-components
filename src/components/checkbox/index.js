@@ -1,6 +1,7 @@
 customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    constructor() {
      super();
+     this.bound_handleChange = this.handleChange.bind(this);
    }
 
    connectedCallback() {
@@ -17,9 +18,11 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      });
 
      this.connected_ = true;
+     this.input.addEventListener('change', this.bound_handleChange);
    }
 
    disconnectedCallback() {
+     this.input.removeEventListener('change', this.bound_handleChange);
      this.ripple.destroy();
    }
 
@@ -44,6 +47,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    set checked(value) {
      if (value === '') value = true;
      this.input.checked = value;
+     this.handleChange();
    }
 
    get indeterminate() {

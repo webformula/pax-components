@@ -1,5 +1,59 @@
 customElements.define('mdw-list', class extends HTMLElementExtended {
   constructor() {
     super();
+    this.selectedIndexes_ = [];
+    this.selectOnclick = this.hasAttribute('mdw-select-onclick');
+  }
+
+  static get observedAttributes() {
+    return ['mdw-select'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch(name) {
+      case 'mdw-select':
+        this.selectType = newValue;
+        break;
+    }
+  }
+
+  set selectOnclick(value) {
+    this.selectOnclick_ = value;
+  }
+
+  get selectOnclick() {
+    return this.selectOnclick_;
+  }
+
+  set selectType(value) {
+    this.selectType_ = value;
+  }
+
+  get selectType() {
+    return this.selectType_;
+  }
+
+  get selected() {
+    return [].concat(this.selectedIndexes_);
+  }
+
+  deselectAll() {
+    [...this.children].forEach(child => child.deselect());
+    this.selectedIndexes_ = [];
+  }
+
+  itemSelected(listItem) {
+    const index = Array.prototype.indexOf.call(this.children, listItem);
+    if (this.selectType_ === 'single') {
+      const children = [...this.children];
+      this.selectedIndexes_.forEach(i => children[i].deselect());
+      this.selectedIndexes_ = [];
+    }
+    this.selectedIndexes_.push(index);
+  }
+
+  itemDeselected(listItem) {
+    const index = Array.prototype.indexOf.call(this.children, listItem);
+    this.selectedIndexes_.splice(this.selectedIndexes_.indexOf(index), 1);
   }
 });
