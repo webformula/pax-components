@@ -1,8 +1,8 @@
 new class MDWDialog {
-  show({ title, message, okLabel, cancelLabel }) {
+  show({ title, message, okLabel, cancelLabel, position = 'center center' }) {
     return new Promise(resolve => {
       const id = this.uid();
-      const template = this.template({ id, title, message, okLabel, cancelLabel });
+      const template = this.template({ id, title, message, okLabel, cancelLabel, position });
 
       document.body.insertAdjacentHTML('beforeend', template);
       const el = document.querySelector(`#${id}`);
@@ -20,10 +20,10 @@ new class MDWDialog {
     return `dialog_${parseInt(Math.random() * 99999)}`;
   }
 
-  template({ id, title, message, okLabel, cancelLabel }) {
+  template({ id, title, message, okLabel, cancelLabel, position }) {
     return html`
       <mdw-dialog id="${id}">
-        <mdw-panel>
+        <mdw-panel mdw-position="${position}">
           <mdw-dialog-container>
             ${!!title ? `<mdw-dialog-title>${title}</mdw-dialog-title>` : ''}
             <mdw-dialog-content>${message}</mdw-dialog-content>

@@ -39,7 +39,7 @@ module.exports = class Dialog extends Page {
         <h3>Menu</h3>
 
         <div class="showcase">
-          <mdw-button onclick="$Dialog.showDialog()">show dialog</mdw-button>
+          <mdw-button onclick="$Dialog.showDialogWithService()">show dialog</mdw-button>
         </div>
 
         <a href="https://material.io/design/components/dialogs.html">Material Design Guidlines: Dialogs</a>
@@ -88,7 +88,7 @@ module.exports = class Dialog extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-dialog id="d1">
+                <mdw-dialog>
                   <mdw-panel>
                     <mdw-dialog-container>
                       <mdw-dialog-title>Title</mdw-dialog-title>
@@ -117,7 +117,7 @@ module.exports = class Dialog extends Page {
 
 
         <mdw-dialog id="d1">
-          <mdw-panel>
+          <mdw-panel mdw-position="center center">
             <mdw-dialog-container>
 
               <mdw-dialog-title>Title</mdw-dialog-title>

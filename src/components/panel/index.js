@@ -17,6 +17,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
+    this.classList.add('mdw-upgraded');
     this.transformPropertyName = MDWUtils.transformPropertyName;
   }
 
@@ -26,6 +27,19 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     clearTimeout(this.openAnimationEndTimerId_);
     clearTimeout(this.closeAnimationEndTimerId_);
     cancelAnimationFrame(this.animationRequestId_);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-position'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch(name) {
+      case 'mdw-position':
+        this.position_ = newValue;
+        this.setPositionStyle();
+        break;
+    }
   }
 
   set clickOutsideClose(value) {
@@ -217,5 +231,60 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const bounds = this.container_.getBoundingClientRect();
     this.style.top = `${bounds.top}px`;
     this.style.left = `${bounds.left}px`;
+  }
+
+
+  setPositionStyle(parentOverride) {
+    const position = this.position;
+    let parenWidth = 0;
+    let parentHeight = 0;
+    if (parentOverride) {
+      parenWidth = parentOverride.offsetWidth;
+      parentHeight = parentOverride.offsetHeight;
+    } else {
+      const parentRect = this.parentNode.getBoundingClientRect();
+      parenWidth = parentRect.width;
+      parentHeight = parentRect.height;
+    }
+
+    const thisRect = this.getBoundingClientRect();
+    const aValue = position.split(' ')[0];
+    const bValue = position.split(' ')[1];
+    let top = 0;
+    let left = 0;
+
+    switch(aValue) {
+      case 'top':
+        top = -thisRect.height;
+        break;
+      case 'bottom':
+        top = parentHeight;
+        break;
+      case 'center':
+        top = (parentHeight / 2) - (thisRect.height / 2);
+        break;
+      case 'inner-bottom':
+        top = parentHeight - thisRect.height;
+        break;
+    }
+
+    switch(bValue) {
+      case 'left':
+        left = -thisRect.width;
+        break;
+      case 'right':
+        left = parenWidth;
+        break;
+      case 'inner-right':
+        left = parenWidth - thisRect.width;
+        break;
+      case 'center':
+        left = (parenWidth / 2) - (thisRect.width / 2);
+        break;
+    }
+
+    this.style.top = `${parseInt(top)}px`;
+    this.style.left = `${parseInt(left)}px`;
+    this.style.transform = 'scale(1)';
   }
 });
