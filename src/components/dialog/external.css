@@ -16,6 +16,24 @@ mdw-dialog-container {
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
+  max-width: 280px;
+}
+
+mdw-dialog mdw-panel.mdw-open {
+  display: flex;
+  max-height: calc(100% - 32px);
+}
+
+/* TODO make sure these media queries do not clash with others */
+@media (max-width: 592px) {
+  mdw-dialog-container  {
+    max-width: calc(100vw - 32px);
+  }
+}
+@media (min-width: 592px) {
+  mdw-dialog-container  {
+    max-width: 560px;
+  }
 }
 
 mdw-dialog-title {
