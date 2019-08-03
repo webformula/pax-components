@@ -120,6 +120,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
           <div class="eyebrow">contents</div>
           <anchor-link selector="#service">Dialog service</anchor-link>
           <anchor-link selector="#template">Dialog template</anchor-link>
+          <anchor-link selector="#scrollable">Dialog scrollable</anchor-link>
         </div>
 
         <section id="types">
@@ -187,7 +188,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
           </mdw-card>
 
 
-          <mdw-card id="template">
+          <mdw-card id="scrollable">
             <div class="mdw-card__content">
               <h6>Scrolling dialog</h6>
             </div>
@@ -199,7 +200,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
                     <mdw-dialog-container>
                       <mdw-dialog-title>Title</mdw-dialog-title>
                       <mdw-dialog-content>
-                        text ...
+                        tall text ...
                       </mdw-dialog-content>
                       <mdw-dialog-actions>
                         <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
