@@ -158,18 +158,33 @@ mdw-button.mdw-dense.mdw-shaped {
 mdw-button.mdw-icon {
   border-radius: 50%;
   min-width: 0;
-  width: 40px;
-  padding: 0;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
 }
 
-mdw-button .mdw-icon {
-  margin-left: 0;
-  margin-right: 8px;
+mdw-button.mdw-icon mdw-icon {
+  line-height: 36px;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  letter-spacing: normal;
+  text-transform: none;
   display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}
+
+/* mdw-icon */
+mdw-button mdw-icon {
   width: 18px;
   height: 18px;
   font-size: 18px;
+  margin-left: -4px;
+  margin-right: 2px;
   vertical-align: top;
+  line-height: 36px;
 }
 
 mdw-button svg.mdw-icon {
@@ -239,16 +254,4 @@ mdw-button.mdw-error.mdw-outlined {
 mdw-button.mdw-error::before,
 mdw-button.mdw-error::after {
   background-color: var(--mdw-theme-error);
-}
-
-
-/* mdw-icon */
-mdw-button mdw-icon {
-  width: 18px;
-  height: 18px;
-  font-size: 18px;
-  margin-left: -4px;
-  margin-right: 2px;
-  vertical-align: top;
-  line-height: 36px;
 }

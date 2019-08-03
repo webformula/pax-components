@@ -168,6 +168,14 @@ module.exports = class Buttons extends Page {
                 <mdw-icon>star</mdw-icon>
                 Icon
               </mdw-button>
+
+              <mdw-button class="mdw-raised mdw-primary mdw-icon">
+                <mdw-icon>star</mdw-icon>
+              </mdw-button>
+
+              <mdw-button class="mdw-icon">
+                <mdw-icon>add</mdw-icon>
+              </mdw-button>
             </div>
           </mdw-card>
 
