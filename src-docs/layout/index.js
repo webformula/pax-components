@@ -32,7 +32,7 @@ module.exports = ({ head, body, title }) => html`
         ${nav({ title })}
         <mdw-page>
           ${header({ title })}
-          <mdw-content>
+          <mdw-content class="constrain-width">
           ${body}
           </mdw-content>
         </mdw-page>
