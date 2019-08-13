@@ -28,7 +28,7 @@ new class MDWSnackbar {
     }
   }
 
-  show({ message, actionLabel }) {
+  show({ message, actionLabel, position }) {
     return new Promise(resolve => {
       const id = this.uid();
       const template = this.template({ id, message, actionLabel });
@@ -41,12 +41,13 @@ new class MDWSnackbar {
         el.remove();
       };
       el.addEventListener('close', onclose);
+      if (position) el.setPosition(position);
       el.show();
     });
   }
 
   get topLevelElement() {
-    let el = document.body.querySelector('mdw-page');
+    let el = document.body.querySelector('mdw-content');
     if (el) return el;
 
     el = document.bodyquerySelector('mdw-body');

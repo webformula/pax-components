@@ -21,6 +21,12 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
     return this.position_ || 'inner-bottom inner-left';
   }
 
+  setPosition(value) {
+    const split = value.split(' ');
+    this.position_ = `${split[0] || 'top'} ${split[1] || 'left'}`;
+    this.panel.setPosition(this.position);
+  }
+
   show() {
     MDWSnackbar.add(this);
   }
@@ -44,7 +50,7 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
     this.dispatchClose(ok);
     clearTimeout(this.autoCancelTimeout);
   }
-  
+
   onPanelClose() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
   }

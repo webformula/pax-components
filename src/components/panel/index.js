@@ -37,7 +37,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     switch(name) {
       case 'mdw-position':
         this.position_ = newValue;
-        this.setPositionStyle();
+        // this.setPositionStyle();
         break;
     }
   }
@@ -76,7 +76,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     if (!this.isQuickOpen_) {
       this.classList.add('mdw-panel--animating-open');
       this.animationRequestId_ = this._runNextAnimationFrame(() => {
-        if (this.isHoisted_) this.setHoisetedPosition();
         this.classList.add('mdw-open');
         if (this.isQuickOpen_) this.notifyOpen();
         else {
@@ -86,6 +85,8 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
             this.notifyOpen();
           }, 150);
         }
+        if (this.isHoisted_) this.setHoisetedPosition();
+        else this.setPositionStyle();
       });
     } else {
       this.classList.add('mdw-open');
@@ -235,6 +236,9 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
 
   setPositionStyle(parentOverride) {
+    if (parentOverride) this._parentOverride = parentOverride;
+    else if (this._parentOverride) parentOverride = this._parentOverride;
+
     const position = this.position;
     let parenWidth = 0;
     let parentHeight = 0;
@@ -242,12 +246,18 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
       parenWidth = parentOverride.offsetWidth;
       parentHeight = parentOverride.offsetHeight;
     } else {
-      const parentRect = this.parentNode.getBoundingClientRect();
+      let parent = this.parentNode;
+      if (parent.nodeName === 'MDW-SNACKBAR') parent = parent.parentNode;
+      const parentRect = parent.getBoundingClientRect();
       parenWidth = parentRect.width;
       parentHeight = parentRect.height;
     }
 
-    const thisRect = this.getBoundingClientRect();
+    let { width, height } = this.getBoundingClientRect();
+    if (!this.style.transform) {
+      width *= 2;
+      height *= 2;
+    }
     const aValue = position.split(' ')[0];
     const bValue = position.split(' ')[1];
     let top = 0;
@@ -255,31 +265,31 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     switch(aValue) {
       case 'top':
-        top = -thisRect.height;
+        top = -height;
         break;
       case 'bottom':
         top = parentHeight;
         break;
       case 'center':
-        top = (parentHeight / 2) - (thisRect.height / 2);
+        top = (parentHeight / 2) - (height / 2);
         break;
       case 'inner-bottom':
-        top = parentHeight - thisRect.height;
+        top = parentHeight - height;
         break;
     }
 
     switch(bValue) {
       case 'left':
-        left = -thisRect.width;
+        left = -width;
         break;
       case 'right':
         left = parenWidth;
         break;
       case 'inner-right':
-        left = parenWidth - thisRect.width;
+        left = parenWidth - width;
         break;
       case 'center':
-        left = (parenWidth / 2) - (thisRect.width / 2);
+        left = (parenWidth / 2) - (width / 2);
         break;
     }
 

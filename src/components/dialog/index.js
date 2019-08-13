@@ -36,7 +36,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.backdrop.classList.remove('mdw-hide');
     this.classList.add('mdw-show');
     this.panel.setPosition(this.position);
-    // TODO find a better way to handle positioning agains body.
+    // TODO find a better way to handle positioning against body.
     this.panel.setPositionStyle(document.body);
   }
 

@@ -9,10 +9,30 @@ module.exports = class Snackbar extends Page {
     return 'Snackbar';
   }
 
+  get position() {
+    this.setSnackbarPosition();
+    return this.position_;
+  }
+
+  setSnackbarPositionY(value) {
+    this.posY = value;
+    this.setSnackbarPosition();
+  }
+
+  setSnackbarPositionX(value) {
+    this.posX = value;
+    this.setSnackbarPosition();
+  }
+
+  setSnackbarPosition() {
+    this.position_ = `${this.posY || 'inner-bottom'} ${this.posX || 'inner-left'}`;
+  }
+
   showSnackbar() {
     MDWSnackbar.show({
       message: 'message message 123',
       actionLabel: 'act',
+      position: this.position
     }).then(data => {
       console.log(data);
     });
@@ -23,8 +43,36 @@ module.exports = class Snackbar extends Page {
       <article class="page-article">
         <h3>Snackbar</h3>
 
-        <div class="showcase">
-          <mdw-button onclick="$Snackbar.showSnackbar()">show snackbar</mdw-button>
+        <div row>
+          <div flex=".33" column>
+            <mdw-select class="mdw-padding" mdw-enhanced>
+              <select onchange="$Snackbar.setSnackbarPositionY(this.value)">
+                <option value="top">top</option>
+                <option value="inner-top">inner-top</option>
+                <option value="bottom">bottom</option>
+                <option value="inner-bottom" selected>inner-bottom</option>
+                <option value="center">center</option>
+              </select>
+              <label>Positon Y</label>
+            </mdw-select>
+
+            <mdw-select class="mdw-padding" mdw-enhanced>
+              <select onchange="$Snackbar.setSnackbarPositionX(this.value)">
+                <option value="left">left</option>
+                <option value="inner-left" selected>inner-left</option>
+                <option value="right">right</option>
+                <option value="inner-right">inner-right</option>
+                <option value="center">center</option>
+              </select>
+              <label>Positon X</label>
+            </mdw-select>
+          </div>
+
+          <div flex=".66">
+            <div class="showcase">
+              <mdw-button onclick="$Snackbar.showSnackbar()">show snackbar</mdw-button>
+            </div>
+          </div>
         </div>
 
         <a href="https://material.io/design/components/snackbars.html">Material Design Guidlines: Snackbars</a>

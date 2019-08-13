@@ -41,6 +41,7 @@ module.exports = class Panel extends Page {
 
   setDemoPanelPosition() {
     this.demoPanel.setAttribute('mdw-position', `${this.posY || 'top'} ${this.posX || 'left'}`);
+    this.demoPanel.setPositionStyle();
   }
 
   setDemoPanelState(value) {
@@ -75,8 +76,8 @@ module.exports = class Panel extends Page {
           <div flex=".33" column>
             <mdw-select class="mdw-padding" mdw-enhanced>
               <select onchange="$Panel.setDemoPanelPositionY(this.value)">
-                <option value="top" selected>top</option>
-                <option value="inner-top">inner-top</option>
+                <option value="top">top</option>
+                <option value="inner-top" selected>inner-top</option>
                 <option value="bottom">bottom</option>
                 <option value="inner-bottom">inner-bottom</option>
                 <option value="center">center</option>
@@ -86,8 +87,8 @@ module.exports = class Panel extends Page {
 
             <mdw-select class="mdw-padding" mdw-enhanced>
               <select onchange="$Panel.setDemoPanelPositionX(this.value)">
-                <option value="left" selected>left</option>
-                <option value="inner-left">inner-left</option>
+                <option value="left">left</option>
+                <option value="inner-left" selected>inner-left</option>
                 <option value="right">right</option>
                 <option value="inner-right">inner-right</option>
                 <option value="center">center</option>
@@ -107,7 +108,7 @@ module.exports = class Panel extends Page {
           <div flex=".66">
             <div class="showcase">
               <div class="container mdw-panel--container">
-                <mdw-panel id="demoPanel" mdw-position="top left" class="mdw-open">
+                <mdw-panel id="demoPanel" mdw-position="inner-top inner-left" class="mdw-open" style="transform: scale(1);">
                   <div style="padding: 12px;">
                     hello
                   </div>
