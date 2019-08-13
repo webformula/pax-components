@@ -3,14 +3,23 @@ new class MDWBanner {
     this.queue = [];
   }
 
-  add(el) {
-    this.queue.push({el});
+  add(el, resolver) {
+    this.queue.push({el, resolver});
     this.handleQueue();
   }
 
   remove(el) {
-    if (this.current && this.current.el === el) el._dissmiss();
-    else this.queue = this.queue.filter(e => e.el !== el);
+    if (this.current && this.current.el === el) {
+      this.current.resolver(false);
+      el._dissmiss();
+    } else this.queue = this.queue.filter(e => e.el !== el);
+  }
+
+  accept(el) {
+    if (this.current && this.current.el === el) {
+      this.current.resolver(true);
+      el._dissmiss();
+    } else this.queue = this.queue.filter(e => e.el !== el);
   }
 
   handleQueue() {
@@ -49,8 +58,14 @@ new class MDWBanner {
       bannerElement = document.querySelector(`mdw-banner#${uid}`);
     }
 
+    let resolver;
+    const promise = new Promise(resolve => {
+      resolver = resolve;
+    });
+
     // NOTE may need timeout
-    this.add(bannerElement);
+    this.add(bannerElement, resolver);
+    return promise;
   }
 
   template(message, dismissLabel, acceptLabel, uid) {

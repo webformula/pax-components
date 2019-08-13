@@ -12,6 +12,16 @@ module.exports = class Banners extends Page {
   makeBanner() {
     MDWBanner.create({
       message: 'This is a message and it is awesome!'
+    }).then(() => console.log('banner dismissed'));
+  }
+
+  makeBannerWithAccept() {
+    MDWBanner.create({
+      message: 'This is a message and it is awesome!',
+      acceptLabel: 'accept'
+    }).then(accepted => {
+      if (accepted) console.log('banner accepted');
+      else console.log('banner dismissed');
     });
   }
 
@@ -58,6 +68,7 @@ module.exports = class Banners extends Page {
             </code-mirror>
             <div class="demo">
               <mdw-button onclick="$Banners.makeBanner()">show banner</mdw-button>
+              <mdw-button class="mdw-secondary" onclick="$Banners.makeBannerWithAccept()">show banner with acceptLabel</mdw-button>
             </div>
           </div>
 

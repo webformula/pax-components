@@ -15,6 +15,10 @@ customElements.define('mdw-banner', class extends HTMLElementExtended {
     MDWBanner.remove(this);
   }
 
+  accept() {
+    MDWBanner.accept(this);
+  }
+
   _show() {
     this.classList.add('mdw-show');
   }

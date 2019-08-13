@@ -39,6 +39,15 @@ module.exports = class Drawers extends Page {
                   <span class="mdw-list-item__graphic material-icons">star</span>
                   Two
                 </mdw-list-item>
+
+                <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+                  <span class="mdw-list-item__graphic material-icons"></span>
+                  With Spacer
+                </mdw-list-item>
+
+                <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+                  No Spacer
+                </mdw-list-item>
               </mdw-list>
             </mdw-drawer-content>
           </mdw-drawer>
