@@ -62,9 +62,21 @@ module.exports = class Banners extends Page {
               // Only 1 item will show at a time
               //   The rest of the items are queued up and will
               //   automatically display when the current item is removed
-              MDWBanner.create({
-                message: 'This is a message and it is awesome!'
-              });
+              makeBanner() {
+                MDWBanner.create({
+                  message: 'This is a message and it is awesome!'
+                }).then(function () { console.log('banner dismissed'); });
+              }
+
+              makeBannerWithAccept() {
+                MDWBanner.create({
+                  message: 'This is a message and it is awesome!',
+                  acceptLabel: 'accept'
+                }).then(function (accepted) {
+                  if (accepted) console.log('banner accepted');
+                  else console.log('banner dismissed');
+                });
+              };
             </code-mirror>
             <div class="demo">
               <mdw-button onclick="$Banners.makeBanner()">show banner</mdw-button>
