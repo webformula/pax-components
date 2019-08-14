@@ -33,7 +33,7 @@ module.exports = class Switch extends Page {
         </div>
 
         <section id="labels">
-          <h4>Types</h4>
+          <h4>Examples</h4>
 
           <!-- label -->
           <mdw-card id="contained">

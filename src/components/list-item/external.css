@@ -1,3 +1,130 @@
+mdw-list-item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  padding: 0 16px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* active */
+mdw-list-item[active],
+mdw-list-item[active] .mdw-list-item__graphic,
+mdw-list-item[selected],
+mdw-list-item[selected] .mdw-list-item__graphic {
+  color: var(--mdw-theme-primary);
+}
+
+mdw-list-item[active]:not([disabled]):after,
+mdw-list-item[active]:not([disabled]):before {
+  background-color: var(--mdw-theme-primary);
+}
+
+mdw-list-item:not(.mdw-has-ripple):not([disabled])::after {
+  transition: opacity .15s linear;
+}
+
+/* active (state) */
+mdw-list-item[active]:not(.mdw-has-ripple):not([disabled])::before {
+  opacity: .12;
+}
+
+/* :active (mouse down) */
+mdw-list-item[active]:not(.mdw-has-ripple):not([disabled]):active::after {
+  transition-duration: 75ms;
+  opacity: .24;
+}
+
+mdw-list-item:not(.mdw-has-ripple):not([active]):not([disabled]):active::after {
+  transition-duration: 75ms;
+  opacity: .12;
+}
+
+/* focus */
+mdw-list-item[active]:not(.mdw-has-ripple):not([disabled]):focus::before {
+  transition-duration: 75ms;
+  opacity: .24;
+}
+
+/* hover */
+mdw-list-item:not([disabled]):not([active]):hover::before {
+  opacity: .04;
+}
+
+mdw-list-item:not([disabled])[active]:hover::before {
+  opacity: .16;
+}
+
+mdw-list-item:not([disabled]):before,
+mdw-list-item:not([disabled]):after {
+  background-color: #000;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.mdw-list-item__text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mdw-list-item__primary-text {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: normal;
+}
+
+.mdw-list-item__secondary-text {
+  display: inline-block;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: .0178571429em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: normal;
+  display: block;
+  color: var(--mdw-theme-text--secondary--on-background);
+}
+
+
+
+/* graphic */
+
+.mdw-list-item__graphic {
+  display: inline-flex;
+  margin-left: 0;
+  margin-right: 32px;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  fill: currentColor;
+  background-color: transparent;
+  color: var(--mdw-theme-text--icon--on-background);
+}
+
+/* meta */
+
+.mdw-list-item__meta {
+  margin-left: auto;
+  margin-right: 0;
+  color: var(--mdw-theme-text--hint--on-background);
+}
+
 /* --- Ripple --- */
 
 mdw-list-item .mdw-ripple {
