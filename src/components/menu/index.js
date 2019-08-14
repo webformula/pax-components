@@ -8,14 +8,11 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   connectedCallback() {
     this.classList.add('mdw-panel--container');
     this.button.addEventListener('click', this.bound_onClick);
-    [...this.panel.querySelectorAll('mdw-button')].forEach(el => {
-      el.classList.add('mdw-full-height');
-      el.classList.add('mdw-full-width');
-    });
     this.panel.classList.add('mdw-menu');
   }
 
   onClick() {
+    this.panel.autoPosition();
     this.panel.setPosition(this.panelPosition);
     this.panel.open(true);
     this.panel.addEventListener('click', this.bound_onPanelClick);
@@ -40,7 +37,6 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   }
 
   get panel() {
-    if (!this.panel_) this.panel_ = this.querySelector('mdw-panel');
-    return this.panel_;
+    return this.querySelector('mdw-panel');
   }
 });

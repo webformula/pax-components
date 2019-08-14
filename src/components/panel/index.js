@@ -2,6 +2,7 @@
  * The panel allows you to create positions floating elements.
  * mdw-panel is used for menu, dialog, tooltip
  */
+
  // TODO fix open and close animations
 customElements.define('mdw-panel', class extends HTMLElementExtended {
   constructor() {
@@ -14,6 +15,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.boundHandleBodyClick_ = this.handleBodyClick_.bind(this);
     this.boundHandleKeydown_ = this.handleKeydown_.bind(this);
     this._clickOutsideCloseIgnorElement = [];
+    this._autoPosition = false;
   }
 
   connectedCallback() {
@@ -37,7 +39,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     switch(name) {
       case 'mdw-position':
         this.position_ = newValue;
-        // this.setPositionStyle();
         break;
     }
   }
@@ -50,14 +51,18 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.isQuickOpen_ = value;
   }
 
+  get position() {
+    return this.position_;
+  }
+
   setPosition(value) {
     const split = value.split(' ');
     this.position_ = `${split[0] || 'top'} ${split[1] || 'left'}`;
     this.setAttribute('mdw-position', this.position_);
   }
 
-  get position() {
-    return this.position_;
+  autoPosition() {
+    this._autoPosition = true;
   }
 
   isOpen() {
@@ -240,16 +245,16 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     else if (this._parentOverride) parentOverride = this._parentOverride;
 
     const position = this.position;
-    let parenWidth = 0;
+    let parentWidth = 0;
     let parentHeight = 0;
     if (parentOverride) {
-      parenWidth = parentOverride.offsetWidth;
+      parentWidth = parentOverride.offsetWidth;
       parentHeight = parentOverride.offsetHeight;
     } else {
       let parent = this.parentNode;
       if (parent.nodeName === 'MDW-SNACKBAR') parent = parent.parentNode;
       const parentRect = parent.getBoundingClientRect();
-      parenWidth = parentRect.width;
+      parentWidth = parentRect.width;
       parentHeight = parentRect.height;
     }
 
@@ -283,14 +288,21 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         left = -width;
         break;
       case 'right':
-        left = parenWidth;
+        left = parentWidth;
         break;
       case 'inner-right':
-        left = parenWidth - width;
+        left = parentWidth - width;
         break;
       case 'center':
-        left = (parenWidth / 2) - (width / 2);
+        left = (parentWidth / 2) - (width / 2);
         break;
+    }
+
+    if (this._autoPosition) {
+      const { clientWidth, clientHeight } = document.body;
+      const { x: globalX, y: globalY } = this.getBoundingClientRect();
+      if ((globalY + height) > clientHeight) top = parentHeight - height;
+      if ((globalX + width) > clientWidth) left = parentWidth - width;
     }
 
     this.style.top = `${parseInt(top)}px`;
