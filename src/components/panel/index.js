@@ -87,6 +87,8 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
           this.openAnimationEndTimerId_ = setTimeout(() => {
             this.openAnimationEndTimerId_ = 0;
             this.classList.remove('mdw-panel--animating-open');
+            if (this.isHoisted_) this.setHoisetedPosition();
+            else this.setPositionStyle();
             this.notifyOpen();
           }, 150);
         }
@@ -258,11 +260,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
       parentHeight = parentRect.height;
     }
 
-    let { width, height } = this.getBoundingClientRect();
-    if (!this.style.transform) {
-      width *= 2;
-      height *= 2;
-    }
+    // use offset with and height to avoid problems due to transform: scale()
+    // using getBoundingClientRect will return the adjusted width based on the scale factor
+    const width = this.offsetWidth;
+    const height = this.offsetHeight;
     const aValue = position.split(' ')[0];
     const bValue = position.split(' ')[1];
     let top = 0;
