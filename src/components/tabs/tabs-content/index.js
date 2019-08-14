@@ -9,7 +9,7 @@ customElements.define('mdw-tabs-content', class extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    this.tabsBar.unregisterContent(this);
+    this.tabsBar && this.tabsBar.unregisterContent(this);
   }
 
   get tabsBar() {

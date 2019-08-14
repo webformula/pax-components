@@ -123,7 +123,7 @@ module.exports = class Selects extends Page {
               <code-mirror mode="html">
                 <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced>
                   <select>
-                    <option value="1" selected>item one</option>
+                    <option value="1">item one</option>
                     <option value="2">item two</option>
                     <option value="3">item three</option>
                     <option value="4">item four</option>
@@ -137,7 +137,7 @@ module.exports = class Selects extends Page {
             <div class="mdw-card__content row">
               <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced flex="1">
                 <select>
-                  <option value="1" selected>item one</option>
+                  <option value="1">item one</option>
                   <option value="2">item two</option>
                   <option value="3">item three</option>
                   <option value="4">item four</option>

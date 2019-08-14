@@ -38,10 +38,12 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
 
   disconnectedCallback() {
     const target = this.targetInput;
-    target.removeEventListener('focus', this.bound_onTargetFocus);
-    target.removeEventListener('blur', this.bound_onTargetBlur);
-    target.removeEventListener('change', this.bound_onTargetChange);
-    target.removeEventListener('input', this.bound_onTargetInput);
+    if (target) {
+      target.removeEventListener('focus', this.bound_onTargetFocus);
+      target.removeEventListener('blur', this.bound_onTargetBlur);
+      target.removeEventListener('change', this.bound_onTargetChange);
+      target.removeEventListener('input', this.bound_onTargetInput);
+    }
     this.panel.close();
     this.panel.removeEventListener('click', this.bound_onPanelClick);
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
@@ -111,7 +113,7 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
   }
 
   onTargetChange(e) {
-    console.log('change');
+    // console.log('change');
   }
 
   onTargetInput(e) {

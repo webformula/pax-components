@@ -18,7 +18,7 @@ module.exports = class Slider extends Page {
   }
 
   onChange(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
   }
 
   template() {
