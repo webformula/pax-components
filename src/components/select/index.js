@@ -42,7 +42,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     // grab selected
     const selected = this.selectElement.querySelector('[selected]');
-    if (selected) this.value_ = selected.value;
 
     const enhancedEl = document.createElement('div');
     enhancedEl.classList.add('mdw-select__selected-text');
@@ -57,8 +56,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.selectElement.addEventListener('click', this.bound_onClick);
     document.body.addEventListener('keydown', this.bound_onKeyDown);
 
-    // set value text
-    if (this.value_) this.setSelectedText(this.value_);
+    // set selected
+    if (selected) {
+      this.value_ = selected.value;
+      this.setSelectedText(selected.innerText);
+    }
   }
 
   get panel() {
