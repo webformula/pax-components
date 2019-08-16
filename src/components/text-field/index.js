@@ -8,6 +8,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   connectedCallback() {
     this.compose();
+    this.checkForValue();
 
     // add listeners
     this.input.addEventListener('focus', this.bound_onFocus);
@@ -46,6 +47,10 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
      *  This is not handled in non compatable browsers
      */
     if (this.isTrailingIcon()) this.classList.add('mdw-trailing-icon');
+  }
+
+  checkForValue() {
+    this.classList.toggle('not-empty', !!this.input.value.length);
   }
 
   onFocus() {
