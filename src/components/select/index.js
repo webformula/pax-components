@@ -14,6 +14,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
+    this.setSelected();
     this.querySlotted('label').classList.add('mdw-empty-no-float');
     this.valid = this.selectElement.validity.valid;
     if (this.enhanced) this.setupEnhanced_();
@@ -252,6 +253,17 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     const optionElements = [...this.panel.firstChild.children];
     if (this._focusIndex == undefined || this._focusIndex > optionElements.length - 1) this._focusIndex = 0;
     this.onPanelClick({ target: optionElements[this._focusIndex] });
+  }
+
+  setSelected() {
+    if (this.hasAttribute('mdw-value')) {
+      const value = this.getAttribute('mdw-value');
+      const option = [...this.querySelectorAll('option')].map(el => ({
+        el,
+        value: el.value
+      })).find(e => e.value === value);
+      if (option) option.el.setAttribute('selected', 'selected');
+    }
   }
 
   template() {

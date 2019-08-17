@@ -15,9 +15,9 @@ module.exports = class Selects extends Page {
         <h3>Selects</h3>
 
         <div class="showcase">
-          <mdw-select class="mdw-padding" mdw-enhanced style="width: 200px">
+          <mdw-select class="mdw-padding" mdw-enhanced style="width: 200px" mdw-value="1">
             <select>
-              <option value="1" selected>item one</option>
+              <option value="1">item one</option>
               <option value="2">item two</option>
               <option value="3">item three</option>
               <option value="4">item four</option>
