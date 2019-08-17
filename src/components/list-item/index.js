@@ -43,6 +43,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
 
   connectHREF() {
     if (!this.hasAttribute('href')) return;
+    if (document.location.href === this.getAttribute('href')) this.setAttribute('active', 'active');
     this.addEventListener('click', this.bound_hrefClick);
   }
 
