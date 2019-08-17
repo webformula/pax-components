@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { html, cssStr } = require('./template-literal-tags')
-const HTMLElement = require('./HTMLElement');
+const HTMLElement = require('@webformula/pax-core/src/server_client/HTMLElement.js');
 
 module.exports = function(content) {
   const { name, partial, full } = buildHTMLElementExtended(content);

@@ -147,16 +147,11 @@ mdw-textfield label {
   text-decoration: inherit;
   text-transform: inherit;
   position: absolute;
-  -webkit-transform-origin: left top;
-  -ms-transform-origin: left top;
   transform-origin: left top;
-  transition: color .15s cubic-bezier(.4,0,.2,1),-webkit-transform .15s cubic-bezier(.4,0,.2,1);
-  -o-transition: transform .15s cubic-bezier(.4,0,.2,1),color .15s cubic-bezier(.4,0,.2,1);
-  transition: transform .15s cubic-bezier(.4,0,.2,1),color .15s cubic-bezier(.4,0,.2,1);
-  transition: transform .15s cubic-bezier(.4,0,.2,1),color .15s cubic-bezier(.4,0,.2,1),-webkit-transform .15s cubic-bezier(.4,0,.2,1);
+  transition: transform .15s cubic-bezier(.4,0,.2,1),
+              color .15s cubic-bezier(.4,0,.2,1);
   line-height: 1.15rem;
   text-align: left;
-  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
   cursor: text;
@@ -171,6 +166,10 @@ mdw-textfield label {
   color: rgba(0,0,0,.6);
 }
 
+mdw-textfield.mdw-no-animation label {
+  transition: none;
+}
+
 mdw-textfield mdw-icon + textarea + label,
 mdw-textfield mdw-icon + input + label {
   left: 48px;
@@ -182,6 +181,9 @@ mdw-textfield.mdw-upgraded:focus-within label,
 mdw-textfield.mdw-upgraded.not-empty label {
   cursor: auto;
   transform: translateY(-50%) scale(.75);
+}
+
+mdw-textfield.mdw-upgraded:focus-within label {
   color: var(--mdw-theme-primary);
 }
 

@@ -1,6 +1,7 @@
 customElements.define('mdw-textfield', class extends HTMLElementExtended {
   constructor() {
     super();
+    this.classList.add('mdw-no-animation');
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);
     this.bound_onInput = this.onInput.bind(this);
@@ -9,6 +10,10 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
   connectedCallback() {
     this.compose();
     this.checkForValue();
+
+    setTimeout(() => {
+      this.classList.remove('mdw-no-animation');
+    }, 0);
 
     // add listeners
     this.input.addEventListener('focus', this.bound_onFocus);
@@ -37,7 +42,10 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     /* Add html for outlined
      *  outlined does not work without compatability
      */
-    if (this.outlined) this.insertAdjacentHTML('beforeend', this.outlinedHTML);
+    if (this.outlined) {
+      this.insertAdjacentHTML('beforeend', this.outlinedHTML);
+      this.setNotchWidth();
+    }
 
     /* Add ripple html if it does not exist
      */
@@ -54,7 +62,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
   }
 
   onFocus() {
-    if (this.outlined) this.notch.style.width = this.labelWidth + 'px';
+    this.setNotchWidth();
   }
 
   onBlur() {
@@ -68,6 +76,10 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
       this.valid = this.input.validity.valid;
       this.classList.toggle('invalid', !this.valid);
     }
+  }
+
+  setNotchWidth() {
+    if (this.outlined) this.notch.style.width = this.labelWidth + 'px';
   }
 
   /* Icons can be places at the begining ro end of a text field

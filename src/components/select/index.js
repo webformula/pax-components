@@ -1,6 +1,7 @@
 customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
+    this.classList.add('mdw-no-animation');
     this.enhanced = this.getAttribute('mdw-enhanced') !== null;
     // this.setOutlined();
     this.cloneTemplate(true);
@@ -24,6 +25,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     // capture option selected attribute and float the label
     this.onChange();
+
+    setTimeout(() => {
+      this.classList.add('mdw-no-animation');
+    }, 0);
   }
 
   disconnectedCallback() {

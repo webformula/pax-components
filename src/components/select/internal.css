@@ -147,6 +147,10 @@
   top: 21px;
 }
 
+:host(.mdw-no-animation) ::slotted(label) {
+  transition: none;
+}
+
 ::slotted(label:not(.mdw-empty-no-float)) {
   transform: translateY(-70%) scale(0.75);
 }
