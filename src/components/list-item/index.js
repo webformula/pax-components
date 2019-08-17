@@ -51,8 +51,11 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
 
   checkHREFActive() {
     if (!this.hasAttribute('href')) return;
-    if (document.location.href === this.getAttribute('href')) this.setAttribute('active', 'active');
-    if (document.location.hash === this.getAttribute('href')) this.setAttribute('active', 'active');
+    const href = document.location.href;
+    const hash = document.location.hash;
+    if (href === this.getAttribute('href') || href === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
+    if (hash === this.getAttribute('href') || hash === this.getAttribute('hash-alt')) this.setAttribute('active', 'active');
+    this.removeAttribute('active');
   }
 
   hrefClick() {
