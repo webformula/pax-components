@@ -4,6 +4,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     this.bound_hrefClick = this.hrefClick.bind(this);
     this.bound_onSelect = this.onSelect.bind(this);
     this.bound_onclickSelect = this.onclickSelect.bind(this);
+    this.bound_checkHREFActive = this.checkHREFActive.bind(this);
   }
 
   get list() {
@@ -29,6 +30,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     this.removeEventListener('click', this.bound_hrefClick);
     if (this.selectEl_) this.selectEl_.removeEventListener('change', this.bound_onSelect);
     this.removeEventListener('click', this.bound_onclickSelect);
+    window.removeEventListener('hashchange', this.bound_checkHREFActive);
   }
 
   connectRipple() {
@@ -42,10 +44,15 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   }
 
   connectHREF() {
+    this.checkHREFActive();
+    window.addEventListener('hashchange', this.bound_checkHREFActive);
+    this.addEventListener('click', this.bound_hrefClick);
+  }
+
+  checkHREFActive() {
     if (!this.hasAttribute('href')) return;
     if (document.location.href === this.getAttribute('href')) this.setAttribute('active', 'active');
     if (document.location.hash === this.getAttribute('href')) this.setAttribute('active', 'active');
-    this.addEventListener('click', this.bound_hrefClick);
   }
 
   hrefClick() {
