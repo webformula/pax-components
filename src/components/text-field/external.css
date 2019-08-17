@@ -96,8 +96,12 @@ mdw-textfield input {
   caret-color: var(--mdw-theme-primary);
 }
 
-mdw-textfield mdw-icon {
+mdw-textfield mdw-icon:not([onclick]) {
   pointer-events: none;
+}
+
+mdw-textfield mdw-icon[onclick] {
+  z-index: 1;
 }
 
 mdw-textfield mdw-icon + textarea,
