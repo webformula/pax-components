@@ -44,6 +44,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   }
 
   connectHREF() {
+    if (!this.hasAttribute('href')) return;
     this.checkHREFActive();
     window.addEventListener('hashchange', this.bound_checkHREFActive);
     this.addEventListener('click', this.bound_hrefClick);
