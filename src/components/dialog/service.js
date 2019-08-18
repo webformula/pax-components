@@ -1,4 +1,8 @@
 new class MDWDialog {
+  constructor() {
+    this.currentDialog = null;
+  }
+
   show({ title, message, okLabel, cancelLabel, position = 'center center' }) {
     return new Promise(resolve => {
       const id = this.uid();
@@ -10,10 +14,16 @@ new class MDWDialog {
         resolve(e.detail.ok);
         el.removeEventListener('close', onclose);
         el.remove();
+        this.currentDialog = null;
       };
       el.addEventListener('close', onclose);
       el.show();
+      this.currentDialog = el;
     });
+  }
+
+  removeCurrent() {
+    this.currentDialog.close();
   }
 
   uid() {
