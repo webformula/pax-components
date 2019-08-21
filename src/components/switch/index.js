@@ -63,7 +63,7 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
     this.dispatchChange();
   }
 
-  cssFile() {
+  get stylesFile() {
     return '/src/components/switch/internal.css'
   }
 

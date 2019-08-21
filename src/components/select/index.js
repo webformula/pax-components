@@ -285,7 +285,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return '<mdw-panel mdw-position="bottom inner-left"></mdw-panel>';
   }
 
-  cssFile() {
+  get stylesFile() {
     return '/src/components/select/internal.css';
   }
 

@@ -65,7 +65,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     `;
   }
 
-  cssFile() {
+  get stylesFile() {
     return 'src/components/button/internal.css'
   }
 });

@@ -165,7 +165,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     this.dispatchEvent(new Event('change', this));
   }
 
-  cssFile() {
+  get stylesFile() {
     return '/src/components/slider/internal.css'
   }
 

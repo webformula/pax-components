@@ -73,7 +73,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      this.checked = !this.checked;
    }
 
-   cssFile() {
+   get stylesFile() {
      return '/src/components/checkbox/internal.css'
    }
 

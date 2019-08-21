@@ -50,7 +50,7 @@ customElements.define('mdw-tabs-bar', class extends HTMLElementExtended {
     this._activeTab = el;
   }
 
-  cssFile() {
+  get stylesFile() {
     return '/src/components/tabs/tabs-bar/internal.css'
   }
 

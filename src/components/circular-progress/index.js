@@ -120,7 +120,7 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
     `;
   }
 
-  cssFile() {
+  get stylesFile() {
     return '/src/components/circular-progress/internal.css'
   }
 });

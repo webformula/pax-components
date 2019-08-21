@@ -38,7 +38,7 @@ customElements.define('mdw-tab-body', class extends HTMLElementExtended {
     `;
   }
 
-  cssFile() {
+  get stylesFile() {
     return 'src/components/tabs/tab-body/internal.css'
   }
 });

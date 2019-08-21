@@ -41,7 +41,7 @@ customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
     `;
   }
 
-  cssFile() {
+  get stylesFile() {
     return '/src/components/linear-progress/internal.css'
   }
 });

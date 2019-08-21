@@ -80,7 +80,7 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
     this.spinnerContainer.innerHTML = '';
   }
 
-  cssFile() {
+  get stylesFile() {
     return 'src/components/fab/internal.css'
   }
 });
