@@ -157,3 +157,7 @@ mdw-list-item .mdw-list-item-ripple {
 mdw-list-item[active]:not([disabled]) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
 }
+
+mdw-list-item[onclick] {
+  cursor: pointer;
+}

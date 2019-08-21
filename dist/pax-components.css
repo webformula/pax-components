@@ -2665,6 +2665,10 @@ mdw-list-item[active]:not([disabled]) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
 }
 
+mdw-list-item[onclick] {
+  cursor: pointer;
+}
+
 mdw-backdrop {
   display: block;
   width: 100%;
