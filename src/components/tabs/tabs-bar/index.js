@@ -1,3 +1,5 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+
 customElements.define('mdw-tabs-bar', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -50,8 +52,8 @@ customElements.define('mdw-tabs-bar', class extends HTMLElementExtended {
     this._activeTab = el;
   }
 
-  get stylesFile() {
-    return '/src/components/tabs/tabs-bar/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 
   template() {

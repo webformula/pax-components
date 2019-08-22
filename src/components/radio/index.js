@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWRipple from '../../core/Ripple.js';
+
 customElements.define('mdw-radio', class extends HTMLElementExtended {
   constructor() {
     super();

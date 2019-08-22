@@ -1,6 +1,10 @@
-import { buildComponents } from '@webformula/pax-core';
+import { build } from '@webformula/pax-core';
 
-buildComponents({
-  rootFolder: 'src/components',
-  distFolder: 'test-dist',
+build({
+  rootFolder: 'src',
+  distFolder: 'test-dist'
+}, {
+  buildIndexHTML: false,
+  paxCoreIncludeOnly: ['HTMLElementExtended.js'],
+  customHTMLElementExtendedName: 'HTMLElementExtendedPaxComponents.js'
 });

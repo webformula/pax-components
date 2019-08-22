@@ -1,4 +1,4 @@
-new class MDWTheme {
+export default new class MDWTheme {
   constructor() {
     this.hexREGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
     this.setContrast();

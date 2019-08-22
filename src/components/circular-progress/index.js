@@ -1,3 +1,5 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+
 customElements.define('mdw-circular-progress', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -120,7 +122,7 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
     `;
   }
 
-  get stylesFile() {
-    return '/src/components/circular-progress/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 });

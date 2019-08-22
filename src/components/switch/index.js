@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWRipple from '../../core/Ripple.js';
+
 customElements.define('mdw-switch', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -63,8 +66,8 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
     this.dispatchChange();
   }
 
-  get stylesFile() {
-    return '/src/components/switch/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 
   template() {

@@ -1,4 +1,4 @@
-new class MDWDialog {
+const MDWDialog = new class {
   constructor() {
     this.currentDialog = null;
   }
@@ -47,3 +47,7 @@ new class MDWDialog {
     `;
   }
 }
+
+window.MDWDialog = MDWDialog;
+
+export default MDWDialog;

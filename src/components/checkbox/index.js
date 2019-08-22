@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWRipple from '../../core/Ripple.js';
+
 customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    constructor() {
      super();
@@ -73,8 +76,8 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
      this.checked = !this.checked;
    }
 
-   get stylesFile() {
-     return '/src/components/checkbox/internal.css'
+   get internalStylesFile() {
+     return './internal.css'
    }
 
    template() {

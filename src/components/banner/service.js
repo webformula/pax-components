@@ -1,4 +1,6 @@
-new class MDWBanner {
+import MDWUtils from '../../core/Utils.js';
+
+const MDWBanner = new class {
   constructor() {
     this.queue = [];
   }
@@ -80,3 +82,7 @@ new class MDWBanner {
     `;
   }
 }
+
+window.MDWBanner = MDWBanner;
+
+export default MDWBanner;

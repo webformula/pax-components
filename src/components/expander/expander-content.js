@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWUtils from '../../core/Utils.js';
+
 customElements.define('mdw-expander-content', class extends HTMLElementExtended {
   constructor() {
     super();

@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWRipple from '../../../core/Ripple.js';
+
 customElements.define('mdw-tab-button', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -65,7 +68,7 @@ customElements.define('mdw-tab-button', class extends HTMLElementExtended {
     `;
   }
 
-  get stylesFile() {
-    return 'src/components/tabs/tab-button/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 });

@@ -1,3 +1,5 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+
 customElements.define('mdw-fab', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -80,7 +82,7 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
     this.spinnerContainer.innerHTML = '';
   }
 
-  get stylesFile() {
-    return 'src/components/fab/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 });

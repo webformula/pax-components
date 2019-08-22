@@ -1,4 +1,4 @@
-new class MDWSnackbar {
+const MDWSnackbar = new class {
   constructor() {
     this.queue = [];
   }
@@ -78,3 +78,7 @@ new class MDWSnackbar {
     `;
   }
 }
+
+window.MDWSnackbar = MDWSnackbar;
+
+export default MDWSnackbar;

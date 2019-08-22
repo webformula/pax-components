@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWUtils from '../../core/Utils.js';
+
 customElements.define('mdw-slider', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -165,8 +168,8 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     this.dispatchEvent(new Event('change', this));
   }
 
-  get stylesFile() {
-    return '/src/components/slider/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 
   template() {
