@@ -2,9 +2,9 @@ import { build } from '@webformula/pax-core';
 
 build({
   rootFolder: 'src',
-  distFolder: 'test-dist'
+  distFolder: 'dist-files'
 }, {
-  buildIndexHTML: false,
+  includeIndexHTML: false,
   paxCoreIncludeOnly: ['HTMLElementExtended.js'],
   customHTMLElementExtendedName: 'HTMLElementExtendedPaxComponents.js'
 });

@@ -1,6 +1,6 @@
-const { Page, html } = require('@webformula/pax-core');
+import { Page, html } from '@webformula/pax-core';
 
-module.exports = class Selects extends Page {
+export default class Selects extends Page {
   constructor() {
     super();
   }
@@ -153,4 +153,4 @@ module.exports = class Selects extends Page {
       </article>
     `;
   }
-};
+}

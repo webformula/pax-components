@@ -6,13 +6,11 @@
   "scripts": {
     "start": "nodemon --watch src --watch src-docs --exec \"npm run build\" & npm run serve",
     "serve": "http-server dist-docs/ -p 8080",
-
-    "test": "node --experimental-modules test.js",
-    "test-webpack": "webpack --config webpack.config.test.js",
-
-    "build": "npm run build:components && npm run build:docs",
-    "build:components": "webpack --config webpack.config.js && cp -r dist/* dist-docs",
-    "build:docs": "node src-docs/index.js && cp -r src-docs/public/* dist-docs/",
+    "build": "npm run build:components && npm run build:css && npm run build:package && npm run build:docs",
+    "build:components": "node --experimental-modules build.js",
+    "build:css": "cp dist-files/app.css dist/pax-components.css",
+    "build:package": "webpack --config webpack.config.js",
+    "build:docs": "node --experimental-modules src-docs/index.js && cp -r src-docs/public/* dist-docs/ && cp dist/* dist-docs/",
     "cypress:open": "cypress open",
     "cypress:open-and-serve": "npm run watch & cypress open"
   },

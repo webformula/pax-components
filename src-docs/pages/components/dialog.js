@@ -1,6 +1,6 @@
-const { Page, html } = require('@webformula/pax-core');
+import { Page, html } from '@webformula/pax-core';
 
-module.exports = class Dialog extends Page {
+export default class Dialog extends Page {
   constructor() {
     super();
     this.finnigens = `
@@ -240,4 +240,4 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
       </article>
     `;
   }
-};
+}

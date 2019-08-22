@@ -1,8 +1,4 @@
-const {
-  customElements,
-  HTMLElementExtended,
-  stripIndents
-} = require('@webformula/pax-core');
+import { HTMLElementExtended } from '@webformula/pax-core';
 
 customElements.define('code-mirror', class extends HTMLElementExtended {
   constructor() {

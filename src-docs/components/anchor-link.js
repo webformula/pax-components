@@ -1,8 +1,4 @@
-const {
-  customElements,
-  HTMLElementExtended,
-  css
-} = require('@webformula/pax-core');
+import { HTMLElementExtended, css } from '@webformula/pax-core';
 
 customElements.define('anchor-link', class extends HTMLElementExtended {
   constructor() {

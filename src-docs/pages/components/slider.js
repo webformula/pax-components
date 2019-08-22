@@ -1,6 +1,6 @@
-const { Page, html } = require('@webformula/pax-core');
+import { Page, html } from '@webformula/pax-core';
 
-module.exports = class Slider extends Page {
+export default class Slider extends Page {
   constructor() {
     super();
   }
@@ -81,4 +81,4 @@ module.exports = class Slider extends Page {
       </article>
     `;
   }
-};
+}

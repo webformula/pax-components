@@ -1,42 +1,44 @@
-const { html } = require('@webformula/pax-core');
-const header = require('./header');
-const nav = require('./navigation');
+import { html } from '@webformula/pax-core';
+import header from './header.js';
+import nav from './navigation.js';
 
-module.exports = ({ head, body, title }) => html`
-  <!doctype html>
-  <html lang="en">
-    <head>
-      <title>${title}</title>
+export default function ({ head, body, title }) {
+  return html`
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <title>${title}</title>
 
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
-      <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 
-      <link rel="stylesheet" href="pax-components.css">
-      <link rel="stylesheet" href="main.css">
-      <script src="pax-components.js"></script>
+        <link rel="stylesheet" href="pax-components.css">
+        <link rel="stylesheet" href="main.css">
+        <script src="pax-components.js"></script>
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css">
-      <link rel="stylesheet" href="one-dark.css">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/addon/runmode/runmode-standalone.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/javascript/javascript.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/xml/xml.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/css/css.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css">
+        <link rel="stylesheet" href="one-dark.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/addon/runmode/runmode-standalone.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/javascript/javascript.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/xml/xml.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/css/css.js"></script>
 
-      ${head}
-    </head>
+        ${head}
+      </head>
 
-    <body>
-      <mdw-body>
-        ${nav({ title })}
-        <mdw-page>
-          ${header({ title })}
-          <mdw-content class="constrain-width">
-          ${body}
-          </mdw-content>
-        </mdw-page>
-      </mdw-body>
-    </body>
-  </html>
-`;
+      <body>
+        <mdw-body>
+          ${nav({ title })}
+          <mdw-page>
+            ${header({ title })}
+            <mdw-content class="constrain-width">
+            ${body}
+            </mdw-content>
+          </mdw-page>
+        </mdw-body>
+      </body>
+    </html>
+  `;
+}

@@ -1,6 +1,6 @@
-const { Page, html, css } = require('@webformula/pax-core');
+import { Page, html, css } from '@webformula/pax-core';
 
-module.exports = class Buttons extends Page {
+export default class Buttons extends Page {
   constructor() {
     super();
   }
@@ -234,4 +234,4 @@ module.exports = class Buttons extends Page {
       </article>
     `;
   }
-};
+}
