@@ -15,7 +15,7 @@ export default function ({ head, body, title }) {
 
         <link rel="stylesheet" href="pax-components.css">
         <link rel="stylesheet" href="main.css">
-        <script src="pax-components.js"></script>
+        <script type="module" src="pax-components.js"></script>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css">
         <link rel="stylesheet" href="one-dark.css">

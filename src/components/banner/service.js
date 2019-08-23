@@ -71,7 +71,7 @@ const MDWBanner = new class {
   }
 
   template(message, dismissLabel, acceptLabel, uid) {
-    return html`
+    return `
       <mdw-banner id="${uid}">
         <div>${message}</div>
         <div>

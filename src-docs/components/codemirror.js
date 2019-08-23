@@ -30,8 +30,8 @@ customElements.define('code-mirror', class extends HTMLElementExtended {
   }
 
   get content() {
-    if (this.querySelector('code')) this._content = stripIndents`${this.querySelector('code').innerText}`;
-    if (!this._content) this._content = stripIndents`${this.innerHTML}`;
+    if (this.querySelector('code')) this._content = this.querySelector('code').innerText;
+    if (!this._content) this._content = this.innerHTML;
     return this._content;
   }
 
@@ -44,6 +44,15 @@ customElements.define('code-mirror', class extends HTMLElementExtended {
           display: block;
           max-width: calc(100vw - 232px);
         }
+      }
+
+      pre {
+        position: relative;
+      }
+
+      code {
+        left: -160px;
+        position: relative;
       }
     `;
   }

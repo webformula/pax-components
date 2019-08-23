@@ -173,7 +173,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
   }
 
   template() {
-    return html`
+    return `
       <div class="mdw-slider__track-container">
         <div class="mdw-slider__track"></div>
 

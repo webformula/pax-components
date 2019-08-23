@@ -31,7 +31,7 @@ const MDWDialog = new class {
   }
 
   template({ id, title, message, okLabel, cancelLabel, position }) {
-    return html`
+    return `
       <mdw-dialog id="${id}">
         <mdw-panel mdw-position="${position}">
           <mdw-dialog-container>

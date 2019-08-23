@@ -1,4 +1,5 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWRipple from '../../core/Ripple.js';
 
 customElements.define('mdw-fab', class extends HTMLElementExtended {
   constructor() {

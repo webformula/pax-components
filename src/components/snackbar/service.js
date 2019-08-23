@@ -61,7 +61,7 @@ const MDWSnackbar = new class {
   }
 
   template({ id, message, actionLabel }) {
-    return html`
+    return `
       <mdw-snackbar id="${id}">
         <mdw-panel>
           <mdw-snackbar-container>
