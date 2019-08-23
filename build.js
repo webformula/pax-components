@@ -5,6 +5,6 @@ build({
   distFolder: 'dist-files'
 }, {
   includeIndexHTML: false,
-  paxCoreIncludeOnly: ['HTMLElementExtended.js'],
+  includeOnly: ['HTMLElementExtended.js'],
   customHTMLElementExtendedName: 'HTMLElementExtendedPaxComponents.js'
 });

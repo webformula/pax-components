@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --watch src --watch src-docs --exec \"npm run build\" & npm run serve",
     "serve": "http-server dist-docs/ -p 8080",
-    "build": "npm run build:components && npm run build:css && npm run build:package && npm run build:docs",
+    "build": "rm -rf dist-docs && rm -rf dist-files && npm run build:components && npm run build:css && npm run build:package && npm run build:docs",
     "build:components": "node --experimental-modules build.js",
     "build:css": "cp dist-files/app.css dist/pax-components.css",
     "build:package": "webpack --config webpack.config.js",
