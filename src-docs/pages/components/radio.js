@@ -1,6 +1,6 @@
-const { Page, html } = require('@webformula/pax-core');
+import { Page, html } from '@webformula/pax-core';
 
-module.exports = class Radio extends Page {
+export default class Radio extends Page {
   constructor() {
     super();
   }
@@ -29,4 +29,4 @@ module.exports = class Radio extends Page {
       </article>
     `;
   }
-};
+}

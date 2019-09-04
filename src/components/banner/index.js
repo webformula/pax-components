@@ -1,3 +1,7 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWBanner from './service.js';
+import MDWUtils from '../../core/Utils.js';
+
 customElements.define('mdw-banner', class extends HTMLElementExtended {
   constructor() {
     super();

@@ -1,3 +1,5 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+
 customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -285,8 +287,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return '<mdw-panel mdw-position="bottom inner-left"></mdw-panel>';
   }
 
-  cssFile() {
-    return '/src/components/select/internal.css';
+  get internalStylesFile() {
+    return './internal.css';
   }
 
   querySlotted(selector) {

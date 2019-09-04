@@ -1,6 +1,6 @@
-const { Page, html } = require('@webformula/pax-core');
+import { Page, html } from '@webformula/pax-core';
 
-module.exports = class Checkboxes extends Page {
+export default class Checkboxes extends Page {
   constructor() {
     super();
   }
@@ -160,4 +160,4 @@ module.exports = class Checkboxes extends Page {
       </article>
     `;
   }
-};
+}

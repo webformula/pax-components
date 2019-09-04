@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWRipple from '../../core/Ripple.js';
+
 customElements.define('mdw-fab', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -80,7 +83,7 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
     this.spinnerContainer.innerHTML = '';
   }
 
-  cssFile() {
-    return 'src/components/fab/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 });

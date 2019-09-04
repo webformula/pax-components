@@ -1,3 +1,5 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+
 customElements.define('mdw-circular-progress', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -104,7 +106,7 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
   }
 
   template() {
-    return html`
+    return `
       <svg style="width: ${this.diameter}px; height: ${this.diameter}px;">
         <circle
           cx="50%"
@@ -120,7 +122,7 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
     `;
   }
 
-  cssFile() {
-    return '/src/components/circular-progress/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 });

@@ -1,4 +1,4 @@
-new class MDWDialog {
+const MDWDialog = new class {
   constructor() {
     this.currentDialog = null;
   }
@@ -31,7 +31,7 @@ new class MDWDialog {
   }
 
   template({ id, title, message, okLabel, cancelLabel, position }) {
-    return html`
+    return `
       <mdw-dialog id="${id}">
         <mdw-panel mdw-position="${position}">
           <mdw-dialog-container>
@@ -47,3 +47,7 @@ new class MDWDialog {
     `;
   }
 }
+
+window.MDWDialog = MDWDialog;
+
+export default MDWDialog;

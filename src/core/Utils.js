@@ -1,4 +1,4 @@
-new class MDWUtils {
+const MDWUtils = new class {
   constructor() {
     this._uid = 1;
     this._setupTransitionEvent();
@@ -82,3 +82,7 @@ new class MDWUtils {
     }
   }
 }
+
+window.MDWUtils = MDWUtils;
+
+export default MDWUtils;

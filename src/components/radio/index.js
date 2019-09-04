@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWRipple from '../../core/Ripple.js';
+
 customElements.define('mdw-radio', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -32,7 +35,7 @@ customElements.define('mdw-radio', class extends HTMLElementExtended {
   }
 
   template() {
-    return html`
+    return `
       <input type="radio" name="${this.name}">
       <div class="mdw-radio-background">
         <div class="mdw-radio__outer-circle"></div>

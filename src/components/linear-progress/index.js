@@ -1,3 +1,5 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+
 customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -41,7 +43,7 @@ customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
     `;
   }
 
-  cssFile() {
-    return '/src/components/linear-progress/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 });

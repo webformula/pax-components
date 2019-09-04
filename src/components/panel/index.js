@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWUtils from '../../core/Utils.js';
+
 /* --- mdw-panel ---
  * The panel allows you to create positions floating elements.
  * mdw-panel is used for menu, dialog, tooltip

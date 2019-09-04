@@ -1,3 +1,5 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+
 customElements.define('mdw-menu', class extends HTMLElementExtended {
   constructor() {
     super();

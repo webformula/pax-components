@@ -1,4 +1,4 @@
-class MDWRipple {
+export default class MDWRipple {
   constructor(config = {}) {
     this.RIPPLE_FADE_IN_DURATION = 200;
     this.RIPPLE_FADE_OUT_DURATION = 150;

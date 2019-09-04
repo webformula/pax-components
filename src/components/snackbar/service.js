@@ -1,4 +1,4 @@
-new class MDWSnackbar {
+const MDWSnackbar = new class {
   constructor() {
     this.queue = [];
   }
@@ -61,7 +61,7 @@ new class MDWSnackbar {
   }
 
   template({ id, message, actionLabel }) {
-    return html`
+    return `
       <mdw-snackbar id="${id}">
         <mdw-panel>
           <mdw-snackbar-container>
@@ -78,3 +78,7 @@ new class MDWSnackbar {
     `;
   }
 }
+
+window.MDWSnackbar = MDWSnackbar;
+
+export default MDWSnackbar;

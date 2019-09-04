@@ -1,4 +1,6 @@
-new class MDWBanner {
+import MDWUtils from '../../core/Utils.js';
+
+const MDWBanner = new class {
   constructor() {
     this.queue = [];
   }
@@ -69,7 +71,7 @@ new class MDWBanner {
   }
 
   template(message, dismissLabel, acceptLabel, uid) {
-    return html`
+    return `
       <mdw-banner id="${uid}">
         <div>${message}</div>
         <div>
@@ -80,3 +82,7 @@ new class MDWBanner {
     `;
   }
 }
+
+window.MDWBanner = MDWBanner;
+
+export default MDWBanner;

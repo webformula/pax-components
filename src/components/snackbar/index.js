@@ -1,3 +1,6 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+import MDWSnackbar from './service.js';
+
 customElements.define('mdw-snackbar', class extends HTMLElementExtended {
   constructor() {
     super();

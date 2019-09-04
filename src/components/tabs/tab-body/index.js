@@ -1,3 +1,5 @@
+import { HTMLElementExtended } from '@webformula/pax-core';
+
 customElements.define('mdw-tab-body', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -38,7 +40,7 @@ customElements.define('mdw-tab-body', class extends HTMLElementExtended {
     `;
   }
 
-  cssFile() {
-    return 'src/components/tabs/tab-body/internal.css'
+  get internalStylesFile() {
+    return './internal.css'
   }
 });
