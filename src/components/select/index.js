@@ -176,15 +176,18 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       case 40: //down
       case 39: //right
         this.focusNext();
+        e.preventDefault();
         break;
 
       case 38: //up
       case 37: //left
         this.focusPrevious();
+        e.preventDefault();
         break;
 
       case 13: //enter
         this.selectFocused();
+        e.preventDefault();
         break;
 
       default:
