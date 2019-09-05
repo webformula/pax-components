@@ -4,4 +4,5 @@ mdw-autocomplete {
 
 mdw-autocomplete mdw-panel {
   /* margin-bottom: -25%; */
+  transform: translateY(56px) !important;
 }

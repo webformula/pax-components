@@ -9,6 +9,7 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
 
   connectedCallback() {
     const target = this.targetInput;
+    target.setAttribute('autocomplete', 'off');
 
     this._innerHTML = this.innerHTML;
     this._optionsData = [...this.children].reduce((a, el) => {
@@ -63,7 +64,7 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
   }
 
   get panelHTML() {
-    return '<mdw-panel mdw-position="top inner-left"></mdw-panel>';
+    return '<mdw-panel mdw-position="bottom inner-left"></mdw-panel>';
   }
 
   onPanelClose(e) {
@@ -111,8 +112,8 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
 
   onTargetBlur(e) {
     this._isInputFocused = false;
-    // this.panel.close();
-    // this.panel.removeEventListener('click', this.bound_onPanelClick);
+    this.panel.close();
+    this.panel.removeEventListener('click', this.bound_onPanelClick);
   }
 
   onTargetChange(e) {
@@ -159,7 +160,7 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
   }
 
   renderOptions(optionKeys) {
-    return `${optionKeys.map(k => html`
+    return `${optionKeys.map(k => `
       <option value="${this._optionsData[k]}">${k}</option>
     `).join('\n')}`;
   }

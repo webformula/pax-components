@@ -9,13 +9,13 @@ export default class LinearProgress extends Page {
     this.value = 0;
     this.pc = document.querySelector('#dynamic-pc');
     this.progressInterval = setInterval(() => {
-      this.value += 1;
+      this.value += 0.1;
       if (this.value > 100) {
         clearInterval(this.progressInterval);
         this.progressInterval = undefined;
       }
       this.pc.setAttribute('mdw-percent', this.value);
-    }, 70);
+    }, 7);
   }
 
   disconnectedCallback() {
