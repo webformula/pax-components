@@ -59,3 +59,14 @@
 :host(.error.mdw-unelevated) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
 }
+
+
+/* bottom navigation */
+:host(.mdw-bottom-navigation) span.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  text-transform: none;
+  line-height: 4px;
+}

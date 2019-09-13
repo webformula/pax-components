@@ -5,6 +5,6 @@ build({
   distFolder: 'dist-files'
 }, {
   includeIndexHTML: false,
-  includeOnlyDependencies: ['HTMLElementExtended.js'],
+  includeRouter: false,
   customHTMLElementExtendedName: 'HTMLElementExtendedPaxComponents.js'
 });

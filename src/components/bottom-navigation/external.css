@@ -1,0 +1,31 @@
+mdw-bottom-navigation {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+
+  background-color: var(--mdw-theme-primary);
+  color: var(--mdw-theme-text--primary);
+}
+
+mdw-bottom-navigation mdw-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+}
+
+mdw-bottom-navigation mdw-button mdw-icon {
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: unset;
+  padding: unset;
+
+  font-size: 24px;
+}
