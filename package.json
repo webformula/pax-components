@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon --exec \"npm run build\" & npm run serve",
+    "kill8080": "lsof -ti:8080 | xargs kill",
     "serve": "http-server dist-docs/ -p 8080",
     "build": "rm -rf dist-docs && rm -rf dist-files && npm run build:components && npm run build:css && npm run build:package && npm run build:docs",
     "build:components": "node --experimental-modules build.js",
@@ -12,7 +13,7 @@
     "build:package": "webpack --config webpack.config.js",
     "build:docs": "node --experimental-modules src-docs/index.js && cp -r src-docs/public/* dist-docs/ && cp dist/* dist-docs/",
     "cypress:open": "cypress open",
-    "cypress:open-and-serve": "npm run watch & cypress open"
+    "cypress:open-and-serve": "npm start & cypress open"
   },
   "repository": {
     "type": "git",
