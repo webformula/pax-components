@@ -15,23 +15,6 @@ customElements.define('anchor-link', class extends HTMLElementExtended {
     }
   }
 
-  externalStyles() {
-    return css`
-      anchor-link {
-        display: block;
-        font-family: Roboto,Arial,Helvetica,sans-serif;
-        font-size: 1rem;
-        line-height: 1.6rem;
-        letter-spacing: .2px;
-        font-weight: 500;
-        text-decoration: none;
-        font-weight: 500;
-        color: #6200ee;
-        cursor: pointer;
-      }
-    `;
-  }
-
   scrollTo() {
     let anchor = this.getAnchor();
     let scrollElement = this.getScrollElement();

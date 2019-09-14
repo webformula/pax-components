@@ -1918,17 +1918,21 @@ mdw-panel option.mdw-selected:after {
 } */
 
 mdw-radio-group {
-  display: inline-flex;
+  display: flex;
   align-items: center;
 }
 
+mdw-radio-group[mdw-column] {
+  flex-direction: column;
+}
+
 mdw-radio-group .mdw-spacer {
-  width: 12px;
+  padding: 12px;
 }
 
 mdw-radio {
   will-change: transform,opacity;
-  display: inline-block;
+  display: flex;
   position: relative;
   flex: 0 0 auto;
   box-sizing: border-box;
@@ -1954,7 +1958,7 @@ mdw-radio:before {
 mdw-radio:after,
 mdw-radio:before {
   top: 0%;
-  left: 0%;
+  left: 100%;
   width: 100%;
   height: 100%;
 }
@@ -1962,7 +1966,7 @@ mdw-radio:before {
 mdw-radio input {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 50%;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -1989,7 +1993,7 @@ mdw-radio .mdw-radio-background {
 mdw-radio .mdw-radio-background:before {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 100%;
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -2004,7 +2008,7 @@ mdw-radio .mdw-radio-background:before {
 mdw-radio .mdw-radio__outer-circle {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 100%;
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -2023,7 +2027,7 @@ mdw-radio input:checked + .mdw-radio-background .mdw-radio__outer-circle {
 mdw-radio .mdw-radio__inner-circle {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 100%;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -2040,6 +2044,12 @@ mdw-radio input:checked + .mdw-radio-background .mdw-radio__inner-circle {
   border-color: var(--mdw-theme-secondary);
   transition: transform .12s cubic-bezier(0,0,.2,1) 0ms,
               border-color .12s cubic-bezier(0,0,.2,1) 0ms;
+}
+
+mdw-radio label {
+  position: relative;
+  left: 0;
+  margin-left: -8px;
 }
 
 
@@ -2079,6 +2089,7 @@ mdw-radio .mdw-radio-ripple {
   border-radius: 50%;
   z-index: 1;
   pointer-events: none;
+  transform: translateX(50%);
 }
 
 mdw-select {
