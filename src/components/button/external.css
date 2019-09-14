@@ -74,7 +74,7 @@ mdw-button:hover {
   cursor: pointer;
 }
 
-mdw-button:hover::before {
+mdw-button:not(.mdw-bottom-navigation):hover::before {
   opacity: 0.04;
 }
 
@@ -161,6 +161,15 @@ mdw-button.mdw-icon {
   width: 48px;
   height: 48px;
   padding: 12px;
+}
+
+mdw-button.mdw-bottom-navigation {
+  border-radius: 50%;
+  min-width: 0;
+  max-width: 100px;
+  width: 56px;
+  height: 56px;
+  padding: 28px;
 }
 
 mdw-button.mdw-icon mdw-icon {

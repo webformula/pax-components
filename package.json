@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "nodemon --watch src --watch src-docs --exec \"npm run build\" & npm run serve",
+    "start": "nodemon --exec \"npm run build\" & npm run serve",
     "serve": "http-server dist-docs/ -p 8080",
     "build": "rm -rf dist-docs && rm -rf dist-files && npm run build:components && npm run build:css && npm run build:package && npm run build:docs",
     "build:components": "node --experimental-modules build.js",
@@ -35,6 +35,6 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "github:webformula/pax-core#v0.3.3-beta"
+    "@webformula/pax-core": "github:webformula/pax-core#v0.4.0-beta"
   }
 }

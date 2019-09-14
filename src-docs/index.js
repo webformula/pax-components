@@ -5,7 +5,7 @@ build({
   pagesFolder: 'pages',
   layoutFilePath: 'src-docs/layout/index.js',
   distFolder: 'dist-docs',
-  routeConfig: {
+  routerConfig: {
     root: 'home'
   }
 });

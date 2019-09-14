@@ -25,6 +25,7 @@ export default function () {
           <a href="#/components/circular-progress">Circular Progress</a>
           <a href="#/components/top-app-bar">Top app bar</a>
           <a href="#/components/drawers">Drawers</a>
+          <a href="#/components/bottom-navigation">Bottom navigation</a>
           <a href="#/components/banners">Banners</a>
           <a href="#/components/snackbar">Snackbar</a>
           <a href="#/components/cards">Cards</a>
