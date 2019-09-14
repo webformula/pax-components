@@ -61,30 +61,30 @@ export default class Menu extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-              <mdw-menu>
-                <mdw-button>show menu</mdw-button>
-                <mdw-panel>
-                  <mdw-list>
-                    <mdw-list-item>
-                      <span class="mdw-list-item__graphic material-icons">inbox</span>
-                      Inbox
-                    </mdw-list-item>
+                <mdw-menu>
+                  <mdw-button>show menu</mdw-button>
+                  <mdw-panel>
+                    <mdw-list>
+                      <mdw-list-item>
+                        <span class="mdw-list-item__graphic material-icons">inbox</span>
+                        Inbox
+                      </mdw-list-item>
 
-                    <mdw-list-item>
-                      <span class="mdw-list-item__graphic material-icons">star</span>
-                      Two
-                    </mdw-list-item>
+                      <mdw-list-item>
+                        <span class="mdw-list-item__graphic material-icons">star</span>
+                        Two
+                      </mdw-list-item>
 
-                    <mdw-list-item>
-                      <span class="mdw-list-item__graphic material-icons"></span>
-                      With Spacer
-                    </mdw-list-item>
+                      <mdw-list-item>
+                        <span class="mdw-list-item__graphic material-icons"></span>
+                        With Spacer
+                      </mdw-list-item>
 
-                    <mdw-list-item>
-                      No Spacer
-                    </mdw-list-item>
-                  </mdw-list>
-              </mdw-menu>
+                      <mdw-list-item>
+                        No Spacer
+                      </mdw-list-item>
+                    </mdw-list>
+                </mdw-menu>
               </code-mirror>
             </div>
 
