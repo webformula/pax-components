@@ -8,6 +8,10 @@ mdw-bottom-navigation {
 
   background-color: var(--mdw-theme-primary);
   color: var(--mdw-theme-text--primary);
+
+  box-shadow: 0 -2px 4px -1px rgba(0,0,0,.2),
+              0 4px 5px 0 rgba(0,0,0,.14),
+              0 1px 10px 0 rgba(0,0,0,.12);
 }
 
 mdw-bottom-navigation mdw-button {

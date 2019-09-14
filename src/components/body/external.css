@@ -2,3 +2,7 @@ mdw-body {
   display: flex;
   height: 100vh;
 }
+
+mdw-body[mdw-column] {
+  flex-direction: column;
+}
