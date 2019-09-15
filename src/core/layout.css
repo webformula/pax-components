@@ -1,42 +1,37 @@
-[flex] {
+[mdw-flex], [flex] {
   flex: 1;
 }
 
-[flex="1"] {
+[mdw-flex="1"], [flex="1"] {
   flex: 1;
 }
 
-[flex=".25"],
-[flex="0.25"] {
+[mdw-flex=".25"], [mdw-flex="0.25"], [flex=".25"], [flex="0.25"] {
   flex: .25;
 }
 
-[flex=".33"],
-[flex="0.33"] {
+[mdw-flex=".33"], [mdw-flex="0.33"], [flex=".33"], [flex="0.33"] {
   flex: .33;
 }
 
-[flex=".5"],
-[flex="0.5"] {
+[mdw-flex=".5"], [mdw-flex="0.5"], [flex=".5"], [flex="0.5"] {
   flex: .5;
 }
 
-[flex=".66"],
-[flex="0.66"] {
+[mdw-flex=".66"], [mdw-flex="0.66"], [flex=".66"], [flex="0.66"] {
   flex: .66;
 }
 
-[flex=".75"],
-[flex="0.75"] {
+[mdw-flex=".75"], [mdw-flex="0.75"], [flex=".75"], [flex="0.75"] {
   flex: .75;
 }
 
-[row], .row {
+[mdw-row], [row], .mdw-row, .row {
   display: flex;
   flex-direction: row;
 }
 
-[column], .column {
+[mdw-column], [column], .mdw-column, .column {
   display: flex;
   flex-direction: column;
 }

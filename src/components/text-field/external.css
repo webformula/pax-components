@@ -5,6 +5,8 @@ mdw-textfield {
   box-sizing: border-box;
   min-height: 56px;
   margin-bottom: 16px;
+  margin-left: 1px;
+  margin-right: 1px;
   will-change: opacity,transform,color;
 
   -webkit-tap-highlight-color: rgba(0,0,0,0);
