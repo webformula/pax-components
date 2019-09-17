@@ -5,6 +5,11 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     super();
     this.isShowing = true;
     this.isRightAligned = this.hasAttribute('right-aligned');
+
+    if (document.documentElement.clientWidth < 460) {
+      this.unlockOpen();
+      this.hide();
+    }
   }
 
   get isLockedOpen() {

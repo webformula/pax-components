@@ -40,6 +40,7 @@ export default function () {
           <a href="#/components/radio">Radio</a>
           <a href="#/components/tabs">Tabs</a>
           <a href="#/components/slider">Slider</a>
+          <a href="#/components/sheets">Sheets</a>
         </nav>
       </mdw-drawer-content>
     </mdw-drawer>

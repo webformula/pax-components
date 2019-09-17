@@ -53,6 +53,29 @@ const MDWUtils = new class {
     };
   }
 
+  querySlotted(component, selector) {
+    if (!component) throw Error('requires either component');
+    if (!selector) throw Error('requires selector');
+    return component.shadowRoot.querySelector('slot').assignedNodes().find(el => {
+      if (!el.matches) return false;
+      return el.matches(selector);
+    });
+  }
+
+  querySlottedAll(component, selector) {
+    if (!component) throw Error('requires either component');
+    if (!selector) throw Error('requires selector');
+    return component.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }).reduce((a, el) => {
+      if (!el.querySelectorAll) return a;
+      return a.concat([...el.querySelectorAll(selector)]);
+    }, []);
+  }
+
+  slottedChildren(component) {
+    if (!component) throw Error('requires either component');
+    return component.shadowRoot.querySelector('slot').assignedNodes();
+  }
+
   get transitionEventName() {
     return this.transitionEventName_;
   }
