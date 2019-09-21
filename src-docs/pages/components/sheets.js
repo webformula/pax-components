@@ -22,58 +22,171 @@ export default class Sheets extends Page {
 
         <div class="showcase" style="overflow: hidden">
           <mdw-button onclick="document.querySelector('mdw-sheet').toggle()">show</mdw-button>
-          <mdw-sheet mdw-modal>
-            <mdw-list>
-              <mdw-list-item>One</mdw-list-item>
-              <mdw-list-item>Two</mdw-list-item>
-              <mdw-list-item>Three</mdw-list-item>
-              <mdw-list-item>Four</mdw-list-item>
-              <mdw-list-item>Five</mdw-list-item>
-              <mdw-list-item>Six</mdw-list-item>
-              <mdw-list-item>Seven</mdw-list-item>
-              <mdw-list-item>Eight</mdw-list-item>
-              <mdw-list-item>Nine</mdw-list-item>
-              <mdw-list-item>Ten</mdw-list-item>
-              <mdw-list-item>Eleven</mdw-list-item>
-              <mdw-list-item>Twelve</mdw-list-item>
-              <mdw-list-item>Thirteen</mdw-list-item>
-              <mdw-list-item>Fourteen</mdw-list-item>
-              <mdw-list-item>Fifteen</mdw-list-item>
-              <mdw-list-item>Sixteen</mdw-list-item>
-            </mdw-list>
-          </mdw-sheet>
-
-
-          <mdw-button onclick="document.querySelector('#sheet-header').toggle()">show</mdw-button>
-          <mdw-sheet id="sheet-header">
+          <mdw-sheet>
+            <!-- optional - will be backfilled -->
             <mdw-sheet-header>
+              <mdw-sheet-title>Test title</mdw-sheet-title>
             </mdw-sheet-header>
 
-            <mdw-list>
-              <mdw-list-item>
-                <span class="mdw-list-item__graphic material-icons">inbox</span>
-                Inbox
-              </mdw-list-item>
-
-              <mdw-list-item>
-                <span class="mdw-list-item__graphic material-icons">star</span>
-                Two
-              </mdw-list-item>
-
-              <mdw-list-item>
-                <span class="mdw-list-item__graphic material-icons">add</span>
-                Three
-              </mdw-list-item>
-            </mdw-list>
+            <mdw-sheet-content>
+              <mdw-list>
+                <mdw-list-item>One</mdw-list-item>
+                <mdw-list-item>Two</mdw-list-item>
+                <mdw-list-item>Three</mdw-list-item>
+                <mdw-list-item>Four</mdw-list-item>
+                <mdw-list-item>Five</mdw-list-item>
+                <mdw-list-item>Six</mdw-list-item>
+                <mdw-list-item>Seven</mdw-list-item>
+                <mdw-list-item>Eight</mdw-list-item>
+                <mdw-list-item>Nine</mdw-list-item>
+                <mdw-list-item>Ten</mdw-list-item>
+                <mdw-list-item>Eleven</mdw-list-item>
+                <mdw-list-item>Twelve</mdw-list-item>
+                <mdw-list-item>Thirteen</mdw-list-item>
+                <mdw-list-item>Fourteen</mdw-list-item>
+                <mdw-list-item>Fifteen</mdw-list-item>
+                <mdw-list-item>Sixteen</mdw-list-item>
+              </mdw-list>
+            </mdw-sheet-content>
           </mdw-sheet>
         </div>
 
-        <a hreef="https://material.io/design/components/navigation-drawer.html#">Material Design Guidlines: Navigation Drawer</a>
-        <p>Navigation drawers provide access to destinations in your app.</p>
+        <a href="https://material.io/components/sheets-bottom/">Material Design Guidlines: sheets bottom</a>
+        <p>Bottom sheets are surfaces containing supplementary content that are anchored to the bottom of the screen</p>
 
 
-        <section id="types">
-          <h4>Types</h4>
+        <section id="examples">
+          <h4>Examples</h4>
+
+          <!-- modal basic -->
+          <mdw-card id="modal-basic">
+            <div class="mdw-card__content">
+              <h6>Modal: basic</h6>
+              <div class="description">Modal with a list and no header</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
+                <mdw-sheet mdw-modal>
+                  <mdw-sheet-content>
+                    <mdw-list>
+                      <mdw-list-item>One</mdw-list-item>
+                      <mdw-list-item>Two</mdw-list-item>
+                      <mdw-list-item>Three</mdw-list-item>
+                      <mdw-list-item>Four</mdw-list-item>
+                      <mdw-list-item>Five</mdw-list-item>
+                      <mdw-list-item>Six</mdw-list-item>
+                      <mdw-list-item>Seven</mdw-list-item>
+                      <mdw-list-item>Eight</mdw-list-item>
+                      <mdw-list-item>Nine</mdw-list-item>
+                      <mdw-list-item>Ten</mdw-list-item>
+                      <mdw-list-item>Eleven</mdw-list-item>
+                      <mdw-list-item>Twelve</mdw-list-item>
+                      <mdw-list-item>Thirteen</mdw-list-item>
+                      <mdw-list-item>Fourteen</mdw-list-item>
+                      <mdw-list-item>Fifteen</mdw-list-item>
+                      <mdw-list-item>Sixteen</mdw-list-item>
+                    </mdw-list>
+                  </mdw-sheet-content>
+                </mdw-sheet>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content row">
+              <mdw-button onclick="document.querySelector('#modal-basic-sheet').toggle()">show</mdw-button>
+              <mdw-sheet mdw-modal id="modal-basic-sheet">
+                <mdw-sheet-content>
+                  <mdw-list>
+                    <mdw-list-item>One</mdw-list-item>
+                    <mdw-list-item>Two</mdw-list-item>
+                    <mdw-list-item>Three</mdw-list-item>
+                    <mdw-list-item>Four</mdw-list-item>
+                    <mdw-list-item>Five</mdw-list-item>
+                    <mdw-list-item>Six</mdw-list-item>
+                    <mdw-list-item>Seven</mdw-list-item>
+                    <mdw-list-item>Eight</mdw-list-item>
+                    <mdw-list-item>Nine</mdw-list-item>
+                    <mdw-list-item>Ten</mdw-list-item>
+                    <mdw-list-item>Eleven</mdw-list-item>
+                    <mdw-list-item>Twelve</mdw-list-item>
+                    <mdw-list-item>Thirteen</mdw-list-item>
+                    <mdw-list-item>Fourteen</mdw-list-item>
+                    <mdw-list-item>Fifteen</mdw-list-item>
+                    <mdw-list-item>Sixteen</mdw-list-item>
+                  </mdw-list>
+                </mdw-sheet-content>
+              </mdw-sheet>
+            </div>
+          </mdw-card>
+
+          <!-- modal with header -->
+          <mdw-card id="modal-header">
+            <div class="mdw-card__content">
+              <h6>Modal: basic</h6>
+              <div class="description">Modal with a list and no header</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
+                <mdw-sheet mdw-modal>
+                  <mdw-sheet-header>
+                    <mdw-sheet-title>Test title</mdw-sheet-title>
+                  </mdw-sheet-header>
+
+                  <mdw-sheet-content>
+                    <mdw-list>
+                      <mdw-list-item>One</mdw-list-item>
+                      <mdw-list-item>Two</mdw-list-item>
+                      <mdw-list-item>Three</mdw-list-item>
+                      <mdw-list-item>Four</mdw-list-item>
+                      <mdw-list-item>Five</mdw-list-item>
+                      <mdw-list-item>Six</mdw-list-item>
+                      <mdw-list-item>Seven</mdw-list-item>
+                      <mdw-list-item>Eight</mdw-list-item>
+                      <mdw-list-item>Nine</mdw-list-item>
+                      <mdw-list-item>Ten</mdw-list-item>
+                      <mdw-list-item>Eleven</mdw-list-item>
+                      <mdw-list-item>Twelve</mdw-list-item>
+                      <mdw-list-item>Thirteen</mdw-list-item>
+                      <mdw-list-item>Fourteen</mdw-list-item>
+                      <mdw-list-item>Fifteen</mdw-list-item>
+                      <mdw-list-item>Sixteen</mdw-list-item>
+                    </mdw-list>
+                  </mdw-sheet-content>
+                </mdw-sheet>
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content row">
+              <mdw-button onclick="document.querySelector('#modal-header-sheet').toggle()">show</mdw-button>
+              <mdw-sheet mdw-modal id="modal-header-sheet">
+                <mdw-sheet-header>
+                  <mdw-sheet-title>Test title</mdw-sheet-title>
+                </mdw-sheet-header>
+
+                <mdw-sheet-content>
+                  <mdw-list>
+                    <mdw-list-item>One</mdw-list-item>
+                    <mdw-list-item>Two</mdw-list-item>
+                    <mdw-list-item>Three</mdw-list-item>
+                    <mdw-list-item>Four</mdw-list-item>
+                    <mdw-list-item>Five</mdw-list-item>
+                    <mdw-list-item>Six</mdw-list-item>
+                    <mdw-list-item>Seven</mdw-list-item>
+                    <mdw-list-item>Eight</mdw-list-item>
+                    <mdw-list-item>Nine</mdw-list-item>
+                    <mdw-list-item>Ten</mdw-list-item>
+                    <mdw-list-item>Eleven</mdw-list-item>
+                    <mdw-list-item>Twelve</mdw-list-item>
+                    <mdw-list-item>Thirteen</mdw-list-item>
+                    <mdw-list-item>Fourteen</mdw-list-item>
+                    <mdw-list-item>Fifteen</mdw-list-item>
+                    <mdw-list-item>Sixteen</mdw-list-item>
+                  </mdw-list>
+                </mdw-sheet-content>
+              </mdw-sheet>
+            </div>
+          </mdw-card>
         </section>
 
       </article>

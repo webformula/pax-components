@@ -5,12 +5,16 @@ import { addSwipeListener, removeSwipeListener } from '../../core/gestures.js'
 customElements.define('mdw-sheet', class extends HTMLElementExtended {
   constructor() {
     super();
+
+    this.headerHeight = 56;
     this.classList.add('mdw-closed');
     this.isShowing = false;
-    this.cloneTemplate();
-
     this.isModal = this.hasAttribute('mdw-modal');
     this.bound_onclick = this.onclick.bind(this);
+
+    if (!this.querySelector('mdw-sheet-header')) {
+      this.insertAdjacentHTML('afterbegin', '<mdw-sheet-header></mdw-sheet-header>');
+    }
   }
 
   connectedCallback() {
@@ -21,12 +25,16 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     this.removeEventListener('click', this.bound_onclick);
   }
 
-  get sheetABS() {
-    return this.shadowRoot.querySelector('.sheet-abs');
+  registerHeader(element) {
+    this.headerElement = element;
+  }
+
+  registerContent(element) {
+    this.contentElement = element;
   }
 
   get sheetContainer() {
-    return this.shadowRoot.querySelector('.sheet-container');
+    return this.contentElement.shadowRoot.querySelector('.mdw-sheet-content-container');
   }
 
   onclick({ target }) {
@@ -35,8 +43,10 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     }
   }
 
+
   show() {
     this.classList.remove('mdw-closed');
+    this.contentElement.show();
     this.isShowing = true;
     this.calculateInitialShowPosition();
     if (this.isModal) this.addEventListener('click', this.bound_onclick);
@@ -46,26 +56,54 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     addSwipeListener(this.sheetContainer, event => {
       switch (event.state) {
         case 'start':
-          startYPos = this.translateYCurrent;
+          startYPos = this.currentPosition;
         case 'move':
-          // 0 = scroll end
-          // prevent scrolling past end
           const newPos = startYPos + event.distance.y;
-          if (newPos < 0) this.setTranslateY(0);
-          else this.setTranslateY(newPos);
+          // full screen
+          if (newPos < 0) this.setPosition(0);
+          // close if below threshold
+          else if (newPos > this.closeThresholdHeight) return this.hide();
+          else this.setPosition(newPos);
+
+          // show initial header
+          this.classList.toggle('mdw-full-screen', this.currentPosition - 12 <= this.minimumPosition);
+          // this.classList.toggle('mdw-show-fixed-header', this.sheetContainer.getBoundingClientRect().top <= 0);
           break;
         case 'end':
-          if (this.translateYCurrent - this.translateYMin > 0) this.snapTranslation();
+          if (this.currentPosition - this.minimumPosition > 0) this.snapTranslation();
+          // show initial header
+          this.classList.toggle('mdw-full-screen', (this.currentPosition - 12) <= this.minimumPosition);
+
+          // end happens when the pointer event is done
+          // but the animation is moving the element so we need to keep an eye on it
+          // this will fix the headers state
+          // the animation runs for 400 ms
+          // if (!this.fixHeaderInterval) this.fixHeaderInterval = setInterval(() => {
+          //   this.classList.toggle('mdw-show-fixed-header', this.sheetContainer.getBoundingClientRect().top <= 0);
+          // }, 4);
+          // setTimeout(() => {
+          //   clearInterval(this.fixHeaderInterval);
+          //   this.fixHeaderInterval = undefined;
+          // }, 400);
       }
     });
   }
 
   hide() {
     this.classList.add('mdw-closed');
+    this.contentElement.hide();
     this.isShowing = false;
-    this.clearTransform();
+    this.sheetContainer.style[this.transformPropertyName] = '';
     this.removeEventListener('click', this.bound_onclick);
     removeSwipeListener(this.sheetContainer);
+    this.classList.remove('mdw-full-screen');
+    // this.classList.remove('mdw-show-fixed-header');
+    // if (this.fixHeaderInterval) clearInterval(this.fixHeaderInterval);
+    // this.fixHeaderInterval = undefined;
+  }
+
+  close() {
+    this.hide();
   }
 
   toggle() {
@@ -73,42 +111,20 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     else this.show();
   }
 
-  // isAtScrollEnd() {
-  //   return this.sheetContainer.getBoundingClientRect().y <= this.sheetABS.offsetTop;
-  // }
-
   calculateInitialShowPosition() {
     const sheetHeight = this.sheetContainer.offsetHeight;
     const clientHeight = document.documentElement.clientHeight;
     const halfHeight = clientHeight / 2;
     const fullHeight = this.scrollHeight - clientHeight;
     const height = sheetHeight <= halfHeight ? 0 : fullHeight - halfHeight;
-    this.translateYinitial = height;
-    this.translateYMin = this.sheetContainer.offsetTop - this.sheetABS.offsetTop;
-    this.translateYScrollEnd = 0;
-    this.setTranslateY(height);
-
-    // TODO fix this
-
-    // check for offscreen elements and offset height so that a partial element is showing
-    // This will help show people they can scroll
-    // const all = MDWUtils.querySlottedAll(this, 'mdw-list-item');
-    // const initialTop = this.sheetABS.offsetTop + height;
-    // const onScreen = all.map(el => ({
-    //   el,
-    //   onScreen: (initialTop + el.offsetTop) < clientHeight
-    // }));
-    // const offScreen = onScreen.filter(({ onScreen }) => onScreen === false);
-    // if (offScreen.length === 0) height = scrollHeight;
-    // else height -= offScreen[0].el.offsetHeight / 2;
-    //
-    // console.log({ scrollHeight, clientHeight, halfHeight, heightOffset, height });
-    // height = 300;
-    // this.sheetContainer.style[this.transformPropertyName] = `translateY(${height}px)`;
+    this.closeThresholdHeight = sheetHeight - (height / 4);
+    this.initialPosition = height;
+    this.minimumPosition = this.sheetContainer.offsetTop - this.contentElement.offsetTop + this.headerHeight;
+    this.setPosition(height);
   }
 
-  setTranslateY(value, postFix = 'px') {
-    this.translateYCurrent = value;
+  setPosition(value, postFix = 'px') {
+    this.currentPosition = value;
     this.sheetContainer.style[this.transformPropertyName] = `translateY(${value}${postFix})`;
   }
 
@@ -116,21 +132,9 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
   // resting pos a: initial postion at the center
   // resting pos b: the top of the page with the header
   snapTranslation() {
-    const distanceFromInitial = this.translateYinitial - this.translateYCurrent;
-    const distanceFromMin = this.translateYCurrent - this.translateYMin;
-    if (distanceFromInitial < distanceFromMin) this.setTranslateY(this.translateYinitial);
-    else this.setTranslateY(this.translateYMin);
-  }
-
-  clearTransform() {
-    this.sheetContainer.style[this.transformPropertyName] = '';
-  }
-
-  get internalStylesFile() {
-    return './internal.css';
-  }
-
-  template() {
-    return '<div class="sheet-abs"><div class="sheet-container"><slot></slot></div></div>';
+    const distanceFromInitial = this.initialPosition - this.currentPosition;
+    const distanceFromMin = this.currentPosition - this.minimumPosition;
+    if (distanceFromInitial < distanceFromMin) this.setPosition(this.initialPosition);
+    else this.setPosition(this.minimumPosition);
   }
 });
