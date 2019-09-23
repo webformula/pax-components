@@ -15,7 +15,7 @@ export default class Menu extends Page {
         <h3>Menu</h3>
 
         <div class="showcase">
-          <mdw-menu>
+          <!-- <mdw-menu>
             <mdw-panel mdw-open class="mdw-open" style="transform: scale(1); pointer-events: none; top: -96px; left: -74px;">
               <mdw-list>
                 <mdw-list-item>
@@ -38,7 +38,7 @@ export default class Menu extends Page {
                 </mdw-list-item>
               </mdw-list>
             <mdw-panel>
-          </mdw-menu>
+          </mdw-menu> -->
         </div>
 
         <a href="https://material.io/design/components/menus.html">Material Design Guidlines: menus</a>
@@ -63,7 +63,7 @@ export default class Menu extends Page {
               <code-mirror mode="html">
                 <mdw-menu>
                   <mdw-button>show menu</mdw-button>
-                  <mdw-panel>
+                  <mdw-menu-content>
                     <mdw-list>
                       <mdw-list-item>
                         <span class="mdw-list-item__graphic material-icons">inbox</span>
@@ -84,6 +84,7 @@ export default class Menu extends Page {
                         No Spacer
                       </mdw-list-item>
                     </mdw-list>
+                  </mdw-menu-content>
                 </mdw-menu>
               </code-mirror>
             </div>
@@ -91,7 +92,7 @@ export default class Menu extends Page {
             <div class="mdw-card__content" style="display: block; overflow: visible;">
               <mdw-menu>
                 <mdw-button>show menu</mdw-button>
-                <mdw-panel>
+                <mdw-menu-content>
                   <mdw-list>
                     <mdw-list-item>
                       <span class="mdw-list-item__graphic material-icons">inbox</span>
@@ -112,7 +113,7 @@ export default class Menu extends Page {
                       No Spacer
                     </mdw-list-item>
                   </mdw-list>
-                <mdw-panel>
+                </mdw-menu-content>
               </mdw-menu>
             </div>
           </mdw-card>

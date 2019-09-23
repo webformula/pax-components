@@ -31,15 +31,13 @@ export default function ({ head, body, title }) {
       </head>
 
       <body>
-        <mdw-body>
-          ${nav({ title })}
-          <mdw-page>
-            ${header({ title })}
-            <mdw-content class="constrain-width">
-            ${body}
-            </mdw-content>
-          </mdw-page>
-        </mdw-body>
+        ${nav({ title })}
+        <mdw-page>
+          ${header({ title })}
+          <mdw-content class="constrain-width">
+          ${body}
+          </mdw-content>
+        </mdw-page>
       </body>
     </html>
   `;
