@@ -6,6 +6,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
   constructor() {
     super();
 
+    this.paddingOffset = 200;
     this.headerHeight = 56;
     this.classList.add('mdw-closed');
     this.isShowing = false;
@@ -60,17 +61,32 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
         case 'move':
           const newPos = startYPos + event.distance.y;
           // full screen
-          if (newPos < 0) this.setPosition(0);
+          if (this.sheetContainer.getBoundingClientRect().top - this.paddingOffset < this.minimumSheetTop) {
+            // TODO fix
+            // this does not work as well if scrolling already
+            if (!this.currentScrollInfo) {
+              this.currentScrollInfo = {
+                start: this.currentPosition,
+                distance: event.distance.y
+              };
+            }
+            this.setPosition(this.currentScrollInfo.start + ((event.distance.y - this.currentScrollInfo.distance) * Math.exp(-3)));
           // close if below threshold
-          else if (newPos > this.closeThresholdHeight) return this.hide();
-          else this.setPosition(newPos);
+          } else if (newPos > this.closeThresholdHeight) {
+            this.currentScrollInfo = undefined;
+            return this.hide();
+          } else {
+            this.currentScrollInfo = undefined;
+            this.setPosition(newPos);
+          }
 
           // show initial header
           this.classList.toggle('mdw-full-screen', this.currentPosition - 12 <= this.minimumPosition);
           // this.classList.toggle('mdw-show-fixed-header', this.sheetContainer.getBoundingClientRect().top <= 0);
           break;
         case 'end':
-          if (this.currentPosition - this.minimumPosition > 0) this.snapTranslation();
+          this.currentScrollInfo = undefined;
+          this.snapTranslation();
           // show initial header
           this.classList.toggle('mdw-full-screen', (this.currentPosition - 12) <= this.minimumPosition);
 
@@ -120,6 +136,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     this.closeThresholdHeight = sheetHeight - (height / 4);
     this.initialPosition = height;
     this.minimumPosition = this.sheetContainer.offsetTop - this.contentElement.offsetTop + this.headerHeight;
+    this.minimumSheetTop = Math.min(0, clientHeight - sheetHeight);
     this.setPosition(height);
   }
 
@@ -135,6 +152,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     const distanceFromInitial = this.initialPosition - this.currentPosition;
     const distanceFromMin = this.currentPosition - this.minimumPosition;
     if (distanceFromInitial < distanceFromMin) this.setPosition(this.initialPosition);
-    else this.setPosition(this.minimumPosition);
+    else if (this.currentPosition < (this.paddingOffset - 5)) this.setPosition(this.paddingOffset);
+    else if (distanceFromMin > 10) this.setPosition(this.minimumPosition);
   }
 });

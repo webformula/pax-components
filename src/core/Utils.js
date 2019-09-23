@@ -1,12 +1,20 @@
+import { isPhone, isPhoneAndTablet } from './mobile-info.js';
+
 const MDWUtils = new class {
   constructor() {
     this._uid = 1;
     this._setupTransitionEvent();
     this._setTransformPropertyName();
+    this.isPhone = isPhone;
+    this.isPhoneAndTablet = isPhoneAndTablet;
   }
 
   uid() {
     return `id_${this._uid++}`;
+  }
+
+  get isMobile() {
+    return this.isPhoneAndTablet;
   }
 
   debounce(fn, wait) {
@@ -82,6 +90,19 @@ const MDWUtils = new class {
 
   get transformPropertyName() {
     return this.transformPropertyName_;
+  }
+
+  addBackdrop(element, clickCallback) {
+    const id = this.uid();
+    element.insertAdjacentHTML('afterend', `<div id="${id}" class="mdw-backdrop"></div>`);
+    const backdropElement = document.querySelector(`#${id}`);
+    if (clickCallback) backdropElement.addEventListener('click', clickCallback);
+    return {
+      remove() {
+        if (clickCallback) backdropElement.removeEventListener('click', clickCallback);
+        backdropElement.remove();
+      }
+    };
   }
 
   _setupTransitionEvent() {

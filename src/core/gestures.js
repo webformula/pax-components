@@ -52,21 +52,10 @@ class Swipe {
     // If this is not set to none, then the browser will immidiately cancel the toach evnets
     this.element.style['touch-action'] = 'none';
 
-    if (this.hasPointerEvent) {
-      // Add Pointer Event Listener
-      this.element.addEventListener('pointerdown', this.bound_handleGestureStart, true);
-      this.element.addEventListener('pointermove', this.bound_handleGestureMove, true);
-      this.element.addEventListener('pointerup', this.bound_handleGestureEnd, true);
-      this.element.addEventListener('pointercancel', this.bound_handleGestureEnd, true);
+    if (MDWUtils.isMobile) {
+      this.element.addEventListener('touchstart', this.bound_handleGestureStart, false);
     } else {
-      // Add Touch Listener
-      this.element.addEventListener('touchstart', this.bound_handleGestureStart, true);
-      this.element.addEventListener('touchmove', this.bound_handleGestureMove, true);
-      this.element.addEventListener('touchend', this.bound_handleGestureEnd, true);
-      this.element.addEventListener('touchcancel', this.bound_handleGestureEnd, true);
-
-      // Add Mouse Listener
-      this.element.addEventListener('mousedown', this.bound_handleGestureStart, true);
+      this.element.addEventListener('mousedown', this.bound_handleGestureStart);
     }
   }
 
@@ -74,81 +63,67 @@ class Swipe {
     // re enable browsers touch events
     this.element.style['touch-action'] = '';
 
-    if (this.hasPointerEvent) {
-      // Add Pointer Event Listener
-      this.element.removeEventListener('pointerdown', this.bound_handleGestureStart, true);
-      this.element.removeEventListener('pointermove', this.bound_handleGestureMove, true);
-      this.element.removeEventListener('pointerup', this.bound_handleGestureEnd, true);
-      this.element.removeEventListener('pointercancel', this.bound_handleGestureEnd, true);
+    if (MDWUtils.isMobile) {
+      this.element.removeEventListener('touchstart', this.bound_handleGestureStart);
+      this.element.removeEventListener('touchmove', this.bound_handleGestureMove);
+      this.element.removeEventListener('touchend', this.bound_handleGestureEnd);
+      this.element.removeEventListener('touchcancel', this.bound_handleGestureEnd);
     } else {
-      // Add Touch Listener
-      this.element.removeEventListener('touchstart', this.bound_handleGestureStart, true);
-      this.element.removeEventListener('touchmove', this.bound_handleGestureMove, true);
-      this.element.removeEventListener('touchend', this.bound_handleGestureEnd, true);
-      this.element.removeEventListener('touchcancel', this.bound_handleGestureEnd, true);
-
-      // Add Mouse Listener
-      this.element.removeEventListener('mousedown', this.bound_handleGestureStart, true);
-
-      document.removeEventListener('mousemove', this.bound_handleGestureMove, true);
-      document.removeEventListener('mouseup', this.bound_handleGestureEnd, true);
+      this.element.removeEventListener('mousedown', this.bound_handleGestureStart);
+      this.element.removeEventListener('mousemove', this.bound_handleGestureMove);
+      this.element.removeEventListener('mouseup', this.bound_handleGestureEnd);
     }
   }
 
-  handleGestureStart(event) {
-    event.preventDefault();
-    event.state = 'start';
+  handleGestureStart(ev) {
+    ev.state = 'start';
 
-    // Add the move and end listeners
-    if (this.hasPointerEvent) event.target.setPointerCapture(event.pointerId);
-    else {
-      // Add Mouse Listeners
-      document.addEventListener('mousemove', this.bound_handleGestureMove, true);
-      document.addEventListener('mouseup', this.bound_handleGestureEnd, true);
-    }
-    this.initialTouchPos = this.getGesturePointFromEvent(event);
-    this.lastDistance = this.getDistance(event);
-    event.distance = this.lastDistance;
-    event.direction = this.getDirection(this.lastDistance, this.lastDistance);
-    this.callback(event);
-  }
-
-  handleGestureMove(event) {
-    event.preventDefault();
-    event.state = 'move';
-
-    if (!this.initialTouchPos) return;
-    this.callbackThrottle(event);
-  }
-
-  handleGestureEnd(event) {
-    event.preventDefault();
-    event.state = 'end';
-
-    // Add the move and end listeners
-    if (this.hasPointerEvent) event.target.releasePointerCapture(event.pointerId);
-    else {
-      // Add Mouse Listeners
-      document.removeEventListener('mousemove', this.bound_handleGestureMove, true);
-      document.removeEventListener('mouseup', this.bound_handleGestureEnd, true);
+    if (MDWUtils.isMobile) {
+      this.element.addEventListener('touchmove', this.bound_handleGestureMove, false);
+      this.element.addEventListener('touchend', this.bound_handleGestureEnd, false);
+      this.element.addEventListener('touchcancel', this.bound_handleGestureEnd, false);
+    } else {
+      this.element.addEventListener('mousemove', this.bound_handleGestureMove);
+      this.element.addEventListener('mouseup', this.bound_handleGestureEnd);
     }
 
-    event.distance = this.getDistance(event);
-    event.endDirection = this.getDirection({ x: 0, y: 0 }, event.distance);
-    this.callback(event);
+    this.initialTouchPos = this.getClientXY(ev);
+    this.lastDistance = this.getDistance(ev);
+    ev.distance = this.lastDistance;
+    ev.direction = this.getDirection(this.lastDistance, this.lastDistance);
+    this.callback(ev);
+    ev.preventDefault();
   }
 
-  getGesturePointFromEvent(event) {
-    return {
-      x: event.targetTouches ? event.targetTouches[0].clientX : event.clientX,
-      y: event.targetTouches ? event.targetTouches[0].clientY : event.clientY
-    };
+  handleGestureMove(ev) {
+    ev.state = 'move';
+    if (this.initialTouchPos) this.callbackThrottle(ev);
+    ev.preventDefault();
+  }
+
+  handleGestureEnd(ev) {
+    ev.state = 'end';
+
+    if (!MDWUtils.isMobile) {
+      this.element.removeEventListener('touchmove', this.bound_handleGestureMove);
+      this.element.removeEventListener('touchend', this.bound_handleGestureEnd);
+      this.element.removeEventListener('touchcancel', this.bound_handleGestureEnd);
+    } else {
+      this.element.removeEventListener('mousemove', this.bound_handleGestureMove);
+      this.element.removeEventListener('mouseup', this.bound_handleGestureEnd);
+    }
+
+    ev.distance = this.getDistance(ev);
+    ev.endDirection = this.getDirection({ x: 0, y: 0 }, ev.distance);
+    this.callback(ev);
+    ev.preventDefault();
   }
 
   getDistance(event) {
+    const xy = this.getClientXY(event);
     return {
-      x: event.x - this.initialTouchPos.x,
-      y: event.y - this.initialTouchPos.y
+      x: xy.x - this.initialTouchPos.x,
+      y: xy.y - this.initialTouchPos.y
     };
   }
 
@@ -161,5 +136,12 @@ class Swipe {
       xDescription: x === 0 ? 'none' : x === 1 ? 'right' : 'left',
       yDescription: y === 0 ? 'none' : y === 1 ? 'down' : 'up'
     };
+  }
+
+  getClientXY(event) {
+    return {
+      x: event.targetTouches ? event.targetTouches[0].clientX : event.clientX,
+      y: event.targetTouches ? event.targetTouches[0].clientY : event.clientY
+    }
   }
 }
