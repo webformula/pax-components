@@ -64,6 +64,7 @@ const MDWUtils = new class {
   querySlotted(component, selector) {
     if (!component) throw Error('requires either component');
     if (!selector) throw Error('requires selector');
+    if (!component.shadowRoot.querySelector('slot')) return null;
     return component.shadowRoot.querySelector('slot').assignedNodes().find(el => {
       if (!el.matches) return false;
       return el.matches(selector);

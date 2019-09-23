@@ -22,6 +22,50 @@ export default class Sheets extends Page {
 
         <div class="showcase" style="overflow: hidden">
           <mdw-button onclick="document.querySelector('mdw-sheet').toggle()">show</mdw-button>
+
+          <mdw-sheet>
+            <!-- optional - will be backfilled -->
+            <mdw-sheet-header>
+              <mdw-sheet-title>Test title</mdw-sheet-title>
+            </mdw-sheet-header>
+
+            <mdw-sheet-content>
+              <mdw-list>
+                <mdw-list-item>One</mdw-list-item>
+                <mdw-list-item>Two</mdw-list-item>
+                <mdw-list-item>Three</mdw-list-item>
+                <mdw-list-item>Four</mdw-list-item>
+                <mdw-list-item>Five</mdw-list-item>
+                <mdw-list-item>Six</mdw-list-item>
+                <mdw-list-item>Seven</mdw-list-item>
+                <mdw-list-item>Eight</mdw-list-item>
+                <mdw-list-item>Nine</mdw-list-item>
+                <mdw-list-item>Ten</mdw-list-item>
+                <mdw-list-item>Eleven</mdw-list-item>
+                <mdw-list-item>Twelve</mdw-list-item>
+                <mdw-list-item>Thirteen</mdw-list-item>
+                <mdw-list-item>Fourteen</mdw-list-item>
+                <mdw-list-item>Fifteen</mdw-list-item>
+                <mdw-list-item>Sixteen</mdw-list-item>
+                <mdw-list-item>seventeen</mdw-list-item>
+                <mdw-list-item>eighteen</mdw-list-item>
+              </mdw-list>
+            </mdw-sheet-content>
+          </mdw-sheet>
+
+        </div>
+      </article>
+    `;
+  }
+
+  hhh() {
+    return html`
+      <article class="page-article">
+        <h3>Sheets </h3>
+
+        <div class="showcase" style="overflow: hidden">
+          <mdw-button onclick="document.querySelector('mdw-sheet').toggle()">show</mdw-button>
+
           <mdw-sheet>
             <!-- optional - will be backfilled -->
             <mdw-sheet-header>
@@ -49,6 +93,7 @@ export default class Sheets extends Page {
               </mdw-list>
             </mdw-sheet-content>
           </mdw-sheet>
+
         </div>
 
         <a href="https://material.io/components/sheets-bottom/">Material Design Guidlines: sheets bottom</a>

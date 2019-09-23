@@ -140,8 +140,8 @@ class Swipe {
 
   getClientXY(event) {
     return {
-      x: event.targetTouches ? event.targetTouches[0].clientX : event.clientX,
-      y: event.targetTouches ? event.targetTouches[0].clientY : event.clientY
+      x: event.targetTouches && event.targetTouches.length ? event.targetTouches[0].clientX : event.changedTouches && event.changedTouches.length ? event.changedTouches[0].clientX : event.clientX,
+      y: event.targetTouches && event.targetTouches.length ? event.targetTouches[0].clientY : event.changedTouches && event.changedTouches.length ? event.changedTouches[0].clientY : event.clientY
     }
   }
 }

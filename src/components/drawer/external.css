@@ -123,9 +123,10 @@ mdw-drawer-header .mdw-subtitle {
 
 mdw-drawer-content {
   display: block;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 
