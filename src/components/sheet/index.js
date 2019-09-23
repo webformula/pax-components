@@ -8,6 +8,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     this.cloneTemplate();
     this.classList.add('mdw-closed');
     this.bound_onScroll = this.onScroll.bind(this);
+    this.bound_bgClick = this.bgClick.bind(this);
   }
 
   registerHeader(element) {
@@ -27,20 +28,36 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     return this.shadowRoot.querySelector('.mdw-scroll-spacer-2');
   }
 
+  bgClick(event) {
+    if (event.target.nodeName === 'MDW-SHEET') this.close();
+  }
+
   open() {
     this.classList.remove('mdw-closed');
     setTimeout(() => {
       this.classList.add('mdw-open');
       this.scrollTop = this.scrollSpacerElement2.offsetHeight;
       this.scrollPosOffset = this.scrollSpacerElement.offsetHeight;
+      this.backdrop = MDWUtils.addBackdrop(this, () => {
+        console.log('okokokokokok');
+        this.close();
+      });
     }, 0);
     this.addEventListener('scroll', this.bound_onScroll);
+    if (this.hasAttribute('mdw-modal')) {
+      this.addEventListener('click', this.bound_bgClick);
+    }
   }
 
   close() {
+    if (this.backdrop) {
+      this.backdrop.remove();
+      this.backdrop = undefined;
+    }
     this.classList.remove('mdw-open');
     this.classList.add('mdw-closed');
     this.removeEventListener('scroll', this.bound_onScroll);
+    this.removeEventListener('click', this.bound_bgClick);
   }
 
   toggle() {
@@ -50,8 +67,10 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
 
   onScroll(event) {
     const pos = this.scrollTop - this.scrollPosOffset;
-    this.headerElement.toggle(pos >= -40);
-    this.headerElement.toggleFixed(pos >= 0);
+    if (this.headerElement) {
+      this.headerElement.toggle(pos >= -40);
+      this.headerElement.toggleFixed(pos >= 0);
+    }
     if (this.scrollTop < 100) this.close();
   }
 
@@ -68,6 +87,10 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
         overflow-y: scroll;
         scroll-snap-type: y proximity;
         -webkit-overflow-scrolling: touch;
+      }
+
+      :host([mdw-modal]) {
+        background-color: rgba(0, 0, 0, 0.12);
       }
 
       :host(.mdw-closed) {

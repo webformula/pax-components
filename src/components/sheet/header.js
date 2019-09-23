@@ -28,8 +28,7 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
   }
 
   close() {
-    console.log('close');
-    this.parentNode.hide();
+    this.parentNode.close();
   }
 
   show() {
