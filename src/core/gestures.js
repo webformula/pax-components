@@ -28,6 +28,20 @@ export function removeSwipeListener(element, callback = undefined) {
   }
 };
 
+export function enableSwipeListenerForElement(element) {
+  if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
+  const swipInstances = swipeInstancesByElementAndFunction.get(element);
+  if (!swipInstances) return;
+  swipInstances.forEach(i => i.enable());
+}
+
+export function disableSwipeListenerForElement(element) {
+  if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
+  const swipInstances = swipeInstancesByElementAndFunction.get(element);
+  if (!swipInstances) return;
+  swipInstances.forEach(i => i.disable());
+}
+
 class Swipe {
   constructor(element, callback) {
     this.element = element;
@@ -48,9 +62,7 @@ class Swipe {
   }
 
   addEvents() {
-    // this disabled the browsers auto handling of the touch events.
-    // If this is not set to none, then the browser will immidiately cancel the toach evnets
-    this.element.style['touch-action'] = 'none';
+    this.disableTouchEvents();
 
     if (MDWUtils.isMobile) {
       this.element.addEventListener('touchstart', this.bound_handleGestureStart, false);
@@ -59,10 +71,26 @@ class Swipe {
     }
   }
 
-  removeEvents() {
-    // re enable browsers touch events
-    this.element.style['touch-action'] = '';
+  disable() {
+    this.removeEvents();
+  }
 
+  enable() {
+    this.addEvents();
+  }
+
+  enableTouchEvents() {
+    this.element.style['touch-action'] = '';
+  }
+
+  disableTouchEvents() {
+    // this disabled the browsers auto handling of the touch events.
+    // If this is not set to none, then the browser will immidiately cancel the toach evnets
+    this.element.style['touch-action'] = 'none';
+  }
+
+  removeEvents() {
+    this.enableTouchEvents();
     if (MDWUtils.isMobile) {
       this.element.removeEventListener('touchstart', this.bound_handleGestureStart);
       this.element.removeEventListener('touchmove', this.bound_handleGestureMove);
@@ -87,6 +115,7 @@ class Swipe {
       this.element.addEventListener('mouseup', this.bound_handleGestureEnd);
     }
 
+    this.startTime = Date.now();
     this.initialTouchPos = this.getClientXY(ev);
     this.lastDistance = this.getDistance(ev);
     ev.distance = this.lastDistance;
@@ -113,8 +142,11 @@ class Swipe {
       this.element.removeEventListener('mouseup', this.bound_handleGestureEnd);
     }
 
+    this.endTime = Date.now();
+    ev.runTime = this.endTime - this.startTime;
     ev.distance = this.getDistance(ev);
     ev.endDirection = this.getDirection({ x: 0, y: 0 }, ev.distance);
+    ev.velocity = this.getVelocity(ev.distance, ev.runTime);
     this.callback(ev);
     ev.preventDefault();
   }
@@ -143,5 +175,12 @@ class Swipe {
       x: event.targetTouches && event.targetTouches.length ? event.targetTouches[0].clientX : event.changedTouches && event.changedTouches.length ? event.changedTouches[0].clientX : event.clientX,
       y: event.targetTouches && event.targetTouches.length ? event.targetTouches[0].clientY : event.changedTouches && event.changedTouches.length ? event.changedTouches[0].clientY : event.clientY
     }
+  }
+
+  getVelocity(distance, time) {
+    return {
+      x: distance.x / time,
+      y: distance.y / time
+    };
   }
 }

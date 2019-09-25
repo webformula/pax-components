@@ -17,6 +17,16 @@ const MDWUtils = new class {
     return this.isPhoneAndTablet;
   }
 
+  lockPageScroll() {
+    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    scrollElement.style.overflow = 'hidden';
+  }
+
+  unlockPageScroll() {
+    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    scrollElement.style.overflow = '';
+  }
+
   debounce(fn, wait) {
     let timer;
     return function debounced() {
