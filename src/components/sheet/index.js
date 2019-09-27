@@ -1,130 +1,131 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWUtils from '../../core/Utils.js';
+import { addSwipeListener, removeSwipeListener, disableSwipeListenerForElement, enableSwipeListenerForElement } from '../../core/gestures.js';
 
 customElements.define('mdw-sheet', class extends HTMLElementExtended {
   constructor() {
     super();
 
-    this.cloneTemplate();
+    this.isOpen = false;
     this.classList.add('mdw-closed');
+    this.currentDragPosition = -1;
+    this.bound_onSwipe = this.onSwipe.bind(this);
     this.bound_onScroll = this.onScroll.bind(this);
-    this.bound_bgClick = this.bgClick.bind(this);
+    this.style[MDWUtils.transformPropertyName] = 'translate3d(0, 100%, 0)';
+    this.setupHeader();
   }
 
-  registerHeader(element) {
-    this.headerElement = element;
+  disconnectedCallback() {
+    removeSwipeListener(this.contentElement, this.bound_onSwipe);
+    this.removeEventListener('scroll', this.bound_onScroll);
   }
 
   get contentElement() {
     return this.querySelector('mdw-sheet-content');
   }
 
-  // there are 2 spacers so we can easily snap scrolling to the center pos
-  get scrollSpacerElement() {
-    return this.shadowRoot.querySelector('.mdw-scroll-spacer');
+  get title() {
+    return this.hasAttribute('mdw-title') ? this.getAttribute('mdw-title') : '';
   }
 
-  get scrollSpacerElement2() {
-    return this.shadowRoot.querySelector('.mdw-scroll-spacer-2');
+  registerHeader(element) {
+    this.headerElement = element;
+    this.headerElement.title = this.title;
   }
 
-  bgClick(event) {
-    if (event.target.nodeName === 'MDW-SHEET') this.close();
+  setupHeader() {
+    if (!this.querySelector('mdw-sheet-header')) {
+      this.insertAdjacentHTML('afterbegin', `<mdw-sheet-header mdw-title="${this.title}"></mdw-sheet-header>`);
+    }
   }
 
   open() {
-    this.classList.remove('mdw-closed');
-    setTimeout(() => {
-      this.classList.add('mdw-open');
-      this.scrollTop = this.scrollSpacerElement2.offsetHeight;
-      this.scrollPosOffset = this.scrollSpacerElement.offsetHeight;
-      this.backdrop = MDWUtils.addBackdrop(this, () => {
-        console.log('okokokokokok');
-        this.close();
-      });
-    }, 0);
-    this.addEventListener('scroll', this.bound_onScroll);
-    if (this.hasAttribute('mdw-modal')) {
-      this.addEventListener('click', this.bound_bgClick);
+    // lear close timeout so we do not overlap on a fast open
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = undefined;
     }
+    this.classList.remove('mdw-closed');
+
+    // animation in sheet
+    setTimeout(() => {
+      this.setPosition(0);
+      addSwipeListener(this.contentElement, this.bound_onSwipe);
+      this.contentElement.addEventListener('scroll', this.bound_onScroll);
+    }, 0);
+    this.isOpen = true;
   }
 
   close() {
-    if (this.backdrop) {
-      this.backdrop.remove();
-      this.backdrop = undefined;
-    }
-    this.classList.remove('mdw-open');
-    this.classList.add('mdw-closed');
-    this.removeEventListener('scroll', this.bound_onScroll);
-    this.removeEventListener('click', this.bound_bgClick);
+    removeSwipeListener(this.contentElement, this.bound_onSwipe);
+    this.contentElement.removeEventListener('scroll', this.bound_onScroll);
+    this.setPosition(-this.topY);
+    this.closeTimeout = setTimeout(() => {
+      this.classList.add('mdw-closed');
+    }, 600);
+    this.isOpen = false;
   }
 
   toggle() {
-    if (this.isShowing) this.close();
+    if (this.isOpen) this.close();
     else this.open();
   }
 
-  onScroll(event) {
-    const pos = this.scrollTop - this.scrollPosOffset;
-    if (this.headerElement) {
-      this.headerElement.toggle(pos >= -40);
-      this.headerElement.toggleFixed(pos >= 0);
+  onSwipe(event) {
+    switch (event.state) {
+      case 'start':
+        this.topY = -(this.offsetHeight / 2);
+        this.startDragPosition = this.currentDragPosition;
+        break;
+      case 'move':
+        this.setPosition(this.startDragPosition + event.distance.y);
+        break;
+      case 'end':
+        this.snapPosition(event.velocity.y);
+        break;
     }
-    if (this.scrollTop < 100) this.close();
   }
 
-  styles() {
-    return `
-      :host {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 99;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        scroll-snap-type: y proximity;
-        -webkit-overflow-scrolling: touch;
-      }
+  setPosition(y) {
+    // if the sheet is at top then setup scrolling
+    if (y <= this.topY) {
+      y = this.topY;
+      // this.headerElement.fix();
+      this.style.touchAction = '';
+      disableSwipeListenerForElement(this.contentElement);
+    }
+    if (this.currentDragPosition === y) return;
+    this.style[MDWUtils.transformPropertyName] = `translate3d(0, ${y}px, 0)`;
+    this.currentDragPosition = y;
 
-      :host([mdw-modal]) {
-        background-color: rgba(0, 0, 0, 0.12);
-      }
+    // show header befor it hits the top
+    if (y - this.topY < 80) this.headerElement.show();
+    else this.headerElement.hide();
 
-      :host(.mdw-closed) {
-        display: none;
-      }
-
-      :host .mdw-sheet-scroller {
-        display: block;
-        scroll-snap-align: start;
-      }
-
-      :host(.mdw-open) .mdw-scroll-spacer {
-        height: 50%;
-      }
-
-      :host .mdw-scroll-spacer {
-        scroll-snap-align: start;
-        height: 100%;
-        transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }
-
-      :host(.mdw-open) .mdw-scroll-spacer-2 {
-        height: 50%;
-        scroll-snap-align: start;
-      }
-
-      ::slotted(mdw-sheet-content) {
-        display: block;
-        background-color: white;
-      }
-    `;
+    // if is draggable
+    if (this.offsetHeight / 2 < this.contentElement.scrollHeight) {
+      this.headerElement.showDragIcon();
+    }
   }
 
-  template() {
-    return '<div class="mdw-scroll-spacer-2"></div><div class="mdw-scroll-spacer"></div><div class="mdw-sheet-scroller"><slot></slot></div>';
+  snapPosition(velocity) {
+    // snap based on velocity (swipe montion)
+    if (velocity < -0.7) return this.setPosition(this.topY);
+    if (this.startDragPosition === this.topY && velocity > 0.7) return this.setPosition(0);
+    if (this.startDragPosition <= 0 && velocity > 0.7) return this.close();
+
+    // snap based on position
+    const split = Math.abs(this.topY) / 2;
+    // half way between center and top
+    if (this.currentDragPosition - this.topY < split) this.setPosition(this.topY);
+    // half way between center and bottom
+    else if (this.currentDragPosition > split) this.close();
+    else this.setPosition(0);
+  }
+
+  onScroll() {
+    if (this.contentElement.scrollTop === 0) {
+      enableSwipeListenerForElement(this.contentElement);
+    }
   }
 });

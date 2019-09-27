@@ -3,16 +3,11 @@ import { HTMLElementExtended } from '@webformula/pax-core';
 customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
   constructor() {
     super();
-    this.insertAdjacentHTML('afterbegin', `
-      <mdw-button id="default-close-button" class="mdw-icon">
-        <mdw-icon>close</mdw-icon>
-      </mdw-button>
-    `);
-    this.cloneTemplate();
-    this.showing = false;
-    this.fixed = false;
-    this.bound_close = this.close.bind(this);
+
     if (this.parentNode.registerHeader) this.parentNode.registerHeader(this);
+    this.cloneTemplate(true);
+    this.showing = false;
+    this.bound_close = this.close.bind(this);
   }
 
   connectedCallback() {
@@ -24,7 +19,15 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
   }
 
   get closeButton() {
-    return this.querySelector('#default-close-button');
+    return this.shadowRoot.querySelector('#mdw-sheet-close-action');
+  }
+
+  get title() {
+    return !!this.title_ ? this.title_ : this.hasAttribute('mdw-title') ? this.getAttribute('mdw-title') : '';
+  }
+
+  set title(value) {
+    this.title_ = value;
   }
 
   close() {
@@ -49,68 +52,77 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
     }
   }
 
-  fix() {
-    this.classList.add('mdw-fixed');
-  }
-
-  unfix() {
-    this.classList.remove('mdw-fixed');
-  }
-
-  toggleFixed(value) {
-    if (this.fixed && !value) {
-      this.fixed = value;
-      this.unfix();
-    } else if (value) {
-      this.fixed = value;
-      this.fix();
-    }
+  showDragIcon() {
+    this.classList.add('mdw-sheet-header-draggable');
   }
 
   styles() {
     return `
       :host {
         display: block;
-        opacity: 0;
-        transition: opacity 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
         height: 56px;
+        z-index: 1;
       }
 
-      :host mdw-sheet-title {
-        font-size: 20px;
-      }
-
-      :host(.mdw-show) {
-        opacity: 1;
-      }
-
-      :host .mdw-container {
+      :host .mdw-sheet-header-fullscreen {
+        opacity: 0;
+        pointer-events: none;
         display: inline-flex;
         flex: 1 1 auto;
         align-items: center;
-        /* position: fixed; */
         box-sizing: border-box;
         width: 100%;
         height: 56px;
-        top: 0;
         z-index: 1;
-
+        background-color: white;
+        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
                     0 4px 5px 0 rgba(0,0,0,.14),
                     0 1px 10px 0 rgba(0,0,0,.12);
-
-        background-color: var(--mdw-theme-surface);
-        color: var(--mdw-theme-text--primary--on-background);
       }
 
-      :host(.mdw-fixed) .mdw-container {
-        position: fixed;
+      :host(.mdw-show) .mdw-sheet-header-fullscreen {
+        opacity: 1;
+        pointer-events: all;
+        position: relative;
       }
 
+      .mdw-sheet-header-drag-icon {
+        display: none;
+        opacity: 1;
+        width: 12%;
+        height: 4px;
+        border-radius: 2px;
+        margin: 0 auto;
+        position: relative;
+        top: 62px;
+        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        background-color: #DDD;
+      }
+
+      :host(.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {
+        display: block;
+      }
+
+      :host(.mdw-show.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {
+        opacity: 0;
+      }
     `;
   }
 
   template() {
-    return '<div class="mdw-container"><slot></slot></div>';
+    return `
+      <div class="mdw-sheet-header-drag-icon"></div>
+
+      <div class="mdw-sheet-header-fullscreen">
+        <mdw-button id="mdw-sheet-close-action" class="mdw-icon">
+          <mdw-icon>close</mdw-icon>
+        </mdw-button>
+        ${this.title}
+      </div>
+
+      <div class="mdw-sheet-header-container">
+      </div>
+    `;
   }
 });
