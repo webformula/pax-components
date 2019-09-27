@@ -23,17 +23,19 @@ export default class Sheets extends Page {
         <div class="showcase" style="overflow: hidden">
           <mdw-button onclick="document.querySelector('mdw-sheet').toggle()">show</mdw-button>
 
-          <mdw-sheet mdw-model mdw-title="Top title">
-            <!-- <mdw-sheet-header>
+          <!-- mdw-collapsed-height="100" -->
+          <mdw-sheet mdw-title="Top title">
+            <mdw-sheet-header>
               <section mdw-align="start">
-                <div class="mdw-sheet-header__primary-text">Main title</div>
+                <div class="mdw-title">Main title</div>
+                <div class="mdw-subtitle">Sub title</div>
               </section>
 
               <section mdw-align="end">
-                <div class="mdw-sheet-header__secondary-text mdw-list-item__meta">Secondary title</div>
+                <div class="mdw-detail-text">Secondary title</div>
               </section>
-            </mdw-sheet-header> -->
-            
+            </mdw-sheet-header>
+
             <mdw-sheet-content>
               <mdw-list>
                 <mdw-list-item>One</mdw-list-item>
@@ -123,7 +125,7 @@ export default class Sheets extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-sheet mdw-modal>
+                <mdw-sheet mdw-modal mdw-title="Top title">
                   <mdw-sheet-content>
                     <mdw-list>
                       <mdw-list-item>One</mdw-list-item>
@@ -150,7 +152,7 @@ export default class Sheets extends Page {
 
             <div class="mdw-card__content row">
               <mdw-button onclick="document.querySelector('#modal-basic-sheet').toggle()">show</mdw-button>
-              <mdw-sheet mdw-modal id="modal-basic-sheet">
+              <mdw-sheet mdw-modal id="modal-basic-sheet" mdw-title="Top title">
                 <mdw-sheet-content>
                   <mdw-list>
                     <mdw-list-item>One</mdw-list-item>

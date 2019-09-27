@@ -18,6 +18,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
   disconnectedCallback() {
     removeSwipeListener(this.contentElement, this.bound_onSwipe);
     this.removeEventListener('scroll', this.bound_onScroll);
+    this.removeBackdrop();
   }
 
   get contentElement() {
@@ -28,15 +29,45 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     return this.hasAttribute('mdw-title') ? this.getAttribute('mdw-title') : '';
   }
 
-  registerHeader(element) {
+  get isModal() {
+    return this.hasAttribute('mdw-modal');
+  }
+
+  registerHeader(element, hasCollaspedHeader) {
     this.headerElement = element;
     this.headerElement.title = this.title;
+    if (hasCollaspedHeader) this.classList.add('mdw-has-collasped-header');
+    if (this.isModal) element.disableCollapsedHeader();
   }
 
   setupHeader() {
     if (!this.querySelector('mdw-sheet-header')) {
       this.insertAdjacentHTML('afterbegin', `<mdw-sheet-header mdw-title="${this.title}"></mdw-sheet-header>`);
     }
+  }
+
+  addBackdrop() {
+    if (this.isModal) {
+      this.backdrop = MDWUtils.addBackdrop(this, () => {
+        this.close();
+      });
+    }
+  }
+
+  removeBackdrop() {
+    if (this.backdrop) this.backdrop.remove();
+    this.backdrop = undefined;
+  }
+
+  setInitalPositions() {
+    this.viewHeight = document.documentElement.clientHeight;
+    this.clientCenter = this.isModal ? this.viewHeight / 2 : this.viewHeight / 4;
+    this.contentHeight = this.contentElement.offsetHeight;
+    this.intialHeight = Math.min(this.contentHeight, this.clientCenter);
+    if (this.hasAttribute('mdw-collapsed-height')) this.intialHeight = parseInt(this.getAttribute('mdw-collapsed-height').replace('px', ''));
+    this.scrollY = -this.intialHeight + 56;
+    this.isDraggable = this.contentHeight > this.clientCenter;
+    this.style.top = `${this.viewHeight - this.intialHeight - 56}px`;
   }
 
   open() {
@@ -46,11 +77,13 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
       this.closeTimeout = undefined;
     }
     this.classList.remove('mdw-closed');
+    this.addBackdrop();
 
     // animation in sheet
     setTimeout(() => {
+      this.setInitalPositions();
       this.setPosition(0);
-      addSwipeListener(this.contentElement, this.bound_onSwipe);
+      if (this.isDraggable) addSwipeListener(this.contentElement, this.bound_onSwipe);
       this.contentElement.addEventListener('scroll', this.bound_onScroll);
     }, 0);
     this.isOpen = true;
@@ -59,11 +92,13 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
   close() {
     removeSwipeListener(this.contentElement, this.bound_onSwipe);
     this.contentElement.removeEventListener('scroll', this.bound_onScroll);
-    this.setPosition(-this.topY);
+    this.setPosition(this.intialHeight + this.headerElement.offsetHeight);
     this.closeTimeout = setTimeout(() => {
       this.classList.add('mdw-closed');
+      this.headerElement.hideFullscreen();
     }, 600);
     this.isOpen = false;
+    this.removeBackdrop();
   }
 
   toggle() {
@@ -74,7 +109,6 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
   onSwipe(event) {
     switch (event.state) {
       case 'start':
-        this.topY = -(this.offsetHeight / 2);
         this.startDragPosition = this.currentDragPosition;
         break;
       case 'move':
@@ -88,9 +122,8 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
 
   setPosition(y) {
     // if the sheet is at top then setup scrolling
-    if (y <= this.topY) {
-      y = this.topY;
-      // this.headerElement.fix();
+    if (y <= this.scrollY) {
+      y = this.scrollY;
       this.style.touchAction = '';
       disableSwipeListenerForElement(this.contentElement);
     }
@@ -99,25 +132,28 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     this.currentDragPosition = y;
 
     // show header befor it hits the top
-    if (y - this.topY < 80) this.headerElement.show();
-    else this.headerElement.hide();
+    if (y - this.scrollY < 80) {
+      this.headerElement.showFullscreen();
+      this.classList.add('mdw-sheet-fullscreen');
+    } else {
+      this.headerElement.hideFullscreen();
+      this.classList.remove('mdw-sheet-fullscreen');
+    }
 
     // if is draggable
-    if (this.offsetHeight / 2 < this.contentElement.scrollHeight) {
-      this.headerElement.showDragIcon();
-    }
+    if (this.isDraggable) this.headerElement.showDragIcon();
   }
 
   snapPosition(velocity) {
     // snap based on velocity (swipe montion)
-    if (velocity < -0.7) return this.setPosition(this.topY);
-    if (this.startDragPosition === this.topY && velocity > 0.7) return this.setPosition(0);
+    if (velocity < -0.7) return this.setPosition(this.scrollY);
+    if (this.startDragPosition === this.scrollY && velocity > 0.7) return this.setPosition(0);
     if (this.startDragPosition <= 0 && velocity > 0.7) return this.close();
 
     // snap based on position
-    const split = Math.abs(this.topY) / 2;
+    const split = Math.abs(this.scrollY) / 2;
     // half way between center and top
-    if (this.currentDragPosition - this.topY < split) this.setPosition(this.topY);
+    if (this.currentDragPosition - this.scrollY < split) this.setPosition(this.scrollY);
     // half way between center and bottom
     else if (this.currentDragPosition > split) this.close();
     else this.setPosition(0);

@@ -4,9 +4,13 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
   constructor() {
     super();
 
-    if (this.parentNode.registerHeader) this.parentNode.registerHeader(this);
+    this.hasCollapsedHeader = (this.children || []).length !== 0;
+    if (!this.hasCollapsedHeader) this.classList.add('mdw-hide-collapsed-header');
+    if (this.parentNode.registerHeader) this.parentNode.registerHeader(this, this.hasCollapsedHeader);
+    this.innerHTMLString = this.innerHTML;
+    this.innerHTML = '';
     this.cloneTemplate(true);
-    this.showing = false;
+    this.showingFullscreen = false;
     this.bound_close = this.close.bind(this);
   }
 
@@ -34,21 +38,25 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
     this.parentNode.close();
   }
 
-  show() {
-    this.classList.add('mdw-show');
+  disableCollapsedHeader() {
+    this.classList.add('mdw-sheet-disable-collapsed-header');
   }
 
-  hide() {
-    this.classList.remove('mdw-show');
+  showFullscreen() {
+    this.classList.add('mdw-show-fullscreen');
   }
 
-  toggle(value) {
-    if (this.showing && !value) {
-      this.showing = value;
-      this.hide();
+  hideFullscreen() {
+    this.classList.remove('mdw-show-fullscreen');
+  }
+
+  toggleFullscreen(value) {
+    if (this.showingFullscreen && !value) {
+      this.showingFullscreen = value;
+      this.hideFullscreen();
     } else if (value) {
-      this.showing = value;
-      this.show();
+      this.showingFullscreen = value;
+      this.showFullscreen();
     }
   }
 
@@ -56,58 +64,8 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
     this.classList.add('mdw-sheet-header-draggable');
   }
 
-  styles() {
-    return `
-      :host {
-        display: block;
-        height: 56px;
-        z-index: 1;
-      }
-
-      :host .mdw-sheet-header-fullscreen {
-        opacity: 0;
-        pointer-events: none;
-        display: inline-flex;
-        flex: 1 1 auto;
-        align-items: center;
-        box-sizing: border-box;
-        width: 100%;
-        height: 56px;
-        z-index: 1;
-        background-color: white;
-        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
-                    0 4px 5px 0 rgba(0,0,0,.14),
-                    0 1px 10px 0 rgba(0,0,0,.12);
-      }
-
-      :host(.mdw-show) .mdw-sheet-header-fullscreen {
-        opacity: 1;
-        pointer-events: all;
-        position: relative;
-      }
-
-      .mdw-sheet-header-drag-icon {
-        display: none;
-        opacity: 1;
-        width: 12%;
-        height: 4px;
-        border-radius: 2px;
-        margin: 0 auto;
-        position: relative;
-        top: 62px;
-        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        background-color: #DDD;
-      }
-
-      :host(.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {
-        display: block;
-      }
-
-      :host(.mdw-show.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {
-        opacity: 0;
-      }
-    `;
+  get internalStylesFile() {
+    return './header-internal.css';
   }
 
   template() {
@@ -122,6 +80,7 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
       </div>
 
       <div class="mdw-sheet-header-container">
+        ${this.innerHTMLString}
       </div>
     `;
   }
