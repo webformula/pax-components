@@ -60,12 +60,19 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
   }
 
   setInitalPositions() {
+    // page height
     this.viewHeight = document.documentElement.clientHeight;
+
+    // half height for modal, quater hight for non modal
     this.clientCenter = this.isModal ? this.viewHeight / 2 : this.viewHeight / 4;
     this.contentHeight = this.contentElement.offsetHeight;
     this.intialHeight = Math.min(this.contentHeight, this.clientCenter);
+
+    // user set inital height
     if (this.hasAttribute('mdw-collapsed-height')) this.intialHeight = parseInt(this.getAttribute('mdw-collapsed-height').replace('px', ''));
-    this.scrollY = -this.intialHeight + 56;
+
+    // the transform: translateY postion for the top of the page
+    this.scrollY = -(this.viewHeight - this.intialHeight - 56);
     this.isDraggable = this.contentHeight > this.clientCenter;
     this.style.top = `${this.viewHeight - this.intialHeight - 56}px`;
   }

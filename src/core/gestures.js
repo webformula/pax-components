@@ -86,7 +86,7 @@ class Swipe {
   disableTouchEvents() {
     // this disabled the browsers auto handling of the touch events.
     // If this is not set to none, then the browser will immidiately cancel the toach evnets
-    this.element.style['touch-action'] = 'none';
+    // this.element.style['touch-action'] = 'none';
   }
 
   removeEvents() {
@@ -121,13 +121,13 @@ class Swipe {
     ev.distance = this.lastDistance;
     ev.direction = this.getDirection(this.lastDistance, this.lastDistance);
     this.callback(ev);
-    ev.preventDefault();
+    // ev.preventDefault();
   }
 
   handleGestureMove(ev) {
     ev.state = 'move';
     if (this.initialTouchPos) this.callbackThrottle(ev);
-    ev.preventDefault();
+    // ev.preventDefault();
   }
 
   handleGestureEnd(ev) {
@@ -148,7 +148,7 @@ class Swipe {
     ev.endDirection = this.getDirection({ x: 0, y: 0 }, ev.distance);
     ev.velocity = this.getVelocity(ev.distance, ev.runTime);
     this.callback(ev);
-    ev.preventDefault();
+    // ev.preventDefault();
   }
 
   getDistance(event) {
