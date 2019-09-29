@@ -54,6 +54,8 @@ export default class Checkboxes extends Page {
                   <mdw-checkbox></mdw-checkbox>
                 </span>
 
+                <mdw-divider class="mdw-dark mdw-large-padding"></mdw-divider>
+
                 <span>
                   <mdw-checkbox></mdw-checkbox>
                   <label>Label</label>
@@ -66,6 +68,8 @@ export default class Checkboxes extends Page {
                 <label class="mdw-checkbox-label">Label</label>
                 <mdw-checkbox></mdw-checkbox>
               </span>
+
+              <mdw-divider class="mdw-dark mdw-large-padding"></mdw-divider>
 
               <span>
                 <mdw-checkbox></mdw-checkbox>

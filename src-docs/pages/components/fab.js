@@ -167,20 +167,18 @@ export default class FAB extends Page {
                 </mdw-fab>
               </code-mirror>
               <code-mirror mode="javascript">
-                <code>
-                  class Buttons extends Page {
-                    constructor() {
-                      super();
-                    }
-
-                    mockWait(fab) {
-                      if (fab.pending) return;
-                      setTimeout(() => {
-                        fab.resolve();
-                      }, 3000);
-                    }
+                class Buttons extends Page {
+                  constructor() {
+                    super();
                   }
-                </code>
+
+                  mockWait(fab) {
+                    if (fab.pending) return;
+                    setTimeout(() => {
+                      fab.resolve();
+                    }, 3000);
+                  }
+                }
               </code-mirror>
             </div>
 
