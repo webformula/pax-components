@@ -4,6 +4,7 @@ import MDWUtils from '../../core/Utils.js';
 customElements.define('mdw-drawer', class extends HTMLElementExtended {
   constructor() {
     super();
+    this.bound_hide = this.hide.bind(this);
     this.isShowing = true;
     this.isRightAligned = this.hasAttribute('right-aligned');
     this.classList.add('mdw-active');
@@ -16,10 +17,12 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     if (fixedEl) fixedEl.style.width = `${this.offsetWidth}px`;
 
     this.lockBody();
+    this.addCloseOnChange();
   }
 
   disconnectedCallback() {
     if (this.backdrop) this.backdrop.remove();
+    window.removeEventListener('hashchange', this.bound_hide);
   }
 
   get isLockedOpen() {
@@ -32,6 +35,10 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
 
   get fixedElement() {
     return this.querySelector('mdw-drawer-fixed');
+  }
+
+  addCloseOnChange() {
+    window.addEventListener('hashchange', this.bound_hide);
   }
 
   lockOpen() {
