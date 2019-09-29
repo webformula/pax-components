@@ -10,6 +10,12 @@ mdw-banner {
   margin-top: calc(-100%);
 }
 
+.mdw-is-mobile mdw-banner {
+  position: fixed;
+  top: -10px;
+  width: 100%;
+}
+
 /* initial state */
 body.mdw-top-app-bar mdw-banner {
   margin-top: 0;
