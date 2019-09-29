@@ -37,8 +37,8 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
   }
 
   get isModal() {
-    if (!this.parentNode || !this.parentNode.isModal) return false;
-    return this.parentNode.isModal();
+    if (!this.parentNode) return false;
+    return this.parentNode.isModal || false;
   }
 
   close() {
