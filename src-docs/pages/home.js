@@ -63,8 +63,8 @@ export default class Home extends Page {
 
         <div class="mdw-card__content--no-padding">
           <code-mirror mode="javascript">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@0.3.0-beta/dist/pax-components.css">
-            <script src="https://cdn.jsdelivr.net/gh/webformula/pax-components@0.3.0-beta/dist/pax-components.js"></script>
+            <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@0.3.0-beta/dist/pax-components.css"> -->
+            <!-- <script src="https://cdn.jsdelivr.net/gh/webformula/pax-components@0.3.0-beta/dist/pax-components.js"></script> -->
           </code-mirror>
         </div>
 

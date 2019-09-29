@@ -311,6 +311,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     this.style.top = `${parseInt(top)}px`;
     this.style.left = `${parseInt(left)}px`;
-    this.style.transform = 'scale(1)';
+    this.style[this.transformPropertyName] = 'scale(1)';
   }
 });

@@ -1,22 +1,28 @@
 mdw-drawer {
+  display: block;
+  position: fixed;
+  width: 320px;
+  height: 100%;
+
   border-color: rgba(0, 0, 0, 0.12);
   border-right-width: 1px;
   border-right-style: solid;
-
   box-sizing: border-box;
-  position: absolute;
-  bottom: 0;
   z-index: 6;
-  overflow: hidden;
   flex-direction: column;
   transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
               min-width 0.26s cubic-bezier(0.25, 0.8, 0.25, 1);
   outline: none;
-  height: 100%;
-  width: 320px;
-  max-width: 320px;
-  -webkit-overflow-scrolling: touch;
   background-color: var(--mdw-theme-surface);
+}
+
+mdw-drawer.mdw-locked-open mdw-drawer-fixed {
+  display: block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 320px;
 }
 
 mdw-drawer [right-aligned] {
@@ -30,9 +36,8 @@ mdw-drawer.mdw-locked-open,
 mdw-drawer.mdw-locked-open.mdw-closed,
 mdw-drawer.mdw-locked-open.mdw-closed.mdw-drawer-left,
 mdw-drawer.mdw-locked-open.mdw-closed.mdw-drawer-right {
-  position: static;
-  display: flex;
-  transform: translate3d(0, 0, 0);
+  position: relative;
+  height: inherit;
 }
 
 .mdw-drawer-left {
@@ -118,9 +123,9 @@ mdw-drawer-header .mdw-subtitle {
 
 mdw-drawer-content {
   display: block;
-  height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
+  height: 100%;
   -webkit-overflow-scrolling: touch;
 }
 
