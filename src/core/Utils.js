@@ -7,6 +7,8 @@ const MDWUtils = new class {
     this._setTransformPropertyName();
     this.isPhone = isPhone;
     this.isPhoneAndTablet = isPhoneAndTablet;
+    // add class indecator for mobile
+    if (this.isMobile) document.body.classList.add('mdw-is-mobile');
   }
 
   uid() {
