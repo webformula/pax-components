@@ -48,20 +48,22 @@ export default class BottomNavigation extends Page {
             <div class="title">Mobile</div>
             <code-mirror mode="html">
                 <mdw-bottom-navigation>
-                  <mdw-button href="#/">
-                    <mdw-icon>home</mdw-icon>
-                    Home
-                  </mdw-button>
+                  <mdw-bottom-navigation-fixed>
+                    <mdw-button href="#/">
+                      <mdw-icon>home</mdw-icon>
+                      Home
+                    </mdw-button>
 
-                  <mdw-button href="#/">
-                    <mdw-icon>start</mdw-icon>
-                    Favs
-                  </mdw-button>
+                    <mdw-button href="#/">
+                      <mdw-icon>start</mdw-icon>
+                      Favs
+                    </mdw-button>
 
-                  <mdw-button href="#/">
-                    <mdw-icon>note</mdw-icon>
-                    Notes
-                  </mdw-button>
+                    <mdw-button href="#/">
+                      <mdw-icon>note</mdw-icon>
+                      Notes
+                    </mdw-button>
+                  </mdw-bottom-navigation-fixed>
                 </mdw-bottom-navigation>
             </code-mirror>
             <div class="demo">
