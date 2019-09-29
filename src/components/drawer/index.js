@@ -16,6 +16,9 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     const fixedEl = this.fixedElement;
     if (fixedEl) fixedEl.style.width = `${this.offsetWidth}px`;
 
+    // add spacing for scroll
+    if (this.contentElement) this.contentElement.style.height = `calc(100% - ${this.contentElement.offsetTop + 18}px)`;
+
     this.lockBody();
     this.addCloseOnChange();
   }
@@ -69,6 +72,9 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     if (this.wasLockedOpen) this.classList.add('mdw-locked-open');
     else if (MDWUtils.isMobile) this.addBackdrop();
     this.isShowing = true;
+
+    // add spacing for scroll
+    if (this.contentElement) this.contentElement.style.height = `calc(100% - ${this.contentElement.offsetTop + 18}px)`;
   }
 
   toggle() {

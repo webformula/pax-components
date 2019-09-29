@@ -86,7 +86,7 @@ class Swipe {
   disableTouchEvents() {
     // this disabled the browsers auto handling of the touch events.
     // If this is not set to none, then the browser will immidiately cancel the toach evnets
-    // this.element.style['touch-action'] = 'none';
+    this.element.style['touch-action'] = 'none';
   }
 
   removeEvents() {
@@ -98,8 +98,8 @@ class Swipe {
       this.element.removeEventListener('touchcancel', this.bound_handleGestureEnd);
     } else {
       this.element.removeEventListener('mousedown', this.bound_handleGestureStart);
-      this.element.removeEventListener('mousemove', this.bound_handleGestureMove);
-      this.element.removeEventListener('mouseup', this.bound_handleGestureEnd);
+      window.removeEventListener('mousemove', this.bound_handleGestureMove);
+      window.removeEventListener('mouseup', this.bound_handleGestureEnd);
     }
   }
 
@@ -111,8 +111,8 @@ class Swipe {
       this.element.addEventListener('touchend', this.bound_handleGestureEnd, false);
       this.element.addEventListener('touchcancel', this.bound_handleGestureEnd, false);
     } else {
-      this.element.addEventListener('mousemove', this.bound_handleGestureMove);
-      this.element.addEventListener('mouseup', this.bound_handleGestureEnd);
+      window.addEventListener('mousemove', this.bound_handleGestureMove);
+      window.addEventListener('mouseup', this.bound_handleGestureEnd);
     }
 
     this.startTime = Date.now();
@@ -138,8 +138,8 @@ class Swipe {
       this.element.removeEventListener('touchend', this.bound_handleGestureEnd);
       this.element.removeEventListener('touchcancel', this.bound_handleGestureEnd);
     } else {
-      this.element.removeEventListener('mousemove', this.bound_handleGestureMove);
-      this.element.removeEventListener('mouseup', this.bound_handleGestureEnd);
+      window.removeEventListener('mousemove', this.bound_handleGestureMove);
+      window.removeEventListener('mouseup', this.bound_handleGestureEnd);
     }
 
     this.endTime = Date.now();
