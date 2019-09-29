@@ -93,7 +93,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
       if (this.isDraggable) addSwipeListener(this.contentElement, this.bound_onSwipe);
       this.contentElement.addEventListener('scroll', this.bound_onScroll);
     }, 0);
-    this.isOpen = true;
+    if (this.isModal) MDWUtils.lockPageScroll();
   }
 
   close() {

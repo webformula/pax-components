@@ -68,12 +68,16 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._autoPosition = true;
   }
 
+  clickBodyToClose() {
+    this.clickOutsideClose_ = true;
+  }
+
   isOpen() {
     return this.isOpen_;
   }
 
   open(clickBodyToClose) {
-    if (clickBodyToClose !== undefined) this.clickOutsideClose_ = clickBodyToClose
+    if (clickBodyToClose !== undefined) this.clickOutsideClose_ = clickBodyToClose;
     // handle focused element
     const focusableElements = this.querySelectorAll(this.FOCUSABLE_ELEMENTS);
     this.firstFocusableElement_ = focusableElements[0];
@@ -90,16 +94,17 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
           this.openAnimationEndTimerId_ = setTimeout(() => {
             this.openAnimationEndTimerId_ = 0;
             this.classList.remove('mdw-panel--animating-open');
-            if (this.isHoisted_) this.setHoisetedPosition();
-            else this.setPositionStyle();
             this.notifyOpen();
           }, 150);
         }
+
         if (this.isHoisted_) this.setHoisetedPosition();
         else this.setPositionStyle();
       });
     } else {
       this.classList.add('mdw-open');
+      if (this.isHoisted_) this.setHoisetedPosition();
+      else this.setPositionStyle();
     }
 
     this.addBodyClickEvent_();
@@ -119,12 +124,14 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
           this.closeAnimationEndTimerId_ = setTimeout(() => {
             this.closeAnimationEndTimerId_ = 0;
             this.classList.remove('mdw-panel--animating-closed');
+            this.resetPosition();
             this.notifyClose();
           }, 75);
         }
       });
     } else {
       this.classList.remove('mdw-open');
+      this.resetPosition();
     }
 
     this.removeKeydownEvent_();
@@ -312,5 +319,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.top = `${parseInt(top)}px`;
     this.style.left = `${parseInt(left)}px`;
     this.style[this.transformPropertyName] = 'scale(1)';
+  }
+
+  resetPosition() {
+    this.style.top = '';
+    this.style.left = '';
+    this.style[this.transformPropertyName] = '';
   }
 });
