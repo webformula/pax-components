@@ -1,13 +1,16 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWSnackbar from './service.js';
+import MDWUtils from '../../core/Utils.js';
 
 customElements.define('mdw-snackbar', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_onPanelClose = this.onPanelClose.bind(this);
+    this.panelId = `${this.getAttribute('id')}_panel`;
   }
 
   connectedCallback() {
+    this.querySelector('mdw-panel').setAttribute('id', `${this.panelId}`);
     this.hasBckdrop = true;
     this.panel.clickOutsideClose = false;
   }
@@ -17,7 +20,7 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
   }
 
   get panel() {
-    return this.querySelector('mdw-panel');
+    return document.querySelector(`#${this.panelId}`);
   }
 
   get position() {
@@ -39,7 +42,9 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
   }
 
   _open() {
+    this.panel.hoistToBody(this.parentNode);
     this.panel.setPosition(this.position);
+    this.panel.autoPosition();
     this.panel.open();
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.autoCancelTimeout = setTimeout(() => {
