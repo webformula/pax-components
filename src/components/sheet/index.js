@@ -108,6 +108,11 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     this.removeBackdrop();
   }
 
+  collapse() {
+    if (this.isDraggable) addSwipeListener(this.contentElement, this.bound_onSwipe);
+    this.setPosition(0);
+  }
+
   toggle() {
     if (this.isOpen) this.close();
     else this.open();

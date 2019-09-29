@@ -12,6 +12,8 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
     this.cloneTemplate(true);
     this.showingFullscreen = false;
     this.bound_close = this.close.bind(this);
+
+    if (this.parentNode.classList.contains('mdw-shaped')) this.classList.add('mdw-shaped');
   }
 
   connectedCallback() {
@@ -34,8 +36,14 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
     this.title_ = value;
   }
 
+  get isModal() {
+    if (!this.parentNode || !this.parentNode.isModal) return false;
+    return this.parentNode.isModal();
+  }
+
   close() {
-    this.parentNode.close();
+    if (this.isModal) this.parentNode.close();
+    else this.parentNode.collapse();
   }
 
   disableCollapsedHeader() {
@@ -73,9 +81,16 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
       <div class="mdw-sheet-header-drag-icon"></div>
 
       <div class="mdw-sheet-header-fullscreen">
-        <mdw-button id="mdw-sheet-close-action" class="mdw-icon">
-          <mdw-icon>close</mdw-icon>
-        </mdw-button>
+        ${this.isModal ? `
+          <mdw-button id="mdw-sheet-close-action" class="mdw-icon">
+            <mdw-icon>close</mdw-icon>
+          </mdw-button>
+        ` :
+        `
+          <mdw-button id="mdw-sheet-close-action" class="mdw-icon">
+            <mdw-icon>keyboard_arrow_down</mdw-icon>
+          </mdw-button>
+        `}
         ${this.title}
       </div>
 

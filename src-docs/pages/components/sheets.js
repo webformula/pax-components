@@ -24,7 +24,7 @@ export default class Sheets extends Page {
           <mdw-button onclick="document.querySelector('mdw-sheet').toggle()">show</mdw-button>
 
           <!-- mdw-collapsed-height="100" -->
-          <mdw-sheet mdw-title="Top title">
+          <mdw-sheet mdw-title="Top title" class="mdw-shaped" >
             <mdw-sheet-header>
               <section mdw-align="start">
                 <div class="mdw-title">Main title</div>

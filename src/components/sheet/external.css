@@ -20,7 +20,6 @@ mdw-sheet.mdw-closed {
 mdw-sheet mdw-sheet-content {
   display: block;
   background-color: white;
-  border-radius: 12px 12px 0 0;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
@@ -28,6 +27,10 @@ mdw-sheet mdw-sheet-content {
   box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
               0 4px 5px 0 rgba(0,0,0,.14),
               0 1px 10px 0 rgba(0,0,0,.12);
+}
+
+mdw-sheet.mdw-shaped mdw-sheet-content {
+  border-radius: 12px 12px 0 0;
 }
 
 mdw-sheet.mdw-sheet-fullscreen mdw-sheet-content {
