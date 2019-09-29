@@ -396,6 +396,7 @@ article a {
 
 .codecase .demo {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   padding: 8px;
