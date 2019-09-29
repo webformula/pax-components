@@ -3,7 +3,7 @@ import { HTMLElementExtended, css } from '@webformula/pax-core';
 customElements.define('anchor-link', class extends HTMLElementExtended {
   constructor() {
     super();
-
+    this.addEventListener('click', this.scrollTo.bind(this));
   }
 
   connectedCallback() {
@@ -45,6 +45,9 @@ customElements.define('anchor-link', class extends HTMLElementExtended {
   }
 
   getScrollElement() {
+    // TODO verify this works globallu
+    if (MDWUtils.isMobile) return document.documentElement;
+
     let parent = this.parentNode;
     while (parent !== undefined && this.hasComputedStyleValue('overflowY', parent) === false) {
       if (parent.nodeType === 9) parent = undefined;

@@ -21,7 +21,7 @@ export default class Drawers extends Page {
         <h3>Drawers</h3>
 
         <div class="showcase">
-          <mdw-drawer class="mdw-locked-open" id="top-example">
+          <mdw-drawer class="mdw-locked-open-mobile" id="top-example">
 
             <mdw-drawer-header>
               <div class="mdw-title">Nav title</div>
@@ -63,7 +63,7 @@ export default class Drawers extends Page {
           <div class="codecase">
             <div class="title">Standard</div>
             <code-mirror mode="html">
-              <mdw-body>
+                <!-- <body> -->
                 <mdw-drawer class="mdw-locked-open">
                   <mdw-drawer-header>
                     <div class="mdw-title">Nav title</div>
@@ -95,7 +95,7 @@ export default class Drawers extends Page {
                     <!-- main page content -->
                   </mdw-content>
                 </mdw-page>
-              </mdw-body>
+                <!-- </body> -->
             </code-mirror>
             <div class="demo">
               <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="drawer-standard.html"></iframe>

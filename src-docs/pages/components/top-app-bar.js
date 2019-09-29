@@ -37,15 +37,15 @@ export default class TopAppBar extends Page {
           <div class="codecase">
             <div class="title">Standard</div>
             <code-mirror mode="html">
-              <mdw-top-app-bar class="mdw-fixed">
-                <section>
-                  <mdw-icon>menu</mdw-icon>
-                  <span class="title">Standard</span>
-                </section>
-                <section>
-                  <mdw-icon>bookmark</mdw-icon>
-                </section>
-              </mdw-top-app-bar>
+                <mdw-top-app-bar class="mdw-fixed">
+                  <section>
+                    <mdw-icon>menu</mdw-icon>
+                    <span class="title">Standard</span>
+                  </section>
+                  <section>
+                    <mdw-icon>bookmark</mdw-icon>
+                  </section>
+                </mdw-top-app-bar>
             </code-mirror>
             <div class="demo">
               <iframe style="width: 100%; height: 200px; border: 1px solid #ddd" src="top-app-bar-standard.html"></iframe>
@@ -55,15 +55,15 @@ export default class TopAppBar extends Page {
           <div class="codecase">
             <div class="title">Fixed</div>
             <code-mirror mode="html">
-              <mdw-top-app-bar class="mdw-fixed">
-                <section>
-                  <mdw-icon>menu</mdw-icon>
-                  <span class="title">Fixed</span>
-                </section>
-                <section>
-                  <mdw-icon>bookmark</mdw-icon>
-                </section>
-              </mdw-top-app-bar>
+                <mdw-top-app-bar class="mdw-fixed">
+                  <section>
+                    <mdw-icon>menu</mdw-icon>
+                    <span class="title">Fixed</span>
+                  </section>
+                  <section>
+                    <mdw-icon>bookmark</mdw-icon>
+                  </section>
+                </mdw-top-app-bar>
             </code-mirror>
             <div class="demo">
               <iframe style="width: 100%; height: 200px; border: 1px solid #ddd" src="top-app-bar-fixed.html"></iframe>

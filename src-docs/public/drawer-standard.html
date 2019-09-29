@@ -8,8 +8,8 @@
 </head>
 
   <body>
-    <mdw-body>
-      <mdw-drawer class="mdw-locked-open">
+    <mdw-drawer class="mdw-locked-open">
+      <mdw-drawer-fixed>
         <mdw-drawer-header>
           <div class="mdw-title">Nav title</div>
           <div class="mdw-subtitle">Pages</div>
@@ -50,45 +50,45 @@
             </mdw-list-item>
           </mdw-list>
         </mdw-drawer-content>
-      </mdw-drawer>
+      </mdw-drawer-fixed>
+    </mdw-drawer>
 
-      <mdw-page>
-        <mdw-top-app-bar>
-          <section>
-            <mdw-button onclick="document.querySelector('mdw-drawer').toggle()">c</mdw-button>
-            <span class="title">Example</span>
-          </section>
-        </mdw-top-app-bar>
-        <mdw-content>
-          <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-    anim id est laborum.
-          </p>
-          <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-    anim id est laborum.
-          </p>
-          <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-    anim id est laborum.
-          </p>
-        </mdw-content>
-      </mdw-page>
-    </mdw-body>
+    <mdw-page>
+      <mdw-top-app-bar>
+        <section>
+          <mdw-icon onclick="document.querySelector('mdw-drawer').toggle()">menu</mdw-icon>
+          <span class="title">Example</span>
+        </section>
+      </mdw-top-app-bar>
+      <mdw-content class="constrain-width">
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+  anim id est laborum.
+        </p>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+  anim id est laborum.
+        </p>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+  anim id est laborum.
+        </p>
+      </mdw-content>
+    </mdw-page>
   </body>
 </html>

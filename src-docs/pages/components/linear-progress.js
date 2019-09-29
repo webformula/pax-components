@@ -51,7 +51,7 @@ export default class LinearProgress extends Page {
             <div class="title">Determinate</div>
             <div class="description">linear indicators fill the invisible, linear track with color, as the indicator moves from 0 to 360 degrees</div>
             <code-mirror mode="html">
-              <mdw-linear-progress mdw-percent="50"></mdw-linear-progress>
+                <mdw-linear-progress mdw-percent="50"></mdw-linear-progress>
             </code-mirror>
             <div class="demo">
               <mdw-linear-progress id="dynamic-pc" mdw-percent="0"></mdw-linear-progress>
@@ -62,7 +62,7 @@ export default class LinearProgress extends Page {
             <div class="title">Indeterminate</div>
             <div class="description">linear indicators grow and shrink in size while moving along the invisible track</div>
             <code-mirror mode="html">
-              <mdw-linear-progress mdw-mode="indeterminate"></mdw-linear-progress>
+                <mdw-linear-progress mdw-mode="indeterminate"></mdw-linear-progress>
             </code-mirror>
             <div class="demo">
               <mdw-linear-progress mdw-mode="indeterminate"></mdw-linear-progress>
@@ -77,17 +77,17 @@ export default class LinearProgress extends Page {
           <div class="codecase">
             <div class="title">Colors</div>
             <code-mirror mode="html">
+                <mdw-linear-progress mdw-mode="indeterminate" class="mdw-primary" ></mdw-linear-progress>
+                <mdw-linear-progress mdw-mode="indeterminate" class="mdw-secondary" ></mdw-linear-progress>
+                <mdw-linear-progress mdw-mode="indeterminate" class="mdw-error" ></mdw-linear-progress>
+                <mdw-linear-progress mdw-mode="indeterminate" class="mdw-grey"></mdw-linear-progress>
+            </code-mirror>
+
+            <div class="demo">
               <mdw-linear-progress mdw-mode="indeterminate" class="mdw-primary" ></mdw-linear-progress>
               <mdw-linear-progress mdw-mode="indeterminate" class="mdw-secondary" ></mdw-linear-progress>
               <mdw-linear-progress mdw-mode="indeterminate" class="mdw-error" ></mdw-linear-progress>
               <mdw-linear-progress mdw-mode="indeterminate" class="mdw-grey"></mdw-linear-progress>
-            </code-mirror>
-
-            <div class="demo">
-            <mdw-linear-progress mdw-mode="indeterminate" class="mdw-primary" ></mdw-linear-progress>
-            <mdw-linear-progress mdw-mode="indeterminate" class="mdw-secondary" ></mdw-linear-progress>
-            <mdw-linear-progress mdw-mode="indeterminate" class="mdw-error" ></mdw-linear-progress>
-            <mdw-linear-progress mdw-mode="indeterminate" class="mdw-grey"></mdw-linear-progress>
             </div>
           </div>
         </section>
