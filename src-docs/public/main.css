@@ -400,3 +400,7 @@ article a {
   align-items: center;
   padding: 8px;
 }
+
+.mdw-is-mobile code-mirror {
+  display: inline;
+}
