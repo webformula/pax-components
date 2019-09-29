@@ -8,7 +8,7 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     this.isShowing = true;
     this.isRightAligned = this.hasAttribute('right-aligned');
     this.classList.add('mdw-active');
-    if (MDWUtils.isMobile) {
+    if (MDWUtils.isMobile && !this.classList.contains('mdw-locked-open-mobile')) {
       this.unlockOpen();
       this.hide();
     }

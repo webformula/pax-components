@@ -27,11 +27,13 @@ mdw-drawer.mdw-closed {
   transform: translate3d(-100%, 0, 0);
 }
 
+mdw-drawer.mdw-active.mdw-locked-open-mobile,
 mdw-drawer.mdw-active.mdw-locked-open {
   position: relative;
   height: inherit;
 }
 
+mdw-drawer.mdw-active.mdw-locked-open-mobile mdw-drawer-fixed,
 mdw-drawer.mdw-active.mdw-locked-open mdw-drawer-fixed {
   display: block;
   position: fixed;
