@@ -1,6 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWUtils from '../../core/Utils.js';
-import { addSwipeListener, removeSwipeListener, disableSwipeListenerForElement, enableSwipeListenerForElement } from '../../core/gestures.js';
+import { addDragListener, removeDragListener, disableDragListenerForElement, enableDragListenerForElement } from '../../core/gestures.js';
 
 customElements.define('mdw-sheet', class extends HTMLElementExtended {
   constructor() {
@@ -9,14 +9,14 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     this.isOpen = false;
     this.classList.add('mdw-closed');
     this.currentDragPosition = -1;
-    this.bound_onSwipe = this.onSwipe.bind(this);
+    this.bound_onDrag = this.onDrag.bind(this);
     this.bound_onScroll = this.onScroll.bind(this);
     this.style[MDWUtils.transformPropertyName] = 'translate3d(0, 100%, 0)';
     this.setupHeader();
   }
 
   disconnectedCallback() {
-    removeSwipeListener(this.contentElement, this.bound_onSwipe);
+    removeDragListener(this.contentElement, this.bound_onDrag);
     this.removeEventListener('scroll', this.bound_onScroll);
     this.removeBackdrop();
   }
@@ -90,14 +90,14 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     setTimeout(() => {
       this.setInitalPositions();
       this.setPosition(0);
-      if (this.isDraggable) addSwipeListener(this.contentElement, this.bound_onSwipe);
+      if (this.isDraggable) addDragListener(this.contentElement, this.bound_onDrag);
       this.contentElement.addEventListener('scroll', this.bound_onScroll);
     }, 0);
     if (this.isModal) MDWUtils.lockPageScroll();
   }
 
   close() {
-    removeSwipeListener(this.contentElement, this.bound_onSwipe);
+    removeDragListener(this.contentElement, this.bound_onDrag);
     this.contentElement.removeEventListener('scroll', this.bound_onScroll);
     this.setPosition(this.intialHeight + this.headerElement.offsetHeight);
     this.closeTimeout = setTimeout(() => {
@@ -109,7 +109,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
   }
 
   collapse() {
-    if (this.isDraggable) addSwipeListener(this.contentElement, this.bound_onSwipe);
+    if (this.isDraggable) addDragListener(this.contentElement, this.bound_onDrag);
     this.setPosition(0);
   }
 
@@ -118,7 +118,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     else this.open();
   }
 
-  onSwipe(event) {
+  onDrag(event) {
     switch (event.state) {
       case 'start':
         this.startDragPosition = this.currentDragPosition;
@@ -137,7 +137,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     if (y <= this.scrollY) {
       y = this.scrollY;
       this.style.touchAction = '';
-      disableSwipeListenerForElement(this.contentElement);
+      disableDragListenerForElement(this.contentElement);
     }
     if (this.currentDragPosition === y) return;
     this.style[MDWUtils.transformPropertyName] = `translate3d(0, ${y}px, 0)`;
@@ -173,7 +173,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
 
   onScroll() {
     if (this.contentElement.scrollTop === 0) {
-      enableSwipeListenerForElement(this.contentElement);
+      enableDragListenerForElement(this.contentElement);
     }
   }
 });

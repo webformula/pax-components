@@ -2,11 +2,11 @@ import MDWUtils from './Utils.js';
 
 const swipeInstancesByElementAndFunction = new Map();
 
-export function addSwipeListener(element, callback) {
+export function addDragListener(element, callback) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
   if (typeof callback !== 'function') throw Error('callback must be a function');
 
-  const swipInstance = new Swipe(element, callback);
+  const swipInstance = new Drag(element, callback);
   swipInstance.addEvents();
 
   if (!swipeInstancesByElementAndFunction.get(element)) swipeInstancesByElementAndFunction.set(element, new Map());
@@ -14,7 +14,7 @@ export function addSwipeListener(element, callback) {
 };
 
 // if you do not pass in callback then all the swipe events on an element will be removed
-export function removeSwipeListener(element, callback = undefined) {
+export function removeDragListener(element, callback = undefined) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
 
   const swipInstances = swipeInstancesByElementAndFunction.get(element);
@@ -29,21 +29,21 @@ export function removeSwipeListener(element, callback = undefined) {
   }
 };
 
-export function enableSwipeListenerForElement(element) {
+export function enableDragListenerForElement(element) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
   const swipInstances = swipeInstancesByElementAndFunction.get(element);
   if (!swipInstances) return;
   swipInstances.forEach(i => i.enable());
 }
 
-export function disableSwipeListenerForElement(element) {
+export function disableDragListenerForElement(element) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
   const swipInstances = swipeInstancesByElementAndFunction.get(element);
   if (!swipInstances) return;
   swipInstances.forEach(i => i.disable());
 }
 
-class Swipe {
+class Drag {
   constructor(element, callback) {
     this.element = element;
     this.callback = callback;
@@ -133,8 +133,8 @@ class Swipe {
 
   handleGestureEnd(ev) {
     ev.state = 'end';
-
-    if (!MDWUtils.isMobile) {
+    
+    if (MDWUtils.isMobile) {
       this.element.removeEventListener('touchmove', this.bound_handleGestureMove);
       this.element.removeEventListener('touchend', this.bound_handleGestureEnd);
       this.element.removeEventListener('touchcancel', this.bound_handleGestureEnd);
@@ -148,6 +148,12 @@ class Swipe {
     ev.distance = this.getDistance(ev);
     ev.endDirection = this.getDirection({ x: 0, y: 0 }, ev.distance);
     ev.velocity = this.getVelocity(ev.distance, ev.runTime);
+
+    if (ev.clientX === undefined) {
+      const clientPos = this.getClientXY(ev);
+      ev.clientX = clientPos.x;
+      ev.clientY = clientPos.y;
+    }
     this.callback(ev);
     // ev.preventDefault();
   }
