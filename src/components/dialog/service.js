@@ -3,7 +3,7 @@ const MDWDialog = new class {
     this.currentDialog = null;
   }
 
-  show({ title, message, okLabel, cancelLabel, position = 'center center' }) {
+  show({ title, message, okLabel, cancelLabel, position = 'center center', clickOutsideClose = true }) {
     return new Promise(resolve => {
       const id = this.uid();
       const template = this.template({ id, title, message, okLabel, cancelLabel, position });
@@ -17,8 +17,12 @@ const MDWDialog = new class {
         this.currentDialog = null;
       };
       el.addEventListener('close', onclose);
-      el.show();
+      el.clickOutsideClose = clickOutsideClose;
       this.currentDialog = el;
+
+      setTimeout(() => {
+        el.show();
+      }, 0);
     });
   }
 

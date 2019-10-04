@@ -76,7 +76,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
   }
 
   showDialog() {
-    this.d1.hoistToBody();
+    // this.d1.hoistToBody();
     this.d1.show();
   }
 
@@ -86,6 +86,18 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
       message: 'message message 123',
       okLabel: 'ok',
       cancelLabel: 'cancel'
+    }).then(data => {
+      console.log(data);
+    });
+  }
+
+  showDialogWithServiceNoClickoutside() {
+    MDWDialog.show({
+      title: 'Title',
+      message: 'Try to click background to close',
+      okLabel: 'ok',
+      cancelLabel: 'cancel',
+      clickOutsideClose: false
     }).then(data => {
       console.log(data);
     });
@@ -119,6 +131,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
         <div class="column">
           <div class="eyebrow">contents</div>
           <anchor-link selector="#service">Dialog service</anchor-link>
+          <anchor-link selector="#no-click">Dialog no click background to close</anchor-link>
           <anchor-link selector="#template">Dialog template</anchor-link>
           <anchor-link selector="#scrollable">Dialog scrollable</anchor-link>
         </div>
@@ -148,6 +161,33 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
             <div class="mdw-card__content" style="display: block;">
               <mdw-button class="mdw-raised  mdw-primary" onclick="$Dialog.showDialogWithService()">show dialog</mdw-button>
+            </div>
+          </mdw-card>
+
+
+          <!-- no click out sode to close -->
+          <mdw-card id="no-click">
+            <div class="mdw-card__content">
+              <h6>Dialog no click outside to close</h6>
+              <div class="description">Use MDWDialog service to create promise based dialog</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="javascript">
+                MDWDialog.show({
+                  title: 'Title',
+                  message: 'message message 123',
+                  okLabel: 'ok',
+                  cancelLabel: 'cancel',
+                  clickOutsideClose: false
+                }).then(function (data) {
+                  console.log(data);
+                });
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <mdw-button class="mdw-raised  mdw-primary" onclick="$Dialog.showDialogWithServiceNoClickoutside()">show dialog</mdw-button>
             </div>
           </mdw-card>
 

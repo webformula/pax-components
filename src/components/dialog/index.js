@@ -1,28 +1,26 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWDialog from './service.js';
+import MDWUtils from '../../core/Utils.js';
 
 customElements.define('mdw-dialog', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_onPanelClose = this.onPanelClose.bind(this);
-  }
-
-  connectedCallback() {
-    if (!this.hasBckdrop) this.insertAdjacentHTML('afterbegin', '<div class="mdw-dialog-backdrop mdw-hide"></div>');
-    this.hasBckdrop = true;
-    this.panel.clickOutsideClose = false;
+    this.clickOutsideClose_ = true;
   }
 
   disconnectedCallback() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+
+    if (this.backdrop) {
+      this.backdrop.remove();
+      this.backdrop = undefined;
+    }
   }
 
   get panel() {
-    return this.querySelector('mdw-panel');
-  }
-
-  get backdrop() {
-    return this.querySelector('.mdw-dialog-backdrop');
+    if (!this.panel_) this.panel_ = this.querySelector('mdw-panel');
+    return this.panel_;
   }
 
   get position() {
@@ -33,32 +31,44 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.position_ = value;
   }
 
+  get clickOutsideClose() {
+    return this.clickOutsideClose_;
+  }
+
+  set clickOutsideClose(value) {
+    this.clickOutsideClose_ = value;
+  }
+
   show() {
+    this.panel.hoistToBody();
+    this.panel.setPosition(this.position);
     this.panel.open();
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
-    this.backdrop.classList.remove('mdw-hide');
     this.classList.add('mdw-show');
-    this.panel.setPosition(this.position);
     // TODO find a better way to handle positioning against body.
-    this.panel.setPositionStyle(document.body);
+    // this.panel.setPositionStyle(document.body);
+
+    this.backdrop = MDWUtils.addBackdrop(this.panel, () => {
+      if (this.clickOutsideClose === true) this.close();
+    });
+    MDWUtils.lockPageScroll();
   }
 
   close(ok) {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.close();
-    this.backdrop.classList.add('mdw-hide');
+    MDWUtils.unlockPageScroll();
+    this.backdrop.remove();
+    this.backdrop = undefined;
     this.dispatchClose(ok);
   }
 
-  hoistToBody() {
-    document.body.appendChild(this);
-    this.classList.add('mdw-dialog-backdrop-hoisted');
-    this.isHoisted_ = true;
-  }
-
   onPanelClose() {
-    this.backdrop.classList.add('mdw-hide');
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    if (this.backdrop) {
+      this.backdrop.remove();
+      this.backdrop = undefined;
+    }
   }
 
   dispatchClose(isOk = false) {

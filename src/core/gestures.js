@@ -20,7 +20,8 @@ export function removeSwipeListener(element, callback = undefined) {
   const swipInstances = swipeInstancesByElementAndFunction.get(element);
   if (!swipInstances) return;
   if (callback) {
-    swipInstances.get(callback).removeEvents();
+    const el = swipInstances.get(callback);
+    if (el) el.removeEvents();
     swipInstances.delete(callback);
   } else {
     swipInstances.forEach(i => i.removeEvents());
