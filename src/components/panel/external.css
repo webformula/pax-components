@@ -23,6 +23,11 @@ mdw-panel {
   color: var(--mdw-theme-on-surface);
 }
 
+mdw-panel.mdw-panel-hoisted {
+  position: fixed;
+}
+
+
 mdw-panel.mdw-open {
   display: inline-block;
   opacity: 1;

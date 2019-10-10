@@ -23,12 +23,13 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
 
   onClick() {
     if (MDWUtils.isMobile !== true) {
-      this.panel.autoPosition();
       this.panel.setPosition(this.panelPosition);
+      this.panel.autoPosition();
+      this.panel.clickBodyToClose();
       this.panel.open(true);
       this.panel.addEventListener('click', this.bound_onPanelClick);
     } else {
-      this.sheet.show();
+      this.sheet.open();
     }
   }
 

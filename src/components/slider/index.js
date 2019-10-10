@@ -1,5 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWUtils from '../../core/Utils.js';
+import { addDragListener, removeDragListener, disableDragListenerForElement, enableDragListenerForElement } from '../../core/gestures.js';
 
 customElements.define('mdw-slider', class extends HTMLElementExtended {
   constructor() {
@@ -11,6 +12,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     this.bound_onMouseEnter = this.onMouseEnter.bind(this);
     this.bound_onMouseLeave = this.onMouseLeave.bind(this);
     this.bound_trackClick = this.trackClick.bind(this);
+    this.bound_onDrag = this.onDrag.bind(this);
   }
 
   connectedCallback() {
@@ -18,18 +20,20 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     this.thumbContainer.style.left = `${((this.attrValue - this.min) / this.range) * this.offsetWidth}px`;
     this.notchContainer.style.marginLeft = `-${this.offsetWidth - (((this.attrValue - this.min) / this.range) * this.offsetWidth)}px`;
     this.throttled_dispatchChange = MDWUtils.rafThrottle(this.dispatchChange);
-    this.thumb.addEventListener('mousedown', this.bound_onMouseDown);
-    this.thumb.addEventListener('mouseenter', this.bound_onMouseEnter);
-    this.track.addEventListener('click', this.bound_trackClick);
+    // this.thumb.addEventListener('mousedown', this.bound_onMouseDown);
+    // this.thumb.addEventListener('mouseenter', this.bound_onMouseEnter);
+    // this.track.addEventListener('click', this.bound_trackClick);
+    addDragListener(this.thumb, this.bound_onDrag);
   }
 
   disconnectedCallback() {
-    this.thumb.removeEventListener('mousedown', this.bound_onMouseDown);
-    this.thumb.removeEventListener('mouseenter', this.bound_onMouseEnter);
-    this.thumb.removeEventListener('mouseleave', this.bound_onMouseLeave);
+    // this.thumb.removeEventListener('mousedown', this.bound_onMouseDown);
+    // this.thumb.removeEventListener('mouseenter', this.bound_onMouseEnter);
+    // this.thumb.removeEventListener('mouseleave', this.bound_onMouseLeave);
     this.track.removeEventListener('click', this.bound_trackClick);
-    document.removeEventListener('mouseup', this.bound_onMouseUp);
-    document.removeEventListener('mousemove', this.bound_onMouseMove);
+    // document.removeEventListener('mouseup', this.bound_onMouseUp);
+    // document.removeEventListener('mousemove', this.bound_onMouseMove);
+    removeDragListener(this.thumb, this.bound_onDrag);
   }
 
   static get observedAttributes() {
@@ -121,6 +125,27 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     this.thumbContainer.style.left = `${this.snap(x, width)}px`;
     this.notchContainer.style.marginLeft = `-${this.offsetWidth - this.snap(x, width)}px`;
     this.dispatchChange();
+  }
+
+  onDrag(e) {
+    switch(e.state) {
+      case 'start':
+        this.classList.add('mdw-pressed');
+        this.initialX_ = parseInt((this.thumbContainer.style.left || '0px').replace('px', ''));
+        break;
+      case 'move':
+        const { left, width } = this.getBoundingClientRect();
+        let x = e.distance.x + this.initialX_;
+        if (x < 0) x = 0;
+        if (x > width) x = width;
+        this.thumbContainer.style.left = `${this.snap(x, width)}px`;
+        this.notchContainer.style.marginLeft = `-${this.offsetWidth - this.snap(x, width)}px`;
+        this.throttled_dispatchChange();
+        break;
+      case 'end':
+        this.classList.remove('mdw-pressed');
+        break;
+    }
   }
 
   onMouseDown(e) {

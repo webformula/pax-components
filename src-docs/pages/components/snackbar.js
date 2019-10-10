@@ -34,7 +34,7 @@ export default class Snackbar extends Page {
       actionLabel: 'act',
       position: this.position
     }).then(data => {
-      console.log(data);
+      console.log('show answered', data);
     });
   }
 

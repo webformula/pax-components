@@ -62,10 +62,15 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const split = value.split(' ');
     this.position_ = `${split[0] || 'top'} ${split[1] || 'left'}`;
     this.setAttribute('mdw-position', this.position_);
+    this.positionSet_ = true;
   }
 
   autoPosition() {
     this._autoPosition = true;
+  }
+
+  clickBodyToClose() {
+    this.clickOutsideClose_ = true;
   }
 
   isOpen() {
@@ -73,7 +78,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   open(clickBodyToClose) {
-    if (clickBodyToClose !== undefined) this.clickOutsideClose_ = clickBodyToClose
+    if (clickBodyToClose !== undefined) this.clickOutsideClose_ = clickBodyToClose;
     // handle focused element
     const focusableElements = this.querySelectorAll(this.FOCUSABLE_ELEMENTS);
     this.firstFocusableElement_ = focusableElements[0];
@@ -90,16 +95,17 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
           this.openAnimationEndTimerId_ = setTimeout(() => {
             this.openAnimationEndTimerId_ = 0;
             this.classList.remove('mdw-panel--animating-open');
-            if (this.isHoisted_) this.setHoisetedPosition();
-            else this.setPositionStyle();
             this.notifyOpen();
           }, 150);
         }
+
         if (this.isHoisted_) this.setHoisetedPosition();
         else this.setPositionStyle();
       });
     } else {
       this.classList.add('mdw-open');
+      if (this.isHoisted_) this.setHoisetedPosition();
+      else this.setPositionStyle();
     }
 
     this.addBodyClickEvent_();
@@ -119,12 +125,14 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
           this.closeAnimationEndTimerId_ = setTimeout(() => {
             this.closeAnimationEndTimerId_ = 0;
             this.classList.remove('mdw-panel--animating-closed');
+            this.resetPosition();
             this.notifyClose();
           }, 75);
         }
       });
     } else {
       this.classList.remove('mdw-open');
+      this.resetPosition();
     }
 
     this.removeKeydownEvent_();
@@ -232,6 +240,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   hoistToBody(target) {
+    if (this.isHoisted_) return;
     this.container_ = target || this.parentNode;
     document.body.appendChild(this);
     this.classList.add('mdw-panel-hoisted');
@@ -242,6 +251,63 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const bounds = this.container_.getBoundingClientRect();
     this.style.top = `${bounds.top}px`;
     this.style.left = `${bounds.left}px`;
+    this.style[this.transformPropertyName] = 'scale(1)';
+
+    if (this.positionSet_) {
+      let top = 0;
+      let left = 0;
+
+      this.style.top = `${top}px`;
+      this.style.left = `${left}px`;
+
+      setTimeout(() => {
+        const { clientWidth, clientHeight } = document.documentElement;
+        const height = this.offsetHeight;
+        const width = this.offsetWidth;
+        const aValue = this.position.split(' ')[0];
+        const bValue = this.position.split(' ')[1];
+
+        switch(aValue) {
+          case 'top':
+            top = 0;
+            break;
+          case 'inner-top':
+            top = bounds.y + 12;
+            break;
+          case 'bottom':
+            top = clientHeight;
+            break;
+          case 'center':
+            top = (clientHeight / 2) - (height / 2);
+            break;
+          case 'inner-bottom':
+            top = clientHeight - height - 12;
+            break;
+        }
+
+        switch(bValue) {
+          case 'left':
+            left = -width;
+            break;
+          case 'inner-left':
+            left = bounds.x + 12;
+            break;
+          case 'right':
+            left = clientWidth;
+            break;
+          case 'inner-right':
+            left = clientWidth - width - 12;
+            break;
+          case 'center':
+            left = (clientWidth / 2) - (width / 2);
+            break;
+        }
+
+        this.style.width = `${this.width}px`;
+        this.style.top = `${top}px`;
+        this.style.left = `${left}px`;
+      }, 0);
+    }
   }
 
 
@@ -303,7 +369,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     }
 
     if (this._autoPosition) {
-      const { clientWidth, clientHeight } = document.body;
+      const { clientWidth, clientHeight } = document.documentElement;
       const { x: globalX, y: globalY } = this.getBoundingClientRect();
       if ((globalY + height) > clientHeight) top = parentHeight - height;
       if ((globalX + width) > clientWidth) left = parentWidth - width;
@@ -312,5 +378,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.top = `${parseInt(top)}px`;
     this.style.left = `${parseInt(left)}px`;
     this.style[this.transformPropertyName] = 'scale(1)';
+  }
+
+  resetPosition() {
+    this.style.top = '';
+    this.style.left = '';
+    this.style[this.transformPropertyName] = '';
   }
 });
