@@ -1055,6 +1055,10 @@ mdw-list-item[selected] .mdw-list-item__graphic {
   color: var(--mdw-theme-primary);
 }
 
+mdw-list-item.mdw-focused {
+  background-color: rgba(0,0,0,0.06);
+}
+
 mdw-list-item[active]:not([disabled]):after,
 mdw-list-item[active]:not([disabled]):before {
   background-color: var(--mdw-theme-primary);
@@ -1291,6 +1295,11 @@ mdw-panel {
   background-color: var(--mdw-theme-surface);
   color: var(--mdw-theme-on-surface);
 }
+
+mdw-panel.mdw-panel-hoisted {
+  position: fixed;
+}
+
 
 mdw-panel.mdw-open {
   display: inline-block;
@@ -1904,7 +1913,7 @@ mdw-sheet.mdw-shaped mdw-sheet-content {
 
 mdw-sheet.mdw-sheet-fullscreen mdw-sheet-content {
   border-radius: 0;
-  height: 100%;
+  height: calc(100% - 56px);
 }
 
 mdw-sheet:not([mdw-modal]).mdw-has-collasped-header mdw-sheet-content {

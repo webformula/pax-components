@@ -73,6 +73,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this.shadowRoot.querySelector('label');
   }
 
+  get labelWidth() {
+    return this.label.offsetWidth * 0.9;
+  }
+
+
   get enhacedElementId() {
     if (!this.enhacedElementId_) this.enhacedElementId_ = `select-enhanced-${MDWUtils.uid()}`;
     return this.enhacedElementId_;
