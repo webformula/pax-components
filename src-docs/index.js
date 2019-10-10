@@ -6,6 +6,6 @@ build({
   layoutFilePath: 'src-docs/layout/index.js',
   distFolder: 'dist-docs',
   routerConfig: {
-    root: 'Home'
+    root: 'home'
   }
 });
