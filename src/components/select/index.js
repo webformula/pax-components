@@ -330,7 +330,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   focusNext() {
     if (!this.panel.isOpen()) return;
     const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
-    console.log(optionElements);
     if (this._focusIndex === undefined) {
       const index = optionElements.findIndex(el => el.classList.contains('mdw-focused'));
       if (index >= 0) this._focusedOption = optionElements[index];
