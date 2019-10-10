@@ -92,6 +92,7 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
       this.setPosition(0);
       if (this.isDraggable) addDragListener(this.contentElement, this.bound_onDrag);
       this.contentElement.addEventListener('scroll', this.bound_onScroll);
+      this.notifyOpen();
     }, 0);
     if (this.isModal) MDWUtils.lockPageScroll();
   }
@@ -106,6 +107,15 @@ customElements.define('mdw-sheet', class extends HTMLElementExtended {
     }, 600);
     this.isOpen = false;
     this.removeBackdrop();
+    this.notifyClose();
+  }
+
+  notifyClose() {
+    this.dispatchEvent(new Event('MDWSheet:closed', this));
+  }
+
+  notifyOpen() {
+    this.dispatchEvent(new Event('MDWSheet:open'), this);
   }
 
   collapse() {

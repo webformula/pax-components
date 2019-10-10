@@ -17,6 +17,10 @@ mdw-list-item[selected] .mdw-list-item__graphic {
   color: var(--mdw-theme-primary);
 }
 
+mdw-list-item.mdw-focused {
+  background-color: rgba(0,0,0,0.06);
+}
+
 mdw-list-item[active]:not([disabled]):after,
 mdw-list-item[active]:not([disabled]):before {
   background-color: var(--mdw-theme-primary);
