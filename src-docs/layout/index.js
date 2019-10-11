@@ -29,6 +29,12 @@ export default function ({ head, body, title }) {
 
         <script>
           window.paxVersion = '0.5.0-beta';
+
+          // setTimeout(() => {
+          //   MDWTheme.changeTheme({
+          //     primary: 'purple'
+          //   });
+          // }, 1000);
         </script>
 
         ${head}

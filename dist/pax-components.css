@@ -2747,6 +2747,7 @@ div.mdw-top-app-bar.mdw-prominent-dense {
   --mdw-theme-palette--purple-contrast-A400: white;
   --mdw-theme-palette--purple-contrast-A700: white;
 
+  /* deep-purple */
   --mdw-theme-palette--deep-purple-50: #ede7f6;
   --mdw-theme-palette--deep-purple-100: #d1c4e9;
   --mdw-theme-palette--deep-purple-200: #b39ddb;

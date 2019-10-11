@@ -1,8 +1,20 @@
-export default new class MDWTheme {
+// TODO enable configuration of theme on load
+
+const MDWTheme = new class {
   constructor() {
     this.hexREGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
     this.setContrast();
     this.setPalettes();
+    this.configureVars();
+  }
+
+  changeTheme({ primary, secondary, error, contrast }) {
+    primary = primary || this.palettes.primary;
+    secondary = secondary || this.palettes.secondary;
+    error = error || this.palettes.error;
+    contrast = contrast || this.contrast;
+    this.setPalettes({ primary, secondary, error });
+    this.setContrast(contrast);
     this.configureVars();
   }
 
@@ -140,3 +152,7 @@ export default new class MDWTheme {
     ];
   }
 }
+
+window.MDWTheme = MDWTheme;
+
+export default MDWTheme;

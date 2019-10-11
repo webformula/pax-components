@@ -3,7 +3,7 @@ import { html } from '@webformula/pax-core';
 export default function({ title }) {
   return html`
     <header>
-      <mdw-top-app-bar class="mdw-fixed mdw-white">
+      <mdw-top-app-bar class="mdw-fixed">
         <section>
           <mdw-icon onclick="document.querySelector('mdw-drawer.navigation').toggle()">menu</mdw-icon>
           <span class="mdw-title">PAX web components</span>

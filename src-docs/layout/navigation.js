@@ -13,7 +13,7 @@ export default function () {
         <mdw-drawer-content>
           <nav>
             <span class="title">Documentation</span>
-            <a href="/">Getting started</a>
+            <a href="#/home">Getting started</a>
             <a href="#/documentation/install">Installation</a>
             <a href="#/documentation/browsers">Browser compatability</a>
 
