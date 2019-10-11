@@ -405,3 +405,13 @@ article a {
 .mdw-is-mobile code-mirror {
   display: inline;
 }
+
+code-mirror code {
+  left: -80px;
+  position: relative;
+}
+
+mdw-card code-mirror code {
+  left: -160px;
+  position: relative;
+}

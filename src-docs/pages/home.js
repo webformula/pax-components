@@ -44,9 +44,9 @@ export default class Home extends Page {
       PAX components are also compatable on mobile sites. There are many components that are targeted directly at mobile development (<a href="#/components/backdrop">Backdrop</a>).
       </p>
 
-      <h6>Powerful, and light wieght</h6>
+      <h6>Powerful, and light weight</h6>
       <p>
-      PAX components are built to be as simple, lightweight and performant as possible. Since these are built using web compnents, wich are a native browser feature. We are taking advantage of the lowest level posiible in the browser for components.
+      PAX components are built to be as simple, light weight and performant as possible. Since these are built using web compnents, wich are a native browser feature. We are taking advantage of the lowest level posiible in the browser for components.
       </p>
 
       <h6>Built with PAX-CORE</h6>
@@ -63,15 +63,13 @@ export default class Home extends Page {
 
         <div class="mdw-card__content--no-padding">
           <code-mirror mode="javascript">
-            <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@0.3.0-beta/dist/pax-components.css"> -->
-            <!-- <script src="https://cdn.jsdelivr.net/gh/webformula/pax-components@0.3.0-beta/dist/pax-components.js"></script> -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.css">
+            <script src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.js"></script>
+
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
           </code-mirror>
         </div>
-
-        <!-- <div class="mdw-card__content" style="display: block;">
-          <mdw-button id="raised" class="mdw-raised">raised</mdw-button>
-          <mdw-button id="raised-primary" class="mdw-raised  mdw-primary">raised primary</mdw-button>
-        </div> -->
       </mdw-card>
 
       <div style="height: 24px;"></div>
@@ -159,9 +157,6 @@ export default class Home extends Page {
           </div>
         </div>
       </mdw-card>
-
-      <div style="height: 64px;"></div>
-      <h4>Components</h4>
     </article>
     `;
   }

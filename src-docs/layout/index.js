@@ -27,6 +27,10 @@ export default function ({ head, body, title }) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/xml/xml.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/css/css.js"></script>
 
+        <script>
+          window.paxVersion = '0.5.0-beta';
+        </script>
+
         ${head}
       </head>
 

@@ -3,12 +3,13 @@ import { HTMLElementExtended } from '@webformula/pax-core';
 customElements.define('code-mirror', class extends HTMLElementExtended {
   constructor() {
     super();
-    this.cloneTemplate();
-    this.render();
+
+    this.content_ = this.querySelector('code') ? this.querySelector('code').innerHTML : this.innerHTML;
+    this.innerHTML = '<pre class="cm-s-one-dark"><code></code></pre>';
   }
 
   connectedCallback() {
-    CodeMirror.runMode(this.content, this.mode, this.code);
+    CodeMirror.runMode(this.content_, this.mode, this.code);
   }
 
   get mode() {
@@ -25,7 +26,7 @@ customElements.define('code-mirror', class extends HTMLElementExtended {
   }
 
   get code() {
-    if (!this._code) this._code = this.shadowRoot.querySelector('code');
+    if (!this._code) this._code = this.querySelector('code');
     return this._code;
   }
 
@@ -33,30 +34,5 @@ customElements.define('code-mirror', class extends HTMLElementExtended {
     if (this.querySelector('code')) this._content = this.querySelector('code').innerText;
     if (!this._content) this._content = this.innerHTML;
     return this._content;
-  }
-
-  styles() {
-    return `
-      @import "one-dark.css";
-
-      @media screen and (max-width: 1084px) {
-        :host {
-          display: block;
-          max-width: calc(100vw - 232px);
-        }
-      }
-
-      pre {
-        position: relative;
-      }
-
-      code {
-        left: -160px;
-        position: relative;
-      }
-    `;
-  }
-  template() {
-    return '<pre class="cm-s-one-dark"><code></code></pre>';
   }
 });
