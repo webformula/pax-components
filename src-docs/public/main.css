@@ -19,17 +19,24 @@ article > section {
   padding-top: 80px;
 }
 
+mdw-top-app-bar {
+  background-color: #332f36;
+  color: #8d7bc7;
+  border-left: 1px solid rgba(255,255,255,0.12);
+}
+
 .navigation {
   width: 220px;
-  background-color: #364051;
+  background-color: #332f36;
 }
 
 .navigation .main-title {
-  color: #7b99c7;
+  color: #8d7bc7;
   display: block;
   font-size: 24px;
   /* padding-left: 24px; */
   line-height: 25px;
+  font-weight: 500;
 }
 .navigation .main-title:first-child {
   margin-top: 16px;
@@ -40,7 +47,7 @@ nav {
 }
 
 nav .title {
-  color: #5a6b86;
+  color: #76a5aa;
   display: block;
   font-size: 18px;
   padding-bottom: 12px;
@@ -95,7 +102,7 @@ anchor-link {
   font-weight: 500;
   text-decoration: none;
   font-weight: 500;
-  color: #6200ee;
+  color: #8d7bc7;
   cursor: pointer;
 }
 
@@ -111,7 +118,7 @@ anchor-link {
   max-height: 100vh;
   overflow-y: auto;
   width: 220px;
-  background-color: #364051;
+  background-color: #332f36;
   padding-top: 20px;
 } */
 
@@ -152,7 +159,7 @@ nav > section:first-of-type {
 }
 
 nav .main-title {
-  color: #7b99c7;
+  color: #8d7bc7;
   display: block;
   font-size: 24px;
   padding-left: 24px;
@@ -160,7 +167,7 @@ nav .main-title {
 }
 
 nav .title {
-  color: #5a6b86;
+  color: #76a5aa;
   display: block;
   font-size: 18px;
   padding-bottom: 12px;
@@ -336,7 +343,10 @@ flex {
   justify-content: center;
   padding: 24px;
   margin: 24px 0;
-  background-color: #f2f2f2;
+}
+
+.showcase label {
+  /* color: var(--mdw-theme-text--on-primary); */
 }
 
 /* links */
@@ -367,7 +377,7 @@ article a {
 }
 
 .codecase .title {
-  color: #202124;
+  /* color: #202124; */
   font-weight: 400;
   font-size: 1.25rem;
   letter-spacing: normal;
@@ -376,7 +386,7 @@ article a {
 }
 
 .codecase .description {
-  color: #202124;
+  /* color: #202124; */
   font-weight: 400;
   margin: 0 0 8px;
   font-size: 1rem;
@@ -404,4 +414,19 @@ article a {
 
 .mdw-is-mobile code-mirror {
   display: inline;
+}
+
+code-mirror code {
+  left: -80px;
+  position: relative;
+}
+
+section mdw-card code-mirror code {
+  left: -160px;
+  position: relative;
+}
+
+mdw-card code-mirror code {
+  left: -120px;
+  position: relative;
 }

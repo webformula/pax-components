@@ -26,7 +26,7 @@ export default class Slider extends Page {
       <article class="page-article">
         <h3>Slider</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-slider id="slider1" min="0" max="100" value="50"></mdw-slider>
         </div>
 

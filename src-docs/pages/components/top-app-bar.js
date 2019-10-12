@@ -14,7 +14,7 @@ export default class TopAppBar extends Page {
       <article class="page-article">
         <h3>Top app bar</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-top-app-bar style="width: 400px; position: relative;">
             <section>
               <mdw-icon>menu</mdw-icon>

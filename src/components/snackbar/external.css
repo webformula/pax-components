@@ -8,7 +8,7 @@ mdw-snackbar-container {
   justify-content: flex-start;
   box-sizing: border-box;
   /* TODO figure out what color in the theme this should be. Probably need to add it */
-  background-color: #333;
+  background-color: var(--mdw-theme-snackbarcontainer);
 }
 
 mdw-snackbar-content {
@@ -33,9 +33,9 @@ mdw-snackbar-actions {
 }
 
 mdw-snackbar-actions .mdw-close-button {
-  color: var(--mdw-theme-text--secondary);
+  color: var(--mdw-theme-text--on-snackbar);
 }
 
 mdw-snackbar-actions .mdw-action-button {
-  color: var(--mdw-theme-palette--primary-300);
+  color: var(--mdw-theme-text--on-snackbar);
 }

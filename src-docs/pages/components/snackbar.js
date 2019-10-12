@@ -69,7 +69,7 @@ export default class Snackbar extends Page {
           </div>
 
           <div flex=".66">
-            <div class="showcase">
+            <div class="showcase mdw-elevation-1">
               <mdw-button onclick="$Snackbar.showSnackbar()">show snackbar</mdw-button>
             </div>
           </div>

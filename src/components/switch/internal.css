@@ -1,5 +1,5 @@
 
-.mdw-track {
+.mdw-track {  
   box-sizing: border-box;
   width: 32px;
   height: 14px;
@@ -12,8 +12,8 @@
 }
 
 :host(:not(.checked)) .mdw-track {
-  background-color: #000;
-  border-color: #000;
+  background-color: var(--mdw-theme-switchtrack);
+  border-color: var(--mdw-theme-switchtrack);
 }
 
 :host(.checked) .mdw-track {

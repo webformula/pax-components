@@ -27,6 +27,20 @@ export default function ({ head, body, title }) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/xml/xml.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/css/css.js"></script>
 
+        <script>
+          window.paxVersion = '0.5.0-beta';
+          window.MDWThemeConfig = {
+            contrast: 'dark', // default is light
+            primary: 'deeppurple',
+            secondary: 'teal',
+            error: 'red'
+          };
+
+          window.changeContrast = (value) => {
+            MDWTheme.changeTheme({ contrast: value ? 'light' : 'dark' });
+          };
+        </script>
+
         ${head}
       </head>
 

@@ -19,7 +19,7 @@ mdw-sheet.mdw-closed {
 
 mdw-sheet mdw-sheet-content {
   display: block;
-  background-color: white;
+  background-color: var(--mdw-theme-background);
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
@@ -67,5 +67,5 @@ mdw-sheet:not([mdw-modal]).mdw-has-collasped-header mdw-sheet-content {
   overflow: hidden;
   line-height: normal;
   display: block;
-  color: var(--mdw-theme-text--secondary--on-background);
+  color: var(--mdw-theme-text--on-primary);
 }

@@ -14,7 +14,7 @@ export default class Tabs extends Page {
       <article class="page-article">
         <h3>Tabs</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-tabs-container>
             <mdw-tabs-bar id="tabs-one">
               <mdw-tab-button>one</mdw-tab-button>

@@ -31,7 +31,7 @@ export default class LinearProgress extends Page {
       <article class="page-article">
         <h3>Linear Progress</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-linear-progress mdw-mode="indeterminate"></mdw-linear-progress>
         </div>
 

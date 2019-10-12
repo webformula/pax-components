@@ -30,7 +30,7 @@ export default class Banners extends Page {
       <article class="page-article">
         <h3>Banners</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <!-- you can use id to reference the components class -->
           <!-- you can also walk the tree this.parentNode.parentNode.dismiss()-->
           <!-- <mdw-banner id="banner1" style="display: none;">
@@ -54,7 +54,7 @@ export default class Banners extends Page {
         <section id="types">
           <h4>Examples</h4>
 
-          <div class="codecase">
+          <div class="codecase mdw-elevation-1">
             <div class="title">Banner service</div>
             <div class="description">Banners must be dissmissed by the user</div>
             <code-mirror mode="javascript">
@@ -79,7 +79,7 @@ export default class Banners extends Page {
                 };
             </code-mirror>
             <div class="demo">
-              <mdw-button onclick="$Banners.makeBanner()">show banner</mdw-button>
+              <mdw-button onclick="$Banners.makeBanner()" class="mdw-raised">show banner</mdw-button>
               <mdw-button class="mdw-secondary" onclick="$Banners.makeBannerWithAccept()">show banner with acceptLabel</mdw-button>
             </div>
           </div>

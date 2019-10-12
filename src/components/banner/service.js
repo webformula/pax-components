@@ -72,11 +72,11 @@ const MDWBanner = new class {
 
   template(message, dismissLabel, acceptLabel, uid) {
     return `
-      <mdw-banner id="${uid}">
+      <mdw-banner id="${uid}" class="mdw-elevation-1">
         <div>${message}</div>
         <div>
-          ${dismissLabel ? `<mdw-button onclick="${uid}.dismiss()">${dismissLabel}</mdw-button>` : ''}
-          ${acceptLabel ? `<mdw-button onclick="${uid}.accept()">${acceptLabel}</mdw-button>` : ''}
+          ${dismissLabel ? `<mdw-button onclick="${uid}.dismiss()" class="mdw-secondary">${dismissLabel}</mdw-button>` : ''}
+          ${acceptLabel ? `<mdw-button onclick="${uid}.accept()" class="mdw-secondary">${acceptLabel}</mdw-button>` : ''}
         </div>
       </mdw-banner>
     `;

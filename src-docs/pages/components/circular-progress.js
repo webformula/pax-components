@@ -31,7 +31,7 @@ export default class CircularProgress extends Page {
       <article class="page-article">
         <h3>Circular Progress</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-circular-progress mdw-mode="indeterminate"></mdw-circular-progress>
         </div>
 

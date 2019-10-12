@@ -1,142 +1,191 @@
-export default new class MDWTheme {
+// TODO enable configuration of theme on load
+
+const MDWTheme = new class {
   constructor() {
     this.hexREGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
-    this.setContrast();
-    this.setPalettes();
-    this.configureVars();
+    this.paletteRegex = /(?<base>--mdw-theme-palette--)(?<color>\w*)-?(?<contrast>contrast)?-(?<hue>\w*)$/;
+    this.textRegex = /(?<base>--mdw-theme-text--)(?<on>on-\w*)?(?<state>\w*)--(?<contrast>\w*)$/;
+    this.contentWithContrastRegex = /(?<base>--mdw-theme-)(?<content>\w*)--(?<contrast>\w*)$/;
+    this.contrast_ = 'light';
+
+    const initialConfig = Object.assign({
+      contrast: 'light',
+      primary: 'deeppurple',
+      secondary: 'teal',
+      error: 'red'
+    }, window.MDWThemeConfig);
+
+    this.setPalettes(initialConfig);
+    if (['light', 'dark'].indexOf(initialConfig.contrast) > -1) this.contrast = initialConfig.contrast;
+    this.categorize();
+    this.setThemeVars();
+    this.setOtherVars();
+  }
+
+  get contrast() {
+    return this.contrast_;
+  }
+
+  set contrast(value) {
+    if (value !== 'light' && value !== 'dark') throw Error('valid values are "light" and "dark"');
+    this.contrast_ = value;
+  }
+
+  changeTheme({ primary, secondary, error, contrast }) {
+    primary = primary || this.palettes.primary;
+    secondary = secondary || this.palettes.secondary;
+    error = error || this.palettes.error;
+    this.contrast = contrast;
+    this.setPalettes({ primary, secondary, error });
+    this.setThemeVars();
+    this.setOtherVars();
   }
 
   setPalettes({ primary, secondary, error } = {}) {
     this.palettes = {
-      primary: primary || 'deep-purple',
+      primary: primary || 'deeppurple',
       secondary: secondary || 'teal',
       error: error || 'red'
     };
   }
 
-  setContrast(contrast = 'light') {
-    this.contrast = contrast;
-  }
-
-  configureVars() {
-    this.setTheme();
-    this.createRGBValues();
-    this.applyContrast();
-    this.createBaseVars();
-  }
-
-  setTheme() {
+  setThemeVars() {
     Object.keys(this.palettes).forEach(key => {
       const colorName = this.palettes[key];
-      this.paletteVars(colorName).forEach(varName => {
-        this.setVar(varName.replace(colorName, key), this.getVar(varName));
+      const paletteVars = this.paletteVars(colorName);
+      paletteVars.forEach(palette => {
+        const name = `--mdw-theme-${key}${palette.contrast ? `-${palette.contrast}` : ''}${palette.default === false ? `-${palette.hue}` : ''}`;
+        const value = this.getVar(palette.var);
+        this.setVar(name, value);
+        this.setVar(`${name}--rgb`, this.convertToRGB(value));
+
+        if (palette.hue === this.contrast) {
+          const normalized = name.replace(`-${this.contrast}`, '');
+          this.setVar(normalized, value);
+          this.setVar(`${normalized}--rgb`, this.convertToRGB(value));
+        }
       });
     });
   }
 
-  createRGBValues() {
-    this.rgbConversionList().forEach(name => {
-      this.setVar(`${name.replace(`--default`, '')}--rgb`, this.convertToRGB(this.getVar(name)));
+  setOtherVars() {
+    this.otherVars().forEach(v => {
+      const value = this.getVar(v.var);
+      this.setVar(v.normalized, value);
+      this.setVar(`${v.normalized}--rgb`, this.convertToRGB(value));
     });
   }
 
-  applyContrast() {
-    this.contrastList(this.contrast).forEach(name => {
-      this.setVar(name.replace(`--${this.contrast}`, ''), this.getVar(name));
+  paletteVars(colorName) {
+    const paletteVarNames = Object.keys(this.normalizedVars).filter(key => key.startsWith(`--mdw-theme-palette--${colorName}`));
+    return paletteVarNames.map(key => this.normalizedVars[key][0]);
+  }
+
+  otherVars() {
+    const paletteVarNames = Object.keys(this.normalizedVars).filter(key => key.startsWith('--mdw-theme') && !key.startsWith('--mdw-theme-palette'));
+    return paletteVarNames.map(key => this.pickVar(this.normalizedVars[key]));
+  }
+
+  setVars() {
+    Object.keys(this.normalizedVars).forEach(key => {
+      const picked = this.pickVar(this.normalizedVars[key]);
+      this.setVar(picked.normalized, this.getVar(picked.var));
     });
-  }
-
-  // this will take any var with --default and create a var without default in it
-  // example: --mdw-theme-primary--default -> --mdw-theme-primary
-  createBaseVars() {
-    this.defaultList().forEach(name => {
-      this.setVar(name.replace(`--default`, ''), this.getVar(name));
-    });
-  }
-
-  convertToRGB(hex) {
-    const result = this.hexREGEX.exec(hex.trim());
-    return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
-  }
-
-  getVar(name) {
-    return getComputedStyle(document.documentElement).getPropertyValue(name);
-  }
-
-  getAllVars() {
-    return getComputedStyle(document.documentElement);
   }
 
   setVar(name, value) {
     document.documentElement.style.setProperty(name, value);
   }
 
-  defaultList() {
-    return this.rgbConversionList();
+  getVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name);
   }
 
-  rgbConversionList() {
-    return [
-      '--mdw-theme-primary--default',
-      '--mdw-theme-secondary--default',
-      '--mdw-theme-error--default',
-      '--mdw-theme-surface--default',
-      '--mdw-theme-background--default',
-      '--mdw-theme-foreground--default'
-    ];
+  pickVar(arr) {
+    let found = arr.find(item => {
+      if (item.default === true && this.contrast === item.contrast) return true;
+    });
+    if (!found) {
+      found = arr.find(item => {
+        if (this.contrast === item.contrast) return true;
+        if (item.default === true) return true;
+      });
+    }
+    return found || arr[0];
   }
 
-  contrastList(contrast) {
-    return [
-      `--mdw-theme-primary--${contrast}--on`,
-      `--mdw-theme-secondary--${contrast}--on`,
-      `--mdw-theme-error--${contrast}--on`,
-      `--mdw-theme-surface--${contrast}--on`,
-      `--mdw-theme-text--primary--${contrast}`,
-      `--mdw-theme-text--secondary--${contrast}`,
-      `--mdw-theme-text--hint--${contrast}`,
-      `--mdw-theme-text--disabled--${contrast}`,
-      `--mdw-theme-text--icon--${contrast}`,
-      `--mdw-theme-divider--${contrast}`,
-      `--mdw-theme-divider--on--${contrast}`,
-      `--mdw-theme-text--primary--on-${contrast}`,
-      `--mdw-theme-text--secondary--on-${contrast}`,
-      `--mdw-theme-text--hint--on-${contrast}`,
-      `--mdw-theme-text--disabled--on-${contrast}`,
-      `--mdw-theme-text--icon--on-${contrast}`
-    ];
+  categorize() {
+    const parsed = this.getAllVars().map(v => this.parseVar(v));
+    const normalizedHash = parsed.reduce((a, b) => {
+      if (b.noMatch === true || !b.normalized) return a;
+
+      if (!a[b.normalized]) a[b.normalized] = [];
+      a[b.normalized].push(b);
+      return a;
+    }, {});
+
+    this.normalizedVars = normalizedHash;
   }
 
-  paletteVars(name) {
-    return [
-        `--mdw-theme-palette--${name}-50`,
-        `--mdw-theme-palette--${name}-100`,
-        `--mdw-theme-palette--${name}-200`,
-        `--mdw-theme-palette--${name}-300`,
-        `--mdw-theme-palette--${name}-400`,
-        `--mdw-theme-palette--${name}-500`,
-        `--mdw-theme-palette--${name}-600`,
-        `--mdw-theme-palette--${name}-700`,
-        `--mdw-theme-palette--${name}-800`,
-        `--mdw-theme-palette--${name}-900`,
-        `--mdw-theme-palette--${name}-A100`,
-        `--mdw-theme-palette--${name}-A200`,
-        `--mdw-theme-palette--${name}-A400`,
-        `--mdw-theme-palette--${name}-A700`,
-        `--mdw-theme-palette--${name}-contrast-50`,
-        `--mdw-theme-palette--${name}-contrast-100`,
-        `--mdw-theme-palette--${name}-contrast-200`,
-        `--mdw-theme-palette--${name}-contrast-300`,
-        `--mdw-theme-palette--${name}-contrast-400`,
-        `--mdw-theme-palette--${name}-contrast-500`,
-        `--mdw-theme-palette--${name}-contrast-600`,
-        `--mdw-theme-palette--${name}-contrast-700`,
-        `--mdw-theme-palette--${name}-contrast-800`,
-        `--mdw-theme-palette--${name}-contrast-900`,
-        `--mdw-theme-palette--${name}-contrast-A100`,
-        `--mdw-theme-palette--${name}-contrast-A200`,
-        `--mdw-theme-palette--${name}-contrast-A400`,
-        `--mdw-theme-palette--${name}-contrast-A700`
-    ];
+  // parse out variables in :root
+  getAllVars() {
+    return [...document.styleSheets]
+      .filter(s => s.href === null || s.href.startsWith(window.location.origin))
+      .reduce((a, sheet) => a.concat([...sheet.cssRules].reduce((a2, rule) => {
+        if (rule.selectorText === ':root') return a2.concat([...rule.style].filter(n => n.startsWith('--')));
+        return a2;
+      }, [])), []);
   }
-}
+
+  getUnmatched() {
+    const parsed = this.getAllVars().map(v => this.parseVar(v));
+    return parsed.filter(n => n.noMatch === true);
+  }
+
+  parseVar(varName) {
+    if (this.paletteRegex.test(varName)) {
+      const groups = varName.match(this.paletteRegex).groups;
+      const normalized = `${groups.base}${groups.color}${groups.contrast ? `-contrast` : ''}-${groups.hue}`;
+      return Object.assign({
+        var: varName,
+        type: 'palette',
+        default: varName.indexOf('default') > 0,
+        normalized
+      }, groups);
+    }
+    if (this.textRegex.test(varName)) {
+      const groups = varName.match(this.textRegex).groups;
+      const normalized = `${groups.base}${groups.state || ''}${groups.on || ''}`;
+      return Object.assign({
+        var: varName,
+        type: 'text',
+        default: varName.indexOf('default') > 0,
+        normalized
+      }, groups);
+    }
+    if (this.contentWithContrastRegex.test(varName)) {
+      const groups = varName.match(this.contentWithContrastRegex).groups;
+      const normalized = `${groups.base}${groups.content}`;
+      return Object.assign({
+        var: varName,
+        type: 'content',
+        default: varName.indexOf('default') > 0,
+        normalized
+      }, groups);
+    }
+
+    return {
+      var: varName,
+      noMatch: true
+    };
+  }
+
+  convertToRGB(hex) {
+    const result = this.hexREGEX.exec(hex.trim());
+    return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+  }
+};
+
+window.MDWTheme = MDWTheme;
+
+export default MDWTheme;

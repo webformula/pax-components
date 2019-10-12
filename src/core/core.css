@@ -7,13 +7,12 @@ html {
 body {
   display: flex;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-  /* font-size: 1rem; */
   margin: 0;
-  /* line-height: 1.5;
-  font-weight: 400;
-  letter-spacing: 0.03125em; */
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+
+  background-color: var(--mdw-theme-background);
+  color: var(--mdw-theme-text--on-background);
 }
 
 body.prevent-over-scroll {
@@ -23,163 +22,13 @@ body.prevent-over-scroll {
   right: 0;
 }
 
-/* --- headings --- */
-
-h1, h2, h3, h4, h5, h6 {
-  color: #202124;
-  font-weight: 300;
-  margin: 0 0 8px;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1,
-headline1,
-.mdw-headline1 {
-  font-size: 6rem;
-  line-height: 1.2;
-  letter-spacing: -1.5;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-h2,
-headline2,
-.mdw-headline2 {
-  font-size: 3.75rem;
-  line-height: 1.2;
-  letter-spacing: -0.5;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-h3,
-headline3,
-.mdw-headline3 {
-  font-weight: 400;
-  font-size: 3rem;
-  line-height: 1.2;
-  letter-spacing: normal;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-h4,
-headline4,
-.mdw-headline4 {
-  font-weight: 400;
-  font-size: 2.125rem;
-  line-height: 1.2;
-  letter-spacing: 0.25;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-h5,
-headline5,
-.mdw-headline5 {
-  font-weight: 400;
-  font-size: 1.5rem;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-h6,
-headline6,
-.mdw-headline6 {
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 2rem;
-  letter-spacing: .0125em;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-subtitle,
-.mdw-subtitle {
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.2;
-  letter-spacing: 0.15;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-subtitle2,
-.mdw-subtitle2 {
-  font-size: .875rem;
-  line-height: 1.375rem;
-  font-weight: 500;
-  letter-spacing: .0071428571em;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-p {
-  margin: 0 0 16px;
-  font-size: 1rem;
-  letter-spacing: 0.5;
-}
-
-body1,
-.mdw-body1 {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 400;
-  letter-spacing: .03125em;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-body2,
-.mdw-body2 {
-  font-size: .875rem;
-  line-height: 1.25rem;
-  font-weight: 400;
-  letter-spacing: .0178571429em;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-caption,
-.mdw-caption {
-  font-size: .75rem;
-  line-height: 1.25rem;
-  font-weight: 400;
-  letter-spacing: .0333333333em;
-  text-decoration: inherit;
-  text-transform: inherit;
-}
-
-button {
-  font-size: .875rem;
-  line-height: 2.25rem;
-  font-weight: 500;
-  letter-spacing: .0892857143em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-overline,
-mdw-overline {
-  font-size: .75rem;
-  line-height: 2rem;
-  font-weight: 500;
-  letter-spacing: .1666666667em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-
 .mdw-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;;
-  z-index: 1;
+  z-index: 7;
   overflow: hidden;
   background-color: rgba(0,0,0,0.12);
 }

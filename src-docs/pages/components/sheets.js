@@ -20,7 +20,7 @@ export default class Sheets extends Page {
       <article class="page-article">
         <h3>Sheets </h3>
 
-        <div class="showcase" style="overflow: hidden">
+        <div class="showcase mdw-elevation-1" style="overflow: hidden">
           <mdw-button onclick="document.querySelector('mdw-sheet').toggle()">show</mdw-button>
 
           <!-- mdw-collapsed-height="100" -->

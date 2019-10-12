@@ -22,7 +22,7 @@
   vertical-align: middle;
   will-change: transform, opacity;
   margin: 0;
-  color: inherit;
+  color: var(--mdw-theme-text--on-surface);
   background-color: transparent;
 }
 
@@ -63,7 +63,7 @@
 
 :host([disabled]) {
   background-color: transparent !important;
-  color: rgba(var(--mdw-theme-surface--on-rgb), 0.37);
+  color: rgba(var(--mdw-theme-text--on-surface--rgb), 0.37);
   cursor: default;
   pointer-events: none;
 }
@@ -80,7 +80,7 @@
 :host(.mdw-raised),
 :host(.mdw-unelevated) {
   background-color: white;
-  color: inherit;
+  color: #000000;
   padding: 0 16px 0 16px;
 }
 
@@ -193,7 +193,7 @@
 :host(.mdw-primary.mdw-raised),
 :host(.mdw-primary.mdw-unelevated)  {
   background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-primary--on);
+  color: var(--mdw-theme-text--on-primary);
 }
 
 :host(.mdw-primary.mdw-outlined) {
@@ -215,7 +215,7 @@
 :host(.mdw-secondary.mdw-raised),
 :host(.mdw-secondary.mdw-unelevated) {
   background-color: var(--mdw-theme-secondary);
-  color: var(--mdw-theme-secondary--on);
+  color: var(--mdw-theme-text--on-secondary);
 }
 
 :host(.mdw-secondary.mdw-outlined) {
@@ -236,7 +236,7 @@
 :host(.mdw-error.mdw-raised),
 :host(.mdw-error.mdw-unelevated) {
   background-color: var(--mdw-theme-error);
-  color: var(--mdw-theme-error--on);
+  color: var(--mdw-theme-text--on-error);
 }
 
 :host(.mdw-error.mdw-outlined) {
