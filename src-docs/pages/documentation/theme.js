@@ -6,7 +6,7 @@ export default class ThemePage extends Page {
     this.currentPrimary = 'deep-purple';
     this.currentPrimary = 'teal';
     this.currentErrpr = 'red';
-    this.contrast = 'dark';
+    this.contrast = 'light';
   }
 
   get title() {
@@ -88,8 +88,8 @@ export default class ThemePage extends Page {
           <div class="mdw-card__content">
             <mdw-select class="mdw-padding" mdw-enhanced onchange="$ThemePage.changeContrast(this.value)">
               <select>
-                <option value="light">light</option>
-                <option value="dark" selected>dark</option>
+                <option value="light" selected>light</option>
+                <option value="dark">dark</option>
               </select>
               <label>Select contrast</label>
             </mdw-select>
