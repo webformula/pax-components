@@ -1838,7 +1838,7 @@ mdw-select.mdw-padding {
 
 /* TODO figure out what color var to use */
 mdw-select:not(.mdw-select--disabled) {
-  background-color: var(--mdw-theme-background);
+  background-color: var(--mdw-theme-textfield_background);
 }
 
 mdw-select:after,
@@ -1852,7 +1852,7 @@ mdw-select:before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background-color: var(--mdw-theme-background);
+  background-color: var(--mdw-theme-textfield_background);
 }
 
 mdw-select:before {

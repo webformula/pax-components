@@ -99,13 +99,8 @@ export default class ThemePage extends Page {
 
 
       <section id="theming">
-        <h4>Buttons</h4>
-
+        <h6>Example</h6>
         <mdw-card>
-          <div class="mdw-card__content">
-            <h6>Colors</h6>
-          </div>
-
           <div class="mdw-card__content--no-padding">
             <code-mirror mode="html">
                 <mdw-button class="mdw-raised">base</mdw-button>
