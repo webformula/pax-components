@@ -9,6 +9,7 @@ const MDWUtils = new class {
     this.isPhoneAndTablet = isPhoneAndTablet;
     // add class indecator for mobile
     if (this.isMobile) document.body.classList.add('mdw-is-mobile');
+    else document.body.classList.remove('mdw-is-mobile');
   }
 
   uid() {
@@ -105,10 +106,11 @@ const MDWUtils = new class {
     return this.transformPropertyName_;
   }
 
-  addBackdrop(element, clickCallback) {
+  addBackdrop(element, clickCallback, options = {}) {
     const id = this.uid();
     element.insertAdjacentHTML('afterend', `<div id="${id}" class="mdw-backdrop"></div>`);
     const backdropElement = document.querySelector(`#${id}`);
+    if (options.drawer === true) backdropElement.classList.add('mdw-drawer-backdrop');
     if (clickCallback) backdropElement.addEventListener('click', clickCallback);
     return {
       remove() {

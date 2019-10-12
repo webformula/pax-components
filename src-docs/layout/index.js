@@ -39,6 +39,9 @@ export default function ({ head, body, title }) {
           window.changeContrast = (value) => {
             MDWTheme.changeTheme({ contrast: value ? 'light' : 'dark' });
           };
+
+          const isMobile = typeof window.orientation !== 'undefined';
+          document.documentElement.classList.toggle('mdw-is-mobile', isMobile);
         </script>
 
         ${head}

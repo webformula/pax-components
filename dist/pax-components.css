@@ -2956,6 +2956,10 @@ body.prevent-over-scroll {
   background-color: rgba(0,0,0,0.12);
 }
 
+.mdw-backdrop.mdw-drawer-backdrop {
+  z-index: 1;
+}
+
 .mdw-elevation-1 {
   background: rgba(255,255,255,0.05);
   box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),

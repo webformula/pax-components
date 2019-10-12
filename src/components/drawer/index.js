@@ -83,7 +83,7 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
   }
 
   addBackdrop() {
-    this.backdrop = MDWUtils.addBackdrop(this, () => this.hide());
+    this.backdrop = MDWUtils.addBackdrop(this, () => this.hide(), { drawer: true });
   }
 
   // this makes sure there are no scrolling issues if the drawer is locked open and you want it fixed
