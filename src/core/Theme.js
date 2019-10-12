@@ -58,6 +58,12 @@ const MDWTheme = new class {
         const value = this.getVar(palette.var);
         this.setVar(name, value);
         this.setVar(`${name}--rgb`, this.convertToRGB(value));
+
+        if (palette.hue === this.contrast) {
+          const normalized = name.replace(`-${this.contrast}`, '');
+          this.setVar(normalized, value);
+          this.setVar(`${normalized}--rgb`, this.convertToRGB(value));
+        }
       });
     });
   }
@@ -96,10 +102,15 @@ const MDWTheme = new class {
   }
 
   pickVar(arr) {
-    const found = arr.find(item => {
-      if (this.contrast === item.contrast) return true;
-      if (item.default === true) return true;
+    let found = arr.find(item => {
+      if (item.default === true && this.contrast === item.contrast) return true;
     });
+    if (!found) {
+      found = arr.find(item => {
+        if (this.contrast === item.contrast) return true;
+        if (item.default === true) return true;
+      });
+    }
     return found || arr[0];
   }
 

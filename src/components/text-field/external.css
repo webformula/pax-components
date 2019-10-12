@@ -12,7 +12,7 @@ mdw-textfield {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 
   border-bottom-color: var(--mdw-theme-outline_border);
-  background-color: var(--mdw-theme-background);
+  background-color: var(--mdw-theme-textfield_background);
 }
 
 mdw-textfield.mdw-textarea {
