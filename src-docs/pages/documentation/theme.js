@@ -41,73 +41,95 @@ export default class ThemePage extends Page {
     return html`
     <article class="page-article">
       <h3>Theme</h3>
-      <h5>Tools to help with mobile development</h5>
+      <h5>Material Theming is a systematic approach to customize your app to better represent your brand</h5>
 
+      <div style="display: inline-grid">
+        <div class="eyebrow">External links</div>
+        <a href="https://material.io/design/material-theming/#" target="_new">Material theming overview</a>
+        <a href="https://material.io/design/color/the-color-system.html#" target="_new">Material color system</a>
+        <a href="https://material.io/design/color/dark-theme.html#" target="_new">Dark theme guidlines</a>
+      </div>
 
       <section id="theming">
         <mdw-card>
-          <div class="mdw-card__content">
-            <h6>Colors</h6>
+          <div class="mdw-card__content" style="margin-bottom: -42px;">
+            <h6>Change it up</h6>
           </div>
 
           <div class="mdw-card__content" mdw-row>
             <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changePrimary(this.value)">
               <select>
-                <option value="deep-purple" selected>deep-purple</option>
-                <option value="purple">purple</option>
-                <option value="blue">blue</option>
-                <option value="teal">teal</option>
-                <option value="red">red</option>
+                <option value="red">Red</option>
+                <option value="pink">Pink</option>
+                <option value="purple">Purple</option>
+                <option value="deeppurple" selected>Deep purple</option>
+                <option value="indigo">Indigo</option>
+                <option value="blue">Blue</option>
+                <option value="lightblue">Light blue</option>
+                <option value="cyan">Cyan</option>
+                <option value="teal">Teal</option>
+                <option value="green">Green</option>
+                <option value="lightgreen">Light green</option>
+                <option value="lime">lime</option>
+                <option value="yellow">yellow</option>
+                <option value="Amber">Amber</option>
+                <option value="orange">Orange</option>
+                <option value="deeporange">Deep orange</option>
               </select>
-              <label>Select primary palette</label>
+              <label>Primary palette</label>
             </mdw-select>
 
             <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeSecondary(this.value)">
               <select>
-                <option value="deep-purple">deep-purple</option>
-                <option value="purple">purple</option>
-                <option value="blue">blue</option>
-                <option value="teal" selected>teal</option>
-                <option value="red">red</option>
+                <option value="red">Red</option>
+                <option value="pink">Pink</option>
+                <option value="purple">Purple</option>
+                <option value="deeppurple">Deep purple</option>
+                <option value="indigo">Indigo</option>
+                <option value="blue">Blue</option>
+                <option value="lightblue">Light blue</option>
+                <option value="cyan">Cyan</option>
+                <option value="teal" selected>Teal</option>
+                <option value="green">Green</option>
+                <option value="lightgreen">Light green</option>
+                <option value="lime">lime</option>
+                <option value="yellow">yellow</option>
+                <option value="Amber">Amber</option>
+                <option value="orange">Orange</option>
+                <option value="deeporange">Deep orange</option>
               </select>
-              <label>Select secondary palette</label>
+              <label>Secondary palette</label>
             </mdw-select>
 
             <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeError(this.value)">
               <select>
-                <option value="deep-purple">deep-purple</option>
-                <option value="purple">purple</option>
-                <option value="blue">blue</option>
-                <option value="teal">teal</option>
-                <option value="red" selected>red</option>
+                <option value="red" selected>Red</option>
+                <option value="pink">Pink</option>
+                <option value="purple">Purple</option>
+                <option value="deeppurple">Deep purple</option>
+                <option value="indigo">Indigo</option>
+                <option value="blue">Blue</option>
+                <option value="lightblue">Light blue</option>
+                <option value="cyan">Cyan</option>
+                <option value="teal">Teal</option>
+                <option value="green">Green</option>
+                <option value="lightgreen">Light green</option>
+                <option value="lime">lime</option>
+                <option value="yellow">yellow</option>
+                <option value="Amber">Amber</option>
+                <option value="orange">Orange</option>
+                <option value="deeporange">Deep orange</option>
               </select>
-              <label>Select error palette</label>
+              <label>Error palette</label>
             </mdw-select>
-          </div>
 
-          <div class="mdw-card__content">
-            <mdw-select class="mdw-padding" mdw-enhanced onchange="$ThemePage.changeContrast(this.value)">
+            <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeContrast(this.value)">
               <select>
                 <option value="light" selected>light</option>
                 <option value="dark">dark</option>
               </select>
-              <label>Select contrast</label>
+              <label>Contrast</label>
             </mdw-select>
-          </div>
-        </mdw-card>
-      </section>
-
-
-      <section id="theming">
-        <h6>Example</h6>
-        <mdw-card>
-          <div class="mdw-card__content--no-padding">
-            <code-mirror mode="html">
-                <mdw-button class="mdw-raised">base</mdw-button>
-                <mdw-button class="mdw-raised mdw-primary">primary</mdw-button>
-                <mdw-button class="mdw-raised mdw-secondary">secondary</mdw-button>
-                <mdw-button class="mdw-raised mdw-error">error</mdw-button>
-            </code-mirror>
           </div>
 
           <div class="mdw-card__content" style="display: block;">
@@ -117,6 +139,45 @@ export default class ThemePage extends Page {
             <mdw-button id="error-raised" class="mdw-raised mdw-error">error</mdw-button>
           </div>
         </mdw-card>
+      </section>
+
+      <section id="theme-description">
+        <h5>Overview</h5>
+        <p>There are 4 main parts to the theme system that you can adjust to fit your brands needs</p>
+        <ul>
+          <li>Primary colors</li>
+          <li>Secondary colors</li>
+          <li>Error colors</li>
+          <li>Contrast</li>
+        </ul>
+
+        <h6>Colors</h6>
+        <p>The colors are built from palettes. There are 16 built in palettes to choose from. You can also add your own custom palettes</p>
+        <ul>
+          <li>Red</li>
+          <li>Pink</li>
+          <li>Purple</li>
+          <li>Deep purple</li>
+          <li>Indigo</li>
+          <li>Blue</li>
+          <li>Light blue</li>
+          <li>Cyan</li>
+          <li>Teal</li>
+          <li>Green</li>
+          <li>Light green</li>
+          <li>lime</li>
+          <li>yellow</li>
+          <li>Amber</li>
+          <li>Orange</li>
+          <li>Deep orange</li>
+        </ul>
+
+        <h6>Contrast</h6>
+        <p>There are 2 contrasts. These are built from the color palettes. Dark mode can be used to help readability and accesability. It is common to turn on dark mode at night or in dark areas.</p>
+        <ul>
+          <li>Light (default)</li>
+          <li>Dark</li>
+        </ul>
       </section>
     </article>
     `;
