@@ -35,7 +35,7 @@ const MDWTheme = new class {
     primary = primary || this.palettes.primary;
     secondary = secondary || this.palettes.secondary;
     error = error || this.palettes.error;
-    this.contrast = contrast;
+    if (contrast) this.contrast = contrast;
     this.setPalettes({ primary, secondary, error });
     this.setThemeVars();
     this.setOtherVars();

@@ -218,7 +218,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       panelElement.open(true);
       panelElement.addEventListener('MDWPanel:closed', this.bound_onBlur);
       panelElement.addEventListener('click', this.bound_onPanelClick);
-      const focusedElement = sheetElement.querySelector('.mdw-focused');
+      const focusedElement = panelElement.querySelector('.mdw-focused');
       if (focusedElement) focusedElement.classList.remove('mdw-focused');
       const selectedElement = panelElement.querySelector('[selected]');
       if (selectedElement) selectedElement.classList.add('mdw-focused');
