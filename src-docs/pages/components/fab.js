@@ -67,7 +67,7 @@ export default class FAB extends Page {
             </mdw-select>
           </div>
 
-          <div class="showcase" style="flex: 1;">
+          <div class="showcase mdw-elevation-1" style="flex: 1;">
             <mdw-fab id="demoFAB">
               <mdw-icon>favorite_border</mdw-icon>
             </mdw-fab>

@@ -14,7 +14,7 @@ export default class Menu extends Page {
       <article class="page-article">
         <h3>Menu</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <!-- <mdw-menu>
             <mdw-panel mdw-open class="mdw-open" style="transform: scale(1); pointer-events: none; top: -96px; left: -74px;">
               <mdw-list>

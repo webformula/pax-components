@@ -44,7 +44,7 @@ export default class BottomNavigation extends Page {
         <section id="types">
           <h4>Example: mobile</h4>
 
-          <div class="codecase">
+          <div class="codecase mdw-elevation-1">
             <div class="title">Mobile</div>
             <code-mirror mode="html">
                 <mdw-bottom-navigation>

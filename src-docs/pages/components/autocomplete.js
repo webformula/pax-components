@@ -14,7 +14,7 @@ export default class Autocomplete extends Page {
       <article class="page-article">
         <h3>Autocomplete</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-textfield id="one">
             <input name="one">
             <label>Filled</label>

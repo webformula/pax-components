@@ -106,9 +106,9 @@ export default class Panel extends Page {
           </div>
 
           <div flex=".66">
-            <div class="showcase">
+            <div class="showcase mdw-elevation-1">
               <div class="container mdw-panel--container">
-                <mdw-panel id="demoPanel" mdw-position="inner-top inner-left" class="mdw-open" style="transform: scale(1);">
+                <mdw-panel id="demoPanel" mdw-position="inner-top inner-left" class="mdw-open">
                   <div style="padding: 12px;">
                     hello
                   </div>

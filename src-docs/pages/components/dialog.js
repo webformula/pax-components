@@ -121,14 +121,14 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
       <article class="page-article">
         <h3>Menu</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-button onclick="$Dialog.showDialogWithService()">show dialog</mdw-button>
         </div>
 
         <a href="https://material.io/design/components/dialogs.html">Material Design Guidlines: Dialogs</a>
         <p>Dialogs inform users about a task and can contain critical information, require decisions, or involve multiple tasks.</p>
 
-        <div class="column">
+        <div style="display: inline-block">
           <div class="eyebrow">contents</div>
           <anchor-link selector="#service">Dialog service</anchor-link>
           <anchor-link selector="#no-click">Dialog no click background to close</anchor-link>

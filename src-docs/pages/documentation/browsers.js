@@ -39,7 +39,7 @@ export default class Browsers extends Page {
         <li>Samsung internet</li>
       </ul>
 
-      <!-- <a href="#/documentation/browsers">next: Example app</a> -->
+      <a href="#/documentation/theme">next: Theming</a>
     </article>
     `;
   }

@@ -125,18 +125,18 @@ input {
 }
 
 input:enabled:not(:checked):not(:indeterminate) + .mdw-background {
-  border-color: rgba(0, 0, 0, 0.54);
+  border-color: var(--mdw-theme-checkboxborder);
   background-color: transparent;
 }
 
 input:disabled:not(:checked):not(:indeterminate) + .mdw-background {
-  border-color: rgba(0, 0, 0, 0.26);
+  border-color: var(--mdw-theme-checkboxborderdisabled);
 }
 
 input:disabled:checked + .mdw-background,
 input:disabled:indeterminate + .mdw-background {
   border-color: transparent;
-  background-color: rgba(0, 0, 0, 0.26);
+  background-color: var(--mdw-theme-checkboxborderdisabled);
 }
 
 input:checked + .mdw-background,

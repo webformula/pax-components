@@ -83,7 +83,7 @@ mdw-radio .mdw-radio__outer-circle {
   box-sizing: border-box;
   border-width: 2px;
   border-style: solid;
-  border-color: var(--mdw-theme-text--secondary--on-background);
+  border-color: var(--mdw-theme-text--on-background);
   transition: border-color .12s cubic-bezier(.4,0,.6,1) 0ms;
 }
 

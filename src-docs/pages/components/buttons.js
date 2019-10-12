@@ -29,7 +29,7 @@ export default class Buttons extends Page {
       <article class="page-article">
         <h3>Buttons</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-button id="basic">basic</mdw-button>
           <mdw-button class="mdw-raised mdw-primary">raised</mdw-button>
         </div>

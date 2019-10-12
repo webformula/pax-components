@@ -343,7 +343,10 @@ flex {
   justify-content: center;
   padding: 24px;
   margin: 24px 0;
-  background-color: #f2f2f2;
+}
+
+.showcase label {
+  /* color: var(--mdw-theme-text--on-primary); */
 }
 
 /* links */
@@ -374,7 +377,7 @@ article a {
 }
 
 .codecase .title {
-  color: #202124;
+  /* color: #202124; */
   font-weight: 400;
   font-size: 1.25rem;
   letter-spacing: normal;
@@ -383,7 +386,7 @@ article a {
 }
 
 .codecase .description {
-  color: #202124;
+  /* color: #202124; */
   font-weight: 400;
   margin: 0 0 8px;
   font-size: 1rem;
@@ -418,7 +421,12 @@ code-mirror code {
   position: relative;
 }
 
-mdw-card code-mirror code {
+section mdw-card code-mirror code {
   left: -160px;
+  position: relative;
+}
+
+mdw-card code-mirror code {
+  left: -120px;
   position: relative;
 }

@@ -20,7 +20,7 @@ export default class Drawers extends Page {
       <article class="page-article">
         <h3>Drawers</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-drawer class="mdw-locked-open-mobile" id="top-example">
 
             <mdw-drawer-header>

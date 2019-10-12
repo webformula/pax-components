@@ -14,7 +14,7 @@ export default class Selects extends Page {
       <article class="page-article">
         <h3>Selects</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-select class="mdw-padding" mdw-enhanced style="width: 200px" mdw-value="1">
             <select>
               <option value="1">item one</option>
@@ -30,7 +30,7 @@ export default class Selects extends Page {
         <a href="https://material.io/design/components/text-fields.html">Material Design Guidlines: Text fields</a>
         <p>Select menus</p>
 
-        <div class="column">
+        <div style="display: inline-block">
           <div class="eyebrow">contents</div>
           <anchor-link selector="#standard">Standard</anchor-link>
           <anchor-link selector="#enhanced">Enhanced</anchor-link>

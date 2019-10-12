@@ -21,7 +21,7 @@ export default class Backdrop extends Page {
         <section id="types">
           <h4>Types</h4>
 
-          <div class="codecase">
+          <div class="codecase mdw-elevation-1">
             <div class="title">Basic</div>
             <code-mirror mode="html">
             </code-mirror>

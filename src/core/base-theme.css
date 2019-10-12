@@ -30,6 +30,7 @@
   --mdw-theme-palette--blue-contrast-A200: white;
   --mdw-theme-palette--blue-contrast-A400: white;
   --mdw-theme-palette--blue-contrast-A700: white;
+  --mdw-theme-palette--blue-default: var(--mdw-theme-palette--blue-A700);
 
   /* purple */
   --mdw-theme-palette--purple-50: #f3e5f5;
@@ -60,36 +61,38 @@
   --mdw-theme-palette--purple-contrast-A200: white;
   --mdw-theme-palette--purple-contrast-A400: white;
   --mdw-theme-palette--purple-contrast-A700: white;
+  --mdw-theme-palette--purple-default: var(--mdw-theme-palette--purple-A700);
 
-  /* deep-purple */
-  --mdw-theme-palette--deep-purple-50: #ede7f6;
-  --mdw-theme-palette--deep-purple-100: #d1c4e9;
-  --mdw-theme-palette--deep-purple-200: #b39ddb;
-  --mdw-theme-palette--deep-purple-300: #9575cd;
-  --mdw-theme-palette--deep-purple-400: #7e57c2;
-  --mdw-theme-palette--deep-purple-500: #673ab7;
-  --mdw-theme-palette--deep-purple-600: #5e35b1;
-  --mdw-theme-palette--deep-purple-700: #512da8;
-  --mdw-theme-palette--deep-purple-800: #4527a0;
-  --mdw-theme-palette--deep-purple-900: #311b92;
-  --mdw-theme-palette--deep-purple-A100: #b388ff;
-  --mdw-theme-palette--deep-purple-A200: #7c4dff;
-  --mdw-theme-palette--deep-purple-A400: #651fff;
-  --mdw-theme-palette--deep-purple-A700: #6200ea;
-  --mdw-theme-palette--deep-purple-contrast-50: rgba(black, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-100: rgba(black, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-200: rgba(black, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-300: white;
-  --mdw-theme-palette--deep-purple-contrast-400: white;
-  --mdw-theme-palette--deep-purple-contrast-500: rgba(white, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-600: rgba(white, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-700: rgba(white, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-800: rgba(white, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-900: rgba(white, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-A100: rgba(black, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-A200: white;
-  --mdw-theme-palette--deep-purple-contrast-A400: rgba(white, 0.87);
-  --mdw-theme-palette--deep-purple-contrast-A700: rgba(white, 0.87);
+  /* deeppurple */
+  --mdw-theme-palette--deeppurple-50: #ede7f6;
+  --mdw-theme-palette--deeppurple-100: #d1c4e9;
+  --mdw-theme-palette--deeppurple-200: #b39ddb;
+  --mdw-theme-palette--deeppurple-300: #9575cd;
+  --mdw-theme-palette--deeppurple-400: #7e57c2;
+  --mdw-theme-palette--deeppurple-500: #673ab7;
+  --mdw-theme-palette--deeppurple-600: #5e35b1;
+  --mdw-theme-palette--deeppurple-700: #512da8;
+  --mdw-theme-palette--deeppurple-800: #4527a0;
+  --mdw-theme-palette--deeppurple-900: #311b92;
+  --mdw-theme-palette--deeppurple-A100: #b388ff;
+  --mdw-theme-palette--deeppurple-A200: #7c4dff;
+  --mdw-theme-palette--deeppurple-A400: #651fff;
+  --mdw-theme-palette--deeppurple-A700: #6200ea;
+  --mdw-theme-palette--deeppurple-contrast-50: rgba(black, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-100: rgba(black, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-200: rgba(black, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-300: white;
+  --mdw-theme-palette--deeppurple-contrast-400: white;
+  --mdw-theme-palette--deeppurple-contrast-500: rgba(white, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-600: rgba(white, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-700: rgba(white, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-800: rgba(white, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-900: rgba(white, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-A100: rgba(black, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-A200: white;
+  --mdw-theme-palette--deeppurple-contrast-A400: rgba(white, 0.87);
+  --mdw-theme-palette--deeppurple-contrast-A700: rgba(white, 0.87);
+  --mdw-theme-palette--deeppurple-default: var(--mdw-theme-palette--deeppurple-A700);
 
 
   /* teal */
@@ -107,20 +110,21 @@
   --mdw-theme-palette--teal-A200: #64ffda;
   --mdw-theme-palette--teal-A400: #1de9b6;
   --mdw-theme-palette--teal-A700: #00bfa5;
-  --mdw-theme-palette--tealcontrast-50: rgba(black, 0.87);
-  --mdw-theme-palette--tealcontrast-100: rgba(black, 0.87);
-  --mdw-theme-palette--tealcontrast-200: rgba(black, 0.87);
-  --mdw-theme-palette--tealcontrast-300: rgba(black, 0.87);
-  --mdw-theme-palette--tealcontrast-400: rgba(black, 0.87);
-  --mdw-theme-palette--tealcontrast-500: white;
-  --mdw-theme-palette--tealcontrast-600: white;
-  --mdw-theme-palette--tealcontrast-700: white;
-  --mdw-theme-palette--tealcontrast-800: rgba(white, 0.87);
-  --mdw-theme-palette--tealcontrast-900: rgba(white, 0.87);
-  --mdw-theme-palette--tealcontrast-A100: rgba(black, 0.87);
-  --mdw-theme-palette--tealcontrast-A200: rgba(black, 0.87);
-  --mdw-theme-palette--tealcontrast-A400: rgba(black, 0.87);
-  --mdw-theme-palette--tealcontrast-A700: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-50: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-100: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-200: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-300: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-400: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-500: white;
+  --mdw-theme-palette--teal-contrast-600: white;
+  --mdw-theme-palette--teal-contrast-700: white;
+  --mdw-theme-palette--teal-contrast-800: rgba(white, 0.87);
+  --mdw-theme-palette--teal-contrast-900: rgba(white, 0.87);
+  --mdw-theme-palette--teal-contrast-A100: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-A200: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-A400: rgba(black, 0.87);
+  --mdw-theme-palette--teal-contrast-A700: rgba(black, 0.87);
+  --mdw-theme-palette--teal-default: var(--mdw-theme-palette--teal-600);
 
   /* red */
   --mdw-theme-palette--red-50: #ffebee;
@@ -151,66 +155,79 @@
   --mdw-theme-palette--red-contrast-A200: white;
   --mdw-theme-palette--red-contrast-A400: white;
   --mdw-theme-palette--red-contrast-A700: white;
+  --mdw-theme-palette--red-default: var(--mdw-theme-palette--red-900);
 
 
-  /* --- theming --- */
-  --mdw-theme-primary--default: var(--mdw-theme-palette--primary-A700, #6200ee);
-  --mdw-theme-primary--dark--on: #000000;
-  --mdw-theme-primary--light--on: #ffffff;
-
-  --mdw-theme-secondary--default: var(--mdw-theme-palette--secondary-600, #018786);
-  --mdw-theme-secondary--dark--on: #000000;
-  --mdw-theme-secondary--light--on: #ffffff;
-
-  --mdw-theme-error--default: var(--mdw-theme-palette--error-500, #b00020);
-  --mdw-theme-error--dark--on: #000000;
-  --mdw-theme-error--light--on: #ffffff;
-
-  --mdw-theme-surface--default: #ffffff;
-  --mdw-theme-surface--dark--on: #000000;
-  --mdw-theme-surface--light--on: #ffffff;
-
-  --mdw-theme-background--default: #fafafa; /* alt #fff */
-  --mdw-theme-foreground--default: #000000;
-
-  --mdw-theme-divider--dark: rgba(0, 0, 0, 0.12);
-  --mdw-theme-divider--light: rgba(255, 255, 255, 0.12);
-  --mdw-theme-divider--on--dark: var(--mdw-theme-divider--light);
-  --mdw-theme-divider--on--light: var(--mdw-theme-divider--dark);
-
-  /* text */
-  --mdw-theme-text--primary--dark: rgba(0,0,0, .87);
-  --mdw-theme-text--secondary--dark: rgba(0,0,0, .54);
-  --mdw-theme-text--hint--dark: rgba(0,0,0, .38);
-  --mdw-theme-text--disabled--dark: rgba(0,0,0, .38);
-  --mdw-theme-text--icon--dark: rgba(0,0,0, .38);
+  /* --- text --- */
 
   --mdw-theme-text--primary--light: #ffffff;
   --mdw-theme-text--secondary--light: rgba(255,255,255, .7);
+  --mdw-theme-text--error--light: rgba(255,255,255, .7);
   --mdw-theme-text--hint--light: rgba(255,255,255, .5);
   --mdw-theme-text--disabled--light: rgba(255,255,255, .5);
   --mdw-theme-text--icon--light: rgba(255,255,255, .5);
 
+  --mdw-theme-text--primary--dark: rgba(0,0,0, .87);
+  --mdw-theme-text--secondary--dark: rgba(0,0,0, .54);
+  --mdw-theme-text--error--dark: rgba(0,0,0, .54);
+  --mdw-theme-text--hint--dark: rgba(0,0,0, .38);
+  --mdw-theme-text--disabled--dark: rgba(0,0,0, .38);
+  --mdw-theme-text--icon--dark: rgba(0,0,0, .38);
 
-  --mdw-theme-text--primary--on-background: rgba(0,0,0,.87);
-  --mdw-theme-text--secondary--on-background: rgba(0,0,0,.54);
-  --mdw-theme-text--hint--on-background: rgba(0,0,0,.38);
-  --mdw-theme-text--disabled--on-background: rgba(0,0,0,.38);
-  --mdw-theme-text--icon--on-background: rgba(0,0,0,.38);
+  --mdw-theme-text--on-primary--light: #FFFFFF;
+  --mdw-theme-text--on-secondary--light: #000000;
+  --mdw-theme-text--on-error--light: #FFFFFF;
+  --mdw-theme-text--on-background--light: #000000;
+  --mdw-theme-text--on-surface--light: #000000;
 
-  --mdw-theme-text--primary--on-dark: #ffffff;
-  --mdw-theme-text--secondary--on-dark: rgba(255,255,255,.54);
-  --mdw-theme-text--hint--on-dark: rgba(255,255,255,.38);
-  --mdw-theme-text--disabled--on-dark: rgba(255,255,255,.38);
-  --mdw-theme-text--icon--on-dark: rgba(255,255,255,.38);
+  --mdw-theme-text--on-primary--dark: #000000;
+  --mdw-theme-text--on-secondary--dark: #FFFFFF;
+  --mdw-theme-text--on-error--dark: #000000;
+  --mdw-theme-text--on-background--dark: #FFFFFF;
+  --mdw-theme-text--on-surface--dark: #FFFFFF;
 
-  --mdw-theme-text--primary--on-light: #000000;
-  --mdw-theme-text--secondary--on-light: rgba(0,0,0,.54);
-  --mdw-theme-text--hint--on-light: rgba(0,0,0,.38);
-  --mdw-theme-text--disabled--on-light: rgba(0,0,0,.38);
-  --mdw-theme-text--icon--on-light: rgba(0,0,0,.38);
 
-  --mdw-theme-text--emphasis-high: 0.87;
-  --mdw-theme-text--emphasis-medium: 0.6;
-  --mdw-theme-text--emphasis-disabled: 0.38;
+  /* --- surfaces and backgrounds --- */
+
+  --mdw-theme-background--light: #fafafa;
+  --mdw-theme-background--dark: #121212;
+
+  --mdw-theme-foreground--light: #121212;
+  --mdw-theme-foreground--dark: #fafafa;
+
+  --mdw-theme-surface--light: #fafafa;
+  --mdw-theme-surface--dark: #121212;
+
+  --mdw-theme-surface_elevation_1--light: #f6f6f6;
+  --mdw-theme-surface_elevation_1--dark: #303030;
+
+  --mdw-theme-divider--dark: rgba(0, 0, 0, 0.12);
+  --mdw-theme-divider--light: rgba(255, 255, 255, 0.12);
+
+  --mdw-theme-divider--on-background--dark: var(--mdw-theme-divider--light);
+  --mdw-theme-divider--on-background--light: var(--mdw-theme-divider--dark);
+
+
+  /* --- one offs for components --- */
+
+  --mdw-theme-switchtrack--light: #000000;
+  --mdw-theme-switchtrack--dark: rgba(255,255,255, .32);
+
+  --mdw-theme-checkboxborder--light: rgba(0,0,0, .54);
+  --mdw-theme-checkboxborder--dark: rgba(255,255,255, .5);
+
+  --mdw-theme-checkboxborderdisabled--light: rgba(0,0,0, .26);
+  --mdw-theme-checkboxborderdisabled--dark: rgba(255,255,255, .24);
+
+  --mdw-theme-snackbarcontainer--light: var(--mdw-theme-background--dark);
+  --mdw-theme-snackbarcontainer--dark: var(--mdw-theme-background--light);
+
+  --mdw-theme-text--on-snackbar--light: var(--mdw-theme-text--secondary);
+  --mdw-theme-text--on-snackbar--dark: #000000;
+
+  --mdw-theme-list_item_focus--light: rgba(0,0,0,.06);
+  --mdw-theme-list_item_focus--dark: rgba(100,100,100,.16);
+
+  --mdw-theme-outline_border--light: rgba(0,0,0,.24);
+  --mdw-theme-outline_border--dark: rgba(255,255,255,.24);
 }

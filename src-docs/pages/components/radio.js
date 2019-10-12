@@ -15,7 +15,7 @@ export default class Radio extends Page {
       <article class="page-article">
         <h3>Selects</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-radio-group mdw-column name="test" mdw-value="${this.initialValue}">
             <mdw-radio>
               <label>On</label>

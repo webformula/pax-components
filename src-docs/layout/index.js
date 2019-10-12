@@ -29,12 +29,16 @@ export default function ({ head, body, title }) {
 
         <script>
           window.paxVersion = '0.5.0-beta';
+          window.MDWThemeConfig = {
+            contrast: 'dark', // default is light
+            primary: 'deeppurple',
+            secondary: 'teal',
+            error: 'red'
+          };
 
-          // setTimeout(() => {
-          //   MDWTheme.changeTheme({
-          //     primary: 'purple'
-          //   });
-          // }, 1000);
+          window.changeContrast = (value) => {
+            MDWTheme.changeTheme({ contrast: value ? 'light' : 'dark' });
+          };
         </script>
 
         ${head}

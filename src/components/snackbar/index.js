@@ -57,6 +57,11 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
     this.panel.close();
     this.dispatchClose(ok);
     clearTimeout(this.autoCancelTimeout);
+
+    // remove panel element
+    setTimeout(() => {
+      this.panel.remove();
+    }, 200);
   }
 
   onPanelClose() {

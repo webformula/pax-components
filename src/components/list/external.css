@@ -9,7 +9,6 @@ mdw-list {
   margin: 0;
   padding: 8px 0;
   list-style-type: none;
-  color: var(--mdw-theme-text--primary--on-background);
 }
 
 mdw-list.mdw-two-line mdw-list-item {

@@ -89,7 +89,7 @@ export default class Textfield extends Page {
           </div>
 
           <div flex=".66">
-            <div class="showcase">
+            <div class="showcase mdw-elevation-1">
               <mdw-textfield id="one">
                 <input>
                 <label>Filled</label>

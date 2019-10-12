@@ -14,7 +14,7 @@ export default class Cards extends Page {
       <article class="page-article">
         <h3>Cards</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <mdw-card>
             <div class="mdw-card__content">
               <h6>Card title</h6>
@@ -48,7 +48,7 @@ export default class Cards extends Page {
               <h6>Basic with header and media</h6>
             </div>
 
-            <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
+            <div class="mdw-card__content--no-padding">
               <code-mirror type="html">
                 <mdw-card>
                   <div class="mdw-card__content">
@@ -71,7 +71,7 @@ export default class Cards extends Page {
               </code-mirror>
             </div>
 
-            <div class="mdw-card__content" style="background-color: #f3f3f3;">
+            <div class="mdw-card__content">
               <mdw-card>
                 <div class="mdw-card__content">
                   <h6>Basic card with header and media</h6>

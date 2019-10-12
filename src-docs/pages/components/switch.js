@@ -18,7 +18,7 @@ export default class Switch extends Page {
       <article class="page-article">
         <h3>Switch</h3>
 
-        <div class="showcase">
+        <div class="showcase mdw-elevation-1">
           <label>Label</label>
           <mdw-switch onchange="$Switch.change(this)" checked></mdw-switch>
         </div>

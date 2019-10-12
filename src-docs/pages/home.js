@@ -58,7 +58,7 @@ export default class Home extends Page {
       <mdw-card id="contained">
         <div class="mdw-card__content">
           <h6>Install</h6>
-          <div class="description">Include the javascript and css, thats it.</div>
+          <div class="mdw-description">Include the javascript and css, thats it.</div>
         </div>
 
         <div class="mdw-card__content--no-padding">
@@ -76,7 +76,7 @@ export default class Home extends Page {
       <mdw-card id="contained">
         <div class="mdw-card__content">
           <h6>Example usage</h6>
-          <div class="description">Include the javascript and css, thats it.</div>
+          <div class="mdw-description">Include the javascript and css, thats it.</div>
         </div>
 
         <div class="mdw-card__content--no-padding">

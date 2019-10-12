@@ -63,8 +63,8 @@ export default class List extends Page {
       <article class="page-article">
         <h3>List</h3>
 
-        <div class="showcase">
-          <mdw-list style="background-color: white">
+        <div class="showcase mdw-elevation-1">
+          <mdw-list>
             ${this.listData.map(t => `
               <mdw-list-item>
                 <span class="mdw-list-item__graphic material-icons">inbox</span>
@@ -119,7 +119,7 @@ export default class List extends Page {
                 <mdw-button class="mdw-error" onclick="document.querySelector('#select-list').deselectAll()">deselect</mdw-button>
                 <span id="show-selected" class="flex-1" style="padding-left: 24px; font-weight: 500"></span>
               </div>
-              <mdw-list id="select-list" mdw-select="single" mdw-select-onclick onchange="document.querySelector('#show-selected').innerText = this.selected.join(', ')" class="mdw-two-line" style="background-color: white">
+              <mdw-list id="select-list" mdw-select="single" mdw-select-onclick onchange="document.querySelector('#show-selected').innerText = this.selected.join(', ')" class="mdw-two-line">
                 ${this.selectListData.map(t => `
                   <mdw-list-item>
                     <span class="mdw-list-item__graphic material-icons">inbox</span>
@@ -163,7 +163,7 @@ export default class List extends Page {
             </div>
 
             <div class="mdw-card__content">
-              <mdw-list class="mdw-two-line" style="background-color: white">
+              <mdw-list class="mdw-two-line">
                 ${this.listHugeData.map(t => `
                   <mdw-list-item ${t.id === 1 ? 'active' : ''}>
                     <span class="mdw-list-item__graphic material-icons">inbox</span>

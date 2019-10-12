@@ -14,16 +14,16 @@ mdw-list-item[active],
 mdw-list-item[active] .mdw-list-item__graphic,
 mdw-list-item[selected],
 mdw-list-item[selected] .mdw-list-item__graphic {
-  color: var(--mdw-theme-primary);
+  color: var(--mdw-theme-primary-A200);
 }
 
 mdw-list-item.mdw-focused {
-  background-color: rgba(0,0,0,0.06);
+  background-color: var(--mdw-theme-list_item_focus);
 }
 
 mdw-list-item[active]:not([disabled]):after,
 mdw-list-item[active]:not([disabled]):before {
-  background-color: var(--mdw-theme-primary);
+  background-color: var(--mdw-theme-background);
 }
 
 mdw-list-item:not(.mdw-has-ripple):not([disabled])::after {
@@ -54,7 +54,7 @@ mdw-list-item[active]:not(.mdw-has-ripple):not([disabled]):focus::before {
 
 /* hover */
 mdw-list-item:not([disabled]):not([active]):hover::before {
-  opacity: .04;
+  opacity: .06;
 }
 
 mdw-list-item:not([disabled])[active]:hover::before {
@@ -63,7 +63,7 @@ mdw-list-item:not([disabled])[active]:hover::before {
 
 mdw-list-item:not([disabled]):before,
 mdw-list-item:not([disabled]):after {
-  background-color: #000;
+  background-color: var(--mdw-theme-text--on-secondary);
   top: -50%;
   left: -50%;
   width: 200%;
@@ -100,7 +100,7 @@ mdw-list-item:not([disabled]):after {
   overflow: hidden;
   line-height: normal;
   display: block;
-  color: var(--mdw-theme-text--secondary--on-background);
+  /* color: var(--mdw-theme-text--secondary--on-background); */
 }
 
 
@@ -118,7 +118,7 @@ mdw-list-item:not([disabled]):after {
   justify-content: center;
   fill: currentColor;
   background-color: transparent;
-  color: var(--mdw-theme-text--icon--on-background);
+  /* color: var(--mdw-theme-text--icon--on-background); */
 }
 
 /* meta */
@@ -126,7 +126,7 @@ mdw-list-item:not([disabled]):after {
 .mdw-list-item__meta {
   margin-left: auto;
   margin-right: 0;
-  color: var(--mdw-theme-text--hint--on-background);
+  /* color: var(--mdw-theme-text--hint--on-background); */
 }
 
 /* --- Ripple --- */
