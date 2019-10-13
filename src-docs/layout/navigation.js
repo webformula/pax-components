@@ -17,6 +17,7 @@ export default function () {
             <a href="#/documentation/install">Installation</a>
             <a href="#/documentation/browsers">Browser compatability</a>
             <a href="#/documentation/theme">Theming</a>
+            <a href="#/documentation/mobile">Mobile</a>
 
             <mdw-divider></mdw-divider>
 

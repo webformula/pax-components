@@ -9,7 +9,8 @@
 }
 
 .eyebrow {
-  color: #5f6368;
+  /* color: #5f6368; */
+  color: var(--mdw-theme-text--on-background);
   display: block;
   line-height: 20px;
   margin: 24px 0 4px;
@@ -90,7 +91,7 @@ nav a {
 }
 
 .links {
-  display: inline-block;
+  display: inline-grid;
 }
 
 anchor-link {
@@ -102,7 +103,7 @@ anchor-link {
   font-weight: 500;
   text-decoration: none;
   font-weight: 500;
-  color: #8d7bc7;
+  color: var(--mdw-theme-primary);
   cursor: pointer;
 }
 

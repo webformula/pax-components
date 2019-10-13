@@ -43,17 +43,18 @@ export default class ThemePage extends Page {
       <h3>Theme</h3>
       <h5>Material Theming is a systematic approach to customize your app to better represent your brand</h5>
 
-      <div style="display: inline-grid">
+      <div class="links">
         <div class="eyebrow">External links</div>
-        <a href="https://material.io/design/material-theming/#" target="_new">Material theming overview</a>
-        <a href="https://material.io/design/color/the-color-system.html#" target="_new">Material color system</a>
-        <a href="https://material.io/design/color/dark-theme.html#" target="_new">Dark theme guidlines</a>
+        <anchor-link selector="#playground" offset="64">Playground</anchor-link>
+        <anchor-link selector="#info" offset="64">Overview</anchor-link>
+        <anchor-link selector="#customize" offset="64">Customize</anchor-link>
       </div>
 
-      <section id="theming">
+      <section id="playground">
         <mdw-card>
           <div class="mdw-card__content" style="margin-bottom: -42px;">
-            <h6>Change it up</h6>
+            <h6>Playground</h6>
+            <p>Play with the colors and contrast below</p>
           </div>
 
           <div class="mdw-card__content" mdw-row>
@@ -141,8 +142,8 @@ export default class ThemePage extends Page {
         </mdw-card>
       </section>
 
-      <section id="theme-description">
-        <h5>Overview</h5>
+      <section id="info">
+        <h4>Overview</h4>
         <p>There are 4 main parts to the theme system that you can adjust to fit your brands needs</p>
         <ul>
           <li>Primary colors</li>
@@ -178,6 +179,16 @@ export default class ThemePage extends Page {
           <li>Light (default)</li>
           <li>Dark</li>
         </ul>
+      </section>
+
+      <section id="customize">
+        <h4>Customize</h4>
+
+        <p>Add your own custom colors... Coming soon!</p>
+      </section>
+
+      <section>
+        <a href="#/documentation/mobile">next: Mobile</a>
       </section>
     </article>
     `;
