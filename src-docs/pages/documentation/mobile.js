@@ -13,7 +13,7 @@ export default class Mobile extends Page {
     return html`
     <article class="page-article">
       <h3>Mobile</h3>
-      <h6>Built for all sceens and devices</h6>
+      <h6>Built for all screens and devices</h6>
 
       <section>
         <h5>Mobile in mind<h5>
@@ -22,7 +22,7 @@ export default class Mobile extends Page {
 
       <section>
         <h5>The best of both worlds</h5>
-        <p>PAX has a group of components that act appropriatly based on what type of device they are on. Lets take a looks at a fewe of them.</p>
+        <p>PAX has a group of components that act appropriatly based on what type of device they are on. Lets take a looks at a few of them.</p>
         <ul>
           <li>
             <a href="#/components/select">Select</a>
@@ -38,7 +38,7 @@ export default class Mobile extends Page {
       </section>
 
       <section>
-        <a href="#/components/buttons">next: Buttons</a>
+        <a href="#/components/buttons">components: Buttons</a>
       </section>
     </article>
     `;

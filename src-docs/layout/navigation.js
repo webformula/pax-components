@@ -18,6 +18,7 @@ export default function () {
             <a href="#/documentation/browsers">Browser compatability</a>
             <a href="#/documentation/theme">Theming</a>
             <a href="#/documentation/mobile">Mobile</a>
+            <a href="https://github.com/webformula/pax-components" target="_new">Github</a>
 
             <mdw-divider></mdw-divider>
             <span class="title">Components</span>

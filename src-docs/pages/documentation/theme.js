@@ -54,7 +54,7 @@ export default class ThemePage extends Page {
         <mdw-card>
           <div class="mdw-card__content" style="margin-bottom: -42px;">
             <h6>Playground</h6>
-            <p>Play with the colors and contrast below</p>
+            <p>Play with the colors and contrast below. There is also a contrast switch in the top app bar so you can change the contrast on any page.</p>
           </div>
 
           <div class="mdw-card__content" mdw-row>

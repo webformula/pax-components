@@ -39,20 +39,19 @@ export default class Home extends Page {
       <h3>PAX</h3>
       <h5>Material design: web components</h5>
 
-      <section>
         <p>
-        PAX material design web components are a complete set of components with no dependencies. These web components can be used with any website (frameworkm or no framework) as long as the browser supports web components.
-        PAX components are also compatable on mobile sites. There are many components that are targeted directly at mobile development (<a href="#/components/backdrop">Backdrop</a>).
+        PAX material design web components are a complete set of components with no dependencies. These web components can be used with any website (framework or no framework) as long as the browser supports web components.
+        PAX components are also compatable on mobile sites. There are many components that are targeted directly at mobile development (<a href="#/components/sheet">sheet</a>).
         </p>
 
         <h6>Powerful, and light weight</h6>
         <p>
-        PAX components are built to be as simple, light weight and performant as possible. Since these are built using web compnents, wich are a native browser feature. We are taking advantage of the lowest level posiible in the browser for components.
+        PAX components are built to be as simple, light weight and performant. This is achieved with web compnents, wich are a native browser feature. We are taking advantage of the lowest posiible level in the browser.
         </p>
 
         <h6>Built with PAX-CORE</h6>
         <p>
-        PAX components are built using PAX core. This means the components are easy to develop and the end product requires no dependencies. So no broken npm sub modules.
+        PAX components are built using <a href="http://webformula.io" target="_new">PAX-core</a>. This means the components are easy to develop and the end product requires no dependencies. So no broken npm sub modules.
         </p>
 
         <div style="height: 24px;"></div>
@@ -65,14 +64,13 @@ export default class Home extends Page {
           <div class="mdw-card__content--no-padding">
             <code-mirror mode="javascript">
               <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.css">
-              <script src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.js"></script>
+              <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.js"></script>
 
               <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
               <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
             </code-mirror>
           </div>
         </mdw-card>
-      </section>
 
       <section>
         <a href="#/documentation/install">next: Install</a>
