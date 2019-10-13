@@ -12,10 +12,10 @@ export default class Install extends Page {
   template() {
     return html`
     <article class="page-article">
-      <h3>Installation</h3>
+      <h1 class="article-title">Installation</h1>
 
       <section>
-        <h5>CDN</h5>
+        <h2>CDN</h2>
         <p>Simply load the pre-compiled all-in-one components, by adding them to the head of your index html (note we need to use type="module" when loading the javascript)</p>
 
         <code-mirror mode="html">

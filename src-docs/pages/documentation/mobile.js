@@ -12,17 +12,18 @@ export default class Mobile extends Page {
   template() {
     return html`
     <article class="page-article">
-      <h3>Mobile</h3>
-      <h6>Built for all screens and devices</h6>
+      <h1 class="article-title">Mobile</h1>
+      <h2 class="article-subtitle">Built for all screens and devices</h2>
 
       <section>
-        <h5>Mobile in mind<h5>
+        <h2>Mobile in mind</h2>
         <p>PAX is built from the ground up with mobile in mind. Not only do all the components work on mobile, they excel! Pax also includes some mobile specific elements (like <a href="#/components/sheets">sheets</a>).</p>
       </section>
 
       <section>
-        <h5>The best of both worlds</h5>
+        <h2>The best of both worlds</h2>
         <p>PAX has a group of components that act appropriatly based on what type of device they are on. Lets take a looks at a few of them.</p>
+
         <ul>
           <li>
             <a href="#/components/select">Select</a>
