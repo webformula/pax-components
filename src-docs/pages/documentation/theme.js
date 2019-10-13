@@ -56,8 +56,8 @@ export default class ThemePage extends Page {
           <div class="mdw-subtitle2">Play with the colors and contrast below. There is also a contrast switch in the top app bar so you can change the contrast on any page.</div>
         </div>
 
-        <div class="mdw-card__content" mdw-row>
-          <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changePrimary(this.value)">
+        <div class="mdw-card__content" mdw-row mdw-wrap>
+          <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changePrimary(this.value)" style="min-width: 120px;">
             <select>
               <option value="red">Red</option>
               <option value="pink">Pink</option>
@@ -79,7 +79,7 @@ export default class ThemePage extends Page {
             <label>Primary palette</label>
           </mdw-select>
 
-          <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeSecondary(this.value)">
+          <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeSecondary(this.value)" style="min-width: 120px;">
             <select>
               <option value="red">Red</option>
               <option value="pink">Pink</option>
@@ -101,7 +101,7 @@ export default class ThemePage extends Page {
             <label>Secondary palette</label>
           </mdw-select>
 
-          <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeError(this.value)">
+          <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeError(this.value)" style="min-width: 120px;">
             <select>
               <option value="red" selected>Red</option>
               <option value="pink">Pink</option>
@@ -123,7 +123,7 @@ export default class ThemePage extends Page {
             <label>Error palette</label>
           </mdw-select>
 
-          <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeContrast(this.value)">
+          <mdw-select class="mdw-padding" mdw-enhanced mdw-flex onchange="$ThemePage.changeContrast(this.value)" style="min-width: 120px;">
             <select>
               <option value="light" selected>light</option>
               <option value="dark">dark</option>

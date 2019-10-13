@@ -19,8 +19,8 @@ export default class Browsers extends Page {
         <p>PAX components are built using <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_new">web components</a>. Web componets are currently supported by most of the major browsers. If you need to exapnd your browser support there is also a polyfill that exapnds support to IE11.</p>
       </section>
 
-      <div mdw-row style="margin-top: 54px;">
-        <section mdw-flex>
+      <div mdw-row mdw-wrap>
+        <section mdw-flex style="margin-top: 54px">
           <h2>Desktop</h2>
           <mdw-list>
             <mdw-list-item>
@@ -56,7 +56,7 @@ export default class Browsers extends Page {
           </mdw-list>
         </section>
 
-        <section mdw-flex>
+        <section mdw-flex style="margin-top: 54px">
           <h2>Mobile</h2>
           <mdw-list>
             <mdw-list-item>
