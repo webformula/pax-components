@@ -215,6 +215,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (selectedElement) selectedElement.classList.add('mdw-focused');
     } else {
       const panelElement = this.panel;
+      panelElement.autoPosition();
       panelElement.open(true);
       panelElement.addEventListener('MDWPanel:closed', this.bound_onBlur);
       panelElement.addEventListener('click', this.bound_onPanelClick);

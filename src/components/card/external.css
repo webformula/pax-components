@@ -93,20 +93,10 @@ mdw-card {
 }
 
 mdw-card h6,
-mdw-card headline6,
 mdw-card .mdw-headline6,
-mdw-card subtitle,
 mdw-card .mdw-subtitle,
-mdw-card subtitle2,
 mdw-card .mdw-subtitle2 {
   margin: 0;
-}
-
-mdw-card subtitle,
-mdw-card .mdw-subtitle,
-mdw-card subtitle2,
-mdw-card .mdw-subtitle2 {
-  color: var(--mdw-theme-text--on-background);
 }
 
 .mdw-card__supporting,

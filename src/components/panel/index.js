@@ -14,9 +14,9 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
       'button:not(:disabled)', '[href]:not([aria-disabled="true"])', 'input:not(:disabled)',
       'select:not(:disabled)', 'textarea:not(:disabled)', '[tabindex]:not([tabindex="-1"]):not([aria-disabled="true"])',
     ].join(', ');
-    this.clickOutsideClose_ = false;
-    this.boundHandleBodyClick_ = this.handleBodyClick_.bind(this);
-    this.boundHandleKeydown_ = this.handleKeydown_.bind(this);
+    this._clickOutsideClose = false;
+    this._boundHandleBodyClick = this._handleBodyClick.bind(this);
+    this._boundHandleKeydown = this._handleKeydown.bind(this);
     this._clickOutsideCloseIgnorElement = [];
     this._autoPosition = false;
   }
@@ -29,9 +29,9 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   disconnectedCallback() {
     this.removeBodyClickEvent_();
     this.removeKeydownEvent_();
-    clearTimeout(this.openAnimationEndTimerId_);
-    clearTimeout(this.closeAnimationEndTimerId_);
-    cancelAnimationFrame(this.animationRequestId_);
+    clearTimeout(this._openAnimationEndTimerId);
+    clearTimeout(this._closeAnimationEndTimerId);
+    cancelAnimationFrame(this._animationRequestId);
   }
 
   static get observedAttributes() {
@@ -41,28 +41,28 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   attributeChangedCallback(name, oldValue, newValue) {
     switch(name) {
       case 'mdw-position':
-        this.position_ = newValue;
+        this._position = newValue;
         break;
     }
   }
 
   set clickOutsideClose(value) {
-    this.clickOutsideClose_ = value;
+    this._clickOutsideClose = value;
   }
 
   set setQuickOpen(value) {
-    this.isQuickOpen_ = value;
+    this._isQuickOpen = value;
   }
 
   get position() {
-    return this.position_;
+    return this._position;
   }
 
   setPosition(value) {
     const split = value.split(' ');
-    this.position_ = `${split[0] || 'top'} ${split[1] || 'left'}`;
-    this.setAttribute('mdw-position', this.position_);
-    this.positionSet_ = true;
+    this._position = `${split[0] || 'top'} ${split[1] || 'left'}`;
+    this.setAttribute('mdw-position', this._position);
+    this._positionSet = true;
   }
 
   autoPosition() {
@@ -70,60 +70,60 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   clickBodyToClose() {
-    this.clickOutsideClose_ = true;
+    this._clickOutsideClose = true;
   }
 
   isOpen() {
-    return this.isOpen_;
+    return this._isOpen;
   }
 
   open(clickBodyToClose) {
-    if (clickBodyToClose !== undefined) this.clickOutsideClose_ = clickBodyToClose;
+    if (clickBodyToClose !== undefined) this._clickOutsideClose = clickBodyToClose;
     // handle focused element
     const focusableElements = this.querySelectorAll(this.FOCUSABLE_ELEMENTS);
-    this.firstFocusableElement_ = focusableElements[0];
-    this.lastFocusableElement_ = focusableElements[focusableElements.length - 1];
+    this._firstFocusableElement = focusableElements[0];
+    this._lastFocusableElement = focusableElements[focusableElements.length - 1];
     this.saveFocus();
 
     // handle animation
-    if (!this.isQuickOpen_) {
+    if (!this._isQuickOpen) {
       this.classList.add('mdw-panel--animating-open');
-      this.animationRequestId_ = this._runNextAnimationFrame(() => {
+      this._animationRequestId = this._runNextAnimationFrame(() => {
         this.classList.add('mdw-open');
-        if (this.isQuickOpen_) this.notifyOpen();
+        if (this._isQuickOpen) this.notifyOpen();
         else {
-          this.openAnimationEndTimerId_ = setTimeout(() => {
-            this.openAnimationEndTimerId_ = 0;
+          this._openAnimationEndTimerId = setTimeout(() => {
+            this._openAnimationEndTimerId = 0;
             this.classList.remove('mdw-panel--animating-open');
             this.notifyOpen();
           }, 150);
         }
 
-        if (this.isHoisted_) this.setHoisetedPosition();
+        if (this._isHoisted) this.setHoisetedPosition();
         else this.setPositionStyle();
       });
     } else {
       this.classList.add('mdw-open');
-      if (this.isHoisted_) this.setHoisetedPosition();
+      if (this._isHoisted) this.setHoisetedPosition();
       else this.setPositionStyle();
     }
 
     this.addBodyClickEvent_();
     this.addKeydownEvent_();
-    this.isOpen_ = true;
+    this._isOpen = true;
   }
 
   // TODO FIX THE CLOSING ANIMATION
   close() {
-    if (!this.isQuickOpen_) {
+    if (!this._isQuickOpen) {
       this.classList.add('mdw-panel--animating-closed');
       this.removeBodyClickEvent_();
-      this.animationRequestId_ = this._runNextAnimationFrame(() => {
+      this._animationRequestId = this._runNextAnimationFrame(() => {
         this.classList.remove('mdw-open');
-        if (this.isQuickOpen_) this.notifyClose();
+        if (this._isQuickOpen) this.notifyClose();
         else {
-          this.closeAnimationEndTimerId_ = setTimeout(() => {
-            this.closeAnimationEndTimerId_ = 0;
+          this._closeAnimationEndTimerId = setTimeout(() => {
+            this._closeAnimationEndTimerId = 0;
             this.classList.remove('mdw-panel--animating-closed');
             this.resetPosition();
             this.notifyClose();
@@ -136,7 +136,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     }
 
     this.removeKeydownEvent_();
-    this.isOpen_ = false;
+    this._isOpen = false;
     const isRootFocused = this.isFocused();
     const childHasFocus = document.activeElement && this.contains(document.activeElement);
     if (isRootFocused || childHasFocus) this.restoreFocus();
@@ -156,49 +156,49 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   saveFocus() {
-    this.previousFocus_ = document.activeElement;
+    this._previousFocus = document.activeElement;
   }
 
   restoreFocus() {
-    if (this.contains(document.activeElement) && this.previousFocus_ && this.previousFocus_.focus) this.previousFocus_.focus();
+    if (this.contains(document.activeElement) && this._previousFocus && this._previousFocus.focus) this._previousFocus.focus();
   }
 
   focusFirstElement() {
-    if (this.firstFocusableElement_ && this.firstFocusableElement_.focus) this.firstFocusableElement_.focus()
+    if (this._firstFocusableElement && this._firstFocusableElement.focus) this._firstFocusableElement.focus()
   }
 
   focusLastElement() {
-    if (this.lastFocusableElement_ && this.lastFocusableElement_.focus) this.lastFocusableElement_.focus()
+    if (this._lastFocusableElement && this._lastFocusableElement.focus) this._lastFocusableElement.focus()
   }
 
   isFirstElementFocused() {
-    this.firstFocusableElement_ ? this.firstFocusableElement_ === document.activeElement : false;
+    this._firstFocusableElement ? this._firstFocusableElement === document.activeElement : false;
   }
 
   isLastElementFocused() {
-    this.lastFocusableElement_ ? this.lastFocusableElement_ === document.activeElement : false;
+    this._lastFocusableElement ? this._lastFocusableElement === document.activeElement : false;
   }
 
   addBodyClickEvent_() {
-    if (!this.clickOutsideClose_) return;
+    if (!this._clickOutsideClose) return;
     setTimeout(() => {
       this.hasBodyEvent = true;
-      document.body.addEventListener('click', this.boundHandleBodyClick_);
+      document.body.addEventListener('click', this._boundHandleBodyClick);
     }, 0);
   }
 
   removeBodyClickEvent_() {
-    if (this.hasBodyEvent) document.body.removeEventListener('click', this.boundHandleBodyClick_);
+    if (this.hasBodyEvent) document.body.removeEventListener('click', this._boundHandleBodyClick);
     this.hasBodyEvent = false;
   }
 
   addKeydownEvent_() {
     this.hasKeydownEvent = true;
-    document.body.addEventListener('keydown', this.boundHandleKeydown_);
+    document.body.addEventListener('keydown', this._boundHandleKeydown);
   }
 
   removeKeydownEvent_() {
-    if (this.hasKeydownEvent) document.body.removeEventListener('keydown', this.boundHandleKeydown_);
+    if (this.hasKeydownEvent) document.body.removeEventListener('keydown', this._boundHandleKeydown);
     this.hasKeydownEvent = false;
   }
 
@@ -206,7 +206,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._clickOutsideCloseIgnorElement.push(el);
   }
 
-  handleBodyClick_(event) {
+  _handleBodyClick(event) {
     const el = event.target;
     if (this._clickOutsideCloseIgnorElement.includes(el)) return;
     if (this.contains(el)) return;
@@ -214,7 +214,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.close();
   }
 
-  handleKeydown_(event) {
+  _handleKeydown(event) {
     const { key, keyCode, shiftKey } = event;
     const isEscape = key === 'Escape' || keyCode === 27;
     const isTab = key === 'Tab' || keyCode === 9;
@@ -240,20 +240,47 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   hoistToBody(target) {
-    if (this.isHoisted_) return;
-    this.container_ = target || this.parentNode;
+    if (this._isHoisted) return;
+    this._container = target || this.parentNode;
     document.body.appendChild(this);
     this.classList.add('mdw-panel-hoisted');
-    this.isHoisted_ = true;
+    this._isHoisted = true;
+  }
+
+  _autoPositionHoisted() {
+    if (!this._autoPosition) return;
+
+    const pageHeight = window.innerHeight;
+    const panelRect = this.getBoundingClientRect();
+    const panelHeight = this.offsetHeight;
+    let panelY = this.offsetTop;
+
+    // if panel is out of window y bounds
+    if (panelY + panelHeight > pageHeight) {
+      if (panelHeight <= pageHeight) {
+        const maxTop = pageHeight - panelHeight;
+        let offset = panelY - maxTop;
+
+        // add padding to offset, this will prevent panel from butting up against bottom
+        if (offset > 20) offset += 10;
+        else offset /= 2;
+
+        panelY -= offset;
+      }
+    }
+
+    this.style.top = `${panelY}px`;
   }
 
   setHoisetedPosition() {
-    const bounds = this.container_.getBoundingClientRect();
+    const bounds = this._container.getBoundingClientRect();
     this.style.top = `${bounds.top}px`;
     this.style.left = `${bounds.left}px`;
     this.style[this.transformPropertyName] = 'scale(1)';
 
-    if (this.positionSet_) {
+    if (!this._positionSet) {
+      this._autoPositionHoisted();
+    } else {
       let top = 0;
       let left = 0;
 

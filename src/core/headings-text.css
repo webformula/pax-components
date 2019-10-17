@@ -1,20 +1,22 @@
 h1, h2, h3, h4, h5, h6, .mdw-headline1, .mdw-headline2, .mdw-headline3, .mdw-headline4, .mdw-headline5, .mdw-headline6,
 p, .mdw-subtitle, .mdw-subtitle2, .mdw-body1, .mdw-body2, caption, .mdw-caption, button, .mdw-description {
-  color: var(--mdw-theme-text--on-background);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6,
-.mdw-headline1, .mdw-headline2, .mdw-headline3, .mdw-headline4, .mdw-headline5, .mdw-headline6 {
-  font-weight: 300;
-  margin: 0 0 8px;
+h1, h2, h3, h4, h5, h6, .mdw-headline1, .mdw-headline2, .mdw-headline3, .mdw-headline4, .mdw-headline5, .mdw-headline6 {
+  color: var(--mdw-theme-text--heading);
+}
+
+p, .mdw-subtitle, .mdw-subtitle2, .mdw-body1, .mdw-body2, caption, .mdw-caption, button, .mdw-description {
+  color: var(--mdw-theme-text--body);
 }
 
 h1,
 .mdw-headline1 {
   font-size: 6rem;
-  line-height: 1.2;
+  line-height: 6rem;
+  font-weight: 300;
   letter-spacing: -1.5;
   text-decoration: inherit;
   text-transform: inherit;
@@ -23,7 +25,8 @@ h1,
 h2,
 .mdw-headline2 {
   font-size: 3.75rem;
-  line-height: 1.2;
+  line-height: 3.75rem;
+  font-weight: 300;
   letter-spacing: -0.5;
   text-decoration: inherit;
   text-transform: inherit;
@@ -31,9 +34,9 @@ h2,
 
 h3,
 .mdw-headline3 {
-  font-weight: 400;
   font-size: 3rem;
-  line-height: 1.2;
+  font-weight: 400;
+  line-height: 3.125rem;
   letter-spacing: normal;
   text-decoration: inherit;
   text-transform: inherit;
@@ -43,7 +46,7 @@ h4,
 .mdw-headline4 {
   font-weight: 400;
   font-size: 2.125rem;
-  line-height: 1.2;
+  line-height: 2.5rem;
   letter-spacing: 0.25;
   text-decoration: inherit;
   text-transform: inherit;
@@ -51,8 +54,8 @@ h4,
 
 h5,
 .mdw-headline5 {
-  font-weight: 400;
   font-size: 1.5rem;
+  line-height: 2rem;
   font-weight: 400;
   letter-spacing: normal;
   text-decoration: inherit;
@@ -69,16 +72,10 @@ h6,
   text-transform: inherit;
 }
 
-p {
-  margin: 0 0 16px;
-  font-size: 1rem;
-  letter-spacing: 0.5;
-}
-
 .mdw-subtitle {
   font-weight: 400;
   font-size: 1rem;
-  line-height: 1.2;
+  line-height: 1.75rem;
   letter-spacing: 0.15;
   text-decoration: inherit;
   text-transform: inherit;
@@ -93,12 +90,13 @@ p {
   text-transform: inherit;
 }
 
-
+p,
 .mdw-body1 {
   font-size: 1rem;
   line-height: 1.5rem;
   font-weight: 400;
   letter-spacing: .03125em;
+  margin: 0 0 16px;
   text-decoration: inherit;
   text-transform: inherit;
 }
@@ -109,6 +107,7 @@ p {
   line-height: 1.25rem;
   font-weight: 400;
   letter-spacing: .0178571429em;
+  margin: 0 0 16px;
   text-decoration: inherit;
   text-transform: inherit;
 }
@@ -128,6 +127,15 @@ button {
   line-height: 2.25rem;
   font-weight: 500;
   letter-spacing: .0892857143em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+overline {
+  font-size: .75rem;
+  line-height: 2rem;
+  font-weight: 400;
+  letter-spacing: .075em;
   text-decoration: none;
   text-transform: uppercase;
 }

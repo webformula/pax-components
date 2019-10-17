@@ -6,40 +6,115 @@ export default class Browsers extends Page {
   }
 
   get title() {
-    return 'Browser compatability';
+    return 'Browser compatibility';
   }
 
   template() {
     return html`
     <article class="page-article">
-      <h3>Browser compatibility</h3>
+      <h1 class="article-title">Browser compatibility</h1>
 
-      <h6>Web components</h6>
-      <p>PAX components are built using <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">web components</a>. Web componets are currently supported by most of the major browsers. If you need to exapnd your browser support there is also a polyfill that exapnds support to IE11.</p>
+      <section>
+        <h2>Web components</h2>
+        <p>PAX components are built using <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_new">web components</a>. Web componets are currently supported by most of the major browsers. If you need to exapnd your browser support there is also a polyfill that exapnds support to IE11.</p>
+      </section>
 
-      <h6>Pax components support</h6>
-      <p>Desktop</p>
-      <ul>
-        <li>Chrome</li>
-        <li>Firefox (version 63)</li>
-        <li>Safari</li>
-        <li>Opera</li>
-        <li>Edge (version 76 Anaheim)</li>
-      </ul>
+      <div mdw-row mdw-wrap>
+        <section mdw-flex style="margin-top: 54px">
+          <h2>Desktop</h2>
+          <mdw-list>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="chrome.png" width="24" height="24">
+              </span>
+              Chrome (67 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="firefox.png" width="24" height="24">
+              </span>
+              Firefox (63 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="safari.png" width="24" height="24">
+              </span>
+              Safari (10.1 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="opera.png" width="24" height="24">
+              </span>
+              Opera (41 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="edge.png" width="24" height="24">
+              </span>
+              Edge (76 Anaheim)
+            </mdw-list-item>
+          </mdw-list>
+        </section>
 
-      <p>Mobile</p>
-      <ul>
-        <li>ios safari</li>
-        <li>Android browser</li>
-        <li>Chrome for android</li>
-        <li>Chrome for ios</li>
-        <li>Opera mobile</li>
-        <li>Firefox for android</li>
-        <li>UC Browser for android</li>
-        <li>Samsung internet</li>
-      </ul>
+        <section mdw-flex style="margin-top: 54px">
+          <h2>Mobile</h2>
+          <mdw-list>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="chrome.png" width="24" height="24">
+              </span>
+              Chrome (76 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="firefox.png" width="24" height="24">
+              </span>
+              Firefox (68 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="safari.png" width="24" height="24">
+              </span>
+              Safari (10.3 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="opera.png" width="24" height="24">
+              </span>
+              Opera Mobile (46 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="android.png" width="24" height="24">
+              </span>
+              Android browser (76 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="samsung-internet.png" width="24" height="24">
+              </span>
+              Samsung internet (6.2 +)
+            </mdw-list-item>
+            <mdw-list-item>
+              <span class="mdw-list-item__graphic material-icons">
+                <img src="uc-browser.png" width="24" height="24">
+              </span>
+              UC Browser (12.12 +)
+            </mdw-list-item>
+          </mdw-list>
+          <mdw-list-item>
+            <span class="mdw-list-item__graphic material-icons">
+              <img src="baidu.png" width="24" height="24">
+            </span>
+            Baidu Browser 7.12 +)
+          </mdw-list-item>
+        </mdw-list>
+        </section>
+      </div>
 
-      <a href="#/documentation/theme">next: Theming</a>
+      <section>
+        <a href="#/documentation/theme">next: Theming</a>
+      </section>
     </article>
     `;
   }

@@ -36,35 +36,37 @@ export default class Home extends Page {
   template() {
     return html`
     <article class="page-article">
-      <h3>PAX</h3>
-      <h5>Material design: web components</h5>
+      <h1 class="article-title">PAX</h1>
+      <h2 class="article-subtitle">Material design: web components</h2>
 
-      <p>
-      PAX material design web components are a complete set of components with no dependencies. These web components can be used with any website (frameworkm or no framework) as long as the browser supports web components.
-      PAX components are also compatable on mobile sites. There are many components that are targeted directly at mobile development (<a href="#/components/backdrop">Backdrop</a>).
-      </p>
+      <section>
+        <h2>About</h2>
+        <p>
+        PAX material design web components are a complete set of components with no dependencies. These web components can be used with any website (framework or no framework) as long as the browser supports web components.
+        PAX components are also compatable on mobile sites. There are many components that are targeted directly at mobile development (<a href="#/components/sheet">sheet</a>).
+        </p>
 
-      <h6>Powerful, and light weight</h6>
-      <p>
-      PAX components are built to be as simple, light weight and performant as possible. Since these are built using web compnents, wich are a native browser feature. We are taking advantage of the lowest level posiible in the browser for components.
-      </p>
+        <h2>Powerful, and light weight</h2>
+        <p>
+        PAX components are built to be as simple, light weight and performant. This is achieved with web compnents, wich are a native browser feature. We are taking advantage of the lowest posiible level in the browser.
+        </p>
 
-      <h6>Built with PAX-CORE</h6>
-      <p>
-      PAX components are built using PAX core. This means the components are easy to develop and the end product requires no dependencies. So no broken npm sub modules.
-      </p>
+        <h2>Built with PAX-CORE</h2>
+        <p>
+        PAX components are built using <a href="http://webformula.io" target="_new">PAX-core</a>. This means the components are easy to develop and the end product requires no dependencies. So no broken npm sub modules.
+        </p>
+      </section>
 
-      <div style="height: 24px;"></div>
       <mdw-card id="contained">
         <div class="mdw-card__content">
           <h6>Install</h6>
-          <div class="mdw-description">Include the javascript and css, thats it.</div>
+          <div class="mdw-subtitle2">Include the javascript and css, thats it.</div>
         </div>
 
         <div class="mdw-card__content--no-padding">
           <code-mirror mode="javascript">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.css">
-            <script src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.js"></script>
+            <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.js"></script>
 
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
@@ -72,91 +74,9 @@ export default class Home extends Page {
         </div>
       </mdw-card>
 
-      <div style="height: 24px;"></div>
-      <mdw-card id="contained">
-        <div class="mdw-card__content">
-          <h6>Example usage</h6>
-          <div class="mdw-description">Include the javascript and css, thats it.</div>
-        </div>
-
-        <div class="mdw-card__content--no-padding">
-          <code-mirror mode="javascript">
-            showDialog() {
-              const validForm = document.querySelector('form').checkValidity();
-
-              if (validForm) {
-                MDWDialog.show({
-                  title: 'Confirmed',
-                  message: 'Your data is confirmed',
-                  okLabel: 'ok',
-                  cancelLabel: 'cancel'
-                }).then(data => {
-                  console.log(data);
-                });
-              } else {
-                MDWDialog.show({
-                  title: 'Invalid',
-                  message: 'Your data is invalid',
-                  okLabel: 'ok',
-                  cancelLabel: 'cancel'
-                }).then(data => {
-                  console.log(data);
-                });
-              }
-            }
-          </code-mirror>
-
-          <code-mirror mode="html">
-            <div class="mdw-column">
-              <form name="test">
-                <div class="mdw-row">
-                  <mdw-textfield mdw-flex>
-                    <input>
-                    <label>A field</label>
-                  </mdw-textfield>
-
-                  <mdw-textfield mdw-flex>
-                    <input>
-                    <label>B field</label>
-                  </mdw-textfield>
-                </div>
-
-                <mdw-textfield>
-                  <input>
-                  <label>Filler out</label>
-                </mdw-textfield>
-              </form>
-
-              <mdw-button class="mdw-raised mdw-primary" onclick="$Home.showDialog()">Presto</mdw-button>
-            </div>
-          </code-mirror>
-        </div>
-
-        <div class="mdw-card__content" style="display: block;">
-          <div class="mdw-column">
-            <form name="test">
-              <div class="mdw-row">
-                <mdw-textfield mdw-flex>
-                  <input required>
-                  <label>A field</label>
-                </mdw-textfield>
-
-                <mdw-textfield mdw-flex>
-                  <input required>
-                  <label>B field</label>
-                </mdw-textfield>
-              </div>
-
-              <mdw-textfield>
-                <input required>
-                <label>Filler out</label>
-              </mdw-textfield>
-            </form>
-
-            <mdw-button class="mdw-raised mdw-primary" onclick="$Home.showDialog()">Presto</mdw-button>
-          </div>
-        </div>
-      </mdw-card>
+      <section>
+        <a href="#/documentation/install">next: Install</a>
+      </section>
     </article>
     `;
   }

@@ -11,7 +11,7 @@ export default function({ title }) {
 
         <section>
           <div>
-            <label>Theme contrast</label>
+            <label>Contrast</label>
             <mdw-switch onchange="changeContrast(!this.checked)"></mdw-switch>
           </div>
         </section>

@@ -27,6 +27,12 @@
   --mdw-theme-text--on-background--dark: #FFFFFF;
   --mdw-theme-text--on-surface--dark: #FFFFFF;
 
+  --mdw-theme-text--heading--light: #212121;
+  --mdw-theme-text--heading--dark: #ececec;
+
+  --mdw-theme-text--body--light: #616161;
+  --mdw-theme-text--body--dark: #b5b5b5;
+
 
   /* --- surfaces and backgrounds --- */
 
