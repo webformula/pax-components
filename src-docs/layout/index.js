@@ -28,7 +28,7 @@ export default function ({ head, body, title }) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/css/css.js"></script>
 
         <script>
-          window.paxVersion = '0.5.1-beta';
+          window.paxVersion = '0.5.2-beta';
           window.MDWThemeConfig = {
             contrast: 'light', // default is light
             primary: 'deeppurple',
