@@ -64,7 +64,7 @@ export default class Sheets extends Page {
 
         </div>
 
-        <a href="https://material.io/components/sheets-bottom/">Material Design Guidlines: sheets bottom</a>
+        <a href="https://material.io/components/sheets-bottom" target="_new">Material Design Guidlines: sheets bottom</a>
         <p>Bottom sheets are surfaces containing supplementary content that are anchored to the bottom of the screen</p>
       </article>
     `;

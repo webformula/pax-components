@@ -31,18 +31,10 @@ export default class Banners extends Page {
         <h3>Banners</h3>
 
         <div class="showcase mdw-elevation-1">
-          <!-- you can use id to reference the components class -->
-          <!-- you can also walk the tree this.parentNode.parentNode.dismiss()-->
-          <!-- <mdw-banner id="banner1" style="display: none;">
-            <div>This is a message and it is awsome!</div>
-            <div>
-              <mdw-button>got it</mdw-button>
-              <mdw-button onclick="banner1.dismiss()">dismiss</mdw-button>
-            </div>
-          </mdw-banner> -->
+          <mdw-button onclick="$Banners.makeBanner()" class="mdw-raised">show banner</mdw-button>
         </div>
 
-        <a href="https://material.io/design/components/banners.html">Material Design Guidlines: Banners</a>
+        <a href="https://material.io/design/components/banners.html" target="_new">Material Design Guidlines: Banners</a>
         <p>A banner displays a prominent message and related optional actions. Banners are more important than snackbars but leess important then dialogs.</p>
 
         <!-- <div class="column">
@@ -54,10 +46,14 @@ export default class Banners extends Page {
         <section id="types">
           <h4>Examples</h4>
 
-          <div class="codecase mdw-elevation-1">
-            <div class="title">Banner service</div>
-            <div class="description">Banners must be dissmissed by the user</div>
-            <code-mirror mode="javascript">
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Banner service</h6>
+              <div class="mdw-subtitle">Banners must be dissmissed by the user</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="javascript">
                 // MDWBanner is globally available
                 // Only 1 item will show at a time
                 //   The rest of the items are queued up and will
@@ -77,12 +73,14 @@ export default class Banners extends Page {
                     else console.log('banner dismissed');
                   });
                 };
-            </code-mirror>
-            <div class="demo">
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
               <mdw-button onclick="$Banners.makeBanner()" class="mdw-raised">show banner</mdw-button>
               <mdw-button class="mdw-secondary" onclick="$Banners.makeBannerWithAccept()">show banner with acceptLabel</mdw-button>
             </div>
-          </div>
+          </mdw-card>
 
         </section>
 

@@ -35,7 +35,7 @@ export default class LinearProgress extends Page {
           <mdw-linear-progress mdw-mode="indeterminate"></mdw-linear-progress>
         </div>
 
-        <a href="https://material.io/design/components/progress-indicators.html#linear-progress-indicators">Material Design Guidlines: Circular progress</a>
+        <a href="https://material.io/design/components/progress-indicators.html#linear-progress-indicators" target="_new">Material Design Guidlines: Circular progress</a>
         <p>Circular progress indicators display progress by animating an indicator along an invisible linear track in a clockwise direction. They can be applied directly to a surface, such as a button or card</p>
 
         <div class="links">
@@ -47,49 +47,66 @@ export default class LinearProgress extends Page {
         <section id="types">
           <h4>Types</h4>
 
-          <div class="codecase">
-            <div class="title">Determinate</div>
-            <div class="description">linear indicators fill the invisible, linear track with color, as the indicator moves from 0 to 360 degrees</div>
-            <code-mirror mode="html">
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Determinate</h6>
+              <div class="mdw-subtitle">linear indicators fill the invisible, linear track with color, as the indicator moves from 0 to 360 degrees</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
                 <mdw-linear-progress mdw-percent="50"></mdw-linear-progress>
-            </code-mirror>
-            <div class="demo">
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
               <mdw-linear-progress id="dynamic-pc" mdw-percent="0"></mdw-linear-progress>
             </div>
-          </div>
+          </mdw-card>
 
-          <div class="codecase">
-            <div class="title">Indeterminate</div>
-            <div class="description">linear indicators grow and shrink in size while moving along the invisible track</div>
-            <code-mirror mode="html">
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Indeterminate</h6>
+              <div class="mdw-subtitle">linear indicators grow and shrink in size while moving along the invisible track</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
                 <mdw-linear-progress mdw-mode="indeterminate"></mdw-linear-progress>
-            </code-mirror>
-            <div class="demo">
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
               <mdw-linear-progress mdw-mode="indeterminate"></mdw-linear-progress>
             </div>
-          </div>
+          </mdw-card>
 
         </section>
 
         <section id="theming">
           <h4>Theming</h4>
 
-          <div class="codecase">
-            <div class="title">Colors</div>
-            <code-mirror mode="html">
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Colors</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
                 <mdw-linear-progress mdw-mode="indeterminate" class="mdw-primary" ></mdw-linear-progress>
                 <mdw-linear-progress mdw-mode="indeterminate" class="mdw-secondary" ></mdw-linear-progress>
                 <mdw-linear-progress mdw-mode="indeterminate" class="mdw-error" ></mdw-linear-progress>
                 <mdw-linear-progress mdw-mode="indeterminate" class="mdw-grey"></mdw-linear-progress>
-            </code-mirror>
+              </code-mirror>
+            </div>
 
-            <div class="demo">
-              <mdw-linear-progress mdw-mode="indeterminate" class="mdw-primary" ></mdw-linear-progress>
-              <mdw-linear-progress mdw-mode="indeterminate" class="mdw-secondary" ></mdw-linear-progress>
-              <mdw-linear-progress mdw-mode="indeterminate" class="mdw-error" ></mdw-linear-progress>
+            <div class="mdw-card__content">
+              <mdw-linear-progress mdw-mode="indeterminate" class="mdw-primary" style="margin-bottom: 2px;"></mdw-linear-progress>
+              <mdw-linear-progress mdw-mode="indeterminate" class="mdw-secondary" style="margin-bottom: 2px;"></mdw-linear-progress>
+              <mdw-linear-progress mdw-mode="indeterminate" class="mdw-error" style="margin-bottom: 2px;"></mdw-linear-progress>
               <mdw-linear-progress mdw-mode="indeterminate" class="mdw-grey"></mdw-linear-progress>
             </div>
-          </div>
+          </mdw-card>
         </section>
 
       </article>

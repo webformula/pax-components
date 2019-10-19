@@ -23,7 +23,7 @@ export default class Switch extends Page {
           <mdw-switch onchange="$Switch.change(this)" checked></mdw-switch>
         </div>
 
-        <a href="https://material.io/design/components/selection-controls.html#switches">Material Design Guidlines: switches</a>
+        <a href="https://material.io/design/components/selection-controls.html#switches" target="_new">Material Design Guidlines: switches</a>
         <p>Switches toggle the state of a single setting on or off. They are the preferred way to adjust settings on mobile</p>
 
         <div class="links">

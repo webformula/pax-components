@@ -91,13 +91,13 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
     });
   }
 
-  showDialogWithServiceNoClickoutside() {
+  showDialogWithServiceClickoutside() {
     MDWDialog.show({
       title: 'Title',
       message: 'Try to click background to close',
       okLabel: 'ok',
       cancelLabel: 'cancel',
-      clickOutsideClose: false
+      clickOutsideClose: true
     }).then(data => {
       console.log(data);
     });
@@ -125,13 +125,13 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
           <mdw-button onclick="$Dialog.showDialogWithService()">show dialog</mdw-button>
         </div>
 
-        <a href="https://material.io/design/components/dialogs.html">Material Design Guidlines: Dialogs</a>
+        <a href="https://material.io/design/components/dialogs.html" target="_new">Material Design Guidlines: Dialogs</a>
         <p>Dialogs inform users about a task and can contain critical information, require decisions, or involve multiple tasks.</p>
 
         <div style="display: inline-block">
           <div class="eyebrow">contents</div>
           <anchor-link selector="#service">Dialog service</anchor-link>
-          <anchor-link selector="#no-click">Dialog no click background to close</anchor-link>
+          <anchor-link selector="#with-click">Dialog click background to close</anchor-link>
           <anchor-link selector="#template">Dialog template</anchor-link>
           <anchor-link selector="#scrollable">Dialog scrollable</anchor-link>
         </div>
@@ -166,9 +166,9 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
 
           <!-- no click out sode to close -->
-          <mdw-card id="no-click">
+          <mdw-card id="with-click">
             <div class="mdw-card__content">
-              <h6>Dialog no click outside to close</h6>
+              <h6>Dialog with click outside to close</h6>
               <div class="description">Use MDWDialog service to create promise based dialog</div>
             </div>
 
@@ -179,7 +179,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
                   message: 'message message 123',
                   okLabel: 'ok',
                   cancelLabel: 'cancel',
-                  clickOutsideClose: false
+                  clickOutsideClose: true
                 }).then(function (data) {
                   console.log(data);
                 });
@@ -187,7 +187,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="$Dialog.showDialogWithServiceNoClickoutside()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="$Dialog.showDialogWithServiceClickoutside()">show dialog</mdw-button>
             </div>
           </mdw-card>
 

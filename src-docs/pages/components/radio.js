@@ -30,7 +30,7 @@ export default class Radio extends Page {
         </div>
 
 
-        <a href="https://material.io/components/selection-controls/#radio-buttons">Material Design Guidlines: Radio controls</a>
+        <a href="https://material.io/components/selection-controls/#radio-buttons" target="_new">Material Design Guidlines: Radio controls</a>
         <p>Radio buttons allow the user to select one option from a set. Use radio buttons when the user needs to see all available options. If available options can be collapsed, consider using a dropdown menu because it uses less space</p>
 
         <div class="links">

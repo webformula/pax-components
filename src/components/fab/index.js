@@ -31,7 +31,7 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
   }
 
   get dense() {
-    return this.hasAttribute('mdw-dense');
+    return this.classList.contains('mdw-dense');
   }
 
   get spinnerContainer() {
@@ -66,15 +66,20 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
   }
 
   get spinnerStyle() {
-    if (this.dense) return 'position: absolute; left: calc(50% - 16px); top: 4px;';
+    if (this.dense) return 'position: absolute; left: calc(50% - 12px); top: 8px;';
     return 'position: absolute; left: calc(50% - 16px); top: 12px;';
+  }
+
+  get spinnerDiameter() {
+    if (this.dense) return 24;
+    return 32;
   }
 
   showSpinner() {
     this._showSpinner = true;
     this.classList.add('mdw-show-spinner');
     const isWhite = this.classList.contains('mdw-primary') || this.classList.contains('mdw-secondary') || this.classList.contains('mdw-error');
-    this.spinnerContainer.innerHTML = `<mdw-circular-progress mode="indeterminate" class="${isWhite ? 'white' : 'grey'}" diameter="32" style="${this.spinnerStyle}"></mdw-circular-progress>`;
+    this.spinnerContainer.innerHTML = `<mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="${this.spinnerDiameter}" class="${isWhite ? 'mdw-white' : 'mdw-grey'}" style="${this.spinnerStyle}"></mdw-circular-progress>`;
   }
 
   hideSpinner() {

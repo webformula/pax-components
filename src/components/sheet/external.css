@@ -19,7 +19,7 @@ mdw-sheet.mdw-closed {
 
 mdw-sheet mdw-sheet-content {
   display: block;
-  background-color: var(--mdw-theme-background);
+  background-color: var(--mdw-theme-surface_elevation_1);
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
