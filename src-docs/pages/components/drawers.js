@@ -53,16 +53,20 @@ export default class Drawers extends Page {
           </mdw-drawer>
         </div>
 
-        <a hreef="https://material.io/design/components/navigation-drawer.html#">Material Design Guidlines: Navigation Drawer</a>
-        <p>Navigation drawers provide access to destinations in your app.</p>
+        <a href="https://material.io/components/navigation-drawer/" target="_new">Material Design Guidlines: Navigation Drawer</a>
+        <p>Navigation drawers provide access to destinations in your app</p>
 
 
         <section id="types">
           <h4>Types</h4>
 
-          <div class="codecase">
-            <div class="title">Standard</div>
-            <code-mirror mode="html">
+          <mdw-card id="with-click">
+            <div class="mdw-card__content">
+              <h6>Standard</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
                 <!-- <body> -->
                 <mdw-drawer class="mdw-locked-open">
                   <mdw-drawer-header>
@@ -96,11 +100,15 @@ export default class Drawers extends Page {
                   </mdw-content>
                 </mdw-page>
                 <!-- </body> -->
-            </code-mirror>
-            <div class="demo">
-              <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="drawer-standard.html"></iframe>
+              </code-mirror>
             </div>
-          </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <div class="demo">
+                <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="drawer-standard.html"></iframe>
+              </div>
+            </div>
+          </mdw-card>
 
         </section>
 

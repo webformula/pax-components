@@ -15,8 +15,9 @@ export default class Menu extends Page {
         <h3>Menu</h3>
 
         <div class="showcase mdw-elevation-1">
-          <!-- <mdw-menu>
-            <mdw-panel mdw-open class="mdw-open" style="transform: scale(1); pointer-events: none; top: -96px; left: -74px;">
+          <mdw-menu>
+            <mdw-button>show menu</mdw-button>
+            <mdw-menu-content>
               <mdw-list>
                 <mdw-list-item>
                   <span class="mdw-list-item__graphic material-icons">inbox</span>
@@ -37,11 +38,11 @@ export default class Menu extends Page {
                   No Spacer
                 </mdw-list-item>
               </mdw-list>
-            <mdw-panel>
-          </mdw-menu> -->
+            </mdw-menu-content>
+          </mdw-menu>
         </div>
 
-        <a href="https://material.io/design/components/menus.html">Material Design Guidlines: menus</a>
+        <a href="https://material.io/design/components/menus.html" target="_new">Material Design Guidlines: menus</a>
         <p>Menus display a list of choices on temporary surfaces</p>
 
         <div class="links">

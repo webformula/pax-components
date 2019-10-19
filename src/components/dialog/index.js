@@ -6,7 +6,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_onPanelClose = this.onPanelClose.bind(this);
-    this.clickOutsideClose_ = true;
+    this.clickOutsideClose_ = false;
   }
 
   disconnectedCallback() {

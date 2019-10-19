@@ -48,7 +48,7 @@ export default class Home extends Page {
 
         <h2>Powerful, and light weight</h2>
         <p>
-        PAX components are built to be as simple, light weight and performant. This is achieved with web compnents, wich are a native browser feature. We are taking advantage of the lowest posiible level in the browser.
+        PAX components are built to be simple, light weight and performant. This is achieved with web compnents, wich are a native browser feature. We are taking advantage of the lowest posiible level in the browser.
         </p>
 
         <h2>Built with PAX-CORE</h2>

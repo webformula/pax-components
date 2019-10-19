@@ -131,7 +131,7 @@ export default class Textfield extends Page {
           </div>
         </div>
 
-        <a href="https://material.io/design/components/text-fields.html">Material Design Guidlines: Text fields</a>
+        <a href="https://material.io/design/components/text-fields.html" target="_new">Material Design Guidlines: Text fields</a>
         <p>Text fields let users enter and edit text</p>
 
         <div class="links">

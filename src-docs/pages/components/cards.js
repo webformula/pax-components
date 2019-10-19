@@ -31,14 +31,14 @@ export default class Cards extends Page {
           </mdw-card>
         </div>
 
-        <a href="https://material.io/design/components/cards.html">Material Design Guidlines: Banners</a>
+        <a href="https://material.io/design/components/cards.html" target="_new">Material Design Guidlines: Banners</a>
         <p>Cards contain content and actions about a single subject</p>
 
-        <div class="column">
+        <!-- <div class="column">
           <div class="eyebrow">contents</div>
-          <!-- <anchor-link selector="#Types">Types</anchor-link> -->
-          <!-- <anchor-link selector="#theming">Theming</anchor-link> -->
-        </div>
+          <anchor-link selector="#Types">Types</anchor-link>
+          <anchor-link selector="#theming">Theming</anchor-link>
+        </div> -->
 
         <section id="types">
           <h4>Examples</h4>

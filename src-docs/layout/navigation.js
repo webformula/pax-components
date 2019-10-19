@@ -49,14 +49,14 @@ export default function () {
 
             <!-- Mobile components -->
             <mdw-divider></mdw-divider>
-            <span class="title">Mobile (and desktop)</span>
+            <span class="title">Mobile (also desktop)</span>
             <a href="#/components/bottom-navigation">Bottom navigation</a>
             <a href="#/components/sheets">Sheets</a>
+            <!-- <a href="#/components/backdrop">backdrop</a> -->
 
             <!-- supporting components -->
             <mdw-divider></mdw-divider>
             <span class="title">Supporting</span>
-            <a href="#/components/backdrop">backdrop</a>
             <a href="#/components/panel">Panel</a>
           </nav>
         </mdw-drawer-content>

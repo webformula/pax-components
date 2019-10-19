@@ -37,16 +37,20 @@ export default class BottomNavigation extends Page {
           </mdw-bottom-navigation>
         </div>
 
-        <a hreef="https://material.io/components/bottom-navigation/">Material Design Guidlines: Bottom navigation</a>
+        <a href="https://material.io/components/bottom-navigation" target="_new">Material Design Guidlines: Bottom navigation</a>
         <p>Bottom navigation bars allow movement between primary destinations in an app</p>
 
 
         <section id="types">
           <h4>Example: mobile</h4>
 
-          <div class="codecase mdw-elevation-1">
-            <div class="title">Mobile</div>
-            <code-mirror mode="html">
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Mobile</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
                 <mdw-bottom-navigation>
                   <mdw-bottom-navigation-fixed>
                     <mdw-button href="#/">
@@ -65,11 +69,13 @@ export default class BottomNavigation extends Page {
                     </mdw-button>
                   </mdw-bottom-navigation-fixed>
                 </mdw-bottom-navigation>
-            </code-mirror>
-            <div class="demo">
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
               <iframe style="width: 400px; height: 600px; border: 1px solid #ddd" src="bottom-navigation-mobile.html"></iframe>
             </div>
-          </div>
+          </mdw-card>
 
           <!-- <div class="codecase">
             <div class="title">Fixed</div>

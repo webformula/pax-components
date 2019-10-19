@@ -34,7 +34,7 @@ export default class Buttons extends Page {
           <mdw-button class="mdw-raised mdw-primary">raised</mdw-button>
         </div>
 
-        <a href="https://material.io/design/components/buttons.html">Material Design Guidlines: Buttons</a>
+        <a href="https://material.io/design/components/buttons.html" target="_new">Material Design Guidlines: Buttons</a>
         <p>Buttons allow users to take actions, and make choices, with a single tap</p>
 
         <div class="links">

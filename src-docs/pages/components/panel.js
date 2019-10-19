@@ -134,7 +134,7 @@ export default class Panel extends Page {
               <h6>Position: inner-top inner-left</h6>
             </div>
 
-            <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
+            <div class="mdw-card__content--no-padding">
               <code-mirror type="html">
                 <div class="small-container mdw-panel--container">
                   <mdw-panel mdw-position="top left" class="mdw-open">
@@ -162,7 +162,7 @@ export default class Panel extends Page {
               <h6>Position: top left</h6>
             </div>
 
-            <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
+            <div class="mdw-card__content--no-padding">
               <code-mirror type="html">
                 <div class="mdw-panel--container">
                   <mdw-panel mdw-position="inner-top inner-left" class="mdw-open">

@@ -18,7 +18,7 @@ mdw-fab {
   cursor: pointer;
   user-select: none;
   overflow: hidden;
-  color: var(--mdw-theme-text--secondary);
+  color: var(--mdw-theme-text--on-secondary);
   background-color: var(--mdw-theme-secondary);
   z-index: 4;
 }
@@ -80,19 +80,19 @@ mdw-fab mdw-icon {
 /* primary */
 mdw-fab.mdw-primary {
   background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-primary--on);
+  color: var(--mdw-theme-text--on-primary);
 }
 
 /* secondary */
 mdw-fab.mdw-secondary {
   background-color: var(--mdw-theme-secondary);
-  color: var(--mdw-theme-secondary--on);
+  color: var(--mdw-theme-text--on-secondary);
 }
 
 /* error */
 mdw-fab.mdw-error {
   background-color: var(--mdw-theme-error);
-  color: var(--mdw-theme-error--on);
+  color: var(--mdw-theme-text--on-error);
 }
 
 

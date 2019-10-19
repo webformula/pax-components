@@ -27,16 +27,20 @@ export default class TopAppBar extends Page {
           </mdw-top-app-bar>
         </div>
 
-        <a hreef="https://material.io/design/components/app-bars-top.html#">Material Design Guidlines: Top app bar</a>
+        <a hreef="https://material.io/design/components/app-bars-top.html" target="_new">Material Design Guidlines: Top app bar</a>
         <p>The top app bar displays information and actions relating to the current screen</p>
 
 
         <section id="types">
           <h4>Types</h4>
 
-          <div class="codecase">
-            <div class="title">Standard</div>
-            <code-mirror mode="html">
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Standard</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
                 <mdw-top-app-bar class="mdw-fixed">
                   <section>
                     <mdw-icon>menu</mdw-icon>
@@ -46,15 +50,21 @@ export default class TopAppBar extends Page {
                     <mdw-icon>bookmark</mdw-icon>
                   </section>
                 </mdw-top-app-bar>
-            </code-mirror>
-            <div class="demo">
+              </code-mirror>
+            </div>
+
+            <div class="mdw-card__content">
               <iframe style="width: 100%; height: 200px; border: 1px solid #ddd" src="top-app-bar-standard.html"></iframe>
             </div>
-          </div>
+          </mdw-card>
 
-          <div class="codecase">
-            <div class="title">Fixed</div>
-            <code-mirror mode="html">
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Fixed</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <code-mirror mode="html">
                 <mdw-top-app-bar class="mdw-fixed">
                   <section>
                     <mdw-icon>menu</mdw-icon>
@@ -64,13 +74,12 @@ export default class TopAppBar extends Page {
                     <mdw-icon>bookmark</mdw-icon>
                   </section>
                 </mdw-top-app-bar>
-            </code-mirror>
-            <div class="demo">
+              </code-mirror>
+            </div>
+            <div class="mdw-card__content">
               <iframe style="width: 100%; height: 200px; border: 1px solid #ddd" src="top-app-bar-fixed.html"></iframe>
             </div>
-          </div>
-
-
+          </mdw-card>
         </section>
 
       </article>

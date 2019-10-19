@@ -74,20 +74,21 @@ export default class FAB extends Page {
           </div>
         </div>
 
-        <a href="https://material.io/design/components/buttons.html">Material Design Guidlines: Buttons</a>
+        <a href="https://material.io/design/components/buttons.html" target="_new">Material Design Guidlines: Buttons</a>
         <p>Buttons allow users to take actions, and make choices, with a single tap</p>
 
-        <!-- <div class="column">
+        <div class="links">
           <div class="eyebrow">contents</div>
-          <anchor-link selector="#Types">Types</anchor-link>
-          <anchor-link selector="#theming">Theming</anchor-link>
-        </div> -->
+          <anchor-link selector="#dense" offset="64">Dense</anchor-link>
+          <anchor-link selector="#extended" offset="64">Extended</anchor-link>
+          <anchor-link selector="#async" offset="64">Async with spinner</anchor-link>
+        </div>
 
         <section id="types">
           <h4>Types</h4>
 
           <!-- Dense -->
-          <mdw-card>
+          <mdw-card id="dense">
             <div class="mdw-card__content">
               <h6>Dense</h6>
             </div>
@@ -109,7 +110,7 @@ export default class FAB extends Page {
 
 
           <!-- extended -->
-          <mdw-card>
+          <mdw-card id="extended">
             <div class="mdw-card__content">
               <h6>Extended</h6>
             </div>
@@ -151,7 +152,7 @@ export default class FAB extends Page {
 
 
           <!-- async -->
-          <mdw-card>
+          <mdw-card id="async">
             <div class="mdw-card__content">
               <h6>Async with spinner</h6>
             </div>

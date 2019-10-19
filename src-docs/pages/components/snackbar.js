@@ -75,7 +75,7 @@ export default class Snackbar extends Page {
           </div>
         </div>
 
-        <a href="https://material.io/design/components/snackbars.html">Material Design Guidlines: Snackbars</a>
+        <a href="https://material.io/design/components/snackbars.html" target="_new">Material Design Guidlines: Snackbars</a>
         <p>Snackbars provide brief messages about app processes at the bottom of the screen</p>
 
 
@@ -87,7 +87,7 @@ export default class Snackbar extends Page {
               <h6>Service example</h6>
             </div>
 
-            <div class="mdw-card__content--no-padding" style="background-color: #f3f3f3;">
+            <div class="mdw-card__content--no-padding">
               <code-mirror type="javascript">
                 showSnackbar()
                   // MDWSnackbar is globally available

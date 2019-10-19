@@ -1,6 +1,6 @@
 {
   "name": "@webformula/pax-components",
-  "version": "0.5.2-beta",
+  "version": "0.5.3-beta",
   "description": "",
   "type": "module",
   "scripts": {
@@ -39,6 +39,6 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "github:webformula/pax-core#v0.4.4-beta"
+    "@webformula/pax-core": "github:webformula/pax-core#v0.4.6-beta"
   }
 }
