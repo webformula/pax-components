@@ -15,7 +15,7 @@ export default class BottomNavigation extends Page {
         <h3>Bottom navigation</h3>
 
         <div class="showcase">
-          <mdw-bottom-navigation>
+          <mdw-bottom-navigation style="background-color: var(--mdw-theme-primary); color: var(--mdw-theme-text--on-primary);">
             <mdw-button>
               <mdw-icon>home</mdw-icon>
             </mdw-button>

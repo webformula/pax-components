@@ -148,3 +148,14 @@ mdw-drawer mdw-list-item {
   border-radius: 4px;
   cursor: pointer;
 }
+
+mdw-drawer mdw-divider {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  color: rgba(0, 0, 0, 0.12);
+}
+
+mdw-drawer .mdw-subtitle {
+  margin-left: 16px;
+  color: #777;
+}

@@ -222,13 +222,6 @@ mdw-bottom-navigation {
   box-sizing: border-box;
   width: 100%;
   height: 56px;
-
-  background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-text--primary);
-
-  box-shadow: 0 -2px 4px -1px rgba(0,0,0,.2),
-              0 4px 5px 0 rgba(0,0,0,.14),
-              0 1px 10px 0 rgba(0,0,0,.12);
 }
 
 mdw-bottom-navigation mdw-button {
@@ -261,11 +254,15 @@ mdw-bottom-navigation mdw-bottom-navigation-fixed {
   justify-content: space-evenly;
 
   background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-text--primary);
+  color: var(--mdw-theme-text--on-primary);
 
   box-shadow: 0 -2px 4px -1px rgba(0,0,0,.2),
               0 4px 5px 0 rgba(0,0,0,.14),
               0 1px 10px 0 rgba(0,0,0,.12);
+}
+
+mdw-bottom-navigation mdw-button {
+  color: var(--mdw-theme-text--on-primary);
 }
 
 mdw-card {
@@ -762,6 +759,17 @@ mdw-drawer mdw-list-item {
   padding: 0 8px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+mdw-drawer mdw-divider {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  color: rgba(0, 0, 0, 0.12);
+}
+
+mdw-drawer .mdw-subtitle {
+  margin-left: 16px;
+  color: #777;
 }
 
 mdw-expander-arrow {
