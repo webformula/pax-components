@@ -5,8 +5,11 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_asyncClick = this.asyncClick.bind(this);
+    this.bound_hrefClick = this.hrefClick.bind(this);
+    this.bound_checkHREFActive = this.checkHREFActive.bind(this);
     this.cloneTemplate();
     this.setupAsync();
+    this.connectHREF();
   }
 
   connectedCallback() {
@@ -19,6 +22,8 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   disconnectedCallback() {
     this.ripple.destroy();
     this.removeEventListener('click', this.bound_asyncClick);
+    this.removeEventListener('click', this.bound_hrefClick);
+    window.removeEventListener('hashchange', this.bound_checkHREFActive);
   }
 
   get spinnerContainer() {
@@ -58,6 +63,26 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this._showSpinner = false;
     this.classList.remove('mdw-show-spinner');
     this.spinnerContainer.innerHTML = '';
+  }
+
+  connectHREF() {
+    if (!this.hasAttribute('href')) return;
+    this.checkHREFActive();
+    window.addEventListener('hashchange', this.bound_checkHREFActive);
+    this.addEventListener('click', this.bound_hrefClick);
+  }
+
+  checkHREFActive() {
+    if (!this.hasAttribute('href')) return;
+    const href = document.location.href;
+    const hash = document.location.hash;
+    if (href === this.getAttribute('href') || href === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
+    else if (hash === this.getAttribute('href') || hash === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
+    else this.removeAttribute('active');
+  }
+
+  hrefClick() {
+    document.location.href = this.getAttribute('href');
   }
 
   template() {
