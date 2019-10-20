@@ -36,10 +36,6 @@ mdw-backdrop-back mdw-backdrop-header mdw-button {
   color: var(--mdw-theme-text--on-primary);
 }
 
-mdw-backdrop-back mdw-backdrop-header mdw-button mdw-icon {
-  line-height: 20px;
-}
-
 mdw-backdrop-back mdw-backdrop-header mdw-button + .mdw-title {
   margin-left: 20px;
 }
