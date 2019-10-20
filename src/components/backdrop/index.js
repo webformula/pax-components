@@ -6,7 +6,7 @@ customElements.define('mdw-backdrop', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    this.frontElement.classList.add('mdw-elevation-1');
+    // this.frontElement.classList.add('mdw-elevation-1--shadow');
   }
 
   get frontElement() {
@@ -31,13 +31,12 @@ customElements.define('mdw-backdrop', class extends HTMLElementExtended {
   }
 
   toggle() {
-    console.log('toggle', this.expanded_);
     if (this.expanded_ === true) this.contract();
     else this.expand();
   }
 
   expand() {
-    this.frontElement.style.top = `${this.backContenHeight}px`;
+    this.frontElement.style.top = `${this.backContenHeight - 56}px`;
     this.expanded_ = true;
   }
 

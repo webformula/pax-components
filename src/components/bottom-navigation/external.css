@@ -12,6 +12,11 @@ mdw-bottom-navigation mdw-button {
   flex-direction: column;
   justify-content: center;
   height: auto;
+  opacity: 0.7;
+}
+
+mdw-bottom-navigation mdw-button[active] {
+  opacity: 1;
 }
 
 mdw-bottom-navigation mdw-button mdw-icon {

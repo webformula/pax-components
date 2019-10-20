@@ -1,8 +1,9 @@
+import { css } from '@webformula/pax-core';
+
 export default function () {
-  return `
+  return css`
     :root {
       /* --- text --- */
-
       --mdw-theme-text--primary--light: #ffffff;
       --mdw-theme-text--secondary--light: rgba(255,255,255, .7);
       --mdw-theme-text--error--light: rgba(255,255,255, .7);
@@ -37,7 +38,6 @@ export default function () {
 
 
       /* --- surfaces and backgrounds --- */
-
       --mdw-theme-background--light: #fafafa;
       --mdw-theme-background--dark: #121212;
 
@@ -58,7 +58,6 @@ export default function () {
 
 
       /* --- one offs for components --- */
-
       --mdw-theme-switchtrack--light: #000000;
       --mdw-theme-switchtrack--dark: rgba(255,255,255, .32);
 
