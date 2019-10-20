@@ -1,4 +1,5 @@
 // TODO enable configuration of theme on load
+import baseTheme from './base-theme.js';
 
 const MDWTheme = new class {
   constructor() {
@@ -7,14 +8,14 @@ const MDWTheme = new class {
     this.textRegex = /(?<base>--mdw-theme-text--)(?<on>on-\w*)?(?<state>\w*)--(?<contrast>\w*)$/;
     this.contentWithContrastRegex = /(?<base>--mdw-theme-)(?<content>\w*)--(?<contrast>\w*)$/;
     this.contrast_ = 'light';
-
-    const initialConfig = Object.assign({
-      contrast: 'light',
+    this.palettes = {
       primary: 'deeppurple',
       secondary: 'teal',
       error: 'red'
-    }, window.MDWThemeConfig);
+    };
 
+    this.createBaseThemeStyleElement();
+    const initialConfig = Object.assign({ contrast: 'light' }, this.palettes, window.MDWThemeConfig);
     this.setPalettes(initialConfig);
     if (['light', 'dark'].indexOf(initialConfig.contrast) > -1) this.contrast = initialConfig.contrast;
     this.categorize();
@@ -129,12 +130,7 @@ const MDWTheme = new class {
 
   // parse out variables in :root
   getAllVars() {
-    return [...document.styleSheets]
-      .filter(s => s.href === null || s.href.startsWith(window.location.origin))
-      .reduce((a, sheet) => a.concat([...sheet.cssRules].reduce((a2, rule) => {
-        if (rule.selectorText === ':root') return a2.concat([...rule.style].filter(n => n.startsWith('--')));
-        return a2;
-      }, [])), []);
+    return [...baseTheme().matchAll(/(.*?):.*?;/g)].map(a => a[1].trim());
   }
 
   getUnmatched() {
@@ -183,6 +179,13 @@ const MDWTheme = new class {
   convertToRGB(hex) {
     const result = this.hexREGEX.exec(hex.trim());
     return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+  }
+
+  createBaseThemeStyleElement() {
+    const styleNode = document.createElement('style');
+    document.head.appendChild(styleNode);
+    styleNode.type = 'text/css';
+    styleNode.appendChild(document.createTextNode(baseTheme()));
   }
 };
 
