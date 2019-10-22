@@ -17,6 +17,7 @@ export default function () {
             <a href="#/documentation/install">Installation</a>
             <a href="#/documentation/browsers">Browser compatability</a>
             <a href="#/documentation/theme">Theming</a>
+            <a href="#/documentation/layout">Layout</a>
             <!-- <a href="#/documentation/mobile">Mobile</a> -->
             <a href="https://github.com/webformula/pax-components" target="_new">Github</a>
 

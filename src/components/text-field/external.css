@@ -15,6 +15,11 @@ mdw-textfield {
   background-color: var(--mdw-theme-textfield_background);
 }
 
+mdw-textfield.mdw-invalid {
+  border-bottom-color: var(--mdw-theme-error);
+}
+
+
 mdw-textfield.mdw-textarea {
   padding-top: 18px;
 }
@@ -58,10 +63,25 @@ mdw-textfield.mdw-outlined:not(.mdw-upgraded) {
   border-radius: 4px;
 }
 
+mdw-textfield.mdw-invalid.mdw-outlined:not(.mdw-upgraded) {
+  border-color: var(--mdw-theme-error);
+}
+
+
 mdw-textfield.mdw-outlined:not(.mdw-upgraded):focus-within {
   border: 2px solid;
   border-color: var(--mdw-theme-primary-A200);
 }
+
+mdw-textfield.mdw-invalid.mdw-outlined:not(.mdw-upgraded):focus-within {
+  border-color: var(--mdw-theme-error);
+}
+
+mdw-textfield.mdw-invalid.mdw-outlined:not(.mdw-upgraded):focus-within {
+  border-color: var(--mdw-theme-error);
+}
+
+
 
 
 /* --- input --- */
@@ -96,6 +116,12 @@ mdw-textfield input {
   border-bottom-color: var(--mdw-theme-outline_border);
   color: var(--mdw-theme-text--on-background);
   caret-color: var(--mdw-theme-primary-A200);
+}
+
+mdw-textfield.mdw-invalid textarea,
+mdw-textfield.mdw-invalid input {
+  border-bottom-color: var(--mdw-theme-error);
+  caret-color: var(--mdw-theme-error-A200);
 }
 
 mdw-textfield mdw-icon:not([onclick]) {
@@ -172,6 +198,10 @@ mdw-textfield label {
   color: var(--mdw-theme-text--on-background);
 }
 
+mdw-textfield.mdw-invalid label {
+  color: var(--mdw-theme-error);
+}
+
 mdw-textfield.mdw-no-animation label {
   transition: none;
 }
@@ -193,12 +223,16 @@ mdw-textfield.mdw-upgraded:focus-within label {
   color: var(--mdw-theme-primary-A200);
 }
 
+mdw-textfield.mdw-invalid.mdw-upgraded:focus-within label {
+  color: var(--mdw-theme-error);
+}
+
 mdw-textfield input[type="date"] + label {
   transform: translateY(-50%) scale(.75);
 }
 
-mdw-textfield textarea:invalid + label,
-mdw-textfield input:invalid + label {
+mdw-textfield.mdw-invalid textarea + label,
+mdw-textfield.mdw-invalid input + label {
   color: var(--mdw-theme-error);
 }
 
@@ -236,6 +270,10 @@ mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
   background-color: var(--mdw-theme-primary-A200);
 }
 
+mdw-textfield.mdw-invalid .mdw-line-ripple {
+  background-color: var(--mdw-theme-error);
+}
+
 mdw-textfield:not(.mdw-outlined):focus-within div.mdw-line-ripple,
 mdw-textfield:not(.mdw-outlined):focus-within div.mdw-line-ripple {
   transform: scaleX(1);
@@ -246,6 +284,10 @@ mdw-textfield:not(.mdw-outlined):focus-within div.mdw-line-ripple {
 mdw-textfield:not(.mdw-outlined):not(.mdw-upgraded) input:focus:nth-last-child(2) {
   border-bottom: 2px solid;
   border-bottom-color: var(--mdw-theme-primary-A200);
+}
+
+mdw-textfield.mdw-invalid:not(.mdw-outlined):not(.mdw-upgraded) input:focus:nth-last-child(2) {
+  border-bottom-color: var(--mdw-theme-error);
 }
 
 
@@ -306,11 +348,23 @@ mdw-textfield .mdw-outlined-trailing {
   border-color: var(--mdw-theme-outline_border);
 }
 
+mdw-textfield.mdw-invalid .mdw-outlined-leading,
+mdw-textfield.mdw-invalid .mdw-outlined-notch,
+mdw-textfield.mdw-invalid .mdw-outlined-trailing {
+  color: var(--mdw-theme-error);
+}
+
 mdw-textfield:focus-within .mdw-outlined-leading,
 mdw-textfield:focus-within .mdw-outlined-notch,
 mdw-textfield:focus-within .mdw-outlined-trailing {
   border-width: 2px;
   border-color: var(--mdw-theme-primary-A200);
+}
+
+mdw-textfield:focus-within.mdw-invalid  .mdw-outlined-leading,
+mdw-textfield:focus-within.mdw-invalid  .mdw-outlined-notch,
+mdw-textfield:focus-within.mdw-invalid  .mdw-outlined-trailing {
+  border-color: var(--mdw-theme-error);
 }
 
 mdw-textfield input:invalid ~ .mdw-outlined-leading,
@@ -410,7 +464,7 @@ mdw-textfield mdw-icon {
 }
 
 mdw-textfield:not(:disabled) mdw-icon {
-  color: var(--mdw-theme-text--secondary-);
+  color: var(--mdw-theme-text--body);
 }
 
 mdw-textfield > mdw-icon {

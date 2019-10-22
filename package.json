@@ -1,6 +1,6 @@
 {
   "name": "@webformula/pax-components",
-  "version": "0.5.10-beta",
+  "version": "0.5.11-beta",
   "description": "",
   "type": "module",
   "scripts": {
@@ -8,7 +8,8 @@
     "mobile": "nodemon --exec \"npm run build:mobile\" & npm run serve",
     "kill8080": "lsof -ti:8080 | xargs kill",
     "serve": "http-server dist-docs/ -p 8081",
-    "build": "rm -rf dist-docs && rm -rf dist-files && npm run build:components && npm run build:css && npm run build:package && npm run build:docs",
+    "build": "npm run build:components && npm run build:css && npm run build:package && npm run build:docs",
+    "build:remove-old": "rm -rf dist-docs && rm -rf dist-files ",
     "build:mobile": "rm -rf dist-docs && rm -rf dist-files && npm run build:components && npm run build:css && npm run build:package:mobile && npm run build:docs",
     "build:components": "node --experimental-modules build.js",
     "build:css": "cp dist-files/app.css dist/pax-components.css",

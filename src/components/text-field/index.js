@@ -21,6 +21,8 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     this.input.addEventListener('focus', this.bound_onFocus);
     this.input.addEventListener('blur', this.bound_onBlur);
     this.input.addEventListener('input', this.bound_onInput);
+
+    this.classList.toggle('mdw-invalid', !this.valid);
   }
 
   disconnectedCallback() {
@@ -69,15 +71,11 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   onBlur() {
     this.classList.toggle('not-empty', !!this.input.value.length);
-    this.valid = this.input.validity.valid;
-    this.classList.toggle('invalid', !this.valid);
+    this.classList.toggle('mdw-invalid', !this.valid);
   }
 
   onInput() {
-    if (this.valid !== this.input.validity.valid) {
-      this.valid = this.input.validity.valid;
-      this.classList.toggle('invalid', !this.valid);
-    }
+    this.classList.toggle('mdw-invalid', !this.valid);
   }
 
   setNotchWidth() {
@@ -94,6 +92,10 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   isTextarea() {
     return !!this.querySelector('textarea');
+  }
+
+  get valid() {
+    return this.input.validity.valid;
   }
 
   get outlined() {

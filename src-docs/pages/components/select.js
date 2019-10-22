@@ -60,8 +60,8 @@ export default class Selects extends Page {
               </code-mirror>
             </div>
 
-            <div class="mdw-card__content row">
-              <mdw-select flex="1">
+            <div class="mdw-card__content mdw-row">
+              <mdw-select mdw-flex="1">
                 <select>
                   <!-- empty select to start -->
                   <option disabled selected></option>
@@ -70,7 +70,7 @@ export default class Selects extends Page {
                 </select>
                 <label>Select</label>
               </mdw-select>
-              <span flex="1"></span>
+              <span mdw-flex="1"></span>
             </div>
           </mdw-card>
 
@@ -96,8 +96,8 @@ export default class Selects extends Page {
               </code-mirror>
             </div>
 
-            <div class="mdw-card__content row">
-              <mdw-select class="mdw-padding" mdw-enhanced flex="1">
+            <div class="mdw-card__content mdw-row">
+              <mdw-select class="mdw-padding" mdw-enhanced mdw-flex="1">
                 <select>
                   <option value="1" selected>item one</option>
                   <option value="2">item two</option>
@@ -107,7 +107,7 @@ export default class Selects extends Page {
                 </select>
                 <label>Floating label</label>
               </mdw-select>
-              <span flex="1"></span>
+              <span mdw-flex="1"></span>
             </div>
           </mdw-card>
 
@@ -134,8 +134,8 @@ export default class Selects extends Page {
               </code-mirror>
             </div>
 
-            <div class="mdw-card__content row">
-              <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced flex="1">
+            <div class="mdw-card__content mdw-row">
+              <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced mdw-flex="1">
                 <select>
                   <option value="1">item one</option>
                   <option value="2">item two</option>
@@ -145,7 +145,7 @@ export default class Selects extends Page {
                 </select>
                 <label>Floating label</label>
               </mdw-select>
-              <span flex="1"></span>
+              <span mdw-flex="1"></span>
             </div>
           </mdw-card>
         </section>

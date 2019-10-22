@@ -150,7 +150,7 @@ export default class Sheets extends Page {
               </code-mirror>
             </div>
 
-            <div class="mdw-card__content row">
+            <div class="mdw-card__content mdw-row">
               <mdw-button onclick="document.querySelector('#modal-basic-sheet').toggle()">show</mdw-button>
               <mdw-sheet mdw-modal id="modal-basic-sheet" mdw-title="Top title">
                 <mdw-sheet-content>
@@ -215,7 +215,7 @@ export default class Sheets extends Page {
               </code-mirror>
             </div>
 
-            <div class="mdw-card__content row">
+            <div class="mdw-card__content mdw-row">
               <mdw-button onclick="document.querySelector('#modal-header-sheet').toggle()">show</mdw-button>
               <mdw-sheet mdw-modal id="modal-header-sheet">
                 <mdw-sheet-header>
