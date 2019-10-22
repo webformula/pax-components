@@ -464,7 +464,7 @@ mdw-textfield mdw-icon {
 }
 
 mdw-textfield:not(:disabled) mdw-icon {
-  color: var(--mdw-theme-text--on-surface);
+  color: var(--mdw-theme-text--body);
 }
 
 mdw-textfield > mdw-icon {
