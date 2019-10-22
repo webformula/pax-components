@@ -266,7 +266,7 @@ export default class ThemePage extends Page {
 
       <section>
         <!-- <a href="#/documentation/mobile">next: Mobile</a> -->
-        <a href="#/components/buttons">components: Buttons</a>
+        <a href="#/documentation/layout">Documentation: Layout</a>
       </section>
     </article>
     `;

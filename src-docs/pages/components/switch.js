@@ -86,16 +86,16 @@ export default class Switch extends Page {
 
             <div class="mdw-card__content--no-padding">
               <code-mirror mode="html">
-                <mdw-switch flex="1" onchange="" checked></mdw-switch>
-                <mdw-switch class="mdw-primary" flex="1" onchange="" checked></mdw-switch>
-                <mdw-switch class="mdw-error" flex="1" onchange="" checked></mdw-switch>
+                <mdw-switch mdw-flex="1" onchange="" checked></mdw-switch>
+                <mdw-switch class="mdw-primary" mdw-flex="1" onchange="" checked></mdw-switch>
+                <mdw-switch class="mdw-error" mdw-flex="1" onchange="" checked></mdw-switch>
               </code-mirror>
             </div>
 
-            <div class="mdw-card__content row">
-              <mdw-switch flex="1" onchange="" checked></mdw-switch>
-              <mdw-switch class="mdw-primary" flex="1" onchange="" checked></mdw-switch>
-              <mdw-switch class="mdw-error" flex="1" onchange="" checked></mdw-switch>
+            <div class="mdw-card__content mdw-row">
+              <mdw-switch mdw-flex="1" onchange="" checked></mdw-switch>
+              <mdw-switch class="mdw-primary" mdw-flex="1" onchange="" checked></mdw-switch>
+              <mdw-switch class="mdw-error" mdw-flex="1" onchange="" checked></mdw-switch>
             </div>
           </mdw-card>
         </section>

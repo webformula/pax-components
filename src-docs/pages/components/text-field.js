@@ -61,8 +61,8 @@ export default class Textfield extends Page {
       <article class="page-article">
         <h3>Textfield</h3>
 
-        <div row>
-          <div flex=".33" column>
+        <div mdw-row>
+          <div mdw-flex=".33" mdw-column>
             <mdw-select id="varient-select" class="mdw-padding" mdw-enhanced>
               <select onchange="$Textfield.onVarientChange(this.value)">
                 <option value="filled" selected>Filled</option>
@@ -88,7 +88,7 @@ export default class Textfield extends Page {
             </mdw-select>
           </div>
 
-          <div flex=".66">
+          <div mdw-flex=".66">
             <div class="showcase mdw-elevation-1">
               <mdw-textfield id="one">
                 <input>
