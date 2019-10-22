@@ -4,6 +4,11 @@ customElements.define('mdw-icon', class extends HTMLElementExtended {
   constructor() {
     super();
     this.cloneTemplate();
+    if (this.hasAttribute('mdw-src')) this.render();
+  }
+
+  get src() {
+    return this.getAttribute('mdw-src');
   }
 
   styles() {
@@ -25,6 +30,11 @@ customElements.define('mdw-icon', class extends HTMLElementExtended {
         -webkit-font-smoothing: antialiased;
       }
 
+      :host img {
+        width: 24px;
+        height: 24px;
+      }
+
 
       :host(.mdw-primary) {
         color: var(--mdw-theme-primary);
@@ -42,6 +52,8 @@ customElements.define('mdw-icon', class extends HTMLElementExtended {
 
 
   template() {
+    const src = this.src;
+    if (src) return `<img src="${src}"></img>`;
     return '<slot></slot>';
   }
 });

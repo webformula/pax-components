@@ -1157,6 +1157,7 @@ mdw-list-item:not([disabled]):after {
 
 /* graphic */
 
+mdw-list-item > mdw-icon:not(.mdw-list-item__meta),
 .mdw-list-item__graphic {
   display: inline-flex;
   margin-left: 0;

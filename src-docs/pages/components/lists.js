@@ -67,7 +67,7 @@ export default class List extends Page {
           <mdw-list>
             ${this.listData.map(t => `
               <mdw-list-item>
-                <span class="mdw-list-item__graphic material-icons">inbox</span>
+                <mdw-icon>inbox</mdw-icon>
                 ${t}
               </mdw-list-item>
             `).join('\n')}
@@ -91,7 +91,7 @@ export default class List extends Page {
                 <!-- mdw-select-onclick will make the entire list-item select on click. Otherwise it will be just the checkbox -->
                 <mdw-list mdw-select="single or multiple" mdw-select-onclick class="mdw-two-line">
                   <mdw-list-item>
-                    <span class="mdw-list-item__graphic material-icons">inbox</span>
+                    <mdw-icon>inbox</mdw-icon>
                     <div class="mdw-list-item__text">
                       <div class="mdw-list-item__primary-text">
                         Two
@@ -125,7 +125,7 @@ export default class List extends Page {
               <mdw-list id="select-list" mdw-select="single" mdw-select-onclick onchange="document.querySelector('#show-selected').innerText = this.selected.join(', ')" class="mdw-two-line">
                 ${this.selectListData.map(t => `
                   <mdw-list-item>
-                    <span class="mdw-list-item__graphic material-icons">inbox</span>
+                    <mdw-icon>inbox</mdw-icon>
                     <div class="mdw-list-item__text">
                       <div class="mdw-list-item__primary-text">
                         ${t.label}
@@ -150,7 +150,7 @@ export default class List extends Page {
             <div class="mdw-card__content--no-padding">
               <code-mirror type="html">
                 <mdw-list-item active>
-                  <span class="mdw-list-item__graphic material-icons">inbox</span>
+                  <mdw-icon>inbox</mdw-icon>
                   <div class="mdw-list-item__text">
                     <div class="mdw-list-item__primary-text">
                       Main
@@ -169,7 +169,7 @@ export default class List extends Page {
               <mdw-list class="mdw-two-line">
                 ${this.listHugeData.map(t => `
                   <mdw-list-item ${t.id === 1 ? 'active' : ''}>
-                    <span class="mdw-list-item__graphic material-icons">inbox</span>
+                    <mdw-icon>inbox</mdw-icon>
                     <div class="mdw-list-item__text">
                       <div class="mdw-list-item__primary-text">
                         ${t.label}
@@ -178,7 +178,7 @@ export default class List extends Page {
                         ${t.secondary}
                       </div>
                     </div>
-                    <span class="mdw-list-item__meta material-icons">info</span>
+                    <mdw-icon class="mdw-list-item__meta">info</mdw-icon>
                     <div class="mdw-ripple mdw-list-item-ripple"></div>
                   </mdw-list-item>
                 `).join('\n')}
