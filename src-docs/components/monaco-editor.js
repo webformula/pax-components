@@ -34,6 +34,11 @@ customElements.define('monaco-editor', class extends HTMLElementExtended {
         enabled: false
       }
     });
+
+    // prevent keyboard from opening on mobile
+    [...this.querySelectorAll('textarea')].forEach(el => {
+      el.setAttribute('readonly', 'readonly');
+    });
   }
 
   singleLineString(strings, ...values) {
