@@ -21,14 +21,18 @@ export default function ({ head, body, title }) {
         <script type="module" src="pax-components.js"></script>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css">
-        <link rel="stylesheet" href="one-dark.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/addon/runmode/runmode-standalone.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/javascript/javascript.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/xml/xml.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/mode/css/css.js"></script>
+        <script src="vs/loader.js"></script>
 
         <script>
+          require(['vs/editor/editor.main'], function () {
+            fetch('vs/themes/NightOwl.json')
+              .then(data => data.json())
+              .then(data => {
+                monaco.editor.defineTheme('NightOwl', data);
+                // monaco.editor.setTheme('NightOwl');
+                window.monacoLoaded = true;
+              });
+          });
           window.paxVersion = '0.5.2-beta';
           window.MDWThemeConfig = {
             contrast: 'light', // default is light

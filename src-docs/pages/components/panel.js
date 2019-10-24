@@ -135,7 +135,7 @@ export default class Panel extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <div class="small-container mdw-panel--container">
                   <mdw-panel mdw-position="top left" class="mdw-open">
                     <div style="padding: 12px;">
@@ -143,7 +143,7 @@ export default class Panel extends Page {
                     </div>
                   </mdw-panel>
                 </div>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="height: 120px;">
@@ -163,7 +163,7 @@ export default class Panel extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <div class="mdw-panel--container">
                   <mdw-panel mdw-position="inner-top inner-left" class="mdw-open">
                     <div style="padding: 12px;">
@@ -171,7 +171,7 @@ export default class Panel extends Page {
                     </div>
                   </mdw-panel>
                 </div>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="height: 120px;">

@@ -53,7 +53,7 @@ export default class Banners extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="javascript">
+              <monaco-editor language="javascript">
                 // MDWBanner is globally available
                 // Only 1 item will show at a time
                 //   The rest of the items are queued up and will
@@ -73,7 +73,7 @@ export default class Banners extends Page {
                     else console.log('banner dismissed');
                   });
                 };
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -89,12 +89,12 @@ export default class Banners extends Page {
 
           <div class="codecase">
             <div class="title">Colors</div>
-            <code-mirror mode="html">
+            <monaco-editor language="html">
               <mdw-button raised>base</mdw-button>
               <mdw-button raised class="primary">primary</mdw-button>
               <mdw-button raised class="secondary">secondary</mdw-button>
               <mdw-button raised class="error">error</mdw-button>
-            </code-mirror>
+            </monaco-editor>
             <div class="demo">
               <mdw-button raised>base</mdw-button>
               <mdw-button raised class="primary">primary</mdw-button>

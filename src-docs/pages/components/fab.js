@@ -94,11 +94,11 @@ export default class FAB extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-fab class="mdw-dense mdw-error">
                   <mdw-icon>delete</mdw-icon>
                 </mdw-fab>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -116,7 +116,7 @@ export default class FAB extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-fab class="mdw-extended mdw-primary">
                   <mdw-icon>add</mdw-icon>
                   create
@@ -130,7 +130,7 @@ export default class FAB extends Page {
                 <mdw-fab class="mdw-extended mdw-error">
                   remove
                 </mdw-fab>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -158,7 +158,7 @@ export default class FAB extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-fab class="mdw-primary" mdw-async onclick="$FAB.mockWait(this)">
                   <mdw-icon>create</mdw-icon>
                 </mdw-fab>
@@ -166,8 +166,8 @@ export default class FAB extends Page {
                 <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="$FAB.mockWait(this)">
                   <mdw-icon>create</mdw-icon>
                 </mdw-fab>
-              </code-mirror>
-              <code-mirror mode="javascript">
+              </monaco-editor>
+              <monaco-editor language="javascript">
                 class Buttons extends Page {
                   constructor() {
                     super();
@@ -180,7 +180,7 @@ export default class FAB extends Page {
                     }, 3000);
                   }
                 }
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">

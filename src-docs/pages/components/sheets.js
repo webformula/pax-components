@@ -124,7 +124,7 @@ export default class Sheets extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-sheet mdw-modal mdw-title="Top title">
                   <mdw-sheet-content>
                     <mdw-list>
@@ -147,7 +147,7 @@ export default class Sheets extends Page {
                     </mdw-list>
                   </mdw-sheet-content>
                 </mdw-sheet>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content mdw-row">
@@ -185,7 +185,7 @@ export default class Sheets extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-sheet mdw-modal>
                   <mdw-sheet-header>
                     <mdw-sheet-title>Test title</mdw-sheet-title>
@@ -212,7 +212,7 @@ export default class Sheets extends Page {
                     </mdw-list>
                   </mdw-sheet-content>
                 </mdw-sheet>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content mdw-row">

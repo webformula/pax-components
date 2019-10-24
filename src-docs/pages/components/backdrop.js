@@ -23,8 +23,8 @@ export default class Backdrop extends Page {
 
           <div class="codecase mdw-elevation-1">
             <div class="title">Basic</div>
-            <code-mirror mode="html">
-            </code-mirror>
+            <monaco-editor language="html">
+            </monaco-editor>
             <div class="demo">
               <iframe style="margin: auto; width: 320px; height: 560px; border: 1px solid #ddd" src="basic-backdrop.html"></iframe>
             </div>

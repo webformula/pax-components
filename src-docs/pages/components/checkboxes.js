@@ -48,7 +48,7 @@ export default class Checkboxes extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <span>
                   <label class="mdw-checkbox-label">Label</label>
                   <mdw-checkbox></mdw-checkbox>
@@ -60,7 +60,7 @@ export default class Checkboxes extends Page {
                   <mdw-checkbox></mdw-checkbox>
                   <label>Label</label>
                 </span>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -86,9 +86,9 @@ export default class Checkboxes extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-checkbox></mdw-checkbox>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -104,9 +104,9 @@ export default class Checkboxes extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-checkbox checked></mdw-checkbox>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -121,9 +121,9 @@ export default class Checkboxes extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-checkbox indeterminate class="mdw-primary"></mdw-checkbox>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -144,12 +144,12 @@ export default class Checkboxes extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-checkbox checked></mdw-checkbox>
                 <mdw-checkbox checked class="mdw-primary"></mdw-checkbox>
                 <mdw-checkbox checked class="mdw-secondary"></mdw-checkbox>
                 <mdw-checkbox checked class="mdw-error"></mdw-checkbox>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">

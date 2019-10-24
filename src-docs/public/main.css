@@ -1,3 +1,14 @@
+monaco-editor {
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  margin: 20px 0;
+}
+
+.monaco-editor {
+  padding: 12px 0;
+}
+
 .palette-color-block {
   padding: 9px 26px;
   font-size: 12px;

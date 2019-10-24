@@ -48,7 +48,7 @@ export default class Selects extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-select>
                   <select>
                     <option disabled selected></option>
@@ -57,7 +57,7 @@ export default class Selects extends Page {
                   </select>
                   <label>Select</label>
                 </mdw-select>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content mdw-row">
@@ -82,7 +82,7 @@ export default class Selects extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-select class="mdw-padding" mdw-enhanced>
                   <select>
                     <option value="1" selected>item one</option>
@@ -93,7 +93,7 @@ export default class Selects extends Page {
                   </select>
                   <label>Floating label</label>
                 </mdw-select>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content mdw-row">
@@ -120,7 +120,7 @@ export default class Selects extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced>
                   <select>
                     <option value="1">item one</option>
@@ -131,7 +131,7 @@ export default class Selects extends Page {
                   </select>
                   <label>Floating label</label>
                 </mdw-select>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content mdw-row">

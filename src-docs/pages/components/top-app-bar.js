@@ -40,7 +40,7 @@ export default class TopAppBar extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-top-app-bar class="mdw-fixed">
                   <section>
                     <mdw-icon>menu</mdw-icon>
@@ -50,7 +50,7 @@ export default class TopAppBar extends Page {
                     <mdw-icon>bookmark</mdw-icon>
                   </section>
                 </mdw-top-app-bar>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -64,7 +64,7 @@ export default class TopAppBar extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-top-app-bar class="mdw-fixed">
                   <section>
                     <mdw-icon>menu</mdw-icon>
@@ -74,7 +74,7 @@ export default class TopAppBar extends Page {
                     <mdw-icon>bookmark</mdw-icon>
                   </section>
                 </mdw-top-app-bar>
-              </code-mirror>
+              </monaco-editor>
             </div>
             <div class="mdw-card__content">
               <iframe style="width: 100%; height: 200px; border: 1px solid #ddd" src="top-app-bar-fixed.html"></iframe>

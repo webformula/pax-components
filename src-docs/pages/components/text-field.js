@@ -153,12 +153,12 @@ export default class Textfield extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <mdw-textfield class="mdw-outlined">
                   <input>
                   <label>label</label>
                 </mdw-textfield>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content block">
@@ -176,7 +176,7 @@ export default class Textfield extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <mdw-textfield>
                   <input>
                   <label>With helper text</label>
@@ -185,7 +185,7 @@ export default class Textfield extends Page {
                     <mdw-helper-text persistent>Helper text</mdw-helper-text>
                   </mdw-textfield-helper>
                 </mdw-textfield>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content block">
@@ -208,7 +208,7 @@ export default class Textfield extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <mdw-textfield>
                   <input required>
                   <label>With validation text</label>
@@ -218,7 +218,7 @@ export default class Textfield extends Page {
                     <mdw-helper-text validation>Required</mdw-helper-text>
                   </mdw-textfield-helper>
                 </mdw-textfield>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content block">
@@ -241,13 +241,13 @@ export default class Textfield extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <mdw-textfield>
                   <mdw-icon>calendar</mdw-icon>
                   <input required>
                   <label>With validation text</label>
                 </mdw-textfield>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -277,12 +277,12 @@ export default class Textfield extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <mdw-textfield>
                   <textarea></textarea>
                   <label>label</label>
                 </mdw-textfield>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content block">

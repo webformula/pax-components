@@ -61,7 +61,7 @@ export default class Menu extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-menu>
                   <mdw-button>show menu</mdw-button>
                   <mdw-menu-content>
@@ -87,7 +87,7 @@ export default class Menu extends Page {
                     </mdw-list>
                   </mdw-menu-content>
                 </mdw-menu>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block; overflow: visible;">
