@@ -88,7 +88,7 @@ export default class Snackbar extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="javascript">
+              <monaco-editor language="javascript">
                 showSnackbar()
                   // MDWSnackbar is globally available
                   // Only 1 item will show at a time
@@ -102,11 +102,11 @@ export default class Snackbar extends Page {
                     console.log(data);
                   });
                 }
-              </code-mirror>
+              </monaco-editor>
 
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <mdw-button onclick="$Snackbar.showSnackbar()">show snackbar</mdw-button>
-              </code-mirror>
+              </monaco-editor>
             </div>
           </mdw-card>
         </section>

@@ -147,7 +147,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="javascript">
+              <monaco-editor language="javascript">
                 MDWDialog.show({
                   title: 'Title',
                   message: 'message message 123',
@@ -156,7 +156,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
                 }).then(function (data) {
                   console.log(data);
                 });
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -173,7 +173,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="javascript">
+              <monaco-editor language="javascript">
                 MDWDialog.show({
                   title: 'Title',
                   message: 'message message 123',
@@ -183,7 +183,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
                 }).then(function (data) {
                   console.log(data);
                 });
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -199,7 +199,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-dialog>
                   <mdw-panel>
                     <mdw-dialog-container>
@@ -219,7 +219,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
                   document.querySelector('#d1').hoistToBody();
                   document.querySelector('#d1').show();
                 -->
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -234,7 +234,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-dialog>
                   <mdw-panel>
                     <mdw-dialog-container>
@@ -249,7 +249,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
                     </mdw-dialog-container>
                   </mdw-panel>
                 </mdw-dialog>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">

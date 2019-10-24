@@ -51,7 +51,7 @@ export default class Radio extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-radio-group mdw-value="${this.initialValue}">
                   <mdw-radio>
                     <label>On</label>
@@ -65,7 +65,7 @@ export default class Radio extends Page {
                     <input value="off">
                   </mdw-radio>
                 </mdw-radio-group>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -91,7 +91,7 @@ export default class Radio extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-radio-group>
                   <mdw-radio>
                     <input value="on">
@@ -103,7 +103,7 @@ export default class Radio extends Page {
                     <input value="off">
                   </mdw-radio>
                 </mdw-radio-group>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -130,7 +130,7 @@ export default class Radio extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-radio-group mdw-column>
                   <mdw-radio>
                     <input value="on">
@@ -142,7 +142,7 @@ export default class Radio extends Page {
                     <input value="off">
                   </mdw-radio>
                 </mdw-radio-group>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -166,7 +166,7 @@ export default class Radio extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-radio-group mdw-column>
                   <mdw-radio>
                     <label>On</label>
@@ -180,7 +180,7 @@ export default class Radio extends Page {
                     <input value="off">
                   </mdw-radio>
                 </mdw-radio-group>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">

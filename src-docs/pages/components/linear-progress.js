@@ -54,9 +54,9 @@ export default class LinearProgress extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-linear-progress mdw-percent="50"></mdw-linear-progress>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -71,9 +71,9 @@ export default class LinearProgress extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-linear-progress mdw-mode="indeterminate"></mdw-linear-progress>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -92,12 +92,12 @@ export default class LinearProgress extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-linear-progress mdw-mode="indeterminate" class="mdw-primary" ></mdw-linear-progress>
                 <mdw-linear-progress mdw-mode="indeterminate" class="mdw-secondary" ></mdw-linear-progress>
                 <mdw-linear-progress mdw-mode="indeterminate" class="mdw-error" ></mdw-linear-progress>
                 <mdw-linear-progress mdw-mode="indeterminate" class="mdw-grey"></mdw-linear-progress>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">

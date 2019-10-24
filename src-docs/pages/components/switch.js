@@ -43,7 +43,7 @@ export default class Switch extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <div class="column">
                   <div>
                     <label>On left</label>
@@ -57,7 +57,7 @@ export default class Switch extends Page {
                     <label>On right</label>
                   </div>
                 </div>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -85,11 +85,11 @@ export default class Switch extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-switch mdw-flex="1" onchange="" checked></mdw-switch>
                 <mdw-switch class="mdw-primary" mdw-flex="1" onchange="" checked></mdw-switch>
                 <mdw-switch class="mdw-error" mdw-flex="1" onchange="" checked></mdw-switch>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content mdw-row">

@@ -50,9 +50,9 @@ export default class Slider extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-slider min="0" max="100" step="10" value="50" class="mdw-primary"></mdw-slider>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -67,9 +67,9 @@ export default class Slider extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-slider min="50" max="100" value="0" class="mdw-error"></mdw-slider>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">

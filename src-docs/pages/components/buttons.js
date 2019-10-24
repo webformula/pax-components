@@ -58,10 +58,10 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-button class="mdw-raised">raised</mdw-button>
                 <mdw-button class="mdw-raised mdw-primary">raised primary</mdw-button>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -79,10 +79,10 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-button class="mdw-outlined">outlined</mdw-button>
                 <mdw-button class="mdw-outlined mdw-dense mdw-secondary">outlined shaped secondary</mdw-button>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -101,10 +101,10 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-button class="mdw-shaped mdw-raised mdw-primary">shaped raised</mdw-button>
                 <mdw-button class="mdw-shaped mdw-outlined mdw-secondary">shaped outlined dense</mdw-button>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -121,25 +121,23 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="$Buttons.mockWait(this)">Async</mdw-button>
-              </code-mirror>
-              <code-mirror mode="javascript">
-                <code>
-                  class Buttons extends Page {
-                    constructor() {
-                      super();
-                    }
-
-                    mockWait(button) {
-                      if (button.pending) return;
-                      setTimeout(() => {
-                        button.resolve();
-                      }, 3000);
-                    }
+              </monaco-editor>
+              <monaco-editor language="javascript">
+                class Buttons extends Page {
+                  constructor() {
+                    super();
                   }
-                </code>
-              </code-mirror>
+
+                  mockWait(button) {
+                    if (button.pending) return;
+                    setTimeout(() => {
+                      button.resolve();
+                    }, 3000);
+                  }
+                }
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -155,7 +153,7 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-button>
                   <mdw-icon>star</mdw-icon>
                   Icon
@@ -168,7 +166,7 @@ export default class Buttons extends Page {
                 <mdw-button class="mdw-icon">
                   <mdw-icon>add</mdw-icon>
                 </mdw-button>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -193,9 +191,9 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-button disabled class="mdw-primary">Disabled</mdw-button>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -214,12 +212,12 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                 <mdw-button class="mdw-raised">base</mdw-button>
                 <mdw-button class="mdw-raised mdw-primary">primary</mdw-button>
                 <mdw-button class="mdw-raised mdw-secondary">secondary</mdw-button>
                 <mdw-button class="mdw-raised mdw-error">error</mdw-button>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">

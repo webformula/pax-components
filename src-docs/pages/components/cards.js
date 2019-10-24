@@ -18,8 +18,8 @@ export default class Cards extends Page {
           <mdw-card>
             <div class="mdw-card__content">
               <h6>Card title</h6>
-              <subtitle2>subtitle text</subtitle2>
-              <body2 class="mdw-card__supporting">This is some supporting text for the card conent</body2>
+              <div class="mdw-subtitle">subtitle text</div>
+              <div class="mdw-card__supporting mdw-body">This is some supporting text for the card conent</div>
             </div>
 
             <div class="mdw-card__actions">
@@ -49,16 +49,16 @@ export default class Cards extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <mdw-card>
                   <div class="mdw-card__content">
                     <h6>Basic card with header and media</h6>
-                    <subtitle2>This is a subtitle</subtitle2>
+                    <div class="mdw-subtitle">This is a subtitle</div>
                   </div>
 
                   <div class="mdw-card__content-action">
                     <div class="mdw-card__media--16-9" style="background-image: url(https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg)"></div>
-                    <body2 class="mdw-card__supporting">Visit ten places on our planet that are undergoing the biggest changes today.</body2>
+                    <div class="mdw-card__supporting mdw-body">Visit ten places on our planet that are undergoing the biggest changes today.</div>
                   </div>
 
                   <div class="mdw-card__actions">
@@ -68,19 +68,19 @@ export default class Cards extends Page {
                     </div>
                   </div>
                 </mdw-card>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
               <mdw-card>
                 <div class="mdw-card__content">
                   <h6>Basic card with header and media</h6>
-                  <subtitle2>This is a subtitle</subtitle2>
+                  <div class="mdw-subtitle">This is a subtitle</div>
                 </div>
 
                 <div class="mdw-card__content-action">
                   <div class="mdw-card__media--16-9" style="background-image: url(https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg)"></div>
-                  <body2 class="mdw-card__supporting">Visit ten places on our planet that are undergoing the biggest changes today.</body2>
+                  <div class="mdw-card__supporting mdw-body">Visit ten places on our planet that are undergoing the biggest changes today.</div>
                 </div>
 
                 <div class="mdw-card__actions">

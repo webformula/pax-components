@@ -177,12 +177,26 @@ export default class Layout extends Page {
           </div>
 
           <div class="mdw-card__content--no-padding">
-            <code-mirror mode="html">
+            <monaco-editor language="html">
+                <style>
+                  .sub-layout-container {
+                    background-color: #CCC;
+                    width: 200px;
+                    height: 160px;
+                  }
+
+                  .sub-layout-container-b {
+                    background-color: #AAA;
+                    width: 200px;
+                    height: 160px;
+                  }
+                </style>
+
                 <div ${this.direction_} ${this.wrap_ === 'mdw-wrap' ? 'mdw-wrap' : ''} mdw-flex-position="${this.posY_} ${this.posX_}">
                   <div class="sub-layout-container" ${this.flexA_ !== 'none' ? `mdw-flex="${this.flexA_}"` : ''}></div>
-                  <div class="sub-layout-container" ${this.flexB_ !== 'none' ? `mdw-flex="${this.flexB_}"` : ''}></div>
+                  <div class="sub-layout-container-b" ${this.flexB_ !== 'none' ? `mdw-flex="${this.flexB_}"` : ''}></div>
                 </div>
-            </code-mirror>
+            </monaco-editor>
           </div>
 
           <div class="mdw-card__content" style="display: block;">

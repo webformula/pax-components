@@ -40,6 +40,8 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "github:webformula/pax-core#v0.4.11-beta"
+    "@webformula/pax-core": "github:webformula/pax-core#v0.4.11-beta",
+    "monaco-editor": "^0.18.1",
+    "monaco-editor-webpack-plugin": "^1.7.0"
   }
 }

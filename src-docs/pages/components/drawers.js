@@ -66,41 +66,41 @@ export default class Drawers extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
-                <!-- <body> -->
-                <mdw-drawer class="mdw-locked-open">
-                  <mdw-drawer-header>
-                    <div class="mdw-title">Nav title</div>
-                    <div class="mdw-subtitle">Pages</div>
-                  </mdw-drawer-header>
+              <monaco-editor language="html" content="${`
+                <body>
+                  <mdw-drawer class='mdw-locked-open'>
+                    <mdw-drawer-header>
+                      <div class='mdw-title'>Nav title</div>
+                      <div class='mdw-subtitle'>Pages</div>
+                    </mdw-drawer-header>
 
-                  <mdw-drawer-content>
-                    <mdw-list>
-                      <mdw-list-item active onclick="$Drawers.handleNavLClick(this)">
-                        <span class="mdw-list-item__graphic material-icons">inbox</span>
-                        Inbox
-                      </mdw-list-item>
+                    <mdw-drawer-content>
+                      <mdw-list>
+                        <mdw-list-item active onclick='$Drawers.handleNavLClick(this)'>
+                          <span class='mdw-list-item__graphic material-icons'>inbox</span>
+                          Inbox
+                        </mdw-list-item>
 
-                      <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-                        <span class="mdw-list-item__graphic material-icons">star</span>
-                        Two
-                      </mdw-list-item>
-                    </mdw-list>
-                  </mdw-drawer-content>
-                </mdw-drawer>
+                        <mdw-list-item onclick='$Drawers.handleNavLClick(this)'>
+                          <span class='mdw-list-item__graphic material-icons'>star</span>
+                          Two
+                        </mdw-list-item>
+                      </mdw-list>
+                    </mdw-drawer-content>
+                  </mdw-drawer>
 
-                <mdw-page>
-                  <mdw-top-app-bar>
-                    <section>
-                      <span class="title">Example</span>
-                    </section>
-                  </mdw-top-app-bar>
-                  <mdw-content>
-                    <!-- main page content -->
-                  </mdw-content>
-                </mdw-page>
-                <!-- </body> -->
-              </code-mirror>
+                  <mdw-page>
+                    <mdw-top-app-bar>
+                      <section>
+                        <span class='title'>Example</span>
+                      </section>
+                    </mdw-top-app-bar>
+                    <mdw-content>
+                      <!-- main page content -->
+                    </mdw-content>
+                  </mdw-page>
+                </body>
+              `}"></monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">

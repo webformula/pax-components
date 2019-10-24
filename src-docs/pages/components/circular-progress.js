@@ -54,9 +54,9 @@ export default class CircularProgress extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                   <mdw-circular-progress value="50" mdw-diameter="50"></mdw-circular-progress>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -73,9 +73,9 @@ export default class CircularProgress extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                   <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="50"></mdw-circular-progress>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -96,12 +96,12 @@ export default class CircularProgress extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror mode="html">
+              <monaco-editor language="html">
                   <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="60" class="mdw-primary" ></mdw-circular-progress>
                   <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="50" class="mdw-secondary" ></mdw-circular-progress>
                   <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="40" class="mdw-error" ></mdw-circular-progress>
                   <mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="30" class="mdw-grey"></mdw-circular-progress>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" mdw-row style="align-items: center;">

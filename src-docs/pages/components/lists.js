@@ -87,7 +87,7 @@ export default class List extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <!-- mdw-select-onclick will make the entire list-item select on click. Otherwise it will be just the checkbox -->
                 <mdw-list mdw-select="single or multiple" mdw-select-onclick class="mdw-two-line">
                   <mdw-list-item>
@@ -104,7 +104,7 @@ export default class List extends Page {
                     <div class="mdw-ripple mdw-list-item-ripple"></div>
                   </mdw-list-item>
                 </mdw-list>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -148,7 +148,7 @@ export default class List extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <code-mirror type="html">
+              <monaco-editor language="html">
                 <mdw-list-item active>
                   <mdw-icon>inbox</mdw-icon>
                   <div class="mdw-list-item__text">
@@ -162,7 +162,7 @@ export default class List extends Page {
                   <span class="mdw-list-item__meta material-icons">info</span>
                   <div class="mdw-ripple mdw-list-item-ripple"></div>
                 </mdw-list-item>
-              </code-mirror>
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content">
