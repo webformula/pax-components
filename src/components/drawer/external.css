@@ -4,7 +4,7 @@ mdw-drawer {
   width: 320px;
   height: 100%;
 
-  border-color: rgba(0, 0, 0, 0.12);
+  border-color: var(--mdw-theme-divider--dark);
   border-right-width: 1px;
   border-right-style: solid;
   box-sizing: border-box;
@@ -12,6 +12,10 @@ mdw-drawer {
   flex-direction: column;
   outline: none;
   background-color: var(--mdw-theme-surface);
+}
+
+mdw-drawer.mdw-white {
+  background-color: white;
 }
 
 mdw-drawer.mdw-active {
@@ -156,6 +160,6 @@ mdw-drawer mdw-divider {
 }
 
 mdw-drawer .mdw-subtitle {
-  margin-left: 16px;
+  /* margin-left: 16px; */
   color: #777;
 }
