@@ -84,7 +84,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   hrefClick() {
     // open in new tab / window
     if (this.getAttribute('target') === '_blank') {
-      window.open(this.getAttribute('href'), '_new');
+      window.open(this.getAttribute('href'), '_blank');
       return;
     }
 
