@@ -31,7 +31,7 @@ export default class Cards extends Page {
           </mdw-card>
         </div>
 
-        <a href="https://material.io/design/components/cards.html" target="_new">Material Design Guidlines: Banners</a>
+        <a href="https://material.io/design/components/cards.html" target="_new">Material Design Guidlines: Cards</a>
         <p>Cards contain content and actions about a single subject</p>
 
         <!-- <div class="column">

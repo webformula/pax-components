@@ -123,7 +123,11 @@ mdw-card .mdw-subtitle2 {
   align-items: center;
   box-sizing: border-box;
   min-height: 52px;
-  padding: 8px;
+  padding: 16px;
+}
+
+.mdw-card__actions--no-padding {
+  padding: 0;
 }
 
 
