@@ -136,7 +136,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   preparePanel_() {
     const panelHTML = `
-      <mdw-panel id="${this.enhacedElementId}" mdw-position="bottom inner-left" class="mdw-panel-hoisted">
+      <mdw-panel id="${this.enhacedElementId}" mdw-flex-position="bottom inner-left" class="mdw-panel-hoisted">
         <mdw-list>
           ${this.optionsMap_.map(({ text, value, selected }) => `
             <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>

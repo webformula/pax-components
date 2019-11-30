@@ -56,6 +56,9 @@ export default function () {
       --mdw-theme-divider--on-background--dark: var(--mdw-theme-divider--light);
       --mdw-theme-divider--on-background--light: var(--mdw-theme-divider--dark);
 
+      --mdw-theme-background_white--light: #ffffff;
+      --mdw-theme-background_white--dark: #121212;
+
 
       /* --- one offs for components --- */
       --mdw-theme-switchtrack--light: #000000;

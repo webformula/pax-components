@@ -28,6 +28,7 @@ export default function () {
             <a href="#/components/fab">Buttons: FAB</a>
             <a href="#/components/cards">Cards</a>
             <a href="#/components/checkboxes">Checkboxes</a>
+            <a href="#/components/date-picker">DatePicker</a>
             <a href="#/components/dialog">Dialog</a>
             <a href="#/components/drawers">Drawers</a>
             <a href="#/components/lists">lists</a>
