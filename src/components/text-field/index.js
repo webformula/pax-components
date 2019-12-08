@@ -103,8 +103,8 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
   }
 
   get input() {
-    if (!this.inputType_) this.inputType_ = this.querySelector('input') ? 'input' : 'textarea';
-    return this.querySelector(this.inputType_);
+    if (!this._inputType) this._inputType = this.querySelector('input') ? 'input' : 'textarea';
+    return this.querySelector(this._inputType);
   }
 
   // this is the section where the labels sits when in outlined mode

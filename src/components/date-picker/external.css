@@ -28,7 +28,7 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
 }
 
 .mdw-date-picker--body {
-  padding: 16px 24px 20px 0;
+  padding-top: 16px;
   background: var(--mdw-theme-background_white);
 }
 
@@ -42,7 +42,7 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
   font-size: 36px;
 }
 
-.mdw-date-picker--body-year-button {
+.mdw-date-picker--body-year-view-button {
   margin-left: 24px;
   position: relative;
   padding-right: 28px;
@@ -54,7 +54,7 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
   color: var(--mdw-theme-text--body);
 }
 
-.mdw-date-picker-year.mdw-selected {
+.mdw-date-picker--body-year-button.mdw-selected {
   background-color: var(--mdw-theme-primary);
   color: var(--mdw-theme-text--on-primary);
 }
@@ -66,7 +66,7 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
 } */
 
-.mdw-date-picker--body-year-button .mdw-select__icon {
+.mdw-date-picker--body-year-view-button .mdw-select__icon {
   right: 8px;
   top: 7px;
   width: 0;
@@ -77,4 +77,56 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 5px solid var(--mdw-theme-text--body);
+}
+
+
+
+/* month view */
+
+.mdw-date-picker--view-month {
+
+}
+
+.mdw-date-picker--view-month-day-header {
+  color: var(--mdw-theme-text--body);
+  font-size: 12px;
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-top: 20px;
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+}
+
+.mdw-date-picker--view-month-container {
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-top: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.mdw-date-picker--view-month-week-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.mdw-date-picker--day {
+  font-size: 13px;
+  width: 40px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 50%;
+  color: var(--mdw-theme-text--heading);
+}
+
+.mdw-date-picker--day.mdw-selected {
+  background-color: var(--mdw-theme-primary);
+  color: var(--mdw-theme-text--on-primary);
+}
+
+.mdw-date-picker--day.mdw-today {
+  border: 1px solid var(--mdw-theme-foreground);
 }

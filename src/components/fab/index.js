@@ -35,8 +35,7 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
   }
 
   get spinnerContainer() {
-    if (!this._spinnerContainer) this._spinnerContainer = this.shadowRoot.querySelector('.mdw-spinner-container');
-    return this._spinnerContainer;
+    return this.shadowRoot.querySelector('.mdw-spinner-container');
   }
 
   set disabled(value) {
@@ -45,7 +44,7 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
   }
 
   get pending() {
-    return this.pending_;
+    return this._pending;
   }
 
   setupAsync() {
@@ -54,14 +53,14 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
   }
 
   resolve() {
-    if (this.pending_ === false) return;
-    this.pending_ = false;
+    if (this._pending === false) return;
+    this._pending = false;
     this.hideSpinner();
   }
 
   asyncClick(e) {
-    if (this.pending_ === true) return;
-    this.pending_ = true;
+    if (this._pending === true) return;
+    this._pending = true;
     this.showSpinner();
   }
 

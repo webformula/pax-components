@@ -46,19 +46,19 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
   }
 
   get min() {
-    return this.min_ || 0;
+    return this._min || 0;
   }
 
   set min(value) {
-    this.min_ = parseFloat(value);
+    this._min = parseFloat(value);
   }
 
   get max() {
-    return this.max_ || 100;
+    return this._max || 100;
   }
 
   set max(value) {
-    this.max_ = parseFloat(value);
+    this._max = parseFloat(value);
   }
 
   get range() {
@@ -66,11 +66,11 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
   }
 
   get step() {
-    return this.step_;
+    return this._step;
   }
 
   set step(value) {
-    this.step_ = parseFloat(value);
+    this._step = parseFloat(value);
   }
 
   get stepCount() {
@@ -88,15 +88,15 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     const x = (this.thumbContainer.style.left || '0px').replace('px', '');
     const percent = x / width;
     const range = this.range;
-    this.value_ = this.min + (percent * range);
+    this._value = this.min + (percent * range);
     // check if the step is a integer and then garentee the value is an int
     // becuase of how math works in javascript(floating point) this is not a garentee without parseInt
-    if (!(''+this.step).includes('.')) this.value_ = parseInt(this.value_);
-    return this.value_ || 0;
+    if (!(''+this.step).includes('.')) this._value = parseInt(this._value);
+    return this._value || 0;
   }
 
   set value(value) {
-    this.value_ = parseFloat(value);
+    this._value = parseFloat(value);
   }
 
   get thumb() {
@@ -104,13 +104,11 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
   }
 
   get thumbContainer() {
-    if (!this.thumbContainer_) this.thumbContainer_ = this.shadowRoot.querySelector('.mdw-slider__thumb-container');
-    return this.thumbContainer_;
+    return this.shadowRoot.querySelector('.mdw-slider__thumb-container');
   }
 
   get notchContainer() {
-    if (!this.notchContainer_) this.notchContainer_ = this.shadowRoot.querySelector('.mdw-slider__notch-container');
-    return this.notchContainer_;
+    return this.shadowRoot.querySelector('.mdw-slider__notch-container');
   }
 
   get track() {
@@ -131,11 +129,11 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
     switch(e.state) {
       case 'start':
         this.classList.add('mdw-pressed');
-        this.initialX_ = parseInt((this.thumbContainer.style.left || '0px').replace('px', ''));
+        this._initialX = parseInt((this.thumbContainer.style.left || '0px').replace('px', ''));
         break;
       case 'move':
         const { left, width } = this.getBoundingClientRect();
-        let x = e.distance.x + this.initialX_;
+        let x = e.distance.x + this._initialX;
         if (x < 0) x = 0;
         if (x > width) x = width;
         this.thumbContainer.style.left = `${this.snap(x, width)}px`;

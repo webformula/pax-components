@@ -3,7 +3,7 @@ import { HTMLElementExtended } from '@webformula/pax-core';
 customElements.define('mdw-list', class extends HTMLElementExtended {
   constructor() {
     super();
-    this.selectedIndexes_ = [];
+    this._selectedIndexes = [];
   }
 
   static get observedAttributes() {
@@ -22,44 +22,44 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   }
 
   set selectOnclick(value) {
-    this.selectOnclick_ = value;
+    this._selectOnclick = value;
   }
 
   get selectOnclick() {
-    return this.selectOnclick_;
+    return this._selectOnclick;
   }
 
   set selectType(value) {
-    this.selectType_ = value;
+    this._selectType = value;
   }
 
   get selectType() {
-    return this.selectType_;
+    return this._selectType;
   }
 
   get selected() {
-    return [].concat(this.selectedIndexes_);
+    return [].concat(this._selectedIndexes);
   }
 
   deselectAll() {
     [...this.children].forEach(child => child.deselect());
-    this.selectedIndexes_ = [];
+    this._selectedIndexes = [];
   }
 
   itemSelected(listItem) {
     const index = Array.prototype.indexOf.call(this.children, listItem);
-    if (this.selectType_ === 'single') {
+    if (this._selectType === 'single') {
       const children = [...this.children];
-      this.selectedIndexes_.forEach(i => children[i].deselect());
-      this.selectedIndexes_ = [];
+      this._selectedIndexes.forEach(i => children[i].deselect());
+      this._selectedIndexes = [];
     }
-    this.selectedIndexes_.push(index);
+    this._selectedIndexes.push(index);
     this.handleChange();
   }
 
   itemDeselected(listItem) {
     const index = Array.prototype.indexOf.call(this.children, listItem);
-    this.selectedIndexes_.splice(this.selectedIndexes_.indexOf(index), 1);
+    this._selectedIndexes.splice(this._selectedIndexes.indexOf(index), 1);
     this.handleChange();
   }
 

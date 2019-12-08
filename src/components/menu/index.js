@@ -39,11 +39,11 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
 
   set panelPosition(value) {
     // TODO validate
-    this.panelPosition_ = value;
+    this._panelPosition = value;
   }
 
   get panelPosition() {
-    return this.panelPosition_ || 'inner-top inner-left';
+    return this._panelPosition || 'inner-top inner-left';
   }
 
   get button() {

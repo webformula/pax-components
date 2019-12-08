@@ -20,7 +20,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
        centered: true
      });
 
-     this.connected_ = true;
+     this._connected = true;
      this.input.addEventListener('change', this.bound_handleChange);
    }
 
@@ -34,13 +34,12 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
    }
 
    attributeChangedCallback(name, oldValue, newValue) {
-     if (!this.connected_) return;
+     if (!this._connected) return;
      this[name] = newValue;
    }
 
    get input() {
-     if (!this.input_) this.input_ = this.shadowRoot.querySelector('input');
-     return this.input_;
+     return this.shadowRoot.querySelector('input');
    }
 
    get checked() {

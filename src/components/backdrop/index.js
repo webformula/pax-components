@@ -5,18 +5,12 @@ customElements.define('mdw-backdrop', class extends HTMLElementExtended {
     super();
   }
 
-  connectedCallback() {
-    // this.frontElement.classList.add('mdw-elevation-1--shadow');
-  }
-
   get frontElement() {
-    if (!this.frontElement_) this.frontElement_ = this.querySelector('mdw-backdrop-front');
-    return this.frontElement_;
+    return this.querySelector('mdw-backdrop-front');
   }
 
   get backContentElement() {
-    if (!this.backContentElement_) this.backContentElement_ = this.querySelector('mdw-backdrop-back mdw-backdrop-content');
-    return this.backContentElement_;
+    return this.querySelector('mdw-backdrop-back mdw-backdrop-content');
   }
 
   get backContenHeight() {
@@ -27,21 +21,21 @@ customElements.define('mdw-backdrop', class extends HTMLElementExtended {
   }
 
   get expanded() {
-    return this.expanded_;
+    return this._expanded;
   }
 
   toggle() {
-    if (this.expanded_ === true) this.contract();
+    if (this._expanded === true) this.contract();
     else this.expand();
   }
 
   expand() {
     this.frontElement.style.top = `${this.backContenHeight - 56}px`;
-    this.expanded_ = true;
+    this._expanded = true;
   }
 
   contract() {
     this.frontElement.style.top = '56px';
-    this.expanded_ = false;
+    this._expanded = false;
   }
 });

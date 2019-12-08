@@ -27,7 +27,7 @@ export default class DatePicker extends Page {
           </mdw-date-picker>
         </div>
 
-        <a href="https://material.io/design/components/pickers" target="_new">Material Design Guidlines: pickers</a>
+        <a href="https://material.io/components/pickers/" target="_new">Material Design Guidlines: pickers</a>
         <p>Date pickers let users select a date, or a range of dates</p>
 
         <section>

@@ -1,22 +1,22 @@
-export default class DateUtil {
+export default new class DateUtil {
   // Sets the local (en-us).
   // leaving this undeifend will use the browser default
   get local() {
-    return this.locale_;
+    return this._locale;
   }
 
   set local(value) {
-    this.locale_ = value;
+    this._locale = value;
   }
 
   // Sets the timezone used.
   // leaving this undeifend will use the browser default
   get timezone() {
-    return this.timezone_;
+    return this._timezone;
   }
 
   set timezone(value) {
-    this.timezone_ = value;
+    this._timezone = value;
   }
 
   getYear(date) {
@@ -30,35 +30,65 @@ export default class DateUtil {
   getDate(date) {
     return date.getDate();
   }
-  
+
   // style = 'long' | 'short' | 'narrow'
   getMonthNames(style) {
-    const dtf = new Intl.DateTimeFormat(this.locale, { month: style, timeZone: this.timezone });
-    return range(12, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, i, 1))));
+    const dtf = new Intl.DateTimeFormat(this.locale, { month: style, timeZone: 'utc' });
+    return this.range(12, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, i, 1))));
   }
 
-  getDateNames() {
-    const dtf = new Intl.DateTimeFormat(this.locale, { day: 'numeric', timeZone: this.timezone });
-    return range(31, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, 0, i + 1))));
-  }
+  // getDateNames() {
+  //   const dtf = new Intl.DateTimeFormat(this.locale, { day: 'numeric', timeZone: 'utc' });
+  //   return this.range(31, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, 0, i + 1))));
+  // }
 
   // style = 'long' | 'short' | 'narrow'
   getDayOfWeekNames(style) {
-    const dtf = new Intl.DateTimeFormat(this.locale, { weekday: style, timeZone: this.timezone });
-    return range(7, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, 0, i + 1))));
+    const dtf = new Intl.DateTimeFormat(this.locale, { weekday: style, timeZone: 'utc' });
+    return this.range(7, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, 0, i + 1))));
   }
 
   getYearName(date) {
-    const dtf = new Intl.DateTimeFormat(this.locale, { year: 'numeric', timeZone: this.timezone });
+    const dtf = new Intl.DateTimeFormat(this.locale, { year: 'numeric', timeZone: 'utc' });
     return this._stripDirectionalityCharacters(this._format(dtf, date));
   }
 
-  getFirstDayOfWeek() {
-    return 0;
+  getFirstDateOfMonth(date) {
+    return new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+
+  getLastDateOfMonth(date) {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  }
+
+  // getFirstDayOfWeek() {
+  //   return 0;
+  // }
+
+  // 0 - 6
+  getDayOfTheWeekNumber(date) {
+    return (date.getDay() + 7) % 7;
   }
 
   getNumDaysInMonth(date) {
     return this.getDate(this._createDateWithOverflow(this.getYear(date), this.getMonth(date) + 1, 0));
+  }
+
+  getMonthDayArray(date) {
+    const firstDay = this.getDayOfTheWeekNumber(this.getFirstDateOfMonth(date));
+    const lastday = this.getDayOfTheWeekNumber(this.getLastDateOfMonth(date));
+    const numDaysInMonth = this.getNumDaysInMonth(date);
+    // calculate length of month filling in the first and last week with empty days for display purposes
+    const length = firstDay + numDaysInMonth + (7 - lastday - 1);
+    const monthDays = [...Array(length)].map((_, i) => {
+      if (i < firstDay || i >= numDaysInMonth) return '';
+      return i - firstDay + 1;
+    });
+    const res = [];
+    while (monthDays.length) {
+      res.push(monthDays.splice(0, 7));
+    }
+    return res;
   }
 
   clone(date) {
@@ -147,5 +177,15 @@ export default class DateUtil {
         date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(),
         date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
     return dtf.format(d);
+  }
+
+  range(length, valueFunction) {
+    const valuesArray = Array(length);
+    let i = 0;
+    for (i; i < length; i += 1) {
+      valuesArray[i] = valueFunction(i);
+    }
+
+    return valuesArray;
   }
 }

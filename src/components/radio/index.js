@@ -35,19 +35,19 @@ customElements.define('mdw-radio', class extends HTMLElementExtended {
 
   get name() {
     if (this.parentNode && this.parentNode.hasAttribute('name')) {
-      this.name_ = this.parentNode.getAttribute('name');
+      this._name = this.parentNode.getAttribute('name');
     } else if (this.hasAttribute('name')) {
-      this.name_ = this.getAttribute('name');
+      this._name = this.getAttribute('name');
     }
 
     // create name if one was not provided
     // name is required for radio buttons to work
-    if (!this.name_) {
-      this.name_ = MDWUtils.uid();
-      if (this.parentNode) this.parentNode.setAttribute('name', this.name_);
-      else this.setAttribute('name', this.name_);
+    if (!this._name) {
+      this._name = MDWUtils.uid();
+      if (this.parentNode) this.parentNode.setAttribute('name', this._name);
+      else this.setAttribute('name', this._name);
     }
-    return this.name_;
+    return this._name;
   }
 
   rippleTemplate() {

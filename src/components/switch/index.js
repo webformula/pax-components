@@ -32,8 +32,7 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   }
 
   get input() {
-    if (!this.input_) this.input_ = this.shadowRoot.querySelector('input');
-    return this.input_;
+    return this.shadowRoot.querySelector('input');
   }
 
   get checked() {

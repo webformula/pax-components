@@ -23,8 +23,7 @@ customElements.define('mdw-linear-progress', class extends HTMLElementExtended {
   }
 
   get bar() {
-    if (!this._bar) this._bar = this.shadowRoot.querySelector('.mdw-bar');
-    return this._bar;
+    return this.shadowRoot.querySelector('.mdw-bar');
   }
 
   get percent() {

@@ -17,6 +17,7 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
 
   disconnectedCallback() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.remove();
   }
 
   get panel() {
@@ -24,12 +25,12 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
   }
 
   get position() {
-    return this.position_ || 'inner-bottom inner-left';
+    return this._position || 'inner-bottom inner-left';
   }
 
   setPosition(value) {
     const split = value.split(' ');
-    this.position_ = `${split[0] || 'top'} ${split[1] || 'left'}`;
+    this._position = `${split[0] || 'top'} ${split[1] || 'left'}`;
     this.panel.setPosition(this.position);
   }
 
@@ -58,10 +59,12 @@ customElements.define('mdw-snackbar', class extends HTMLElementExtended {
     this.dispatchClose(ok);
     clearTimeout(this.autoCancelTimeout);
 
+    // NOTE is this needed for proper cleanup?
     // remove panel element
-    setTimeout(() => {
-      this.panel.remove();
-    }, 200);
+    // setTimeout(() => {
+    //   this.panel.remove();
+    //   this.panel = undefined;
+    // }, 200);
   }
 
   onPanelClose() {

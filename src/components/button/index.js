@@ -27,8 +27,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   }
 
   get spinnerContainer() {
-    if (!this._spinnerContainer) this._spinnerContainer = this.shadowRoot.querySelector('.mdw-spinner-container');
-    return this._spinnerContainer;
+    return this.shadowRoot.querySelector('.mdw-spinner-container');
   }
 
   get pending() {

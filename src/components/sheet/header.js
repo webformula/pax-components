@@ -29,11 +29,11 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
   }
 
   get title() {
-    return !!this.title_ ? this.title_ : this.hasAttribute('mdw-title') ? this.getAttribute('mdw-title') : '';
+    return !!this._title ? this._title : this.hasAttribute('mdw-title') ? this.getAttribute('mdw-title') : '';
   }
 
   set title(value) {
-    this.title_ = value;
+    this._title = value;
   }
 
   get isModal() {

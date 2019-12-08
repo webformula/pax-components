@@ -8,7 +8,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     super();
 
     this.setupLabel_();
-    if (this.isEnhanced_) this.prepareEnhance_();
+    if (this._isEnhanced) this.prepareEnhance_();
     this.classList.add('mdw-no-animation');
     this.cloneTemplate(true);
 
@@ -21,7 +21,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    if (this.isEnhanced_) {
+    if (this._isEnhanced) {
       if (this.selected_) this.value = this.selected_.value;
       this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
       document.body.addEventListener('keydown', this.bound_onKeyDown);
@@ -36,15 +36,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     setTimeout(() => {
       this.classList.add('mdw-no-animation');
-
-      if (this.isEnhanced_) {
-        this.panel.style.minWidth = `${this.offsetWidth}px`;
+      if (this._isEnhanced) {
+        if (this.panel) this.panel.style.minWidth = `${this.offsetWidth}px`;
       }
     }, 0);
   }
 
   disconnectedCallback() {
-    if (this.isEnhanced_) {
+    // console.log(this.enhacedElementId);
+    if (this._isEnhanced) {
       this.shadowRoot.querySelector('render-block').removeEventListener('click', this.bound_onClick);
       document.body.removeEventListener('keydown', this.bound_onKeyDown);
     } else {
@@ -52,15 +52,17 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       this.selectElement.removeEventListener('blur', this.bound_onBlur);
       this.selectElement.removeEventListener('change', this.bound_onChange);
     }
+
+    if (this.panel) this.panel.remove();
   }
 
   get value() {
-    if (this.isEnhanced_) return this.value_;
-    return this.selectElement.value || this.value_;
+    if (this._isEnhanced) return this._value;
+    return this.selectElement.value || this._value;
   }
 
   set value(value) {
-    this.value_ = value;
+    this._value = value;
     this.onChange();
     this.dispatchEvent(new Event('change'));
   }
@@ -79,8 +81,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
 
   get enhacedElementId() {
-    if (!this.enhacedElementId_) this.enhacedElementId_ = `select-enhanced-${MDWUtils.uid()}`;
-    return this.enhacedElementId_;
+    if (!this._enhacedElementId) this._enhacedElementId = `select-enhanced-${MDWUtils.uid()}`;
+    return this._enhacedElementId;
   }
 
   get panel() {
@@ -91,7 +93,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return document.querySelector(`#${this.enhacedElementId}`);
   }
 
-  get isEnhanced_() {
+  get _isEnhanced() {
     return this.getAttribute('mdw-enhanced') !== null;
   }
 
@@ -113,7 +115,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   prepareEnhance_() {
-    this.optionsMap_ = [...this.querySelectorAll('option')].map(el => {
+    this._optionsMap = [...this.querySelectorAll('option')].map(el => {
       return {
         text: el.innerText,
         value: el.value,
@@ -121,7 +123,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       };
     });
 
-    this.selected_ = (this.optionsMap_.filter(({ selected }) => selected === true)[0] || { text: '', value: '' });
+    this.selected_ = (this._optionsMap.filter(({ selected }) => selected === true)[0] || { text: '', value: '' });
 
     const selectElement = this.querySelector('select');
     if (selectElement) {
@@ -138,7 +140,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     const panelHTML = `
       <mdw-panel id="${this.enhacedElementId}" mdw-flex-position="bottom inner-left" class="mdw-panel-hoisted">
         <mdw-list>
-          ${this.optionsMap_.map(({ text, value, selected }) => `
+          ${this._optionsMap.map(({ text, value, selected }) => `
             <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
           `).join('\n')}
         </mdw-list>
@@ -155,7 +157,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       <mdw-sheet mdw-modal id=${this.enhacedElementId}>
         <mdw-sheet-content>
           <mdw-list>
-            ${this.optionsMap_.map(({ text, value, selected }) => `
+            ${this._optionsMap.map(({ text, value, selected }) => `
               <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
             `).join('\n')}
           </mdw-list>
@@ -175,7 +177,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.classList.remove('mdw-focused');
     this.classList.toggle('mdw-not-empty', this.value);
 
-    if (this.isEnhanced_) {
+    if (this._isEnhanced) {
       if (MDWUtils.isMobile) {
         this.sheet.removeEventListener('MDWSheet:closed', this.bound_onBlur);
         this.sheet.removeEventListener('click', this.bound_onPanelClick);
@@ -249,7 +251,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   template() {
     return `
       <i class="mdw-select__icon"></i>
-      ${!this.isEnhanced_ ? '<slot></slot>' : `
+      ${!this._isEnhanced ? '<slot></slot>' : `
         <div class="mdw-select__selected-text">${this.selected_.text}</div>
       `}
       <label>${this.labelText_}</label>

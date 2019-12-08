@@ -6,11 +6,12 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_onPanelClose = this.onPanelClose.bind(this);
-    this.clickOutsideClose_ = false;
+    this._clickOutsideClose = false;
   }
 
   disconnectedCallback() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.remove();
 
     if (this.backdrop) {
       this.backdrop.remove();
@@ -19,6 +20,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
   }
 
   get panel() {
+    // hold a reference becuase we are hoisting the panel out of this component
     if (!this.panel_) this.panel_ = this.querySelector('mdw-panel');
     return this.panel_;
   }
@@ -32,11 +34,11 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
   }
 
   get clickOutsideClose() {
-    return this.clickOutsideClose_;
+    return this._clickOutsideClose;
   }
 
   set clickOutsideClose(value) {
-    this.clickOutsideClose_ = value;
+    this._clickOutsideClose = value;
   }
 
   show() {
