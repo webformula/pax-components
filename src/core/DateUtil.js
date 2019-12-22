@@ -19,6 +19,37 @@ export default new class DateUtil {
     this._timezone = value;
   }
 
+  parse(dateString) {
+    return Date.parse(dateString);
+  }
+
+  buildFromParts({ year = this.currentYear(), month = this.currentMonth(), day = this.currentDay()}) {
+    return new Date(year, month, day);
+  }
+
+  currentYear() {
+    return this.today().getFullYear();
+  }
+
+  currentMonth() {
+    return this.today().getMonth();
+  }
+
+  currentDay() {
+    return this.today().getDate();
+  }
+
+  defaultYearRange(startYear = 1940, range = 100) {
+    return [...new Array(range)].map((_, i) => startYear + i);
+  }
+
+  getMonthsSurroundingYear(date = this.today(), yearRange = 2) {
+    const firstYear = this.parse(date).getFullYear() - yearRange;
+    const years = yearRange * 2;
+    // add 12 dates for each month for each year
+    return [...new Array(years)].flatMap((_, i) => [...new Array(12)].map((_, j) => new Date(firstYear + i, j, 1)));
+  }
+
   getYear(date) {
     return date.getFullYear();
   }
@@ -29,6 +60,10 @@ export default new class DateUtil {
 
   getDate(date) {
     return date.getDate();
+  }
+
+  getAdjacentMonth(date, addedMonths = 0) {
+    return new Date(date.getFullYear(), date.getMonth() + addedMonths, 1);
   }
 
   // style = 'long' | 'short' | 'narrow'
@@ -91,6 +126,16 @@ export default new class DateUtil {
     return res;
   }
 
+  isSameYear(date1, date2) {
+    if (!date1 || !date2) return false;
+    return date1.getFullYear() === date2.getFullYear();
+  }
+
+  isSameMonth(date1, date2) {
+    if (!date1 || !date2) return false;
+    return date1.getMonth() === date2.getMonth();
+  }
+
   clone(date) {
     return new Date(date.getTime());
   }
@@ -126,23 +171,83 @@ export default new class DateUtil {
     return value ? new Date(Date.parse(value)) : null;
   }
 
-  format(date, displayFormat) {
-    if (!this.isValid(date)) {
-      throw Error('NativeDateAdapter: Cannot format invalid date.');
-    }
 
-    // TODO how do i not need this?
-    // // On IE and Edge the i18n API will throw a hard error that can crash the entire app
-    // // if we attempt to format a date whose year is less than 1 or greater than 9999.
-    // if (this._clampDate && (date.getFullYear() < 1 || date.getFullYear() > 9999)) {
-    //   date = this.clone(date);
-    //   date.setFullYear(Math.max(1, Math.min(9999, date.getFullYear())));
-    // }
 
-    displayFormat = {...displayFormat, timeZone: this.timeZone};
+  // --- format date ---
 
-    const dtf = new Intl.DateTimeFormat(this.locale, displayFormat);
-    return this._stripDirectionalityCharacters(this._format(dtf, date));
+  identity(x) {
+    return x;
+  }
+
+  tokenize(intlFormatter, date) {
+    return intlFormatter.formatToParts(date).filter(token => token.type !== 'literal');
+  }
+
+  normalize(parts) {
+    // Chrome <= 71 incorrectly case `dayperiod` (#4)
+    parts.dayPeriod = parts.dayPeriod || parts.dayperiod;
+    return parts;
+  }
+
+
+  // format dates
+  //   date: js date object
+  //   formatPattern:
+  //      ddd, MMM DD = Thu, Dec 12
+  //      YYYY - MMMM - dddd = 2019 - Dmonth - wednesday
+  //      YY - MMM - ddd = 19 - 10 - 21
+  format(date, formatPattern) {
+    const intlFormattersOptions = [
+      {
+        weekday: 'long', // dddd
+        year: 'numeric', // YYYY
+        month: '2-digit', // MM
+        day: '2-digit', // DD
+        hour: '2-digit', // hh
+        minute: '2-digit', // mm
+        second: '2-digit' // ss
+      },
+      {
+        month: 'long',
+        hour: '2-digit',
+        hour12: false
+      }
+    ];
+    const [intlFormatter, intlFormatterLong] = intlFormattersOptions.map(
+      intlFormatterOptions =>
+        new Intl.DateTimeFormat(this.locale, {
+          ...intlFormatterOptions,
+          timeZone: this.timezone
+        })
+    );
+    const tokens = this.tokenize(intlFormatter, date);
+    const longTokens = this.tokenize(intlFormatterLong, date).map(token => {
+      return token.type !== 'literal' ? { type: `l${token.type}`, value: token.value } : token;
+    });
+    const allTokens = [...tokens, ...longTokens];
+    const parts = allTokens.reduce((parts, token) => {
+      parts[token.type] = token.value;
+      return parts;
+    }, {});
+    const patternRegexp = new RegExp(`[YMDdAaHhms]+`, 'g');
+    const formatters = {
+      YYYY: parts => parts.year,
+      YY: parts => parts.year.slice(-2),
+      MMMM: parts => parts.lmonth,
+      MMM: parts => parts.lmonth.slice(0, 3),
+      MM: parts => parts.month,
+      DD: parts => parts.day,
+      dddd: parts => parts.weekday,
+      ddd: parts => parts.weekday.slice(0, 3),
+      A: parts => parts.dayPeriod,
+      a: parts => parts.dayPeriod.toLowerCase(),
+      HH: parts => parts.lhour,
+      hh: parts => parts.hour,
+      mm: parts => parts.minute,
+      ss: parts => parts.second
+    };
+    const allFormatters = { ...formatters };
+    return formatPattern.replace(patternRegexp, mask => (allFormatters[mask] || this.identity)(parts, date));
   }
 
   toIso8601(date) {

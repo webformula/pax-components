@@ -21,7 +21,6 @@ export default function ({ head, body, title }) {
         <link rel="stylesheet" href="main.css">
         <script type="module" src="pax-components.js"></script>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css">
         <script src="vs/loader.js"></script>
 
         <script>

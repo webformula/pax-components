@@ -50,16 +50,6 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
   color: var(--mdw-theme-text--body);
 }
 
-.mdw-date-picker--body-nav-buttons {
-  color: var(--mdw-theme-text--body);
-}
-
-.mdw-date-picker--body-year-button.mdw-selected {
-  background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-text--on-primary);
-}
-
-
 /* spin */
 /* .mdw-date-picker--body-year-button .mdw-select__icon {
   transform: rotate(180deg) translateY(-5px);
@@ -77,56 +67,4 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 5px solid var(--mdw-theme-text--body);
-}
-
-
-
-/* month view */
-
-.mdw-date-picker--view-month {
-
-}
-
-.mdw-date-picker--view-month-day-header {
-  color: var(--mdw-theme-text--body);
-  font-size: 12px;
-  margin-left: 12px;
-  margin-right: 12px;
-  margin-top: 20px;
-  flex: 1;
-  display: flex;
-  justify-content: space-around;
-}
-
-.mdw-date-picker--view-month-container {
-  margin-left: 12px;
-  margin-right: 12px;
-  margin-top: 12px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.mdw-date-picker--view-month-week-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.mdw-date-picker--day {
-  font-size: 13px;
-  width: 40px;
-  text-align: center;
-  line-height: 40px;
-  border-radius: 50%;
-  color: var(--mdw-theme-text--heading);
-}
-
-.mdw-date-picker--day.mdw-selected {
-  background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-text--on-primary);
-}
-
-.mdw-date-picker--day.mdw-today {
-  border: 1px solid var(--mdw-theme-foreground);
 }

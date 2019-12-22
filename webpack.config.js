@@ -4,7 +4,7 @@ const webpack = require('webpack');
 
 const cwd = process.cwd();
 const isMobile = process.argv.includes('--mobile');
-console.log(isMobile === true ? JSON.stringify('true') : undefined);
+
 module.exports = {
   entry: {
     'pax-components.js': glob.sync('dist-files/**/*.js').map(p => path.resolve(cwd, p))
