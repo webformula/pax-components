@@ -20,14 +20,29 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.bound_yearClick = this.yearClick.bind(this)
     this.bound_yearChanged = this.yearChanged.bind(this);
     this.bound_monthChanged = this.monthChanged.bind(this);
+    this.bound_open = this.open.bind(this);
+    this.bound_onCancel = this.onCancel.bind(this);
+    this.bound_onOk = this.onOk.bind(this);
+    this.bound_inputChange = this.inputChange.bind(this);
+
+    this.checkForTextField();
   }
 
   connectedCallback() {
     this.panel.querySelector('.mdw-date-picker--body-year-view-button').addEventListener('click', this.bound_yearClick);
+    this.panel.querySelector('#cancel-button').addEventListener('click', this.bound_onCancel);
+    this.panel.querySelector('#ok-button').addEventListener('click', this.bound_onOk);
     this.changeView('month');
   }
 
   disconnectedCallback() {
+    if (this._attachedInput) {
+      this._attachedInput.removeEventListener('click', this.bound_open);
+      this._attachedInput.removeEventListener('input', this.bound_inputChange);
+    }
+    this.panel.querySelector('.mdw-date-picker--body-year-view-button').removeEventListener('click', this.bound_yearClick);
+    this.panel.querySelector('#cancel-button').removeEventListener('click', this.bound_onCancel);
+    this.panel.querySelector('#ok-button').removeEventListener('click', this.bound_onOk);
     this.panel.remove();
   }
 
@@ -47,14 +62,53 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this._selectedYear = value;
   }
 
-  updateDate() {
+  checkForTextField() {
+    if (this.parentNode.nodeName === 'MDW-TEXTFIELD') {
+      this._attachedInput = this.parentNode.querySelector('input');
+      // TODO add down arrow to open
+      this._attachedInput.addEventListener('click', this.bound_open);
+      this._attachedInput.addEventListener('input', this.bound_inputChange);
+      this._attachedInput.classList.add('mdw-hide-date-prompt');
+    }
+  }
+
+  inputChange(event) {
+    const value = event.target.value.split('-');
+    this.selectedDay = value.pop();
+    this.selectedMonth = value.pop();
+    this.selectedYear = value.pop();
+    this.updateDate(true);
+  }
+
+  onCancel() {
+    if (this._openingDay) {
+      this.selectedDay = this._openingDay;
+      this.selectedMonth = this._openingMonth;
+      this.selectedYear = this._openingYear;
+      this.updateDate();
+    }
+    this.close();
+  }
+
+  onOk() {
+    this.close();
+  }
+
+  updateDate(preventInputUpdate = false) {
     this.selectedDate = MDWDateUtil.buildFromParts({
       year: this.selectedYear,
       month: this.selectedMonth,
       day: this.selectedDay
     });
 
-    if (this.panel && this.panel.querySelector) this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD');
+    if (this.panel && this.panel.querySelector) {
+      this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD');
+      this.panel.querySelector('#month-year-dropdown').innerHTML = MDWDateUtil.format(this.selectedDate, 'MMMM YYYY');
+    }
+
+    if (this._attachedInput && !preventInputUpdate) {
+      this._attachedInput.value = MDWDateUtil.format(this.selectedDate, 'YYYY-MM-dd');
+    }
   }
 
   yearClick() {
@@ -76,8 +130,13 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   open() {
     if (this.panel._isOpen) return;
+    this._openingDay = this.selectedDay;
+    this._openingMonth = this.selectedMonth;
+    this._openingYear = this.selectedYear;
     // TODO re-enalbe click outside to close
     //    this breaks view changing
+    this.panel.style[`${MDWUtils.transformPropertyName}`] = 'scale(0.9)';
+    this.panel.style[`${MDWUtils.transformPropertyName}-origin`] = 'top left';
     this.panel.open();
 
     switch(this._currentView) {
@@ -104,6 +163,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.selectedmonth = detail.month;
     this.selectedDay = detail.day;
     this.updateDate();
+    this.close();
   }
 
   buildPanel_() {
@@ -123,18 +183,23 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
         <div class="mdw-date-picker--body">
           <div mdw-row mdw-flex-position="center space-between">
             <div mdw-row mdw-flex-position="start space-around" class="mdw-date-picker--body-year-view-button">
-              <div>November 17</div>
+              <div id="month-year-dropdown">${MDWDateUtil.format(this.selectedDate, 'MMMM YYYY')}</div>
               <i class="mdw-select__icon"></i>
             </div>
           </div>
 
           <!-- year, month, day, schedule? -->
-          <div mdw-column class="mdw-date-picker--body-views" style="min-height: 300px;">
+          <div mdw-column class="mdw-date-picker--body-views" style="min-height: 280px;">
             ${
               this._currentView === 'month'
               ? `<mdw-date-picker--view-month mdw-selected-date="${this.selectedDate}"></mdw-date-picker--view-month>`
-              : `<mdw-date-picker--view-year></mdw-date-picker--view-year>`
+              : `<mdw-date-picker--view-year mdw-selected-date="${this.selectedDate}"></mdw-date-picker--view-year>`
             }
+          </div>
+
+          <div mdw-row mdw-flex-position="center right" style="padding: 8px;">
+            <mdw-button id="cancel-button" class="mdw-primary">cancel</mdw-button>
+            <mdw-button id="ok-button" class="mdw-primary">ok</mdw-button>
           </div>
         </div>
       </div>
@@ -147,7 +212,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   attachYearView() {
-    this.viewContainer.innerHTML = '<mdw-date-picker--view-year></mdw-date-picker--view-year>';
+    this.viewContainer.innerHTML = `<mdw-date-picker--view-year mdw-selected-date="${this.selectedDate}"></mdw-date-picker--view-year>`;
     this.viewContainer.querySelector('mdw-date-picker--view-year').addEventListener('MDWDatePicker:yearChanged', this.bound_yearChanged);
 
     const monthEl = this.viewContainer.querySelector('mdw-date-picker--view-month');

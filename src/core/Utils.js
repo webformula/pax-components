@@ -137,7 +137,7 @@ const MDWUtils = new class {
   _setTransformPropertyName(forceRefresh = false) {
     if (this.transformPropertyName_ === undefined || forceRefresh) {
       const el = document.createElement('div');
-      this.transformPropertyName_ = 'transform' in el.style ? 'transform' : 'webkitTransform';
+      this.transformPropertyName_ = 'transform' in el.style ? 'transform' : '-webkit-transform';
     }
   }
 }

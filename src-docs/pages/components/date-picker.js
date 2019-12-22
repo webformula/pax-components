@@ -11,7 +11,6 @@ export default class DatePicker extends Page {
 
   openDatePicker() {
     const picker = document.querySelector('#picker');
-    console.log(picker);
     picker.open();
   }
 
@@ -31,7 +30,44 @@ export default class DatePicker extends Page {
         <p>Date pickers let users select a date, or a range of dates</p>
 
         <section>
+          <h4>Example</h4>
+
+          <!-- contained -->
+          <mdw-card id="contained">
+            <div class="mdw-card__content">
+              <h6>Date input</h6>
+              <div class="description"</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-textfield>
+                  <mdw-icon>events</mdw-icon>
+                  <input type="date">
+                  <label>Begin icon</label>
+                </mdw-textfield>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <mdw-textfield>
+                <mdw-icon>events</mdw-icon>
+                <input type="date">
+                <label>Date</label>
+                <mdw-date-picker></mdw-date-picker>
+              </mdw-textfield>
+            </div>
+          </mdw-card>
         </section>
+
+        <section style="height: 500px;">
+          <mdw-textfield>
+            <mdw-icon>events</mdw-icon>
+            <input type="date">
+            <label>Date</label>
+          </mdw-textfield>
+        </section>
+
       </article>
     `;
   }

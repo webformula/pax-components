@@ -231,20 +231,21 @@ export default new class DateUtil {
     }, {});
     const patternRegexp = new RegExp(`[YMDdAaHhms]+`, 'g');
     const formatters = {
-      YYYY: parts => parts.year,
-      YY: parts => parts.year.slice(-2),
-      MMMM: parts => parts.lmonth,
-      MMM: parts => parts.lmonth.slice(0, 3),
-      MM: parts => parts.month,
-      DD: parts => parts.day,
-      dddd: parts => parts.weekday,
-      ddd: parts => parts.weekday.slice(0, 3),
-      A: parts => parts.dayPeriod,
-      a: parts => parts.dayPeriod.toLowerCase(),
-      HH: parts => parts.lhour,
-      hh: parts => parts.hour,
-      mm: parts => parts.minute,
-      ss: parts => parts.second
+      YYYY: parts => parts.year, // 2019
+      YY: parts => parts.year.slice(-2), // 19
+      MMMM: parts => parts.lmonth, // December
+      MMM: parts => parts.lmonth.slice(0, 3), // Dec
+      MM: parts => parts.month, // 12
+      DD: parts => parts.day, // 21
+      dd: parts => parts.day, // 21
+      dddd: parts => parts.weekday, // Saturday
+      ddd: parts => parts.weekday.slice(0, 3), // Sat
+      A: parts => parts.dayPeriod, // AM / PM
+      a: parts => parts.dayPeriod.toLowerCase(), // am / pm
+      HH: parts => parts.lhour, // 00
+      hh: parts => parts.hour, // 12
+      mm: parts => parts.minute, // 23
+      ss: parts => parts.second // 54
     };
     const allFormatters = { ...formatters };
     return formatPattern.replace(patternRegexp, mask => (allFormatters[mask] || this.identity)(parts, date));

@@ -6,17 +6,34 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
     super();
 
     this.bound_click = this.click.bind(this);
-    this.currentYear = 1950;
+    this.currentYear = MDWDateUtil.parse(this.selectedDate || MDWDateUtil.today()).getFullYear();
     this.years = MDWDateUtil.defaultYearRange();
-    this.cloneTemplate();
+    this.cloneTemplate(true);
   }
 
   connectedCallback() {
     this.shadowRoot.querySelector('.mdw-date-picker--view-year-container').addEventListener('click', this.bound_click);
+    this.scrollToSelectedYear();
   }
 
   disconnectedCallback() {
     this.shadowRoot.querySelector('.mdw-date-picker--view-year-container').removeEventListener('click', this.bound_click);
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date');
+  }
+
+  get selectedElement() {
+    return this.shadowRoot.querySelector('.mdw-selected');
+  }
+
+  scrollToSelectedYear() {
+    this.selectedElement.scrollIntoView({
+      behavior: 'auto',
+      block: 'center',
+      inline: 'center'
+    });
   }
 
   click(event) {
@@ -42,7 +59,7 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
   }
 
   template() {
-    return html`
+    return `
       <div class="mdw-date-picker--view-year-container">
         ${this.years.map(y => `<div id="mdw-year-${y}" class="mdw-date-picker--year ${y === this.currentYear ? 'mdw-selected' : ''}">${y}</div>`).join('\n')}
       </div>

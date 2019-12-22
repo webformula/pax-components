@@ -118,6 +118,10 @@ mdw-textfield input {
   caret-color: var(--mdw-theme-primary-A200);
 }
 
+mdw-textfield input[type="date"].mdw-hide-date-prompt::-webkit-calendar-picker-indicator{
+  display: none;
+}
+
 mdw-textfield.mdw-invalid textarea,
 mdw-textfield.mdw-invalid input {
   border-bottom-color: var(--mdw-theme-error);

@@ -130,6 +130,9 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
         line-height: 40px;
         border-radius: 50%;
         color: var(--mdw-theme-text--heading);
+        cursor: pointer;
+        user-select: none;
+        box-sizing: border-box;
       }
 
       .mdw-date-picker--day.mdw-selected {
