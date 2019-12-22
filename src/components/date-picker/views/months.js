@@ -8,6 +8,7 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     this.bound_nextMonth = this.nextMonth.bind(this);
     this.bound_prevMonth = this.prevMonth.bind(this);
     this.bound_monthDayChanged = this.monthDayChanged.bind(this);
+    this.bound_scrolling = this.scrolling.bind(this);
 
     this.dayOfWeekNames = MDWDateUtil.getDayOfWeekNames('narrow');
     this.monthList = MDWDateUtil.getMonthsSurroundingYear(this.selectedDate);
@@ -74,19 +75,17 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   nextMonth() {
+    if (this._moving) return;
+    this._moving = true;
+
     const current = this.shadowRoot.querySelector('[mdw-active-month]');
     const next = current.nextElementSibling;
     if (!next || next.nodeName !== 'MDW-DATE-PICKER--VIEW-MONTH-SINGLE') return;
     current.removeActive();
     next.setActive();
     const moveBy = current.offsetWidth;
-
-    // make sure the position does not get out od sync
-    if (this.expectedScrollDestination && this.scrollContainer.scrollLeft !== this.expectedScrollDestination) {
-      this.scrollContainer.scrollLeft = this.expectedScrollDestination;
-    }
-    // store expected position
-    this.expectedScrollDestination = this.scrollContainer.scrollLeft + moveBy;
+    this._targetScrollLeft = this.scrollContainer.scrollLeft + moveBy;
+    this.scrollContainer.addEventListener('scroll', this.bound_scrolling);
 
     this.scrollContainer.scrollBy({
       top: 0,
@@ -96,16 +95,27 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   prevMonth() {
+    if (this._moving) return;
+    this._moving = true;
+
     const current = this.shadowRoot.querySelector('[mdw-active-month]');
     const prev = current.previousElementSibling;
     if (!prev || prev.nodeName !== 'MDW-DATE-PICKER--VIEW-MONTH-SINGLE') return;
     current.removeActive();
     prev.setActive();
+    this._targetScrollLeft = this.scrollContainer.scrollLeft - prev.offsetWidth;
+    this.scrollContainer.addEventListener('scroll', this.bound_scrolling);
     this.scrollContainer.scrollBy({
       top: 0,
       left: -prev.offsetWidth,
       behavior: 'smooth'
     });
+  }
+
+  scrolling(event) {
+    if (event.currentTarget.scrollLeft !== this._targetScrollLeft) return;
+    this.scrollContainer.addEventListener('scroll', this.bound_scrolling);
+    this._moving = false;
   }
 
   deselect() {
