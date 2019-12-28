@@ -21,16 +21,16 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
 
   get panel() {
     // hold a reference becuase we are hoisting the panel out of this component
-    if (!this.panel_) this.panel_ = this.querySelector('mdw-panel');
-    return this.panel_;
+    if (!this._panel) this._panel = this.querySelector('mdw-panel');
+    return this._panel;
   }
 
   get position() {
-    return this.position_ || 'center center';
+    return this._position || 'center center';
   }
 
   set position(value) {
-    this.position_ = value;
+    this._position = value;
   }
 
   get clickOutsideClose() {
@@ -43,12 +43,11 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
 
   show() {
     this.panel.hoistToBody();
-    this.panel.setPosition(this.position);
+    this.panel.setTarget('body');
+    this.panel.setAttribute('mdw-position', this.position);
     this.panel.open();
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.classList.add('mdw-show');
-    // TODO find a better way to handle positioning against body.
-    // this.panel.setPositionStyle(document.body);
 
     this.backdrop = MDWUtils.addBackdrop(this.panel, () => {
       if (this.clickOutsideClose === true) this.close();
