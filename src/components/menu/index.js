@@ -23,9 +23,7 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
 
   onClick() {
     if (MDWUtils.isMobile !== true) {
-      this.panel.setPosition(this.panelPosition);
-      this.panel.autoPosition();
-      this.panel.clickBodyToClose();
+      this.panel.setAttribute('mdw-position', this.panelPosition);
       this.panel.open(true);
       this.panel.addEventListener('click', this.bound_onPanelClick);
     } else {
@@ -43,7 +41,7 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   }
 
   get panelPosition() {
-    return this._panelPosition || 'inner-top inner-left';
+    return this._panelPosition || 'inner-left inner-top';
   }
 
   get button() {
