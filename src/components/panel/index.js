@@ -19,6 +19,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._boundHandleKeydown = this._handleKeydown.bind(this);
     this._clickOutsideCloseIgnorElement = [];
     this._autoPosition = false;
+    this.setTarget(this.getAttribute('mdw-target') || this.parentNode);
   }
 
   connectedCallback() {
@@ -41,32 +42,38 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   attributeChangedCallback(name, oldValue, newValue) {
     switch(name) {
       case 'mdw-position':
-        this._position = newValue;
+        const split = newValue.split(' ');
+        this._position = `${split[0] || 'left'} ${split[1] || 'top'}`;
+        this._setPosition();
         break;
     }
   }
 
-  set clickOutsideClose(value) {
-    this._clickOutsideClose = value;
+  get target() {
+    return this._target;
   }
 
-  set setQuickOpen(value) {
-    this._isQuickOpen = value;
+  setTarget(value) {
+    // convert css selector to node
+    if (value && typeof value === 'string') {
+      const orig = value;
+      value = document.querySelector(value);
+      if (value === null) throw Error(`invalid css selector or elemnt does not exits for target value ${orig}`);
+    }
+    this._target = value;
   }
 
-  get position() {
-    return this._position;
+  setClickOutsideClose(value) {
+    this._clickOutsideClose = !!value;
   }
 
-  setPosition(value) {
-    const split = value.split(' ');
-    this._position = `${split[0] || 'top'} ${split[1] || 'left'}`;
-    this.setAttribute('mdw-position', this._position);
-    this._positionSet = true;
+  setQuickOpen(value) {
+    this._isQuickOpen = !!value;
   }
 
   autoPosition() {
     this._autoPosition = true;
+    this._setPosition();
   }
 
   clickBodyToClose() {
@@ -90,22 +97,17 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
       this.classList.add('mdw-panel--animating-open');
       this._animationRequestId = this._runNextAnimationFrame(() => {
         this.classList.add('mdw-open');
-        if (this._isQuickOpen) this.notifyOpen();
-        else {
-          this._openAnimationEndTimerId = setTimeout(() => {
-            this._openAnimationEndTimerId = 0;
-            this.classList.remove('mdw-panel--animating-open');
-            this.notifyOpen();
-          }, 150);
-        }
+        this._openAnimationEndTimerId = setTimeout(() => {
+          this._openAnimationEndTimerId = 0;
+          this.classList.remove('mdw-panel--animating-open');
+          this.notifyOpen();
+        }, 150);
 
-        if (this._isHoisted) this.setHoisetedPosition();
-        else this.setPositionStyle();
+        this._setPosition();
       });
     } else {
       this.classList.add('mdw-open');
-      if (this._isHoisted) this.setHoisetedPosition();
-      else this.setPositionStyle();
+      this._setPosition();
     }
 
     this.addBodyClickEvent_();
@@ -239,177 +241,186 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.dispatchEvent(new Event('MDWPanel:open'), this);
   }
 
-  hoistToBody(target) {
+  hoistToBody() {
     if (this._isHoisted) return;
-    this._container = target || this.parentNode;
     document.body.appendChild(this);
-    this.classList.add('mdw-panel-hoisted');
     this._isHoisted = true;
   }
 
-  _autoPositionHoisted() {
-    if (!this._autoPosition) return;
+  getRelativePos(node) {
+    let pos = { x: 0, y: 0 };
 
-    const pageHeight = window.innerHeight;
-    const panelRect = this.getBoundingClientRect();
-    const panelHeight = this.offsetHeight;
-    let panelY = this.offsetTop;
-
-    // if panel is out of window y bounds
-    if (panelY + panelHeight > pageHeight) {
-      if (panelHeight <= pageHeight) {
-        const maxTop = pageHeight - panelHeight;
-        let offset = panelY - maxTop;
-
-        // add padding to offset, this will prevent panel from butting up against bottom
-        if (offset > 20) offset += 10;
-        else offset /= 2;
-
-        panelY -= offset;
-      }
+    while (node !== null) {
+        console.log(node);
+        pos.x += node.offsetLeft;
+        pos.y += node.offsetTop;
+        node = node.offsetParent;
     }
 
-    this.style.top = `${panelY}px`;
+    return pos;
   }
 
-  setHoisetedPosition() {
-    const bounds = this._container.getBoundingClientRect();
-    this.style.top = `${bounds.top}px`;
-    this.style.left = `${bounds.left}px`;
-    this.style[this.transformPropertyName] = 'scale(1)';
-
-    if (!this._positionSet) {
-      this._autoPositionHoisted();
-    } else {
-      let top = 0;
-      let left = 0;
-
-      this.style.top = `${top}px`;
-      this.style.left = `${left}px`;
-
-      setTimeout(() => {
-        const { clientWidth, clientHeight } = document.documentElement;
-        const height = this.offsetHeight;
-        const width = this.offsetWidth;
-        const aValue = this.position.split(' ')[0];
-        const bValue = this.position.split(' ')[1];
-
-        switch(aValue) {
-          case 'top':
-            top = 0;
-            break;
-          case 'inner-top':
-            top = bounds.y + 12;
-            break;
-          case 'bottom':
-            top = clientHeight;
-            break;
-          case 'center':
-            top = (clientHeight / 2) - (height / 2);
-            break;
-          case 'inner-bottom':
-            top = clientHeight - height - 12;
-            break;
-        }
-
-        switch(bValue) {
-          case 'left':
-            left = -width;
-            break;
-          case 'inner-left':
-            left = bounds.x + 12;
-            break;
-          case 'right':
-            left = clientWidth;
-            break;
-          case 'inner-right':
-            left = clientWidth - width - 12;
-            break;
-          case 'center':
-            left = (clientWidth / 2) - (width / 2);
-            break;
-        }
-
-        this.style.width = `${this.width}px`;
-        this.style.top = `${top}px`;
-        this.style.left = `${left}px`;
-      }, 0);
-    }
-  }
-
-
-  setPositionStyle(parentOverride) {
-    if (parentOverride) this._parentOverride = parentOverride;
-    else if (this._parentOverride) parentOverride = this._parentOverride;
-
-    const position = this.position;
-    let parentWidth = 0;
-    let parentHeight = 0;
-    if (parentOverride) {
-      parentWidth = parentOverride.offsetWidth;
-      parentHeight = parentOverride.offsetHeight;
-    } else {
-      let parent = this.parentNode;
-      if (parent.nodeName === 'MDW-SNACKBAR') parent = parent.parentNode;
-      const parentRect = parent.getBoundingClientRect();
-      parentWidth = parentRect.width;
-      parentHeight = parentRect.height;
-    }
+  _setPosition() {
+    if (!this.isOpen()) return;
 
     // use offset with and height to avoid problems due to transform: scale()
-    // using getBoundingClientRect will return the adjusted width based on the scale factor
-    const width = this.offsetWidth;
-    const height = this.offsetHeight;
-    const aValue = position.split(' ')[0];
-    const bValue = position.split(' ')[1];
-    let top = 0;
-    let left = 0;
-
-    switch(aValue) {
-      case 'top':
-        top = -height;
-        break;
-      case 'bottom':
-        top = parentHeight;
-        break;
-      case 'center':
-        top = (parentHeight / 2) - (height / 2);
-        break;
-      case 'inner-bottom':
-        top = parentHeight - height;
-        break;
+    // getBoundingClientRect will return the adjusted width based on the scale factor
+    const position = this._position.split(' ');
+    let aValue = position[0];
+    let bValue = position[1];
+    // auto correct swapped values
+    if (['top', 'bottom', 'inner-bottom', 'inner-top'].includes(aValue) || ['left', 'right', 'inner-left', 'inner-right'].includes(bValue)) {
+      aValue = position[1];
+      bValue = position[0];
     }
 
-    switch(bValue) {
-      case 'left':
-        left = -width;
-        break;
-      case 'right':
-        left = parentWidth;
-        break;
-      case 'inner-right':
-        left = parentWidth - width;
-        break;
-      case 'center':
-        left = (parentWidth / 2) - (width / 2);
-        break;
-    }
-
-    if (this._autoPosition) {
-      const { clientWidth, clientHeight } = document.documentElement;
-      const { x: globalX, y: globalY } = this.getBoundingClientRect();
-      if ((globalY + height) > clientHeight) top = parentHeight - height;
-      if ((globalX + width) > clientWidth) left = parentWidth - width;
-    }
+    const { left, top } = this._calculatePosition(aValue, bValue);
 
     this.style.top = `${parseInt(top)}px`;
     this.style.left = `${parseInt(left)}px`;
     this.style[this.transformPropertyName] = 'scale(1)';
+    this.style[`${this.transformPropertyName}-origin`] = `${this._scaleOriginX} ${this._scaleOriginY}`;
+  }
+
+  _calculatePosition(xValue, yValue, count = 0) {
+    const target = this.target;
+    const offsetParent = this.offsetParent;
+    const targetRect = target.getBoundingClientRect();
+    const offsetParentRect = offsetParent ? offsetParent.getBoundingClientRect() : { x: 0, y:0 };
+    const width = this.offsetWidth;
+    const height = this.offsetHeight;
+    let top = 0;
+    let left = 0;
+
+    switch(xValue) {
+      case 'left':
+        left = targetRect.x - width - offsetParentRect.x;
+        this._scaleOriginX = 'right';
+        break;
+      case 'right':
+        left = targetRect.x + targetRect.width - offsetParentRect.x;
+        this._scaleOriginX = 'left';
+        break;
+      case 'center':
+        left = targetRect.x + (targetRect.width / 2) - (width / 2) - offsetParentRect.x;
+        this._scaleOriginX = 'center';
+        break;
+      case 'inner-left':
+        left = targetRect.x - offsetParentRect.x;
+        this._scaleOriginX = 'left';
+        break;
+      case 'inner-right':
+        left = targetRect.x + targetRect.width - width - offsetParentRect.x;
+        this._scaleOriginX = 'right';
+        break;
+    }
+
+    switch(yValue) {
+      case 'top':
+        top = targetRect.y - height - offsetParentRect.y;
+        this._scaleOriginY = 'bottom';
+        break;
+      case 'bottom':
+        top = targetRect.y + targetRect.height - offsetParentRect.y;
+        this._scaleOriginY = 'top';
+        break;
+      case 'center':
+        top = targetRect.y + (targetRect.height / 2) - (height / 2) - offsetParentRect.y;
+        this._scaleOriginY = 'center';
+        break;
+      case 'inner-top':
+        top = targetRect.y - offsetParentRect.y;
+        this._scaleOriginY = 'top';
+        break;
+      case 'inner-bottom':
+        top = targetRect.y + targetRect.height - height - offsetParentRect.y;
+        this._scaleOriginY = 'bottom';
+        break;
+    }
+
+    return this._adjustOutOfBoundsPosition(xValue, yValue, left, top, count);
+  }
+
+  _adjustOutOfBoundsPosition(xValue, yValue, left, top, count) {
+    if (!this._autoPosition) return { left, top };
+    const width = this.offsetWidth;
+    const height = this.offsetHeight;
+    const { clientWidth, clientHeight } = document.documentElement;
+    let recalculate = false;
+
+    switch(yValue) {
+      case 'top':
+        if (top < 0) {
+          yValue = 'bottom';
+          recalculate = true;
+        }
+      case 'inner-bottom':
+        if (top < 0) {
+          yValue = 'inner-top';
+          recalculate = true;
+        }
+        break;
+      case 'bottom':
+        if (Math.ceil((top + height) - clientHeight) > 0) {
+          yValue = 'top';
+          recalculate = true;
+        }
+        break;
+      case 'inner-top':
+        if (Math.ceil((top + height) - clientHeight) > 0) {
+          yValue = 'inner-bottom';
+          recalculate = true;
+        }
+        break;
+      case 'center':
+        const bottom = Math.ceil((top + height) - clientHeight);
+        if (top < 0) top = 0;
+        else if (bottom > 0) top -= bottom;
+        break;
+    }
+
+    switch(yValue) {
+      case 'left':
+        if (left < 0) {
+          xValue = 'right';
+          recalculate = true;
+        }
+        break;
+      case 'inner-right':
+        if (left < 0) {
+          xValue = 'inner-right';
+          recalculate = true;
+        }
+        break;
+      case 'right':
+        if (Math.ceil((left + width) - clientWidth) > 0) {
+          xValue = 'left';
+          recalculate = true;
+        }
+        break;
+      case 'inner-left':
+        if (Math.ceil((left + width) - clientWidth) > 0) {
+          xValue = 'inner-right';
+          recalculate = true;
+        }
+        break;
+      case 'center':
+        const right = Math.ceil((left + width) - clientWidth);
+        if (left < 0) left = 0;
+        else if (right > 0) left -= right;
+        break;
+    }
+
+    // use count to prevent infinite looping
+    //   This can be caused wehn the side of the panel is wider or taller than the screen
+    if (recalculate === true && count < 3) return this._calculatePosition(xValue, yValue, count++);
+
+    return { left, top };
   }
 
   resetPosition() {
-    this.style.top = '';
-    this.style.left = '';
+    // this.style.top = '';
+    // this.style.left = '';
     this.style[this.transformPropertyName] = '';
   }
 });
