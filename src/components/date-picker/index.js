@@ -24,14 +24,20 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.bound_onCancel = this.onCancel.bind(this);
     this.bound_onOk = this.onOk.bind(this);
     this.bound_inputChange = this.inputChange.bind(this);
+    this.bound_onPanelClose = this.onPanelClose.bind(this);
 
     this.checkForTextField();
   }
 
   connectedCallback() {
+    this.panel.setTarget(this.getAttribute('mdw-target') || this.parentNode);
+    if (this.panel._target.nodeName === 'MDW-TEXTFIELD' || this.panel._target.nodeName === 'input') {
+      this.panel.setAttribute('mdw-position', 'inner-left bottom');
+      if (this.panel._target.nodeName === 'MDW-TEXTFIELD') this.panel.ignoreElementOnClickToClose(this.panel._target.querySelector('input'));
+    }
     this.panel.querySelector('.mdw-date-picker--body-year-view-button').addEventListener('click', this.bound_yearClick);
-    this.panel.querySelector('#cancel-button').addEventListener('click', this.bound_onCancel);
-    this.panel.querySelector('#ok-button').addEventListener('click', this.bound_onOk);
+    if (this.cancelButton) this.cancelButton.addEventListener('click', this.bound_onCancel);
+    if (this.okButton) this.okButton.addEventListener('click', this.bound_onOk);
     this.changeView('month');
   }
 
@@ -41,8 +47,9 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
       this._attachedInput.removeEventListener('input', this.bound_inputChange);
     }
     this.panel.querySelector('.mdw-date-picker--body-year-view-button').removeEventListener('click', this.bound_yearClick);
-    this.panel.querySelector('#cancel-button').removeEventListener('click', this.bound_onCancel);
-    this.panel.querySelector('#ok-button').removeEventListener('click', this.bound_onOk);
+    if (this.cancelButton) this.cancelButton.removeEventListener('click', this.bound_onCancel);
+    if (this.okButton) this.okButton.removeEventListener('click', this.bound_onOk);
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.remove();
   }
 
@@ -52,6 +59,14 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   get viewContainer() {
     return this.panel.querySelector('.mdw-date-picker--body-views');
+  }
+
+  get cancelButton() {
+    return this.panel.querySelector('#cancel-button');
+  }
+
+  get okButton() {
+    return this.panel.querySelector('#ok-button');
   }
 
   get selectedYear() {
@@ -102,7 +117,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     });
 
     if (this.panel && this.panel.querySelector) {
-      this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD');
+      if (MDWUtils.isMobile) this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD');
       this.panel.querySelector('#month-year-dropdown').innerHTML = MDWDateUtil.format(this.selectedDate, 'MMMM YYYY');
     }
 
@@ -137,7 +152,9 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     //    this breaks view changing
     this.panel.style[`${MDWUtils.transformPropertyName}`] = 'scale(0.9)';
     this.panel.style[`${MDWUtils.transformPropertyName}-origin`] = 'top left';
-    this.panel.open();
+    this.panel.open(true);
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    MDWUtils.lockPageScroll();
 
     switch(this._currentView) {
       case 'year':
@@ -151,6 +168,11 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   close() {
     this.panel.close();
+  }
+
+  onPanelClose() {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    MDWUtils.unlockPageScroll();
   }
 
   yearChanged({ detail }) {
@@ -168,17 +190,19 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   buildPanel_() {
     const panelHTML = `
-    <mdw-panel id="${this.panelId}" mdw-flex-position="center center" class="mdw-date-picker-panel">
+    <mdw-panel id="${this.panelId}" mdw-position="inner-left inner-top" mdw-flex-position="center center" class="mdw-date-picker-panel">
       <div class="mdw-date-picker--container" style="width: 320px">
-        <div class="mdw-date-picker--header">
-          <div class="mdw-date-picker--header-title">Select date</div>
+        ${!MDWUtils.isMobile ? '' : `
+          <div class="mdw-date-picker--header">
+            <div class="mdw-date-picker--header-title">Select date</div>
 
-          <div mdw-row mdw-flex-position="center space-between">
-            <!-- Mon, Nov 17 -->
-            <div class="mdw-date-picker--header-date">${MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD')}</div>
-            <mdw-icon>edit</mdw-icon>
+            <div mdw-row mdw-flex-position="center space-between">
+              <!-- Mon, Nov 17 -->
+              <div class="mdw-date-picker--header-date">${MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD')}</div>
+              <mdw-icon>edit</mdw-icon>
+            </div>
           </div>
-        </div>
+        `}
 
         <div class="mdw-date-picker--body">
           <div mdw-row mdw-flex-position="center space-between">
@@ -197,10 +221,12 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
             }
           </div>
 
-          <div mdw-row mdw-flex-position="center right" style="padding: 8px;">
-            <mdw-button id="cancel-button" class="mdw-primary">cancel</mdw-button>
-            <mdw-button id="ok-button" class="mdw-primary">ok</mdw-button>
-          </div>
+          ${!MDWUtils.isMobile ? '' : `
+            <div mdw-row mdw-flex-position="center right" style="padding: 8px;">
+              <mdw-button id="cancel-button" class="mdw-primary">cancel</mdw-button>
+              <mdw-button id="ok-button" class="mdw-primary">ok</mdw-button>
+            </div>
+          `}
         </div>
       </div>
     </mdw-panel>
@@ -208,7 +234,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     document.body.insertAdjacentHTML('beforeend', panelHTML);
     const panelEl = this.panel;
     if (panelEl.hoistToBody) panelEl.hoistToBody(this);
-    panelEl.style.transform = 'scale(1)';
   }
 
   attachYearView() {

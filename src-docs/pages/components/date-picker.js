@@ -20,10 +20,10 @@ export default class DatePicker extends Page {
         <h3>Date picker</h3>
 
         <div class="showcase mdw-elevation-1">
-          <mdw-button onclick="activePage.openDatePicker()">open</mdw-button>
-
-          <mdw-date-picker id="picker">
-          </mdw-date-picker>
+          <mdw-button onclick="activePage.openDatePicker()">
+            open
+            <mdw-date-picker id="picker"></mdw-date-picker>
+          </mdw-button>
         </div>
 
         <a href="https://material.io/components/pickers/" target="_new">Material Design Guidlines: pickers</a>

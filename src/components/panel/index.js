@@ -342,7 +342,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   _adjustOutOfBoundsPosition(xValue, yValue, left, top, count) {
     if (!this._autoPosition) return { left, top };
-    
+
     const width = this.offsetWidth;
     const height = this.offsetHeight;
     const { clientWidth, clientHeight } = document.documentElement;

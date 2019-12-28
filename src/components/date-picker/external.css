@@ -1,3 +1,7 @@
+mdw-date-picker {
+  position: relative;
+}
+
 .mdw-date-picker-backdrop:not(.mdw-hide) {
   position: absolute;
   top: 0;
@@ -10,7 +14,7 @@
 
 mdw-panel.mdw-date-picker-panel.mdw-open {
   display: flex;
-  max-height: calc(100% - 32px);
+  /* max-height: calc(100% - 32px); */
 }
 
 .mdw-date-picker--container {
