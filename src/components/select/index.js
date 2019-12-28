@@ -7,8 +7,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
 
-    this.setupLabel_();
-    if (this._isEnhanced) this.prepareEnhance_();
+    this._setupLabel();
+    if (this._isEnhanced) this._prepareEnhance();
     this.classList.add('mdw-no-animation');
     this.cloneTemplate(true);
 
@@ -22,7 +22,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   connectedCallback() {
     if (this._isEnhanced) {
-      if (this.selected_) this.value = this.selected_.value;
+      if (this._selected) this.value = this._selected.value;
       this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
       document.body.addEventListener('keydown', this.bound_onKeyDown);
     } else {
@@ -106,15 +106,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this._notch;
   }
 
-  setupLabel_() {
+  _setupLabel() {
     const label = this.querySelector('label');
     if (label) {
-      this.labelText_ = label.innerText;
+      this._labelText = label.innerText;
       label.remove();
     }
   }
 
-  prepareEnhance_() {
+  _prepareEnhance() {
     this._optionsMap = [...this.querySelectorAll('option')].map(el => {
       return {
         text: el.innerText,
@@ -123,7 +123,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       };
     });
 
-    this.selected_ = (this._optionsMap.filter(({ selected }) => selected === true)[0] || { text: '', value: '' });
+    this._selected = (this._optionsMap.filter(({ selected }) => selected === true)[0] || { text: '', value: '' });
 
     const selectElement = this.querySelector('select');
     if (selectElement) {
@@ -132,13 +132,13 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       selectElement.remove();
     }
 
-    if (MDWUtils.isMobile) this.prepareSheet_();
-    else this.preparePanel_();
+    if (MDWUtils.isMobile) this._prepareSheet();
+    else this._preparePanel();
   }
 
-  preparePanel_() {
+  _preparePanel() {
     const panelHTML = `
-      <mdw-panel id="${this.enhacedElementId}" mdw-flex-position="bottom inner-left" class="mdw-panel-hoisted">
+      <mdw-panel id="${this.enhacedElementId}" mdw-position="inner-top center" mdw-flex-position="inner-left bottom" class="mdw-panel-hoisted">
         <mdw-list>
           ${this._optionsMap.map(({ text, value, selected }) => `
             <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
@@ -148,11 +148,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     `;
     document.body.insertAdjacentHTML('beforeend', panelHTML);
     const panelEl = this.panel;
-    if (panelEl.hoistToBody) panelEl.hoistToBody(this);
-    panelEl.style.transform = 'scale(1)';
+    if (panelEl.hoistToBody) {
+      panelEl.setTarget(this);
+      panelEl.autoPosition();
+      panelEl.hoistToBody(this);
+    }
   }
 
-  prepareSheet_() {
+  _prepareSheet() {
     const sheetHTML = `
       <mdw-sheet mdw-modal id=${this.enhacedElementId}>
         <mdw-sheet-content>
@@ -202,7 +205,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
   }
 
-  onClick(event) {
+  onClick() {
     this._focusIndex === undefined;
     this.onFocus();
 
@@ -217,7 +220,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (selectedElement) selectedElement.classList.add('mdw-focused');
     } else {
       const panelElement = this.panel;
-      panelElement.autoPosition();
       panelElement.open(true);
       panelElement.addEventListener('MDWPanel:closed', this.bound_onBlur);
       panelElement.addEventListener('click', this.bound_onPanelClick);
@@ -252,9 +254,9 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return `
       <i class="mdw-select__icon"></i>
       ${!this._isEnhanced ? '<slot></slot>' : `
-        <div class="mdw-select__selected-text">${this.selected_.text}</div>
+        <div class="mdw-select__selected-text">${this._selected.text}</div>
       `}
-      <label>${this.labelText_}</label>
+      <label>${this._labelText}</label>
       ${this.outlined ? '' : '<div class="mdw-line-ripple"></div>'}
       ${!this.outlined ? '' : `
         <div class="mdw-outlined-border-container">
