@@ -43,6 +43,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
 
   show() {
     this.panel.hoistToBody();
+    this.setAutoPosition(false);
     this.panel.setTarget('body');
     this.panel.setAttribute('mdw-position', this.position);
     this.panel.open();

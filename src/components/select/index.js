@@ -150,7 +150,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     const panelEl = this.panel;
     if (panelEl.hoistToBody) {
       panelEl.setTarget(this);
-      panelEl.autoPosition();
       panelEl.hoistToBody(this);
     }
   }
