@@ -246,19 +246,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._isHoisted = true;
   }
 
-  getRelativePos(node) {
-    let pos = { x: 0, y: 0 };
-
-    while (node !== null) {
-        console.log(node);
-        pos.x += node.offsetLeft;
-        pos.y += node.offsetTop;
-        node = node.offsetParent;
-    }
-
-    return pos;
-  }
-
   _setPosition() {
     if (!this.isOpen()) return;
 

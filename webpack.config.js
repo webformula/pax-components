@@ -4,6 +4,7 @@ const webpack = require('webpack');
 
 const cwd = process.cwd();
 const isMobile = process.argv.includes('--mobile');
+const isDev = process.argv.includes('--dev');
 
 module.exports = {
   entry: {
@@ -26,5 +27,9 @@ module.exports = {
     new webpack.DefinePlugin({
       FORCE_MOBILE: isMobile === true ? JSON.stringify('true') : undefined
     })
-  ]
+  ],
+
+  optimization: {
+    minimize: isDev
+  }
 };

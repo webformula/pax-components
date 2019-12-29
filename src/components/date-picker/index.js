@@ -58,7 +58,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   get viewContainer() {
-    return this.panel.querySelector('.mdw-date-picker--body-views');
+    return this.panel && this.panel.querySelector('.mdw-date-picker--body-views');
   }
 
   get cancelButton() {
@@ -77,6 +77,26 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this._selectedYear = value;
   }
 
+  get yearComponent() {
+    return this.viewContainer && this.viewContainer.querySelector('mdw-date-picker--view-year');
+  }
+
+  get monthComponent() {
+    return this.viewContainer && this.viewContainer.querySelector('mdw-date-picker--view-month');
+  }
+
+
+  setDate(dateParts) {
+    if (dateParts.day) this.selectedDay = dateParts.day;
+    if (dateParts.month) this.selectedMonth = dateParts.month;
+    if (dateParts.year) this.selectedYear = dateParts.year;
+    if (dateParts.updateDate) this.updateDate();
+  }
+
+  setYearSelector(dateParts) {
+    this.panel.querySelector('#month-year-dropdown').innerHTML = MDWDateUtil.format(MDWDateUtil.buildFromParts(dateParts), 'MMMM YYYY');
+  }
+
   checkForTextField() {
     if (this.parentNode.nodeName === 'MDW-TEXTFIELD') {
       this._attachedInput = this.parentNode.querySelector('input');
@@ -89,9 +109,9 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   inputChange(event) {
     const value = event.target.value.split('-');
-    this.selectedDay = value.pop();
-    this.selectedMonth = value.pop();
-    this.selectedYear = value.pop();
+    this.selectedDay = parseInt(value.pop());
+    this.selectedMonth = parseInt(value.pop() - 1);
+    this.selectedYear = parseInt(value.pop());
     this.updateDate(true);
   }
 
@@ -116,11 +136,17 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
       day: this.selectedDay
     });
 
+    // update this components displays
     if (this.panel && this.panel.querySelector) {
       if (MDWUtils.isMobile) this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD');
       this.panel.querySelector('#month-year-dropdown').innerHTML = MDWDateUtil.format(this.selectedDate, 'MMMM YYYY');
     }
 
+    // update views{
+    if (this.monthComponent) this.monthComponent.updateDisplay(this.selectedDate);
+    if (this.yearComponent) this.yearComponent.updateDisplay(this.selectedDate);
+
+    // update input
     if (this._attachedInput && !preventInputUpdate) {
       this._attachedInput.value = MDWDateUtil.format(this.selectedDate, 'YYYY-MM-dd');
     }
@@ -185,7 +211,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.selectedmonth = detail.month;
     this.selectedDay = detail.day;
     this.updateDate();
-    this.close();
+    // if (!MDWDateUtil.isMobile) this.close();
   }
 
   buildPanel_() {
@@ -240,17 +266,18 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.viewContainer.innerHTML = `<mdw-date-picker--view-year mdw-selected-date="${this.selectedDate}"></mdw-date-picker--view-year>`;
     this.viewContainer.querySelector('mdw-date-picker--view-year').addEventListener('MDWDatePicker:yearChanged', this.bound_yearChanged);
 
-    const monthEl = this.viewContainer.querySelector('mdw-date-picker--view-month');
+    const monthEl = this.monthComponent;
     if (monthEl) monthEl.removeEventListener('MDWDatePicker:monthDayChanged', this.bound_monthChanged);
   }
 
   attachMonthView() {
     this.viewContainer.innerHTML = `<mdw-date-picker--view-month mdw-selected-date="${this.selectedDate}"></mdw-date-picker--view-month>`;
-    const monthEl = this.viewContainer.querySelector('mdw-date-picker--view-month');
-    if (monthEl) monthEl.addEventListener('MDWDatePicker:monthDayChanged', this.bound_monthChanged);
+    const monthEl = this.monthComponent;
+    monthEl.pickerElement = this;
+    // if (monthEl) monthEl.addEventListener('MDWDatePicker:monthDayChanged', this.bound_monthChanged);
     // this.viewContainer.querySelector(`#mdw-year-${this.selectedYear}`).classList.add('mdw-selected');
 
-    const yearEl = this.viewContainer.querySelector('mdw-date-picker--view-year');
+    const yearEl = this.yearComponent;
     if (yearEl) yearEl.removeEventListener('MDWDatePicker:yearChanged', this.bound_yearChanged);
   }
 });

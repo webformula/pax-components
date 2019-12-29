@@ -8,7 +8,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
     this.bound_onClick = this.onClick.bind(this);
     // TODO remove defaulting
     this.today = MDWDateUtil.today();
-    this.monthDate = MDWDateUtil.parse(this.date);
+    this.monthDate = MDWDateUtil.parse(this.getAttribute('mdw-date'));
     this.monthDays = this.monthDate ? MDWDateUtil.getMonthDayArray(this.monthDate) : [];
 
     this.cloneTemplate(true);
@@ -28,37 +28,43 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
   }
 
   // expecting date string: (new Date()).toString();
-  get date() {
-    return this.getAttribute('mdw-date');
+  get year() {
+    return this.monthDate.getFullYear();
   }
 
-  get selectedDate() {
-    return this.parentNode.selectedDate;
+  get month() {
+    return this.monthDate.getMonth();
+  }
+
+  get day() {
+    return parseInt(this.shadowRoot.querySelector('.mdw-selected').innerHTML)
   }
 
   // parent component
-  get monthsElement() {
-    return this._monthsComponent;
+  get parentComponent() {
+    return this._parentComponent;
   }
-  set monthsComponent(el) {
-    this._monthsComponent = el;
+
+  set parentComponent(el) {
+    this._parentComponent = el;
+  }
+
+  setDate(dateParts) {
+    this.parentComponent.setDate(dateParts);
+  }
+
+  updateDisplay(date) {
+    // only update if the year and month match;
+    if (date.getFullYear() !== this.year || date.getMonth() !== this.month) return;
+
+    this.monthDate = date;
+    console.log(date.getDate());
+    this.shadowRoot.querySelectorAll('.mdw-date-picker--day')[date.getDate() - 1].classList.add('mdw-selected');
   }
 
   deselect() {
     const selected = this.shadowRoot.querySelector('.mdw-selected');
     if (selected) selected.classList.remove('mdw-selected');
-  }
-
-  isSelectedMonth() {
-    return this.selectedDate && this.selectedDate.getMonth() === this.monthDate.getMonth();
-  }
-
-  isToday(day) {
-    return this.today.getMonth() === this.monthDate.getMonth() && day === this.today.getDate();
-  }
-
-  isSelected(day) {
-    return this.isSelectedMonth() && day === this.selectedDate.getDate();
   }
 
   setCurrent() {
@@ -75,14 +81,14 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
 
   onClick(event) {
     if (event.target.classList.contains('mdw-date-picker--day')) {
-      this.monthsElement.deselect();
+      this.parentComponent.deselect();
       event.target.classList.add('mdw-selected');
-      this.dispatchEvent(new CustomEvent('MDWDatePicker:monthDayChanged', {
-        detail: {
-          month: this.monthDate.getMonth(),
-          day: parseInt(event.target.innerHTML)
-        }
-      }));
+      this.setDate({
+        year: this.year,
+        month: this.month,
+        day: this.day,
+        updateDate: true
+      });
     }
   }
 
@@ -91,7 +97,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
       <div class="mdw-date-picker--view-month-container">
         ${this.monthDays.map(week => `
           <div class="mdw-date-picker--view-month-week-container">
-            ${week.map(d => `<div class="mdw-date-picker--day ${this.isSelected(d) ? 'mdw-selected' : ''} ${this.isToday(d) ? 'mdw-today' : ''}">${d}</div>`).join('\n')}
+            ${week.map(d => `<div class="mdw-date-picker--day">${d}</div>`).join('\n')}
           </div>
         `).join('\n')}
       </div>

@@ -7,7 +7,6 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
 
     this.bound_nextMonth = this.nextMonth.bind(this);
     this.bound_prevMonth = this.prevMonth.bind(this);
-    this.bound_monthDayChanged = this.monthDayChanged.bind(this);
     this.bound_scrolling = this.scrolling.bind(this);
 
     this.dayOfWeekNames = MDWDateUtil.getDayOfWeekNames('narrow');
@@ -17,26 +16,18 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   connectedCallback() {
-    // this.querySelector(`#mdw-year-${this.selectedDate}`).classList.add('mdw-selected');
     this.navButtonLeft.addEventListener('click', this.bound_prevMonth);
     this.navButtonRight.addEventListener('click', this.bound_nextMonth);
-    this.shadowRoot.addEventListener('click', this.bound_onclick);
 
-    [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single')].forEach(el => {
+    this.forEachMonth(el => {
       // give reference to this compnent
-      el.monthsComponent = this;
-      el.addEventListener('MDWDatePicker:monthDayChanged', this.bound_monthDayChanged);
+      el.parentComponent = this;
     });
   }
 
   disconnectedCallback() {
     this.navButtonLeft.removeEventListener('click', this.bound_prevMonth);
     this.navButtonRight.removeEventListener('click', this.bound_nextMonth);
-    this.shadowRoot.removeEventListener('click', this.bound_onclick);
-
-    [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single')].forEach(el => {
-      el.removeEventListener('MDWDatePicker:monthDayChanged', this.bound_monthDayChanged);
-    });
   }
 
   set isOpen(value) {
@@ -53,8 +44,12 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     return this.shadowRoot.querySelector('[mdw-selected]');
   }
 
-  get selectedMonth() {
-    return this.selectedDay.parentNode.parentNode.parentNode.host;
+  set pickerElement(value) {
+    this._pickerElement = value;
+  }
+
+  get pickerElement() {
+    return this._pickerElement;
   }
 
   get selectedDate() {
@@ -67,6 +62,25 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
 
   get navButtonRight() {
     return this.shadowRoot.querySelector('.mdw-date-picker--body-nav-buttons--right');
+  }
+
+  forEachMonth(callback) {
+    [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single')].forEach(callback);
+  }
+
+  setDate(dateParts) {
+    this.pickerElement.setDate(dateParts);
+  }
+
+  setYearSelector(dateParts) {
+    this.pickerElement.setYearSelector(dateParts);
+  }
+
+  updateDisplay(date) {
+    this.deselect();
+    this.forEachMonth(el => {
+      if (el.year === date.getFullYear() && el.month === date.getMonth()) el.updateDisplay(date);
+    });
   }
 
   scrollToCurrentMonth() {
@@ -86,12 +100,13 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     const moveBy = current.offsetWidth;
     this._targetScrollLeft = this.scrollContainer.scrollLeft + moveBy;
     this.scrollContainer.addEventListener('scroll', this.bound_scrolling);
-
     this.scrollContainer.scrollBy({
       top: 0,
       left: moveBy,
       behavior: 'smooth'
     });
+
+    this.setYearSelector({ year: next.year, month: next.month })
   }
 
   prevMonth() {
@@ -110,6 +125,8 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
       left: -prev.offsetWidth,
       behavior: 'smooth'
     });
+
+    this.setYearSelector({ year: prev.year, month: prev.month })
   }
 
   scrolling(event) {
@@ -119,20 +136,20 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   deselect() {
-    [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single')].forEach(el => el.deselect());
+    this.forEachMonth(el => el.deselect());
   }
 
-  monthDayChanged({ detail }) {
-    const date = MDWDateUtil.buildFromParts({
-      year: MDWDateUtil.parse(this.selectedDate).getFullYear(),
-      month: detail.month,
-      day: detail.day
-    });
-    this.setAttribute('mdw-selected-date', date);
-    this.dispatchEvent(new CustomEvent('MDWDatePicker:monthDayChanged', {
-      detail
-    }));
-  }
+  // monthDayChanged({ detail }) {
+  //   const date = MDWDateUtil.buildFromParts({
+  //     year: MDWDateUtil.parse(this.selectedDate).getFullYear(),
+  //     month: detail.month,
+  //     day: detail.day
+  //   });
+  //   this.setAttribute('mdw-selected-date', date);
+  //   this.dispatchEvent(new CustomEvent('MDWDatePicker:monthDayChanged', {
+  //     detail
+  //   }));
+  // }
 
   template() {
     return `
@@ -164,6 +181,7 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     return `
       :host {
         margin-top: 22px;
+        margin-bottom: 12px;
       }
 
       .mdw-date-picker--view-month-single-container {
