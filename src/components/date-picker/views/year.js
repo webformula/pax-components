@@ -6,7 +6,7 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
     super();
 
     this.bound_click = this.click.bind(this);
-    this.currentYear = MDWDateUtil.parse(this.selectedDate || MDWDateUtil.today()).getFullYear();
+    // TOSO allow range to be set
     this.years = MDWDateUtil.defaultYearRange();
     this.cloneTemplate(true);
   }
@@ -20,12 +20,35 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
     this.shadowRoot.querySelector('.mdw-date-picker--view-year-container').removeEventListener('click', this.bound_click);
   }
 
-  get selectedDate() {
-    return this.getAttribute('mdw-selected-date');
+  static get observedAttributes() {
+    return ['mdw-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch(name) {
+      case 'mdw-date':
+        this._selectedDate = MDWDateUtil.parse(newValue || MDWDateUtil.today())
+        this.updateDisplay();
+        break;
+    }
+  }
+
+  get year() {
+    return this._selectedDate.getFullYear();
   }
 
   get selectedElement() {
     return this.shadowRoot.querySelector('.mdw-selected');
+  }
+
+  updateDisplay() {
+    this.deslecet();
+    this.shadowRoot.querySelector(`[mdw-year="${this.year}"]`).classList.add('mdw-selected');
+  }
+
+  deslecet() {
+    const selected = this.shadowRoot.querySelector(`.mdw-selected`);
+    if (selected) selected.classList.remove('mdw-selected');
   }
 
   scrollToSelectedYear() {
@@ -37,31 +60,17 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
   }
 
   click(event) {
-    this.unSlecet();
-    this.setSelected(event.target);
-    this.dispatchEvent(new CustomEvent('MDWDatePicker:yearChanged', {
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:yearChange', {
       detail: {
-        year: event.target.getAttribute('id').replace('mdw-year-', '')
+        year: parseInt(event.target.getAttribute('mdw-year'))
       }
     }));
-  }
-
-  getSelected() {
-    return this.shadowRoot.querySelector('.mdw-selected');
-  }
-
-  unSlecet() {
-    this.getSelected().classList.remove('mdw-selected');
-  }
-
-  setSelected(el) {
-    el.classList.add('mdw-selected');
   }
 
   template() {
     return `
       <div class="mdw-date-picker--view-year-container">
-        ${this.years.map(y => `<div id="mdw-year-${y}" class="mdw-date-picker--year ${y === this.currentYear ? 'mdw-selected' : ''}">${y}</div>`).join('\n')}
+        ${this.years.map(y => `<div class="mdw-date-picker--year" mdw-year="${y}">${y}</div>`).join('\n')}
       </div>
     `;
   }
