@@ -116,7 +116,7 @@ export default new class DateUtil {
     // calculate length of month filling in the first and last week with empty days for display purposes
     const length = firstDay + numDaysInMonth + (7 - lastday - 1);
     const monthDays = [...Array(length)].map((_, i) => {
-      if (i < firstDay || i >= numDaysInMonth) return '';
+      if (i < firstDay || i >= (numDaysInMonth + firstDay)) return '';
       return i - firstDay + 1;
     });
     const res = [];

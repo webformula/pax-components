@@ -89,7 +89,8 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     if (this._moving) return;
     this._moving = true;
 
-    const current = this.shadowRoot.querySelector('[mdw-current-month]');
+    let current = this.shadowRoot.querySelector('[mdw-current-month]');
+    if (!current) current = this.shadowRoot.querySelector('[mdw-today-month]');
     const next = current.nextElementSibling;
     if (!next || next.nodeName !== 'MDW-DATE-PICKER--VIEW-MONTH-SINGLE') return;
     current.setCurrent(false);
@@ -115,7 +116,8 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     if (this._moving) return;
     this._moving = true;
 
-    const current = this.shadowRoot.querySelector('[mdw-current-month]');
+    let current = this.shadowRoot.querySelector('[mdw-current-month]');
+    if (!current) current = this.shadowRoot.querySelector('[mdw-today-month]');
     const prev = current.previousElementSibling;
     if (!prev || prev.nodeName !== 'MDW-DATE-PICKER--VIEW-MONTH-SINGLE') return;
     current.setCurrent(false);
