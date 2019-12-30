@@ -6,6 +6,7 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
     super();
 
     this.bound_click = this.click.bind(this);
+    this.today = MDWDateUtil.today();
     // TOSO allow range to be set
     this.years = MDWDateUtil.defaultYearRange();
     this.cloneTemplate(true);
@@ -21,24 +22,28 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
   }
 
   static get observedAttributes() {
-    return ['mdw-date'];
+    return ['mdw-year'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch(name) {
-      case 'mdw-date':
-        this._selectedDate = MDWDateUtil.parse(newValue || MDWDateUtil.today())
+      case 'mdw-year':
+        if (!newValue) return;
+
+        this._selectedYear = newValue;
         this.updateDisplay();
         break;
     }
   }
 
   get year() {
-    return this._selectedDate.getFullYear();
+    return this._selectedYear;
   }
 
   get selectedElement() {
-    return this.shadowRoot.querySelector('.mdw-selected');
+    let selected = this.shadowRoot.querySelector('.mdw-selected');
+    if (!selected) selected = this.shadowRoot.querySelector(`[mdw-year="${this.today.getFullYear()}"]`);
+    return selected;
   }
 
   updateDisplay() {
@@ -60,6 +65,8 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
   }
 
   click(event) {
+    this.deslecet();
+    event.target.classList.add('mdw-selected');
     this.dispatchEvent(new CustomEvent('MDWDatePicker:yearChange', {
       detail: {
         year: parseInt(event.target.getAttribute('mdw-year'))
@@ -77,13 +84,15 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
 
   styles() {
     return `
+      :host {
+        overflow-y: scroll;
+      }
+
       .mdw-date-picker--view-year-container {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
-        overflow-y: scroll;
-        height: 320px;
       }
 
       .mdw-date-picker--year {

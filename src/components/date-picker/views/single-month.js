@@ -13,7 +13,6 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
     this.cloneTemplate(true);
 
     if (MDWDateUtil.isSameYear(this.today, this.monthDate) && MDWDateUtil.isSameMonth(this.today, this.monthDate)) {
-      this.setAttribute('mdw-today-month', '');
       const todayElement = this.shadowRoot.querySelector(`[mdw-day="${this.today.getDate()}"]`);
       if (todayElement) todayElement.classList.add('mdw-today');
     }
@@ -44,13 +43,13 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
     return parseInt(this.shadowRoot.querySelector('.mdw-selected').innerHTML)
   }
 
-  updateDisplay(selectedDate) {
+  updateDisplay(displayDate, selectedDate) {
     // only update if the year and month match;
     this.deselect();
-    if (selectedDate.getFullYear() !== this.year || selectedDate.getMonth() !== this.month) return;
+    if (displayDate.getFullYear() !== this.year || displayDate.getMonth() !== this.month) return;
 
     this.setCurrent();
-    this.setDay(selectedDate.getDate());
+    if (selectedDate) this.setDay(selectedDate.getDate());
   }
 
   deselect() {

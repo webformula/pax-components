@@ -12,6 +12,7 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     this.today = MDWDateUtil.today();
     this.dayOfWeekNames = MDWDateUtil.getDayOfWeekNames('narrow');
     this.monthList = MDWDateUtil.getMonthsSurroundingYear(MDWDateUtil.today());
+    this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-display-date') || this.today);
 
     this.cloneTemplate();
   }
@@ -19,10 +20,10 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   connectedCallback() {
     this.navButtonLeft.addEventListener('click', this.bound_prevMonth);
     this.navButtonRight.addEventListener('click', this.bound_nextMonth);
-
     this.forEachMonth(el => {
       // give reference to this compnent
       el.parentComponent = this;
+      if (el.year === MDWDateUtil.getYear(this.displayDate) && el.month === MDWDateUtil.getMonth(this.displayDate)) el.setCurrent();
     });
   }
 
@@ -32,16 +33,23 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   static get observedAttributes() {
-    return ['mdw-date'];
+    return ['mdw-display-date', 'mdw-selected-date'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch(name) {
-      case 'mdw-date':
+      case 'mdw-display-date':
         if (!newValue) return;
 
-        this._selectedDate = MDWDateUtil.parse(newValue || MDWDateUtil.today());
-        this.updateDisplay(this._selectedDate);
+        this.displayDate = MDWDateUtil.parse(newValue);
+        this.updateDisplay();
+        break;
+
+      case 'mdw-selected-date':
+        if (!newValue) return;
+
+        this.selectedDate = MDWDateUtil.parse(newValue);
+        this.updateDisplay();
         break;
     }
   }
@@ -62,11 +70,10 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single')].forEach(callback);
   }
 
-  updateDisplay(selectedDate, preventDaySelect) {
+  updateDisplay() {
     this.forEachMonth(el => {
-      el.updateDisplay(selectedDate, preventDaySelect);
+      el.updateDisplay(this.displayDate, this.selectedDate);
     });
-    this.scrollToCurrentMonth();
   }
 
   dispatchChange({ year, month, day }) {
@@ -80,17 +87,16 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   scrollToCurrentMonth() {
-    let el = this.shadowRoot.querySelector('[mdw-current-month]');
-    if (!el) el = this.shadowRoot.querySelector('[mdw-today-month]');
-    this.scrollContainer.scrollTo(el.offsetLeft, 0);
+    const el = this.shadowRoot.querySelector('[mdw-current-month]');
+    console.log(el, el.offsetLeft)
+    if (el) this.scrollContainer.scrollTo(el.offsetLeft, 0);
   }
 
   nextMonth() {
     if (this._moving) return;
     this._moving = true;
 
-    let current = this.shadowRoot.querySelector('[mdw-current-month]');
-    if (!current) current = this.shadowRoot.querySelector('[mdw-today-month]');
+    const current = this.shadowRoot.querySelector('[mdw-current-month]');
     const next = current.nextElementSibling;
     if (!next || next.nodeName !== 'MDW-DATE-PICKER--VIEW-MONTH-SINGLE') return;
     current.setCurrent(false);
@@ -116,8 +122,7 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     if (this._moving) return;
     this._moving = true;
 
-    let current = this.shadowRoot.querySelector('[mdw-current-month]');
-    if (!current) current = this.shadowRoot.querySelector('[mdw-today-month]');
+    const current = this.shadowRoot.querySelector('[mdw-current-month]');
     const prev = current.previousElementSibling;
     if (!prev || prev.nodeName !== 'MDW-DATE-PICKER--VIEW-MONTH-SINGLE') return;
     current.setCurrent(false);
@@ -186,7 +191,6 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
     return `
       :host {
         margin-top: 22px;
-        margin-bottom: 12px;
       }
 
       .mdw-date-picker--view-month-single-container {
