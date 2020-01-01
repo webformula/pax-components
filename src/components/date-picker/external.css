@@ -72,3 +72,10 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
   border-right: 5px solid transparent;
   border-top: 5px solid var(--mdw-theme-text--body);
 }
+
+.mdw-date-picker--body-views {
+  min-height: 280px;
+}
+.mdw-date-picker--container.mdw-desktop .mdw-date-picker--body-views {
+  height: 320px;
+}

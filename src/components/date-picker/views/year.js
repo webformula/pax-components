@@ -48,7 +48,8 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
 
   updateDisplay() {
     this.deslecet();
-    this.shadowRoot.querySelector(`[mdw-year="${this.year}"]`).classList.add('mdw-selected');
+    const el = this.shadowRoot.querySelector(`[mdw-year="${this.year}"]`);
+    if (el) el.classList.add('mdw-selected');
   }
 
   deslecet() {

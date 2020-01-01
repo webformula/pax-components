@@ -31,5 +31,7 @@ module.exports = {
 
   optimization: {
     minimize: isDev
-  }
+  },
+
+  mode: isDev === true ? 'development' : 'production'
 };

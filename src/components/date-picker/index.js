@@ -82,8 +82,10 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.setYearSelector(this.displayDate);
 
     // update views
-    if (this.monthComponent) this.monthComponent.setAttribute('mdw-display-date', this.displayDate);
-    if (this.yearComponent) this.yearComponent.setAttribute('mdw-year', this.displayDate.getFullYear);
+    const monthEl = this.monthComponent;
+    if (monthEl) monthEl.setAttribute('mdw-display-date', this.displayDate);
+    const yearEl = this.yearComponent;
+    if (yearEl) yearEl.setAttribute('mdw-year', this.displayDate.getFullYear);
 
     // update this components displays
     // if (this.panel && this.panel.querySelector) {
@@ -93,6 +95,10 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   setDate() {
     this.selectedDate = this.displayDate;
+
+    // update views
+    const monthEl = this.monthComponent;
+    if (monthEl) monthEl.setAttribute('mdw-selected-date', this.selectedDate);
 
     if (this._attachedInput) {
       this._attachedInput.value = MDWDateUtil.format(this.selectedDate, 'YYYY-MM-dd');
@@ -158,12 +164,12 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     const day = parseInt(value.pop());
     const month = parseInt(value.pop() - 1);
     const year = parseInt(value.pop());
-    this.setDate({
+    this.updateDisplayDate({
       year,
       month,
       day
     });
-    this.updateDate(true);
+    this.selectedDate = this.displayDate;
   }
 
   onCancel() {
@@ -236,7 +242,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   dayChange({ detail }) {
     this.updateDisplayDate(detail);
     this.setDate();
-    if (!MDWDateUtil.isMobile) this.close();
+    // if (!MDWDateUtil.isMobile) this.close();
   }
 
   buildPanel_() {
