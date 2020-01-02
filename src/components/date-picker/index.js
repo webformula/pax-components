@@ -214,7 +214,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
     MDWUtils.lockPageScroll();
 
-    if (this.monthComponent) this.monthComponent.scrollToCurrentMonth();
+    if (this.monthComponent) this.monthComponent.scrollToCurrentMonth(true);
   }
 
   close() {
