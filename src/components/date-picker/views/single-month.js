@@ -67,9 +67,15 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
     if (selectedElement) selectedElement.classList.add('mdw-selected');
   }
 
+  selectDay(element) {
+    this.deselect();
+    this.setCurrent();
+    element.classList.add('mdw-selected');
+  }
+
   onClick(event) {
     if (event.target.classList.contains('mdw-date-picker--day')) {
-      event.target.classList.add('mdw-selected');
+      this.selectDay(event.target);
       this.parentComponent.dispatchChange({
         year: this.year,
         month: this.month,

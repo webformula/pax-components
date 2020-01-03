@@ -9,7 +9,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this._currentView = 'month';
     this.panelId = `mdw-date-picker_${MDWUtils.uid()}`;
     this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-date') || MDWDateUtil.today());
-    this.buildPanel_();
+    this._buildPanel();
 
     this.bound_yearClick = this.yearClick.bind(this)
     this.bound_monthChange = this.monthChange.bind(this);
@@ -93,57 +93,29 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     // }
   }
 
-  setDate() {
+  setDate(preventInputUpdate = false) {
     this.selectedDate = this.displayDate;
 
     // update views
     const monthEl = this.monthComponent;
     if (monthEl) monthEl.setAttribute('mdw-selected-date', this.selectedDate);
 
-    if (this._attachedInput) {
+    if (!preventInputUpdate && this._attachedInput) {
       this._attachedInput.value = MDWDateUtil.format(this.selectedDate, 'YYYY-MM-dd');
     }
   }
 
-  // setDate(dateParts) {
-  //   if (dateParts.day !== undefined) this.selectedDay = dateParts.day;
-  //   if (dateParts.month !== undefined) this.selectedMonth = dateParts.month;
-  //   if (dateParts.year !== undefined) this.selectedYear = dateParts.year;
-  //
-  //   const parts = {
-  //     year: this.selectedYear,
-  //     month: this.selectedMonth,
-  //     day: this.selectedDay
-  //   };
-  //
-  //   this.setYearSelector(parts);
-  //   // update views{
-  //   if (this.monthComponent) this.monthComponent.updateDisplay(parts);
-  //   if (this.yearComponent) this.yearComponent.updateDisplay(parts);
-  // }
+  unsetDate(preventInputUpdate = false) {
+    this.selectedDate = undefined;
 
-  // updateDate(preventInputUpdate = false) {
-  //   if (!this.selectedYear || !this.selectedMonth || !this.selectedDay) {
-  //     if (this.monthComponent) this.monthComponent.scrollToCurrentMonth();
-  //     return;
-  //   }
-  //
-  //   this.selectedDate = MDWDateUtil.buildFromParts({
-  //     year: this.selectedYear,
-  //     month: this.selectedMonth,
-  //     day: this.selectedDay
-  //   });
-  //
-  //   // update this components displays
-  //   if (this.panel && this.panel.querySelector) {
-  //     if (MDWUtils.isMobile) this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD');
-  //   }
-  //
-  //   // update input
-  //   if (this._attachedInput && !preventInputUpdate) {
-  //     this._attachedInput.value = MDWDateUtil.format(this.selectedDate, 'YYYY-MM-dd');
-  //   }
-  // }
+    // update views
+    const monthEl = this.monthComponent;
+    if (monthEl) monthEl.setAttribute('mdw-selected-date', this.selectedDate);
+
+    if (!preventInputUpdate && this._attachedInput) {
+      this._attachedInput.value = '';
+    }
+  }
 
   setYearSelector(date) {
     this.panel.querySelector('#month-year-dropdown').innerHTML = MDWDateUtil.format(date, 'MMMM YYYY');
@@ -169,20 +141,30 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
       month,
       day
     });
-    this.selectedDate = this.displayDate;
+    this.setDate(true);
   }
 
   onCancel() {
-    if (this._openingDay) {
-      this.selectedDay = this._openingDay;
-      this.selectedMonth = this._openingMonth;
-      this.selectedYear = this._openingYear;
-      this.updateDate();
+    // revet date back
+    if (this._openingDate) {
+      this.updateDisplayDate({
+        year: this._openingDate.getFullYear(),
+        month: this._openingDate.getMonth(),
+        day: this._openingDate.getDate()
+      });
+      this.setDate();
+
+    // unset date
+    } else {
+      this.displayDate = MDWDateUtil.today();
+      this.updateDisplay();
+      this.unsetDate();
     }
     this.close();
   }
 
   onOk() {
+    // this.setDate();
     this.close();
   }
 
@@ -205,11 +187,8 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   open() {
     if (this.panel._isOpen) return;
-    this._openingDay = this.selectedDay;
-    this._openingMonth = this.selectedMonth;
-    this._openingYear = this.selectedYear;
-    // this.panel.style[`${MDWUtils.transformPropertyName}`] = 'scale(0.9)';
-    // this.panel.style[`${MDWUtils.transformPropertyName}-origin`] = 'top left';
+    this._openingDate = this.selectedDate;
+
     this.panel.open(true);
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
     MDWUtils.lockPageScroll();
@@ -242,10 +221,10 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   dayChange({ detail }) {
     this.updateDisplayDate(detail);
     this.setDate();
-    // if (!MDWDateUtil.isMobile) this.close();
+    if (!MDWUtils.isMobile) this.close();
   }
 
-  buildPanel_() {
+  _buildPanel() {
     const panelHTML = `
     <mdw-panel id="${this.panelId}" mdw-position="inner-left inner-top" mdw-flex-position="center center" class="mdw-date-picker-panel">
       <div class="mdw-date-picker--container ${!MDWUtils.isMobile ? 'mdw-desktop' : ''}" style="width: 320px">
