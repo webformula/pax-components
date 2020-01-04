@@ -23,10 +23,9 @@ mdw-panel {
   color: var(--mdw-theme-on-surface);
 }
 
-mdw-panel.mdw-panel-hoisted {
+mdw-panel.mdw-fixed {
   position: fixed;
 }
-
 
 mdw-panel.mdw-open {
   display: inline-block;

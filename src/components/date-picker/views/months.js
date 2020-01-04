@@ -192,7 +192,7 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
         padding-right: 12px;
         position: absolute;
         margin-top: -53px;
-        margin-left: 208px;
+        margin-left: calc(100% - 108px);
       }
 
       .mdw-date-picker--body-nav-buttons {

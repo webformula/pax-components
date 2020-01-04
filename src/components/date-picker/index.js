@@ -25,11 +25,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    this.panel.setTarget(this.getAttribute('mdw-target') || this.parentNode);
-    if (this.panel._target.nodeName === 'MDW-TEXTFIELD' || this.panel._target.nodeName === 'input') {
-      this.panel.setAttribute('mdw-position', 'inner-left bottom');
-      if (this.panel._target.nodeName === 'MDW-TEXTFIELD') this.panel.ignoreElementOnClickToClose(this.panel._target.querySelector('input'));
-    }
+    this._setupPanel();
     this.panel.querySelector('.mdw-date-picker--body-year-view-button').addEventListener('click', this.bound_yearClick);
     if (this.cancelButton) this.cancelButton.addEventListener('click', this.bound_onCancel);
     if (this.okButton) this.okButton.addEventListener('click', this.bound_onOk);
@@ -46,6 +42,11 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     if (this.okButton) this.okButton.removeEventListener('click', this.bound_onOk);
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.remove();
+
+    if (this.backdrop) {
+      this.backdrop.remove();
+      this.backdrop = undefined;
+    }
   }
 
   get panel() {
@@ -86,15 +87,13 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     if (monthEl) monthEl.setAttribute('mdw-display-date', this.displayDate);
     const yearEl = this.yearComponent;
     if (yearEl) yearEl.setAttribute('mdw-year', this.displayDate.getFullYear);
-
-    // update this components displays
-    // if (this.panel && this.panel.querySelector) {
-    //   if (MDWUtils.isMobile) this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD');
-    // }
   }
 
   setDate(preventInputUpdate = false) {
     this.selectedDate = this.displayDate;
+
+    // update this components displays
+    if (MDWUtils.isMobile) this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD');
 
     // update views
     const monthEl = this.monthComponent;
@@ -164,7 +163,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   onOk() {
-    // this.setDate();
     this.close();
   }
 
@@ -189,8 +187,9 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     if (this.panel._isOpen) return;
     this._openingDate = this.selectedDate;
 
-    this.panel.open(true);
+    this.panel.open();
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    if (MDWUtils.isMobile) this.backdrop = MDWUtils.addBackdrop(this.panel);
     MDWUtils.lockPageScroll();
 
     if (this.monthComponent) this.monthComponent.scrollToCurrentMonth(true);
@@ -203,6 +202,10 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   onPanelClose() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     MDWUtils.unlockPageScroll();
+    if (this.backdrop) {
+      this.backdrop.remove();
+      this.backdrop = undefined;
+    }
   }
 
   yearChange({ detail }) {
@@ -225,16 +228,17 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   _buildPanel() {
+    const layout = MDWUtils.isMobile ? 'center center' : 'inner-left inner-top';
     const panelHTML = `
-    <mdw-panel id="${this.panelId}" mdw-position="inner-left inner-top" mdw-flex-position="center center" class="mdw-date-picker-panel">
-      <div class="mdw-date-picker--container ${!MDWUtils.isMobile ? 'mdw-desktop' : ''}" style="width: 320px">
+    <mdw-panel id="${this.panelId}" mdw-position="${layout}" mdw-flex-position="center center" class="mdw-date-picker-panel">
+      <div class="mdw-date-picker--container ${!MDWUtils.isMobile ? 'mdw-desktop' : ''}">
         ${!MDWUtils.isMobile ? '' : `
           <div class="mdw-date-picker--header">
             <div class="mdw-date-picker--header-title">Select date</div>
 
             <div mdw-row mdw-flex-position="center space-between">
               <!-- Mon, Nov 17 -->
-              <div class="mdw-date-picker--header-date">${MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD')}</div>
+              <div class="mdw-date-picker--header-date">${this.selectedDate ? MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD') : 'Select date'}</div>
               <mdw-icon>edit</mdw-icon>
             </div>
           </div>
@@ -268,8 +272,27 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     </mdw-panel>
     `;
     document.body.insertAdjacentHTML('beforeend', panelHTML);
+    this._setupPanel();
+  }
+
+  _setupPanel() {
     const panelEl = this.panel;
-    if (panelEl.hoistToBody) panelEl.hoistToBody(this);
+    if (!panelEl.isReady) return;
+
+    panelEl.hoistToBody();
+    if (MDWUtils.isMobile) {
+      panelEl.setClickOutsideClose(false);
+      panelEl.fixPosition();
+      panelEl.setTarget('body');
+    } else {
+      panelEl.setClickOutsideClose(true);
+      this.panel.setTarget(this.getAttribute('mdw-target') || this.parentNode);
+
+      if (this.panel._target.nodeName === 'MDW-TEXTFIELD' || this.panel._target.nodeName === 'input') {
+        this.panel.setAttribute('mdw-position', 'inner-left bottom');
+        if (this.panel._target.nodeName === 'MDW-TEXTFIELD') this.panel.ignoreElementOnClickToClose(this.panel._target.querySelector('input'));
+      }
+    }
   }
 
   attachYearView() {

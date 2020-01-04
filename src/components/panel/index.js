@@ -19,6 +19,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._boundHandleKeydown = this._handleKeydown.bind(this);
     this._clickOutsideCloseIgnorElement = [];
     this._autoPosition = true;
+    this.isReady = true;
     this.setTarget(this.getAttribute('mdw-target') || this.parentNode);
   }
 
@@ -152,6 +153,17 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     });
   }
 
+  hoistToBody() {
+    if (this._isHoisted) return;
+    document.body.appendChild(this);
+    this._isHoisted = true;
+  }
+
+  fixPosition(value = true) {
+    this._isFixed = !!value;
+    this.classList.toggle('mdw-fixed', this._isFixed);
+  }
+
   isFocused() {
     return document.activeElement === this;
   }
@@ -240,12 +252,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.dispatchEvent(new Event('MDWPanel:open'), this);
   }
 
-  hoistToBody() {
-    if (this._isHoisted) return;
-    document.body.appendChild(this);
-    this._isHoisted = true;
-  }
-
   _setPosition() {
     if (!this.isOpen()) return;
 
@@ -271,7 +277,13 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   _calculatePosition(xValue, yValue, count = 0) {
     const target = this.target;
     const offsetParent = this.offsetParent;
-    const targetRect = target.getBoundingClientRect();
+    let targetRect = target.getBoundingClientRect();
+    if (this._isFixed) targetRect = {
+      x: 0,
+      y: 0,
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight,
+    };
     const offsetParentRect = offsetParent ? offsetParent.getBoundingClientRect() : { x: 0, y:0 };
     const width = this.offsetWidth;
     const height = this.offsetHeight;
@@ -328,7 +340,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   _adjustOutOfBoundsPosition(xValue, yValue, left, top, count) {
-    if (!this._autoPosition) return { left, top };
+    if (this._isFixed || !this._autoPosition) return { left, top };
 
     const width = this.offsetWidth;
     const height = this.offsetHeight;

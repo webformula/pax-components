@@ -7,7 +7,7 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
 
     this.bound_click = this.click.bind(this);
     this.today = MDWDateUtil.today();
-    // TOSO allow range to be set
+    // TODO allow range to be set
     this.years = MDWDateUtil.defaultYearRange();
     this.cloneTemplate(true);
   }

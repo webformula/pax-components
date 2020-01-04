@@ -99,20 +99,25 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
   styles() {
     return `
       :host {
+        width: 100%;
+        flex-shrink: 0;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
       }
 
+      :host render-block {
+        width: 100%;
+      }
+
       .mdw-date-picker--view-month-container {
         margin-left: 12px;
         margin-right: 12px;
         margin-top: 12px;
-        flex: 1;
         display: flex;
         flex-direction: column;
-        width: calc(100% - 12px);
+        width: calc(100% - 24px);
       }
 
       .mdw-date-picker--view-month-week-container {
