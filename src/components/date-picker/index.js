@@ -9,7 +9,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this._currentView = 'month';
     this.panelId = `mdw-date-picker_${MDWUtils.uid()}`;
     this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-date') || MDWDateUtil.today());
-    this._buildPanel();
+    this.minDate = MDWDateUtil.parse(this.getAttribute('mdw-min-date'));
 
     this.bound_yearClick = this.yearClick.bind(this)
     this.bound_monthChange = this.monthChange.bind(this);
@@ -22,6 +22,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.bound_onPanelClose = this.onPanelClose.bind(this);
 
     this.checkForTextField();
+    this._buildPanel();
   }
 
   connectedCallback() {
@@ -253,8 +254,15 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
           <div mdw-column class="mdw-date-picker--body-views" style="min-height: 280px;">
             ${
               this._currentView === 'month'
-              ? `<mdw-date-picker--view-month mdw-display-date="${this.displayDate}" mdw-selected-date="${this.selectedDate}"></mdw-date-picker--view-month>`
-              : `<mdw-date-picker--view-year mdw-year="${this.displayDate.getFullYear()}"></mdw-date-picker--view-year>`
+              ? `<mdw-date-picker--view-month
+                  mdw-display-date="${this.displayDate}"
+                  mdw-selected-date="${this.selectedDate}"
+                  mdw-min-date="${this.minDate}"
+                  ></mdw-date-picker--view-month>`
+              : `<mdw-date-picker--view-year
+                  mdw-year="${this.displayDate.getFullYear()}"
+                  mdw-min-date="${this.minDate}"
+                  ></mdw-date-picker--view-year>`
             }
           </div>
 
@@ -306,7 +314,11 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   attachMonthView() {
-    this.viewContainer.innerHTML = `<mdw-date-picker--view-month mdw-display-date="${this.displayDate}" mdw-selected-date="${this.selectedDate}"></mdw-date-picker--view-month>`;
+    this.viewContainer.innerHTML = `<mdw-date-picker--view-month
+                                      mdw-display-date="${this.displayDate}"
+                                      mdw-selected-date="${this.selectedDate}"
+                                      mdw-min-date="${this.minDate}"
+                                      ></mdw-date-picker--view-month>`;
     const monthEl = this.monthComponent;
     monthEl.addEventListener('MDWDatePicker:dayChange', this.bound_dayChange);
     monthEl.addEventListener('MDWDatePicker:monthChange', this.bound_monthChange);

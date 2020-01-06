@@ -19,27 +19,30 @@ export default new class DateUtil {
     this._timezone = value;
   }
 
-  parse(dateString) {
-    return Date.parse(dateString);
+  parse(value) {
+    if (typeof value === 'number') return new Date(value);
+     return new Date(Date.parse(value));
+  }
+
+  isValidDate(date) {
+    return !isNaN(date.getTime());
   }
 
   buildFromParts({ year = this.currentYear(), month = this.currentMonth(), day = this.currentDay()}) {
     return new Date(year, month, day);
   }
 
-  adjustDate(date, { add = { } , set = { } }) {
+  adjustDate(date, { add = undefined , set = undefined }) {
     let { year, month, day } = this.getParts(date);
-    console.log(year, month, day);
     if (add) {
-      if (add.year) year += add.month;
+      if (add.year) year += add.year;
       if (add.month) month += add.month;
-      if (add.day) month += add.day;
+      if (add.day) day += add.day;
     } else if (set) {
-      if (set.year) year = set.month;
+      if (set.year) year = set.year;
       if (set.month) month = set.month;
-      if (set.day) month = set.day;
+      if (set.day) day = set.day;
     }
-    console.log(year, month, day);
     return this.buildFromParts({ year, month, day });
   }
 
@@ -141,21 +144,46 @@ export default new class DateUtil {
     return this.getDate(this._createDateWithOverflow(this.getYear(date), this.getMonth(date) + 1, 0));
   }
 
-  getMonthDayArray(date, fillInMonth = false) {
+  getMonthDayArray(date, { fillInMonth = false, minDate = undefined }) {
     const firstDay = this.getDayOfTheWeekNumber(this.getFirstDateOfMonth(date));
     const lastday = this.getDayOfTheWeekNumber(this.getLastDateOfMonth(date));
     const numDaysInMonth = this.getNumDaysInMonth(date);
+    let currentDate = this.adjustDate(date, { set: { day: 1 } });
+
+    if (minDate && !this.isValidDate(minDate)) minDate = undefined;
+
     // calculate length of month filling in the first and last week with empty days for display purposes
     const length = 6 * 7;
     const endDayIndex = numDaysInMonth + firstDay;
     let fillCounter = 1;
     const monthDays = [...Array(length)].map((_, i) => {
-      if (i < firstDay) return { display: '', current: false };
+      if (i < firstDay) return {
+        display: '',
+        current: false,
+        beforeMinDate: false
+      };
+
       if (i >= endDayIndex) {
-        if (fillInMonth) return { display: fillCounter++, current: false };
-        return '';
+        currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
+        if (fillInMonth) return {
+          display: fillCounter++,
+          current: false,
+          beforeMinDate: minDate ? currentDate <= minDate : false
+        };
+
+        return {
+          display: '',
+          current: false,
+          beforeMinDate: false
+        };
       }
-      return { display: i - firstDay + 1, current: true };
+
+      currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
+      return {
+        display: i - firstDay + 1,
+        current: true,
+        beforeMinDate: minDate ? currentDate <= minDate : false
+      };
     });
     const res = [];
     while (monthDays.length) {
@@ -201,14 +229,6 @@ export default new class DateUtil {
 
     return result;
   }
-
-  parse(value) {
-    // We have no way using the native JS Date to set the parse format or locale, so we ignore these
-    // parameters.
-    if (typeof value == 'number') return new Date(value);
-    return value ? new Date(Date.parse(value)) : null;
-  }
-
 
 
   // --- format date ---

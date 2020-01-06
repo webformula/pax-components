@@ -9,10 +9,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
     this.bound_prevMonth = this.prevMonth.bind(this);
 
     this.today = MDWDateUtil.today();
-    this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-display-date') || this.today);
     this.dayOfWeekNames = MDWDateUtil.getDayOfWeekNames('narrow');
-    const selectedDate = this.getAttribute('mdw-selected-date');
-    this.selectedDate = selectedDate ? MDWDateUtil.parse(selectedDate) : undefined;
     this.cloneTemplate(true);
   }
 
@@ -27,7 +24,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   }
 
   static get observedAttributes() {
-    return ['mdw-display-date', 'mdw-selected-date'];
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -35,21 +32,40 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
     switch(name) {
       case 'mdw-display-date':
-        this.displayDate = MDWDateUtil.parse(newValue);
-        this.activeMonth.setAttribute('mdw-display-date', this.displayDate);
+        this.activeMonth.setAttribute('mdw-display-date', newValue);
         // TODO change month with animation
         break;
 
       case 'mdw-selected-date':
-        this.selectedDate = MDWDateUtil.parse(newValue);
-        this.activeMonth.setAttribute('mdw-selected-date', this.selectedDate);
+        this.activeMonth.setAttribute('mdw-selected-date', newValue);
+        break;
+
+      case 'mdw-min-date':
+        this.activeMonth.setAttribute('mdw-min-date', newValue);
+        this.nonActiveMonth.setAttribute('mdw-min-date', newValue);
         break;
     }
   }
 
 
+  get displayDate() {
+    return MDWDateUtil.parse(this.getAttribute('mdw-display-date') || this.today);
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date') || '';
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date');
+  }
+
   get activeMonth() {
     return this.shadowRoot.querySelector('.mdw-active-month');
+  }
+
+  get nonActiveMonth() {
+    return this.shadowRoot.querySelector('mdw-date-picker--view-month-single:not(.mdw-active-month)');
   }
 
   get navButtonLeft() {
@@ -135,24 +151,29 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
       </div>
 
       <div class="mdw-date-picker--desktop-months-container" style="position: relative">
-        <mdw-date-picker--view-month-single class="mdw-active-month" mdw-fill-month mdw-display-date="${this.displayDate}" mdw-selected-date="${this.selectedDate}"></mdw-date-picker--view-month-single>
-        <mdw-date-picker--view-month-single mdw-fill-month mdw-display-date="${this.displayDate}"></mdw-date-picker--view-month-single>
+        <mdw-date-picker--view-month-single class="mdw-active-month"
+          mdw-fill-month
+          mdw-display-date="${this.displayDate}"
+          mdw-selected-date="${this.selectedDate}"
+          mdw-min-date="${this.minDate}"
+          ></mdw-date-picker--view-month-single>
+        <mdw-date-picker--view-month-single
+          mdw-fill-month
+          mdw-display-date="${this.displayDate}"
+          mdw-min-date="${this.minDate}"
+          ></mdw-date-picker--view-month-single>
       </div>
     `;
   }
 
   styles() {
     return `
-      :host {
-        margin-top: 22px;
-      }
-
       .mdw-date-picker--view-month-day-header {
         color: var(--mdw-theme-text--body);
         font-size: 12px;
         margin-left: 12px;
         margin-right: 12px;
-        margin-top: 20px;
+        margin-top: 40px;
         margin-bottom: 8px;
         flex: 1;
         display: flex;
@@ -168,7 +189,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
         flex-direction: row;
         padding-right: 12px;
         position: absolute;
-        margin-top: -53px;
+        margin-top: -32px;
         margin-left: calc(100% - 108px);
       }
 

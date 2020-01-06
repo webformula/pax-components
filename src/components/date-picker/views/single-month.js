@@ -25,13 +25,14 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
   }
 
   static get observedAttributes() {
-    return ['mdw-display-date', 'mdw-selected-date'];
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (!newValue || newValue === oldValue) return;
-    // console.log('b - ', newValue, name);
+
     switch(name) {
+      case 'mdw-min-date':
       case 'mdw-display-date':
         this._setupDate();
         this.render();
@@ -60,9 +61,17 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
     return parseInt(this.shadowRoot.querySelector('.mdw-selected').getAttribute('mdw-day'));
   }
 
+  get minDate() {
+    const minAttr = this.getAttribute('mdw-min-date');
+    return MDWDateUtil.parse(minAttr);
+  }
+
   _setupDate() {
     this.monthDate = MDWDateUtil.parse(this.displayDate);
-    this.monthDays = this.monthDate ? MDWDateUtil.getMonthDayArray(this.monthDate, this.hasAttribute('mdw-fill-month')) : [];
+    this.monthDays = this.monthDate ? MDWDateUtil.getMonthDayArray(this.monthDate, {
+      fillInMonth: this.hasAttribute('mdw-fill-month'),
+      minDate: this.minDate
+    }) : [];
   }
 
   _selectDate(date) {
@@ -107,7 +116,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
       <div class="mdw-date-picker--view-month-container">
         ${this.monthDays.map(week => `
           <div class="mdw-date-picker--view-month-week-container">
-            ${week.map(({ display, current }) => `<div class="mdw-date-picker--day ${current ? '' : 'mdw-next-month'}" mdw-day="${display}">${display}</div>`).join('\n')}
+            ${week.map(({ display, current, beforeMinDate }) => `<div class="mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''}" mdw-day="${display}">${display}</div>`).join('\n')}
           </div>
         `).join('\n')}
       </div>
@@ -154,6 +163,10 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
         cursor: pointer;
         user-select: none;
         box-sizing: border-box;
+      }
+
+      .mdw-date-picker--day.mdw-before-min-date {
+        color: rgba(var(--mdw-theme-text--heading--rgb), 0.7);
       }
 
       .mdw-date-picker--day.mdw-next-month {

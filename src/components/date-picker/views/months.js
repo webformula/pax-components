@@ -1,5 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWDateUtil from '../../../core/DateUtil.js';
+import MDWUtils from '../../../core/Utils.js';
 
 customElements.define('mdw-date-picker--view-month', class extends HTMLElementExtended {
   constructor() {
@@ -9,7 +10,7 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   static get observedAttributes() {
-    return ['mdw-display-date', 'mdw-selected-date'];
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -23,15 +24,23 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
       case 'mdw-selected-date':
         this.monthElement.setAttribute('mdw-selected-date', newValue);
         break;
+
+      case 'mdw-min-date':
+        this.monthElement.setAttribute('mdw-min-date', newValue);
+        break;
     }
   }
 
   get displayDate() {
-    return this.getAttribute('mdw-display-date');
+    return this.getAttribute('mdw-display-date') || '';
   }
 
   get selectedDate() {
-    return this.getAttribute('mdw-selected-date');
+    return this.getAttribute('mdw-selected-date') || '';
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date') || '';
   }
 
   get monthElement() {
@@ -39,7 +48,18 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   template() {
-    if (MDWUtils.isMobile) return `<mdw-date-picker--view-month--desktop mdw-month-view mdw-display-date="${this.displayDate}" mdw-display-date="${this.selectedDate}"></mdw-date-picker--view-month--desktop>`;
-    return `<mdw-date-picker--view-month--desktop mdw-month-view mdw-display-date="${this.displayDate}" mdw-display-date="${this.selectedDate}"></mdw-date-picker--view-month--desktop>`;
+    if (MDWUtils.isMobile)return `<mdw-date-picker--view-month--desktop
+                                    mdw-month-view
+                                    mdw-display-date="${this.displayDate}"
+                                    mdw-display-date="${this.selectedDate}"
+                                    mdw-min-date="${this.minDate}"
+                                    ></mdw-date-picker--view-month--desktop>`;
+
+    return `<mdw-date-picker--view-month--desktop
+              mdw-month-view
+              mdw-display-date="${this.displayDate}"
+              mdw-display-date="${this.selectedDate}"
+              mdw-min-date="${this.minDate}"
+              ></mdw-date-picker--view-month--desktop>`;
   }
 });
