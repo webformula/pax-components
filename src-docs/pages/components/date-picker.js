@@ -36,7 +36,22 @@ export default class DatePicker extends Page {
           <mdw-card id="contained">
             <div class="mdw-card__content">
               <h6>Date input</h6>
-              <div class="description"</div>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <mdw-textfield>
+                <mdw-icon>events</mdw-icon>
+                <input type="date">
+                <label>Date</label>
+                <mdw-date-picker></mdw-date-picker>
+              </mdw-textfield>
+            </div>
+          </mdw-card>
+
+
+          <mdw-card id="contained">
+            <div class="mdw-card__content">
+              <h6>Date input</h6>
             </div>
 
             <div class="mdw-card__content--no-padding">

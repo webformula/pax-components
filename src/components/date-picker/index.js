@@ -37,15 +37,16 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
       this._attachedInput.removeEventListener('click', this.bound_open);
       this._attachedInput.removeEventListener('input', this.bound_inputChange);
     }
+
     this.panel.querySelector('.mdw-date-picker--body-year-view-button').removeEventListener('click', this.bound_yearClick);
     if (this.cancelButton) this.cancelButton.removeEventListener('click', this.bound_onCancel);
     if (this.okButton) this.okButton.removeEventListener('click', this.bound_onOk);
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.remove();
 
-    if (this.backdrop) {
-      this.backdrop.remove();
-      this.backdrop = undefined;
+    if (this._backdrop) {
+      this._backdrop.remove();
+      this._backdrop = undefined;
     }
   }
 
@@ -74,13 +75,24 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
 
+  checkForTextField() {
+    if (this.parentNode.nodeName === 'MDW-TEXTFIELD') {
+      this._attachedInput = this.parentNode.querySelector('input');
+      // TODO add down arrow to open
+      this._attachedInput.addEventListener('click', this.bound_open);
+      this._attachedInput.addEventListener('input', this.bound_inputChange);
+      this._attachedInput.classList.add('mdw-hide-date-prompt');
+    }
+  }
+
   updateDisplayDate(dateParts) {
     this.displayDate = MDWDateUtil.buildFromParts(dateParts);
     this.updateDisplay();
   }
 
   updateDisplay() {
-    this.setYearSelector(this.displayDate);
+    // set year dropdown
+    this.panel.querySelector('#month-year-dropdown').innerHTML = MDWDateUtil.format(this.displayDate, 'MMMM YYYY');
 
     // update views
     const monthEl = this.monthComponent;
@@ -113,20 +125,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
     if (!preventInputUpdate && this._attachedInput) {
       this._attachedInput.value = '';
-    }
-  }
-
-  setYearSelector(date) {
-    this.panel.querySelector('#month-year-dropdown').innerHTML = MDWDateUtil.format(date, 'MMMM YYYY');
-  }
-
-  checkForTextField() {
-    if (this.parentNode.nodeName === 'MDW-TEXTFIELD') {
-      this._attachedInput = this.parentNode.querySelector('input');
-      // TODO add down arrow to open
-      this._attachedInput.addEventListener('click', this.bound_open);
-      this._attachedInput.addEventListener('input', this.bound_inputChange);
-      this._attachedInput.classList.add('mdw-hide-date-prompt');
     }
   }
 
@@ -189,10 +187,8 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
     this.panel.open();
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
-    if (MDWUtils.isMobile) this.backdrop = MDWUtils.addBackdrop(this.panel);
+    if (MDWUtils.isMobile) this._backdrop = MDWUtils.addBackdrop(this.panel);
     MDWUtils.lockPageScroll();
-
-    if (this.monthComponent) this.monthComponent.scrollToCurrentMonth(true);
   }
 
   close() {
@@ -202,9 +198,10 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   onPanelClose() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     MDWUtils.unlockPageScroll();
-    if (this.backdrop) {
-      this.backdrop.remove();
-      this.backdrop = undefined;
+
+    if (this._backdrop) {
+      this._backdrop.remove();
+      this._backdrop = undefined;
     }
   }
 

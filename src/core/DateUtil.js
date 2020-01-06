@@ -27,6 +27,22 @@ export default new class DateUtil {
     return new Date(year, month, day);
   }
 
+  adjustDate(date, { add = { } , set = { } }) {
+    let { year, month, day } = this.getParts(date);
+    console.log(year, month, day);
+    if (add) {
+      if (add.year) year += add.month;
+      if (add.month) month += add.month;
+      if (add.day) month += add.day;
+    } else if (set) {
+      if (set.year) year = set.month;
+      if (set.month) month = set.month;
+      if (set.day) month = set.day;
+    }
+    console.log(year, month, day);
+    return this.buildFromParts({ year, month, day });
+  }
+
   currentYear() {
     return this.today().getFullYear();
   }
@@ -50,12 +66,28 @@ export default new class DateUtil {
     return [...new Array(years)].flatMap((_, i) => [...new Array(12)].map((_, j) => new Date(firstYear + i, j, 1)));
   }
 
+  getParts(date) {
+    return {
+      year: this.getYear(date),
+      month: this.getMonth(date),
+      day: this.getDate(date)
+    };
+  }
+
   getYear(date) {
     return date.getFullYear();
   }
 
   getMonth(date) {
     return date.getMonth();
+  }
+
+  getWeekDay(date) {
+    return date.getDay();
+  }
+
+  getMonthDay(date) {
+    return date.getDate();
   }
 
   getDate(date) {
@@ -109,16 +141,21 @@ export default new class DateUtil {
     return this.getDate(this._createDateWithOverflow(this.getYear(date), this.getMonth(date) + 1, 0));
   }
 
-  getMonthDayArray(date) {
+  getMonthDayArray(date, fillInMonth = false) {
     const firstDay = this.getDayOfTheWeekNumber(this.getFirstDateOfMonth(date));
     const lastday = this.getDayOfTheWeekNumber(this.getLastDateOfMonth(date));
     const numDaysInMonth = this.getNumDaysInMonth(date);
     // calculate length of month filling in the first and last week with empty days for display purposes
-    const length = firstDay + numDaysInMonth + (7 - lastday - 1);
+    const length = 6 * 7;
     const endDayIndex = numDaysInMonth + firstDay;
+    let fillCounter = 1;
     const monthDays = [...Array(length)].map((_, i) => {
-      if (i < firstDay || i >= endDayIndex) return '';
-      return i - firstDay + 1;
+      if (i < firstDay) return { display: '', current: false };
+      if (i >= endDayIndex) {
+        if (fillInMonth) return { display: fillCounter++, current: false };
+        return '';
+      }
+      return { display: i - firstDay + 1, current: true };
     });
     const res = [];
     while (monthDays.length) {
