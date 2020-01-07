@@ -48,17 +48,21 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
     return this.getAttribute('mdw-display-date');
   }
 
+  get selectedElement() {
+    return this.shadowRoot.querySelector('.mdw-selected');
+  }
+
   // expecting date string: (new Date()).toString();
   get year() {
-    return MDWDateUtil.getYear(this.monthDate);
+    return this.selectedElement ? parseInt(this.selectedElement.getAttribute('mdw-year')) : MDWDateUtil.getYear(this.monthDate);
   }
 
   get month() {
-    return MDWDateUtil.getMonth(this.monthDate);
+    return this.selectedElement ? parseInt(this.selectedElement.getAttribute('mdw-month')) : MDWDateUtil.getMonth(this.monthDate);
   }
 
   get day() {
-    return parseInt(this.shadowRoot.querySelector('.mdw-selected').getAttribute('mdw-day'));
+    return this.selectedElement ? parseInt(this.selectedElement.getAttribute('mdw-day')) : undefined;
   }
 
   get minDate() {
@@ -86,7 +90,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
 
   deselect() {
     this.setCurrent(false);
-    const selected = this.shadowRoot.querySelector('.mdw-selected');
+    const selected = this.selectedElement;
     if (selected) selected.classList.remove('mdw-selected');
   }
 
@@ -99,7 +103,6 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
       this.deselect();
       this.setCurrent();
       event.target.classList.add('mdw-selected');
-
       this.dispatchEvent(new CustomEvent('MDWDatePicker:dayChange', {
         composed: true,
         detail: {
@@ -116,7 +119,13 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
       <div class="mdw-date-picker--view-month-container">
         ${this.monthDays.map(week => `
           <div class="mdw-date-picker--view-month-week-container">
-            ${week.map(({ display, current, beforeMinDate }) => `<div class="mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''}" mdw-day="${display}">${display}</div>`).join('\n')}
+            ${week.map(({ display, day, month, year, current, beforeMinDate }) => `
+              <div class="mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''}"
+                mdw-day="${day}"
+                mdw-month="${month}"
+                mdw-year="${year}"
+                >${display}</div>
+            `).join('\n')}
           </div>
         `).join('\n')}
       </div>
@@ -132,6 +141,11 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
+        pointer-events: none;
+      }
+
+      :host(.mdw-active-month) {
+        pointer-events: auto;
       }
 
       :host render-block {
@@ -176,6 +190,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
       .mdw-date-picker--day.mdw-selected {
         background-color: var(--mdw-theme-primary);
         color: var(--mdw-theme-text--on-primary);
+        pointer-events: auto;
       }
 
       .mdw-date-picker--day.mdw-today {

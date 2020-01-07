@@ -34,15 +34,19 @@ export default new class DateUtil {
 
   adjustDate(date, { add = undefined , set = undefined }) {
     let { year, month, day } = this.getParts(date);
-    if (add) {
-      if (add.year) year += add.year;
-      if (add.month) month += add.month;
-      if (add.day) day += add.day;
-    } else if (set) {
+
+    if (set) {
       if (set.year) year = set.year;
       if (set.month) month = set.month;
       if (set.day) day = set.day;
     }
+
+    if (add) {
+      if (add.year) year += add.year;
+      if (add.month) month += add.month;
+      if (add.day) day += add.day;
+    }
+
     return this.buildFromParts({ year, month, day });
   }
 
@@ -147,44 +151,40 @@ export default new class DateUtil {
   getMonthDayArray(date, { fillInMonth = false, minDate = undefined }) {
     const firstDay = this.getDayOfTheWeekNumber(this.getFirstDateOfMonth(date));
     const lastday = this.getDayOfTheWeekNumber(this.getLastDateOfMonth(date));
-    const numDaysInMonth = this.getNumDaysInMonth(date);
-    let currentDate = this.adjustDate(date, { set: { day: 1 } });
+    const targetYear = this.getYear(date);
+    const targetMonth = this.getMonth(date);
+
+    // start on sunday
+    let currentDate = this.adjustDate(date, {
+      set: { day: 1 },
+      add: { day: -firstDay }
+    });
 
     if (minDate && !this.isValidDate(minDate)) minDate = undefined;
 
-    // calculate length of month filling in the first and last week with empty days for display purposes
-    const length = 6 * 7;
-    const endDayIndex = numDaysInMonth + firstDay;
-    let fillCounter = 1;
-    const monthDays = [...Array(length)].map((_, i) => {
-      if (i < firstDay) return {
-        display: '',
-        current: false,
-        beforeMinDate: false
-      };
-
-      if (i >= endDayIndex) {
-        currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
-        if (fillInMonth) return {
-          display: fillCounter++,
-          current: false,
-          beforeMinDate: minDate ? currentDate <= minDate : false
-        };
-
-        return {
-          display: '',
-          current: false,
-          beforeMinDate: false
-        };
-      }
-
+    // 6 rows of 7 days
+    const monthDays = [...Array(6 * 7)].map((_, i) => {
+      const year = this.getYear(currentDate);
+      const month = this.getMonth(currentDate);
+      const day = this.getMonthDay(currentDate);
+      // -1, 0, 1
+      const targetMonthOffset = year < targetYear ? -1 : month - targetMonth;
+      const interactable = targetMonthOffset === -1 ? false : targetMonthOffset === 1 ? fillInMonth ? true : false : true;
+      const display = interactable ? day : '';
       currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
+
       return {
-        display: i - firstDay + 1,
-        current: true,
+        display,
+        interactable,
+        year,
+        month,
+        day,
+        current: month === targetMonth,
         beforeMinDate: minDate ? currentDate <= minDate : false
       };
     });
+
+    // split into week rows
     const res = [];
     while (monthDays.length) {
       res.push(monthDays.splice(0, 7));
