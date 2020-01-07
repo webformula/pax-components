@@ -99,7 +99,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
   }
 
   onClick(event) {
-    if (event.target.classList.contains('mdw-date-picker--day')) {
+    if (event.target.classList.contains('mdw-date-picker--day') && event.target.classList.contains('mdw-interactable')) {
       this.deselect();
       this.setCurrent();
       event.target.classList.add('mdw-selected');
@@ -119,8 +119,8 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
       <div class="mdw-date-picker--view-month-container">
         ${this.monthDays.map(week => `
           <div class="mdw-date-picker--view-month-week-container">
-            ${week.map(({ display, day, month, year, current, beforeMinDate }) => `
-              <div class="mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''}"
+            ${week.map(({ display, day, month, year, interactable, current, beforeMinDate }) => `
+              <div class="mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''} ${interactable ? 'mdw-interactable' : ''}"
                 mdw-day="${day}"
                 mdw-month="${month}"
                 mdw-year="${year}"
@@ -174,9 +174,12 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
         line-height: 40px;
         border-radius: 50%;
         color: var(--mdw-theme-text--heading);
-        cursor: pointer;
         user-select: none;
         box-sizing: border-box;
+      }
+
+      .mdw-date-picker--day.mdw-interactable {
+        cursor: pointer;
       }
 
       .mdw-date-picker--day.mdw-before-min-date {
