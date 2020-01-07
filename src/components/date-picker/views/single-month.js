@@ -81,7 +81,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
   _selectDate(date) {
     if (MDWDateUtil.getYear(date) !== MDWDateUtil.getYear(this.monthDate) || MDWDateUtil.getMonth(date) !== MDWDateUtil.getMonth(this.monthDate)) return;
 
-    const selectedElement = this.shadowRoot.querySelector(`[mdw-day="${MDWDateUtil.getMonthDay(date)}"]`);
+    const selectedElement = this.shadowRoot.querySelector(`[mdw-day="${MDWDateUtil.getMonthDay(date)}"][mdw-month="${MDWDateUtil.getMonth(date)}"]`);
     if (selectedElement) {
       selectedElement.classList.add('mdw-selected');
       this.setCurrent();

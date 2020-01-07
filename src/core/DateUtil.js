@@ -135,10 +135,6 @@ export default new class DateUtil {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0);
   }
 
-  // getFirstDayOfWeek() {
-  //   return 0;
-  // }
-
   // 0 - 6
   getDayOfTheWeekNumber(date) {
     return (date.getDay() + 7) % 7;
@@ -148,7 +144,7 @@ export default new class DateUtil {
     return this.getDate(this._createDateWithOverflow(this.getYear(date), this.getMonth(date) + 1, 0));
   }
 
-  getMonthDayArray(date, { fillInMonth = false, minDate = undefined }) {
+  getMonthDayArray(date, { fillInMonth = false, minDate = undefined, maxDate = undefined }) {
     const firstDay = this.getDayOfTheWeekNumber(this.getFirstDateOfMonth(date));
     const lastday = this.getDayOfTheWeekNumber(this.getLastDateOfMonth(date));
     const targetYear = this.getYear(date);
@@ -161,6 +157,7 @@ export default new class DateUtil {
     });
 
     if (minDate && !this.isValidDate(minDate)) minDate = undefined;
+    if (maxDate && !this.isValidDate(maxDate)) maxDate = undefined;
 
     // 6 rows of 7 days
     const monthDays = [...Array(6 * 7)].map((_, i) => {
@@ -180,7 +177,8 @@ export default new class DateUtil {
         month,
         day,
         current: month === targetMonth,
-        beforeMinDate: minDate ? currentDate <= minDate : false
+        beforeMinDate: minDate ? currentDate <= minDate : false,
+        afterMaxDate: maxDate ? currentDate > maxDate : false
       };
     });
 
