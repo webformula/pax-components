@@ -82,7 +82,9 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
     notActive.style.transition = 'none';
     notActive.style[MDWUtils.transformPropertyName] = 'translateX(20%)';
+
     notActive.setAttribute('mdw-display-date', MDWDateUtil.buildFromParts({ year: active.year, month: active.month + 1 }));
+    notActive.setAttribute('mdw-selected-date', this.selectedDate);
 
     setTimeout(() => {
       active.style[MDWUtils.transformPropertyName] = 'translateX(-20%)';
@@ -111,7 +113,9 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
     notActive.style.transition = 'none';
     notActive.style[MDWUtils.transformPropertyName] = 'translateX(-20%)';
+    
     notActive.setAttribute('mdw-display-date', MDWDateUtil.buildFromParts({ year: active.year, month: active.month - 1 }));
+    notActive.setAttribute('mdw-selected-date', this.selectedDate);
 
     setTimeout(() => {
       active.style[MDWUtils.transformPropertyName] = 'translateX(20%)';

@@ -149,6 +149,7 @@ export default new class DateUtil {
     const lastday = this.getDayOfTheWeekNumber(this.getLastDateOfMonth(date));
     const targetYear = this.getYear(date);
     const targetMonth = this.getMonth(date);
+    const todayParts = this.getParts(this.today());
 
     // start on sunday
     let currentDate = this.adjustDate(date, {
@@ -178,7 +179,8 @@ export default new class DateUtil {
         day,
         current: month === targetMonth,
         beforeMinDate: minDate ? currentDate <= minDate : false,
-        afterMaxDate: maxDate ? currentDate > maxDate : false
+        afterMaxDate: maxDate ? currentDate > maxDate : false,
+        isToday: todayParts.year === year && todayParts.month === month && todayParts.day === day
       };
     });
 

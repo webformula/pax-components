@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { html, HTMLElementExtended } from '@webformula/pax-core';
 import MDWDateUtil from '../../../core/DateUtil.js';
 
 customElements.define('mdw-date-picker--view-month-single', class extends HTMLElementExtended {
@@ -36,6 +36,8 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
       case 'mdw-display-date':
         this._setupDate();
         this.render();
+        const selectedDate = this.selectedDate;
+        if (selectedDate) this._selectDate(MDWDateUtil.parse(selectedDate));
         break;
 
       case 'mdw-selected-date':
@@ -46,6 +48,10 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
 
   get displayDate() {
     return this.getAttribute('mdw-display-date');
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date');
   }
 
   get selectedElement() {
@@ -115,22 +121,16 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
   }
 
   template() {
-    return `
+    return html`
       <div class="mdw-date-picker--view-month-container">
         ${this.monthDays.map(week => `
           <div class="mdw-date-picker--view-month-week-container">
-            ${week.map(({ display, day, month, year, interactable, current, beforeMinDate, afterMaxDate }) => `
-              <div class="
-                          mdw-date-picker--day
-                          ${current ? '' : ' mdw-next-month'}
-                          ${beforeMinDate ? ' mdw-before-min-date' : ''}
-                          ${interactable ? ' mdw-interactable' : ''}
-                          ${beforeMinDate || afterMaxDate ? ' mdw-out-of-range' : ''}
-                        "
+            ${week.map(({ display, day, month, year, interactable, current, beforeMinDate, afterMaxDate, isToday }) => `
+              <div class=" mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''} ${interactable ? 'mdw-interactable' : ''} ${beforeMinDate || afterMaxDate ? 'mdw-out-of-range' : ''} ${isToday ? 'mdw-today' : ''}"
                 mdw-day="${day}"
                 mdw-month="${month}"
                 mdw-year="${year}"
-                >${display}</div>
+              >${display}</div>
             `).join('\n')}
           </div>
         `).join('\n')}
