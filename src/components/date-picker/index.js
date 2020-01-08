@@ -186,6 +186,9 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     if (this.panel._isOpen) return;
     this._openingDate = this.selectedDate;
 
+    this.displayDate = this.selectedDate || MDWDateUtil.today();
+    this.updateDisplay();
+    
     this.panel.open();
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
     if (MDWUtils.isMobile) this._backdrop = MDWUtils.addBackdrop(this.panel);
