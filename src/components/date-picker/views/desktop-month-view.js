@@ -86,6 +86,10 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
     notActive.setAttribute('mdw-display-date', MDWDateUtil.buildFromParts({ year: active.year, month: active.month + 1 }));
     notActive.setAttribute('mdw-selected-date', this.selectedDate);
 
+    // change classes before the event is dispatched so the active month does not change during animation
+    active.classList.remove('mdw-active-month');
+    notActive.classList.add('mdw-active-month');
+
     setTimeout(() => {
       active.style[MDWUtils.transformPropertyName] = 'translateX(-20%)';
       active.style.opacity = '0';
@@ -93,9 +97,6 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
       notActive.style.transition = '';
       notActive.style[MDWUtils.transformPropertyName] = '';
       notActive.style.opacity = '1';
-
-      active.classList.remove('mdw-active-month');
-      notActive.classList.add('mdw-active-month');
     }, 42);
 
     this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
@@ -113,9 +114,13 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
     notActive.style.transition = 'none';
     notActive.style[MDWUtils.transformPropertyName] = 'translateX(-20%)';
-    
+
     notActive.setAttribute('mdw-display-date', MDWDateUtil.buildFromParts({ year: active.year, month: active.month - 1 }));
     notActive.setAttribute('mdw-selected-date', this.selectedDate);
+
+    // change classes before the event is dispatched so the active month does not change during animation
+    active.classList.remove('mdw-active-month');
+    notActive.classList.add('mdw-active-month');
 
     setTimeout(() => {
       active.style[MDWUtils.transformPropertyName] = 'translateX(20%)';
@@ -124,9 +129,6 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
       notActive.style.transition = '';
       notActive.style[MDWUtils.transformPropertyName] = '';
       notActive.style.opacity = '1';
-
-      active.classList.remove('mdw-active-month');
-      notActive.classList.add('mdw-active-month');
     }, 42);
 
     this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
