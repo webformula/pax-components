@@ -24,7 +24,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   }
 
   static get observedAttributes() {
-    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date'];
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -44,6 +44,11 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
         this.activeMonth.setAttribute('mdw-min-date', newValue);
         this.nonActiveMonth.setAttribute('mdw-min-date', newValue);
         break;
+
+      case 'mdw-max-date':
+        this.activeMonth.setAttribute('mdw-max-date', newValue);
+        this.nonActiveMonth.setAttribute('mdw-max-date', newValue);
+        break;
     }
   }
 
@@ -58,6 +63,10 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
   get minDate() {
     return this.getAttribute('mdw-min-date');
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date');
   }
 
   get activeMonth() {
@@ -162,11 +171,13 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
           mdw-display-date="${this.displayDate}"
           mdw-selected-date="${this.selectedDate}"
           mdw-min-date="${this.minDate}"
+          mdw-max-date="${this.maxDate}"
           ></mdw-date-picker--view-month-single>
         <mdw-date-picker--view-month-single
           mdw-fill-month
           mdw-display-date="${this.displayDate}"
           mdw-min-date="${this.minDate}"
+          mdw-max-date="${this.maxDate}"
           ></mdw-date-picker--view-month-single>
       </div>
     `;

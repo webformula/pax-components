@@ -10,6 +10,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.panelId = `mdw-date-picker_${MDWUtils.uid()}`;
     this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-date') || MDWDateUtil.today());
     this.minDate = MDWDateUtil.parse(this.getAttribute('mdw-min-date'));
+    this.maxDate = MDWDateUtil.parse(this.getAttribute('mdw-max-date'));
 
     this.bound_yearClick = this.yearClick.bind(this)
     this.bound_monthChange = this.monthChange.bind(this);
@@ -188,7 +189,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
     this.displayDate = this.selectedDate || MDWDateUtil.today();
     this.updateDisplay();
-    
+
     this.panel.open();
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
     if (MDWUtils.isMobile) this._backdrop = MDWUtils.addBackdrop(this.panel);
@@ -261,10 +262,12 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
                   mdw-display-date="${this.displayDate}"
                   mdw-selected-date="${this.selectedDate}"
                   mdw-min-date="${this.minDate}"
+                  mdw-max-date="${this.maxDate}"
                   ></mdw-date-picker--view-month>`
               : `<mdw-date-picker--view-year
                   mdw-year="${this.displayDate.getFullYear()}"
                   mdw-min-date="${this.minDate}"
+                  mdw-max-date="${this.maxDate}"
                   ></mdw-date-picker--view-year>`
             }
           </div>
@@ -321,6 +324,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
                                       mdw-display-date="${this.displayDate}"
                                       mdw-selected-date="${this.selectedDate}"
                                       mdw-min-date="${this.minDate}"
+                                      mdw-max-date="${this.maxDate}"
                                       ></mdw-date-picker--view-month>`;
     const monthEl = this.monthComponent;
     monthEl.addEventListener('MDWDatePicker:dayChange', this.bound_dayChange);

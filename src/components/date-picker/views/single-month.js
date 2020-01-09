@@ -25,7 +25,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
   }
 
   static get observedAttributes() {
-    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date'];
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -33,6 +33,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
 
     switch(name) {
       case 'mdw-min-date':
+      case 'mdw-max-date':
       case 'mdw-display-date':
         this._setupDate();
         this.render();
@@ -76,11 +77,17 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
     return MDWDateUtil.parse(minAttr);
   }
 
+  get maxDate() {
+    const maxAttr = this.getAttribute('mdw-max-date');
+    return MDWDateUtil.parse(maxAttr);
+  }
+
   _setupDate() {
     this.monthDate = MDWDateUtil.parse(this.displayDate);
     this.monthDays = this.monthDate ? MDWDateUtil.getMonthDayArray(this.monthDate, {
       fillInMonth: this.hasAttribute('mdw-fill-month'),
-      minDate: this.minDate
+      minDate: this.minDate,
+      maxDate: this.maxDate
     }) : [];
   }
 
@@ -126,7 +133,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
         ${this.monthDays.map(week => `
           <div class="mdw-date-picker--view-month-week-container">
             ${week.map(({ display, day, month, year, interactable, current, beforeMinDate, afterMaxDate, isToday }) => `
-              <div class=" mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''} ${interactable ? 'mdw-interactable' : ''} ${beforeMinDate || afterMaxDate ? 'mdw-out-of-range' : ''} ${isToday ? 'mdw-today' : ''}"
+              <div class=" mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''} ${afterMaxDate ? 'mdw-after-max-date' : ''} ${interactable ? 'mdw-interactable' : ''} ${beforeMinDate || afterMaxDate ? 'mdw-out-of-range' : ''} ${isToday ? 'mdw-today' : ''}"
                 mdw-day="${day}"
                 mdw-month="${month}"
                 mdw-year="${year}"
@@ -188,7 +195,8 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
         cursor: pointer;
       }
 
-      .mdw-date-picker--day.mdw-before-min-date {
+      .mdw-date-picker--day.mdw-before-min-date,
+      .mdw-date-picker--day.mdw-after-max-date {
         color: rgba(var(--mdw-theme-text--heading--rgb), 0.7);
       }
 
