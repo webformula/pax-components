@@ -9,8 +9,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this._currentView = 'month';
     this.panelId = `mdw-date-picker_${MDWUtils.uid()}`;
     this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-date') || MDWDateUtil.today());
-    this.minDate = MDWDateUtil.parse(this.getAttribute('mdw-min-date'));
-    this.maxDate = MDWDateUtil.parse(this.getAttribute('mdw-max-date'));
 
     this.bound_yearClick = this.yearClick.bind(this)
     this.bound_monthChange = this.monthChange.bind(this);
@@ -22,8 +20,26 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.bound_inputChange = this.inputChange.bind(this);
     this.bound_onPanelClose = this.onPanelClose.bind(this);
 
-    this.checkForTextField();
+    this._checkForTextField();
     this._buildPanel();
+  }
+
+  static get observedAttributes() {
+    return ['mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    switch(name) {
+      case 'mdw-min-date':
+        this.currentComponent.setAttribute('mdw-min-date', newValue);
+        break;
+
+      case 'mdw-max-date':
+        this.currentComponent.setAttribute('mdw-max-date', newValue);
+        break;
+    }
   }
 
   connectedCallback() {
@@ -76,14 +92,29 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     return this.viewContainer && this.viewContainer.querySelector('mdw-date-picker--view-month');
   }
 
+  get currentComponent() {
+    return this.monthComponent || this.yearComponent
+  }
 
-  checkForTextField() {
+  get minDate() {
+    return this.getAttribute('mdw-min-date') || '';
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date') || '';
+  }
+
+
+  _checkForTextField() {
     if (this.parentNode.nodeName === 'MDW-TEXTFIELD') {
       this._attachedInput = this.parentNode.querySelector('input');
       // TODO add down arrow to open
       this._attachedInput.addEventListener('click', this.bound_open);
       this._attachedInput.addEventListener('input', this.bound_inputChange);
       this._attachedInput.classList.add('mdw-hide-date-prompt');
+
+      if (this._attachedInput.hasAttribute('min')) this.setAttribute('mdw-min-date', this._attachedInput.getAttribute('min'));
+      if (this._attachedInput.hasAttribute('max')) this.setAttribute('mdw-max-date', this._attachedInput.getAttribute('max'));
     }
   }
 
@@ -310,7 +341,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.viewContainer.innerHTML = `<mdw-date-picker--view-year mdw-year="${this.displayDate.getFullYear()}"></mdw-date-picker--view-year>`;
     const yearEl = this.yearComponent;
     yearEl.addEventListener('MDWDatePicker:yearChange', this.bound_yearChange);
-    yearEl.datePickerComponenet = this;
 
     const monthEl = this.monthComponent;
     if (monthEl) {
@@ -329,7 +359,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     const monthEl = this.monthComponent;
     monthEl.addEventListener('MDWDatePicker:dayChange', this.bound_dayChange);
     monthEl.addEventListener('MDWDatePicker:monthChange', this.bound_monthChange);
-    monthEl.datePickerComponenet = this;
 
     const yearEl = this.yearComponent;
     if (yearEl) yearEl.removeEventListener('MDWDatePicker:yearChange', this.bound_yearChange);

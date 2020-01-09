@@ -43,8 +43,8 @@ export default class DatePicker extends Page {
                 <mdw-icon>events</mdw-icon>
                 <input type="date">
                 <label>Date</label>
-                <mdw-date-picker mdw-min-date="2019-12-10" mdw-max-date="2020-2-1"></mdw-date-picker>
-                <!-- <mdw-date-picker></mdw-date-picker> -->
+                <!-- <mdw-date-picker mdw-min-date="2019-12-10" mdw-max-date="2020-2-1"></mdw-date-picker> -->
+                <mdw-date-picker></mdw-date-picker>
               </mdw-textfield>
             </div>
           </mdw-card>
