@@ -56,13 +56,13 @@ customElements.define('mdw-date-picker--view-month', class extends HTMLElementEx
   }
 
   template() {
-    if (MDWUtils.isMobile)return `<mdw-date-picker--view-month--desktop
+    if (MDWUtils.isMobile)return `<mdw-date-picker--view-month--mobile
                                     mdw-month-view
                                     mdw-display-date="${this.displayDate}"
                                     mdw-display-date="${this.selectedDate}"
                                     mdw-min-date="${this.minDate}"
                                     mdw-max-date="${this.maxDate}"
-                                    ></mdw-date-picker--view-month--desktop>`;
+                                    ></mdw-date-picker--view-month--mobile>`;
 
     return `<mdw-date-picker--view-month--desktop
               mdw-month-view

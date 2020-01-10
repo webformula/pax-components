@@ -87,6 +87,7 @@ customElements.define('mdw-date-picker--view-year', class extends HTMLElementExt
     return `
       :host {
         overflow-y: scroll;
+        height: 342px;
       }
 
       .mdw-date-picker--view-year-container {

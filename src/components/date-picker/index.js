@@ -10,7 +10,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.panelId = `mdw-date-picker_${MDWUtils.uid()}`;
     this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-date') || MDWDateUtil.today());
 
-    this.bound_yearClick = this.yearClick.bind(this)
     this.bound_monthChange = this.monthChange.bind(this);
     this.bound_yearChange = this.yearChange.bind(this);
     this.bound_dayChange = this.dayChange.bind(this);
@@ -19,6 +18,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.bound_onOk = this.onOk.bind(this);
     this.bound_inputChange = this.inputChange.bind(this);
     this.bound_onPanelClose = this.onPanelClose.bind(this);
+    this.bound_onShowYearView = () => setTimeout(() => this.changeView('year'), 0);
 
     this._checkForTextField();
     this._buildPanel();
@@ -44,7 +44,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   connectedCallback() {
     this._setupPanel();
-    this.panel.querySelector('.mdw-date-picker--body-year-view-button').addEventListener('click', this.bound_yearClick);
     if (this.cancelButton) this.cancelButton.addEventListener('click', this.bound_onCancel);
     if (this.okButton) this.okButton.addEventListener('click', this.bound_onOk);
     this.changeView('month');
@@ -124,9 +123,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   updateDisplay() {
-    // set year dropdown
-    this.panel.querySelector('#month-year-dropdown').innerHTML = MDWDateUtil.format(this.displayDate, 'MMMM YYYY');
-
     // update views
     const monthEl = this.monthComponent;
     if (monthEl) monthEl.setAttribute('mdw-display-date', this.displayDate);
@@ -195,10 +191,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
   onOk() {
     this.close();
-  }
-
-  yearClick() {
-    this.changeView('year');
   }
 
   changeView(value) {
@@ -270,7 +262,6 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
             <div class="mdw-date-picker--header-title">Select date</div>
 
             <div mdw-row mdw-flex-position="center space-between">
-              <!-- Mon, Nov 17 -->
               <div class="mdw-date-picker--header-date">${this.selectedDate ? MDWDateUtil.format(this.selectedDate, 'ddd, MMM DD') : 'Select date'}</div>
               <mdw-icon>edit</mdw-icon>
             </div>
@@ -278,15 +269,8 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
         `}
 
         <div class="mdw-date-picker--body">
-          <div mdw-row mdw-flex-position="center space-between">
-            <div mdw-row mdw-flex-position="start space-around" class="mdw-date-picker--body-year-view-button">
-              <div id="month-year-dropdown">${MDWDateUtil.format(MDWDateUtil.buildFromParts({ year: this.selectedYear, month: this.selectedMonth }), 'MMMM YYYY')}</div>
-              <i class="mdw-select__icon"></i>
-            </div>
-          </div>
-
           <!-- year, month, day, schedule? -->
-          <div mdw-column class="mdw-date-picker--body-views" style="min-height: 280px;">
+          <div mdw-column class="mdw-date-picker--body-views">
             ${
               this._currentView === 'month'
               ? `<mdw-date-picker--view-month
@@ -346,6 +330,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     if (monthEl) {
       monthEl.removeEventListener('MDWDatePicker:dayChange', this.bound_dayChange);
       monthEl.removeEventListener('MDWDatePicker:monthChange', this.bound_monthChange);
+      monthEl.removeEventListener('MDWDatePicker:showYearView', this.bound_onShowYearView);
     }
   }
 
@@ -359,6 +344,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     const monthEl = this.monthComponent;
     monthEl.addEventListener('MDWDatePicker:dayChange', this.bound_dayChange);
     monthEl.addEventListener('MDWDatePicker:monthChange', this.bound_monthChange);
+    monthEl.addEventListener('MDWDatePicker:showYearView', this.bound_onShowYearView);
 
     const yearEl = this.yearComponent;
     if (yearEl) yearEl.removeEventListener('MDWDatePicker:yearChange', this.bound_yearChange);
