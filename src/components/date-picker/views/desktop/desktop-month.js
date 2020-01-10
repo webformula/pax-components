@@ -1,5 +1,5 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
-import MDWDateUtil from '../../../core/DateUtil.js';
+import MDWDateUtil from '../../../../core/DateUtil.js';
 
 customElements.define('mdw-date-picker--view-month--desktop', class extends HTMLElementExtended {
   constructor() {
