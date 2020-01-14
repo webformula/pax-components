@@ -166,7 +166,7 @@ export default new class DateUtil {
       const month = this.getMonth(currentDate);
       const day = this.getMonthDay(currentDate);
       // -1, 0, 1
-      const targetMonthOffset = year < targetYear ? -1 : month - targetMonth;
+      const targetMonthOffset = year < targetYear ? -1 : year > targetYear ? 1 : month < targetMonth ? -1 : month === targetMonth ? 0 : 1;
       const interactable = targetMonthOffset === -1 ? false : targetMonthOffset === 1 ? fillInMonth ? true : false : true;
       const display = interactable ? day : '';
       currentDate = this.adjustDate(currentDate, { add: { day: 1 } });

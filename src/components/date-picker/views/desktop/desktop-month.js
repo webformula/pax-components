@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended, html, css } from '@webformula/pax-core';
 import MDWDateUtil from '../../../../core/DateUtil.js';
 
 customElements.define('mdw-date-picker--view-month--desktop', class extends HTMLElementExtended {
@@ -7,21 +7,20 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
     this.bound_nextMonth = this.nextMonth.bind(this);
     this.bound_prevMonth = this.prevMonth.bind(this);
-    this.bound_yearClick = this.yearClick.bind(this)
 
     this.today = MDWDateUtil.today();
     this.dayOfWeekNames = MDWDateUtil.getDayOfWeekNames('narrow');
     this.cloneTemplate(true);
   }
 
-  connectedCallback() {
+  addEvents() {
     this.navButtonLeft.addEventListener('click', this.bound_prevMonth);
     this.navButtonRight.addEventListener('click', this.bound_nextMonth);
 
     this.yearDropdown.addEventListener('click', this.bound_yearClick);
   }
 
-  disconnectedCallback() {
+  removeEvents() {
     this.navButtonLeft.removeEventListener('click', this.bound_prevMonth);
     this.navButtonRight.removeEventListener('click', this.bound_nextMonth);
   }
@@ -165,7 +164,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   }
 
   template() {
-    return `
+    return html`
       <div class="mdw-date-picker--controls-container">
         <div class="mdw-date-picker--body-year-view-button">
           <div id="month-year-dropdown">${MDWDateUtil.format(MDWDateUtil.buildFromParts({ year: this.selectedYear, month: this.selectedMonth }), 'MMMM YYYY')}</div>
@@ -206,7 +205,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   }
 
   styles() {
-    return `
+    return css`
       .mdw-date-picker--view-month-day-header {
         color: var(--mdw-theme-text--body);
         font-size: 12px;

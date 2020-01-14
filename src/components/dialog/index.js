@@ -9,6 +9,10 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this._clickOutsideClose = false;
   }
 
+  connectedCallback() {
+    console.log('bottom');
+  }
+
   disconnectedCallback() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.remove();
@@ -43,7 +47,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
 
   show() {
     this.panel.hoistToBody();
-    this.setAutoPosition(false);
+    // this.setAutoPosition(false);
     this.panel.setTarget('body');
     this.panel.setAttribute('mdw-position', this.position);
     this.panel.open();

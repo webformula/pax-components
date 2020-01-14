@@ -16,11 +16,11 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
     }
   }
 
-  connectedCallback() {
+  addEvents() {
     this.shadowRoot.addEventListener('click', this.bound_onClick);
   }
 
-  disconnectedCallback() {
+  removeEvents() {
     this.shadowRoot.removeEventListener('click', this.bound_onClick);
   }
 
@@ -134,7 +134,7 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
         ${this.monthDays.map(week => `
           <div class="mdw-date-picker--view-month-week-container">
             ${week.map(({ display, day, month, year, interactable, current, beforeMinDate, afterMaxDate, isToday }) => `
-              <div class=" mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''} ${afterMaxDate ? 'mdw-after-max-date' : ''} ${interactable ? 'mdw-interactable' : ''} ${beforeMinDate || afterMaxDate ? 'mdw-out-of-range' : ''} ${isToday ? 'mdw-today' : ''}"
+              <div class=" mdw-date-picker--day ${current ? '' : 'mdw-next-month'} ${beforeMinDate ? 'mdw-before-min-date' : ''} ${afterMaxDate ? 'mdw-after-max-date' : ''} ${interactable ? 'mdw-interactable' : ''} ${beforeMinDate || afterMaxDate ? 'mdw-out-of-range' : ''} ${isToday && display !== '' ? 'mdw-today' : ''}"
                 mdw-day="${day}"
                 mdw-month="${month}"
                 mdw-year="${year}"
@@ -169,7 +169,6 @@ customElements.define('mdw-date-picker--view-month-single', class extends HTMLEl
       .mdw-date-picker--view-month-container {
         margin-left: 12px;
         margin-right: 12px;
-        margin-top: 12px;
         display: flex;
         flex-direction: column;
         width: calc(100% - 24px);
