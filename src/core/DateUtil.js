@@ -9,6 +9,10 @@ export default new class DateUtil {
     this._locale = value;
   }
 
+  static get inputDateRegex() {
+    return /([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(?!\S)/;
+  }
+
   // Sets the timezone used.
   // leaving this undeifend will use the browser default
   get timezone() {
@@ -21,7 +25,12 @@ export default new class DateUtil {
 
   parse(value) {
     if (typeof value === 'number') return new Date(value);
-     return new Date(Date.parse(value));
+
+    // format used for inputs yyyy-mm-dd
+    const inputDateMatch = value.match(this.inputDateRegex);
+    if (inputDateMatch) return thid.buildFromParts(inputDateMatch[1], inputDateMatch[2], inputDateMatch[3]);
+
+    return new Date(Date.parse(value));
   }
 
   isValidDate(date) {

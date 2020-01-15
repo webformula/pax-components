@@ -72,6 +72,10 @@ customElements.define('mdw-date-picker--view-month-single--mobile', class extend
     return this.shadowRoot.querySelector('.mdw-date-picker--body-year-view-button');
   }
 
+  get isActiveMonth() {
+    return this.classList.contains('mdw-active-month');
+  }
+
   yearClick() {
     this.dispatchEvent(new CustomEvent('MDWDatePicker:showYearView', {
       composed: true
@@ -114,6 +118,7 @@ customElements.define('mdw-date-picker--view-month-single--mobile', class extend
       </div>
 
       <mdw-date-picker--view-month-single
+        class="${this.isActiveMonth ? 'mdw-active-month' : ''}"
         mdw-display-date="${this.displayDate}"
         mdw-selected-date="${this.selectedDate}"
         mdw-min-date="${this.minDate}"

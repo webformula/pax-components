@@ -35,18 +35,22 @@ customElements.define('mdw-date-picker--view-month--mobile', class extends HTMLE
   attributeChangedCallback(name, oldValue, newValue) {
     if (!newValue || newValue === oldValue) return;
 
+    const activeMonth = this.activeMonth;
     switch(name) {
       case 'mdw-display-date':
         this.render();
         break;
 
       case 'mdw-selected-date':
+        if (activeMonth) activeMonth.setAttribute('mdw-selected-date', newValue);
         break;
 
       case 'mdw-min-date':
+        if (activeMonth) activeMonth.setAttribute('mdw-min-date', newValue);
         break;
 
       case 'mdw-max-date':
+        if (activeMonth) activeMonth.setAttribute('mdw-max-date', newValue);
         break;
     }
   }
@@ -70,6 +74,10 @@ customElements.define('mdw-date-picker--view-month--mobile', class extends HTMLE
 
   get monthsScroller() {
     return this.shadowRoot.querySelector('.mdw-date-picker--view-month--mobile-scroller');
+  }
+
+  get activeMonth() {
+    return this.shadowRoot.querySelector('.mdw-active-month');
   }
 
   nextMonth() {
@@ -113,7 +121,6 @@ customElements.define('mdw-date-picker--view-month--mobile', class extends HTMLE
   }
 
   onChangeComplete(callback) {
-    console.log('onChangeComplete');
     const monthsScroller = this.monthsScroller;
     monthsScroller.addEventListener(MDWUtils.transitionEventName, function handler() {
       monthsScroller.removeEventListener(MDWUtils.transitionEventName, handler);
@@ -127,7 +134,7 @@ customElements.define('mdw-date-picker--view-month--mobile', class extends HTMLE
       <div class="mdw-date-picker--view-month--mobile-container">
         <div class="mdw-date-picker--view-month--mobile-scroller" style="${MDWUtils.transformPropertyName}: translateX(-100%); transition: none;">
           <mdw-date-picker--view-month-single--mobile mdw-display-date="${MDWDateUtil.adjustDate(displayDateObj, { add: { month: -1 } })}"></mdw-date-picker--view-month-single--mobile>
-          <mdw-date-picker--view-month-single--mobile mdw-display-date="${this.displayDate}"></mdw-date-picker--view-month-single--mobile>
+          <mdw-date-picker--view-month-single--mobile class="mdw-active-month" mdw-display-date="${this.displayDate}"></mdw-date-picker--view-month-single--mobile>
           <mdw-date-picker--view-month-single--mobile mdw-display-date="${MDWDateUtil.adjustDate(displayDateObj, { add: { month: 1 } })}"></mdw-date-picker--view-month-single--mobile>
         </div>
       </div>
