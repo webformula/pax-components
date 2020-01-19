@@ -24,7 +24,7 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
   box-sizing: border-box;
   flex-direction: column;
 
-  min-width: 320px;
+  /* min-width: 320px; */
 }
 
 .mdw-date-picker--header {
@@ -53,7 +53,7 @@ mdw-panel.mdw-date-picker-panel.mdw-open {
 }
 
 .mdw-date-picker--container.mdw-desktop {
-  width: 320px;
+  /* width: 320px; */
 }
 
 .mdw-date-picker--container.mdw-desktop .mdw-date-picker--body-views {

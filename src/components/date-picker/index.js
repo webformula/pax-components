@@ -256,7 +256,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     const layout = MDWUtils.isMobile ? 'center center' : 'inner-left inner-top';
     const panelHTML = `
     <mdw-panel id="${this.panelId}" mdw-position="${layout}" mdw-flex-position="center center" class="mdw-date-picker-panel">
-      <div class="mdw-date-picker--container ${!MDWUtils.isMobile ? 'mdw-desktop' : ''}">
+      <div class="mdw-date-picker--container ${MDWUtils.isMobile ? 'mdw-mobile' : ''}">
         ${!MDWUtils.isMobile ? '' : `
           <div class="mdw-date-picker--header">
             <div class="mdw-date-picker--header-title">Select date</div>

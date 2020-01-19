@@ -93,6 +93,7 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     this.deselect();
     event.target.classList.add('mdw-selected');
 
+    console.log(event.target.getAttribute('mdw-date'), MDWDateUtil.parse(event.target.getAttribute('mdw-date')));
     const { year, month, day } = MDWDateUtil.getParts(MDWDateUtil.parse(event.target.getAttribute('mdw-date')));
     this.dispatchEvent(new CustomEvent('MDWDatePicker:dayChange', {
       composed: true,
@@ -104,18 +105,18 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     return html`
       <div class="container">
         ${this.monthDays.map(week => html`
-          ${week.map(({ display, day, month, year, current, interactable, beforeMinDate, afterMaxDate, isToday }) => {
+          ${week.map(({ display, day, month, year, currentMonth, interactable, beforeMinDate, afterMaxDate, isToday }) => {
             let classes = 'mdw-date-picker--day';
             if (beforeMinDate) classes += ' mdw-before-min-date';
             if (afterMaxDate) classes += ' mdw-after-max-date';
             if (interactable) classes += ' mdw-interactable';
             if (beforeMinDate || afterMaxDate) classes += ' mdw-out-of-range';
             if (isToday && display !== '') classes += ' mdw-today';
-            // if (!current) classes += ' mdw-next-month';
+            if (!currentMonth) classes += ' mdw-next-month';
 
             return html`<div class="${classes}" mdw-date="${year}-${month}-${day}">${display}</div>`;
-          })}
-        `)}
+          }).join('\n')}
+        `).join('')}
       </div>
     `;
   }
@@ -131,41 +132,63 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
         pointer-events: none;
       }
 
+      :host(.mdw-active-month) {
+        pointer-events: auto;
+      }
+
       .container {
         display: grid;
-        grid-template-columns: repeat(7, 40px);
-        grid-template-rows: repeat(6, 36px);
+        grid-template-columns: repeat(7, 32px);
+        grid-template-rows: repeat(6, 28px);
         grid-column-gap: 4px;
         grid-row-gap: 0px;
+        align-items: center;
+        justify-items: center;
+        padding: 8px 16px;
       }
 
       :host(.mdw-mobile) .container {
-        grid-template-columns: repeat(7, 32px);
-        grid-template-rows: repeat(6, 28px);
+        grid-template-columns: repeat(7, 40px);
+        grid-template-rows: repeat(6, 36px);
         grid-column-gap: 0px;
+        padding: 0;
       }
 
       .mdw-date-picker--day {
         font-size: 13px;
-        text-align: center;
-        line-height: 40px;
-        border-radius: 50%;
         color: var(--mdw-theme-text--heading);
         user-select: none;
         box-sizing: border-box;
+        cursor: pointer;
+        pointer-events: none;
+        position: relative;
+      }
+
+      .mdw-date-picker--day::before {
+        content: "";
+        width: 28px;
+        height: 28px;
+        position: absolute;
+        top: calc(50% - 14px);
+        left: calc(50% - 14px);
+        border-radius: 50%;
+        z-index: -1;
       }
 
       :host(.mdw-mobile) .mdw-date-picker--day {
         line-height: 32px;
       }
 
-      .mdw-date-picker--day.mdw-interactable:not(.mdw-out-of-range) {
+      .mdw-date-picker--day.mdw-interactable {
         cursor: pointer;
+        pointer-events: auto;
       }
 
       .mdw-date-picker--day.mdw-before-min-date,
       .mdw-date-picker--day.mdw-after-max-date {
         color: rgba(var(--mdw-theme-text--heading--rgb), 0.7);
+        pointer-events: none;
+        cursor: auto;
       }
 
       .mdw-date-picker--day.mdw-next-month {
@@ -175,10 +198,13 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
       .mdw-date-picker--day.mdw-selected {
         background-color: var(--mdw-theme-primary);
         color: var(--mdw-theme-text--on-primary);
-        pointer-events: auto;
       }
 
-      .mdw-date-picker--day.mdw-today {
+      .mdw-date-picker--day.mdw-selected::before {
+        background-color: var(--mdw-theme-primary);
+      }
+
+      .mdw-date-picker--day.mdw-today::before {
         border: 1px solid var(--mdw-theme-foreground);
       }
     `;

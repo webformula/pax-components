@@ -78,7 +78,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   }
 
   get nonActiveMonth() {
-    return this.shadowRoot.querySelector('mdw-date-picker--view-month-single:not(.mdw-active-month)');
+    return this.shadowRoot.querySelector('mdw-date-picker--month-days:not(.mdw-active-month)');
   }
 
   get navButtonLeft() {
@@ -100,13 +100,14 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   }
 
   nextMonth() {
-    const active = this.shadowRoot.querySelector('mdw-date-picker--view-month-single.mdw-active-month');
-    const notActive = this.shadowRoot.querySelector('mdw-date-picker--view-month-single:not(.mdw-active-month)');
+    const active = this.shadowRoot.querySelector('mdw-date-picker--month-days.mdw-active-month');
+    const notActive = this.shadowRoot.querySelector('mdw-date-picker--month-days:not(.mdw-active-month)');
+    const nextDate = MDWDateUtil.adjustDate(MDWDateUtil.parse(active.displayDate), { add: { month: 1 } });
 
     notActive.style.transition = 'none';
     notActive.style[MDWUtils.transformPropertyName] = 'translateX(16px)';
 
-    notActive.setAttribute('mdw-display-date', MDWDateUtil.buildFromParts({ year: active.year, month: active.month + 1 }));
+    notActive.setAttribute('mdw-display-date', nextDate);
     notActive.setAttribute('mdw-selected-date', this.selectedDate);
 
     // change classes before the event is dispatched so the active month does not change during animation
@@ -124,21 +125,19 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
     this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
       composed: true,
-      detail: {
-        year: notActive.year,
-        month: notActive.month
-      }
+      detail: MDWDateUtil.getParts(nextDate)
     }));
   }
 
   prevMonth() {
-    const active = this.shadowRoot.querySelector('mdw-date-picker--view-month-single.mdw-active-month');
-    const notActive = this.shadowRoot.querySelector('mdw-date-picker--view-month-single:not(.mdw-active-month)');
+    const active = this.shadowRoot.querySelector('mdw-date-picker--month-days.mdw-active-month');
+    const notActive = this.shadowRoot.querySelector('mdw-date-picker--month-days:not(.mdw-active-month)');
+    const prevDate = MDWDateUtil.adjustDate(MDWDateUtil.parse(active.displayDate), { add: { month: -1 } });
 
     notActive.style.transition = 'none';
     notActive.style[MDWUtils.transformPropertyName] = 'translateX(-16px)';
 
-    notActive.setAttribute('mdw-display-date', MDWDateUtil.buildFromParts({ year: active.year, month: active.month - 1 }));
+    notActive.setAttribute('mdw-display-date', prevDate);
     notActive.setAttribute('mdw-selected-date', this.selectedDate);
 
     // change classes before the event is dispatched so the active month does not change during animation
@@ -156,10 +155,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
     this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
       composed: true,
-      detail: {
-        year: notActive.year,
-        month: notActive.month
-      }
+      detail: MDWDateUtil.getParts(prevDate)
     }));
   }
 
@@ -167,7 +163,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
     return html`
       <div class="mdw-date-picker--controls-container">
         <div class="mdw-date-picker--body-year-view-button">
-          <div id="month-year-dropdown">${MDWDateUtil.format(MDWDateUtil.buildFromParts({ year: this.selectedYear, month: this.selectedMonth }), 'MMMM YYYY')}</div>
+          <div id="month-year-dropdown">${MDWDateUtil.format(MDWDateUtil.parse(this.selectedDate || this.today), 'MMMM YYYY')}</div>
           <i class="mdw-select__icon"></i>
         </div>
 
@@ -187,19 +183,19 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
       </div>
 
       <div class="mdw-date-picker--desktop-months-container">
-        <mdw-date-picker--view-month-single class="mdw-active-month"
+        <mdw-date-picker--month-days class="mdw-active-month"
           mdw-fill-month
           mdw-display-date="${this.displayDate}"
           mdw-selected-date="${this.selectedDate}"
           mdw-min-date="${this.minDate}"
           mdw-max-date="${this.maxDate}"
-          ></mdw-date-picker--view-month-single>
-        <mdw-date-picker--view-month-single
+          ></mdw-date-picker--month-days>
+        <mdw-date-picker--month-days
           mdw-fill-month
           mdw-display-date="${this.displayDate}"
           mdw-min-date="${this.minDate}"
           mdw-max-date="${this.maxDate}"
-          ></mdw-date-picker--view-month-single>
+          ></mdw-date-picker--month-days>
       </div>
     `;
   }
@@ -209,10 +205,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
       .mdw-date-picker--view-month-day-header {
         color: var(--mdw-theme-text--body);
         font-size: 12px;
-        margin-left: 12px;
-        margin-right: 12px;
-        margin-top: 12px;
-        margin-bottom: 8px;
+        padding: 8px 16px;
         flex: 1;
         display: flex;
         justify-content: space-around;
@@ -220,7 +213,8 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
       .mdw-date-picker--desktop-months-container {
         position: relative;
-        height: 260px;
+        height: 184px;
+        width: 280px;
       }
 
       .mdw-date-picker--body-nav-buttons-container {
@@ -238,7 +232,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
         color: var(--mdw-theme-text--on-primary);
       }
 
-      mdw-date-picker--view-month-single {
+      mdw-date-picker--month-days {
         position: absolute;
         transform: translateX(0);
         opacity: 0;

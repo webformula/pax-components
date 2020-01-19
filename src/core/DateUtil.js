@@ -1,4 +1,10 @@
-export default new class DateUtil {
+// NOTE Months start at 1 not 0
+
+const MDWDateUtil = new class {
+  constructor() {
+    this.yearMonthDayRegex = /([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(?!\S)/;
+  }
+
   // Sets the local (en-us).
   // leaving this undeifend will use the browser default
   get local() {
@@ -7,10 +13,6 @@ export default new class DateUtil {
 
   set local(value) {
     this._locale = value;
-  }
-
-  static get inputDateRegex() {
-    return /([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(?!\S)/;
   }
 
   // Sets the timezone used.
@@ -24,11 +26,23 @@ export default new class DateUtil {
   }
 
   parse(value) {
+    // this will return an invalid date abject
+    if (['null', 'undefined', 'Invalid Date'].includes(value)) return new Date('');
+
     if (typeof value === 'number') return new Date(value);
 
     // format used for inputs yyyy-mm-dd
-    const inputDateMatch = value.match(this.inputDateRegex);
-    if (inputDateMatch) return thid.buildFromParts(inputDateMatch[1], inputDateMatch[2], inputDateMatch[3]);
+    if (typeof value === 'string') {
+      const inputDateMatch = value.match(this.yearMonthDayRegex);
+      if (inputDateMatch) {
+        const [_, year, month, day] = inputDateMatch;
+        return this.buildFromParts({
+          year,
+          month,
+          day
+        });
+      }
+    }
 
     return new Date(Date.parse(value));
   }
@@ -37,8 +51,8 @@ export default new class DateUtil {
     return !isNaN(date.getTime());
   }
 
-  buildFromParts({ year = this.currentYear(), month = this.currentMonth(), day = this.currentDay()}) {
-    return new Date(year, month, day);
+  buildFromParts({ year, month, day}) {
+    return new Date(year, month - 1, day);
   }
 
   adjustDate(date, { add = undefined , set = undefined }) {
@@ -59,18 +73,6 @@ export default new class DateUtil {
     return this.buildFromParts({ year, month, day });
   }
 
-  currentYear() {
-    return this.today().getFullYear();
-  }
-
-  currentMonth() {
-    return this.today().getMonth();
-  }
-
-  currentDay() {
-    return this.today().getDate();
-  }
-
   defaultYearRange(startYear = 1940, range = 100) {
     return [...new Array(range)].map((_, i) => startYear + i);
   }
@@ -86,7 +88,7 @@ export default new class DateUtil {
     return {
       year: this.getYear(date),
       month: this.getMonth(date),
-      day: this.getDate(date)
+      day: this.getMonthDay(date)
     };
   }
 
@@ -95,7 +97,7 @@ export default new class DateUtil {
   }
 
   getMonth(date) {
-    return date.getMonth();
+    return date.getMonth() + 1;
   }
 
   getWeekDay(date) {
@@ -104,14 +106,6 @@ export default new class DateUtil {
 
   getMonthDay(date) {
     return date.getDate();
-  }
-
-  getDate(date) {
-    return date.getDate();
-  }
-
-  getAdjacentMonth(date, addedMonths = 0) {
-    return new Date(date.getFullYear(), date.getMonth() + addedMonths, 1);
   }
 
   // style = 'long' | 'short' | 'narrow'
@@ -137,16 +131,11 @@ export default new class DateUtil {
   }
 
   getFirstDateOfMonth(date) {
-    return new Date(date.getFullYear(), date.getMonth(), 1);
+    return new Date(this.getYear(date), this.getMonth(date) - 1, 1);
   }
 
   getLastDateOfMonth(date) {
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  }
-
-  // 0 - 6
-  getDayOfTheWeekNumber(date) {
-    return (date.getDay() + 7) % 7;
+    return new Date(this.getYear(date), this.getMonth(date) - 1, 0);
   }
 
   getNumDaysInMonth(date) {
@@ -154,8 +143,8 @@ export default new class DateUtil {
   }
 
   getMonthDayArray(date, { fillInMonth = false, minDate = undefined, maxDate = undefined }) {
-    const firstDay = this.getDayOfTheWeekNumber(this.getFirstDateOfMonth(date));
-    const lastday = this.getDayOfTheWeekNumber(this.getLastDateOfMonth(date));
+    const firstDay = this.getWeekDay(this.getFirstDateOfMonth(date));
+    const lastday = this.getWeekDay(this.getLastDateOfMonth(date));
     const targetYear = this.getYear(date);
     const targetMonth = this.getMonth(date);
     const todayParts = this.getParts(this.today());
@@ -176,19 +165,23 @@ export default new class DateUtil {
       const day = this.getMonthDay(currentDate);
       // -1, 0, 1
       const targetMonthOffset = year < targetYear ? -1 : year > targetYear ? 1 : month < targetMonth ? -1 : month === targetMonth ? 0 : 1;
-      const interactable = targetMonthOffset === -1 ? false : targetMonthOffset === 1 ? fillInMonth ? true : false : true;
-      const display = interactable ? day : '';
+      const display = (fillInMonth && targetMonthOffset > 0) || targetMonthOffset === 0 ? day : '';
       currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
+
+      const currentMonth = month === targetMonth;
+      const beforeMinDate = minDate ? currentDate <= minDate : false;
+      const afterMaxDate = maxDate ? currentDate > maxDate : false;
+      const interactable = !beforeMinDate && !afterMaxDate && display !== '';
 
       return {
         display,
-        interactable,
         year,
         month,
         day,
-        current: month === targetMonth,
-        beforeMinDate: minDate ? currentDate <= minDate : false,
-        afterMaxDate: maxDate ? currentDate > maxDate : false,
+        interactable,
+        currentMonth,
+        beforeMinDate,
+        afterMaxDate,
         isToday: todayParts.year === year && todayParts.month === month && todayParts.day === day
       };
     });
@@ -198,17 +191,18 @@ export default new class DateUtil {
     while (monthDays.length) {
       res.push(monthDays.splice(0, 7));
     }
+
     return res;
   }
 
   isSameYear(date1, date2) {
     if (!date1 || !date2) return false;
-    return date1.getFullYear() === date2.getFullYear();
+    return this.getYear(date1) === this.getYear(date2);
   }
 
   isSameMonth(date1, date2) {
     if (!date1 || !date2) return false;
-    return date1.getMonth() === date2.getMonth();
+    return this.getMonth(date1) === this.getMonth(date2);
   }
 
   clone(date) {
@@ -218,27 +212,6 @@ export default new class DateUtil {
   today() {
     return new Date();
   }
-
-  createDate(year, month, date) {
-    // Check for invalid month and date (except upper bound on date which we have to check after
-    // creating the Date).
-    if (month < 0 || month > 11) {
-      throw Error(`Invalid month index "${month}". Month index has to be between 0 and 11.`);
-    }
-
-    if (date < 1) {
-      throw Error(`Invalid date "${date}". Date has to be greater than 0.`);
-    }
-
-    let result = this._createDateWithOverflow(year, month, date);
-    // Check that the date wasn't above the upper bound for the month, causing the month to overflow
-    if (result.getMonth() != month) {
-      throw Error(`Invalid date "${date}" for month with index "${month}".`);
-    }
-
-    return result;
-  }
-
 
   // --- format date ---
 
@@ -330,17 +303,6 @@ export default new class DateUtil {
     return !isNaN(date.getTime());
   }
 
-
-  // Creates a date but allows the month and date to overflow
-  _createDateWithOverflow(year, month, date) {
-    const result = new Date(year, month, date);
-
-    // We need to correct for the fact that JS native Date treats years in range [0, 99] as
-    // abbreviations for 19xx.
-    if (year >= 0 && year < 100) result.setFullYear(this.getYear(result) - 1900);
-    return result;
-  }
-
   _stripDirectionalityCharacters(str) {
     return str.replace(/[\u200e\u200f]/g, '');
   }
@@ -362,3 +324,7 @@ export default new class DateUtil {
     return valuesArray;
   }
 }
+
+window.MDWDateUtil = MDWDateUtil;
+
+export default MDWDateUtil;
