@@ -1,13 +1,12 @@
 import { HTMLElementExtended, html, css } from '@webformula/pax-core';
 import MDWDateUtil from '../../../../core/DateUtil.js';
 
-customElements.define('mdw-date-picker--view-month--desktop', class extends HTMLElementExtended {
+customElements.define('mdw-date-picker--desktop', class extends HTMLElementExtended {
   constructor() {
     super();
 
     this.bound_nextMonth = this.nextMonth.bind(this);
     this.bound_prevMonth = this.prevMonth.bind(this);
-    this.bound_yearClick = this.yearClick.bind(this);
 
     this.today = MDWDateUtil.today();
     this.dayOfWeekNames = MDWDateUtil.getDayOfWeekNames('narrow');
@@ -15,15 +14,13 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   }
 
   addEvents() {
-    this.navButtonLeft.addEventListener('click', this.bound_prevMonth);
     this.navButtonRight.addEventListener('click', this.bound_nextMonth);
-
-    this.yearDropdown.addEventListener('click', this.bound_yearClick);
+    this.navButtonLeft.addEventListener('click', this.bound_prevMonth);
   }
 
   removeEvents() {
-    this.navButtonLeft.removeEventListener('click', this.bound_prevMonth);
     this.navButtonRight.removeEventListener('click', this.bound_nextMonth);
+    this.navButtonLeft.removeEventListener('click', this.bound_prevMonth);
   }
 
   static get observedAttributes() {
@@ -37,8 +34,8 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
       case 'mdw-display-date':
         this.activeMonth.setAttribute('mdw-display-date', newValue);
 
-        // set year dropdown
-        this.yearDropdown.innerHTML = MDWDateUtil.format(MDWDateUtil.parse(newValue), 'MMMM YYYY');
+        // set year button
+        this.yearButton.innerHTML = MDWDateUtil.format(MDWDateUtil.parse(newValue), 'MMMM YYYY');
         break;
 
       case 'mdw-selected-date':
@@ -57,25 +54,12 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
     }
   }
 
-
   get displayDate() {
-    return MDWDateUtil.parse(this.getAttribute('mdw-display-date') || this.today);
-  }
-
-  get selectedDate() {
-    return this.getAttribute('mdw-selected-date') || '';
-  }
-
-  get minDate() {
-    return this.getAttribute('mdw-min-date');
-  }
-
-  get maxDate() {
-    return this.getAttribute('mdw-max-date');
+    return this.getAttribute('mdw-display-date');
   }
 
   get activeMonth() {
-    return this.shadowRoot.querySelector('.mdw-active-month');
+    return this.shadowRoot.querySelector('mdw-date-picker--month-days.mdw-active-month');
   }
 
   get nonActiveMonth() {
@@ -83,19 +67,15 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   }
 
   get navButtonLeft() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--body-nav-buttons--left');
+    return this.shadowRoot.querySelector('.mdw-date-picker--nav-buttons--left');
   }
 
   get navButtonRight() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--body-nav-buttons--right');
+    return this.shadowRoot.querySelector('.mdw-date-picker--nav-buttons--right');
   }
 
-  get yearDropdown() {
-    return this.shadowRoot.querySelector('#month-year-dropdown');
-  }
-
-  yearClick() {
-    
+  get yearButton() {
+    return this.shadowRoot.querySelector('#month-year-button');
   }
 
   nextMonth() {
@@ -112,6 +92,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
     // change classes before the event is dispatched so the active month does not change during animation
     active.classList.remove('mdw-active-month');
     notActive.classList.add('mdw-active-month');
+    notActive.style.display = '';
 
     setTimeout(() => {
       active.style[MDWUtils.transformPropertyName] = 'translateX(-16px)';
@@ -120,6 +101,11 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
       notActive.style.transition = '';
       notActive.style[MDWUtils.transformPropertyName] = '';
       notActive.style.opacity = '1';
+
+      active.addEventListener(MDWUtils.transitionEventName, function handler() {
+        active.style.display = 'none';
+        active.removeEventListener(MDWUtils.transitionEventName, handler);
+      });
     }, 42);
 
     this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
@@ -142,6 +128,7 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
     // change classes before the event is dispatched so the active month does not change during animation
     active.classList.remove('mdw-active-month');
     notActive.classList.add('mdw-active-month');
+    notActive.style.display = '';
 
     setTimeout(() => {
       active.style[MDWUtils.transformPropertyName] = 'translateX(16px)';
@@ -150,6 +137,11 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
       notActive.style.transition = '';
       notActive.style[MDWUtils.transformPropertyName] = '';
       notActive.style.opacity = '1';
+
+      active.addEventListener(MDWUtils.transitionEventName, function handler() {
+        active.style.display = 'none';
+        active.removeEventListener(MDWUtils.transitionEventName, handler);
+      });
     }, 42);
 
     this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
@@ -161,27 +153,35 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
   template() {
     return html`
       <div class="mdw-date-picker--controls-container">
-        <div class="mdw-date-picker--body-year-view-button">
-          <div id="month-year-dropdown">${MDWDateUtil.format(MDWDateUtil.parse(this.selectedDate || this.today), 'MMMM YYYY')}</div>
+        <div class="mdw-date-picker--year-view-button">
+          <div id="month-year-button">${MDWDateUtil.format(MDWDateUtil.parse(this.selectedDate || this.today), 'MMMM YYYY')}</div>
           <i class="mdw-select__icon"></i>
         </div>
 
-        <div class="mdw-date-picker--body-nav-buttons-container">
-          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--left">
+        <div class="mdw-date-picker--nav-buttons-container">
+          <mdw-button class="mdw-icon mdw-date-picker--nav-buttons mdw-date-picker--nav-buttons--left">
             <mdw-icon>keyboard_arrow_left</mdw-icon>
           </mdw-button>
 
-          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--right">
+          <mdw-button class="mdw-icon mdw-date-picker--nav-buttons mdw-date-picker--nav-buttons--right">
             <mdw-icon>keyboard_arrow_right</mdw-icon>
           </mdw-button>
         </div>
       </div>
 
-      <div class="mdw-date-picker--view-month-day-header">
+      <div class="mdw-date-picker--views">
+        ${this._monthTemplate()}
+      </div>
+    `;
+  }
+
+  _monthTemplate() {
+    return html`
+      <div class="mdw-date-picker--month-day-header">
         ${this.dayOfWeekNames.map(n => `<span>${n}</span>`).join('\n')}
       </div>
 
-      <div class="mdw-date-picker--desktop-months-container">
+      <div class="mdw-date-picker--months-container">
         <mdw-date-picker--month-days class="mdw-active-month"
           mdw-fill-month
           mdw-display-date="${this.displayDate}"
@@ -199,9 +199,55 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
     `;
   }
 
+  _yearTemplate() {
+    return html`
+      <mdw-date-picker--year></mdw-date-picker--year>
+    `;
+  }
+
   styles() {
     return css`
-      .mdw-date-picker--view-month-day-header {
+      .mdw-date-picker--controls-container {
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .mdw-date-picker--year-view-button {
+        margin-left: 24px;
+        position: relative;
+        padding-right: 28px;
+        cursor: pointer;
+        color: var(--mdw-theme-text--body);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .mdw-date-picker--year-view-button .mdw-select__icon {
+        right: 8px;
+        top: 7px;
+        width: 0;
+        height: 0;
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        position: absolute;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--mdw-theme-text--body);
+      }
+
+      .mdw-date-picker--nav-buttons-container {
+        display: flex;
+        flex-direction: row;
+        padding-right: 12px;
+      }
+
+      .mdw-date-picker--nav-buttons {
+        color: var(--mdw-theme-text--body);
+      }
+
+      .mdw-date-picker--month-day-header {
         color: var(--mdw-theme-text--body);
         font-size: 12px;
         padding: 8px 16px;
@@ -210,25 +256,11 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
         justify-content: space-around;
       }
 
-      .mdw-date-picker--desktop-months-container {
+      .mdw-date-picker--months-container {
+        overflow: hidden;
         position: relative;
         height: 184px;
         width: 280px;
-      }
-
-      .mdw-date-picker--body-nav-buttons-container {
-        display: flex;
-        flex-direction: row;
-        padding-right: 12px;
-      }
-
-      .mdw-date-picker--body-nav-buttons {
-        color: var(--mdw-theme-text--body);
-      }
-
-      .mdw-date-picker--body-year-button.mdw-selected {
-        background-color: var(--mdw-theme-primary);
-        color: var(--mdw-theme-text--on-primary);
       }
 
       mdw-date-picker--month-days {
@@ -240,36 +272,6 @@ customElements.define('mdw-date-picker--view-month--desktop', class extends HTML
 
       .mdw-active-month {
         opacity: 1;
-      }
-
-      .mdw-date-picker--controls-container {
-        flex-direction: row;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .mdw-date-picker--body-year-view-button {
-        margin-left: 24px;
-        position: relative;
-        padding-right: 28px;
-        cursor: pointer;
-        color: var(--mdw-theme-text--body);
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .mdw-date-picker--body-year-view-button .mdw-select__icon {
-        right: 8px;
-        top: 7px;
-        width: 0;
-        height: 0;
-        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-        pointer-events: none;
-        position: absolute;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid var(--mdw-theme-text--body);
       }
     `;
   }

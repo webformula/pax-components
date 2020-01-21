@@ -47,10 +47,7 @@ const MDWDateUtil = new class {
     return new Date(Date.parse(value));
   }
 
-  isValidDate(date) {
-    return !isNaN(date.getTime());
-  }
-
+  // Month starts at 1
   buildFromParts({ year, month, day}) {
     return new Date(year, month - 1, day);
   }
@@ -73,7 +70,7 @@ const MDWDateUtil = new class {
     return this.buildFromParts({ year, month, day });
   }
 
-  defaultYearRange(startYear = 1940, range = 100) {
+  defaultYearRange(startYear = MDWDateUtil.getYear(new Date()) - 100, range = 100) {
     return [...new Array(range)].map((_, i) => startYear + i);
   }
 
@@ -155,8 +152,8 @@ const MDWDateUtil = new class {
       add: { day: -firstDay }
     });
 
-    if (minDate && !this.isValidDate(minDate)) minDate = undefined;
-    if (maxDate && !this.isValidDate(maxDate)) maxDate = undefined;
+    if (minDate && !this.isValid(minDate)) minDate = undefined;
+    if (maxDate && !this.isValid(maxDate)) maxDate = undefined;
 
     // 6 rows of 7 days
     const monthDays = [...Array(6 * 7)].map((_, i) => {
@@ -166,13 +163,13 @@ const MDWDateUtil = new class {
       // -1, 0, 1
       const targetMonthOffset = year < targetYear ? -1 : year > targetYear ? 1 : month < targetMonth ? -1 : month === targetMonth ? 0 : 1;
       const display = (fillInMonth && targetMonthOffset > 0) || targetMonthOffset === 0 ? day : '';
-      currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
 
       const currentMonth = month === targetMonth;
-      const beforeMinDate = minDate ? currentDate <= minDate : false;
+      const beforeMinDate = minDate ? currentDate < minDate : false;
       const afterMaxDate = maxDate ? currentDate > maxDate : false;
       const interactable = !beforeMinDate && !afterMaxDate && display !== '';
-
+      currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
+      
       return {
         display,
         year,
