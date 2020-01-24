@@ -93,7 +93,6 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     this.deselect();
     event.target.classList.add('mdw-selected');
 
-    console.log(event.target.getAttribute('mdw-date'), MDWDateUtil.parse(event.target.getAttribute('mdw-date')));
     const { year, month, day } = MDWDateUtil.getParts(MDWDateUtil.parse(event.target.getAttribute('mdw-date')));
     this.dispatchEvent(new CustomEvent('MDWDatePicker:dayChange', {
       composed: true,

@@ -70,7 +70,7 @@ const MDWDateUtil = new class {
     return this.buildFromParts({ year, month, day });
   }
 
-  defaultYearRange(startYear = MDWDateUtil.getYear(new Date()) - 100, range = 100) {
+  defaultYearRange(startYear = MDWDateUtil.getYear(new Date()) - 50, range = 100) {
     return [...new Array(range)].map((_, i) => startYear + i);
   }
 
@@ -169,7 +169,7 @@ const MDWDateUtil = new class {
       const afterMaxDate = maxDate ? currentDate > maxDate : false;
       const interactable = !beforeMinDate && !afterMaxDate && display !== '';
       currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
-      
+
       return {
         display,
         year,

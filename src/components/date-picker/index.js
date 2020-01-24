@@ -8,6 +8,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
     this.bound_onInputChange = this.onInputChange.bind(this);
     this.bound_onPanelClose = this.onPanelClose.bind(this);
+    this.bound_onYearChange = this.onYearChange.bind(this);
     this.bound_onMonthChange = this.onMonthChange.bind(this);
     this.bound_onDayChange = this.onDayChange.bind(this);
     this.bound_open = this.open.bind(this);
@@ -20,13 +21,16 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    this._setupPanel();
+    // this is need to ensure removeEvents() is called on connect
+    super.connectedCallback();
 
-    this.pickerElement.addEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
-    this.pickerElement.addEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+    this._setupPanel();
   }
 
   disconnectedCallback() {
+    // this is need to ensure removeEvents() is called on disconnect
+    super.disconnectedCallback();
+
     if (this._attachedInput) {
       this._attachedInput.removeEventListener('click', this.bound_open);
       this._attachedInput.removeEventListener('input', this.bound_onInputChange);
@@ -39,6 +43,18 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
       this._backdrop.remove();
       this._backdrop = undefined;
     }
+  }
+
+  addEvents() {
+    this.pickerElement.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+    this.pickerElement.addEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
+    this.pickerElement.addEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+  }
+
+  removeEvents() {
+    this.pickerElement.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+    this.pickerElement.removeEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
+    this.pickerElement.removeEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
   }
 
   get panel() {
@@ -96,6 +112,11 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
 
     this.updateDisplayDate(MDWDateUtil.getParts(date));
     this.setDate(true);
+  }
+
+  onYearChange({ detail }) {
+    const dateParts = MDWDateUtil.getParts(MDWDateUtil.adjustDate(MDWDateUtil.parse(this.displayDate), { set: { year: detail.year} }));
+    this.updateDisplayDate(dateParts);
   }
 
   onMonthChange({ detail }) {
