@@ -234,6 +234,8 @@ const MDWDateUtil = new class {
   //      YYYY - MMMM - dddd = 2019 - Dmonth - wednesday
   //      YY - MMM - ddd = 19 - 10 - 21
   format(date, formatPattern) {
+    if (!this.isValid(date)) return;
+
     const intlFormattersOptions = [
       {
         weekday: 'long', // dddd
