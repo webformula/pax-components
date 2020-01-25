@@ -157,9 +157,10 @@ const MDWDateUtil = new class {
 
     // 6 rows of 7 days
     const monthDays = [...Array(6 * 7)].map((_, i) => {
-      const year = this.getYear(currentDate);
-      const month = this.getMonth(currentDate);
-      const day = this.getMonthDay(currentDate);
+      const date = currentDate;
+      const year = this.getYear(date);
+      const month = this.getMonth(date);
+      const day = this.getMonthDay(date);
       // -1, 0, 1
       const targetMonthOffset = year < targetYear ? -1 : year > targetYear ? 1 : month < targetMonth ? -1 : month === targetMonth ? 0 : 1;
       const display = (fillInMonth && targetMonthOffset > 0) || targetMonthOffset === 0 ? day : '';
@@ -168,18 +169,17 @@ const MDWDateUtil = new class {
       const beforeMinDate = minDate ? currentDate < minDate : false;
       const afterMaxDate = maxDate ? currentDate > maxDate : false;
       const interactable = !beforeMinDate && !afterMaxDate && display !== '';
+      const isToday = todayParts.year === year && todayParts.month === month && todayParts.day === day
       currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
 
       return {
         display,
-        year,
-        month,
-        day,
+        date,
         interactable,
         currentMonth,
         beforeMinDate,
         afterMaxDate,
-        isToday: todayParts.year === year && todayParts.month === month && todayParts.day === day
+        isToday
       };
     });
 

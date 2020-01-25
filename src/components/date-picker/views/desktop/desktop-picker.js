@@ -40,10 +40,10 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
       case 'mdw-display-date':
         this.updateDisplayDate(newValue);
         break;
-    //
-    //   case 'mdw-selected-date':
-    //     this.activeMonth.setAttribute('mdw-selected-date', newValue);
-    //     break;
+
+      case 'mdw-selected-date':
+        this.updateSelectedDate(newValue);
+        break;
     //
     //   case 'mdw-min-date':
     //     this.activeMonth.setAttribute('mdw-min-date', newValue);
@@ -69,11 +69,28 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
     }
 
     // update year button
-    this.yearButton.innerHTML = MDWDateUtil.format(MDWDateUtil.parse(dateString), 'MMMM YYYY');
+    const date = MDWDateUtil.parse(dateString);
+    if (MDWDateUtil.isValid(date)) this.yearButton.innerHTML = MDWDateUtil.format(date, 'MMMM YYYY');
+  }
+
+  updateSelectedDate(dateString) {
+    switch(this._currentView) {
+      case 'month':
+        this.activeMonth.setAttribute('mdw-selected-date', dateString);
+        break;
+
+      case 'year':
+        this.yearView.setAttribute('mdw-selected-date', dateString);
+        break;
+    }
   }
 
   get displayDate() {
     return this.getAttribute('mdw-display-date');
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date');
   }
 
   get activeMonth() {
@@ -196,7 +213,7 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
     return html`
       <div class="mdw-date-picker--controls-container">
         <div class="mdw-date-picker--year-view-button">
-          <div id="month-year-button">${MDWDateUtil.format(MDWDateUtil.parse(this.selectedDate || this.today), 'MMMM YYYY')}</div>
+          <div id="month-year-button"></div>
           <i class="mdw-select__icon"></i>
         </div>
 
@@ -253,7 +270,7 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
 
     const navButtons = this.shadowRoot.querySelector('.mdw-date-picker--nav-buttons-container > div');
     if (navButtons) navButtons.style.display = 'none';
-
+    console.log(this.selectedDate);
     return html`
       <mdw-date-picker--year
         mdw-display-date="${this.displayDate}"

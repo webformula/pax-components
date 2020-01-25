@@ -22,7 +22,7 @@ customElements.define('mdw-date-picker--year', class extends HTMLElementExtended
   }
 
   static get observedAttributes() {
-    return ['mdw-display-date'];
+    return ['mdw-display-date', 'mdw-selected-date'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -30,15 +30,21 @@ customElements.define('mdw-date-picker--year', class extends HTMLElementExtended
 
     switch(name) {
       case 'mdw-display-date':
-        if (!newValue) return;
-
         this._scrollYearIntoView();
+        break;
+
+      case 'mdw-selected-date':
+        this._selectDate(newValue);
         break;
     }
   }
 
   get displayDate() {
     return this.getAttribute('mdw-display-date');
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date');
   }
 
   get year() {
@@ -55,6 +61,22 @@ customElements.define('mdw-date-picker--year', class extends HTMLElementExtended
       block: 'center',
       inline: 'center'
     });
+  }
+
+  _selectDate(dateString) {
+    console.log(dateString);
+    const date = MDWDateUtil.parse(dateString);
+    // TODO do i need to deselect on ivalid dates?
+    if (!MDWDateUtil.isValid(date)) return;
+    this.deselect();
+
+    const selectedElement = this.shadowRoot.querySelector(`[mdw-year="${MDWDateUtil.getYear(date)}"]`);
+    if (selectedElement) selectedElement.classList.add('mdw-selected');
+  }
+
+  deselect() {
+    const selected = this.shadowRoot.querySelector('.mdw-selected');
+    if (selected) selected.classList.remove('mdw-selected');
   }
 
   // get year() {

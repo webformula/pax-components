@@ -1,3 +1,5 @@
+// old
+
 import { html, css, HTMLElementExtended } from '@webformula/pax-core';
 import MDWDateUtil from '../../../core/DateUtil.js';
 import MDWUtils from '../../../core/Utils.js';
@@ -34,12 +36,10 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
       case 'mdw-display-date':
         this._setupDate();
         this.render();
-        const selectedDate = this.selectedDate;
-        if (selectedDate) this._selectDate(MDWDateUtil.parse(selectedDate));
         break;
 
       case 'mdw-selected-date':
-        this._selectDate(MDWDateUtil.parse(newValue));
+        this._selectDate(newValue);
         break;
     }
   }
@@ -73,12 +73,16 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     }) : [];
   }
 
-  _selectDate(dateObject) {
-    this.deselect();
-    if (MDWDateUtil.getYear(dateObject) !== MDWDateUtil.getYear(this.monthDate) || MDWDateUtil.getMonth(dateObject) !== MDWDateUtil.getMonth(this.monthDate)) return;
+  _selectDate(dateString) {
+    const date = MDWDateUtil.parse(dateString);
+    // TODO do i need to deselect on ivalid dates?
+    if (!MDWDateUtil.isValid(date)) return;
 
-    const { year, month, day } = MDWDateUtil.getParts(dateObject);
-    const selectedElement = this.shadowRoot.querySelector(`[mdw-date="${year}-${month}-${day}"]`);
+    this.deselect();
+    // date does not match month and year
+    if (MDWDateUtil.getYear(date) !== MDWDateUtil.getYear(this.monthDate) || MDWDateUtil.getMonth(date) !== MDWDateUtil.getMonth(this.monthDate)) return;
+
+    const selectedElement = this.shadowRoot.querySelector(`[mdw-date="${MDWDateUtil.format(date, 'YYYY-MM-dd')}"]`);
     if (selectedElement) selectedElement.classList.add('mdw-selected');
   }
 
@@ -91,8 +95,6 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     if (!event.target.classList.contains('mdw-date-picker--day') || !event.target.classList.contains('mdw-interactable') || event.target.classList.contains('mdw-out-of-range')) return;
 
     this.deselect();
-    event.target.classList.add('mdw-selected');
-
     const { year, month, day } = MDWDateUtil.getParts(MDWDateUtil.parse(event.target.getAttribute('mdw-date')));
     this.dispatchEvent(new CustomEvent('MDWDatePicker:dayChange', {
       composed: true,
@@ -104,7 +106,7 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     return html`
       <div class="container">
         ${this.monthDays.map(week => html`
-          ${week.map(({ display, day, month, year, currentMonth, interactable, beforeMinDate, afterMaxDate, isToday }) => {
+          ${week.map(({ display, date, currentMonth, interactable, beforeMinDate, afterMaxDate, isToday }) => {
             let classes = 'mdw-date-picker--day';
             if (beforeMinDate) classes += ' mdw-before-min-date';
             if (afterMaxDate) classes += ' mdw-after-max-date';
@@ -113,7 +115,7 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
             if (isToday && display !== '') classes += ' mdw-today';
             if (!currentMonth) classes += ' mdw-next-month';
 
-            return html`<div class="${classes}" mdw-date="${year}-${month}-${day}">${display}</div>`;
+            return html`<div class="${classes}" mdw-date="${MDWDateUtil.format(date, 'YYYY-MM-dd')}">${display}</div>`;
           }).join('\n')}
         `).join('')}
       </div>
