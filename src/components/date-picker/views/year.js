@@ -64,7 +64,6 @@ customElements.define('mdw-date-picker--year', class extends HTMLElementExtended
   }
 
   _selectDate(dateString) {
-    console.log(dateString);
     const date = MDWDateUtil.parse(dateString);
     // TODO do i need to deselect on ivalid dates?
     if (!MDWDateUtil.isValid(date)) return;

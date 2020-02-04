@@ -7,7 +7,7 @@ const MDWTheme = new class {
     this.paletteRegex = /(?<base>--mdw-theme-palette--)(?<color>\w*)-?(?<contrast>contrast)?-(?<hue>\w*)$/;
     this.textRegex = /(?<base>--mdw-theme-text--)(?<on>on-\w*)?(?<state>\w*)--(?<contrast>\w*)$/;
     this.contentWithContrastRegex = /(?<base>--mdw-theme-)(?<content>\w*)--(?<contrast>\w*)$/;
-    this.contrast_ = 'light';
+    this._contrast = 'light';
     this.palettes = {
       primary: 'deeppurple',
       secondary: 'teal',
@@ -24,12 +24,12 @@ const MDWTheme = new class {
   }
 
   get contrast() {
-    return this.contrast_;
+    return this._contrast;
   }
 
   set contrast(value) {
     if (value !== 'light' && value !== 'dark') throw Error('valid values are "light" and "dark"');
-    this.contrast_ = value;
+    this._contrast = value;
   }
 
   changeTheme({ primary, secondary, error, contrast }) {
@@ -190,5 +190,4 @@ const MDWTheme = new class {
 };
 
 window.MDWTheme = MDWTheme;
-
 export default MDWTheme;

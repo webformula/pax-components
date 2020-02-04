@@ -185,15 +185,18 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
         pointer-events: auto;
       }
 
-      .mdw-date-picker--day.mdw-before-min-date,
-      .mdw-date-picker--day.mdw-after-max-date {
-        color: rgba(var(--mdw-theme-text--heading--rgb), 0.7);
+      .mdw-date-picker--day.mdw-out-of-range {
+        color: rgb(140,120,120);
         pointer-events: none;
         cursor: auto;
       }
 
       .mdw-date-picker--day.mdw-next-month {
-        color: rgba(var(--mdw-theme-text--heading--rgb), 0.5);
+        color: rgb(140,140,140);
+      }
+
+      .mdw-date-picker--day.mdw-next-month.mdw-out-of-range {
+        color: rgb(140,120,120);
       }
 
       .mdw-date-picker--day.mdw-selected {
