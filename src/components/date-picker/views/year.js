@@ -22,7 +22,7 @@ customElements.define('mdw-date-picker--year', class extends HTMLElementExtended
   }
 
   static get observedAttributes() {
-    return ['mdw-display-date', 'mdw-selected-date'];
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -35,6 +35,12 @@ customElements.define('mdw-date-picker--year', class extends HTMLElementExtended
 
       case 'mdw-selected-date':
         this._selectDate(newValue);
+        break;
+
+      case 'mdw-min-date':
+        break;
+
+      case 'mdw-max-date':
         break;
     }
   }

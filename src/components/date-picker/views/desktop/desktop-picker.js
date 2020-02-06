@@ -1,6 +1,11 @@
 import { HTMLElementExtended, html, css } from '@webformula/pax-core';
 import MDWDateUtil from '../../../../core/DateUtil.js';
 
+/* TODO
+ *  add year view cahnge animation
+ *  add selected bg animation (circle moving from day to day)
+ *  look into what should happen on disabled date? icon, cursor, color
+ */
 customElements.define('mdw-date-picker--desktop', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -17,14 +22,14 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
   }
 
   addEvents() {
-    this.navButtonRight.addEventListener('click', this.bound_nextMonth);
-    this.navButtonLeft.addEventListener('click', this.bound_prevMonth);
+    this.navButtons.addEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
+    this.navButtons.addEventListener('MDWDatePicker:prevMonth', this.bound_prevMonth);
     this.yearButton.addEventListener('click', this.bound_toggleYearView);
   }
 
   removeEvents() {
-    this.navButtonRight.removeEventListener('click', this.bound_nextMonth);
-    this.navButtonLeft.removeEventListener('click', this.bound_prevMonth);
+    this.navButtons.removeEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
+    this.navButtons.removeEventListener('MDWDatePicker:prevMonth', this.bound_prevMonth);
     this.yearButton.removeEventListener('click', this.bound_toggleYearView);
     this.yearView && this.yearView.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
   }
@@ -69,8 +74,7 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
     }
 
     // update year button
-    const date = MDWDateUtil.parse(dateString);
-    if (MDWDateUtil.isValid(date)) this.yearButtonTextContainer.innerHTML = MDWDateUtil.format(date, 'MMMM YYYY');
+    this.yearButton.setAttribute('mdw-display-date', dateString);
   }
 
   updateSelectedDate(dateString) {
@@ -93,6 +97,14 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
     return this.getAttribute('mdw-selected-date');
   }
 
+  get minDate() {
+    return this.getAttribute('mdw-min-date');
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date');
+  }
+
   get activeMonth() {
     return this.shadowRoot.querySelector('mdw-date-picker--month-days.mdw-active-month');
   }
@@ -105,20 +117,12 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
     return this.shadowRoot.querySelector('mdw-date-picker--year');
   }
 
-  get navButtonLeft() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--nav-buttons--left');
-  }
-
-  get navButtonRight() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--nav-buttons--right');
+  get navButtons() {
+    return this.shadowRoot.querySelector('mdw-date-picker--month-navigation-buttons');
   }
 
   get yearButton() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--year-view-button');
-  }
-
-  get yearButtonTextContainer() {
-    return this.shadowRoot.querySelector('.month-year-button-text');
+    return this.shadowRoot.querySelector('mdw-date-picker--year-view-button');
   }
 
   get viewContainer() {
@@ -144,11 +148,13 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
   }
 
   showYearView() {
+    this.yearButton.classList.add('mdw-open');
     this.viewContainer.innerHTML = this._yearTemplate();
     this.yearView.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
   }
 
   showMonthView() {
+    this.yearButton.classList.remove('mdw-open');
     this.yearView && this.yearView.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
     this.viewContainer.innerHTML = this._monthTemplate();
   }
@@ -228,22 +234,8 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
   template() {
     return html`
       <div class="mdw-date-picker--controls-container">
-        <div class="mdw-date-picker--year-view-button">
-          <div class="month-year-button-text"></div>
-          <i class="mdw-select__icon"></i>
-        </div>
-
-        <div class="mdw-date-picker--nav-buttons-container">
-          <div>
-            <mdw-button class="mdw-icon mdw-date-picker--nav-buttons mdw-date-picker--nav-buttons--left">
-              <mdw-icon>keyboard_arrow_left</mdw-icon>
-            </mdw-button>
-
-            <mdw-button class="mdw-icon mdw-date-picker--nav-buttons mdw-date-picker--nav-buttons--right">
-              <mdw-icon>keyboard_arrow_right</mdw-icon>
-            </mdw-button>
-          </div>
-        </div>
+        <mdw-date-picker--year-view-button mdw-display-date="${this.displayDate}"></mdw-date-picker--year-view-button>
+        <mdw-date-picker--month-navigation-buttons></mdw-date-picker--month-navigation-buttons>
       </div>
 
       <div class="mdw-date-picker--views">
@@ -255,8 +247,8 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
   _monthTemplate() {
     this._currentView = 'month';
 
-    const navButtons = this.shadowRoot.querySelector('.mdw-date-picker--nav-buttons-container > div');
-    if (navButtons) navButtons.style.display = '';
+    const navButton = this.navButtons;
+    if(navButton) navButton.classList.remove('hide');
 
     return html`
       <div class="mdw-date-picker--month-day-header">
@@ -284,8 +276,8 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
   _yearTemplate() {
     this._currentView = 'year';
 
-    const navButtons = this.shadowRoot.querySelector('.mdw-date-picker--nav-buttons-container > div');
-    if (navButtons) navButtons.style.display = 'none';
+    const navButton = this.navButtons;
+    if(navButton) navButton.classList.add('hide');
 
     return html`
       <mdw-date-picker--year
@@ -304,40 +296,6 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
         display: flex;
         justify-content: space-between;
         align-items: center;
-      }
-
-      .mdw-date-picker--year-view-button {
-        margin-left: 24px;
-        position: relative;
-        padding-right: 28px;
-        cursor: pointer;
-        color: var(--mdw-theme-text--body);
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .mdw-date-picker--year-view-button .mdw-select__icon {
-        right: 8px;
-        top: 7px;
-        width: 0;
-        height: 0;
-        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-        pointer-events: none;
-        position: absolute;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid var(--mdw-theme-text--body);
-      }
-
-      .mdw-date-picker--nav-buttons-container {
-        display: flex;
-        flex-direction: row;
-        padding-right: 12px;
-        height: 48px;
-      }
-
-      .mdw-date-picker--nav-buttons {
-        color: var(--mdw-theme-text--body);
       }
 
       .mdw-date-picker--month-day-header {

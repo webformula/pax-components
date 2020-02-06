@@ -1,4 +1,1225 @@
-!function(e){var t={};function n(i){if(t[i])return t[i].exports;var s=t[i]={i:i,l:!1,exports:{}};return e[i].call(s.exports,s,s.exports,n),s.l=!0,s.exports}n.m=e,n.c=t,n.d=function(e,t,i){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:i})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var s in e)n.d(i,s,function(t){return e[t]}.bind(null,s));return i},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=12)}([function(e,t,n){"use strict";n.r(t),n.d(t,"html",function(){return o}),n.d(t,"css",function(){return r});var i=n(8);n.d(t,"HTMLElementExtendedPaxComponents",function(){return i.default});var s=n(9);const{html:o,css:r}=s.default},function(e,t,n){"use strict";n.r(t);var i=n(5);const s=new class{constructor(){this._uid=1,this._setupTransitionEvent(),this._setTransformPropertyName(),this.isPhone=i.isPhone,this.isPhoneAndTablet=i.isPhoneAndTablet,this.isMobile?document.body.classList.add("mdw-is-mobile"):document.body.classList.remove("mdw-is-mobile")}uid(){return`id_${this._uid++}`}get isMobile(){return this.isPhoneAndTablet}lockPageScroll(){(document.body.classList.contains("prevent-over-scroll")?document.querySelector("mdw-page > mdw-content"):document.body).style.overflow="hidden"}unlockPageScroll(){(document.body.classList.contains("prevent-over-scroll")?document.querySelector("mdw-page > mdw-content"):document.body).style.overflow=""}debounce(e,t){let n;return function(){const i=arguments,s=this;clearTimeout(n),n=setTimeout(()=>{n=void 0,e.apply(s,i)},t||10)}}throttle(e,t){let n;return function(){const i=arguments,s=this;n||(n=!0,e.apply(s,i),setTimeout(()=>{n=!1},t))}}rafThrottle(e){let t;return function(){const n=arguments,i=this;t||(t=!0,e.apply(i,n),requestAnimationFrame(()=>{t=!1}))}}querySlotted(e,t){if(!e)throw Error("requires either component");if(!t)throw Error("requires selector");return e.shadowRoot.querySelector("slot")?e.shadowRoot.querySelector("slot").assignedNodes().find(e=>!!e.matches&&e.matches(t)):null}querySlottedAll(e,t){if(!e)throw Error("requires either component");if(!t)throw Error("requires selector");return e.shadowRoot.querySelector("slot").assignedNodes({flatten:!0}).reduce((e,n)=>n.querySelectorAll?e.concat([...n.querySelectorAll(t)]):e,[])}slottedChildren(e){if(!e)throw Error("requires either component");return e.shadowRoot.querySelector("slot").assignedNodes()}get transitionEventName(){return this.transitionEventName_}get transformPropertyName(){return this.transformPropertyName_}addBackdrop(e,t,n={}){const i=this.uid();e.insertAdjacentHTML("afterend",`<div id="${i}" class="mdw-backdrop"></div>`);const s=document.querySelector(`#${i}`);return!0===n.drawer&&s.classList.add("mdw-drawer-backdrop"),t&&s.addEventListener("click",t),{remove(){t&&s.removeEventListener("click",t),s.remove()}}}_setupTransitionEvent(){const e=document.createElement("fakeelement"),t={transition:"transitionend",OTransition:"oTransitionEnd",MozTransition:"transitionend",WebkitTransition:"webkitTransitionEnd"};for(let n in t)void 0!==e.style[n]&&(this.transitionEventName_=t[n])}_setTransformPropertyName(e=!1){if(void 0===this.transformPropertyName_||e){const e=document.createElement("div");this.transformPropertyName_="transform"in e.style?"transform":"webkitTransform"}}};window.MDWUtils=s,t.default=s},function(e,t,n){"use strict";n.r(t),n.d(t,"default",function(){return i});class i{constructor(e={}){if(this.RIPPLE_FADE_IN_DURATION=200,this.RIPPLE_FADE_OUT_DURATION=150,this.RIPPLE_STATE={FADING_IN:"FADING_IN",VISIBLE:"VISIBLE",FADING_OUT:"FADING_OUT",HIDDEN:"HIDDEN"},!e.element)throw Error("requires config.element");if(!e.triggerElement)throw Error("requires config.triggerElement");this.element=e.element,this.triggerElement=[].concat(e.triggerElement).filter(e=>!!e),this.centered=!!e.centered,this.speedFactor=e.speedFactor||1,this.radius=e.radius,this.color=e.color||null,this.persistent=!!e.persistent,this.activeRipples=new Set,this.isMousedown=!1,this.bound_mousesdown_=this.mousesdown_.bind(this),this.bound_mouseup_=this.mouseup_.bind(this),this.bound_mouseleave_=this.mouseleave_.bind(this),this.triggerElement.forEach(e=>{e.addEventListener("mousedown",this.bound_mousesdown_)})}destroy(){this.triggerElement.forEach(e=>{e.removeEventListener("mousedown",this.bound_mousesdown_)})}mousesdown_(e){this.isMousedown=!0,this.triggerElement.forEach(e=>{e.addEventListener("mouseup",this.bound_mouseup_),e.addEventListener("mouseleave",this.bound_mouseleave_)}),this.fadeInRipple(e.pageX,e.pageY)}mouseup_(e){this.isMousedown=!1,this.activeRipples.forEach(e=>{e.config.persistent||e.state!==this.RIPPLE_STATE.VISIBLE||e.fadeOut()}),this.triggerElement.forEach(e=>{e.removeEventListener("mouseup",this.bound_mouseup_),e.removeEventListener("mouseleave",this.bound_mouseleave_)})}mouseleave_(){this.isMousedown&&this.mouseup_()}fadeInRipple(e,t){const n=this.element.getBoundingClientRect();if(this.centered)e=n.left+n.width/2,t=n.top+n.height/2;else{const n=this.getViewportScrollPosition();e-=n.left,t-=n.top}const i=this.radius||this.distanceToFurthestCorner(e,t,n),s=this.RIPPLE_FADE_IN_DURATION*(1/this.speedFactor),o=e-n.left,r=t-n.top,a=document.createElement("div");a.classList.add("mdw-ripple-element"),a.style.left=`${o-i}px`,a.style.top=`${r-i}px`,a.style.height=`${2*i}px`,a.style.width=`${2*i}px`,a.style.backgroundColor=this.color,a.style.transitionDuration=`${s}ms`,this.element.appendChild(a),this.enforceStyleRecalculation(a),a.style.transform="scale(1)";let d={config:{centered:this.centered,tiggerElement:this.triggerElement,speedFactor:this.speedFactor,radius:i,color:this.color,persistent:this.persistent,duration:s},element:a,fadeOut:()=>l(),state:this.RIPPLE_STATE.FADING_IN};const l=()=>{this.fadeOutRipple(d)};this.activeRipples.add(d),setTimeout(()=>{d.state=this.RIPPLE_STATE.VISIBLE,this.persistent||this.isMousedown||d.fadeOut()},s)}fadeOutRipple(e){if(!this.activeRipples.delete(e))return;const t=e.element;t.style.transitionDuration=`${this.RIPPLE_FADE_OUT_DURATION}ms`,t.style.opacity="0",e.state=this.RIPPLE_STATE.FADING_OUT,setTimeout(()=>{e.state=this.RIPPLE_STATE.HIDDEN,t.parentNode.removeChild(t)},this.RIPPLE_FADE_OUT_DURATION)}distanceToFurthestCorner(e,t,n){const i=Math.max(Math.abs(e-n.left),Math.abs(e-n.right)),s=Math.max(Math.abs(t-n.top),Math.abs(t-n.bottom));return Math.sqrt(i*i+s*s)}getViewportScrollPosition(){const e=document.documentElement.getBoundingClientRect();return{top:-e.top||document.body.scrollTop||window.scrollY||document.documentElement.scrollTop||0,left:-e.left||document.body.scrollLeft||window.scrollX||document.documentElement.scrollLeft||0}}enforceStyleRecalculation(e){window.getComputedStyle(e).getPropertyValue("opacity")}}},function(e,t,n){"use strict";n.r(t),n.d(t,"addDragListener",function(){return o}),n.d(t,"removeDragListener",function(){return r}),n.d(t,"enableDragListenerForElement",function(){return a}),n.d(t,"disableDragListenerForElement",function(){return d});var i=n(1);const s=new Map;function o(e,t){if(!(e instanceof HTMLElement))throw Error("element must be an instance HTMLElement");if("function"!=typeof t)throw Error("callback must be a function");const n=new l(e,t);n.addEvents(),s.get(e)||s.set(e,new Map),s.get(e).set(t,n)}function r(e,t){if(!(e instanceof HTMLElement))throw Error("element must be an instance HTMLElement");const n=s.get(e);if(n)if(t){const e=n.get(t);e&&e.removeEvents(),n.delete(t)}else n.forEach(e=>e.removeEvents()),s.delete(e)}function a(e){if(!(e instanceof HTMLElement))throw Error("element must be an instance HTMLElement");const t=s.get(e);t&&t.forEach(e=>e.enable())}function d(e){if(!(e instanceof HTMLElement))throw Error("element must be an instance HTMLElement");const t=s.get(e);t&&t.forEach(e=>e.disable())}class l{constructor(e,t){this.element=e,this.callback=t,this.hasPointerEvent=!!window.PointerEvent,this.bound_handleGestureStart=this.handleGestureStart.bind(this),this.bound_handleGestureMove=this.handleGestureMove.bind(this),this.bound_handleGestureEnd=this.handleGestureEnd.bind(this),this.callbackThrottle=i.default.rafThrottle(e=>{e.distance=this.getDistance(e),e.direction=this.getDirection(this.lastDistance,e.distance),this.lastDistance=e.distance,this.callback(e)})}addEvents(){this.disableTouchEvents(),i.default.isMobile?this.element.addEventListener("touchstart",this.bound_handleGestureStart,!1):this.element.addEventListener("mousedown",this.bound_handleGestureStart)}disable(){this.removeEvents()}enable(){this.addEvents()}enableTouchEvents(){this.element.style["touch-action"]=""}disableTouchEvents(){this.element.style["touch-action"]="none"}removeEvents(){this.enableTouchEvents(),i.default.isMobile?(this.element.removeEventListener("touchstart",this.bound_handleGestureStart),this.element.removeEventListener("touchmove",this.bound_handleGestureMove),this.element.removeEventListener("touchend",this.bound_handleGestureEnd),this.element.removeEventListener("touchcancel",this.bound_handleGestureEnd)):(this.element.removeEventListener("mousedown",this.bound_handleGestureStart),window.removeEventListener("mousemove",this.bound_handleGestureMove),window.removeEventListener("mouseup",this.bound_handleGestureEnd))}handleGestureStart(e){e.state="start",i.default.isMobile?(this.element.addEventListener("touchmove",this.bound_handleGestureMove,!1),this.element.addEventListener("touchend",this.bound_handleGestureEnd,!1),this.element.addEventListener("touchcancel",this.bound_handleGestureEnd,!1)):(window.addEventListener("mousemove",this.bound_handleGestureMove),window.addEventListener("mouseup",this.bound_handleGestureEnd)),this.startTime=Date.now(),this.initialTouchPos=this.getClientXY(e),this.lastDistance=this.getDistance(e),e.distance=this.lastDistance,e.direction=this.getDirection(this.lastDistance,this.lastDistance),this.callback(e)}handleGestureMove(e){e.state="move",this.initialTouchPos&&this.callbackThrottle(e)}handleGestureEnd(e){if(e.state="end",i.default.isMobile?(this.element.removeEventListener("touchmove",this.bound_handleGestureMove),this.element.removeEventListener("touchend",this.bound_handleGestureEnd),this.element.removeEventListener("touchcancel",this.bound_handleGestureEnd)):(window.removeEventListener("mousemove",this.bound_handleGestureMove),window.removeEventListener("mouseup",this.bound_handleGestureEnd)),this.endTime=Date.now(),e.runTime=this.endTime-this.startTime,e.distance=this.getDistance(e),e.endDirection=this.getDirection({x:0,y:0},e.distance),e.velocity=this.getVelocity(e.distance,e.runTime),void 0===e.clientX){const t=this.getClientXY(e);e.clientX=t.x,e.clientY=t.y}this.callback(e)}getDistance(e){const t=this.getClientXY(e);return{x:t.x-this.initialTouchPos.x,y:t.y-this.initialTouchPos.y}}getDirection(e,t){const n=t.x>e.x?1:t.x===e.x?0:-1,i=t.y>e.y?1:t.y===e.y?0:-1;return{x:n,y:i,xDescription:0===n?"none":1===n?"right":"left",yDescription:0===i?"none":1===i?"down":"up"}}getClientXY(e){return{x:e.targetTouches&&e.targetTouches.length?e.targetTouches[0].clientX:e.changedTouches&&e.changedTouches.length?e.changedTouches[0].clientX:e.clientX,y:e.targetTouches&&e.targetTouches.length?e.targetTouches[0].clientY:e.changedTouches&&e.changedTouches.length?e.changedTouches[0].clientY:e.clientY}}getVelocity(e,t){return{x:e.x/t,y:e.y/t}}}},function(e,t,n){"use strict";n.r(t);var i=n(1);const s=new class{constructor(){this.queue=[]}add(e,t){this.queue.push({el:e,resolver:t}),this.handleQueue()}remove(e){this.current&&this.current.el===e?(this.current.resolver(!1),e._dissmiss()):this.queue=this.queue.filter(t=>t.el!==e)}accept(e){this.current&&this.current.el===e?(this.current.resolver(!0),e._dissmiss()):this.queue=this.queue.filter(t=>t.el!==e)}handleQueue(){0!==this.queue.length&&(this.current||(this.current=this.queue.shift(),this.current.el._show(),this.current.el.addEventListener("close",()=>{this.current=void 0,setTimeout(()=>{this.handleQueue()},300)})))}create({message:e,dismissLabel:t="dismiss",acceptLabel:n=null,template:s,parent:o}){if(!e&&!s)throw Error("Either `message` or `template` is required");if(!s&&!t&&!n)throw Error("When not using a `template` you are required to provide either a `dismissLabel` or an `acceptLabel`");const r=i.default.uid();s||(s=this.template(e,t,n,r));let a=o||document.querySelector("mdw-page > mdw-top-app-bar");a||(a=document.querySelector("mdw-page")),a||(a=document.querySelector("body"));let d,l=void 0;"MDW-TOP-APP-BAR"===a.nodeName?(a.insertAdjacentHTML("afterend",s),l=document.querySelector(`mdw-banner#${r}`)):(a.insertAdjacentHTML("afterbegin",s),l=document.querySelector(`mdw-banner#${r}`));const h=new Promise(e=>{d=e});return this.add(l,d),h}template(e,t,n,i){return`\n      <mdw-banner id="${i}" class="mdw-elevation-1">\n        <div>${e}</div>\n        <div>\n          ${t?`<mdw-button onclick="${i}.dismiss()" class="mdw-secondary">${t}</mdw-button>`:""}\n          ${n?`<mdw-button onclick="${i}.accept()" class="mdw-secondary">${n}</mdw-button>`:""}\n        </div>\n      </mdw-banner>\n    `}};window.MDWBanner=s,t.default=s},function(e,t,n){"use strict";n.r(t),n.d(t,"isPhone",function(){return i}),n.d(t,"isPhoneAndTablet",function(){return s});const i=function(){0;var e=!1;return function(t){(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(t)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(t.substr(0,4)))&&(e=!0)}(navigator.userAgent||navigator.vendor||window.opera),e}(),s=function(){0;var e=!1;return function(t){(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(t)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(t.substr(0,4)))&&(e=!0)}(navigator.userAgent||navigator.vendor||window.opera),e}()},function(e,t,n){"use strict";n.r(t);const i=new class{constructor(){this.queue=[]}add(e){this.queue.push({el:e}),this.handleQueue()}remove(e,t){this.current&&this.current.el===e?e._close(t):this.queue=this.queue.filter(t=>t.el!==e)}handleQueue(){0!==this.queue.length&&(this.current||(this.current=this.queue.shift(),this.current.el._open(),this.current.el.addEventListener("close",()=>{this.current=void 0,setTimeout(()=>{this.handleQueue()},300)})))}show({message:e,actionLabel:t,position:n}){return new Promise(i=>{const s=this.uid(),o=this.template({id:s,message:e,actionLabel:t});this.topLevelElement.insertAdjacentHTML("beforeend",o);const r=document.querySelector(`#${s}`),a=e=>{i(e.detail.ok),r.removeEventListener("close",a),r.remove()};r.addEventListener("close",a),n&&r.setPosition(n),r.show()})}get topLevelElement(){let e=document.body.querySelector("mdw-content");return e||((e=document.bodyquerySelector("mdw-body"))||document.body)}uid(){return`snackbar_${parseInt(99999*Math.random())}`}template({id:e,message:t,actionLabel:n}){return`\n      <mdw-snackbar id="${e}">\n        <mdw-panel>\n          <mdw-snackbar-container>\n            <mdw-snackbar-content>${t}</mdw-snackbar-content>\n            <mdw-snackbar-actions>\n              ${n?`<mdw-button class="mdw-action-button">${n}</mdw-button>`:""}\n              <mdw-button onclick="${e}.close(true)" class="mdw-close-button mdw-icon">\n                <mdw-icon>close</mdw-icon>\n              </mdw-button>\n            </mdw-snackbar-actions>\n          </mdw-snackbar-container>\n        </mdw-panel>\n      </mdw-snackbar>\n    `}};window.MDWSnackbar=i,t.default=i},function(e,t,n){"use strict";n.r(t);var i=n(0);t.default=function(){return i.css`
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "css", function() { return css; });
+/* harmony import */ var _HTMLElementExtendedPaxComponents_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HTMLElementExtendedPaxComponents", function() { return _HTMLElementExtendedPaxComponents_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _tags_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
+
+    
+
+    const { html, css } = _tags_js__WEBPACK_IMPORTED_MODULE_1__["default"];
+    
+  
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+
+
+const MDWUtils = new class {
+  constructor() {
+    this._uid = 1;
+    this._setupTransitionEvent();
+    this._setTransformPropertyName();
+    this.isPhone = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhone"];
+    this.isPhoneAndTablet = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhoneAndTablet"];
+    // add class indecator for mobile
+    if (this.isMobile) document.body.classList.add('mdw-is-mobile');
+    else document.body.classList.remove('mdw-is-mobile');
+  }
+
+  uid() {
+    return `id_${this._uid++}`;
+  }
+
+  get isMobile() {
+    return this.isPhoneAndTablet;
+  }
+
+  lockPageScroll() {
+    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    scrollElement.style.overflow = 'hidden';
+  }
+
+  unlockPageScroll() {
+    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    scrollElement.style.overflow = '';
+  }
+
+  debounce(fn, wait) {
+    let timer;
+    return function debounced() {
+      const args = arguments;
+      const context = this
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = undefined;
+        fn.apply(context, args);
+      }, wait || 10);
+    };
+  }
+
+  throttle(fn, limit) {
+    let alreadyQueued;
+    return function throttled() {
+      const args = arguments;
+      const context = this;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        fn.apply(context, args);
+        setTimeout(() => {
+          alreadyQueued = false;
+        }, limit);
+      }
+    };
+  }
+
+  // throttle on request animation frameyy
+  rafThrottle(fn) {
+    let alreadyQueued;
+    return function throttled() {
+      const args = arguments;
+      const context = this;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        fn.apply(context, args);
+        requestAnimationFrame(() => {
+          alreadyQueued = false;
+        });
+      }
+    };
+  }
+
+  querySlotted(component, selector) {
+    if (!component) throw Error('requires either component');
+    if (!selector) throw Error('requires selector');
+    if (!component.shadowRoot.querySelector('slot')) return null;
+    return component.shadowRoot.querySelector('slot').assignedNodes().find(el => {
+      if (!el.matches) return false;
+      return el.matches(selector);
+    });
+  }
+
+  querySlottedAll(component, selector) {
+    if (!component) throw Error('requires either component');
+    if (!selector) throw Error('requires selector');
+    return component.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }).reduce((a, el) => {
+      if (!el.querySelectorAll) return a;
+      return a.concat([...el.querySelectorAll(selector)]);
+    }, []);
+  }
+
+  slottedChildren(component) {
+    if (!component) throw Error('requires either component');
+    return component.shadowRoot.querySelector('slot').assignedNodes();
+  }
+
+  get transitionEventName() {
+    return this.transitionEventName_;
+  }
+
+  get transformPropertyName() {
+    return this.transformPropertyName_;
+  }
+
+  addBackdrop(element, clickCallback, options = {}) {
+    const id = this.uid();
+    element.insertAdjacentHTML('afterend', `<div id="${id}" class="mdw-backdrop"></div>`);
+    const backdropElement = document.querySelector(`#${id}`);
+    if (options.drawer === true) backdropElement.classList.add('mdw-drawer-backdrop');
+    if (clickCallback) backdropElement.addEventListener('click', clickCallback);
+    return {
+      remove() {
+        if (clickCallback) backdropElement.removeEventListener('click', clickCallback);
+        backdropElement.remove();
+      }
+    };
+  }
+
+  _setupTransitionEvent() {
+    const el = document.createElement('fakeelement');
+    const transitions = {
+      transition: 'transitionend',
+      OTransition: 'oTransitionEnd',
+      MozTransition: 'transitionend',
+      WebkitTransition: 'webkitTransitionEnd'
+    };
+
+    for (let t in transitions){
+      if (el.style[t] !== undefined) this.transitionEventName_ = transitions[t];
+    }
+  }
+
+  _setTransformPropertyName(forceRefresh = false) {
+    if (this.transformPropertyName_ === undefined || forceRefresh) {
+      const el = document.createElement('div');
+      this.transformPropertyName_ = 'transform' in el.style ? 'transform' : '-webkit-transform';
+    }
+  }
+}
+
+window.MDWUtils = MDWUtils;
+
+/* harmony default export */ __webpack_exports__["default"] = (MDWUtils);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// NOTE Months start at 1 not 0
+
+const MDWDateUtil = new class {
+  constructor() {
+    this.yearMonthDayRegex = /([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(?!\S)/;
+  }
+
+  // Sets the local (en-us).
+  // leaving this undeifend will use the browser default
+  get local() {
+    return this._locale;
+  }
+
+  set local(value) {
+    this._locale = value;
+  }
+
+  // Sets the timezone used.
+  // leaving this undeifend will use the browser default
+  get timezone() {
+    return this._timezone;
+  }
+
+  set timezone(value) {
+    this._timezone = value;
+  }
+
+  parse(value) {
+    // this will return an invalid date abject
+    if (['null', 'undefined', 'Invalid Date'].includes(value)) return new Date('');
+
+    if (typeof value === 'number') return new Date(value);
+
+    // format used for inputs yyyy-mm-dd
+    if (typeof value === 'string') {
+      const inputDateMatch = value.match(this.yearMonthDayRegex);
+      if (inputDateMatch) {
+        const [_, year, month, day] = inputDateMatch;
+        return this.buildFromParts({
+          year,
+          month,
+          day
+        });
+      }
+    }
+
+    return new Date(Date.parse(value));
+  }
+
+  // Month starts at 1
+  buildFromParts({ year, month, day}) {
+    return new Date(year, month - 1, day);
+  }
+
+  adjustDate(date, { add = undefined , set = undefined }) {
+    let { year, month, day } = this.getParts(date);
+
+    if (set) {
+      if (set.year) year = set.year;
+      if (set.month) month = set.month;
+      if (set.day) day = set.day;
+    }
+
+    if (add) {
+      if (add.year) year += add.year;
+      if (add.month) month += add.month;
+      if (add.day) day += add.day;
+    }
+
+    return this.buildFromParts({ year, month, day });
+  }
+
+  defaultYearRange(startYear = MDWDateUtil.getYear(new Date()) - 50, range = 100) {
+    return [...new Array(range)].map((_, i) => startYear + i);
+  }
+
+  getMonthsSurroundingYear(date = this.today(), yearRange = 2) {
+    const firstYear = this.parse(date).getFullYear() - yearRange;
+    const years = yearRange * 2;
+    // add 12 dates for each month for each year
+    return [...new Array(years)].flatMap((_, i) => [...new Array(12)].map((_, j) => new Date(firstYear + i, j, 1)));
+  }
+
+  getParts(date) {
+    return {
+      year: this.getYear(date),
+      month: this.getMonth(date),
+      day: this.getMonthDay(date)
+    };
+  }
+
+  getYear(date) {
+    return date.getFullYear();
+  }
+
+  getMonth(date) {
+    return date.getMonth() + 1;
+  }
+
+  getWeekDay(date) {
+    return date.getDay();
+  }
+
+  getMonthDay(date) {
+    return date.getDate();
+  }
+
+  // style = 'long' | 'short' | 'narrow'
+  getMonthNames(style) {
+    const dtf = new Intl.DateTimeFormat(this.locale, { month: style, timeZone: 'utc' });
+    return this.range(12, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, i, 1))));
+  }
+
+  // getDateNames() {
+  //   const dtf = new Intl.DateTimeFormat(this.locale, { day: 'numeric', timeZone: 'utc' });
+  //   return this.range(31, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, 0, i + 1))));
+  // }
+
+  // style = 'long' | 'short' | 'narrow'
+  getDayOfWeekNames(style) {
+    const dtf = new Intl.DateTimeFormat(this.locale, { weekday: style, timeZone: 'utc' });
+    return this.range(7, i => this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, 0, i + 1))));
+  }
+
+  getYearName(date) {
+    const dtf = new Intl.DateTimeFormat(this.locale, { year: 'numeric', timeZone: 'utc' });
+    return this._stripDirectionalityCharacters(this._format(dtf, date));
+  }
+
+  getFirstDateOfMonth(date) {
+    return new Date(this.getYear(date), this.getMonth(date) - 1, 1);
+  }
+
+  getLastDateOfMonth(date) {
+    return new Date(this.getYear(date), this.getMonth(date) - 1, 0);
+  }
+
+  getNumDaysInMonth(date) {
+    return this.getDate(this._createDateWithOverflow(this.getYear(date), this.getMonth(date) + 1, 0));
+  }
+
+  getMonthDayArray(date, { fillInMonth = false, minDate = undefined, maxDate = undefined }) {
+    const firstDay = this.getWeekDay(this.getFirstDateOfMonth(date));
+    const lastday = this.getWeekDay(this.getLastDateOfMonth(date));
+    const targetYear = this.getYear(date);
+    const targetMonth = this.getMonth(date);
+    const todayParts = this.getParts(this.today());
+
+    // start on sunday
+    let currentDate = this.adjustDate(date, {
+      set: { day: 1 },
+      add: { day: -firstDay }
+    });
+
+    if (minDate && !this.isValid(minDate)) minDate = undefined;
+    if (maxDate && !this.isValid(maxDate)) maxDate = undefined;
+
+    // 6 rows of 7 days
+    const monthDays = [...Array(6 * 7)].map((_, i) => {
+      const date = currentDate;
+      const year = this.getYear(date);
+      const month = this.getMonth(date);
+      const day = this.getMonthDay(date);
+      // -1, 0, 1
+      const targetMonthOffset = year < targetYear ? -1 : year > targetYear ? 1 : month < targetMonth ? -1 : month === targetMonth ? 0 : 1;
+      const display = (fillInMonth && targetMonthOffset > 0) || targetMonthOffset === 0 ? day : '';
+
+      const currentMonth = month === targetMonth;
+      const beforeMinDate = minDate ? currentDate < minDate : false;
+      const afterMaxDate = maxDate ? currentDate > maxDate : false;
+      const interactable = !beforeMinDate && !afterMaxDate && display !== '';
+      const isToday = todayParts.year === year && todayParts.month === month && todayParts.day === day
+      currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
+
+      return {
+        display,
+        date,
+        interactable,
+        currentMonth,
+        beforeMinDate,
+        afterMaxDate,
+        isToday
+      };
+    });
+
+    // split into week rows
+    const res = [];
+    while (monthDays.length) {
+      res.push(monthDays.splice(0, 7));
+    }
+
+    return res;
+  }
+
+  isSameYear(date1, date2) {
+    if (!date1 || !date2) return false;
+    return this.getYear(date1) === this.getYear(date2);
+  }
+
+  isSameMonth(date1, date2) {
+    if (!date1 || !date2) return false;
+    return this.getMonth(date1) === this.getMonth(date2);
+  }
+
+  clone(date) {
+    return new Date(date.getTime());
+  }
+
+  today() {
+    return new Date();
+  }
+
+  // --- format date ---
+
+  identity(x) {
+    return x;
+  }
+
+  tokenize(intlFormatter, date) {
+    return intlFormatter.formatToParts(date).filter(token => token.type !== 'literal');
+  }
+
+  normalize(parts) {
+    // Chrome <= 71 incorrectly case `dayperiod` (#4)
+    parts.dayPeriod = parts.dayPeriod || parts.dayperiod;
+    return parts;
+  }
+
+
+  // format dates
+  //   date: js date object
+  //   formatPattern:
+  //      ddd, MMM DD = Thu, Dec 12
+  //      YYYY - MMMM - dddd = 2019 - Dmonth - wednesday
+  //      YY - MMM - ddd = 19 - 10 - 21
+  format(date, formatPattern) {
+    if (!this.isValid(date)) return;
+
+    const intlFormattersOptions = [
+      {
+        weekday: 'long', // dddd
+        year: 'numeric', // YYYY
+        month: '2-digit', // MM
+        day: '2-digit', // DD
+        hour: '2-digit', // hh
+        minute: '2-digit', // mm
+        second: '2-digit' // ss
+      },
+      {
+        month: 'long',
+        hour: '2-digit',
+        hour12: false
+      }
+    ];
+    const [intlFormatter, intlFormatterLong] = intlFormattersOptions.map(
+      intlFormatterOptions =>
+        new Intl.DateTimeFormat(this.locale, {
+          ...intlFormatterOptions,
+          timeZone: this.timezone
+        })
+    );
+    const tokens = this.tokenize(intlFormatter, date);
+    const longTokens = this.tokenize(intlFormatterLong, date).map(token => {
+      return token.type !== 'literal' ? { type: `l${token.type}`, value: token.value } : token;
+    });
+    const allTokens = [...tokens, ...longTokens];
+    const parts = allTokens.reduce((parts, token) => {
+      parts[token.type] = token.value;
+      return parts;
+    }, {});
+    const patternRegexp = new RegExp(`[YMDdAaHhms]+`, 'g');
+    const formatters = {
+      YYYY: parts => parts.year, // 2019
+      YY: parts => parts.year.slice(-2), // 19
+      MMMM: parts => parts.lmonth, // December
+      MMM: parts => parts.lmonth.slice(0, 3), // Dec
+      MM: parts => parts.month, // 12
+      DD: parts => parts.day, // 21
+      dd: parts => parts.day, // 21
+      dddd: parts => parts.weekday, // Saturday
+      ddd: parts => parts.weekday.slice(0, 3), // Sat
+      A: parts => parts.dayPeriod, // AM / PM
+      a: parts => parts.dayPeriod.toLowerCase(), // am / pm
+      HH: parts => parts.lhour, // 00
+      hh: parts => parts.hour, // 12
+      mm: parts => parts.minute, // 23
+      ss: parts => parts.second // 54
+    };
+    const allFormatters = { ...formatters };
+    return formatPattern.replace(patternRegexp, mask => (allFormatters[mask] || this.identity)(parts, date));
+  }
+
+  toIso8601(date) {
+    return [
+      date.getUTCFullYear(),
+      this._2digit(date.getUTCMonth() + 1),
+      this._2digit(date.getUTCDate())
+    ].join('-');
+  }
+
+  isValid(date) {
+    return !isNaN(date.getTime());
+  }
+
+  _stripDirectionalityCharacters(str) {
+    return str.replace(/[\u200e\u200f]/g, '');
+  }
+
+  _format(dtf, date) {
+    const d = new Date(Date.UTC(
+        date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(),
+        date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
+    return dtf.format(d);
+  }
+
+  range(length, valueFunction) {
+    const valuesArray = Array(length);
+    let i = 0;
+    for (i; i < length; i += 1) {
+      valuesArray[i] = valueFunction(i);
+    }
+
+    return valuesArray;
+  }
+}
+
+window.MDWDateUtil = MDWDateUtil;
+
+/* harmony default export */ __webpack_exports__["default"] = (MDWDateUtil);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MDWRipple; });
+class MDWRipple {
+  constructor(config = {}) {
+    this.RIPPLE_FADE_IN_DURATION = 200;
+    this.RIPPLE_FADE_OUT_DURATION = 150;
+    this.RIPPLE_STATE = {
+      FADING_IN: 'FADING_IN',
+      VISIBLE: 'VISIBLE',
+      FADING_OUT: 'FADING_OUT',
+      HIDDEN: 'HIDDEN'
+    };
+
+    if (!config.element) throw Error('requires config.element');
+    if (!config.triggerElement) throw Error('requires config.triggerElement');
+
+    this.element = config.element;
+    this.triggerElement = [].concat(config.triggerElement).filter(el => !!el);
+    this.centered = !!config.centered;
+    this.speedFactor = config.speedFactor || 1;
+    this.radius = config.radius;
+    this.color = config.color || null;
+    this.persistent = !!config.persistent;
+    this.activeRipples = new Set();
+    this.isMousedown = false;
+    this.bound_mousesdown_ = this.mousesdown_.bind(this);
+    this.bound_mouseup_ = this.mouseup_.bind(this);
+    this.bound_mouseleave_ = this.mouseleave_.bind(this);
+
+    this.triggerElement.forEach(el => {
+      el.addEventListener('mousedown', this.bound_mousesdown_);
+    });
+  }
+
+  destroy() {
+    this.triggerElement.forEach(el => {
+      el.removeEventListener('mousedown', this.bound_mousesdown_);
+    });
+  }
+
+  mousesdown_(event) {
+    this.isMousedown = true;
+    this.triggerElement.forEach(el => {
+      el.addEventListener('mouseup', this.bound_mouseup_);
+      el.addEventListener('mouseleave', this.bound_mouseleave_);
+    });
+    this.fadeInRipple(event.pageX, event.pageY);
+  }
+
+  mouseup_(event) {
+    this.isMousedown = false;
+    // Fade-out all ripples that are completely visible and not persistent.
+    this.activeRipples.forEach(ripple => {
+      if (!ripple.config.persistent && ripple.state === this.RIPPLE_STATE.VISIBLE) ripple.fadeOut();
+    });
+    this.triggerElement.forEach(el => {
+      el.removeEventListener('mouseup', this.bound_mouseup_);
+      el.removeEventListener('mouseleave', this.bound_mouseleave_);
+    });
+  }
+
+  mouseleave_() {
+    if (this.isMousedown) this.mouseup_();
+  }
+
+
+  fadeInRipple(pageX, pageY) {
+    const containerRect = this.element.getBoundingClientRect();
+
+    if (this.centered) {
+      pageX = containerRect.left + containerRect.width / 2;
+      pageY = containerRect.top + containerRect.height / 2;
+    } else {
+      // Subtract scroll values from the coordinates because calculations below
+      // are always relative to the viewport rectangle.
+      const scrollPosition = this.getViewportScrollPosition();
+      pageX -= scrollPosition.left;
+      pageY -= scrollPosition.top;
+    }
+
+    const radius = this.radius || this.distanceToFurthestCorner(pageX, pageY, containerRect);
+    const duration = this.RIPPLE_FADE_IN_DURATION * (1 / this.speedFactor);
+    const offsetX = pageX - containerRect.left;
+    const offsetY = pageY - containerRect.top;
+
+    const ripple = document.createElement('div');
+    ripple.classList.add('mdw-ripple-element');
+    ripple.style.left = `${offsetX - radius}px`;
+    ripple.style.top = `${offsetY - radius}px`;
+    ripple.style.height = `${radius * 2}px`;
+    ripple.style.width = `${radius * 2}px`;
+
+    // If the color is not set, the default CSS color will be used.
+    ripple.style.backgroundColor = this.color;
+    ripple.style.transitionDuration = `${duration}ms`;
+
+    this.element.appendChild(ripple);
+
+    // By default the browser does not recalculate the styles of dynamically created
+    // ripple elements. This is critical because then the `scale` would not animate properly.
+    this.enforceStyleRecalculation(ripple);
+
+    ripple.style.transform = 'scale(1)';
+
+    // Exposed reference to the ripple that will be returned.
+    let rippleRef = {
+      config: {
+        centered: this.centered,
+        tiggerElement: this.triggerElement,
+        speedFactor: this.speedFactor,
+        radius: radius,
+        color: this.color,
+        persistent: this.persistent,
+        duration: duration
+      },
+      element: ripple,
+      fadeOut: () => fadeOut(),
+      state: this.RIPPLE_STATE.FADING_IN
+    };
+    const fadeOut = () => {
+      this.fadeOutRipple(rippleRef)
+    };
+
+    // Add the ripple reference to the list of all active ripples.
+    this.activeRipples.add(rippleRef);
+
+    // Wait for the ripple element to be completely faded in.
+    // Once it's faded in, the ripple can be hidden immediately if the mouse is released.
+    setTimeout(() => {
+      rippleRef.state = this.RIPPLE_STATE.VISIBLE;
+      if (!this.persistent && !this.isMousedown) rippleRef.fadeOut();
+    }, duration);
+  }
+
+  fadeOutRipple(rippleRef) {
+    // For ripples that are not active anymore, don't re-un the fade-out animation.
+    if (!this.activeRipples.delete(rippleRef)) return;
+
+    const rippleEl = rippleRef.element;
+
+    rippleEl.style.transitionDuration = `${this.RIPPLE_FADE_OUT_DURATION}ms`;
+    rippleEl.style.opacity = '0';
+    rippleRef.state = this.RIPPLE_STATE.FADING_OUT;
+
+    // Once the ripple faded out, the ripple can be safely removed from the DOM.
+    setTimeout(() => {
+      rippleRef.state = this.RIPPLE_STATE.HIDDEN;
+      rippleEl.parentNode.removeChild(rippleEl);
+    }, this.RIPPLE_FADE_OUT_DURATION);
+  }
+
+  distanceToFurthestCorner(x, y, rect) {
+    const distX = Math.max(Math.abs(x - rect.left), Math.abs(x - rect.right));
+    const distY = Math.max(Math.abs(y - rect.top), Math.abs(y - rect.bottom));
+    return Math.sqrt(distX * distX + distY * distY);
+  }
+
+  getViewportScrollPosition() {
+    const documentRect = document.documentElement.getBoundingClientRect();
+
+    // The top-left-corner of the viewport is determined by the scroll position of the document
+    // body, normally just (scrollLeft, scrollTop). However, Chrome and Firefox disagree about
+    // whether `document.body` or `document.documentElement` is the scrolled element, so reading
+    // `scrollTop` and `scrollLeft` is inconsistent. However, using the bounding rect of
+    // `document.documentElement` works consistently, where the `top` and `left` values will
+    // equal negative the scroll position.
+    const top = -documentRect.top || document.body.scrollTop || window.scrollY || document.documentElement.scrollTop || 0;
+    const left = -documentRect.left || document.body.scrollLeft || window.scrollX || document.documentElement.scrollLeft || 0;
+
+    return {top, left};
+  }
+
+  /** Enforces a style recalculation of a DOM element by computing its styles. */
+  // TODO(devversion): Move into global utility function.
+  enforceStyleRecalculation(element) {
+    // Enforce a style recalculation by calling `getComputedStyle` and accessing any property.
+    // Calling `getPropertyValue` is important to let optimizers know that this is not a noop.
+    // See: https://gist.github.com/paulirish/5d52fb081b3570c81e3a
+    window.getComputedStyle(element).getPropertyValue('opacity');
+  }
+};
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addDragListener", function() { return addDragListener; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeDragListener", function() { return removeDragListener; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableDragListenerForElement", function() { return enableDragListenerForElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "disableDragListenerForElement", function() { return disableDragListenerForElement; });
+/* harmony import */ var _Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+
+
+const swipeInstancesByElementAndFunction = new Map();
+
+function addDragListener(element, callback) {
+  if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
+  if (typeof callback !== 'function') throw Error('callback must be a function');
+
+  const swipInstance = new Drag(element, callback);
+  swipInstance.addEvents();
+
+  if (!swipeInstancesByElementAndFunction.get(element)) swipeInstancesByElementAndFunction.set(element, new Map());
+  swipeInstancesByElementAndFunction.get(element).set(callback, swipInstance);
+};
+
+// if you do not pass in callback then all the swipe events on an element will be removed
+function removeDragListener(element, callback = undefined) {
+  if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
+
+  const swipInstances = swipeInstancesByElementAndFunction.get(element);
+  if (!swipInstances) return;
+  if (callback) {
+    const el = swipInstances.get(callback);
+    if (el) el.removeEvents();
+    swipInstances.delete(callback);
+  } else {
+    swipInstances.forEach(i => i.removeEvents());
+    swipeInstancesByElementAndFunction.delete(element);
+  }
+};
+
+function enableDragListenerForElement(element) {
+  if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
+  const swipInstances = swipeInstancesByElementAndFunction.get(element);
+  if (!swipInstances) return;
+  swipInstances.forEach(i => i.enable());
+}
+
+function disableDragListenerForElement(element) {
+  if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
+  const swipInstances = swipeInstancesByElementAndFunction.get(element);
+  if (!swipInstances) return;
+  swipInstances.forEach(i => i.disable());
+}
+
+class Drag {
+  constructor(element, callback) {
+    this.element = element;
+    this.callback = callback;
+
+    this.hasPointerEvent = !!window.PointerEvent;
+    this.bound_handleGestureStart = this.handleGestureStart.bind(this);
+    this.bound_handleGestureMove = this.handleGestureMove.bind(this);
+    this.bound_handleGestureEnd = this.handleGestureEnd.bind(this);
+
+    // callback throttler
+    this.callbackThrottle = _Utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].rafThrottle((event) => {
+      event.distance = this.getDistance(event);
+      event.direction = this.getDirection(this.lastDistance, event.distance);
+      this.lastDistance = event.distance;
+      this.callback(event);
+    });
+  }
+
+  addEvents() {
+    this.disableTouchEvents();
+
+    if (_Utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].isMobile) {
+      this.element.addEventListener('touchstart', this.bound_handleGestureStart, false);
+    } else {
+      this.element.addEventListener('mousedown', this.bound_handleGestureStart);
+    }
+  }
+
+  disable() {
+    this.removeEvents();
+  }
+
+  enable() {
+    this.addEvents();
+  }
+
+  enableTouchEvents() {
+    this.element.style['touch-action'] = '';
+  }
+
+  disableTouchEvents() {
+    // this disabled the browsers auto handling of the touch events.
+    // If this is not set to none, then the browser will immidiately cancel the toach evnets
+    this.element.style['touch-action'] = 'none';
+  }
+
+  removeEvents() {
+    this.enableTouchEvents();
+    if (_Utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].isMobile) {
+      this.element.removeEventListener('touchstart', this.bound_handleGestureStart);
+      this.element.removeEventListener('touchmove', this.bound_handleGestureMove);
+      this.element.removeEventListener('touchend', this.bound_handleGestureEnd);
+      this.element.removeEventListener('touchcancel', this.bound_handleGestureEnd);
+    } else {
+      this.element.removeEventListener('mousedown', this.bound_handleGestureStart);
+      window.removeEventListener('mousemove', this.bound_handleGestureMove);
+      window.removeEventListener('mouseup', this.bound_handleGestureEnd);
+    }
+  }
+
+  handleGestureStart(ev) {
+    ev.state = 'start';
+
+    if (_Utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].isMobile) {
+      this.element.addEventListener('touchmove', this.bound_handleGestureMove, false);
+      this.element.addEventListener('touchend', this.bound_handleGestureEnd, false);
+      this.element.addEventListener('touchcancel', this.bound_handleGestureEnd, false);
+    } else {
+      window.addEventListener('mousemove', this.bound_handleGestureMove);
+      window.addEventListener('mouseup', this.bound_handleGestureEnd);
+    }
+
+    this.startTime = Date.now();
+    this.initialTouchPos = this.getClientXY(ev);
+    this.lastDistance = this.getDistance(ev);
+    ev.distance = this.lastDistance;
+    ev.direction = this.getDirection(this.lastDistance, this.lastDistance);
+    this.callback(ev);
+    // ev.preventDefault();
+  }
+
+  handleGestureMove(ev) {
+    ev.state = 'move';
+    if (this.initialTouchPos) this.callbackThrottle(ev);
+    // ev.preventDefault();
+  }
+
+  handleGestureEnd(ev) {
+    ev.state = 'end';
+    
+    if (_Utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].isMobile) {
+      this.element.removeEventListener('touchmove', this.bound_handleGestureMove);
+      this.element.removeEventListener('touchend', this.bound_handleGestureEnd);
+      this.element.removeEventListener('touchcancel', this.bound_handleGestureEnd);
+    } else {
+      window.removeEventListener('mousemove', this.bound_handleGestureMove);
+      window.removeEventListener('mouseup', this.bound_handleGestureEnd);
+    }
+
+    this.endTime = Date.now();
+    ev.runTime = this.endTime - this.startTime;
+    ev.distance = this.getDistance(ev);
+    ev.endDirection = this.getDirection({ x: 0, y: 0 }, ev.distance);
+    ev.velocity = this.getVelocity(ev.distance, ev.runTime);
+
+    if (ev.clientX === undefined) {
+      const clientPos = this.getClientXY(ev);
+      ev.clientX = clientPos.x;
+      ev.clientY = clientPos.y;
+    }
+    this.callback(ev);
+    // ev.preventDefault();
+  }
+
+  getDistance(event) {
+    const xy = this.getClientXY(event);
+    return {
+      x: xy.x - this.initialTouchPos.x,
+      y: xy.y - this.initialTouchPos.y
+    };
+  }
+
+  getDirection(a, b) {
+    const x = b.x > a.x ? 1 : b.x === a.x ? 0 : -1;
+    const y = b.y > a.y ? 1 : b.y === a.y ? 0 : -1;
+    return {
+      x,
+      y,
+      xDescription: x === 0 ? 'none' : x === 1 ? 'right' : 'left',
+      yDescription: y === 0 ? 'none' : y === 1 ? 'down' : 'up'
+    };
+  }
+
+  getClientXY(event) {
+    return {
+      x: event.targetTouches && event.targetTouches.length ? event.targetTouches[0].clientX : event.changedTouches && event.changedTouches.length ? event.changedTouches[0].clientX : event.clientX,
+      y: event.targetTouches && event.targetTouches.length ? event.targetTouches[0].clientY : event.changedTouches && event.changedTouches.length ? event.changedTouches[0].clientY : event.clientY
+    }
+  }
+
+  getVelocity(distance, time) {
+    return {
+      x: distance.x / time,
+      y: distance.y / time
+    };
+  }
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+
+
+const MDWBanner = new class {
+  constructor() {
+    this.queue = [];
+  }
+
+  add(el, resolver) {
+    this.queue.push({el, resolver});
+    this.handleQueue();
+  }
+
+  remove(el) {
+    if (this.current && this.current.el === el) {
+      this.current.resolver(false);
+      el._dissmiss();
+    } else this.queue = this.queue.filter(e => e.el !== el);
+  }
+
+  accept(el) {
+    if (this.current && this.current.el === el) {
+      this.current.resolver(true);
+      el._dissmiss();
+    } else this.queue = this.queue.filter(e => e.el !== el);
+  }
+
+  handleQueue() {
+    if (this.queue.length === 0) return;
+
+    if (!this.current) {
+      this.current = this.queue.shift();
+      this.current.el._show();
+      this.current.el.addEventListener('close', () => {
+        this.current = undefined;
+        setTimeout(() => {
+          this.handleQueue();
+        }, 300);
+      });
+    }
+  }
+
+  create({ message, dismissLabel = "dismiss", acceptLabel = null, template, parent }) {
+    if (!message && !template) throw Error('Either `message` or `template` is required');
+    if (!template && !dismissLabel && !acceptLabel) throw Error('When not using a `template` you are required to provide either a `dismissLabel` or an `acceptLabel`');
+
+    const uid = _core_Utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].uid();
+    if (!template) template = this.template(message, dismissLabel, acceptLabel, uid);
+
+    // try to find the correct parent if not passed in
+    let parentElement = parent || document.querySelector('mdw-page > mdw-top-app-bar');
+    if (!parentElement) parentElement = document.querySelector('mdw-page');
+    if (!parentElement) parentElement = document.querySelector('body');
+
+    let bannerElement = undefined;
+    if (parentElement.nodeName === 'MDW-TOP-APP-BAR') {
+      parentElement.insertAdjacentHTML('afterend', template);
+      bannerElement = document.querySelector(`mdw-banner#${uid}`);
+    } else {
+      parentElement.insertAdjacentHTML('afterbegin', template);
+      bannerElement = document.querySelector(`mdw-banner#${uid}`);
+    }
+
+    let resolver;
+    const promise = new Promise(resolve => {
+      resolver = resolve;
+    });
+
+    // NOTE may need timeout
+    this.add(bannerElement, resolver);
+    return promise;
+  }
+
+  template(message, dismissLabel, acceptLabel, uid) {
+    return `
+      <mdw-banner id="${uid}" class="mdw-elevation-1">
+        <div>${message}</div>
+        <div>
+          ${dismissLabel ? `<mdw-button onclick="${uid}.dismiss()" class="mdw-secondary">${dismissLabel}</mdw-button>` : ''}
+          ${acceptLabel ? `<mdw-button onclick="${uid}.accept()" class="mdw-secondary">${acceptLabel}</mdw-button>` : ''}
+        </div>
+      </mdw-banner>
+    `;
+  }
+}
+
+window.MDWBanner = MDWBanner;
+
+/* harmony default export */ __webpack_exports__["default"] = (MDWBanner);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPhone", function() { return isPhone; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPhoneAndTablet", function() { return isPhoneAndTablet; });
+const isPhone = isPhoneCheck();
+const isPhoneAndTablet = isPhoneAndTabletCheck();
+
+function isPhoneAndTabletCheck() {
+  if (false) {}
+  var check = false;
+  (function (a) {
+    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;
+  })(navigator.userAgent || navigator.vendor || window.opera);
+  return check;
+}
+
+function isPhoneCheck() {
+  if (false) {}
+  var check = false;
+  (function (a) {
+    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;
+  })(navigator.userAgent || navigator.vendor || window.opera);
+  return check;
+}
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const MDWSnackbar = new class {
+  constructor() {
+    this.queue = [];
+  }
+
+  add(el) {
+    this.queue.push({el});
+    this.handleQueue();
+  }
+
+  remove(el, ok) {
+    if (this.current && this.current.el === el) el._close(ok);
+    else this.queue = this.queue.filter(e => e.el !== el);
+  }
+
+  handleQueue() {
+    if (this.queue.length === 0) return;
+
+    if (!this.current) {
+      this.current = this.queue.shift();
+      this.current.el._open();
+      this.current.el.addEventListener('close', () => {
+        this.current = undefined;
+        setTimeout(() => {
+          this.handleQueue();
+        }, 300);
+      });
+    }
+  }
+
+  show({ message, actionLabel, position }) {
+    return new Promise(resolve => {
+      const id = this.uid();
+      const template = this.template({ id, message, actionLabel });
+
+      this.topLevelElement.insertAdjacentHTML('beforeend', template);
+      const el = document.querySelector(`#${id}`);
+      const onclose = (e) => {
+        resolve(e.detail.ok);
+        el.removeEventListener('close', onclose);
+        el.remove();
+      };
+      el.addEventListener('close', onclose);
+      if (position) el.setPosition(position);
+      el.show();
+    });
+  }
+
+  get topLevelElement() {
+    let el = document.body.querySelector('mdw-content');
+    if (el) return el;
+
+    el = document.bodyquerySelector('mdw-body');
+    if (el) return el;
+
+    return document.body;
+  }
+
+  uid() {
+    return `snackbar_${parseInt(Math.random() * 99999)}`;
+  }
+
+  template({ id, message, actionLabel }) {
+    return `
+      <mdw-snackbar id="${id}">
+        <mdw-panel>
+          <mdw-snackbar-container>
+            <mdw-snackbar-content>${message}</mdw-snackbar-content>
+            <mdw-snackbar-actions>
+              ${!!actionLabel ? `<mdw-button class="mdw-action-button">${actionLabel}</mdw-button>` : ''}
+              <mdw-button onclick="${id}.close(true)" class="mdw-close-button mdw-icon">
+                <mdw-icon>close</mdw-icon>
+              </mdw-button>
+            </mdw-snackbar-actions>
+          </mdw-snackbar-container>
+        </mdw-panel>
+      </mdw-snackbar>
+    `;
+  }
+}
+
+window.MDWSnackbar = MDWSnackbar;
+
+/* harmony default export */ __webpack_exports__["default"] = (MDWSnackbar);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
     :root {
       /* --- text --- */
       --mdw-theme-text--primary--light: #ffffff;
@@ -374,18 +1595,5869 @@
       --mdw-theme-palette--deeporange--light: var(--mdw-theme-palette--deeporange-500);
       --mdw-theme-palette--deeporange--dark: var(--mdw-theme-palette--deeporange-200);
     }
-  `}},function(e,t,n){"use strict";n.r(t),n.d(t,"default",function(){return i});class i extends HTMLElement{constructor(e){super()}cloneTemplate(e){const t=document.getElementById(`${this.nodeName.toLowerCase()}--template`).content,n=this.shadowRoot?this.shadowRoot:this.attachShadow({mode:"open"}),i=t.cloneNode(!0);e&&(i.querySelector("render-block").innerHTML=this.template()),n.appendChild(i)}render(){const e=this.shadowRoot.querySelector("render-block");if(!e)throw Error("Could not find <render-block>");this.removeEvents&&this.removeEvents(),this.beforeRender&&this.beforeRender(),e.innerHTML=this.template(),this.afterRender&&this.afterRender(),this.addEvents&&this.addEvents()}beforeRender(){}afterRender(){}addEvents(){}removeEvents(){}styles(){}externalStyles(){}template(){}}},function(e,t,n){"use strict";function i(e,...t){let n="",i=0;const s=e.length;for(;i<s;i+=1)i>0&&(n+=t[i-1]),n+=e[i];return n}n.r(t),n.d(t,"html",function(){return i}),n.d(t,"css",function(){return s});const s=i,o={html:i,css:s};t.default=o},function(e,t,n){"use strict";n.r(t),n.d(t,"default",function(){return i});class i{get local(){return this.locale_}set local(e){this.locale_=e}get timezone(){return this.timezone_}set timezone(e){this.timezone_=e}getYear(e){return e.getFullYear()}getMonth(e){return e.getMonth()}getDate(e){return e.getDate()}getMonthNames(e){const t=new Intl.DateTimeFormat(this.locale,{month:e,timeZone:this.timezone});return range(12,e=>this._stripDirectionalityCharacters(this._format(t,new Date(2017,e,1))))}getDateNames(){const e=new Intl.DateTimeFormat(this.locale,{day:"numeric",timeZone:this.timezone});return range(31,t=>this._stripDirectionalityCharacters(this._format(e,new Date(2017,0,t+1))))}getDayOfWeekNames(e){const t=new Intl.DateTimeFormat(this.locale,{weekday:e,timeZone:this.timezone});return range(7,e=>this._stripDirectionalityCharacters(this._format(t,new Date(2017,0,e+1))))}getYearName(e){const t=new Intl.DateTimeFormat(this.locale,{year:"numeric",timeZone:this.timezone});return this._stripDirectionalityCharacters(this._format(t,e))}getFirstDayOfWeek(){return 0}getNumDaysInMonth(e){return this.getDate(this._createDateWithOverflow(this.getYear(e),this.getMonth(e)+1,0))}clone(e){return new Date(e.getTime())}today(){return new Date}createDate(e,t,n){if(t<0||t>11)throw Error(`Invalid month index "${t}". Month index has to be between 0 and 11.`);if(n<1)throw Error(`Invalid date "${n}". Date has to be greater than 0.`);let i=this._createDateWithOverflow(e,t,n);if(i.getMonth()!=t)throw Error(`Invalid date "${n}" for month with index "${t}".`);return i}parse(e){return"number"==typeof e?new Date(e):e?new Date(Date.parse(e)):null}format(e,t){if(!this.isValid(e))throw Error("NativeDateAdapter: Cannot format invalid date.");t={...t,timeZone:this.timeZone};const n=new Intl.DateTimeFormat(this.locale,t);return this._stripDirectionalityCharacters(this._format(n,e))}toIso8601(e){return[e.getUTCFullYear(),this._2digit(e.getUTCMonth()+1),this._2digit(e.getUTCDate())].join("-")}isValid(e){return!isNaN(e.getTime())}_createDateWithOverflow(e,t,n){const i=new Date(e,t,n);return e>=0&&e<100&&i.setFullYear(this.getYear(i)-1900),i}_stripDirectionalityCharacters(e){return e.replace(/[\u200e\u200f]/g,"")}_format(e,t){const n=new Date(Date.UTC(t.getFullYear(),t.getMonth(),t.getDate(),t.getHours(),t.getMinutes(),t.getSeconds(),t.getMilliseconds()));return e.format(n)}}},function(e,t,n){"use strict";n.r(t);const i=new class{constructor(){this.currentDialog=null}show({title:e,message:t,okLabel:n,cancelLabel:i,position:s="center center",clickOutsideClose:o=!1}){return new Promise(r=>{const a=this.uid(),d=this.template({id:a,title:e,message:t,okLabel:n,cancelLabel:i,position:s});document.body.insertAdjacentHTML("beforeend",d);const l=document.querySelector(`#${a}`),h=e=>{r(e.detail.ok),l.removeEventListener("close",h),l.remove(),this.currentDialog=null};l.addEventListener("close",h),l.clickOutsideClose=o,this.currentDialog=l,setTimeout(()=>{l.show()},0)})}removeCurrent(){this.currentDialog.close()}uid(){return`dialog_${parseInt(99999*Math.random())}`}template({id:e,title:t,message:n,okLabel:i,cancelLabel:s,position:o}){return`\n      <mdw-dialog id="${e}">\n        <mdw-panel mdw-position="${o}">\n          <mdw-dialog-container>\n            ${t?`<mdw-dialog-title>${t}</mdw-dialog-title>`:""}\n            <mdw-dialog-content>${n}</mdw-dialog-content>\n            <mdw-dialog-actions>\n              ${s?`<mdw-button class="mdw-error" onclick="${e}.close(false)">${s}</mdw-button>`:""}\n              ${i?`<mdw-button onclick="${e}.close(true)">${i}</mdw-button>`:""}\n            </mdw-dialog-actions>\n          </mdw-dialog-container>\n        </mdw-panel>\n      </mdw-dialog>\n    `}};window.MDWDialog=i,t.default=i},function(e,t,n){n(8),n(0),n(9),n(13),n(14),n(15),n(16),n(4),n(17),n(18),n(19),n(20),n(21),n(22),n(23),n(11),n(24),n(25),n(26),n(27),n(28),n(29),n(30),n(31),n(32),n(33),n(34),n(35),n(36),n(37),n(38),n(39),n(40),n(41),n(42),n(6),n(43),n(44),n(45),n(46),n(47),n(48),n(49),n(50),n(7),n(10),n(3),n(5),n(2),n(51),n(1),e.exports=n(52)},function(e,t){window.addEventListener("DOMContentLoaded",function(){var e=document.createElement("template");e.setAttribute("id","mdw-button--template"),e.innerHTML='\n    <style>\n      :host {\n        user-select: none;\n        align-items: center;\n        border: none;\n        border-radius: 4px;\n        box-sizing: border-box;\n        display: inline-flex;\n        font-family: Roboto, sans-serif;\n        font-size: 1rem;\n        font-weight: 500;\n        height: 36px;\n        justify-content: center;\n        letter-spacing: 0.08929em;\n        line-height: 2.25rem;\n        min-width: 64px;\n        outline: none;\n        overflow: hidden;\n        padding: 0 8px 0 8px;\n        position: relative;\n        text-decoration: none;\n        text-transform: uppercase;\n        vertical-align: middle;\n        will-change: transform, opacity;\n        margin: 0;\n        color: var(--mdw-theme-text--on-surface);\n        background-color: transparent;\n      }\n      \n      :host(.mdw-full-height) {\n        height: 48px;\n      }\n      \n      :host(.mdw-full-width) {\n        margin: 0;\n        padding: 0;\n        width: 100%;\n        border-radius: 0;\n      }\n      \n      :host::before,\n      :host::after {\n        position: absolute;\n        border-radius: 50%;\n        opacity: 0;\n        pointer-events: none;\n        content: "";\n        top: calc(50% - 100%);\n        left: calc(50% - 100%);\n        width: 200%;\n        height: 200%;\n        background-color: var(--mdw-theme-foreground);\n      }\n      \n      :host::before {\n        transition: opacity 15ms linear,\n                    background-color 15ms linear;\n        z-index: 1;\n      }\n      \n      :host(:hover) {\n        cursor: pointer;\n      }\n      \n      :host([disabled]) {\n        background-color: transparent !important;\n        color: rgba(var(--mdw-theme-text--on-surface--rgb), 0.37);\n        cursor: default;\n        pointer-events: none;\n      }\n      \n      :host::-moz-focus-inner {\n        padding: 0;\n        border: 0;\n      }\n      \n      :host(:active) {\n        outline: none;\n      }\n      \n      :host(.mdw-raised),\n      :host(.mdw-unelevated) {\n        background-color: white;\n        color: #000000;\n        padding: 0 16px 0 16px;\n      }\n      \n      :host(.mdw-raised)::before,\n      :host(.mdw-unelevated)::before {\n        opacity: 0.08;\n      }\n      \n      :host(.mdw-raised) {\n        -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n                box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n        -webkit-transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);\n        transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);\n        -o-transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);\n        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);\n        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);\n      }\n      \n      :host(.mdw-raised:hover),\n      :host(.mdw-raised:focus) {\n        -webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n                box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n      }\n      \n      :host(.mdw-raised:active) {\n        -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);\n                box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);\n      }\n      \n      :host(.mdw-raised[disabled]) {\n        -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);\n                box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);\n      }\n      \n      :host(.mdw-outlined) {\n        border-color: rgba(0, 0, 0, 0.37);\n        line-height: inherit;\n        border-style: solid;\n        padding: 0 14px 0 14px;\n        border-width: 2px;\n      }\n      \n      :host(.mdw-shaped) {\n        border-radius: 18px;\n      }\n      \n      :host(.mdw-dense) {\n        border-radius: 4px;\n        height: 32px;\n        font-size: .8125rem;\n        line-height: inherit;\n      }\n      \n      :host(.mdw-dense.mdw-shaped) {\n        border-radius: 16px;\n      }\n      \n      :host(.mdw-icon) {\n        border-radius: 50%;\n        min-width: 0;\n        width: 48px;\n        height: 48px;\n        padding: 12px;\n      }\n      \n      :host(.mdw-bottom-navigation) {\n        border-radius: 50%;\n        min-width: 0;\n        max-width: 100px;\n        width: 56px;\n        height: 56px;\n        padding: 28px;\n      }\n      \n      :host(.mdw-icon) ::slotted(mdw-icon) {\n        line-height: 36px;\n        font-weight: normal;\n        font-style: normal;\n        font-size: 24px;\n        letter-spacing: normal;\n        text-transform: none;\n        display: inline-block;\n        white-space: nowrap;\n        word-wrap: normal;\n        direction: ltr;\n      }\n      \n      /* mdw-icon */\n      ::slotted(mdw-icon) {\n        width: 18px;\n        height: 18px;\n        font-size: 18px;\n        margin-left: -4px;\n        margin-right: 2px;\n        vertical-align: top;\n        line-height: 36px;\n      }\n      \n      :host ::slotted(svg.mdw-icon) {\n        fill: currentColor;\n      }\n      \n      \n      /* primary */\n      \n      :host(.mdw-primary) {\n        color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-primary.mdw-raised),\n      :host(.mdw-primary.mdw-unelevated)  {\n        background-color: var(--mdw-theme-primary);\n        color: var(--mdw-theme-text--on-primary);\n      }\n      \n      :host(.mdw-primary.mdw-outlined) {\n        border-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-primary)::before,\n      :host(.mdw-primary)::after {\n        background-color: var(--mdw-theme-primary);\n      }\n      \n      \n      /* secondary */\n      \n      :host(.mdw-secondary) {\n        color: var(--mdw-theme-secondary);\n      }\n      \n      :host(.mdw-secondary.mdw-raised),\n      :host(.mdw-secondary.mdw-unelevated) {\n        background-color: var(--mdw-theme-secondary);\n        color: var(--mdw-theme-text--on-secondary);\n      }\n      \n      :host(.mdw-secondary.mdw-outlined) {\n        border-color: var(--mdw-theme-secondary);\n      }\n      \n      :host(.mdw-secondary)::before,\n      :host(.mdw-secondary)::after {\n        background-color: var(--mdw-theme-secondary);\n      }\n      \n      /* error */\n      \n      :host(.mdw-error) {\n        color: var(--mdw-theme-error);\n      }\n      \n      :host(.mdw-error.mdw-raised),\n      :host(.mdw-error.mdw-unelevated) {\n        background-color: var(--mdw-theme-error);\n        color: var(--mdw-theme-text--on-error);\n      }\n      \n      :host(.mdw-error.mdw-outlined) {\n        border-color: var(--mdw-theme-error);\n      }\n      \n      :host(.mdw-error)::before,\n      :host(.mdw-error)::after {\n        background-color: var(--mdw-theme-error);\n      }\n      \n      :host(:not(.mdw-bottom-navigation):hover)::before {\n        opacity: 0.04;\n      }\n      \n      :host(.mdw-show-spinner) span.text {\n        opacity: 0;\n      }\n      \n      /* --- Ripple --- */\n      \n      .mdw-ripple {\n        overflow: hidden;\n      }\n      \n      .mdw-ripple.mdw-ripple-unbounded {\n        overflow: visible;\n      }\n      \n      .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);\n        position: absolute;\n        border-radius: 50%;\n        pointer-events: none;\n        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);\n        transform: scale(0);\n      }\n      \n      .mdw-button-ripple,\n      .mdw-button-focus-overlay {\n        border-radius: inherit;\n        position: absolute;\n        top: 0;\n        left: 0;\n        bottom: 0;\n        right: 0;\n        pointer-events: none;\n      }\n      \n      \n      :host(.mdw-primary) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);\n      }\n      \n      :host(.mdw-primary.mdw-raised) .mdw-ripple-element,\n      :host(.mdw-primary.mdw-unelevated) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);\n      }\n      \n      :host(.mdw-secondary) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);\n      }\n      \n      :host(.mdw-secondary.mdw-raised) .mdw-ripple-element,\n      :host(.mdw-secondary.mdw-unelevated) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);\n      }\n      \n      :host(.error) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-error--rgb), 0.16);\n      }\n      \n      :host(.error.mdw-raised) .mdw-ripple-element,\n      :host(.error.mdw-unelevated) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);\n      }\n      \n      \n      /* bottom navigation */\n      :host(.mdw-bottom-navigation) span.text {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n        font-size: 12px;\n        text-transform: none;\n        line-height: 12px;\n      }\n      \n    </style>\n    <render-block>\n      <span class="text"><slot></slot></span>\n      <span class="mdw-spinner-container"></span>\n      <div class="mdw-ripple mdw-button-ripple"></div>\n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",e);var t=document.createElement("template");t.setAttribute("id","mdw-checkbox--template"),t.innerHTML='\n    <style>\n      \n      /* --- background ---  */\n      \n      .mdw-background::before {\n        position: absolute;\n        top: 0;\n        right: 0;\n        bottom: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        transform: scale(0, 0);\n        transition: opacity 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),\n                    transform 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);\n        border-radius: 50%;\n        opacity: 0;\n        pointer-events: none;\n        content: "";\n        will-change: opacity, transform;\n      }\n      \n      .mdw-background {\n        left: 11px;\n        right: initial;\n        display: -ms-inline-flexbox;\n        display: inline-flex;\n        position: absolute;\n        top: 11px;\n        bottom: 0;\n        align-items: center;\n        justify-content: center;\n        box-sizing: border-box;\n        width: 45%;\n        height: 45%;\n        transition: background-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),\n                    border-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);\n        border: 2px solid currentColor;\n        border-radius: 2px;\n        background-color: transparent;\n        pointer-events: none;\n        will-change: background-color, border-color;\n      }\n      \n      :host([dir="rtl"]) .mdw-background {\n        left: initial;\n        right: 11px;\n      }\n      \n      .mdw-checkmark {\n        position: absolute;\n        top: 0;\n        right: 0;\n        bottom: 0;\n        left: 0;\n        width: 100%;\n        transition: opacity 180ms 0ms cubic-bezier(0.4, 0, 0.6, 1);\n        opacity: 0;\n        color: #fff;\n      }\n      \n      .mdw-checkmark:after {\n        box-sizing: border-box;\n        -webkit-transform: rotate(45deg);\n        transform: rotate(45deg);\n        position: absolute;\n        left: 4px;\n        top: 0;\n        display: table;\n        width: 6.66667px;\n        height: 13.33333px;\n        border-width: 2px;\n        border-style: solid;\n        border-top: 0;\n        border-left: 0;\n        content: "";\n      }\n      \n      input:indeterminate + .mdw-background .mdw-checkmark {\n        transform: rotate(45deg);\n        transition: opacity 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),\n                    transform 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);\n        opacity: 0;\n      }\n      \n      input:indeterminate + .mdw-background .mdw-mixedmark {\n        width: 100%;\n        height: 0;\n        transform: scaleX(0) rotate(0deg);\n        transition: opacity 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),\n                    transform 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);\n        border-width: 1px;\n        border-style: solid;\n        opacity: 0;\n        border-color: #fff;\n      }\n      \n      @media screen and (-ms-high-contrast: active) {\n        .mixedmark {\n          margin: 0 1px;\n        }\n      }\n      \n      path {\n        transition: stroke-dashoffset 180ms 0ms cubic-bezier(0.4, 0, 0.6, 1);\n        stroke: currentColor;\n        stroke-width: 3.12px;\n        stroke-dashoffset: 29.78334;\n        stroke-dasharray: 29.78334;\n      }\n      \n      \n      \n      /* --- input --- */\n      \n      input {\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        margin: 0;\n        padding: 0;\n        opacity: 0;\n        cursor: inherit;\n      }\n      \n      input:enabled:not(:checked):not(:indeterminate) + .mdw-background {\n        border-color: var(--mdw-theme-checkboxborder);\n        background-color: transparent;\n      }\n      \n      input:disabled:not(:checked):not(:indeterminate) + .mdw-background {\n        border-color: var(--mdw-theme-checkboxborderdisabled);\n      }\n      \n      input:disabled:checked + .mdw-background,\n      input:disabled:indeterminate + .mdw-background {\n        border-color: transparent;\n        background-color: var(--mdw-theme-checkboxborderdisabled);\n      }\n      \n      input:checked + .mdw-background,\n      input:indeterminate + .mdw-background {\n        transition: border-color 90ms 0ms cubic-bezier(0, 0, 0.2, 1),\n                    background-color 90ms 0ms cubic-bezier(0, 0, 0.2, 1);\n      }\n      \n      input:checked + .mdw-background path,\n      input:indeterminate + .mdw-background path {\n        stroke-dashoffset: 0;\n      }\n      \n      input:focus + .mdw-background::before {\n        transform: scale(2.75, 2.75);\n        transition: opacity 80ms 0ms cubic-bezier(0, 0, 0.2, 1),\n                    transform 80ms 0ms cubic-bezier(0, 0, 0.2, 1);\n        opacity: 0.12;\n      }\n      \n      input:disabled {\n        cursor: default;\n        pointer-events: none;\n      }\n      \n      input:checked + .mdw-background .mdw-checkmark {\n        transition: opacity 180ms 0ms cubic-bezier(0, 0, 0.2, 1),\n                    transform 180ms 0ms cubic-bezier(0, 0, 0.2, 1);\n        opacity: 1;\n      }\n      \n      input:checked + .mdw-background .mdw-mixedmark {\n        transform: scaleX(1) rotate(-45deg);\n      }\n      \n      input:indeterminate + .mdw-background .mdw-checkmark {\n        transform: rotate(45deg);\n        transition: opacity 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),\n                    transform 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);\n        opacity: 0;\n      }\n      \n      input:indeterminate + .mdw-background .mdw-mixedmark {\n        transform: scaleX(1) rotate(0deg);\n        opacity: 1;\n      }\n      \n      input:enabled:checked ~ .mdw-background,\n      input:enabled:indeterminate ~ .mdw-background {\n        border-color: var(--mdw-theme-secondary);\n        background-color: var(--mdw-theme-secondary);\n      }\n      \n      :host(.mdw-primary) input:enabled:checked ~ .mdw-background,\n      :host(.mdw-primary) input:enabled:indeterminate ~ .mdw-background {\n        border-color: var(--mdw-theme-primary);\n        background-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-error) input:enabled:checked ~ .mdw-background,\n      :host(.mdw-error) input:enabled:indeterminate ~ .mdw-background {\n        border-color: var(--mdw-theme-error);\n        background-color: var(--mdw-theme-error);\n      }\n      \n      \n      \n      /* --- Ripple --- */\n      \n      .mdw-ripple {\n        overflow: hidden;\n      }\n      \n      .mdw-ripple.mdw-ripple-unbounded {\n        overflow: visible;\n      }\n      \n      .mdw-ripple-element {\n        position: absolute;\n        border-radius: 50%;\n        pointer-events: none;\n        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);\n        transform: scale(0);\n        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);\n      }\n      \n      .mdw-checkbox-ripple {\n        position: absolute;\n        left: 0;\n        top: 0;\n        right: 0;\n        bottom: 0;\n        border-radius: 50%;\n        z-index: 1;\n        pointer-events: none;\n      }\n      \n      :host(.mdw-primary) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);\n      }\n      \n      :host(.mdw-error) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-error--rgb), 0.16);\n      }\n      \n    </style>\n    <render-block>\n      <input type="checkbox">\n      <div class="mdw-background">\n        <div class="mdw-checkmark"></div>\n        <div class="mdw-mixedmark"></div>\n      </div>\n      <div class="mdw-ripple mdw-checkbox-ripple"></div>\n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",t);var n=document.createElement("template");n.setAttribute("id","mdw-circular-progress--template"),n.innerHTML='\n    <style>\n      :host {\n        display: block;\n        position: relative;\n      }\n      \n      svg {\n        position: absolute;\n        transform: rotate(-90deg);\n        top: 0;\n        left: 0;\n        transform-origin: center;\n        overflow: visible;\n      }\n      \n      circle {\n        fill: transparent;\n        transform-origin: center;\n        transition: stroke-dashoffset 225ms linear;\n        stroke: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-white) circle {\n        stroke: white;\n      }\n      \n      :host(.mdw-grey) circle {\n        stroke: grey;\n      }\n      \n      :host(.mdw-secondary) circle {\n        stroke: var(--mdw-theme-secondary);\n      }\n      \n      :host(.mdw-error) circle {\n        stroke: var(--mdw-theme-error);\n      }\n      \n      :host([mdw-mode=\'indeterminate\']) {\n        animation: mat-progress-spinner-linear-rotate 2000ms linear infinite;\n      }\n      \n      :host([mdw-mode=\'indeterminate\']) circle {\n        transition-property: stroke;\n        animation-duration: 4000ms;\n        animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);\n        animation-iteration-count: infinite;\n      }\n      \n      @keyframes mat-progress-spinner-linear-rotate {\n        0%       { transform: rotate(0deg); }\n        100%     { transform: rotate(360deg); }\n      }\n      \n      @keyframes mat-progress-spinner-stroke-rotate-100 {\n        0% {\n          stroke-dashoffset: 268.606171575px;\n          transform: rotate(0);\n        }\n        12.5% {\n          stroke-dashoffset: 56.5486677px;\n          transform: rotate(0);\n        }\n        12.5001% {\n          stroke-dashoffset: 56.5486677px;\n          transform: rotateX(180deg) rotate(72.5deg);\n        }\n        25% {\n          stroke-dashoffset: 268.606171575px;\n          transform: rotateX(180deg) rotate(72.5deg);\n        }\n        25.0001% {\n          stroke-dashoffset: 268.606171575px;\n          transform: rotate(270deg);\n        }\n        37.5% {\n          stroke-dashoffset: 56.5486677px;\n          transform: rotate(270deg);\n        }\n        37.5001% {\n          stroke-dashoffset: 56.5486677px;\n          transform: rotateX(180deg) rotate(161.5deg);\n        }\n        50% {\n          stroke-dashoffset: 268.606171575px;\n          transform: rotateX(180deg) rotate(161.5deg);\n        }\n        50.0001% {\n          stroke-dashoffset: 268.606171575px;\n          transform: rotate(180deg);\n        }\n        62.5% {\n          stroke-dashoffset: 56.5486677px;\n          transform: rotate(180deg);\n        }\n        62.5001% {\n          stroke-dashoffset: 56.5486677px;\n          transform: rotateX(180deg) rotate(251.5deg);\n        }\n        75% {\n          stroke-dashoffset: 268.606171575px;\n          transform: rotateX(180deg) rotate(251.5deg);\n        }\n        75.0001% {\n          stroke-dashoffset: 268.606171575px;\n          transform: rotate(90deg);\n        }\n        87.5% {\n          stroke-dashoffset: 56.5486677px;\n          transform: rotate(90deg);\n        }\n        87.5001% {\n          stroke-dashoffset: 56.5486677px;\n          transform: rotateX(180deg) rotate(341.5deg);\n        }\n        100% {\n          stroke-dashoffset: 268.606171575px;\n          transform: rotateX(180deg) rotate(341.5deg);\n        }\n      }\n      \n    </style>\n    <render-block>\n      \n            <svg style="width: undefinedpx; height: undefinedpx;">\n              <circle\n                cx="50%"\n                cy="50%"\n                r="NaN"\n                style="\n                  animation-name: mat-progress-spinner-stroke-rotate-undefined;\n                  stroke-dasharray: NaNpx;\n                  stroke-width: NaN%;\n                "\n                ></circle>\n            </svg>\n          \n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",n);var i=document.createElement("template");i.setAttribute("id","mdw-expander-content--template"),i.innerHTML="\n    <style>\n      \n    </style>\n    <render-block>\n      <slot></slot>\n    </render-block>\n  ",document.body.insertAdjacentElement("beforeend",i);var s=document.createElement("template");s.setAttribute("id","mdw-fab--template"),s.innerHTML='\n    <style>\n      :host(.mdw-show-spinner) span.text {\n        opacity: 0;\n      }\n      \n      /* --- Ripple --- */\n      \n      .mdw-ripple {\n        overflow: hidden;\n      }\n      \n      .mdw-ripple.mdw-ripple-unbounded {\n        overflow: visible;\n      }\n      \n      .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);\n        position: absolute;\n        border-radius: 50%;\n        pointer-events: none;\n        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);\n        transform: scale(0);\n      }\n      \n      .mdw-fab-ripple,\n      .mdw-fab-focus-overlay {\n        border-radius: inherit;\n        position: absolute;\n        top: 0;\n        left: 0;\n        bottom: 0;\n        right: 0;\n        pointer-events: none;\n      }\n      \n      \n      :host(.mdw-primary) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);\n      }\n      \n      :host(.mdw-secondary) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);\n      }\n      \n      :host(.mdw-error) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);\n      }\n      \n    </style>\n    <render-block>\n      <span class="text"><slot></slot></span>\n      <span class="mdw-spinner-container"></span>\n      <div class="mdw-ripple mdw-fab-ripple"></div>\n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",s);var o=document.createElement("template");o.setAttribute("id","mdw-icon--template"),o.innerHTML="\n    <style>\n      \n            :host {\n              font-family: 'Material Icons';\n              font-weight: normal;\n              font-style: normal;\n              font-size: 24px;\n              line-height: 1;\n              letter-spacing: normal;\n              text-transform: none;\n              display: inline-block;\n              white-space: nowrap;\n              word-wrap: normal;\n              direction: ltr;\n              font-feature-settings: 'liga';\n              -webkit-font-feature-settings: 'liga';\n              -webkit-font-smoothing: antialiased;\n            }\n      \n            :host img {\n              width: 24px;\n              height: 24px;\n            }\n      \n      \n            :host(.mdw-primary) {\n              color: var(--mdw-theme-primary);\n            }\n      \n            :host(.mdw-secondary) {\n              color: var(--mdw-theme-secondary);\n            }\n      \n            :host(.mdw-error) {\n              color: var(--mdw-theme-error);\n            }\n          \n    </style>\n    <render-block>\n      <slot></slot>\n    </render-block>\n  ",document.body.insertAdjacentElement("beforeend",o);var r=document.createElement("template");r.setAttribute("id","mdw-linear-progress--template"),r.innerHTML='\n    <style>\n      :host {\n        display: block;\n        position: relative;\n        width: 100%;\n        height: 4px;\n        padding-top: 0;\n        margin-bottom: 0;\n        background-color: rgba(var(--mdw-theme-primary--rgb), 0.18);\n      }\n      \n      .mdw-bar {\n        position: absolute;\n        left: 0;\n        top: 0;\n        bottom: 0;\n        width: 100%;\n        height: 4px;\n        background-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-white) {\n        background-color: rgba(255, 255, 255, 0.18);\n      }\n      \n      :host(.mdw-white) .mdw-bar {\n        background-color: white;\n      }\n      \n      :host(.mdw-grey) {\n        background-color: rgba(50, 50, 50, 0.18);\n      }\n      \n      :host(.mdw-grey) .mdw-bar {\n        background-color: grey;\n      }\n      \n      :host(.mdw-secondary) {\n        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.18);\n      }\n      \n      :host(.mdw-secondary) .mdw-bar {\n        background-color: var(--mdw-theme-secondary);\n      }\n      \n      :host(.mdw-error) {\n        background-color: rgba(var(--mdw-theme-error--rgb), 0.18);\n      }\n      \n      :host(.mdw-error) .mdw-bar {\n        background-color: var(--mdw-theme-error);\n      }\n      \n      \n      :host(.mdw-query) .mdw-bar {\n        transition: all 0.2s linear;\n        animation: query .8s infinite cubic-bezier(0.390, 0.575, 0.565, 1.000);\n      }\n      \n      @keyframes query {\n        0% {\n          opacity: 1;\n          transform: translateX(35%) scale(.3, 1);\n        }\n        100% {\n          opacity: 0;\n          transform: translateX(-50%) scale(0, 1);\n        }\n      }\n      \n    </style>\n    <render-block>\n      <div class="mdw-bar"></div>\n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",r);var a=document.createElement("template");a.setAttribute("id","mdw-select--template"),a.innerHTML='\n    <style>\n      ::slotted(label.mdw-empty-no-float) {\n        transform: none;\n      }\n      \n      :host(.mdw-focused) .mdw-select__icon {\n        transform: rotate(180deg) translateY(-5px);\n        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);\n      }\n      \n      \n      .mdw-select__icon {\n        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);\n        pointer-events: none;\n        position: absolute;\n        bottom: 23px;\n        left: auto;\n        right: 8px;\n        width: 0;\n        height: 0;\n        border-left: 5px solid transparent;\n        border-right: 5px solid transparent;\n        border-top: 5px solid var(--mdw-theme-text--on-secondary);\n      }\n      \n      ::slotted(select:focus) .mdw-select__icon,\n      :host(.mdw-focused:focus) .mdw-select__icon {\n        transform: rotate(180deg) translateY(-5px);\n        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);\n      }\n      \n      :host(:not(.mdw-select--disabled)) ::slotted(select),\n      :host(:not(.mdw-select--disabled)) .mdw-select__selected-text {\n        border-bottom-color: var(--mdw-theme-outline_border);\n        color: var(--mdw-theme-text--on-background);\n      }\n      \n      :host(.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),\n      :host(.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,\n      :host(:not(.mdw-select--disabled)) ::slotted(select:focus),\n      :host(.mdw-focused:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {\n        border-bottom: 2px solid;\n        border-bottom-color: var(--mdw-theme-primary);\n        height: calc(100% + 1px); /* add 1px to height so the text does not get pushed up by border size change */\n      }\n      \n      :host(.mdw-outlined) ::slotted(select),\n      :host(.mdw-outlined) .mdw-select__selected-text {\n        border: none;\n      }\n      \n      ::slotted(select),\n      .mdw-select__selected-text {\n        position: absolute;\n        padding: 20px 52px 4px 16px;\n        font-family: Roboto,sans-serif;\n        font-size: 1rem;\n        line-height: 1.75rem;\n        font-weight: 400;\n        letter-spacing: .009375em;\n        text-decoration: inherit;\n        text-transform: inherit;\n        box-sizing: border-box;\n        width: 100%;\n        height: 56px;\n        border: none;\n        border-bottom: 1px solid;\n        outline: none;\n        background-color: transparent;\n        color: inherit;\n        white-space: nowrap;\n        cursor: pointer;\n        appearance: none;\n        -webkit-appearance: none;\n        -moz-appearance: none;\n      }\n      \n      /* outlined */\n      :host(.mdw-outlined) ::slotted(select),\n      :host(.mdw-outlined) .mdw-select__selected-text {\n        padding: 12px 52px 12px 16px;\n        display: flex;\n        border: none;\n        background-color: transparent;\n        z-index: 1;\n      }\n      :host(.mdw-outlined) ::slotted(select) {\n        border-radius: 4px;\n      }\n      \n      ::slotted(select) {\n        border-radius: 4px 4px 0 0;\n      }\n      \n      :host([dir=rtl]) ::slotted(select),\n      ::slotted(select[dir=rtl]),\n      :host([dir=rtl]) .mdw-select__selected-text,\n      .mdw-select__selected-text[dir=rtl] {\n        padding-left: 52px;\n        padding-right: 16px;\n      }\n      \n      \n      label {\n        font-size: 1rem;\n        line-height: 1.75rem;\n        font-weight: 400;\n        letter-spacing: 0.009375em;\n        text-decoration: inherit;\n        text-transform: inherit;\n        position: absolute;\n        left: 0;\n        transform-origin: left top;\n        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);\n        line-height: 1.15rem;\n        text-align: left;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        cursor: text;\n        overflow: hidden;\n        will-change: transform;\n        transform: none;\n        pointer-events: none;\n        color: var(--mdw-theme-text--on-background);\n        z-index: 1;\n      \n        left: 16px;\n        right: initial;\n        top: 21px;\n      }\n      \n      :host(.mdw-focused) label {\n        color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-no-animation) label {\n        transition: none;\n      }\n      \n      label:not(.mdw-empty-no-float) {\n        transform: translateY(-70%) scale(0.75);\n      }\n      \n      ::slotted(select:focus) + label,\n      label.mdw-select--float-above {\n        transform: translateY(-70%) scale(0.75);\n      }\n      \n      :host(.mdw-outlined.mdw-focused) label,\n      :host(.mdw-outlined) label.mdw-select--float-above {\n        transform: translateY(-132%) scale(0.75);\n      }\n      \n      :host(.mdw-select--with-leading-icon) label {\n        left: 48px;\n        right: initial;\n      }\n      \n      :host(.mdw-outlined) label {\n        left: 15px;\n        right: initial;\n        top: 18px;\n      }\n      \n      :host(.mdw-outlined.mdw-select--with-leading-icon) label {\n        left: 36px;\n        right: initial;\n      }\n      \n      :host(.mdw-outlined.mdw-select--with-leading-icon) label.mdw-select--float-above {\n        left: 36px;\n        right: initial;\n      }\n      \n      .mdw-outlined-border-container {\n        display: -ms-flexbox;\n        display: flex;\n        position: absolute;\n        top: 0;\n        right: 0;\n        left: 0;\n        -webkit-box-sizing: border-box;\n        box-sizing: border-box;\n        width: 100%;\n        max-width: 100%;\n        height: 100%;\n        text-align: left;\n        pointer-events: none;\n      }\n      \n      .mdw-outlined-leading {\n        border-radius: 4px 0 0 4px;\n        border-left: 1px solid;\n        border-right: none;\n        width: 12px;\n      }\n      \n      .mdw-outlined-notch {\n        -ms-flex: 0 0 auto;\n        flex: 0 0 auto;\n        width: auto;\n        max-width: calc(100% - 12px * 2);\n      }\n      \n      .mdw-outlined-trailing {\n        border-left: none;\n        border-right: 1px solid;\n        border-radius: 0 4px 4px 0;\n        -ms-flex-positive: 1;\n        flex-grow: 1;\n      }\n      \n      .mdw-outlined-leading,\n      .mdw-outlined-notch,\n      .mdw-outlined-trailing {\n        box-sizing: border-box;\n        height: 100%;\n        border-top: 1px solid;\n        border-bottom: 1px solid;\n        pointer-events: none;\n      \n        border-color: var(--mdw-theme-outline_border);\n      }\n      \n      .mdw-outlined-notch {\n        border-top: none;\n      }\n      \n      :host(.mdw-focused) .mdw-outlined-leading,\n      :host(.mdw-focused) .mdw-outlined-notch,\n      :host(.mdw-focused) .mdw-outlined-trailing,\n      ::slotted(select:focus) .mdw-outlined-leading,\n      ::slotted(select:focus) .mdw-outlined-notch,\n      ::slotted(select:focus) .mdw-outlined-trailing {\n        border-width: 2px;\n        border-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.invalid) .mdw-outlined-leading,\n      :host(.invalid) .mdw-outlined-notch,\n      :host(.invalid) .mdw-outlined-trailing {\n        border-color: var(--mdw-theme-error);\n      }\n      \n    </style>\n    <render-block>\n      \n            <i class="mdw-select__icon"></i>\n            \n              <div class="mdw-select__selected-text"></div>\n            \n            <label>undefined</label>\n            <div class="mdw-line-ripple"></div>\n            \n          \n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",a);var d=document.createElement("template");d.setAttribute("id","mdw-sheet-header--template"),d.innerHTML='\n    <style>\n      :host {\n        display: block;\n        height: 56px;\n        z-index: 1;\n      }\n      \n      :host .mdw-sheet-header-fullscreen {\n        opacity: 0;\n        pointer-events: none;\n        display: inline-flex;\n        flex: 1 1 auto;\n        align-items: center;\n        box-sizing: border-box;\n        width: 100%;\n        height: 56px;\n        z-index: 1;\n        background-color: var(--mdw-theme-surface_elevation_1);\n        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);\n        box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),\n                    0 4px 5px 0 rgba(0,0,0,.14),\n                    0 1px 10px 0 rgba(0,0,0,.12);\n      }\n      \n      :host(.mdw-show-fullscreen) .mdw-sheet-header-fullscreen {\n        opacity: 1;\n        pointer-events: all;\n        position: relative;\n      }\n      \n      .mdw-sheet-header-drag-icon {\n        display: none;\n        opacity: 1;\n        width: 12%;\n        height: 4px;\n        border-radius: 2px;\n        margin: 0 auto;\n        position: relative;\n        top: 62px;\n        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);\n        background-color: #DDD;\n      }\n      \n      :host(.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {\n        display: block;\n      }\n      \n      :host(.mdw-show-fullscreen.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {\n        opacity: 0;\n      }\n      \n      \n      \n      /* collapsed header */\n      \n      .mdw-sheet-header-container {\n        display: flex;\n        opacity: 1;\n        position: relative;\n        box-sizing: border-box;\n        width: 100%;\n        height: 56px;\n        position: absolute;\n        top: 0;\n        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);\n        background-color: var(--mdw-theme-primary);\n        color: var(--mdw-theme-text--primary);\n      }\n      \n      :host(.mdw-shaped) .mdw-sheet-header-container {\n        border-radius: 8px 8px 0 0;\n      }\n      \n      :host(.mdw-sheet-disable-collapsed-header) .mdw-sheet-header-container {\n        display: none;\n      }\n      \n      :host(.mdw-show-fullscreen) .mdw-sheet-header-container {\n        opacity: 0;\n        pointer-events: none;\n      }\n      \n      :host(.mdw-hide-collapsed-header) .mdw-sheet-header-container {\n        display: none;\n      }\n      \n      :host(.mdw-two-line) .mdw-sheet-header-fullscreen,\n      :host(.mdw-two-line) .mdw-sheet-header-container {\n        height: 72px;\n      }\n      \n      :host(.mdw-three-line) .mdw-sheet-header-fullscreen,\n      :host(.mdw-three-line) .mdw-sheet-header-container {\n        height: 88px;\n      }\n      \n      :host(.mdw-two-line.mdw-shaped) .mdw-sheet-header-fullscreen,\n      :host(.mdw-two-line.mdw-shaped) .mdw-sheet-header-container {\n        border-radius: 10px 10px 0 0;\n      }\n      \n      :host(.mdw-three-line.mdw-shaped) .mdw-sheet-header-fullscreen,\n      :host(.mdw-three-line.mdw-shaped) .mdw-sheet-header-container {\n        border-radius: 12px 12px 0 0;\n      }\n      \n      :host(.mdw-white) .mdw-sheet-header-container {\n        background-color: white;\n        color: var(--mdw-theme-text--primary--on);\n        border-bottom: 1px solid var(--mdw-theme-divider--dark);\n      }\n      \n      /* sections */\n      \n      section {\n        display: flex;\n        flex: 1 1 auto;\n        flex-direction: column;\n        justify-content: center;\n        min-width: 0;\n        padding: 8px 12px;\n        z-index: 1;\n      \n        text-overflow: ellipsis;\n        white-space: nowrap;\n        overflow: hidden;\n      }\n      \n      section[align="start"] {\n        align-items: flex-start;\n        order: -1;\n      }\n      \n      section + section,\n      section[align="end"] {\n        align-items: flex-end;\n        order: 1;\n      }\n      \n      \n      /* text */\n      section .mdw-title {\n        font-size: 18px;\n        font-weight: 400;\n        letter-spacing: .0125em;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        overflow: hidden;\n        z-index: 1;\n      }\n      \n      section .mdw-subtitle {\n        font-size: 15px;\n        letter-spacing: .0125em;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        overflow: hidden;\n        z-index: 1;\n      }\n      \n      section .mdw-detail-text {\n        font-size: 12px;\n        letter-spacing: .0125em;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n        overflow: hidden;\n        z-index: 1;\n      }\n      \n    </style>\n    <render-block>\n      \n            <div class="mdw-sheet-header-drag-icon"></div>\n      \n            <div class="mdw-sheet-header-fullscreen">\n              \n                <mdw-button id="mdw-sheet-close-action" class="mdw-icon">\n                  <mdw-icon>keyboard_arrow_down</mdw-icon>\n                </mdw-button>\n              \n              \n            </div>\n      \n            <div class="mdw-sheet-header-container">\n              undefined\n            </div>\n          \n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",d);var l=document.createElement("template");l.setAttribute("id","mdw-slider--template"),l.innerHTML='\n    <style>\n      .mdw-slider__track-container {\n        position: absolute;\n        top: 50%;\n        width: 100%;\n        height: 10px;\n        margin-top: -6px;\n        overflow: hidden;\n        user-select: none;\n      }\n      \n      .mdw-slider__track {\n        position: absolute;\n        width: 100%;\n        height: 2px;\n        top: 50%;\n        user-select: none;\n        /* background-color: var(--mdw-theme-secondary); */\n      }\n      \n      /* :host(.mdw-primary) .mdw-slider__track {\n        background-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-error) .mdw-slider__track {\n        background-color: var(--mdw-theme-error);\n      } */\n      \n      \n      .mdw-slider__thumb-container {\n        position: absolute;\n        top: 50%;\n        left: 0;\n        user-select: none;\n        z-index: 2;\n      }\n      \n      .mdw-slider__thumb {\n        box-sizing: border-box;\n        width: 12px;\n        height: 12px;\n        border-radius: 50%;\n        margin-top: -50%;\n        z-index: 2;\n        background-color: var(--mdw-theme-secondary);\n        cursor: pointer;\n        user-select: none;\n      }\n      \n      :host(.mdw-primary) .mdw-slider__thumb {\n        background-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-error) .mdw-slider__thumb {\n        background-color: var(--mdw-theme-error);\n      }\n      \n      .mdw-slider__thumb-hover {\n        position: absolute;\n        box-sizing: border-box;\n        top: -12px;\n        left: -6px;\n        width: 24px;\n        height: 24px;\n        border-radius: 50%;\n        transform-origin: center center;\n        transition: opacity .1s ease-out,fill .1s ease-out,\n                    transform .1s ease-out,fill .1s ease-out;\n        opacity: 0;\n        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);\n        cursor: pointer;\n        user-select: none;\n      }\n      \n      :host(.mdw-primary) .mdw-slider__thumb-hover {\n        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);\n      }\n      \n      :host(.mdw-error) .mdw-slider__thumb-hover {\n        background-color: rgba(var(--mdw-theme-error--rgb), 0.16);\n      }\n      \n      :host(.mdw-hover) .mdw-slider__thumb-hover {\n        opacity: 1;\n      }\n      \n      :host(.mdw-pressed) .mdw-slider__thumb-hover {\n        transform: scale(1.8);\n      }\n      \n      \n      \n      \n      /* --- notches --- */\n      \n      .mdw-slider__notch-container {\n        display: flex;\n        width: 200%;\n        user-select: none;\n      }\n      \n      .mdw-slider__notch-pre-container {\n        width: 100%;\n        height: 2px;\n        display: flex;\n        flex-direction: row;\n        margin-top: 5px;\n        overflow: hidden;\n        z-index: 1;\n        background-color: var(--mdw-theme-secondary);\n        user-select: none;\n      }\n      \n      :host(.mdw-primary) .mdw-slider__notch-pre-container {\n        background-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-error) .mdw-slider__notch-pre-container {\n        background-color: var(--mdw-theme-error);\n      }\n      \n      .mdw-slider__notch-pre-container .mdw-slider__notch {\n        height: 2px;\n        flex: 1;\n        border-left: 3px solid rgba(255, 255, 255, 0.6);\n      }\n      \n      .mdw-slider__notch-post-container {\n        width: 100%;\n        height: 2px;\n        display: flex;\n        flex-direction: row;\n        margin-top: 5px;\n        overflow: hidden;\n        z-index: 1;\n        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.5);\n        user-select: none;\n      }\n      \n      :host(.mdw-primary) .mdw-slider__notch-post-container {\n        background-color: rgba(var(--mdw-theme-primary--rgb), 0.5);\n      }\n      \n      :host(.mdw-error) .mdw-slider__notch-post-container {\n        background-color: rgba(var(--mdw-theme-error--rgb), 0.5);\n      }\n      \n      .mdw-slider__notch-post-container .mdw-slider__notch {\n        height: 2px;\n        flex: 1;\n        border-left: 3px solid rgba(0, 0, 0, 0.6);\n      }\n      \n    </style>\n    <render-block>\n      \n            <div class="mdw-slider__track-container">\n              <div class="mdw-slider__track"></div>\n      \n              <div class="mdw-slider__notch-container">\n                <div class="mdw-slider__notch-pre-container">\n                  \n                </div>\n      \n                <div class="mdw-slider__notch-post-container">\n                  \n                </div>\n              </div>\n            </div>\n            <div class="mdw-slider__thumb-container">\n              <div class="mdw-slider__thumb"></div>\n              <div class="mdw-slider__thumb-hover"></div>\n            </div>\n          \n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",l);var h=document.createElement("template");h.setAttribute("id","mdw-switch--template"),h.innerHTML='\n    <style>\n      \n      .mdw-track {  \n        box-sizing: border-box;\n        width: 32px;\n        height: 14px;\n        border: 1px solid;\n        border-radius: 7px;\n        opacity: .38;\n        transition: opacity 90ms cubic-bezier(.4,0,.2,1),\n                    background-color 90ms cubic-bezier(.4,0,.2,1),\n                    border-color 90ms cubic-bezier(.4,0,.2,1);\n      }\n      \n      :host(:not(.checked)) .mdw-track {\n        background-color: var(--mdw-theme-switchtrack);\n        border-color: var(--mdw-theme-switchtrack);\n      }\n      \n      :host(.checked) .mdw-track {\n        background-color: var(--mdw-theme-secondary);\n        border-color: var(--mdw-theme-secondary);\n        opacity: .54;\n      }\n      \n      :host(.checked.mdw-primary) .mdw-track {\n        background-color: var(--mdw-theme-primary);\n        border-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.checked.mdw-error) .mdw-track {\n        background-color: var(--mdw-theme-error);\n        border-color: var(--mdw-theme-error);\n      }\n      \n      \n      \n      /* --- thumb underlay --- */\n      \n      .mdw-thumb-underlay {\n        -webkit-tap-highlight-color: rgba(0,0,0,0);\n        display: flex;\n        position: absolute;\n        will-change: transform,opacity;\n        left: -18px;\n        right: auto;\n        top: -17px;\n        align-items: center;\n        justify-content: center;\n        width: 48px;\n        height: 48px;\n        transform: translateX(0);\n        transition: transform 90ms cubic-bezier(.4,0,.2,1),\n                    background-color 90ms cubic-bezier(.4,0,.2,1),\n                    border-color 90ms cubic-bezier(.4,0,.2,1);\n      }\n      \n      :host(.checked) .mdw-thumb-underlay {\n        transform: translateX(20px);\n      }\n      \n      .mdw-thumb-underlay:after,\n      .mdw-thumb-underlay:before {\n        position: absolute;\n        border-radius: 50%;\n        opacity: 0;\n        pointer-events: none;\n        content: "";\n        background-color: var(--mdw-theme-secondary);\n      }\n      \n      :host(.mdw-primary) .mdw-thumb-underlay:after,\n      :host(.mdw-primary) .mdw-thumb-underlay:before {\n        background-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.mdw-error) .mdw-thumb-underlay:after,\n      :host(.mdw-error) .mdw-thumb-underlay:before {\n        background-color: var(--mdw-theme-error);\n      }\n      \n      .mdw-thumb-underlay:before {\n        transition: opacity 15ms linear,background-color 15ms linear;\n        z-index: 1;\n      }\n      \n      \n      \n      /* --- thumb --- */\n      \n      .mdw-thumb {\n        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),\n                    0 2px 2px 0 rgba(0,0,0,.14),\n                    0 1px 5px 0 rgba(0,0,0,.12);\n        box-sizing: border-box;\n        width: 20px;\n        height: 20px;\n        border: 10px solid;\n        border-radius: 50%;\n        pointer-events: none;\n        z-index: 1;\n      }\n      \n      :host(.checked) .mdw-thumb {\n        background-color: var(--mdw-theme-secondary);\n        border-color: var(--mdw-theme-secondary);\n      }\n      \n      :host(.checked.mdw-primary) .mdw-thumb {\n        background-color: var(--mdw-theme-primary);\n        border-color: var(--mdw-theme-primary);\n      }\n      \n      :host(.checked.mdw-error) .mdw-thumb {\n        background-color: var(--mdw-theme-error);\n        border-color: var(--mdw-theme-error);\n      }\n      \n      :host(:not(.checked)) .mdw-thumb {\n        background-color: #fff;\n        border-color: #fff;\n      }\n      \n      \n      /* --- input --- */\n      \n      input {\n        left: 0;\n        right: auto;\n        position: absolute;\n        top: 0;\n        width: 68px;\n        height: 48px;\n        margin: 0;\n        opacity: 0;\n        cursor: pointer;\n        pointer-events: auto;\n      }\n      \n      :host(.checked) input {\n        transform: translateX(-20px);\n      }\n      \n      \n      \n      /* --- ripple --- */\n      \n      .mdw-ripple {\n        overflow: hidden;\n      }\n      \n      .mdw-ripple.mdw-ripple-unbounded {\n        overflow: visible;\n      }\n      \n      .mdw-ripple-element {\n        position: absolute;\n        border-radius: 50%;\n        pointer-events: none;\n        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);\n        transform: scale(0);\n        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);\n      }\n      \n      :host(.mdw-primary) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);\n      }\n      \n      :host(.mdw-error) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-error--rgb), 0.16);\n      }\n      \n      .mdw-switch-ripple {\n        position: absolute;\n        left: 0;\n        top: 0;\n        right: 0;\n        bottom: 0;\n        border-radius: 50%;\n        z-index: 1;\n        pointer-events: none;\n      }\n      \n    </style>\n    <render-block>\n      <div class="mdw-track"></div>\n      <div class="mdw-thumb-underlay">\n        <div class="mdw-thumb">\n          <input type="checkbox" role="switch">\n          <div class="mdw-ripple mdw-switch-ripple"></div>\n        </div>\n      </div>\n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",h);var c=document.createElement("template");c.setAttribute("id","mdw-tab-body--template"),c.innerHTML="\n    <style>\n      mdw-tab-body-content {\n        height: 100%;\n        overflow: auto;\n      }\n      \n    </style>\n    <render-block>\n      <mdw-tab-body-content>\n        \x3c!-- slot is added dynamicly --\x3e\n      </mdw-tab-body-content>\n    </render-block>\n  ",document.body.insertAdjacentElement("beforeend",c);var m=document.createElement("template");m.setAttribute("id","mdw-tab-button--template"),m.innerHTML='\n    <style>\n      :host(.mdw-show-spinner) span.text {\n        opacity: 0;\n      }\n      \n      /* Add this to button or creat a new componenet mdw-tab */\n      .mdw-tab-button-indicator {\n        display: flex;\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        pointer-events: none;\n        z-index: 1;\n      }\n      \n      :host(.mdw-active) .mdw-tab-button-indicator .mdw-tab-button-indicator__content {\n        transition: transform .2s cubic-bezier(.4,0,.2,1);\n      }\n      \n      .mdw-tab-button-indicator__content {\n        opacity: 0;\n        transform-origin: left;\n      }\n      \n      :host(.mdw-active) .mdw-tab-button-indicator__content {\n        opacity: 1;\n        transform: translateX(0);\n      }\n      \n      .mdw-tab-button-indicator .mdw-tab-button-indicator__content--underline {\n        align-self: flex-end;\n        width: 100%;\n        background-color: var(--mdw-theme-primary);\n        height: 2px;\n      }\n      \n      \n      /* --- Ripple --- */\n      \n      .mdw-ripple {\n        overflow: hidden;\n      }\n      \n      .mdw-ripple.mdw-ripple-unbounded {\n        overflow: visible;\n      }\n      \n      .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);\n        position: absolute;\n        border-radius: 50%;\n        pointer-events: none;\n        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);\n        transform: scale(0);\n      }\n      \n      .mdw-tab-button-ripple,\n      .mdw-tab-button-focus-overlay {\n        border-radius: inherit;\n        position: absolute;\n        top: 0;\n        left: 0;\n        bottom: 0;\n        right: 0;\n        pointer-events: none;\n      }\n      \n      :host(.mdw-active) .mdw-ripple-element {\n        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);\n      }\n      \n    </style>\n    <render-block>\n      <span class="text"><slot></slot></span>\n      <span class="mdw-tab-button-indicator">\n        <span class="mdw-tab-button-indicator__content mdw-tab-button-indicator__content--underline"></span>\n      </span>\n      <div class="mdw-ripple mdw-tab-button-ripple"></div>\n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",m);var p=document.createElement("template");p.setAttribute("id","mdw-tabs-bar--template"),p.innerHTML="\n    <style>\n      mdw-tabs-bar-scroller {\n        display: block;\n        overflow-y: hidden;\n      }\n      \n      mdw-tabs-bar-scroller-area {\n        display: flex;\n        /* overflow-x: scroll; */\n      }\n      \n      mdw-tabs-bar-scroller-content {\n        position: relative;\n        display: flex;\n        flex: 1 0 auto;\n        transform: none;\n        will-change: transform;\n      }\n      \n      ::slotted(mdw-button) {\n        flex: 1 0 auto;\n      }\n      \n    </style>\n    <render-block>\n      <mdw-tabs-bar-scroller>\n        <mdw-tabs-bar-scroller-area>\n          <mdw-tabs-bar-scroller-content>\n            <slot></slot>\n          </mdw-tabs-bar-scroller-content>\n        </mdw-tabs-bar-scroller-area>\n      </mdw-tabs-bar-scroller>\n    </render-block>\n  ",document.body.insertAdjacentElement("beforeend",p);var u=document.createElement("template");u.setAttribute("id","mdw-tooltip--template"),u.innerHTML='\n    <style>\n      \n    </style>\n    <render-block>\n      <div class="tooltip">\n        <slot></slot>\n      </div>\n    </render-block>\n  ',document.body.insertAdjacentElement("beforeend",u)})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-autocomplete",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this._hasFilter=this.hasAttribute("filter")}connectedCallback(){const e=this.targetInput;e.setAttribute("autocomplete","off"),this._innerHTML=this.innerHTML,this._optionsData=[...this.children].reduce((e,t)=>(e[t.innerText]=t.getAttribute("value"),e),{}),this.innerHTML="",this.insertAdjacentHTML("beforeend",this.panelHTML),this.panel.innerHTML=this._innerHTML,this.panel.style.minWidth=`${this.targetInput.offsetWidth}px`,this.panel.style.transform="scale(1)",this.panel.style.top=`${this.targetInput.offsetHeight+12}px`,this.panel.ignoreElementOnClickToClose(e),this.bound_onTargetFocus=this.onTargetFocus.bind(this),this.bound_onTargetBlur=this.onTargetBlur.bind(this),this.bound_onTargetChange=this.onTargetChange.bind(this),this.bound_onTargetInput=this.onTargetInput.bind(this),this.bound_onPanelClick=this.onPanelClick.bind(this),this.bound_onPanelClose=this.onPanelClose.bind(this),this.bound_onKeyDown=this.onKeyDown.bind(this),this.debounce_filter=s.default.debounce(this.filter.bind(this),100),e.addEventListener("focus",this.bound_onTargetFocus),e.addEventListener("blur",this.bound_onTargetBlur),e.addEventListener("input",this.bound_onTargetInput),this.panel.addEventListener("MDWPanel:closed",this.bound_onPanelClose),document.body.addEventListener("keydown",this.bound_onKeyDown)}disconnectedCallback(){const e=this.targetInput;e&&(e.removeEventListener("focus",this.bound_onTargetFocus),e.removeEventListener("blur",this.bound_onTargetBlur),e.removeEventListener("change",this.bound_onTargetChange),e.removeEventListener("input",this.bound_onTargetInput)),this.panel.close(),this.panel.removeEventListener("click",this.bound_onPanelClick),this.panel.removeEventListener("MDWPanel:closed",this.bound_onPanelClose),document.body.removeEventListener("keydown",this.bound_onKeyDown)}get targetInput(){return document.body.querySelector(`input[name=${this.getAttribute("for")}]`)}get panel(){return this.panel_||(this.panel_=this.querySelector("mdw-panel")),this.panel_}get panelHTML(){return'<mdw-panel mdw-position="bottom inner-left"></mdw-panel>'}onPanelClose(e){const t=this.targetInput;this.panel.removeEventListener("click",this.bound_onPanelClick),t.removeEventListener("change",this.bound_onTargetChange)}openPanel(){const e=this.targetInput;this._focusIndex=void 0,this.panel.open(!0),this.panel.addEventListener("click",this.bound_onPanelClick),e.addEventListener("change",this.bound_onTargetChange)}onKeyDown(e){if(this.panel.isOpen())switch(e.keyCode){case 40:case 39:this.focusNext();break;case 38:case 37:this.focusPrevious();break;case 13:this.selectFocused()}else{if(!this._isInputFocused)return;27!==e.keyCode&&this.openPanel()}}onTargetFocus(e){this._isInputFocused=!0,this.openPanel()}onTargetBlur(e){this._isInputFocused=!1,this.panel.close(),this.panel.removeEventListener("click",this.bound_onPanelClick)}onTargetChange(e){}onTargetInput(e){this.panel.isOpen()?this._hasFilter&&this.debounce_filter(e.target.value):this.openPanel()}onPanelClick(e){if(e.target.hasAttribute("value")){const t=e.target.getAttribute("value");this.targetInput.parentNode.classList.add("not-empty"),this.targetInput.value=t,this.panel.close()}}filter(e){if(!this.panel.isOpen())return;const t=(e=e.toLowerCase()).length,n=Object.keys(this._optionsData).filter(n=>{const i=n.length;return!(t>i)&&(t===i?e===n:!!n.toLowerCase().includes(e))});this.panel.innerHTML=this.renderOptions(n)}renderOptions(e){return`${e.map(e=>`\n      <option value="${this._optionsData[e]}">${e}</option>\n    `).join("\n")}`}focusNext(){if(!this.panel.isOpen())return;const e=[...this.panel.children];void 0===this._focusIndex?this._focusIndex=0:this._focusIndex+=1,this._focusIndex>e.length-1&&(this._focusIndex=e.length-1),this._focusedOption&&this._focusedOption.classList.remove("mdw-focused"),this._focusedOption=e[this._focusIndex],this._focusedOption.classList.add("mdw-focused")}focusPrevious(){if(!this.panel.isOpen())return;const e=[...this.panel.children];void 0===this._focusIndex?this._focusIndex=0:this._focusIndex-=1,this._focusIndex<=0&&(this._focusIndex=0),this._focusedOption&&this._focusedOption.classList.remove("mdw-focused"),this._focusedOption=e[this._focusIndex],this._focusedOption.classList.add("mdw-focused")}selectFocused(){if(!this.panel.isOpen())return;const e=[...this.panel.children];(null==this._focusIndex||this._focusIndex>e.length-1)&&(this._focusIndex=0);const t=e[this._focusIndex].getAttribute("value");this.targetInput.parentNode.classList.add("not-empty"),this.targetInput.value=t,this.panel.close()}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-backdrop",class extends i.HTMLElementExtendedPaxComponents{constructor(){super()}connectedCallback(){}get frontElement(){return this.frontElement_||(this.frontElement_=this.querySelector("mdw-backdrop-front")),this.frontElement_}get backContentElement(){return this.backContentElement_||(this.backContentElement_=this.querySelector("mdw-backdrop-back mdw-backdrop-content")),this.backContentElement_}get backContenHeight(){const e=this.backContentElement.children,t=e[e.length-1].getBoundingClientRect();return this.backContentElement.getBoundingClientRect().y+t.y+t.height}get expanded(){return this.expanded_}toggle(){!0===this.expanded_?this.contract():this.expand()}expand(){this.frontElement.style.top=`${this.backContenHeight-56}px`,this.expanded_=!0}contract(){this.frontElement.style.top="56px",this.expanded_=!1}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(4),o=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-banner",class extends i.HTMLElementExtendedPaxComponents{constructor(){super()}connectedCallback(){this.style.marginBottom=`-${this.clientHeight+1}px`}show(){s.default.add(this)}dismiss(){s.default.remove(this)}accept(){s.default.accept(this)}_show(){this.classList.add("mdw-show")}_dissmiss(){const e=this;e.addEventListener(o.default.transitionEventName,function t(){e.removeEventListener(o.default.transitionEventName,t),e.remove()}),this.classList.add("mdw-dismiss"),this.dispatchClose()}dispatchClose(){this.dispatchEvent(new CustomEvent("close"))}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-bottom-navigation",class extends i.HTMLElementExtendedPaxComponents{constructor(){super()}connectedCallback(){[...this.querySelectorAll("mdw-button")].forEach(e=>{e.classList.add("mdw-bottom-navigation")})}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(2);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-button",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_asyncClick=this.asyncClick.bind(this),this.bound_hrefClick=this.hrefClick.bind(this),this.bound_checkHREFActive=this.checkHREFActive.bind(this),this.cloneTemplate(),this.setupAsync(),this.connectHREF()}connectedCallback(){this.ripple=new s.default({element:this.shadowRoot.querySelector(".mdw-ripple"),triggerElement:this})}disconnectedCallback(){this.ripple.destroy(),this.removeEventListener("click",this.bound_asyncClick),this.removeEventListener("click",this.bound_hrefClick),window.removeEventListener("hashchange",this.bound_checkHREFActive)}get spinnerContainer(){return this._spinnerContainer||(this._spinnerContainer=this.shadowRoot.querySelector(".mdw-spinner-container")),this._spinnerContainer}get pending(){return this.pending_}setupAsync(){this.hasAttribute("mdw-async")&&this.addEventListener("click",this.bound_asyncClick)}resolve(){!1!==this.pending_&&(this.pending_=!1,this.hideSpinner())}asyncClick(e){!0!==this.pending_&&(this.pending_=!0,this.showSpinner())}showSpinner(){this._showSpinner=!0,this.classList.add("mdw-show-spinner");const e=this.classList.contains("mdw-primary")||this.classList.contains("mdw-secondary")||this.classList.contains("mdw-error");this.spinnerContainer.innerHTML=`<mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="24" class="${e?"mdw-white":"mdw-grey"}" style="position: absolute; left: calc(50% - 12px); top: 6px;"></mdw-circular-progress>`}hideSpinner(){this._showSpinner=!1,this.classList.remove("mdw-show-spinner"),this.spinnerContainer.innerHTML=""}connectHREF(){this.hasAttribute("href")&&(this.checkHREFActive(),window.addEventListener("hashchange",this.bound_checkHREFActive),this.addEventListener("click",this.bound_hrefClick))}checkHREFActive(){if(!this.hasAttribute("href"))return;const e=document.location.href,t=document.location.hash;e===this.getAttribute("href")||e===this.getAttribute("href-alt")?this.setAttribute("active","active"):t===this.getAttribute("href")||t===this.getAttribute("href-alt")?this.setAttribute("active","active"):this.removeAttribute("active")}hrefClick(){"_blank"!==this.getAttribute("target")?document.location.href=this.getAttribute("href"):window.open(this.getAttribute("href"),"_blank")}template(){return html`
+  `;
+});
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HTMLElementExtendedPaxComponents; });
+class HTMLElementExtendedPaxComponents extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  /* Clone from pre built htmlTemplate
+   *   - Rerender: replaces html but not styles. This is usefull for dynamic templates
+   */
+  cloneTemplate(rerender) {
+    const template = document.getElementById(`${this.nodeName.toLowerCase()}--template`);
+    const templateContent = template.content;
+    const shadowRoot = this.shadowRoot ? this.shadowRoot : this.attachShadow({ mode: 'open' });
+    const clone = templateContent.cloneNode(true);
+    
+    if (rerender) {
+      // this.__isBuildProcess is present during the build process and will be undefined in the browser
+      if (!this.__isBuildProcess && this.beforeRender) this.beforeRender();
+      clone.querySelector('render-block').innerHTML = this.template();
+    }
+
+    shadowRoot.appendChild(clone);
+    if (!this.__isBuildProcess && this.afterRender) this.afterRender();
+
+  }
+
+  connectedCallback() {
+    if (!this.__isBuildProcess && this.addEvents) this.addEvents();
+  }
+
+  disconnectedCallback() {
+    if (!this.__isBuildProcess && this.removeEvents) this.removeEvents();
+  }
+
+  render() {
+    // this.__isBuildProcess is present during the build process and will be undefined in the browser
+    if (this.__isBuildProcess) return;
+
+    const renderBlock = this.shadowRoot.querySelector('render-block');
+    if (!renderBlock) throw Error('Could not find <render-block>');
+
+    if (this.removeEvents) this.removeEvents();
+    if (this.beforeRender) this.beforeRender();
+    renderBlock.innerHTML = this.template();
+    if (this.afterRender) this.afterRender();
+    if (this.addEvents) this.addEvents();
+  }
+
+  // Called before render(). placeholder, can be overidden
+  // This does not include the initial cloneNode
+  beforeRender() { }
+
+  // Called after render(). placeholder, can be overidden
+  // This does not include the initial cloneNode
+  afterRender() { }
+
+  // this is called when the component is connected
+  // This is also called after render, events are first remoed before render so you dont have multiple events
+  addEvents() { }
+
+  // this is called when the component is disconnected
+  // This is also called prior to render, after render addEvents is called. This will make sure you old elements dont retain events
+  removeEvents() { }
+
+  // add css that will be injected to the template
+  styles() { }
+
+  // add css to the document root
+  externalStyles() { }
+
+  // add html template, This will be used to create the template and direct render
+  template() { }
+}
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "css", function() { return css; });
+function html(strs, ...ev) {
+  let f = '';
+  let i = 0;
+  const len = strs.length;
+  for(; i < len; i += 1) {
+    if (i > 0) f += ev[i - 1];
+    f += strs[i];
+  }
+  return f;
+}
+
+const css = html;
+const tags = {
+  html,
+  css
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (tags);
+
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const MDWDialog = new class {
+  constructor() {
+    this.currentDialog = null;
+  }
+
+  show({ title, message, okLabel, cancelLabel, position = 'center center', clickOutsideClose = false }) {
+    return new Promise(resolve => {
+      const id = this.uid();
+      const template = this.template({ id, title, message, okLabel, cancelLabel, position });
+
+      document.body.insertAdjacentHTML('beforeend', template);
+      const el = document.querySelector(`#${id}`);
+      const onclose = (e) => {
+        resolve(e.detail.ok);
+        el.removeEventListener('close', onclose);
+        el.remove();
+        this.currentDialog = null;
+      };
+      el.addEventListener('close', onclose);
+      el.clickOutsideClose = clickOutsideClose;
+      this.currentDialog = el;
+
+      setTimeout(() => {
+        el.show();
+      }, 0);
+    });
+  }
+
+  removeCurrent() {
+    this.currentDialog.close();
+  }
+
+  uid() {
+    return `dialog_${parseInt(Math.random() * 99999)}`;
+  }
+
+  template({ id, title, message, okLabel, cancelLabel, position }) {
+    return `
+      <mdw-dialog id="${id}">
+        <mdw-panel mdw-position="${position}">
+          <mdw-dialog-container>
+            ${!!title ? `<mdw-dialog-title>${title}</mdw-dialog-title>` : ''}
+            <mdw-dialog-content>${message}</mdw-dialog-content>
+            <mdw-dialog-actions>
+              ${!!cancelLabel ? `<mdw-button class="mdw-error" onclick="${id}.close(false)">${cancelLabel}</mdw-button>` : ''}
+              ${!!okLabel ? `<mdw-button onclick="${id}.close(true)">${okLabel}</mdw-button>` : ''}
+            </mdw-dialog-actions>
+          </mdw-dialog-container>
+        </mdw-panel>
+      </mdw-dialog>
+    `;
+  }
+}
+
+window.MDWDialog = MDWDialog;
+
+/* harmony default export */ __webpack_exports__["default"] = (MDWDialog);
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(9);
+__webpack_require__(0);
+__webpack_require__(10);
+__webpack_require__(13);
+__webpack_require__(14);
+__webpack_require__(15);
+__webpack_require__(16);
+__webpack_require__(5);
+__webpack_require__(17);
+__webpack_require__(18);
+__webpack_require__(19);
+__webpack_require__(20);
+__webpack_require__(21);
+__webpack_require__(22);
+__webpack_require__(23);
+__webpack_require__(24);
+__webpack_require__(25);
+__webpack_require__(26);
+__webpack_require__(27);
+__webpack_require__(28);
+__webpack_require__(29);
+__webpack_require__(30);
+__webpack_require__(31);
+__webpack_require__(32);
+__webpack_require__(11);
+__webpack_require__(33);
+__webpack_require__(34);
+__webpack_require__(35);
+__webpack_require__(36);
+__webpack_require__(37);
+__webpack_require__(38);
+__webpack_require__(39);
+__webpack_require__(40);
+__webpack_require__(41);
+__webpack_require__(42);
+__webpack_require__(43);
+__webpack_require__(44);
+__webpack_require__(45);
+__webpack_require__(46);
+__webpack_require__(47);
+__webpack_require__(48);
+__webpack_require__(49);
+__webpack_require__(50);
+__webpack_require__(51);
+__webpack_require__(7);
+__webpack_require__(52);
+__webpack_require__(53);
+__webpack_require__(54);
+__webpack_require__(55);
+__webpack_require__(56);
+__webpack_require__(57);
+__webpack_require__(58);
+__webpack_require__(59);
+__webpack_require__(8);
+__webpack_require__(2);
+__webpack_require__(4);
+__webpack_require__(6);
+__webpack_require__(3);
+__webpack_require__(60);
+__webpack_require__(1);
+module.exports = __webpack_require__(61);
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+// create custom element templates
+window.addEventListener('DOMContentLoaded', function () {
+  
+  
+  
+  
+  var mdwbutton = document.createElement('template');
+  mdwbutton.setAttribute('id','mdw-button--template');
+  mdwbutton.innerHTML= `
+    <style>
+      :host {
+        user-select: none;
+        align-items: center;
+        border: none;
+        border-radius: 4px;
+        box-sizing: border-box;
+        display: inline-flex;
+        font-family: Roboto, sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        height: 36px;
+        justify-content: center;
+        letter-spacing: 0.08929em;
+        line-height: 2.25rem;
+        min-width: 64px;
+        outline: none;
+        overflow: hidden;
+        padding: 0 8px 0 8px;
+        position: relative;
+        text-decoration: none;
+        text-transform: uppercase;
+        vertical-align: middle;
+        will-change: transform, opacity;
+        margin: 0;
+        color: var(--mdw-theme-text--on-surface);
+        background-color: transparent;
+      }
+      
+      :host(.mdw-full-height) {
+        height: 48px;
+      }
+      
+      :host(.mdw-full-width) {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        border-radius: 0;
+      }
+      
+      :host::before,
+      :host::after {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0;
+        pointer-events: none;
+        content: "";
+        top: calc(50% - 100%);
+        left: calc(50% - 100%);
+        width: 200%;
+        height: 200%;
+        background-color: var(--mdw-theme-foreground);
+      }
+      
+      :host::before {
+        transition: opacity 15ms linear,
+                    background-color 15ms linear;
+        z-index: 1;
+      }
+      
+      :host(:hover) {
+        cursor: pointer;
+      }
+      
+      :host([disabled]) {
+        background-color: transparent !important;
+        color: rgba(var(--mdw-theme-text--on-surface--rgb), 0.37);
+        cursor: default;
+        pointer-events: none;
+      }
+      
+      :host::-moz-focus-inner {
+        padding: 0;
+        border: 0;
+      }
+      
+      :host(:active) {
+        outline: none;
+      }
+      
+      :host(.mdw-raised),
+      :host(.mdw-unelevated) {
+        background-color: white;
+        color: #000000;
+        padding: 0 16px 0 16px;
+      }
+      
+      :host(.mdw-raised)::before,
+      :host(.mdw-unelevated)::before {
+        opacity: 0.08;
+      }
+      
+      :host(.mdw-raised) {
+        -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+                box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        -webkit-transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+        transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+        -o-transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      :host(.mdw-raised:hover),
+      :host(.mdw-raised:focus) {
+        -webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+                box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+      }
+      
+      :host(.mdw-raised:active) {
+        -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+                box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+      }
+      
+      :host(.mdw-raised[disabled]) {
+        -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+                box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+      }
+      
+      :host(.mdw-outlined) {
+        border-color: rgba(0, 0, 0, 0.37);
+        line-height: inherit;
+        border-style: solid;
+        padding: 0 14px 0 14px;
+        border-width: 2px;
+      }
+      
+      :host(.mdw-shaped) {
+        border-radius: 18px;
+      }
+      
+      :host(.mdw-dense) {
+        border-radius: 4px;
+        height: 32px;
+        font-size: .8125rem;
+        line-height: inherit;
+      }
+      
+      :host(.mdw-dense.mdw-shaped) {
+        border-radius: 16px;
+      }
+      
+      :host(.mdw-icon) {
+        border-radius: 50%;
+        min-width: 0;
+        width: 48px;
+        height: 48px;
+        padding: 12px;
+      }
+      
+      :host(.mdw-bottom-navigation) {
+        border-radius: 50%;
+        min-width: 0;
+        max-width: 100px;
+        width: 56px;
+        height: 56px;
+        padding: 28px;
+      }
+      
+      :host(.mdw-icon) ::slotted(mdw-icon) {
+        line-height: 36px;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+      }
+      
+      /* mdw-icon */
+      ::slotted(mdw-icon) {
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
+        margin-left: -4px;
+        margin-right: 2px;
+        vertical-align: top;
+        line-height: 36px;
+      }
+      
+      :host ::slotted(svg.mdw-icon) {
+        fill: currentColor;
+      }
+      
+      
+      /* primary */
+      
+      :host(.mdw-primary) {
+        color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-primary.mdw-raised),
+      :host(.mdw-primary.mdw-unelevated)  {
+        background-color: var(--mdw-theme-primary);
+        color: var(--mdw-theme-text--on-primary);
+      }
+      
+      :host(.mdw-primary.mdw-outlined) {
+        border-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-primary)::before,
+      :host(.mdw-primary)::after {
+        background-color: var(--mdw-theme-primary);
+      }
+      
+      
+      /* secondary */
+      
+      :host(.mdw-secondary) {
+        color: var(--mdw-theme-secondary);
+      }
+      
+      :host(.mdw-secondary.mdw-raised),
+      :host(.mdw-secondary.mdw-unelevated) {
+        background-color: var(--mdw-theme-secondary);
+        color: var(--mdw-theme-text--on-secondary);
+      }
+      
+      :host(.mdw-secondary.mdw-outlined) {
+        border-color: var(--mdw-theme-secondary);
+      }
+      
+      :host(.mdw-secondary)::before,
+      :host(.mdw-secondary)::after {
+        background-color: var(--mdw-theme-secondary);
+      }
+      
+      /* error */
+      
+      :host(.mdw-error) {
+        color: var(--mdw-theme-error);
+      }
+      
+      :host(.mdw-error.mdw-raised),
+      :host(.mdw-error.mdw-unelevated) {
+        background-color: var(--mdw-theme-error);
+        color: var(--mdw-theme-text--on-error);
+      }
+      
+      :host(.mdw-error.mdw-outlined) {
+        border-color: var(--mdw-theme-error);
+      }
+      
+      :host(.mdw-error)::before,
+      :host(.mdw-error)::after {
+        background-color: var(--mdw-theme-error);
+      }
+      
+      :host(:not(.mdw-bottom-navigation):hover)::before {
+        opacity: 0.04;
+      }
+      
+      :host(.mdw-show-spinner) span.text {
+        opacity: 0;
+      }
+      
+      /* --- Ripple --- */
+      
+      .mdw-ripple {
+        overflow: hidden;
+      }
+      
+      .mdw-ripple.mdw-ripple-unbounded {
+        overflow: visible;
+      }
+      
+      .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
+        transform: scale(0);
+      }
+      
+      .mdw-button-ripple,
+      .mdw-button-focus-overlay {
+        border-radius: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        pointer-events: none;
+      }
+      
+      
+      :host(.mdw-primary) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
+      }
+      
+      :host(.mdw-primary.mdw-raised) .mdw-ripple-element,
+      :host(.mdw-primary.mdw-unelevated) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+      
+      :host(.mdw-secondary) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
+      }
+      
+      :host(.mdw-secondary.mdw-raised) .mdw-ripple-element,
+      :host(.mdw-secondary.mdw-unelevated) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+      
+      :host(.error) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
+      }
+      
+      :host(.error.mdw-raised) .mdw-ripple-element,
+      :host(.error.mdw-unelevated) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+      
+      
+      /* bottom navigation */
+      :host(.mdw-bottom-navigation) span.text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 12px;
+        text-transform: none;
+        line-height: 12px;
+      }
+      
+    </style>
+    <render-block>
       <span class="text"><slot></slot></span>
       <span class="mdw-spinner-container"></span>
       <div class="mdw-ripple mdw-button-ripple"></div>
-    `}get internalStylesFile(){return"./internal.css"}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-card",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.classList.add("mdw-elevation-1")}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(2);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-checkbox",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_handleChange=this.handleChange.bind(this)}connectedCallback(){this.cloneTemplate(),this.hasAttribute("indeterminate")&&(this.indeterminate=!0),this.hasAttribute("checked")&&(this.checked=!0),this.ripple=new s.default({element:this.shadowRoot.querySelector(".mdw-ripple"),triggerElement:[this.input],radius:20,centered:!0}),this.connected_=!0,this.input.addEventListener("change",this.bound_handleChange)}disconnectedCallback(){this.input.removeEventListener("change",this.bound_handleChange),this.ripple.destroy()}static get observedAttributes(){return["checked","indeterminate","disabled"]}attributeChangedCallback(e,t,n){this.connected_&&(this[e]=n)}get input(){return this.input_||(this.input_=this.shadowRoot.querySelector("input")),this.input_}get checked(){return this.input.checked}set checked(e){""===e&&(e=!0),this.input.checked=e,this.handleChange()}get indeterminate(){return this.input.indeterminate}set indeterminate(e){""===e&&(e=!0),this.input.indeterminate=e}set disabled(e){(e=!!e||""===e)?this.input.setAttribute("disabled","disabled"):this.input.removeAttribute("disabled")}handleChange(){this.dispatchEvent(new CustomEvent("change",this))}toggle(){this.checked=!this.checked}get internalStylesFile(){return"./internal.css"}template(){return html`
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwbutton);
+  
+  var mdwcheckbox = document.createElement('template');
+  mdwcheckbox.setAttribute('id','mdw-checkbox--template');
+  mdwcheckbox.innerHTML= `
+    <style>
+      
+      /* --- background ---  */
+      
+      .mdw-background::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: scale(0, 0);
+        transition: opacity 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),
+                    transform 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
+        border-radius: 50%;
+        opacity: 0;
+        pointer-events: none;
+        content: "";
+        will-change: opacity, transform;
+      }
+      
+      .mdw-background {
+        left: 11px;
+        right: initial;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        position: absolute;
+        top: 11px;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 45%;
+        height: 45%;
+        transition: background-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),
+                    border-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
+        border: 2px solid currentColor;
+        border-radius: 2px;
+        background-color: transparent;
+        pointer-events: none;
+        will-change: background-color, border-color;
+      }
+      
+      :host([dir="rtl"]) .mdw-background {
+        left: initial;
+        right: 11px;
+      }
+      
+      .mdw-checkmark {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        transition: opacity 180ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
+        opacity: 0;
+        color: #fff;
+      }
+      
+      .mdw-checkmark:after {
+        box-sizing: border-box;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        position: absolute;
+        left: 4px;
+        top: 0;
+        display: table;
+        width: 6.66667px;
+        height: 13.33333px;
+        border-width: 2px;
+        border-style: solid;
+        border-top: 0;
+        border-left: 0;
+        content: "";
+      }
+      
+      input:indeterminate + .mdw-background .mdw-checkmark {
+        transform: rotate(45deg);
+        transition: opacity 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),
+                    transform 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
+        opacity: 0;
+      }
+      
+      input:indeterminate + .mdw-background .mdw-mixedmark {
+        width: 100%;
+        height: 0;
+        transform: scaleX(0) rotate(0deg);
+        transition: opacity 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),
+                    transform 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
+        border-width: 1px;
+        border-style: solid;
+        opacity: 0;
+        border-color: #fff;
+      }
+      
+      @media screen and (-ms-high-contrast: active) {
+        .mixedmark {
+          margin: 0 1px;
+        }
+      }
+      
+      path {
+        transition: stroke-dashoffset 180ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
+        stroke: currentColor;
+        stroke-width: 3.12px;
+        stroke-dashoffset: 29.78334;
+        stroke-dasharray: 29.78334;
+      }
+      
+      
+      
+      /* --- input --- */
+      
+      input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        opacity: 0;
+        cursor: inherit;
+      }
+      
+      input:enabled:not(:checked):not(:indeterminate) + .mdw-background {
+        border-color: var(--mdw-theme-checkboxborder);
+        background-color: transparent;
+      }
+      
+      input:disabled:not(:checked):not(:indeterminate) + .mdw-background {
+        border-color: var(--mdw-theme-checkboxborderdisabled);
+      }
+      
+      input:disabled:checked + .mdw-background,
+      input:disabled:indeterminate + .mdw-background {
+        border-color: transparent;
+        background-color: var(--mdw-theme-checkboxborderdisabled);
+      }
+      
+      input:checked + .mdw-background,
+      input:indeterminate + .mdw-background {
+        transition: border-color 90ms 0ms cubic-bezier(0, 0, 0.2, 1),
+                    background-color 90ms 0ms cubic-bezier(0, 0, 0.2, 1);
+      }
+      
+      input:checked + .mdw-background path,
+      input:indeterminate + .mdw-background path {
+        stroke-dashoffset: 0;
+      }
+      
+      input:focus + .mdw-background::before {
+        transform: scale(2.75, 2.75);
+        transition: opacity 80ms 0ms cubic-bezier(0, 0, 0.2, 1),
+                    transform 80ms 0ms cubic-bezier(0, 0, 0.2, 1);
+        opacity: 0.12;
+      }
+      
+      input:disabled {
+        cursor: default;
+        pointer-events: none;
+      }
+      
+      input:checked + .mdw-background .mdw-checkmark {
+        transition: opacity 180ms 0ms cubic-bezier(0, 0, 0.2, 1),
+                    transform 180ms 0ms cubic-bezier(0, 0, 0.2, 1);
+        opacity: 1;
+      }
+      
+      input:checked + .mdw-background .mdw-mixedmark {
+        transform: scaleX(1) rotate(-45deg);
+      }
+      
+      input:indeterminate + .mdw-background .mdw-checkmark {
+        transform: rotate(45deg);
+        transition: opacity 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),
+                    transform 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
+        opacity: 0;
+      }
+      
+      input:indeterminate + .mdw-background .mdw-mixedmark {
+        transform: scaleX(1) rotate(0deg);
+        opacity: 1;
+      }
+      
+      input:enabled:checked ~ .mdw-background,
+      input:enabled:indeterminate ~ .mdw-background {
+        border-color: var(--mdw-theme-secondary);
+        background-color: var(--mdw-theme-secondary);
+      }
+      
+      :host(.mdw-primary) input:enabled:checked ~ .mdw-background,
+      :host(.mdw-primary) input:enabled:indeterminate ~ .mdw-background {
+        border-color: var(--mdw-theme-primary);
+        background-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-error) input:enabled:checked ~ .mdw-background,
+      :host(.mdw-error) input:enabled:indeterminate ~ .mdw-background {
+        border-color: var(--mdw-theme-error);
+        background-color: var(--mdw-theme-error);
+      }
+      
+      
+      
+      /* --- Ripple --- */
+      
+      .mdw-ripple {
+        overflow: hidden;
+      }
+      
+      .mdw-ripple.mdw-ripple-unbounded {
+        overflow: visible;
+      }
+      
+      .mdw-ripple-element {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
+        transform: scale(0);
+        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
+      }
+      
+      .mdw-checkbox-ripple {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
+      }
+      
+      :host(.mdw-primary) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
+      }
+      
+      :host(.mdw-error) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
+      }
+      
+    </style>
+    <render-block>
+      <input type="checkbox">
+      <div class="mdw-background">
+        <div class="mdw-checkmark"></div>
+        <div class="mdw-mixedmark"></div>
+      </div>
+      <div class="mdw-ripple mdw-checkbox-ripple"></div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwcheckbox);
+  var mdwcircularprogress = document.createElement('template');
+  mdwcircularprogress.setAttribute('id','mdw-circular-progress--template');
+  mdwcircularprogress.innerHTML= `
+    <style>
+      :host {
+        display: block;
+        position: relative;
+      }
+      
+      svg {
+        position: absolute;
+        transform: rotate(-90deg);
+        top: 0;
+        left: 0;
+        transform-origin: center;
+        overflow: visible;
+      }
+      
+      circle {
+        fill: transparent;
+        transform-origin: center;
+        transition: stroke-dashoffset 225ms linear;
+        stroke: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-white) circle {
+        stroke: white;
+      }
+      
+      :host(.mdw-grey) circle {
+        stroke: grey;
+      }
+      
+      :host(.mdw-secondary) circle {
+        stroke: var(--mdw-theme-secondary);
+      }
+      
+      :host(.mdw-error) circle {
+        stroke: var(--mdw-theme-error);
+      }
+      
+      :host([mdw-mode='indeterminate']) {
+        animation: mat-progress-spinner-linear-rotate 2000ms linear infinite;
+      }
+      
+      :host([mdw-mode='indeterminate']) circle {
+        transition-property: stroke;
+        animation-duration: 4000ms;
+        animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        animation-iteration-count: infinite;
+      }
+      
+      @keyframes mat-progress-spinner-linear-rotate {
+        0%       { transform: rotate(0deg); }
+        100%     { transform: rotate(360deg); }
+      }
+      
+      @keyframes mat-progress-spinner-stroke-rotate-100 {
+        0% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotate(0);
+        }
+        12.5% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotate(0);
+        }
+        12.5001% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotateX(180deg) rotate(72.5deg);
+        }
+        25% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotateX(180deg) rotate(72.5deg);
+        }
+        25.0001% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotate(270deg);
+        }
+        37.5% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotate(270deg);
+        }
+        37.5001% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotateX(180deg) rotate(161.5deg);
+        }
+        50% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotateX(180deg) rotate(161.5deg);
+        }
+        50.0001% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotate(180deg);
+        }
+        62.5% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotate(180deg);
+        }
+        62.5001% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotateX(180deg) rotate(251.5deg);
+        }
+        75% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotateX(180deg) rotate(251.5deg);
+        }
+        75.0001% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotate(90deg);
+        }
+        87.5% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotate(90deg);
+        }
+        87.5001% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotateX(180deg) rotate(341.5deg);
+        }
+        100% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotateX(180deg) rotate(341.5deg);
+        }
+      }
+      
+    </style>
+    <render-block>
+      
+            <svg style="width: undefinedpx; height: undefinedpx;">
+              <circle
+                cx="50%"
+                cy="50%"
+                r="NaN"
+                style="
+                  animation-name: mat-progress-spinner-stroke-rotate-undefined;
+                  stroke-dasharray: NaNpx;
+                  stroke-width: NaN%;
+                "
+                ></circle>
+            </svg>
+          
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwcircularprogress);
+  
+  
+  var mdwdatepickerdesktop = document.createElement('template');
+  mdwdatepickerdesktop.setAttribute('id','mdw-date-picker--desktop--template');
+  mdwdatepickerdesktop.innerHTML= `
+    <style>
+      .mdw-date-picker--controls-container {
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .mdw-date-picker--month-day-header {
+        color: var(--mdw-theme-text--body);
+        font-size: 12px;
+        padding: 8px 16px;
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+      }
+      
+      .mdw-date-picker--months-container {
+        overflow: hidden;
+        position: relative;
+        height: 184px;
+        width: 280px;
+      }
+      
+      mdw-date-picker--month-days {
+        position: absolute;
+        transform: translateX(0);
+        opacity: 0;
+        transition: transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+      
+      .mdw-active-month {
+        opacity: 1;
+      }
+    </style>
+    <render-block>
+      <div class="mdw-date-picker--controls-container">
+        <mdw-date-picker--year-view-button mdw-display-date=""></mdw-date-picker--year-view-button>
+        <mdw-date-picker--month-navigation-buttons></mdw-date-picker--month-navigation-buttons>
+      </div>
+      
+      <div class="mdw-date-picker--views">
+        <div class="mdw-date-picker--month-day-header">
+          <span>S</span>
+          <span>M</span>
+          <span>T</span>
+          <span>W</span>
+          <span>T</span>
+          <span>F</span>
+          <span>S</span>
+        </div>
+        
+        <div class="mdw-date-picker--months-container">
+          <mdw-date-picker--month-days class="mdw-active-month"
+            mdw-fill-month
+            mdw-display-date=""
+            mdw-selected-date=""
+            mdw-min-date=""
+            mdw-max-date=""
+            ></mdw-date-picker--month-days>
+          <mdw-date-picker--month-days
+            mdw-fill-month
+            mdw-display-date=""
+            mdw-min-date=""
+            mdw-max-date=""
+            ></mdw-date-picker--month-days>
+        </div>
+      </div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickerdesktop);
+  var mdwdatepickerviewmonthsinglemobile = document.createElement('template');
+  mdwdatepickerviewmonthsinglemobile.setAttribute('id','mdw-date-picker--view-month-single--mobile--template');
+  mdwdatepickerviewmonthsinglemobile.innerHTML= `
+    <style>
+      .mdw-date-picker--controls-container {
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 4px;
+        padding-top: 4px;
+      }
+      
+      .mdw-date-picker--body-year-view-button {
+        margin-left: 24px;
+        position: relative;
+        padding-right: 28px;
+        cursor: pointer;
+        color: var(--mdw-theme-text--body);
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .mdw-date-picker--body-year-view-button .mdw-select__icon {
+        right: 8px;
+        top: 7px;
+        width: 0;
+        height: 0;
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        position: absolute;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--mdw-theme-text--body);
+      }
+      
+      .mdw-date-picker--body-nav-buttons-container {
+        display: flex;
+        flex-direction: row;
+        padding-right: 12px;
+      }
+      
+      .mdw-date-picker--body-nav-buttons {
+        color: var(--mdw-theme-text--body);
+      }
+      
+      .mdw-date-picker--view-month-day-header {
+        color: var(--mdw-theme-text--body);
+        font-size: 12px;
+        margin-left: 12px;
+        margin-right: 12px;
+        line-height: 40px;
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+      }
+    </style>
+    <render-block>
+      <div class="mdw-date-picker--controls-container">
+        <div class="mdw-date-picker--body-year-view-button">
+          <div id="month-year-dropdown">February 2020</div>
+          <i class="mdw-select__icon"></i>
+        </div>
+      
+        <div class="mdw-date-picker--body-nav-buttons-container">
+          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--left">
+            <mdw-icon>keyboard_arrow_left</mdw-icon>
+          </mdw-button>
+      
+          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--right">
+            <mdw-icon>keyboard_arrow_right</mdw-icon>
+          </mdw-button>
+        </div>
+      </div>
+      
+      <div class="mdw-date-picker--view-month-day-header">
+        <span>S</span>
+        <span>M</span>
+        <span>T</span>
+        <span>W</span>
+        <span>T</span>
+        <span>F</span>
+        <span>S</span>
+      </div>
+      
+      <mdw-date-picker--view-month-single
+        class=""
+        mdw-display-date="Wed Feb 05 2020 19:36:11 GMT-0500 (Eastern Standard Time)"
+        mdw-selected-date=""
+        mdw-min-date=""
+        mdw-max-date=""
+        ></mdw-date-picker--view-month-single>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickerviewmonthsinglemobile);
+  var mdwdatepickerviewmonthmobile = document.createElement('template');
+  mdwdatepickerviewmonthmobile.setAttribute('id','mdw-date-picker--view-month--mobile--template');
+  mdwdatepickerviewmonthmobile.innerHTML= `
+    <style>
+      .mdw-date-picker--view-month--mobile-container {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+      }
+      
+      .mdw-date-picker--view-month--mobile-scroller {
+        display: flex;
+        width: 100%;
+        transition: transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+      
+      mdw-date-picker--view-month-single--mobile {
+        width: 100%;
+        flex-shrink: 0;
+      }
+    </style>
+    <render-block>
+      <div class="mdw-date-picker--view-month--mobile-container">
+        <div class="mdw-date-picker--view-month--mobile-scroller" style="-webkit-transform: translateX(-100%); transition: none;">
+          <mdw-date-picker--view-month-single--mobile mdw-display-date="Sun Jan 05 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
+          <mdw-date-picker--view-month-single--mobile class="mdw-active-month" mdw-display-date="Wed Feb 05 2020 19:36:11 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
+          <mdw-date-picker--view-month-single--mobile mdw-display-date="Thu Mar 05 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
+        </div>
+      </div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickerviewmonthmobile);
+  var mdwdatepickermonthdays = document.createElement('template');
+  mdwdatepickermonthdays.setAttribute('id','mdw-date-picker--month-days--template');
+  mdwdatepickermonthdays.innerHTML= `
+    <style>
+      :host {
+        width: 100%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        pointer-events: none;
+      }
+      
+      :host(.mdw-active-month) {
+        pointer-events: auto;
+      }
+      
+      .container {
+        display: grid;
+        grid-template-columns: repeat(7, 32px);
+        grid-template-rows: repeat(6, 28px);
+        grid-column-gap: 4px;
+        grid-row-gap: 0px;
+        align-items: center;
+        justify-items: center;
+        padding: 8px 16px;
+      }
+      
+      :host(.mdw-mobile) .container {
+        grid-template-columns: repeat(7, 40px);
+        grid-template-rows: repeat(6, 36px);
+        grid-column-gap: 0px;
+        padding: 0;
+      }
+      
+      .mdw-date-picker--day {
+        font-size: 13px;
+        color: var(--mdw-theme-text--heading);
+        user-select: none;
+        box-sizing: border-box;
+        cursor: pointer;
+        pointer-events: none;
+        position: relative;
+      }
+      
+      .mdw-date-picker--day::before {
+        content: "";
+        width: 28px;
+        height: 28px;
+        position: absolute;
+        top: calc(50% - 14px);
+        left: calc(50% - 14px);
+        border-radius: 50%;
+        z-index: -1;
+      }
+      
+      :host(.mdw-mobile) .mdw-date-picker--day {
+        line-height: 32px;
+      }
+      
+      .mdw-date-picker--day.mdw-interactable {
+        cursor: pointer;
+        pointer-events: auto;
+      }
+      
+      .mdw-date-picker--day.mdw-out-of-range {
+        color: rgb(140,120,120);
+        pointer-events: none;
+        cursor: auto;
+      }
+      
+      .mdw-date-picker--day.mdw-next-month {
+        color: rgb(140,140,140);
+      }
+      
+      .mdw-date-picker--day.mdw-next-month.mdw-out-of-range {
+        color: rgb(140,120,120);
+      }
+      
+      .mdw-date-picker--day.mdw-selected {
+        background-color: var(--mdw-theme-primary);
+        color: var(--mdw-theme-text--on-primary);
+      }
+      
+      .mdw-date-picker--day.mdw-selected::before {
+        background-color: var(--mdw-theme-primary);
+      }
+      
+      .mdw-date-picker--day.mdw-today::before {
+        border: 1px solid var(--mdw-theme-foreground);
+      }
+    </style>
+    <render-block>
+      <div class="container">
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div><div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div><div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div><div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div><div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div><div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+        <div class="mdw-date-picker--day mdw-next-month" mdw-date=""></div>
+      </div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickermonthdays);
+  var mdwdatepickermonthnavigationbuttons = document.createElement('template');
+  mdwdatepickermonthnavigationbuttons.setAttribute('id','mdw-date-picker--month-navigation-buttons--template');
+  mdwdatepickermonthnavigationbuttons.innerHTML= `
+    <style>
+      :host {
+        display: flex;
+        flex-direction: row;
+        padding-right: 12px;
+        height: 48px;
+      }
+      
+      mdw-button {
+        color: var(--mdw-theme-text--body);
+      }
+      
+      :host(.hide) mdw-button {
+        display: none;
+      }
+    </style>
+    <render-block>
+      <mdw-button class="mdw-icon left">
+        <mdw-icon>keyboard_arrow_left</mdw-icon>
+      </mdw-button>
+      
+      <mdw-button class="mdw-icon right">
+        <mdw-icon>keyboard_arrow_right</mdw-icon>
+      </mdw-button>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickermonthnavigationbuttons);
+  var mdwdatepickerviewmonth = document.createElement('template');
+  mdwdatepickerviewmonth.setAttribute('id','mdw-date-picker--view-month--template');
+  mdwdatepickerviewmonth.innerHTML= `
+    <style>
+      
+    </style>
+    <render-block>
+      <mdw-date-picker--view-month--desktop
+                    mdw-month-view
+                    mdw-display-date=""
+                    mdw-display-date=""
+                    mdw-min-date=""
+                    mdw-max-date=""
+                    ></mdw-date-picker--view-month--desktop>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickerviewmonth);
+  var mdwdatepickeryearviewbutton = document.createElement('template');
+  mdwdatepickeryearviewbutton.setAttribute('id','mdw-date-picker--year-view-button--template');
+  mdwdatepickeryearviewbutton.innerHTML= `
+    <style>
+      :host {
+        margin-left: 24px;
+        position: relative;
+        padding-right: 28px;
+        cursor: pointer;
+        color: var(--mdw-theme-text--body);
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .month {
+        display: inline-block;
+        line-height: 13px;
+        overflow: hidden;
+        transition: width 110ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .icon {
+        right: 8px;
+        top: 7px;
+        width: 0;
+        height: 0;
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        position: absolute;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--mdw-theme-text--body);
+      }
+      
+      :host(.mdw-open) .icon {
+        transform: rotate(180deg) translateY(-5px);
+        transform-origin: top;
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    </style>
+    <render-block>
+      <div>
+        <span class="month" style="width: 64px">February</span>
+        <span class="year">2020</span>
+      </div>
+      <i class="icon"></i>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickeryearviewbutton);
+  var mdwdatepickeryear = document.createElement('template');
+  mdwdatepickeryear.setAttribute('id','mdw-date-picker--year--template');
+  mdwdatepickeryear.innerHTML= `
+    <style>
+      :host {
+        display: block;
+        overflow-y: scroll;
+        height: 214px;
+      }
+      
+      .mdw-date-picker--year-list-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 52px);
+        grid-column-gap: 7px;
+        grid-row-gap: 4px;
+        align-items: center;
+        justify-items: center;
+        padding: 8px 16px;
+        padding-right: 20px;
+      }
+      
+      .mdw-date-picker--year-item {
+        font-size: 15px;
+        width: 100%;
+        text-align: center;
+        line-height: 28px;
+        border-radius: 14px;
+        cursor: pointer;
+        color: var(--mdw-theme-text--heading);
+      }
+      
+      .mdw-date-picker--year-item.mdw-selected {
+        background-color: var(--mdw-theme-primary);
+        color: var(--mdw-theme-text--on-primary);
+      }
+    </style>
+    <render-block>
+      <div class="mdw-date-picker--year-list-grid">
+        <div class="mdw-date-picker--year-item" mdw-year="1970">1970</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1971">1971</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1972">1972</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1973">1973</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1974">1974</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1975">1975</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1976">1976</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1977">1977</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1978">1978</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1979">1979</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1980">1980</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1981">1981</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1982">1982</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1983">1983</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1984">1984</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1985">1985</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1986">1986</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1987">1987</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1988">1988</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1989">1989</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1990">1990</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1991">1991</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1992">1992</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1993">1993</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1994">1994</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1995">1995</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1996">1996</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1997">1997</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1998">1998</div>
+        <div class="mdw-date-picker--year-item" mdw-year="1999">1999</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2000">2000</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2001">2001</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2002">2002</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2003">2003</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2004">2004</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2005">2005</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2006">2006</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2007">2007</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2008">2008</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2009">2009</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2010">2010</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2011">2011</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2012">2012</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2013">2013</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2014">2014</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2015">2015</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2016">2016</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2017">2017</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2018">2018</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2019">2019</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2020">2020</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2021">2021</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2022">2022</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2023">2023</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2024">2024</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2025">2025</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2026">2026</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2027">2027</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2028">2028</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2029">2029</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2030">2030</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2031">2031</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2032">2032</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2033">2033</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2034">2034</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2035">2035</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2036">2036</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2037">2037</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2038">2038</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2039">2039</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2040">2040</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2041">2041</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2042">2042</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2043">2043</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2044">2044</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2045">2045</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2046">2046</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2047">2047</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2048">2048</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2049">2049</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2050">2050</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2051">2051</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2052">2052</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2053">2053</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2054">2054</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2055">2055</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2056">2056</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2057">2057</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2058">2058</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2059">2059</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2060">2060</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2061">2061</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2062">2062</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2063">2063</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2064">2064</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2065">2065</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2066">2066</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2067">2067</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2068">2068</div>
+        <div class="mdw-date-picker--year-item" mdw-year="2069">2069</div>
+      </div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickeryear);
+  
+  
+  
+  
+  var mdwexpandercontent = document.createElement('template');
+  mdwexpandercontent.setAttribute('id','mdw-expander-content--template');
+  mdwexpandercontent.innerHTML= `
+    <style>
+      
+    </style>
+    <render-block>
+      <slot></slot>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwexpandercontent);
+  
+  var mdwfab = document.createElement('template');
+  mdwfab.setAttribute('id','mdw-fab--template');
+  mdwfab.innerHTML= `
+    <style>
+      :host(.mdw-show-spinner) span.text {
+        opacity: 0;
+      }
+      
+      /* --- Ripple --- */
+      
+      .mdw-ripple {
+        overflow: hidden;
+      }
+      
+      .mdw-ripple.mdw-ripple-unbounded {
+        overflow: visible;
+      }
+      
+      .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
+        transform: scale(0);
+      }
+      
+      .mdw-fab-ripple,
+      .mdw-fab-focus-overlay {
+        border-radius: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        pointer-events: none;
+      }
+      
+      
+      :host(.mdw-primary) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+      
+      :host(.mdw-secondary) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+      
+      :host(.mdw-error) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+      
+    </style>
+    <render-block>
+      <span class="text"><slot></slot></span>
+      <span class="mdw-spinner-container"></span>
+      <div class="mdw-ripple mdw-fab-ripple"></div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwfab);
+  var mdwicon = document.createElement('template');
+  mdwicon.setAttribute('id','mdw-icon--template');
+  mdwicon.innerHTML= `
+    <style>
+      
+            :host {
+              font-family: 'Material Icons';
+              font-weight: normal;
+              font-style: normal;
+              font-size: 24px;
+              line-height: 1;
+              letter-spacing: normal;
+              text-transform: none;
+              display: inline-block;
+              white-space: nowrap;
+              word-wrap: normal;
+              direction: ltr;
+              font-feature-settings: 'liga';
+              -webkit-font-feature-settings: 'liga';
+              -webkit-font-smoothing: antialiased;
+            }
+      
+            :host img {
+              width: 24px;
+              height: 24px;
+            }
+      
+      
+            :host(.mdw-primary) {
+              color: var(--mdw-theme-primary);
+            }
+      
+            :host(.mdw-secondary) {
+              color: var(--mdw-theme-secondary);
+            }
+      
+            :host(.mdw-error) {
+              color: var(--mdw-theme-error);
+            }
+          
+    </style>
+    <render-block>
+      <slot></slot>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwicon);
+  var mdwlinearprogress = document.createElement('template');
+  mdwlinearprogress.setAttribute('id','mdw-linear-progress--template');
+  mdwlinearprogress.innerHTML= `
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 4px;
+        padding-top: 0;
+        margin-bottom: 0;
+        background-color: rgba(var(--mdw-theme-primary--rgb), 0.18);
+      }
+      
+      .mdw-bar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 4px;
+        background-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-white) {
+        background-color: rgba(255, 255, 255, 0.18);
+      }
+      
+      :host(.mdw-white) .mdw-bar {
+        background-color: white;
+      }
+      
+      :host(.mdw-grey) {
+        background-color: rgba(50, 50, 50, 0.18);
+      }
+      
+      :host(.mdw-grey) .mdw-bar {
+        background-color: grey;
+      }
+      
+      :host(.mdw-secondary) {
+        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.18);
+      }
+      
+      :host(.mdw-secondary) .mdw-bar {
+        background-color: var(--mdw-theme-secondary);
+      }
+      
+      :host(.mdw-error) {
+        background-color: rgba(var(--mdw-theme-error--rgb), 0.18);
+      }
+      
+      :host(.mdw-error) .mdw-bar {
+        background-color: var(--mdw-theme-error);
+      }
+      
+      
+      :host(.mdw-query) .mdw-bar {
+        transition: all 0.2s linear;
+        animation: query .8s infinite cubic-bezier(0.390, 0.575, 0.565, 1.000);
+      }
+      
+      @keyframes query {
+        0% {
+          opacity: 1;
+          transform: translateX(35%) scale(.3, 1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(-50%) scale(0, 1);
+        }
+      }
+      
+    </style>
+    <render-block>
+      <div class="mdw-bar"></div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwlinearprogress);
+  
+  
+  
+  
+  
+  
+  var mdwselect = document.createElement('template');
+  mdwselect.setAttribute('id','mdw-select--template');
+  mdwselect.innerHTML= `
+    <style>
+      ::slotted(label.mdw-empty-no-float) {
+        transform: none;
+      }
+      
+      :host(.mdw-focused) .mdw-select__icon {
+        transform: rotate(180deg) translateY(-5px);
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      
+      .mdw-select__icon {
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        position: absolute;
+        bottom: 23px;
+        left: auto;
+        right: 8px;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--mdw-theme-text--on-secondary);
+      }
+      
+      ::slotted(select:focus) .mdw-select__icon,
+      :host(.mdw-focused:focus) .mdw-select__icon {
+        transform: rotate(180deg) translateY(-5px);
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      :host(:not(.mdw-select--disabled)) ::slotted(select),
+      :host(:not(.mdw-select--disabled)) .mdw-select__selected-text {
+        border-bottom-color: var(--mdw-theme-outline_border);
+        color: var(--mdw-theme-text--on-background);
+      }
+      
+      :host(.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
+      :host(.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,
+      :host(:not(.mdw-select--disabled)) ::slotted(select:focus),
+      :host(.mdw-focused:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {
+        border-bottom: 2px solid;
+        border-bottom-color: var(--mdw-theme-primary);
+        height: calc(100% + 1px); /* add 1px to height so the text does not get pushed up by border size change */
+      }
+      
+      :host(.mdw-outlined) ::slotted(select),
+      :host(.mdw-outlined) .mdw-select__selected-text {
+        border: none;
+      }
+      
+      ::slotted(select),
+      .mdw-select__selected-text {
+        position: absolute;
+        padding: 20px 52px 4px 16px;
+        font-family: Roboto,sans-serif;
+        font-size: 1rem;
+        line-height: 1.75rem;
+        font-weight: 400;
+        letter-spacing: .009375em;
+        text-decoration: inherit;
+        text-transform: inherit;
+        box-sizing: border-box;
+        width: 100%;
+        height: 56px;
+        border: none;
+        border-bottom: 1px solid;
+        outline: none;
+        background-color: transparent;
+        color: inherit;
+        white-space: nowrap;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+      
+      /* outlined */
+      :host(.mdw-outlined) ::slotted(select),
+      :host(.mdw-outlined) .mdw-select__selected-text {
+        padding: 12px 52px 12px 16px;
+        display: flex;
+        border: none;
+        background-color: transparent;
+        z-index: 1;
+      }
+      :host(.mdw-outlined) ::slotted(select) {
+        border-radius: 4px;
+      }
+      
+      ::slotted(select) {
+        border-radius: 4px 4px 0 0;
+      }
+      
+      :host([dir=rtl]) ::slotted(select),
+      ::slotted(select[dir=rtl]),
+      :host([dir=rtl]) .mdw-select__selected-text,
+      .mdw-select__selected-text[dir=rtl] {
+        padding-left: 52px;
+        padding-right: 16px;
+      }
+      
+      
+      label {
+        font-size: 1rem;
+        line-height: 1.75rem;
+        font-weight: 400;
+        letter-spacing: 0.009375em;
+        text-decoration: inherit;
+        text-transform: inherit;
+        position: absolute;
+        left: 0;
+        transform-origin: left top;
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        line-height: 1.15rem;
+        text-align: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: text;
+        overflow: hidden;
+        will-change: transform;
+        transform: none;
+        pointer-events: none;
+        color: var(--mdw-theme-text--on-background);
+        z-index: 1;
+      
+        left: 16px;
+        right: initial;
+        top: 21px;
+      }
+      
+      :host(.mdw-focused) label {
+        color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-no-animation) label {
+        transition: none;
+      }
+      
+      label:not(.mdw-empty-no-float) {
+        transform: translateY(-70%) scale(0.75);
+      }
+      
+      ::slotted(select:focus) + label,
+      label.mdw-select--float-above {
+        transform: translateY(-70%) scale(0.75);
+      }
+      
+      :host(.mdw-outlined.mdw-focused) label,
+      :host(.mdw-outlined) label.mdw-select--float-above {
+        transform: translateY(-132%) scale(0.75);
+      }
+      
+      :host(.mdw-select--with-leading-icon) label {
+        left: 48px;
+        right: initial;
+      }
+      
+      :host(.mdw-outlined) label {
+        left: 15px;
+        right: initial;
+        top: 18px;
+      }
+      
+      :host(.mdw-outlined.mdw-select--with-leading-icon) label {
+        left: 36px;
+        right: initial;
+      }
+      
+      :host(.mdw-outlined.mdw-select--with-leading-icon) label.mdw-select--float-above {
+        left: 36px;
+        right: initial;
+      }
+      
+      .mdw-outlined-border-container {
+        display: -ms-flexbox;
+        display: flex;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        text-align: left;
+        pointer-events: none;
+      }
+      
+      .mdw-outlined-leading {
+        border-radius: 4px 0 0 4px;
+        border-left: 1px solid;
+        border-right: none;
+        width: 12px;
+      }
+      
+      .mdw-outlined-notch {
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        width: auto;
+        max-width: calc(100% - 12px * 2);
+      }
+      
+      .mdw-outlined-trailing {
+        border-left: none;
+        border-right: 1px solid;
+        border-radius: 0 4px 4px 0;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+      }
+      
+      .mdw-outlined-leading,
+      .mdw-outlined-notch,
+      .mdw-outlined-trailing {
+        box-sizing: border-box;
+        height: 100%;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+        pointer-events: none;
+      
+        border-color: var(--mdw-theme-outline_border);
+      }
+      
+      .mdw-outlined-notch {
+        border-top: none;
+      }
+      
+      :host(.mdw-focused) .mdw-outlined-leading,
+      :host(.mdw-focused) .mdw-outlined-notch,
+      :host(.mdw-focused) .mdw-outlined-trailing,
+      ::slotted(select:focus) .mdw-outlined-leading,
+      ::slotted(select:focus) .mdw-outlined-notch,
+      ::slotted(select:focus) .mdw-outlined-trailing {
+        border-width: 2px;
+        border-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.invalid) .mdw-outlined-leading,
+      :host(.invalid) .mdw-outlined-notch,
+      :host(.invalid) .mdw-outlined-trailing {
+        border-color: var(--mdw-theme-error);
+      }
+      
+    </style>
+    <render-block>
+      
+            <i class="mdw-select__icon"></i>
+            
+              <div class="mdw-select__selected-text"></div>
+            
+            <label>undefined</label>
+            <div class="mdw-line-ripple"></div>
+            
+          
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwselect);
+  var mdwsheetheader = document.createElement('template');
+  mdwsheetheader.setAttribute('id','mdw-sheet-header--template');
+  mdwsheetheader.innerHTML= `
+    <style>
+      :host {
+        display: block;
+        height: 56px;
+        z-index: 1;
+      }
+      
+      :host .mdw-sheet-header-fullscreen {
+        opacity: 0;
+        pointer-events: none;
+        display: inline-flex;
+        flex: 1 1 auto;
+        align-items: center;
+        box-sizing: border-box;
+        width: 100%;
+        height: 56px;
+        z-index: 1;
+        background-color: var(--mdw-theme-surface_elevation_1);
+        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
+                    0 4px 5px 0 rgba(0,0,0,.14),
+                    0 1px 10px 0 rgba(0,0,0,.12);
+      }
+      
+      :host(.mdw-show-fullscreen) .mdw-sheet-header-fullscreen {
+        opacity: 1;
+        pointer-events: all;
+        position: relative;
+      }
+      
+      .mdw-sheet-header-drag-icon {
+        display: none;
+        opacity: 1;
+        width: 12%;
+        height: 4px;
+        border-radius: 2px;
+        margin: 0 auto;
+        position: relative;
+        top: 62px;
+        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        background-color: #DDD;
+      }
+      
+      :host(.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {
+        display: block;
+      }
+      
+      :host(.mdw-show-fullscreen.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {
+        opacity: 0;
+      }
+      
+      
+      
+      /* collapsed header */
+      
+      .mdw-sheet-header-container {
+        display: flex;
+        opacity: 1;
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        height: 56px;
+        position: absolute;
+        top: 0;
+        transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        background-color: var(--mdw-theme-primary);
+        color: var(--mdw-theme-text--primary);
+      }
+      
+      :host(.mdw-shaped) .mdw-sheet-header-container {
+        border-radius: 8px 8px 0 0;
+      }
+      
+      :host(.mdw-sheet-disable-collapsed-header) .mdw-sheet-header-container {
+        display: none;
+      }
+      
+      :host(.mdw-show-fullscreen) .mdw-sheet-header-container {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      :host(.mdw-hide-collapsed-header) .mdw-sheet-header-container {
+        display: none;
+      }
+      
+      :host(.mdw-two-line) .mdw-sheet-header-fullscreen,
+      :host(.mdw-two-line) .mdw-sheet-header-container {
+        height: 72px;
+      }
+      
+      :host(.mdw-three-line) .mdw-sheet-header-fullscreen,
+      :host(.mdw-three-line) .mdw-sheet-header-container {
+        height: 88px;
+      }
+      
+      :host(.mdw-two-line.mdw-shaped) .mdw-sheet-header-fullscreen,
+      :host(.mdw-two-line.mdw-shaped) .mdw-sheet-header-container {
+        border-radius: 10px 10px 0 0;
+      }
+      
+      :host(.mdw-three-line.mdw-shaped) .mdw-sheet-header-fullscreen,
+      :host(.mdw-three-line.mdw-shaped) .mdw-sheet-header-container {
+        border-radius: 12px 12px 0 0;
+      }
+      
+      :host(.mdw-white) .mdw-sheet-header-container {
+        background-color: white;
+        color: var(--mdw-theme-text--primary--on);
+        border-bottom: 1px solid var(--mdw-theme-divider--dark);
+      }
+      
+      /* sections */
+      
+      section {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 0;
+        padding: 8px 12px;
+        z-index: 1;
+      
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      
+      section[align="start"] {
+        align-items: flex-start;
+        order: -1;
+      }
+      
+      section + section,
+      section[align="end"] {
+        align-items: flex-end;
+        order: 1;
+      }
+      
+      
+      /* text */
+      section .mdw-title {
+        font-size: 18px;
+        font-weight: 400;
+        letter-spacing: .0125em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+      section .mdw-subtitle {
+        font-size: 15px;
+        letter-spacing: .0125em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+      section .mdw-detail-text {
+        font-size: 12px;
+        letter-spacing: .0125em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        z-index: 1;
+      }
+      
+    </style>
+    <render-block>
+      
+            <div class="mdw-sheet-header-drag-icon"></div>
+      
+            <div class="mdw-sheet-header-fullscreen">
+              
+                <mdw-button id="mdw-sheet-close-action" class="mdw-icon">
+                  <mdw-icon>keyboard_arrow_down</mdw-icon>
+                </mdw-button>
+              
+              
+            </div>
+      
+            <div class="mdw-sheet-header-container">
+              undefined
+            </div>
+          
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwsheetheader);
+  
+  var mdwslider = document.createElement('template');
+  mdwslider.setAttribute('id','mdw-slider--template');
+  mdwslider.innerHTML= `
+    <style>
+      .mdw-slider__track-container {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        height: 10px;
+        margin-top: -6px;
+        overflow: hidden;
+        user-select: none;
+      }
+      
+      .mdw-slider__track {
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        top: 50%;
+        user-select: none;
+        /* background-color: var(--mdw-theme-secondary); */
+      }
+      
+      /* :host(.mdw-primary) .mdw-slider__track {
+        background-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-error) .mdw-slider__track {
+        background-color: var(--mdw-theme-error);
+      } */
+      
+      
+      .mdw-slider__thumb-container {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        user-select: none;
+        z-index: 2;
+      }
+      
+      .mdw-slider__thumb {
+        box-sizing: border-box;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-top: -50%;
+        z-index: 2;
+        background-color: var(--mdw-theme-secondary);
+        cursor: pointer;
+        user-select: none;
+      }
+      
+      :host(.mdw-primary) .mdw-slider__thumb {
+        background-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-error) .mdw-slider__thumb {
+        background-color: var(--mdw-theme-error);
+      }
+      
+      .mdw-slider__thumb-hover {
+        position: absolute;
+        box-sizing: border-box;
+        top: -12px;
+        left: -6px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        transform-origin: center center;
+        transition: opacity .1s ease-out,fill .1s ease-out,
+                    transform .1s ease-out,fill .1s ease-out;
+        opacity: 0;
+        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
+        cursor: pointer;
+        user-select: none;
+      }
+      
+      :host(.mdw-primary) .mdw-slider__thumb-hover {
+        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
+      }
+      
+      :host(.mdw-error) .mdw-slider__thumb-hover {
+        background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
+      }
+      
+      :host(.mdw-hover) .mdw-slider__thumb-hover {
+        opacity: 1;
+      }
+      
+      :host(.mdw-pressed) .mdw-slider__thumb-hover {
+        transform: scale(1.8);
+      }
+      
+      
+      
+      
+      /* --- notches --- */
+      
+      .mdw-slider__notch-container {
+        display: flex;
+        width: 200%;
+        user-select: none;
+      }
+      
+      .mdw-slider__notch-pre-container {
+        width: 100%;
+        height: 2px;
+        display: flex;
+        flex-direction: row;
+        margin-top: 5px;
+        overflow: hidden;
+        z-index: 1;
+        background-color: var(--mdw-theme-secondary);
+        user-select: none;
+      }
+      
+      :host(.mdw-primary) .mdw-slider__notch-pre-container {
+        background-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-error) .mdw-slider__notch-pre-container {
+        background-color: var(--mdw-theme-error);
+      }
+      
+      .mdw-slider__notch-pre-container .mdw-slider__notch {
+        height: 2px;
+        flex: 1;
+        border-left: 3px solid rgba(255, 255, 255, 0.6);
+      }
+      
+      .mdw-slider__notch-post-container {
+        width: 100%;
+        height: 2px;
+        display: flex;
+        flex-direction: row;
+        margin-top: 5px;
+        overflow: hidden;
+        z-index: 1;
+        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.5);
+        user-select: none;
+      }
+      
+      :host(.mdw-primary) .mdw-slider__notch-post-container {
+        background-color: rgba(var(--mdw-theme-primary--rgb), 0.5);
+      }
+      
+      :host(.mdw-error) .mdw-slider__notch-post-container {
+        background-color: rgba(var(--mdw-theme-error--rgb), 0.5);
+      }
+      
+      .mdw-slider__notch-post-container .mdw-slider__notch {
+        height: 2px;
+        flex: 1;
+        border-left: 3px solid rgba(0, 0, 0, 0.6);
+      }
+      
+    </style>
+    <render-block>
+      
+            <div class="mdw-slider__track-container">
+              <div class="mdw-slider__track"></div>
+      
+              <div class="mdw-slider__notch-container">
+                <div class="mdw-slider__notch-pre-container">
+                  
+                </div>
+      
+                <div class="mdw-slider__notch-post-container">
+                  
+                </div>
+              </div>
+            </div>
+            <div class="mdw-slider__thumb-container">
+              <div class="mdw-slider__thumb"></div>
+              <div class="mdw-slider__thumb-hover"></div>
+            </div>
+          
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwslider);
+  
+  var mdwswitch = document.createElement('template');
+  mdwswitch.setAttribute('id','mdw-switch--template');
+  mdwswitch.innerHTML= `
+    <style>
+      
+      .mdw-track {  
+        box-sizing: border-box;
+        width: 32px;
+        height: 14px;
+        border: 1px solid;
+        border-radius: 7px;
+        opacity: .38;
+        transition: opacity 90ms cubic-bezier(.4,0,.2,1),
+                    background-color 90ms cubic-bezier(.4,0,.2,1),
+                    border-color 90ms cubic-bezier(.4,0,.2,1);
+      }
+      
+      :host(:not(.checked)) .mdw-track {
+        background-color: var(--mdw-theme-switchtrack);
+        border-color: var(--mdw-theme-switchtrack);
+      }
+      
+      :host(.checked) .mdw-track {
+        background-color: var(--mdw-theme-secondary);
+        border-color: var(--mdw-theme-secondary);
+        opacity: .54;
+      }
+      
+      :host(.checked.mdw-primary) .mdw-track {
+        background-color: var(--mdw-theme-primary);
+        border-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.checked.mdw-error) .mdw-track {
+        background-color: var(--mdw-theme-error);
+        border-color: var(--mdw-theme-error);
+      }
+      
+      
+      
+      /* --- thumb underlay --- */
+      
+      .mdw-thumb-underlay {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        display: flex;
+        position: absolute;
+        will-change: transform,opacity;
+        left: -18px;
+        right: auto;
+        top: -17px;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        transform: translateX(0);
+        transition: transform 90ms cubic-bezier(.4,0,.2,1),
+                    background-color 90ms cubic-bezier(.4,0,.2,1),
+                    border-color 90ms cubic-bezier(.4,0,.2,1);
+      }
+      
+      :host(.checked) .mdw-thumb-underlay {
+        transform: translateX(20px);
+      }
+      
+      .mdw-thumb-underlay:after,
+      .mdw-thumb-underlay:before {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0;
+        pointer-events: none;
+        content: "";
+        background-color: var(--mdw-theme-secondary);
+      }
+      
+      :host(.mdw-primary) .mdw-thumb-underlay:after,
+      :host(.mdw-primary) .mdw-thumb-underlay:before {
+        background-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.mdw-error) .mdw-thumb-underlay:after,
+      :host(.mdw-error) .mdw-thumb-underlay:before {
+        background-color: var(--mdw-theme-error);
+      }
+      
+      .mdw-thumb-underlay:before {
+        transition: opacity 15ms linear,background-color 15ms linear;
+        z-index: 1;
+      }
+      
+      
+      
+      /* --- thumb --- */
+      
+      .mdw-thumb {
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),
+                    0 2px 2px 0 rgba(0,0,0,.14),
+                    0 1px 5px 0 rgba(0,0,0,.12);
+        box-sizing: border-box;
+        width: 20px;
+        height: 20px;
+        border: 10px solid;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+      }
+      
+      :host(.checked) .mdw-thumb {
+        background-color: var(--mdw-theme-secondary);
+        border-color: var(--mdw-theme-secondary);
+      }
+      
+      :host(.checked.mdw-primary) .mdw-thumb {
+        background-color: var(--mdw-theme-primary);
+        border-color: var(--mdw-theme-primary);
+      }
+      
+      :host(.checked.mdw-error) .mdw-thumb {
+        background-color: var(--mdw-theme-error);
+        border-color: var(--mdw-theme-error);
+      }
+      
+      :host(:not(.checked)) .mdw-thumb {
+        background-color: #fff;
+        border-color: #fff;
+      }
+      
+      
+      /* --- input --- */
+      
+      input {
+        left: 0;
+        right: auto;
+        position: absolute;
+        top: 0;
+        width: 68px;
+        height: 48px;
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+      
+      :host(.checked) input {
+        transform: translateX(-20px);
+      }
+      
+      
+      
+      /* --- ripple --- */
+      
+      .mdw-ripple {
+        overflow: hidden;
+      }
+      
+      .mdw-ripple.mdw-ripple-unbounded {
+        overflow: visible;
+      }
+      
+      .mdw-ripple-element {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
+        transform: scale(0);
+        background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
+      }
+      
+      :host(.mdw-primary) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
+      }
+      
+      :host(.mdw-error) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
+      }
+      
+      .mdw-switch-ripple {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
+      }
+      
+    </style>
+    <render-block>
+      <div class="mdw-track"></div>
+      <div class="mdw-thumb-underlay">
+        <div class="mdw-thumb">
+          <input type="checkbox" role="switch">
+          <div class="mdw-ripple mdw-switch-ripple"></div>
+        </div>
+      </div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwswitch);
+  var mdwtabbody = document.createElement('template');
+  mdwtabbody.setAttribute('id','mdw-tab-body--template');
+  mdwtabbody.innerHTML= `
+    <style>
+      mdw-tab-body-content {
+        height: 100%;
+        overflow: auto;
+      }
+      
+    </style>
+    <render-block>
+      <mdw-tab-body-content>
+        <!-- slot is added dynamicly -->
+      </mdw-tab-body-content>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwtabbody);
+  var mdwtabbutton = document.createElement('template');
+  mdwtabbutton.setAttribute('id','mdw-tab-button--template');
+  mdwtabbutton.innerHTML= `
+    <style>
+      :host(.mdw-show-spinner) span.text {
+        opacity: 0;
+      }
+      
+      /* Add this to button or creat a new componenet mdw-tab */
+      .mdw-tab-button-indicator {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+      
+      :host(.mdw-active) .mdw-tab-button-indicator .mdw-tab-button-indicator__content {
+        transition: transform .2s cubic-bezier(.4,0,.2,1);
+      }
+      
+      .mdw-tab-button-indicator__content {
+        opacity: 0;
+        transform-origin: left;
+      }
+      
+      :host(.mdw-active) .mdw-tab-button-indicator__content {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      
+      .mdw-tab-button-indicator .mdw-tab-button-indicator__content--underline {
+        align-self: flex-end;
+        width: 100%;
+        background-color: var(--mdw-theme-primary);
+        height: 2px;
+      }
+      
+      
+      /* --- Ripple --- */
+      
+      .mdw-ripple {
+        overflow: hidden;
+      }
+      
+      .mdw-ripple.mdw-ripple-unbounded {
+        overflow: visible;
+      }
+      
+      .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
+        transform: scale(0);
+      }
+      
+      .mdw-tab-button-ripple,
+      .mdw-tab-button-focus-overlay {
+        border-radius: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        pointer-events: none;
+      }
+      
+      :host(.mdw-active) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
+      }
+      
+    </style>
+    <render-block>
+      <span class="text"><slot></slot></span>
+      <span class="mdw-tab-button-indicator">
+        <span class="mdw-tab-button-indicator__content mdw-tab-button-indicator__content--underline"></span>
+      </span>
+      <div class="mdw-ripple mdw-tab-button-ripple"></div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwtabbutton);
+  var mdwtabsbar = document.createElement('template');
+  mdwtabsbar.setAttribute('id','mdw-tabs-bar--template');
+  mdwtabsbar.innerHTML= `
+    <style>
+      mdw-tabs-bar-scroller {
+        display: block;
+        overflow-y: hidden;
+      }
+      
+      mdw-tabs-bar-scroller-area {
+        display: flex;
+        /* overflow-x: scroll; */
+      }
+      
+      mdw-tabs-bar-scroller-content {
+        position: relative;
+        display: flex;
+        flex: 1 0 auto;
+        transform: none;
+        will-change: transform;
+      }
+      
+      ::slotted(mdw-button) {
+        flex: 1 0 auto;
+      }
+      
+    </style>
+    <render-block>
+      <mdw-tabs-bar-scroller>
+        <mdw-tabs-bar-scroller-area>
+          <mdw-tabs-bar-scroller-content>
+            <slot></slot>
+          </mdw-tabs-bar-scroller-content>
+        </mdw-tabs-bar-scroller-area>
+      </mdw-tabs-bar-scroller>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwtabsbar);
+  
+  
+  var mdwtooltip = document.createElement('template');
+  mdwtooltip.setAttribute('id','mdw-tooltip--template');
+  mdwtooltip.innerHTML= `
+    <style>
+      
+    </style>
+    <render-block>
+      <div class="tooltip">
+        <slot></slot>
+      </div>
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwtooltip);
+  
+});
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-autocomplete', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this._hasFilter = this.hasAttribute('filter');
+  }
+
+  connectedCallback() {
+    const target = this.targetInput;
+    target.setAttribute('autocomplete', 'off');
+
+    this._innerHTML = this.innerHTML;
+    this._optionsData = [...this.children].reduce((a, el) => {
+      a[el.innerText] = el.getAttribute('value');
+      return a;
+    }, {});
+    this.innerHTML = '';
+    this.insertAdjacentHTML('beforeend', this.panelHTML);
+    this.panel.innerHTML = this._innerHTML;
+    this.panel.style.minWidth = `${this.targetInput.offsetWidth}px`;
+    this.panel.style.transform = 'scale(1)';
+    this.panel.style.top = `${this.targetInput.offsetHeight + 12}px`;
+    this.panel.ignoreElementOnClickToClose(target);
+
+    this.bound_onTargetFocus = this.onTargetFocus.bind(this);
+    this.bound_onTargetBlur = this.onTargetBlur.bind(this);
+    this.bound_onTargetChange = this.onTargetChange.bind(this);
+    this.bound_onTargetInput = this.onTargetInput.bind(this);
+    this.bound_onPanelClick = this.onPanelClick.bind(this);
+    this.bound_onPanelClose = this.onPanelClose.bind(this);
+    this.bound_onKeyDown = this.onKeyDown.bind(this);
+    this.debounce_filter = _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].debounce(this.filter.bind(this), 100);
+
+    target.addEventListener('focus', this.bound_onTargetFocus);
+    target.addEventListener('blur', this.bound_onTargetBlur);
+    target.addEventListener('input', this.bound_onTargetInput);
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    document.body.addEventListener('keydown', this.bound_onKeyDown);
+  }
+
+  disconnectedCallback() {
+    const target = this.targetInput;
+    if (target) {
+      target.removeEventListener('focus', this.bound_onTargetFocus);
+      target.removeEventListener('blur', this.bound_onTargetBlur);
+      target.removeEventListener('change', this.bound_onTargetChange);
+      target.removeEventListener('input', this.bound_onTargetInput);
+    }
+    this.panel.close();
+    this.panel.removeEventListener('click', this.bound_onPanelClick);
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    document.body.removeEventListener('keydown', this.bound_onKeyDown);
+  }
+
+  get targetInput() {
+    return document.body.querySelector(`input[name=${this.getAttribute('for')}]`);
+  }
+
+  get panel() {
+    if (!this.panel_) this.panel_ = this.querySelector('mdw-panel');
+    return this.panel_;
+  }
+
+  get panelHTML() {
+    return '<mdw-panel mdw-position="bottom inner-left"></mdw-panel>';
+  }
+
+  onPanelClose(e) {
+    const target = this.targetInput;
+    this.panel.removeEventListener('click', this.bound_onPanelClick);
+    target.removeEventListener('change', this.bound_onTargetChange);
+  }
+
+  openPanel() {
+    const target = this.targetInput;
+    this._focusIndex = undefined;
+    this.panel.open(true);
+    this.panel.addEventListener('click', this.bound_onPanelClick);
+    target.addEventListener('change', this.bound_onTargetChange);
+  }
+
+  onKeyDown(e) {
+    if (!this.panel.isOpen()) {
+      if (!this._isInputFocused) return;
+      if (e.keyCode !== 27) this.openPanel();
+      return;
+    }
+
+    switch (e.keyCode) {
+      case 40: //down
+      case 39: //right
+        this.focusNext();
+        break;
+
+      case 38: //up
+      case 37: //left
+        this.focusPrevious();
+        break;
+
+      case 13: //enter
+        this.selectFocused();
+        break;
+    }
+  }
+
+  onTargetFocus(e) {
+    this._isInputFocused = true;
+    this.openPanel();
+  }
+
+  onTargetBlur(e) {
+    this._isInputFocused = false;
+    this.panel.close();
+    this.panel.removeEventListener('click', this.bound_onPanelClick);
+  }
+
+  onTargetChange(e) {
+    // console.log('change');
+  }
+
+  onTargetInput(e) {
+    if (!this.panel.isOpen()) {
+      this.openPanel();
+      return;
+    }
+    if (this._hasFilter) this.debounce_filter(e.target.value);
+  }
+
+  onPanelClick(e) {
+    if (e.target.hasAttribute('value')) {
+      const value = e.target.getAttribute('value');
+      // TODO text field should do this when value is set
+      this.targetInput.parentNode.classList.add('not-empty');
+      this.targetInput.value = value;
+      this.panel.close();
+    }
+  }
+
+  filter(value) {
+    if (!this.panel.isOpen()) return;
+    value = value.toLowerCase();
+    const vlen = value.length;
+    const filtered = Object.keys(this._optionsData).filter(h => {
+      const hlen = h.length;
+      if (vlen > hlen) return false;
+      if (vlen === hlen) return value === h;
+      if (h.toLowerCase().includes(value)) return true
+      return false;
+      // TODO implement char matching
+      // let i = 0;
+      // let j;
+      // for (; i < vlen; i += 1) {
+      //
+      // }
+    });
+
+    this.panel.innerHTML = this.renderOptions(filtered);
+  }
+
+  renderOptions(optionKeys) {
+    return `${optionKeys.map(k => `
+      <option value="${this._optionsData[k]}">${k}</option>
+    `).join('\n')}`;
+  }
+
+  focusNext() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.children];
+    if (this._focusIndex === undefined) this._focusIndex = 0;
+    else this._focusIndex += 1;
+    if (this._focusIndex > optionElements.length - 1) this._focusIndex = optionElements.length - 1;
+    if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
+    this._focusedOption = optionElements[this._focusIndex];
+    this._focusedOption.classList.add('mdw-focused');
+  }
+
+  focusPrevious() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.children];
+    if (this._focusIndex === undefined) this._focusIndex = 0;
+    else this._focusIndex -= 1;
+    if (this._focusIndex <= 0) this._focusIndex = 0;
+    if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
+    this._focusedOption = optionElements[this._focusIndex];
+    this._focusedOption.classList.add('mdw-focused');
+  }
+
+  selectFocused() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.children];
+    if (this._focusIndex == undefined || this._focusIndex > optionElements.length - 1) this._focusIndex = 0;
+    const value =  optionElements[this._focusIndex].getAttribute('value');
+    // TODO text field should do this when value is set
+    this.targetInput.parentNode.classList.add('not-empty');
+    this.targetInput.value = value;
+    this.panel.close();
+  }
+});
+
+});
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-backdrop', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+  }
+
+  get frontElement() {
+    return this.querySelector('mdw-backdrop-front');
+  }
+
+  get backContentElement() {
+    return this.querySelector('mdw-backdrop-back mdw-backdrop-content');
+  }
+
+  get backContenHeight() {
+    const children = this.backContentElement.children;
+    const lastChild = children[children.length - 1];
+    const childBounds = lastChild.getBoundingClientRect();
+    return this.backContentElement.getBoundingClientRect().y + childBounds.y + childBounds.height;
+  }
+
+  get expanded() {
+    return this._expanded;
+  }
+
+  toggle() {
+    if (this._expanded === true) this.contract();
+    else this.expand();
+  }
+
+  expand() {
+    this.frontElement.style.top = `${this.backContenHeight - 56}px`;
+    this._expanded = true;
+  }
+
+  contract() {
+    this.frontElement.style.top = '56px';
+    this._expanded = false;
+  }
+});
+
+});
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-banner', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.style.marginBottom = `-${this.clientHeight + 1}px`;
+  }
+
+  show() {
+    _service_js__WEBPACK_IMPORTED_MODULE_1__["default"].add(this);
+  }
+
+  dismiss() {
+    _service_js__WEBPACK_IMPORTED_MODULE_1__["default"].remove(this);
+  }
+
+  accept() {
+    _service_js__WEBPACK_IMPORTED_MODULE_1__["default"].accept(this);
+  }
+
+  _show() {
+    this.classList.add('mdw-show');
+  }
+
+  _dissmiss() {
+    const self = this;
+    self.addEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transitionEventName, function handler() {
+      self.removeEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transitionEventName, handler);
+      self.remove();
+    });
+    this.classList.add('mdw-dismiss');
+    this.dispatchClose();
+  }
+
+  dispatchClose() {
+    this.dispatchEvent(new CustomEvent('close'));
+  }
+});
+
+});
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-bottom-navigation', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    [...this.querySelectorAll('mdw-button')].forEach(el => {
+      el.classList.add('mdw-bottom-navigation');
+    });
+  }
+});
+
+});
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-button', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.bound_asyncClick = this.asyncClick.bind(this);
+    this.bound_hrefClick = this.hrefClick.bind(this);
+    this.bound_checkHREFActive = this.checkHREFActive.bind(this);
+    this.cloneTemplate();
+    this.setupAsync();
+    this.connectHREF();
+  }
+
+  connectedCallback() {
+    this.ripple = new _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      element: this.shadowRoot.querySelector('.mdw-ripple'),
+      triggerElement: this
+    });
+  }
+
+  disconnectedCallback() {
+    this.ripple.destroy();
+    this.removeEventListener('click', this.bound_asyncClick);
+    this.removeEventListener('click', this.bound_hrefClick);
+    window.removeEventListener('hashchange', this.bound_checkHREFActive);
+  }
+
+  get spinnerContainer() {
+    return this.shadowRoot.querySelector('.mdw-spinner-container');
+  }
+
+  get pending() {
+    return this.pending_;
+  }
+
+  setupAsync() {
+    if (!this.hasAttribute('mdw-async')) return;
+    this.addEventListener('click', this.bound_asyncClick);
+  }
+
+  resolve() {
+    if (this.pending_ === false) return;
+    this.pending_ = false;
+    this.hideSpinner();
+  }
+
+  asyncClick(e) {
+    if (this.pending_ === true) return;
+    this.pending_ = true;
+    this.showSpinner();
+  }
+
+  showSpinner() {
+    this._showSpinner = true;
+    this.classList.add('mdw-show-spinner');
+    const isWhite = this.classList.contains('mdw-primary') || this.classList.contains('mdw-secondary') || this.classList.contains('mdw-error');
+    this.spinnerContainer.innerHTML = `<mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="24" class="${isWhite ? 'mdw-white' : 'mdw-grey'}" style="position: absolute; left: calc(50% - 12px); top: 6px;"></mdw-circular-progress>`;
+  }
+
+  hideSpinner() {
+    this._showSpinner = false;
+    this.classList.remove('mdw-show-spinner');
+    this.spinnerContainer.innerHTML = '';
+  }
+
+  connectHREF() {
+    if (!this.hasAttribute('href')) return;
+    this.checkHREFActive();
+    window.addEventListener('hashchange', this.bound_checkHREFActive);
+    this.addEventListener('click', this.bound_hrefClick);
+  }
+
+  checkHREFActive() {
+    if (!this.hasAttribute('href')) return;
+    const href = document.location.href;
+    const hash = document.location.hash;
+    if (href === this.getAttribute('href') || href === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
+    else if (hash === this.getAttribute('href') || hash === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
+    else this.removeAttribute('active');
+  }
+
+  hrefClick() {
+    // open in new tab / window
+    if (this.getAttribute('target') === '_blank') {
+      window.open(this.getAttribute('href'), '_blank');
+      return;
+    }
+
+    document.location.href = this.getAttribute('href');
+  }
+
+  template() {
+    return html`
+      <span class="text"><slot></slot></span>
+      <span class="mdw-spinner-container"></span>
+      <div class="mdw-ripple mdw-button-ripple"></div>
+    `;
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+});
+
+});
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-card', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.classList.add('mdw-elevation-1');
+  }
+});
+
+});
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-checkbox', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+   constructor() {
+     super();
+     this.bound_handleChange = this.handleChange.bind(this);
+   }
+
+   connectedCallback() {
+     this.cloneTemplate();
+
+     if (this.hasAttribute('indeterminate')) this.indeterminate = true;
+     if (this.hasAttribute('checked')) this.checked = true;
+
+     this.ripple = new _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+       element: this.shadowRoot.querySelector('.mdw-ripple'),
+       triggerElement: [this.input],
+       radius: 20,
+       centered: true
+     });
+
+     this._connected = true;
+     this.input.addEventListener('change', this.bound_handleChange);
+   }
+
+   disconnectedCallback() {
+     this.input.removeEventListener('change', this.bound_handleChange);
+     this.ripple.destroy();
+   }
+
+   static get observedAttributes() {
+     return ['checked', 'indeterminate', 'disabled'];
+   }
+
+   attributeChangedCallback(name, oldValue, newValue) {
+     if (!this._connected) return;
+     this[name] = newValue;
+   }
+
+   get input() {
+     return this.shadowRoot.querySelector('input');
+   }
+
+   get checked() {
+     return this.input.checked;
+   }
+
+   set checked(value) {
+     if (value === '') value = true;
+     this.input.checked = value;
+     this.handleChange();
+   }
+
+   get indeterminate() {
+     return this.input.indeterminate;
+   }
+
+   set indeterminate(value) {
+     if (value === '') value = true;
+     this.input.indeterminate = value;
+   }
+
+   set disabled(value) {
+     value = !!value || value === '';
+     if (value) this.input.setAttribute('disabled', 'disabled');
+     else this.input.removeAttribute('disabled');
+   }
+
+   handleChange() {
+     this.dispatchEvent(new CustomEvent('change', this));
+   }
+
+   toggle() {
+     this.checked = !this.checked;
+   }
+
+   get internalStylesFile() {
+     return './internal.css'
+   }
+
+   template() {
+     return html`
        <input type="checkbox">
        <div class="mdw-background">
          <div class="mdw-checkmark"></div>
          <div class="mdw-mixedmark"></div>
        </div>
        <div class="mdw-ripple mdw-checkbox-ripple"></div>
-     `}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-circular-progress",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.insertedDiameters=[],this.cloneTemplate()}connectedCallback(){this.diameter=this.getAttribute("mdw-diameter")||100,this.render(),this.style.width=this.style.height=this.diameter+"px",this.value&&(this.value=this.value)}static get observedAttributes(){return["value"]}attributeChangedCallback(e,t,n){this[e]=n}get diameter(){return this._diameter}set diameter(e){this._diameter=parseInt((""+e).replace("px","")),this.insertedDiameters[this._diameter]||(this.insertedDiameters.push(this._diameter),this.shadowRoot.querySelector("style").sheet.insertRule(this._getAnimationText(),0))}get svg(){return this._svg||(this._svg=this.shadowRoot.querySelector("svg")),this._svg}get strokeWidth(){return this._strokeWidth||this.diameter/10}set strikeWidth(e){this._strokeWidth=parseInt((""+e).replace("px",""))}get value(){return this.getAttribute("value")}set value(e){this._value=Math.max(0,Math.min(100,parseInt((""+e).replace("px","")))),void 0!==this.diameter&&(this.circle.style.strokeDashoffset=this._strokeCircumference*(100-this._value)/100+"px")}get mode(){return"determinate"===this.getAttribute("mdw-mode")?"determinate":"indeterminate"}get circle(){return this._circle||(this._circle=this.shadowRoot.querySelector("circle")),this._circle}get _circleRadius(){return(this.diameter-10)/2}get _circleStrokeWidth(){return this.strokeWidth/this.diameter*100}get _strokeCircumference(){return 2*Math.PI*this._circleRadius}get INDETERMINATE_ANIMATION_TEMPLATE(){return"\n     @keyframes mat-progress-spinner-stroke-rotate-DIAMETER {\n        0%      { stroke-dashoffset: START_VALUE;  transform: rotate(0); }\n        12.5%   { stroke-dashoffset: END_VALUE;    transform: rotate(0); }\n        12.5001%  { stroke-dashoffset: END_VALUE;    transform: rotateX(180deg) rotate(72.5deg); }\n        25%     { stroke-dashoffset: START_VALUE;  transform: rotateX(180deg) rotate(72.5deg); }\n        25.0001%   { stroke-dashoffset: START_VALUE;  transform: rotate(270deg); }\n        37.5%   { stroke-dashoffset: END_VALUE;    transform: rotate(270deg); }\n        37.5001%  { stroke-dashoffset: END_VALUE;    transform: rotateX(180deg) rotate(161.5deg); }\n        50%     { stroke-dashoffset: START_VALUE;  transform: rotateX(180deg) rotate(161.5deg); }\n        50.0001%  { stroke-dashoffset: START_VALUE;  transform: rotate(180deg); }\n        62.5%   { stroke-dashoffset: END_VALUE;    transform: rotate(180deg); }\n        62.5001%  { stroke-dashoffset: END_VALUE;    transform: rotateX(180deg) rotate(251.5deg); }\n        75%     { stroke-dashoffset: START_VALUE;  transform: rotateX(180deg) rotate(251.5deg); }\n        75.0001%  { stroke-dashoffset: START_VALUE;  transform: rotate(90deg); }\n        87.5%   { stroke-dashoffset: END_VALUE;    transform: rotate(90deg); }\n        87.5001%  { stroke-dashoffset: END_VALUE;    transform: rotateX(180deg) rotate(341.5deg); }\n        100%    { stroke-dashoffset: START_VALUE;  transform: rotateX(180deg) rotate(341.5deg); }\n      }\n    "}_getAnimationText(){return this.INDETERMINATE_ANIMATION_TEMPLATE.replace(/START_VALUE/g,`${.95*this._strokeCircumference}`).replace(/END_VALUE/g,`${.2*this._strokeCircumference}`).replace(/DIAMETER/g,`${this.diameter}`)}template(){return`\n      <svg style="width: ${this.diameter}px; height: ${this.diameter}px;">\n        <circle\n          cx="50%"\n          cy="50%"\n          r="${this._circleRadius}"\n          style="\n            animation-name: mat-progress-spinner-stroke-rotate-${this.diameter};\n            stroke-dasharray: ${this._strokeCircumference}px;\n            stroke-width: ${this._circleStrokeWidth}%;\n          "\n          ></circle>\n      </svg>\n    `}get internalStylesFile(){return"./internal.css"}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=(n(10),n(1));window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-date-picker",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.years=[2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2e3],this.panelId=`mdw-date-picker_${s.default.uid()}`,this.buildPanel_(),this.bound_yearClick=this.yearClick.bind(this)}connectedCallback(){this.panel.querySelector(".mdw-date-picker--body-year-button").addEventListener("click",this.bound_yearClick)}get panel(){return document.querySelector(`#${this.panelId}`)}get viewContainer(){return this.panel.querySelector(".mdw-date-picker--body-views")}get selectedYear(){return this.selectedYear_||2019}set selectedYear(e){this.selectedYear_=e}yearClick(){this.changeView("year")}changeView(e){switch(e){case"year":this.attachYearView()}}open(){this.panel.open(!0)}close(){this.panel.close()}buildPanel_(){const e=`\n    <mdw-panel id="${this.panelId}" mdw-flex-position="center center" class="mdw-date-picker-panel">\n      <div class="mdw-date-picker--container" style="width: 320px">\n        <div class="mdw-date-picker--header">\n          <div class="mdw-date-picker--header-title">Select date</div>\n\n          <div mdw-row mdw-flex-position="center space-between">\n            <div class="mdw-date-picker--header-date">Mon, Nov 17</div>\n            <mdw-icon>edit</mdw-icon>\n          </div>\n        </div>\n\n        <div class="mdw-date-picker--body">\n          <div mdw-row mdw-flex-position="center space-between">\n            <div mdw-row mdw-flex-position="start space-around" class="mdw-date-picker--body-year-button">\n              <div>November 17</div>\n              <i class="mdw-select__icon"></i>\n            </div>\n\n            <div mdw-row>\n              <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons">\n                <mdw-icon>keyboard_arrow_left</mdw-icon>\n              </mdw-button>\n\n              <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons">\n                <mdw-icon>keyboard_arrow_right</mdw-icon>\n              </mdw-button>\n            </div>\n          </div>\n\n          \x3c!-- year, month, day, schedule? --\x3e\n          <div mdw-column class="mdw-date-picker--body-views" style="min-height: 300px;">\n          </div>\n        </div>\n      </div>\n    </mdw-panel>\n    `;document.body.insertAdjacentHTML("beforeend",e);const t=this.panel;t.hoistToBody&&t.hoistToBody(this),t.style.transform="scale(1)"}attachYearView(){const e=`\n    <div mdw-row mdw-wrap style="justify-content: space-between;">\n      ${this.years.map(e=>`<mdw-button id="mdw-year-${e}" class="mdw-date-picker-year mdw-shaped">${e}</mdw-button>`).join("\n")}\n    </div>\n    `;this.viewContainer.innerHTML=e,this.viewContainer.querySelector(`#mdw-year-${this.selectedYear}`).classList.add("mdw-selected")}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=(n(11),n(1));window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-dialog",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_onPanelClose=this.onPanelClose.bind(this),this.clickOutsideClose_=!1}disconnectedCallback(){this.panel.removeEventListener("MDWPanel:closed",this.bound_onPanelClose),this.backdrop&&(this.backdrop.remove(),this.backdrop=void 0)}get panel(){return this.panel_||(this.panel_=this.querySelector("mdw-panel")),this.panel_}get position(){return this.position_||"center center"}set position(e){this.position_=e}get clickOutsideClose(){return this.clickOutsideClose_}set clickOutsideClose(e){this.clickOutsideClose_=e}show(){this.panel.hoistToBody(),this.panel.setPosition(this.position),this.panel.open(),this.panel.addEventListener("MDWPanel:closed",this.bound_onPanelClose),this.classList.add("mdw-show"),this.backdrop=s.default.addBackdrop(this.panel,()=>{!0===this.clickOutsideClose&&this.close()}),s.default.lockPageScroll()}close(e){this.panel.removeEventListener("MDWPanel:closed",this.bound_onPanelClose),this.panel.close(),s.default.unlockPageScroll(),this.backdrop.remove(),this.backdrop=void 0,this.dispatchClose(e)}onPanelClose(){this.panel.removeEventListener("MDWPanel:closed",this.bound_onPanelClose),this.backdrop&&(this.backdrop.remove(),this.backdrop=void 0)}dispatchClose(e=!1){this.dispatchEvent(new CustomEvent("close",{detail:{ok:e}}))}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-drawer",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_navigationChange=this.navigationChange.bind(this),this.isShowing=!0,this.isRightAligned=this.hasAttribute("right-aligned"),this.classList.add("mdw-active"),s.default.isMobile&&!this.classList.contains("mdw-locked-open-mobile")&&(this.unlockOpen(),this.hide());const e=this.fixedElement;e&&(e.style.width=`${this.offsetWidth}px`),this.contentElement&&(this.contentElement.style.height=`calc(100% - ${this.contentElement.offsetTop+18}px)`),this.lockBody(),this.addCloseOnChange()}disconnectedCallback(){this.backdrop&&this.backdrop.remove(),window.removeEventListener("hashchange",this.bound_navigationChange)}get isLockedOpen(){return this.classList.contains("mdw-locked-open")}get contentElement(){return this.querySelector("mdw-drawer-content")}get fixedElement(){return this.querySelector("mdw-drawer-fixed")}addCloseOnChange(){window.addEventListener("hashchange",this.bound_navigationChange)}lockOpen(){this.classList.add("mdw-locked-open")}unlockOpen(){this.classList.remove("mdw-locked-open")}navigationChange(){this.isLockedOpen||this.hide()}hide(){this.classList.add("mdw-closed"),this.isLockedOpen&&(this.classList.remove("mdw-locked-open"),this.wasLockedOpen=!0),this.isShowing=!1,this.backdrop&&this.backdrop.remove()}show(){this.classList.remove("mdw-closed"),this.contentElement.style.height=`calc(100% - ${this.contentElement.offsetTop}px)`,this.wasLockedOpen?this.classList.add("mdw-locked-open"):s.default.isMobile&&this.addBackdrop(),this.isShowing=!0,this.contentElement&&(this.contentElement.style.height=`calc(100% - ${this.contentElement.offsetTop+18}px)`)}toggle(){this.isShowing?this.hide():this.show()}addBackdrop(){this.backdrop=s.default.addBackdrop(this,()=>this.hide(),{drawer:!0})}lockBody(){this.isLockedOpen&&this.fixedElement&&this.parentNode===document.body&&!s.default.isMobile&&document.querySelector("mdw-page > mdw-content")&&document.body.classList.add("prevent-over-scroll")}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-expander-arrow",class extends i.HTMLElementExtendedPaxComponents{constructor(){super()}connectedCallback(){this.parentNode.registerArrow(this)}open(){this.classList.add("open")}close(){this.classList.remove("open")}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-expander-container",class extends i.HTMLElementExtendedPaxComponents{constructor(){super()}disconnectedCallback(){this.header&&this.header.removeEventListener("click",()=>this.toggle)}registerHeader(e){this.header=e,this.header.addEventListener("click",()=>this.toggle())}registerContent(e){this.contentElement=e}toggle(){if(!this.contentElement)return;this.classList.contains("open")?(this.classList.remove("open"),this.contentElement.close(),this.header.close()):(this.classList.add("open"),this.contentElement.open(),this.header.open())}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-expander-content",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.cloneTemplate()}connectedCallback(){this.hasAttribute("height")&&(this.height=this.getAttribute("height").replace("px","")),this.parentNode.registerContent(this)}static get observedAttributes(){return["height"]}attributeChangedCallback(e,t,n){this[e]=n}get height(){return this._height||this.scrollHeight}set height(e){this._height=e}open(){this.style.display="block",this.classList.add("show"),this.style.maxHeight=`${this.height}px`,this.style.opacity=1}close(){this.classList.remove("show"),this.style.maxHeight=0,this.style.opacity=0,this.onHideComplete()}onHideComplete(){const e=this;e.addEventListener(s.default.transitionEventName,function t(){e.style.display="none",e.removeEventListener(s.default.transitionEventName,t)})}css(){return cssStr`
+     `;
+   }
+});
+
+});
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-circular-progress', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.insertedDiameters = [];
+    this.cloneTemplate();
+  }
+
+  connectedCallback() {
+    this.diameter = this.getAttribute('mdw-diameter') || 100;
+    this.render();
+    this.style.width = this.style.height = this.diameter + 'px';
+    if (this.value) this.value = this.value;
+  }
+
+  static get observedAttributes() {
+    return ['value'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this[name] = newValue;
+  }
+
+  get diameter() {
+    return this._diameter;
+  }
+  set diameter(value) {
+    this._diameter = parseInt((''+value).replace('px', ''));
+    if (!this.insertedDiameters[this._diameter]) {
+      this.insertedDiameters.push(this._diameter);
+      this.shadowRoot.querySelector('style').sheet.insertRule(this._getAnimationText(), 0);
+    }
+  }
+
+  get svg() {
+    if (!this._svg) this._svg = this.shadowRoot.querySelector('svg');
+    return this._svg;
+  }
+
+  get strokeWidth() {
+    return this._strokeWidth || this.diameter / 10;
+  }
+  set strikeWidth(value) {
+    this._strokeWidth = parseInt((''+value).replace('px', ''));
+  }
+
+  get value() {
+    return this.getAttribute('value');
+  }
+  set value(value) {
+    this._value = Math.max(0, Math.min(100, parseInt((''+value).replace('px', ''))));
+    if (this.diameter === undefined) return;
+    this.circle.style.strokeDashoffset = (this._strokeCircumference * (100 - this._value) / 100) + 'px';
+  }
+
+  get mode() {
+    return this.getAttribute('mdw-mode') === 'determinate' ? 'determinate' : 'indeterminate';
+  }
+
+  get circle() {
+    if (!this._circle) this._circle = this.shadowRoot.querySelector('circle');
+    return this._circle;
+  }
+
+  get _circleRadius() {
+    return (this.diameter - 10) / 2;
+  }
+
+  get _circleStrokeWidth() {
+    return this.strokeWidth / this.diameter * 100;
+  }
+
+  get _strokeCircumference() {
+    return 2 * Math.PI * this._circleRadius;
+  }
+
+  get INDETERMINATE_ANIMATION_TEMPLATE() {
+    return `
+     @keyframes mat-progress-spinner-stroke-rotate-DIAMETER {
+        0%      { stroke-dashoffset: START_VALUE;  transform: rotate(0); }
+        12.5%   { stroke-dashoffset: END_VALUE;    transform: rotate(0); }
+        12.5001%  { stroke-dashoffset: END_VALUE;    transform: rotateX(180deg) rotate(72.5deg); }
+        25%     { stroke-dashoffset: START_VALUE;  transform: rotateX(180deg) rotate(72.5deg); }
+        25.0001%   { stroke-dashoffset: START_VALUE;  transform: rotate(270deg); }
+        37.5%   { stroke-dashoffset: END_VALUE;    transform: rotate(270deg); }
+        37.5001%  { stroke-dashoffset: END_VALUE;    transform: rotateX(180deg) rotate(161.5deg); }
+        50%     { stroke-dashoffset: START_VALUE;  transform: rotateX(180deg) rotate(161.5deg); }
+        50.0001%  { stroke-dashoffset: START_VALUE;  transform: rotate(180deg); }
+        62.5%   { stroke-dashoffset: END_VALUE;    transform: rotate(180deg); }
+        62.5001%  { stroke-dashoffset: END_VALUE;    transform: rotateX(180deg) rotate(251.5deg); }
+        75%     { stroke-dashoffset: START_VALUE;  transform: rotateX(180deg) rotate(251.5deg); }
+        75.0001%  { stroke-dashoffset: START_VALUE;  transform: rotate(90deg); }
+        87.5%   { stroke-dashoffset: END_VALUE;    transform: rotate(90deg); }
+        87.5001%  { stroke-dashoffset: END_VALUE;    transform: rotateX(180deg) rotate(341.5deg); }
+        100%    { stroke-dashoffset: START_VALUE;  transform: rotateX(180deg) rotate(341.5deg); }
+      }
+    `;
+  }
+
+  _getAnimationText() {
+    return this.INDETERMINATE_ANIMATION_TEMPLATE
+      .replace(/START_VALUE/g, `${0.95 * this._strokeCircumference}`)
+      .replace(/END_VALUE/g, `${0.2 * this._strokeCircumference}`)
+      .replace(/DIAMETER/g, `${this.diameter}`);
+  }
+
+  template() {
+    return `
+      <svg style="width: ${this.diameter}px; height: ${this.diameter}px;">
+        <circle
+          cx="50%"
+          cy="50%"
+          r="${this._circleRadius}"
+          style="
+            animation-name: mat-progress-spinner-stroke-rotate-${this.diameter};
+            stroke-dasharray: ${this._strokeCircumference}px;
+            stroke-width: ${this._circleStrokeWidth}%;
+          "
+          ></circle>
+      </svg>
+    `;
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+});
+
+});
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--old', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this._currentView = 'month';
+    this.panelId = `mdw-date-picker_${_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].uid()}`;
+    this.displayDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.getAttribute('mdw-date') || _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today());
+
+    this.bound_monthChange = this.monthChange.bind(this);
+    this.bound_yearChange = this.yearChange.bind(this);
+    this.bound_dayChange = this.dayChange.bind(this);
+    this.bound_open = this.open.bind(this);
+    this.bound_onCancel = this.onCancel.bind(this);
+    this.bound_onOk = this.onOk.bind(this);
+    this.bound_inputChange = this.inputChange.bind(this);
+    this.bound_onPanelClose = this.onPanelClose.bind(this);
+    this.bound_onShowYearView = () => setTimeout(() => this.changeView('year'), 0);
+
+    this._checkForTextField();
+    this._buildPanel();
+  }
+
+  static get observedAttributes() {
+    return ['mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    switch(name) {
+      case 'mdw-min-date':
+        this.currentComponent.setAttribute('mdw-min-date', newValue);
+        break;
+
+      case 'mdw-max-date':
+        this.currentComponent.setAttribute('mdw-max-date', newValue);
+        break;
+    }
+  }
+
+  connectedCallback() {
+    this._setupPanel();
+    if (this.cancelButton) this.cancelButton.addEventListener('click', this.bound_onCancel);
+    if (this.okButton) this.okButton.addEventListener('click', this.bound_onOk);
+    this.changeView('month');
+  }
+
+  disconnectedCallback() {
+    if (this._attachedInput) {
+      this._attachedInput.removeEventListener('click', this.bound_open);
+      this._attachedInput.removeEventListener('input', this.bound_inputChange);
+    }
+
+    this.panel.querySelector('.mdw-date-picker--body-year-view-button').removeEventListener('click', this.bound_yearClick);
+    if (this.cancelButton) this.cancelButton.removeEventListener('click', this.bound_onCancel);
+    if (this.okButton) this.okButton.removeEventListener('click', this.bound_onOk);
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.remove();
+
+    if (this._backdrop) {
+      this._backdrop.remove();
+      this._backdrop = undefined;
+    }
+  }
+
+  get panel() {
+    return document.querySelector(`#${this.panelId}`);
+  }
+
+  get viewContainer() {
+    return this.panel && this.panel.querySelector('.mdw-date-picker--body-views');
+  }
+
+  get cancelButton() {
+    return this.panel.querySelector('#cancel-button');
+  }
+
+  get okButton() {
+    return this.panel.querySelector('#ok-button');
+  }
+
+  get yearComponent() {
+    return this.viewContainer && this.viewContainer.querySelector('mdw-date-picker--view-year');
+  }
+
+  get monthComponent() {
+    return this.viewContainer && this.viewContainer.querySelector('mdw-date-picker--view-month');
+  }
+
+  get currentComponent() {
+    return this.monthComponent || this.yearComponent
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date') || '';
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date') || '';
+  }
+
+
+  _checkForTextField() {
+    if (this.parentNode.nodeName === 'MDW-TEXTFIELD') {
+      this._attachedInput = this.parentNode.querySelector('input');
+      // TODO add down arrow to open
+      this._attachedInput.addEventListener('click', this.bound_open);
+      this._attachedInput.addEventListener('input', this.bound_inputChange);
+      this._attachedInput.classList.add('mdw-hide-date-prompt');
+
+      if (this._attachedInput.hasAttribute('min')) this.setAttribute('mdw-min-date', this._attachedInput.getAttribute('min'));
+      if (this._attachedInput.hasAttribute('max')) this.setAttribute('mdw-max-date', this._attachedInput.getAttribute('max'));
+    }
+  }
+
+  updateDisplayDate(dateParts) {
+    this.displayDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].buildFromParts(dateParts);
+    this.updateDisplay();
+  }
+
+  updateDisplay() {
+    // update views
+    const monthEl = this.monthComponent;
+    if (monthEl) monthEl.setAttribute('mdw-display-date', this.displayDate);
+    const yearEl = this.yearComponent;
+    if (yearEl) yearEl.setAttribute('mdw-year', this.displayDate.getFullYear);
+  }
+
+  setDate(preventInputUpdate = false) {
+    this.selectedDate = this.displayDate;
+
+    // update this components displays
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile) this.panel.querySelector('.mdw-date-picker--header-date').innerHTML = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(this.selectedDate, 'ddd, MMM DD');
+
+    // update views
+    const monthEl = this.monthComponent;
+    if (monthEl) monthEl.setAttribute('mdw-selected-date', this.selectedDate);
+
+    if (!preventInputUpdate && this._attachedInput) {
+      this._attachedInput.value = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(this.selectedDate, 'YYYY-MM-dd');
+    }
+  }
+
+  unsetDate(preventInputUpdate = false) {
+    this.selectedDate = undefined;
+
+    // update views
+    const monthEl = this.monthComponent;
+    if (monthEl) monthEl.setAttribute('mdw-selected-date', this.selectedDate);
+
+    if (!preventInputUpdate && this._attachedInput) {
+      this._attachedInput.value = '';
+    }
+  }
+
+  inputChange(event) {
+    const value = event.target.value.split('-');
+    const day = parseInt(value.pop());
+    const month = parseInt(value.pop() - 1);
+    const year = parseInt(value.pop());
+    this.updateDisplayDate({
+      year,
+      month,
+      day
+    });
+    this.setDate(true);
+  }
+
+  onCancel() {
+    // revet date back
+    if (this._openingDate) {
+      this.updateDisplayDate({
+        year: this._openingDate.getFullYear(),
+        month: this._openingDate.getMonth(),
+        day: this._openingDate.getDate()
+      });
+      this.setDate();
+
+    // unset date
+    } else {
+      this.displayDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
+      this.updateDisplay();
+      this.unsetDate();
+    }
+    this.close();
+  }
+
+  onOk() {
+    this.close();
+  }
+
+  changeView(value) {
+    switch(value) {
+      case 'year':
+        this._currentView = 'year';
+        this.attachYearView();
+        break;
+      case 'month':
+        this._currentView = 'month';
+        this.attachMonthView();
+        break;
+    }
+  }
+
+  open() {
+    if (this.panel._isOpen) return;
+    this._openingDate = this.selectedDate;
+
+    this.displayDate = this.selectedDate || _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
+    this.updateDisplay();
+
+    this.panel.open();
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile) this._backdrop = _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].addBackdrop(this.panel);
+    _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].lockPageScroll();
+  }
+
+  close() {
+    this.panel.close();
+  }
+
+  onPanelClose() {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].unlockPageScroll();
+
+    if (this._backdrop) {
+      this._backdrop.remove();
+      this._backdrop = undefined;
+    }
+  }
+
+  yearChange({ detail }) {
+    this.updateDisplayDate(detail);
+
+    // prevent click from falling through when element is removed and casing the panel to close
+    setTimeout(() => {
+      this.changeView('month');
+    }, 0);
+  }
+
+  monthChange({ detail }) {
+    this.updateDisplayDate(detail);
+  }
+
+  dayChange({ detail }) {
+    this.updateDisplayDate(detail);
+    this.setDate();
+    if (!_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile) this.close();
+  }
+
+  _buildPanel() {
+    const layout = _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile ? 'center center' : 'inner-left inner-top';
+    const panelHTML = `
+    <mdw-panel id="${this.panelId}" mdw-position="${layout}" mdw-flex-position="center center" class="mdw-date-picker-panel">
+      <div class="mdw-date-picker--container ${_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile ? 'mdw-mobile' : ''}">
+        ${!_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile ? '' : `
+          <div class="mdw-date-picker--header">
+            <div class="mdw-date-picker--header-title">Select date</div>
+
+            <div mdw-row mdw-flex-position="center space-between">
+              <div class="mdw-date-picker--header-date">${this.selectedDate ? _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(this.selectedDate, 'ddd, MMM DD') : 'Select date'}</div>
+              <mdw-icon>edit</mdw-icon>
+            </div>
+          </div>
+        `}
+
+        <div class="mdw-date-picker--body">
+          <!-- year, month, day, schedule? -->
+          <div mdw-column class="mdw-date-picker--body-views">
+            ${
+              this._currentView === 'month'
+              ? `<mdw-date-picker--view-month
+                  mdw-display-date="${this.displayDate}"
+                  mdw-selected-date="${this.selectedDate}"
+                  mdw-min-date="${this.minDate}"
+                  mdw-max-date="${this.maxDate}"
+                  ></mdw-date-picker--view-month>`
+              : `<mdw-date-picker--view-year
+                  mdw-year="${this.displayDate.getFullYear()}"
+                  mdw-min-date="${this.minDate}"
+                  mdw-max-date="${this.maxDate}"
+                  ></mdw-date-picker--view-year>`
+            }
+          </div>
+
+          ${!_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile ? '' : `
+            <div mdw-row mdw-flex-position="center right" style="padding: 8px;">
+              <mdw-button id="cancel-button" class="mdw-primary">cancel</mdw-button>
+              <mdw-button id="ok-button" class="mdw-primary">ok</mdw-button>
+            </div>
+          `}
+        </div>
+      </div>
+    </mdw-panel>
+    `;
+    document.body.insertAdjacentHTML('beforeend', panelHTML);
+    this._setupPanel();
+  }
+
+  _setupPanel() {
+    const panelEl = this.panel;
+    if (!panelEl.isReady) return;
+
+    panelEl.hoistToBody();
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile) {
+      panelEl.setClickOutsideClose(false);
+      panelEl.fixPosition();
+      panelEl.setTarget('body');
+    } else {
+      panelEl.setClickOutsideClose(true);
+      this.panel.setTarget(this.getAttribute('mdw-target') || this.parentNode);
+
+      if (this.panel._target.nodeName === 'MDW-TEXTFIELD' || this.panel._target.nodeName === 'input') {
+        this.panel.setAttribute('mdw-position', 'inner-left bottom');
+        if (this.panel._target.nodeName === 'MDW-TEXTFIELD') this.panel.ignoreElementOnClickToClose(this.panel._target.querySelector('input'));
+      }
+    }
+  }
+
+  attachYearView() {
+    this.viewContainer.innerHTML = `<mdw-date-picker--view-year mdw-year="${this.displayDate.getFullYear()}"></mdw-date-picker--view-year>`;
+    const yearEl = this.yearComponent;
+    yearEl.addEventListener('MDWDatePicker:yearChange', this.bound_yearChange);
+
+    const monthEl = this.monthComponent;
+    if (monthEl) {
+      monthEl.removeEventListener('MDWDatePicker:dayChange', this.bound_dayChange);
+      monthEl.removeEventListener('MDWDatePicker:monthChange', this.bound_monthChange);
+      monthEl.removeEventListener('MDWDatePicker:showYearView', this.bound_onShowYearView);
+    }
+  }
+
+  attachMonthView() {
+    this.viewContainer.innerHTML = `<mdw-date-picker--view-month
+                                      mdw-display-date="${this.displayDate}"
+                                      mdw-selected-date="${this.selectedDate}"
+                                      mdw-min-date="${this.minDate}"
+                                      mdw-max-date="${this.maxDate}"
+                                      ></mdw-date-picker--view-month>`;
+    const monthEl = this.monthComponent;
+    monthEl.addEventListener('MDWDatePicker:dayChange', this.bound_dayChange);
+    monthEl.addEventListener('MDWDatePicker:monthChange', this.bound_monthChange);
+    monthEl.addEventListener('MDWDatePicker:showYearView', this.bound_onShowYearView);
+
+    const yearEl = this.yearComponent;
+    if (yearEl) yearEl.removeEventListener('MDWDatePicker:yearChange', this.bound_yearChange);
+  }
+});
+
+});
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.bound_onInputChange = this.onInputChange.bind(this);
+    this.bound_onPanelClose = this.onPanelClose.bind(this);
+    this.bound_onYearChange = this.onYearChange.bind(this);
+    this.bound_onMonthChange = this.onMonthChange.bind(this);
+    this.bound_onDayChange = this.onDayChange.bind(this);
+    this.bound_open = this.open.bind(this);
+
+    this.displayDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.getAttribute('mdw-date') || _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today());
+    this.panelId = `mdw-date-picker_${_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].uid()}`;
+
+    this._checkForTextField();
+    this._buildPanel();
+  }
+
+  connectedCallback() {
+    // this is need to ensure removeEvents() is called on connect
+    super.connectedCallback();
+
+    this._setupPanel();
+  }
+
+  disconnectedCallback() {
+    // this is need to ensure removeEvents() is called on disconnect
+    super.disconnectedCallback();
+
+    if (this._attachedInput) {
+      this._attachedInput.removeEventListener('click', this.bound_open);
+      this._attachedInput.removeEventListener('input', this.bound_onInputChange);
+    }
+
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.remove();
+
+    if (this._backdrop) {
+      this._backdrop.remove();
+      this._backdrop = undefined;
+    }
+  }
+
+  addEvents() {
+    this.pickerElement.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+    this.pickerElement.addEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
+    this.pickerElement.addEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+  }
+
+  removeEvents() {
+    this.pickerElement.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+    this.pickerElement.removeEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
+    this.pickerElement.removeEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+  }
+
+  get panel() {
+    return document.querySelector(`#${this.panelId}`);
+  }
+
+  get pickerElement() {
+    if (!this.panel) return null;
+
+    const desktopElement = this.panel.querySelector('mdw-date-picker--desktop');
+    if (desktopElement) return desktopElement;
+
+    // mobile
+    // return this.panel.querySelector('mdw-date-picker--desktop');
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date') || '';
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date') || '';
+  }
+
+  open() {
+    if (this.panel._isOpen) return;
+
+    this.panel.open();
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile) this._backdrop = _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].addBackdrop(this.panel);
+    _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].lockPageScroll();
+  }
+
+  close() {
+    this.panel.close();
+  }
+
+  updateDisplayDate({ year, month, day }) {
+    this.displayDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].buildFromParts({ year, month, day });
+    this.pickerElement.setAttribute('mdw-display-date', this.displayDate);
+  }
+
+  setDate(preventInputUpdate = false) {
+    this.selectedDate = this.displayDate;
+    this.pickerElement.setAttribute('mdw-selected-date', this.selectedDate);
+
+    if (!preventInputUpdate && this._attachedInput) {
+      this._attachedInput.value = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(this.selectedDate, 'YYYY-MM-dd');
+    }
+  }
+
+  onInputChange(event) {
+    const date = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(event.target.value);
+    if (!_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].isValid(date)) return;
+
+    this.updateDisplayDate(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(date));
+    this.setDate(true);
+  }
+
+  onYearChange({ detail }) {
+    const dateParts = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate), { set: { year: detail.year} }));
+    this.updateDisplayDate(dateParts);
+  }
+
+  onMonthChange({ detail }) {
+    this.updateDisplayDate(detail);
+  }
+
+  onDayChange({ detail }) {
+    this.updateDisplayDate(detail);
+    this.setDate();
+    if (!_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile) this.close();
+  }
+
+  onPanelClose() {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].unlockPageScroll();
+
+    if (this._backdrop) {
+      this._backdrop.remove();
+      this._backdrop = undefined;
+    }
+  }
+
+  _setupPanel() {
+    const panelEl = this.panel;
+    if (!panelEl.isReady) return;
+
+    panelEl.hoistToBody();
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile) {
+      panelEl.setClickOutsideClose(false);
+      panelEl.fixPosition();
+      panelEl.setTarget('body');
+    } else {
+      panelEl.setClickOutsideClose(true);
+      this.panel.setTarget(this.getAttribute('mdw-target') || this.parentNode);
+
+      if (this.panel._target.nodeName === 'MDW-TEXTFIELD' || this.panel._target.nodeName === 'input') {
+        this.panel.setAttribute('mdw-position', 'inner-left bottom');
+        if (this.panel._target.nodeName === 'MDW-TEXTFIELD') this.panel.ignoreElementOnClickToClose(this.panel._target.querySelector('input'));
+      }
+    }
+  }
+
+  _checkForTextField() {
+    if (this.parentNode.nodeName === 'MDW-TEXTFIELD') {
+      this._attachedInput = this.parentNode.querySelector('input');
+      // TODO add down arrow to open
+      this._attachedInput.addEventListener('click', this.bound_open);
+      this._attachedInput.addEventListener('input', this.bound_onInputChange);
+      this._attachedInput.classList.add('mdw-hide-date-prompt');
+
+      if (this._attachedInput.hasAttribute('min')) this.setAttribute('mdw-min-date', this._attachedInput.getAttribute('min'));
+      if (this._attachedInput.hasAttribute('max')) this.setAttribute('mdw-max-date', this._attachedInput.getAttribute('max'));
+    }
+  }
+
+  _buildPanel() {
+    const layout = _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile ? 'center center' : 'inner-left inner-top';
+    const template = _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <mdw-panel id="${this.panelId}" mdw-position="${layout}" class="mdw-date-picker--panel">
+        <mdw-date-picker--desktop
+          mdw-display-date="${this.displayDate}"
+          mdw-selected-date="${this.selectedDate}"
+          mdw-min-date="${this.minDate}"
+          mdw-max-date="${this.maxDate}"
+        ></mdw-date-picker--desktop>
+      </mdw-panel>
+    `;
+    document.body.insertAdjacentHTML('beforeend', template);
+  }
+});
+
+});
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
+
+
+/* TODO
+ *  add year view cahnge animation
+ *  add selected bg animation (circle moving from day to day)
+ *  look into what should happen on disabled date? icon, cursor, color
+ */
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--desktop', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.bound_nextMonth = this.nextMonth.bind(this);
+    this.bound_prevMonth = this.prevMonth.bind(this);
+    this.bound_toggleYearView = this.toggleYearView.bind(this);
+    this.bound_onYearChange = this.onYearChange.bind(this);
+
+    this.today = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
+    this.dayOfWeekNames = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getDayOfWeekNames('narrow');
+    this.yearList = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].defaultYearRange();
+    this.cloneTemplate(true);
+  }
+
+  addEvents() {
+    this.navButtons.addEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
+    this.navButtons.addEventListener('MDWDatePicker:prevMonth', this.bound_prevMonth);
+    this.yearButton.addEventListener('click', this.bound_toggleYearView);
+  }
+
+  removeEvents() {
+    this.navButtons.removeEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
+    this.navButtons.removeEventListener('MDWDatePicker:prevMonth', this.bound_prevMonth);
+    this.yearButton.removeEventListener('click', this.bound_toggleYearView);
+    this.yearView && this.yearView.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    switch(name) {
+      case 'mdw-display-date':
+        this.updateDisplayDate(newValue);
+        break;
+
+      case 'mdw-selected-date':
+        this.updateSelectedDate(newValue);
+        break;
+
+      case 'mdw-min-date':
+        this.activeMonth.setAttribute('mdw-min-date', newValue);
+        this.nonActiveMonth.setAttribute('mdw-min-date', newValue);
+        break;
+
+      case 'mdw-max-date':
+        this.activeMonth.setAttribute('mdw-max-date', newValue);
+        this.nonActiveMonth.setAttribute('mdw-max-date', newValue);
+        break;
+    }
+  }
+
+  updateDisplayDate(dateString) {
+    switch(this._currentView) {
+      case 'month':
+        this.activeMonth.setAttribute('mdw-display-date', dateString);
+        break;
+
+      case 'year':
+        this.yearView.setAttribute('mdw-display-date', dateString);
+        break;
+    }
+
+    // update year button
+    this.yearButton.setAttribute('mdw-display-date', dateString);
+  }
+
+  updateSelectedDate(dateString) {
+    switch(this._currentView) {
+      case 'month':
+        this.activeMonth.setAttribute('mdw-selected-date', dateString);
+        break;
+
+      case 'year':
+        this.yearView.setAttribute('mdw-selected-date', dateString);
+        break;
+    }
+  }
+
+  get displayDate() {
+    return this.getAttribute('mdw-display-date');
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date');
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date');
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date');
+  }
+
+  get activeMonth() {
+    return this.shadowRoot.querySelector('mdw-date-picker--month-days.mdw-active-month');
+  }
+
+  get nonActiveMonth() {
+    return this.shadowRoot.querySelector('mdw-date-picker--month-days:not(.mdw-active-month)');
+  }
+
+  get yearView() {
+    return this.shadowRoot.querySelector('mdw-date-picker--year');
+  }
+
+  get navButtons() {
+    return this.shadowRoot.querySelector('mdw-date-picker--month-navigation-buttons');
+  }
+
+  get yearButton() {
+    return this.shadowRoot.querySelector('mdw-date-picker--year-view-button');
+  }
+
+  get viewContainer() {
+    return this.shadowRoot.querySelector('.mdw-date-picker--views');
+  }
+
+  onYearChange() {
+    setTimeout(() => {
+      this.showMonthView();
+    }, 0);
+  }
+
+  toggleYearView() {
+    switch(this._currentView) {
+      case 'month':
+        this.showYearView();
+        break;
+
+      case 'year':
+        this.showMonthView();
+        break;
+    }
+  }
+
+  showYearView() {
+    this.yearButton.classList.add('mdw-open');
+    this.viewContainer.innerHTML = this._yearTemplate();
+    this.yearView.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+  }
+
+  showMonthView() {
+    this.yearButton.classList.remove('mdw-open');
+    this.yearView && this.yearView.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+    this.viewContainer.innerHTML = this._monthTemplate();
+  }
+
+  nextMonth() {
+    const active = this.shadowRoot.querySelector('mdw-date-picker--month-days.mdw-active-month');
+    const notActive = this.shadowRoot.querySelector('mdw-date-picker--month-days:not(.mdw-active-month)');
+    const nextDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(active.displayDate), { add: { month: 1 } });
+
+    notActive.style.transition = 'none';
+    notActive.style[MDWUtils.transformPropertyName] = 'translateX(16px)';
+
+    notActive.setAttribute('mdw-display-date', nextDate);
+    notActive.setAttribute('mdw-selected-date', this.selectedDate);
+
+    // change classes before the event is dispatched so the active month does not change during animation
+    active.classList.remove('mdw-active-month');
+    notActive.classList.add('mdw-active-month');
+    notActive.style.display = '';
+
+    setTimeout(() => {
+      active.style[MDWUtils.transformPropertyName] = 'translateX(-16px)';
+      active.style.opacity = '0';
+
+      notActive.style.transition = '';
+      notActive.style[MDWUtils.transformPropertyName] = '';
+      notActive.style.opacity = '1';
+
+      active.addEventListener(MDWUtils.transitionEventName, function handler() {
+        active.style.display = 'none';
+        active.removeEventListener(MDWUtils.transitionEventName, handler);
+      });
+    }, 42);
+
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
+      composed: true,
+      detail: _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(nextDate)
+    }));
+  }
+
+  prevMonth() {
+    const active = this.shadowRoot.querySelector('mdw-date-picker--month-days.mdw-active-month');
+    const notActive = this.shadowRoot.querySelector('mdw-date-picker--month-days:not(.mdw-active-month)');
+    const prevDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(active.displayDate), { add: { month: -1 } });
+
+    notActive.style.transition = 'none';
+    notActive.style[MDWUtils.transformPropertyName] = 'translateX(-16px)';
+
+    notActive.setAttribute('mdw-display-date', prevDate);
+    notActive.setAttribute('mdw-selected-date', this.selectedDate);
+
+    // change classes before the event is dispatched so the active month does not change during animation
+    active.classList.remove('mdw-active-month');
+    notActive.classList.add('mdw-active-month');
+    notActive.style.display = '';
+
+    setTimeout(() => {
+      active.style[MDWUtils.transformPropertyName] = 'translateX(16px)';
+      active.style.opacity = '0';
+
+      notActive.style.transition = '';
+      notActive.style[MDWUtils.transformPropertyName] = '';
+      notActive.style.opacity = '1';
+
+      active.addEventListener(MDWUtils.transitionEventName, function handler() {
+        active.style.display = 'none';
+        active.removeEventListener(MDWUtils.transitionEventName, handler);
+      });
+    }, 42);
+
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
+      composed: true,
+      detail: _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(prevDate)
+    }));
+  }
+
+  template() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="mdw-date-picker--controls-container">
+        <mdw-date-picker--year-view-button mdw-display-date="${this.displayDate}"></mdw-date-picker--year-view-button>
+        <mdw-date-picker--month-navigation-buttons></mdw-date-picker--month-navigation-buttons>
+      </div>
+
+      <div class="mdw-date-picker--views">
+        ${this._monthTemplate()}
+      </div>
+    `;
+  }
+
+  _monthTemplate() {
+    this._currentView = 'month';
+
+    const navButton = this.navButtons;
+    if(navButton) navButton.classList.remove('hide');
+
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="mdw-date-picker--month-day-header">
+        ${this.dayOfWeekNames.map(n => `<span>${n}</span>`).join('\n')}
+      </div>
+
+      <div class="mdw-date-picker--months-container">
+        <mdw-date-picker--month-days class="mdw-active-month"
+          mdw-fill-month
+          mdw-display-date="${this.displayDate}"
+          mdw-selected-date="${this.selectedDate}"
+          mdw-min-date="${this.minDate}"
+          mdw-max-date="${this.maxDate}"
+          ></mdw-date-picker--month-days>
+        <mdw-date-picker--month-days
+          mdw-fill-month
+          mdw-display-date="${this.displayDate}"
+          mdw-min-date="${this.minDate}"
+          mdw-max-date="${this.maxDate}"
+          ></mdw-date-picker--month-days>
+      </div>
+    `;
+  }
+
+  _yearTemplate() {
+    this._currentView = 'year';
+
+    const navButton = this.navButtons;
+    if(navButton) navButton.classList.add('hide');
+
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <mdw-date-picker--year
+        mdw-display-date="${this.displayDate}"
+        mdw-selected-date="${this.selectedDate}"
+        mdw-min-date="${this.minDate}"
+        mdw-max-date="${this.maxDate}"
+        ></mdw-date-picker--year>
+    `;
+  }
+
+  styles() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
+      .mdw-date-picker--controls-container {
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .mdw-date-picker--month-day-header {
+        color: var(--mdw-theme-text--body);
+        font-size: 12px;
+        padding: 8px 16px;
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .mdw-date-picker--months-container {
+        overflow: hidden;
+        position: relative;
+        height: 184px;
+        width: 280px;
+      }
+
+      mdw-date-picker--month-days {
+        position: absolute;
+        transform: translateX(0);
+        opacity: 0;
+        transition: transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      .mdw-active-month {
+        opacity: 1;
+      }
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--view-month-single--mobile', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.bound_nextMonth = this.nextMonth.bind(this);
+    this.bound_prevMonth = this.prevMonth.bind(this);
+    this.bound_yearClick = this.yearClick.bind(this);
+
+    this.today = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
+    this.dayOfWeekNames = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getDayOfWeekNames('narrow');
+    this.cloneTemplate(true);
+  }
+
+  addEvents() {
+    this.navButtonLeft.addEventListener('click', this.bound_prevMonth);
+    this.navButtonRight.addEventListener('click', this.bound_nextMonth);
+    this.yearButton.addEventListener('click', this.bound_yearClick);
+  }
+
+  removeEvents() {
+    this.navButtonLeft.removeEventListener('click', this.bound_prevMonth);
+    this.navButtonRight.removeEventListener('click', this.bound_nextMonth);
+    this.yearButton.removeEventListener('click', this.bound_yearClick);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    switch(name) {
+      case 'mdw-max-date':
+      case 'mdw-min-date':
+      case 'mdw-selected-date':
+      case 'mdw-display-date':
+        this.render();
+        break;
+    }
+  }
+
+
+  get displayDate() {
+    return _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.getAttribute('mdw-display-date') || this.today);
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date') || '';
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date') || '';
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date') || '';
+  }
+
+  get navButtonLeft() {
+    return this.shadowRoot.querySelector('.mdw-date-picker--body-nav-buttons--left');
+  }
+
+  get navButtonRight() {
+    return this.shadowRoot.querySelector('.mdw-date-picker--body-nav-buttons--right');
+  }
+
+  get yearButton() {
+    return this.shadowRoot.querySelector('.mdw-date-picker--body-year-view-button');
+  }
+
+  get isActiveMonth() {
+    return this.classList.contains('mdw-active-month');
+  }
+
+  yearClick() {
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:showYearView', {
+      composed: true
+    }));
+  }
+
+  nextMonth() {
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:nextMonth', {
+      composed: true
+    }));
+  }
+
+  prevMonth() {
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:previousMonth', {
+      composed: true
+    }));
+  }
+
+  template() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="mdw-date-picker--controls-container">
+        <div class="mdw-date-picker--body-year-view-button">
+          <div id="month-year-dropdown">${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(this.displayDate, 'MMMM YYYY')}</div>
+          <i class="mdw-select__icon"></i>
+        </div>
+
+        <div class="mdw-date-picker--body-nav-buttons-container">
+          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--left">
+            <mdw-icon>keyboard_arrow_left</mdw-icon>
+          </mdw-button>
+
+          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--right">
+            <mdw-icon>keyboard_arrow_right</mdw-icon>
+          </mdw-button>
+        </div>
+      </div>
+
+      <div class="mdw-date-picker--view-month-day-header">
+        ${this.dayOfWeekNames.map(n => `<span>${n}</span>`).join('\n')}
+      </div>
+
+      <mdw-date-picker--view-month-single
+        class="${this.isActiveMonth ? 'mdw-active-month' : ''}"
+        mdw-display-date="${this.displayDate}"
+        mdw-selected-date="${this.selectedDate}"
+        mdw-min-date="${this.minDate}"
+        mdw-max-date="${this.maxDate}"
+        ></mdw-date-picker--view-month-single>
+    `;
+  }
+
+  styles() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
+      .mdw-date-picker--controls-container {
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 4px;
+        padding-top: 4px;
+      }
+
+      .mdw-date-picker--body-year-view-button {
+        margin-left: 24px;
+        position: relative;
+        padding-right: 28px;
+        cursor: pointer;
+        color: var(--mdw-theme-text--body);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .mdw-date-picker--body-year-view-button .mdw-select__icon {
+        right: 8px;
+        top: 7px;
+        width: 0;
+        height: 0;
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        position: absolute;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--mdw-theme-text--body);
+      }
+
+      .mdw-date-picker--body-nav-buttons-container {
+        display: flex;
+        flex-direction: row;
+        padding-right: 12px;
+      }
+
+      .mdw-date-picker--body-nav-buttons {
+        color: var(--mdw-theme-text--body);
+      }
+
+      .mdw-date-picker--view-month-day-header {
+        color: var(--mdw-theme-text--body);
+        font-size: 12px;
+        margin-left: 12px;
+        margin-right: 12px;
+        line-height: 40px;
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+      }
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--view-month--mobile', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.bound_nextMonth = this.nextMonth.bind(this);
+    this.bound_prevMonth = this.prevMonth.bind(this);
+
+    this.today = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
+    this.dayOfWeekNames = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getDayOfWeekNames('narrow');
+    this.cloneTemplate(true);
+  }
+
+  addEvents() {
+    [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single--mobile')].forEach(el => {
+      el.addEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
+      el.addEventListener('MDWDatePicker:previousMonth', this.bound_prevMonth);
+    });
+  }
+
+  removeEvents() {
+    [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single--mobile')].forEach(el => {
+      el.removeEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
+      el.removeEventListener('MDWDatePicker:previousMonth', this.bound_prevMonth);
+    });
+  }
+
+  static get observedAttributes() {
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    const activeMonth = this.activeMonth;
+    switch(name) {
+      case 'mdw-display-date':
+        this.render();
+        break;
+
+      case 'mdw-selected-date':
+        if (activeMonth) activeMonth.setAttribute('mdw-selected-date', newValue);
+        break;
+
+      case 'mdw-min-date':
+        if (activeMonth) activeMonth.setAttribute('mdw-min-date', newValue);
+        break;
+
+      case 'mdw-max-date':
+        if (activeMonth) activeMonth.setAttribute('mdw-max-date', newValue);
+        break;
+    }
+  }
+
+
+  get displayDate() {
+    return _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.getAttribute('mdw-display-date') || this.today);
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date') || '';
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date');
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date');
+  }
+
+  get monthsScroller() {
+    return this.shadowRoot.querySelector('.mdw-date-picker--view-month--mobile-scroller');
+  }
+
+  get activeMonth() {
+    return this.shadowRoot.querySelector('.mdw-active-month');
+  }
+
+  nextMonth() {
+    if (this._isMoving) return;
+    this._isMoving = true;
+
+    this.monthsScroller.style.transition = '';
+    this.monthsScroller.style[_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName] = `translateX(-200%)`;
+    this.onChangeComplete(() => {
+      const { month, year } = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(this.displayDate, { add: { month: 1 } }));
+      // this event will cause a render
+      this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
+        composed: true,
+        detail: {
+          year,
+          month
+        }
+      }));
+      this._isMoving = false;
+    });
+  }
+
+  prevMonth() {
+    if (this._isMoving) return;
+    this._isMoving = true;
+
+    this.monthsScroller.style.transition = '';
+    this.monthsScroller.style[_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName] = `translateX(0)`;
+    this.onChangeComplete(() => {
+      const { month, year } = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(this.displayDate, { add: { month: -1 } }));
+      // this event will cause a render
+      this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
+        composed: true,
+        detail: {
+          year,
+          month
+        }
+      }));
+      this._isMoving = false;
+    });
+  }
+
+  onChangeComplete(callback) {
+    const monthsScroller = this.monthsScroller;
+    monthsScroller.addEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transitionEventName, function handler() {
+      monthsScroller.removeEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transitionEventName, handler);
+      callback();
+    });
+  }
+
+  template() {
+    const displayDateObj = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate);
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="mdw-date-picker--view-month--mobile-container">
+        <div class="mdw-date-picker--view-month--mobile-scroller" style="${_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName}: translateX(-100%); transition: none;">
+          <mdw-date-picker--view-month-single--mobile mdw-display-date="${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(displayDateObj, { add: { month: -1 } })}"></mdw-date-picker--view-month-single--mobile>
+          <mdw-date-picker--view-month-single--mobile class="mdw-active-month" mdw-display-date="${this.displayDate}"></mdw-date-picker--view-month-single--mobile>
+          <mdw-date-picker--view-month-single--mobile mdw-display-date="${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(displayDateObj, { add: { month: 1 } })}"></mdw-date-picker--view-month-single--mobile>
+        </div>
+      </div>
+    `;
+  }
+
+  styles() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
+      .mdw-date-picker--view-month--mobile-container {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .mdw-date-picker--view-month--mobile-scroller {
+        display: flex;
+        width: 100%;
+        transition: transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      mdw-date-picker--view-month-single--mobile {
+        width: 100%;
+        flex-shrink: 0;
+      }
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+// old
+
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--month-days', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile) this.classList.add('mdw-mobile');
+    this.bound_onClick = this.onClick.bind(this);
+    this.today = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
+    this._setupDate();
+    this.cloneTemplate(true);
+  }
+
+  addEvents() {
+    this.shadowRoot.addEventListener('click', this.bound_onClick);
+  }
+
+  removeEvents() {
+    this.shadowRoot.removeEventListener('click', this.bound_onClick);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    switch(name) {
+      case 'mdw-min-date':
+      case 'mdw-max-date':
+      case 'mdw-display-date':
+        this._setupDate();
+        this.render();
+        break;
+
+      case 'mdw-selected-date':
+        this._selectDate(newValue);
+        break;
+    }
+  }
+
+  get displayDate() {
+    return this.getAttribute('mdw-display-date');
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date');
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date');
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date');
+  }
+
+  get shouldFillMonth() {
+    return this.hasAttribute('mdw-fill-month');
+  }
+
+  _setupDate() {
+    this.monthDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate);
+    this.monthDays = this.monthDate ? _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getMonthDayArray(this.monthDate, {
+      fillInMonth: this.shouldFillMonth,
+      minDate: _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.minDate),
+      maxDate: _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.maxDate)
+    }) : [];
+  }
+
+  _selectDate(dateString) {
+    const date = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(dateString);
+    // TODO do i need to deselect on ivalid dates?
+    if (!_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].isValid(date)) return;
+
+    this.deselect();
+    // date does not match month and year
+    if (_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getYear(date) !== _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getYear(this.monthDate) || _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getMonth(date) !== _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getMonth(this.monthDate)) return;
+
+    const selectedElement = this.shadowRoot.querySelector(`[mdw-date="${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(date, 'YYYY-MM-dd')}"]`);
+    if (selectedElement) selectedElement.classList.add('mdw-selected');
+  }
+
+  deselect() {
+    const selected = this.shadowRoot.querySelector('.mdw-selected');
+    if (selected) selected.classList.remove('mdw-selected');
+  }
+
+  onClick(event) {
+    if (!event.target.classList.contains('mdw-date-picker--day') || !event.target.classList.contains('mdw-interactable') || event.target.classList.contains('mdw-out-of-range')) return;
+
+    this.deselect();
+    const { year, month, day } = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(event.target.getAttribute('mdw-date')));
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:dayChange', {
+      composed: true,
+      detail: { year, month, day }
+    }));
+  }
+
+  template() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="container">
+        ${this.monthDays.map(week => _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          ${week.map(({ display, date, currentMonth, interactable, beforeMinDate, afterMaxDate, isToday }) => {
+            let classes = 'mdw-date-picker--day';
+            if (beforeMinDate) classes += ' mdw-before-min-date';
+            if (afterMaxDate) classes += ' mdw-after-max-date';
+            if (interactable) classes += ' mdw-interactable';
+            if (beforeMinDate || afterMaxDate) classes += ' mdw-out-of-range';
+            if (isToday && display !== '') classes += ' mdw-today';
+            if (!currentMonth) classes += ' mdw-next-month';
+
+            return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`<div class="${classes}" mdw-date="${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(date, 'YYYY-MM-dd')}">${display}</div>`;
+          }).join('\n')}
+        `).join('')}
+      </div>
+    `;
+  }
+
+  styles() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
+      :host {
+        width: 100%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        pointer-events: none;
+      }
+
+      :host(.mdw-active-month) {
+        pointer-events: auto;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: repeat(7, 32px);
+        grid-template-rows: repeat(6, 28px);
+        grid-column-gap: 4px;
+        grid-row-gap: 0px;
+        align-items: center;
+        justify-items: center;
+        padding: 8px 16px;
+      }
+
+      :host(.mdw-mobile) .container {
+        grid-template-columns: repeat(7, 40px);
+        grid-template-rows: repeat(6, 36px);
+        grid-column-gap: 0px;
+        padding: 0;
+      }
+
+      .mdw-date-picker--day {
+        font-size: 13px;
+        color: var(--mdw-theme-text--heading);
+        user-select: none;
+        box-sizing: border-box;
+        cursor: pointer;
+        pointer-events: none;
+        position: relative;
+      }
+
+      .mdw-date-picker--day::before {
+        content: "";
+        width: 28px;
+        height: 28px;
+        position: absolute;
+        top: calc(50% - 14px);
+        left: calc(50% - 14px);
+        border-radius: 50%;
+        z-index: -1;
+      }
+
+      :host(.mdw-mobile) .mdw-date-picker--day {
+        line-height: 32px;
+      }
+
+      .mdw-date-picker--day.mdw-interactable {
+        cursor: pointer;
+        pointer-events: auto;
+      }
+
+      .mdw-date-picker--day.mdw-out-of-range {
+        color: rgb(140,120,120);
+        pointer-events: none;
+        cursor: auto;
+      }
+
+      .mdw-date-picker--day.mdw-next-month {
+        color: rgb(140,140,140);
+      }
+
+      .mdw-date-picker--day.mdw-next-month.mdw-out-of-range {
+        color: rgb(140,120,120);
+      }
+
+      .mdw-date-picker--day.mdw-selected {
+        background-color: var(--mdw-theme-primary);
+        color: var(--mdw-theme-text--on-primary);
+      }
+
+      .mdw-date-picker--day.mdw-selected::before {
+        background-color: var(--mdw-theme-primary);
+      }
+
+      .mdw-date-picker--day.mdw-today::before {
+        border: 1px solid var(--mdw-theme-foreground);
+      }
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--month-navigation-buttons', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.bound_dispatchLeft = this.dispatchLeft.bind(this);
+    this.bound_dispatchRight = this.dispatchRight.bind(this);
+
+    this.cloneTemplate();
+  }
+
+  addEvents() {
+    this.leftButton.addEventListener('click', this.bound_dispatchLeft);
+    this.rightButton.addEventListener('click', this.bound_dispatchRight);
+  }
+
+  removeEvents() {
+    this.leftButton.removeEventListener('click', this.bound_dispatchLeft);
+    this.rightButton.removeEventListener('click', this.bound_dispatchRight);
+  }
+
+  get leftButton() {
+    return this.shadowRoot.querySelector('.left');
+  }
+
+  get rightButton() {
+    return this.shadowRoot.querySelector('.right');
+  }
+
+  dispatchLeft() {
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:prevMonth', {
+      composed: true
+    }));
+  }
+
+  dispatchRight() {
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:nextMonth', {
+      composed: true
+    }));
+  }
+
+  template() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <mdw-button class="mdw-icon left">
+        <mdw-icon>keyboard_arrow_left</mdw-icon>
+      </mdw-button>
+
+      <mdw-button class="mdw-icon right">
+        <mdw-icon>keyboard_arrow_right</mdw-icon>
+      </mdw-button>
+    `;
+  }
+
+  styles() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
+      :host {
+        display: flex;
+        flex-direction: row;
+        padding-right: 12px;
+        height: 48px;
+      }
+
+      mdw-button {
+        color: var(--mdw-theme-text--body);
+      }
+
+      :host(.hide) mdw-button {
+        display: none;
+      }
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--view-month', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.cloneTemplate(true);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    switch(name) {
+      case 'mdw-display-date':
+        this.monthElement.setAttribute('mdw-display-date', newValue);
+        break;
+
+      case 'mdw-selected-date':
+        this.monthElement.setAttribute('mdw-selected-date', newValue);
+        break;
+
+      case 'mdw-min-date':
+        this.monthElement.setAttribute('mdw-min-date', newValue);
+        break;
+
+      case 'mdw-max-date':
+        this.monthElement.setAttribute('mdw-max-date', newValue);
+        break;
+    }
+  }
+
+  get displayDate() {
+    return this.getAttribute('mdw-display-date') || '';
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date') || '';
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date') || '';
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date') || '';
+  }
+
+  get monthElement() {
+    return this.shadowRoot.querySelector('[mdw-month-view]');
+  }
+
+  template() {
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile)return `<mdw-date-picker--view-month--mobile
+                                    mdw-month-view
+                                    mdw-display-date="${this.displayDate}"
+                                    mdw-display-date="${this.selectedDate}"
+                                    mdw-min-date="${this.minDate}"
+                                    mdw-max-date="${this.maxDate}"
+                                    ></mdw-date-picker--view-month--mobile>`;
+
+    return `<mdw-date-picker--view-month--desktop
+              mdw-month-view
+              mdw-display-date="${this.displayDate}"
+              mdw-display-date="${this.selectedDate}"
+              mdw-min-date="${this.minDate}"
+              mdw-max-date="${this.maxDate}"
+              ></mdw-date-picker--view-month--desktop>`;
+  }
+});
+
+});
+
+/***/ }),
+/* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--year-view-button', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.dateObj = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate || _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today()));
+
+    this.cloneTemplate(true);
+  }
+
+  get displayDate() {
+    return this.getAttribute('mdw-display-date');
+  }
+
+  get month() {
+    return _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(this.dateObj, 'MMMM')
+  }
+
+  get year() {
+    return _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getYear(this.dateObj);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-display-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    switch(name) {
+      case 'mdw-display-date':
+        this.dateObj = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(newValue);
+        this.updateDisplay();
+        break;
+    }
+  }
+
+  updateDisplay() {
+    const month = this.month;
+    const monthElement = this.shadowRoot.querySelector('.month');
+    monthElement.style.width = `${this.getMonthWidth(month)}px`;
+    monthElement.innerHTML = month;
+    this.shadowRoot.querySelector('.year').innerHTML = this.year;
+  }
+
+  getMonthWidth(month) {
+    switch(month.toLowerCase()) {
+      case 'january':
+        return 59;
+      case 'february':
+        return 64;
+      case 'march':
+        return 48;
+      case 'april':
+        return 36;
+      case 'may':
+        return 33;
+      case 'june':
+        return 38;
+      case 'july':
+        return 33;
+      case 'august':
+        return 54;
+      case 'september':
+        return 81;
+      case 'october':
+        return 60;
+      case 'november':
+        return 76;
+      case 'december':
+        return 76;
+    }
+  }
+
+  template() {
+    const month = this.month;
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div>
+        <span class="month" style="width: ${this.getMonthWidth(month)}px">${month}</span>
+        <span class="year">${this.year}</span>
+      </div>
+      <i class="icon"></i>
+    `;
+  }
+
+  styles() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
+      :host {
+        margin-left: 24px;
+        position: relative;
+        padding-right: 28px;
+        cursor: pointer;
+        color: var(--mdw-theme-text--body);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .month {
+        display: inline-block;
+        line-height: 13px;
+        overflow: hidden;
+        transition: width 110ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .icon {
+        right: 8px;
+        top: 7px;
+        width: 0;
+        height: 0;
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        position: absolute;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid var(--mdw-theme-text--body);
+      }
+
+      :host(.mdw-open) .icon {
+        transform: rotate(180deg) translateY(-5px);
+        transform-origin: top;
+        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 31 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--year', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.bound_onYearClick = this.onYearClick.bind(this);
+
+    this.today = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
+    // TODO allow range to be set
+    this.yearList = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].defaultYearRange();
+    this.cloneTemplate(true);
+  }
+
+  addEvents() {
+    this.shadowRoot.querySelector('.mdw-date-picker--year-list-grid').addEventListener('click', this.bound_onYearClick);
+  }
+
+  removeEvents() {
+    this.shadowRoot.querySelector('.mdw-date-picker--year-list-grid').removeEventListener('click', this.bound_onYearClick);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    switch(name) {
+      case 'mdw-display-date':
+        this._scrollYearIntoView();
+        break;
+
+      case 'mdw-selected-date':
+        this._selectDate(newValue);
+        break;
+
+      case 'mdw-min-date':
+        break;
+
+      case 'mdw-max-date':
+        break;
+    }
+  }
+
+  get displayDate() {
+    return this.getAttribute('mdw-display-date');
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date');
+  }
+
+  get year() {
+    return _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate)).year;
+  }
+
+  get displayYearElement() {
+    return this.shadowRoot.querySelector(`[mdw-year="${this.year}"]`);
+  }
+
+  _scrollYearIntoView() {
+    this.displayYearElement && this.displayYearElement.scrollIntoView({
+      behavior: 'auto',
+      block: 'center',
+      inline: 'center'
+    });
+  }
+
+  _selectDate(dateString) {
+    const date = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(dateString);
+    // TODO do i need to deselect on ivalid dates?
+    if (!_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].isValid(date)) return;
+    this.deselect();
+
+    const selectedElement = this.shadowRoot.querySelector(`[mdw-year="${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getYear(date)}"]`);
+    if (selectedElement) selectedElement.classList.add('mdw-selected');
+  }
+
+  deselect() {
+    const selected = this.shadowRoot.querySelector('.mdw-selected');
+    if (selected) selected.classList.remove('mdw-selected');
+  }
+
+  // get year() {
+  //   return this._selectedYear;
+  // }
+  //
+  // get selectedElement() {
+  //   let selected = this.shadowRoot.querySelector('.mdw-selected');
+  //   if (!selected) selected = this.shadowRoot.querySelector(`[mdw-year="${this.today.getFullYear()}"]`);
+  //   return selected;
+  // }
+  //
+  // updateDisplay() {
+  //   this.deslecet();
+  //   const el = this.shadowRoot.querySelector(`[mdw-year="${this.year}"]`);
+  //   if (el) el.classList.add('mdw-selected');
+  // }
+  //
+  // deslecet() {
+  //   const selected = this.shadowRoot.querySelector(`.mdw-selected`);
+  //   if (selected) selected.classList.remove('mdw-selected');
+  // }
+  //
+  // scrollToSelectedYear() {
+  //   this.selectedElement.scrollIntoView({
+  //     behavior: 'auto',
+  //     block: 'center',
+  //     inline: 'center'
+  //   });
+  // }
+  //
+  // click(event) {
+  //   this.deslecet();
+  //   event.target.classList.add('mdw-selected');
+  //   this.dispatchEvent(new CustomEvent('MDWDatePicker:yearChange', {
+  //     detail: {
+  //       year: parseInt(event.target.getAttribute('mdw-year'))
+  //     }
+  //   }));
+  // }'
+
+  onYearClick({ target }) {
+    if (!target.hasAttribute('mdw-year')) return;
+
+    const year = parseInt(target.getAttribute('mdw-year'));
+    const newDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate), { set: { year } });
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:yearChange', {
+      composed: true,
+      detail: { year }
+    }));
+  }
+
+  template() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+      <div class="mdw-date-picker--year-list-grid">
+        ${this.yearList.map(y => _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+          <div class="mdw-date-picker--year-item" mdw-year="${y}">${y}</div>
+        `).join('\n')}
+      </div>
+    `;
+  }
+
+  styles() {
+    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
+      :host {
+        display: block;
+        overflow-y: scroll;
+        height: 214px;
+      }
+
+      .mdw-date-picker--year-list-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 52px);
+        grid-column-gap: 7px;
+        grid-row-gap: 4px;
+        align-items: center;
+        justify-items: center;
+        padding: 8px 16px;
+        padding-right: 20px;
+      }
+
+      .mdw-date-picker--year-item {
+        font-size: 15px;
+        width: 100%;
+        text-align: center;
+        line-height: 28px;
+        border-radius: 14px;
+        cursor: pointer;
+        color: var(--mdw-theme-text--heading);
+      }
+
+      .mdw-date-picker--year-item.mdw-selected {
+        background-color: var(--mdw-theme-primary);
+        color: var(--mdw-theme-text--on-primary);
+      }
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-dialog', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.bound_onPanelClose = this.onPanelClose.bind(this);
+    this._clickOutsideClose = false;
+  }
+
+  connectedCallback() {
+    console.log('bottom');
+  }
+
+  disconnectedCallback() {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.remove();
+
+    if (this.backdrop) {
+      this.backdrop.remove();
+      this.backdrop = undefined;
+    }
+  }
+
+  get panel() {
+    // hold a reference becuase we are hoisting the panel out of this component
+    if (!this._panel) this._panel = this.querySelector('mdw-panel');
+    return this._panel;
+  }
+
+  get position() {
+    return this._position || 'center center';
+  }
+
+  set position(value) {
+    this._position = value;
+  }
+
+  get clickOutsideClose() {
+    return this._clickOutsideClose;
+  }
+
+  set clickOutsideClose(value) {
+    this._clickOutsideClose = value;
+  }
+
+  show() {
+    this.panel.hoistToBody();
+    // this.setAutoPosition(false);
+    this.panel.setTarget('body');
+    this.panel.setAttribute('mdw-position', this.position);
+    this.panel.open();
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.classList.add('mdw-show');
+
+    this.backdrop = _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].addBackdrop(this.panel, () => {
+      if (this.clickOutsideClose === true) this.close();
+    });
+    _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].lockPageScroll();
+  }
+
+  close(ok) {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.close();
+    _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].unlockPageScroll();
+    this.backdrop.remove();
+    this.backdrop = undefined;
+    this.dispatchClose(ok);
+  }
+
+  onPanelClose() {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    if (this.backdrop) {
+      this.backdrop.remove();
+      this.backdrop = undefined;
+    }
+  }
+
+  dispatchClose(isOk = false) {
+    this.dispatchEvent(new CustomEvent('close', {
+      detail: {
+        ok: isOk
+      }
+    }));
+  }
+});
+
+});
+
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-drawer', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.bound_navigationChange = this.navigationChange.bind(this);
+    this.isShowing = true;
+    this.isRightAligned = this.hasAttribute('right-aligned');
+    this.classList.add('mdw-active');
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile && !this.classList.contains('mdw-locked-open-mobile')) {
+      this.unlockOpen();
+      this.hide();
+    }
+
+    const fixedEl = this.fixedElement;
+    if (fixedEl) fixedEl.style.width = `${this.offsetWidth}px`;
+
+    // add spacing for scroll
+    if (this.contentElement) this.contentElement.style.height = `calc(100% - ${this.contentElement.offsetTop + 18}px)`;
+
+    this.lockBody();
+    this.addCloseOnChange();
+  }
+
+  disconnectedCallback() {
+    if (this.backdrop) this.backdrop.remove();
+    window.removeEventListener('hashchange', this.bound_navigationChange);
+  }
+
+  get isLockedOpen() {
+    return this.classList.contains('mdw-locked-open');
+  }
+
+  get contentElement() {
+    return this.querySelector('mdw-drawer-content');
+  }
+
+  get fixedElement() {
+    return this.querySelector('mdw-drawer-fixed');
+  }
+
+  addCloseOnChange() {
+    window.addEventListener('hashchange', this.bound_navigationChange);
+  }
+
+  lockOpen() {
+    this.classList.add('mdw-locked-open');
+  }
+
+  unlockOpen() {
+    this.classList.remove('mdw-locked-open');
+  }
+
+  navigationChange() {
+    if (!this.isLockedOpen) this.hide();
+  }
+
+  hide() {
+    this.classList.add('mdw-closed');
+    if (this.isLockedOpen) {
+      this.classList.remove('mdw-locked-open');
+      this.wasLockedOpen = true;
+    }
+    this.isShowing = false;
+    if (this.backdrop) this.backdrop.remove();
+  }
+
+  show() {
+    this.classList.remove('mdw-closed');
+    this.contentElement.style.height = `calc(100% - ${this.contentElement.offsetTop}px)`;
+    if (this.wasLockedOpen) this.classList.add('mdw-locked-open');
+    else if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile) this.addBackdrop();
+    this.isShowing = true;
+
+    // add spacing for scroll
+    if (this.contentElement) this.contentElement.style.height = `calc(100% - ${this.contentElement.offsetTop + 18}px)`;
+  }
+
+  toggle() {
+    if (!this.isShowing) this.show();
+    else this.hide();
+  }
+
+  addBackdrop() {
+    this.backdrop = _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].addBackdrop(this, () => this.hide(), { drawer: true });
+  }
+
+  // this makes sure there are no scrolling issues if the drawer is locked open and you want it fixed
+  lockBody() {
+    if (
+      this.isLockedOpen // is in correct position
+      && this.fixedElement // should be fixed
+      && this.parentNode === document.body // draw is directly in body
+      && !_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile // only valid in non mobile
+      && document.querySelector('mdw-page > mdw-content') // contains nessacary elements to make sure scrolling will still work
+    ) document.body.classList.add('prevent-over-scroll');
+  }
+});
+
+});
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-expander-arrow', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.parentNode.registerArrow(this);
+  }
+
+  open() {
+    this.classList.add('open');
+  }
+
+  close() {
+    this.classList.remove('open');
+  }
+});
+
+});
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-expander-container', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+  }
+
+  disconnectedCallback() {
+    if (this.header) this.header.removeEventListener('click', () => this.toggle);
+  }
+
+  registerHeader(header) {
+    this.header = header;
+    this.header.addEventListener('click', () => this.toggle());
+  }
+
+  registerContent(contentElement) {
+    this.contentElement = contentElement;
+  }
+
+  toggle() {
+    // do nothing if there is no content
+    if (!this.contentElement) return;
+    const open = this.classList.contains('open');
+    if (open) {
+      this.classList.remove('open');
+      this.contentElement.close();
+      this.header.close();
+    } else {
+      this.classList.add('open');
+      this.contentElement.open();
+      this.header.open();
+    }
+  }
+})
+
+});
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-expander-content', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.cloneTemplate();
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('height')) this.height = this.getAttribute('height').replace('px', '');
+    this.parentNode.registerContent(this);
+  }
+
+  static get observedAttributes() {
+    return ['height'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this[name] = newValue;
+  }
+
+  get height() {
+    return this._height || this.scrollHeight;
+  }
+
+  set height(value) {
+    this._height = value;
+  }
+
+  open() {
+    this.style.display= 'block';
+    this.classList.add('show');
+    this.style.maxHeight = `${this.height}px`;
+    this.style.opacity = 1;
+  }
+
+  close() {
+    this.classList.remove('show');
+    this.style.maxHeight = 0;
+    this.style.opacity = 0;
+    this.onHideComplete();
+  }
+
+  onHideComplete() {
+    const self = this;
+    self.addEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].transitionEventName, function handler() {
+      self.style.display= 'none';
+      self.removeEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].transitionEventName, handler);
+    });
+  }
+
+  css() {
+    return cssStr`
       :host {
         display: block;
         overflow: hidden;
@@ -398,17 +7470,2230 @@
       :host(.show) {
         display: block;
       }
-    `}template(){return html`
+    `;
+  }
+
+  template() {
+    return html`
       <slot></slot>
-    `}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-expander-header",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.cloneTemplate()}connectedCallback(){this.parentNode.registerHeader(this)}registerArrow(e){this.arrow=e}open(){this.arrow&&this.arrow.open()}close(){this.arrow&&this.arrow.close()}htmtemplatel(){return html`
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-expander-header', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.cloneTemplate();
+  }
+
+  connectedCallback() {
+    this.parentNode.registerHeader(this);
+  }
+
+  registerArrow(arrow) {
+    this.arrow = arrow;
+  }
+
+  open() {
+    if (this.arrow) this.arrow.open();
+  }
+
+  close() {
+    if (this.arrow) this.arrow.close();
+  }
+
+  htmtemplatel() {
+    return html`
       <slot></slot>
-    `}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(2);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-fab",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_asyncClick=this.asyncClick.bind(this),this.cloneTemplate(),this.setupAsync()}connectedCallback(){this.ripple=new s.default({element:this.shadowRoot.querySelector(".mdw-ripple"),triggerElement:this})}disconnectedCallback(){this.ripple.destroy(),this.removeEventListener("click",this.bound_asyncClick)}template(){return html`
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-fab', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.bound_asyncClick = this.asyncClick.bind(this);
+    this.cloneTemplate();
+    this.setupAsync();
+  }
+
+  connectedCallback() {
+    this.ripple = new _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      element: this.shadowRoot.querySelector('.mdw-ripple'),
+      triggerElement: this
+    });
+  }
+
+  disconnectedCallback() {
+    this.ripple.destroy();
+    this.removeEventListener('click', this.bound_asyncClick);
+
+  }
+
+  template() {
+    return html`
       <span class="text"><slot></slot></span>
       <span class="mdw-spinner-container"></span>
       <div class="mdw-ripple mdw-fab-ripple"></div>
-    `}get dense(){return this.classList.contains("mdw-dense")}get spinnerContainer(){return this._spinnerContainer||(this._spinnerContainer=this.shadowRoot.querySelector(".mdw-spinner-container")),this._spinnerContainer}set disabled(e){e||""===e?this.setAttribute("disabled","disabled"):this.removeAttribute("disabled")}get pending(){return this.pending_}setupAsync(){this.hasAttribute("mdw-async")&&this.addEventListener("click",this.bound_asyncClick)}resolve(){!1!==this.pending_&&(this.pending_=!1,this.hideSpinner())}asyncClick(e){!0!==this.pending_&&(this.pending_=!0,this.showSpinner())}get spinnerStyle(){return this.dense?"position: absolute; left: calc(50% - 12px); top: 8px;":"position: absolute; left: calc(50% - 16px); top: 12px;"}get spinnerDiameter(){return this.dense?24:32}showSpinner(){this._showSpinner=!0,this.classList.add("mdw-show-spinner");const e=this.classList.contains("mdw-primary")||this.classList.contains("mdw-secondary")||this.classList.contains("mdw-error");this.spinnerContainer.innerHTML=`<mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="${this.spinnerDiameter}" class="${e?"mdw-white":"mdw-grey"}" style="${this.spinnerStyle}"></mdw-circular-progress>`}hideSpinner(){this._showSpinner=!1,this.classList.remove("mdw-show-spinner"),this.spinnerContainer.innerHTML=""}get internalStylesFile(){return"./internal.css"}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-icon",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.cloneTemplate(),this.hasAttribute("mdw-src")&&this.render()}get src(){return this.getAttribute("mdw-src")}styles(){return"\n      :host {\n        font-family: 'Material Icons';\n        font-weight: normal;\n        font-style: normal;\n        font-size: 24px;\n        line-height: 1;\n        letter-spacing: normal;\n        text-transform: none;\n        display: inline-block;\n        white-space: nowrap;\n        word-wrap: normal;\n        direction: ltr;\n        font-feature-settings: 'liga';\n        -webkit-font-feature-settings: 'liga';\n        -webkit-font-smoothing: antialiased;\n      }\n\n      :host img {\n        width: 24px;\n        height: 24px;\n      }\n\n\n      :host(.mdw-primary) {\n        color: var(--mdw-theme-primary);\n      }\n\n      :host(.mdw-secondary) {\n        color: var(--mdw-theme-secondary);\n      }\n\n      :host(.mdw-error) {\n        color: var(--mdw-theme-error);\n      }\n    "}template(){const e=this.src;return e?`<img src="${e}"></img>`:"<slot></slot>"}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-linear-progress",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.cloneTemplate()}connectedCallback(){null===this.percent&&this.classList.add("mdw-query")}static get observedAttributes(){return["mdw-percent"]}attributeChangedCallback(e,t,n){switch(e){case"mdw-percent":this.percent=n}}get bar(){return this._bar||(this._bar=this.shadowRoot.querySelector(".mdw-bar")),this._bar}get percent(){return this.getAttribute("mdw-percent")}set percent(e){e<0&&(e=0),e>100&&(e=100),this.bar.style.width=`${e}%`}template(){return html`
+    `;
+  }
+
+  get dense() {
+    return this.classList.contains('mdw-dense');
+  }
+
+  get spinnerContainer() {
+    return this.shadowRoot.querySelector('.mdw-spinner-container');
+  }
+
+  set disabled(value) {
+    if (!!value || value === '') this.setAttribute('disabled', 'disabled');
+    else this.removeAttribute('disabled');
+  }
+
+  get pending() {
+    return this._pending;
+  }
+
+  setupAsync() {
+    if (!this.hasAttribute('mdw-async')) return;
+    this.addEventListener('click', this.bound_asyncClick);
+  }
+
+  resolve() {
+    if (this._pending === false) return;
+    this._pending = false;
+    this.hideSpinner();
+  }
+
+  asyncClick(e) {
+    if (this._pending === true) return;
+    this._pending = true;
+    this.showSpinner();
+  }
+
+  get spinnerStyle() {
+    if (this.dense) return 'position: absolute; left: calc(50% - 12px); top: 8px;';
+    return 'position: absolute; left: calc(50% - 16px); top: 12px;';
+  }
+
+  get spinnerDiameter() {
+    if (this.dense) return 24;
+    return 32;
+  }
+
+  showSpinner() {
+    this._showSpinner = true;
+    this.classList.add('mdw-show-spinner');
+    const isWhite = this.classList.contains('mdw-primary') || this.classList.contains('mdw-secondary') || this.classList.contains('mdw-error');
+    this.spinnerContainer.innerHTML = `<mdw-circular-progress mdw-mode="indeterminate" mdw-diameter="${this.spinnerDiameter}" class="${isWhite ? 'mdw-white' : 'mdw-grey'}" style="${this.spinnerStyle}"></mdw-circular-progress>`;
+  }
+
+  hideSpinner() {
+    this._showSpinner = false;
+    this.classList.remove('mdw-show-spinner');
+    this.spinnerContainer.innerHTML = '';
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+});
+
+});
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-icon', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.cloneTemplate();
+    if (this.hasAttribute('mdw-src')) this.render();
+  }
+
+  get src() {
+    return this.getAttribute('mdw-src');
+  }
+
+  styles() {
+    return `
+      :host {
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        font-feature-settings: 'liga';
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+      }
+
+      :host img {
+        width: 24px;
+        height: 24px;
+      }
+
+
+      :host(.mdw-primary) {
+        color: var(--mdw-theme-primary);
+      }
+
+      :host(.mdw-secondary) {
+        color: var(--mdw-theme-secondary);
+      }
+
+      :host(.mdw-error) {
+        color: var(--mdw-theme-error);
+      }
+    `;
+  }
+
+
+  template() {
+    const src = this.src;
+    if (src) return `<img src="${src}"></img>`;
+    return '<slot></slot>';
+  }
+});
+
+});
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-linear-progress', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.cloneTemplate();
+  }
+
+  connectedCallback() {
+    if (this.percent === null) this.classList.add('mdw-query')
+  }
+
+  static get observedAttributes() {
+    return ['mdw-percent'];
+  }
+
+  attributeChangedCallback(name, _oldValue, newValue) {
+    switch(name) {
+      case 'mdw-percent':
+        this.percent = newValue;
+        break;
+    }
+  }
+
+  get bar() {
+    return this.shadowRoot.querySelector('.mdw-bar');
+  }
+
+  get percent() {
+    return this.getAttribute('mdw-percent');
+  }
+
+  set percent(value) {
+    if (value < 0) value = 0;
+    if (value > 100) value = 100;
+    this.bar.style.width = `${value}%`;
+  }
+
+  template() {
+    return html`
       <div class="mdw-bar"></div>
-    `}get internalStylesFile(){return"./internal.css"}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(2);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-list-item",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_hrefClick=this.hrefClick.bind(this),this.bound_onSelect=this.onSelect.bind(this),this.bound_onclickSelect=this.onclickSelect.bind(this),this.bound_checkHREFActive=this.checkHREFActive.bind(this)}get list(){return this.parentNode}isSelect(){return!!this.list.selectType}selectOnclick(){return!!this.list.selectOnclick}connectedCallback(){this.connectRipple(),this.connectHREF(),this.connectSelect()}disconnectedCallback(){this.ripple&&this.ripple.destroy(),this.removeEventListener("click",this.bound_hrefClick),this.selectEl_&&this.selectEl_.removeEventListener("change",this.bound_onSelect),this.removeEventListener("click",this.bound_onclickSelect),window.removeEventListener("hashchange",this.bound_checkHREFActive)}connectRipple(){const e=this.querySelector(".mdw-ripple");e&&(this.ripple=new s.default({element:e,triggerElement:this}),this.classList.add("mdw-has-ripple"))}connectHREF(){this.hasAttribute("href")&&(this.checkHREFActive(),window.addEventListener("hashchange",this.bound_checkHREFActive),this.addEventListener("click",this.bound_hrefClick))}checkHREFActive(){if(!this.hasAttribute("href"))return;const e=document.location.href,t=document.location.hash;e===this.getAttribute("href")||e===this.getAttribute("href-alt")?this.setAttribute("active","active"):t===this.getAttribute("href")||t===this.getAttribute("href-alt")?this.setAttribute("active","active"):this.removeAttribute("active")}hrefClick(){"_blank"!==this.getAttribute("target")?document.location.href=this.getAttribute("href"):window.open(this.getAttribute("href"),"_blank")}onSelect(e){e.target.checked?this.list.itemSelected(this):this.list.itemDeselected(this)}onclickSelect(e){this.selectOnclick()&&e.target!==this.selectEl_&&(this.selectEl_.checked=!this.selectEl_.checked)}connectSelect(){this.isSelect()&&(this.selectEl_=this.querySelector("mdw-checkbox"),this.selectEl_&&this.selectEl_.addEventListener("change",this.bound_onSelect),this.selectOnclick()&&this.addEventListener("click",this.bound_onclickSelect))}deselect(){this.selectEl_.checked=!1}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-list",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.selectedIndexes_=[]}static get observedAttributes(){return["mdw-select","mdw-select-onclick"]}attributeChangedCallback(e,t,n){switch(e){case"mdw-select":this.selectType=n;break;case"mdw-select-onclick":this.selectOnclick=null!==n}}set selectOnclick(e){this.selectOnclick_=e}get selectOnclick(){return this.selectOnclick_}set selectType(e){this.selectType_=e}get selectType(){return this.selectType_}get selected(){return[].concat(this.selectedIndexes_)}deselectAll(){[...this.children].forEach(e=>e.deselect()),this.selectedIndexes_=[]}itemSelected(e){const t=Array.prototype.indexOf.call(this.children,e);if("single"===this.selectType_){const e=[...this.children];this.selectedIndexes_.forEach(t=>e[t].deselect()),this.selectedIndexes_=[]}this.selectedIndexes_.push(t),this.handleChange()}itemDeselected(e){const t=Array.prototype.indexOf.call(this.children,e);this.selectedIndexes_.splice(this.selectedIndexes_.indexOf(t),1),this.handleChange()}handleChange(){this.dispatchEvent(new CustomEvent("change",this))}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-menu",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_onClick=this.onClick.bind(this),this.bound_onPanelClick=this.onPanelClick.bind(this),!0===s.default.isMobile?this.createSheet():this.createPanel()}connectedCallback(){this.button.addEventListener("click",this.bound_onClick),!0!==s.default.isMobile&&(this.classList.add("mdw-panel--container"),this.panel.classList.add("mdw-menu"))}onClick(){!0!==s.default.isMobile?(this.panel.setPosition(this.panelPosition),this.panel.autoPosition(),this.panel.clickBodyToClose(),this.panel.open(!0),this.panel.addEventListener("click",this.bound_onPanelClick)):this.sheet.open()}onPanelClick(){this.panel.close()}set panelPosition(e){this.panelPosition_=e}get panelPosition(){return this.panelPosition_||"inner-top inner-left"}get button(){return this.children[0]}get contentElement(){return this.querySelector("mdw-menu-content")}get panel(){return this.querySelector("mdw-panel")}get sheet(){return this.querySelector("mdw-sheet")}createSheet(){this.insertAdjacentHTML("beforeend",`\n      <mdw-sheet mdw-modal>\n        <mdw-sheet-content>\n          ${this.contentElement.innerHTML}\n        </mdw-sheet-content>\n      </mdw-sheet>\n    `),this.contentElement.remove()}createPanel(){this.contentElement&&(this.insertAdjacentHTML("beforeend",`\n      <mdw-panel>\n        ${this.contentElement.innerHTML}\n      </mdw-panel>\n    `),this.contentElement.remove())}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-panel",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.FOCUSABLE_ELEMENTS=["button:not(:disabled)",'[href]:not([aria-disabled="true"])',"input:not(:disabled)","select:not(:disabled)","textarea:not(:disabled)",'[tabindex]:not([tabindex="-1"]):not([aria-disabled="true"])'].join(", "),this._clickOutsideClose=!1,this._boundHandleBodyClick=this._handleBodyClick.bind(this),this._boundHandleKeydown=this._handleKeydown.bind(this),this._clickOutsideCloseIgnorElement=[],this._autoPosition=!1}connectedCallback(){this.classList.add("mdw-upgraded"),this.transformPropertyName=s.default.transformPropertyName}disconnectedCallback(){this.removeBodyClickEvent_(),this.removeKeydownEvent_(),clearTimeout(this._openAnimationEndTimerId),clearTimeout(this._closeAnimationEndTimerId),cancelAnimationFrame(this._animationRequestId)}static get observedAttributes(){return["mdw-position"]}attributeChangedCallback(e,t,n){switch(e){case"mdw-position":this._position=n}}set clickOutsideClose(e){this._clickOutsideClose=e}set setQuickOpen(e){this._isQuickOpen=e}get position(){return this._position}setPosition(e){const t=e.split(" ");this._position=`${t[0]||"top"} ${t[1]||"left"}`,this.setAttribute("mdw-position",this._position),this._positionSet=!0}autoPosition(){this._autoPosition=!0}clickBodyToClose(){this._clickOutsideClose=!0}isOpen(){return this._isOpen}open(e){void 0!==e&&(this._clickOutsideClose=e);const t=this.querySelectorAll(this.FOCUSABLE_ELEMENTS);this._firstFocusableElement=t[0],this._lastFocusableElement=t[t.length-1],this.saveFocus(),this._isQuickOpen?(this.classList.add("mdw-open"),this._isHoisted?this.setHoisetedPosition():this.setPositionStyle()):(this.classList.add("mdw-panel--animating-open"),this._animationRequestId=this._runNextAnimationFrame(()=>{this.classList.add("mdw-open"),this._isQuickOpen?this.notifyOpen():this._openAnimationEndTimerId=setTimeout(()=>{this._openAnimationEndTimerId=0,this.classList.remove("mdw-panel--animating-open"),this.notifyOpen()},150),this._isHoisted?this.setHoisetedPosition():this.setPositionStyle()})),this.addBodyClickEvent_(),this.addKeydownEvent_(),this._isOpen=!0}close(){this._isQuickOpen?(this.classList.remove("mdw-open"),this.resetPosition()):(this.classList.add("mdw-panel--animating-closed"),this.removeBodyClickEvent_(),this._animationRequestId=this._runNextAnimationFrame(()=>{this.classList.remove("mdw-open"),this._isQuickOpen?this.notifyClose():this._closeAnimationEndTimerId=setTimeout(()=>{this._closeAnimationEndTimerId=0,this.classList.remove("mdw-panel--animating-closed"),this.resetPosition(),this.notifyClose()},75)})),this.removeKeydownEvent_(),this._isOpen=!1;const e=this.isFocused(),t=document.activeElement&&this.contains(document.activeElement);(e||t)&&this.restoreFocus()}_runNextAnimationFrame(e){cancelAnimationFrame(this._animationFrame),this._animationFrame=requestAnimationFrame(()=>{this._animationFrame=0,clearTimeout(this._animationTimer),this._animationTimer=setTimeout(e,0)})}isFocused(){return document.activeElement===this}saveFocus(){this._previousFocus=document.activeElement}restoreFocus(){this.contains(document.activeElement)&&this._previousFocus&&this._previousFocus.focus&&this._previousFocus.focus()}focusFirstElement(){this._firstFocusableElement&&this._firstFocusableElement.focus&&this._firstFocusableElement.focus()}focusLastElement(){this._lastFocusableElement&&this._lastFocusableElement.focus&&this._lastFocusableElement.focus()}isFirstElementFocused(){this._firstFocusableElement&&(this._firstFocusableElement,document.activeElement)}isLastElementFocused(){this._lastFocusableElement&&(this._lastFocusableElement,document.activeElement)}addBodyClickEvent_(){this._clickOutsideClose&&setTimeout(()=>{this.hasBodyEvent=!0,document.body.addEventListener("click",this._boundHandleBodyClick)},0)}removeBodyClickEvent_(){this.hasBodyEvent&&document.body.removeEventListener("click",this._boundHandleBodyClick),this.hasBodyEvent=!1}addKeydownEvent_(){this.hasKeydownEvent=!0,document.body.addEventListener("keydown",this._boundHandleKeydown)}removeKeydownEvent_(){this.hasKeydownEvent&&document.body.removeEventListener("keydown",this._boundHandleKeydown),this.hasKeydownEvent=!1}ignoreElementOnClickToClose(e){this._clickOutsideCloseIgnorElement.push(e)}_handleBodyClick(e){const t=e.target;this._clickOutsideCloseIgnorElement.includes(t)||this.contains(t)||(this.removeBodyClickEvent_(),this.close())}_handleKeydown(e){const{key:t,keyCode:n,shiftKey:i}=e,s="Tab"===t||9===n;"Escape"===t||27===n?this.close():s&&(this.isLastElementFocused()&&!i?(this.focusFirstElement(),e.preventDefault()):this.isFirstElementFocused()&&i&&(this.focusLastElement(),e.preventDefault()))}notifyClose(){this.dispatchEvent(new Event("MDWPanel:closed",this))}notifyOpen(){this.dispatchEvent(new Event("MDWPanel:open"),this)}hoistToBody(e){this._isHoisted||(this._container=e||this.parentNode,document.body.appendChild(this),this.classList.add("mdw-panel-hoisted"),this._isHoisted=!0)}_autoPositionHoisted(){if(!this._autoPosition)return;const e=window.innerHeight,t=(this.getBoundingClientRect(),this.offsetHeight);let n=this.offsetTop;if(n+t>e&&t<=e){let i=n-(e-t);i>20?i+=10:i/=2,n-=i}this.style.top=`${n}px`}setHoisetedPosition(){const e=this._container.getBoundingClientRect();if(this.style.top=`${e.top}px`,this.style.left=`${e.left}px`,this.style[this.transformPropertyName]="scale(1)",this._positionSet){let t=0,n=0;this.style.top=`${t}px`,this.style.left=`${n}px`,setTimeout(()=>{const{clientWidth:i,clientHeight:s}=document.documentElement,o=this.offsetHeight,r=this.offsetWidth,a=this.position.split(" ")[0],d=this.position.split(" ")[1];switch(a){case"top":t=0;break;case"inner-top":t=e.y+12;break;case"bottom":t=s;break;case"center":t=s/2-o/2;break;case"inner-bottom":t=s-o-12}switch(d){case"left":n=-r;break;case"inner-left":n=e.x+12;break;case"right":n=i;break;case"inner-right":n=i-r-12;break;case"center":n=i/2-r/2}this.style.width=`${this.width}px`,this.style.top=`${t}px`,this.style.left=`${n}px`},0)}else this._autoPositionHoisted()}setPositionStyle(e){e?this._parentOverride=e:this._parentOverride&&(e=this._parentOverride);const t=this.position;let n=0,i=0;if(e)n=e.offsetWidth,i=e.offsetHeight;else{let e=this.parentNode;"MDW-SNACKBAR"===e.nodeName&&(e=e.parentNode);const t=e.getBoundingClientRect();n=t.width,i=t.height}const s=this.offsetWidth,o=this.offsetHeight,r=t.split(" ")[0],a=t.split(" ")[1];let d=0,l=0;switch(r){case"top":d=-o;break;case"bottom":d=i;break;case"center":d=i/2-o/2;break;case"inner-bottom":d=i-o}switch(a){case"left":l=-s;break;case"right":l=n;break;case"inner-right":l=n-s;break;case"center":l=n/2-s/2}if(this._autoPosition){const{clientWidth:e,clientHeight:t}=document.documentElement,{x:r,y:a}=this.getBoundingClientRect();a+o>t&&(d=i-o),r+s>e&&(l=n-s)}this.style.top=`${parseInt(d)}px`,this.style.left=`${parseInt(l)}px`,this.style[this.transformPropertyName]="scale(1)"}resetPosition(){this.style.top="",this.style.left="",this.style[this.transformPropertyName]=""}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-radio-group",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.initialValue=this.getAttribute("mdw-value")}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(2),o=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-radio",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.insertAdjacentHTML("beforeend",this.rippleTemplate())}connectedCallback(){this.parentNode.initialValue===this.value&&(this.input.checked=!0),this.input.hasAttribute("type")||this.input.setAttribute("type","radio"),this.input.hasAttribute("name")||this.input.setAttribute("name",this.name),this.ripple=new s.default({element:this.querySelector(".mdw-ripple"),triggerElement:[this.input],radius:20,centered:!0})}disconnectedCallback(){this.ripple.destroy()}get value(){return this.input.value}get input(){return this.querySelector("input")}get name(){return this.parentNode&&this.parentNode.hasAttribute("name")?this.name_=this.parentNode.getAttribute("name"):this.hasAttribute("name")&&(this.name_=this.getAttribute("name")),this.name_||(this.name_=o.default.uid(),this.parentNode?this.parentNode.setAttribute("name",this.name_):this.setAttribute("name",this.name_)),this.name_}rippleTemplate(){return'\n      <div class="mdw-radio-background">\n        <div class="mdw-radio__outer-circle"></div>\n        <div class="mdw-radio__inner-circle"></div>\n      </div>\n      <div class="mdw-ripple mdw-radio-ripple"></div>\n    '}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-select",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.setupLabel_(),this.isEnhanced_&&this.prepareEnhance_(),this.classList.add("mdw-no-animation"),this.cloneTemplate(!0),this.bound_onFocus=this.onFocus.bind(this),this.bound_onBlur=this.onBlur.bind(this),this.bound_onClick=this.onClick.bind(this),this.bound_onChange=this.onChange.bind(this),this.bound_onPanelClick=this.onPanelClick.bind(this),this.bound_onKeyDown=this.onKeyDown.bind(this)}connectedCallback(){this.isEnhanced_?(this.selected_&&(this.value=this.selected_.value),this.shadowRoot.querySelector("render-block").addEventListener("click",this.bound_onClick),document.body.addEventListener("keydown",this.bound_onKeyDown)):(this.selectElement.addEventListener("focus",this.bound_onFocus),this.selectElement.addEventListener("blur",this.bound_onBlur),this.selectElement.addEventListener("change",this.bound_onChange)),this.onChange(),setTimeout(()=>{this.classList.add("mdw-no-animation"),this.isEnhanced_&&(this.panel.style.minWidth=`${this.offsetWidth}px`)},0)}disconnectedCallback(){this.isEnhanced_?(this.shadowRoot.querySelector("render-block").removeEventListener("click",this.bound_onClick),document.body.removeEventListener("keydown",this.bound_onKeyDown)):(this.selectElement.removeEventListener("focus",this.bound_onFocus),this.selectElement.removeEventListener("blur",this.bound_onBlur),this.selectElement.removeEventListener("change",this.bound_onChange))}get value(){return this.isEnhanced_?this.value_:this.selectElement.value||this.value_}set value(e){this.value_=e,this.onChange(),this.dispatchEvent(new Event("change"))}get selectElement(){return s.default.querySlotted(this,"select")}get label(){return this.shadowRoot.querySelector("label")}get labelWidth(){return.9*this.label.offsetWidth}get enhacedElementId(){return this.enhacedElementId_||(this.enhacedElementId_=`select-enhanced-${s.default.uid()}`),this.enhacedElementId_}get panel(){return document.querySelector(`#${this.enhacedElementId}`)}get sheet(){return document.querySelector(`#${this.enhacedElementId}`)}get isEnhanced_(){return null!==this.getAttribute("mdw-enhanced")}get outlined(){return[].slice.apply(this.classList||[]).includes("mdw-outlined")}get notch(){return this._notch||(this._notch=this.shadowRoot.querySelector(".mdw-outlined-notch")),this._notch}setupLabel_(){const e=this.querySelector("label");e&&(this.labelText_=e.innerText,e.remove())}prepareEnhance_(){this.optionsMap_=[...this.querySelectorAll("option")].map(e=>({text:e.innerText,value:e.value,selected:e.hasAttribute("selected")})),this.selected_=this.optionsMap_.filter(({selected:e})=>!0===e)[0]||{text:"",value:""};const e=this.querySelector("select");if(e){const t=e.getAttribute("onchange");t&&this.setAttribute("onchange",t),e.remove()}s.default.isMobile?this.prepareSheet_():this.preparePanel_()}preparePanel_(){const e=`\n      <mdw-panel id="${this.enhacedElementId}" mdw-flex-position="bottom inner-left" class="mdw-panel-hoisted">\n        <mdw-list>\n          ${this.optionsMap_.map(({text:e,value:t,selected:n})=>`\n            <mdw-list-item value="${t}"${n?" selected":""}>${e}</mdw-list-item>\n          `).join("\n")}\n        </mdw-list>\n      </mdw-panel>\n    `;document.body.insertAdjacentHTML("beforeend",e);const t=this.panel;t.hoistToBody&&t.hoistToBody(this),t.style.transform="scale(1)"}prepareSheet_(){const e=`\n      <mdw-sheet mdw-modal id=${this.enhacedElementId}>\n        <mdw-sheet-content>\n          <mdw-list>\n            ${this.optionsMap_.map(({text:e,value:t,selected:n})=>`\n              <mdw-list-item value="${t}"${n?" selected":""}>${e}</mdw-list-item>\n            `).join("\n")}\n          </mdw-list>\n        </mdw-sheet-content>\n      </mdw-sheet>\n    `;document.body.insertAdjacentHTML("beforeend",e)}onFocus(){this.classList.add("mdw-focused"),this.outlined&&(this.notch.style.width=this.labelWidth+"px")}onBlur(){this.classList.remove("mdw-focused"),this.classList.toggle("mdw-not-empty",this.value),this.isEnhanced_&&(s.default.isMobile?(this.sheet.removeEventListener("MDWSheet:closed",this.bound_onBlur),this.sheet.removeEventListener("click",this.bound_onPanelClick)):(this.panel.removeEventListener("MDWPanel:closed",this.bound_onBlur),this.panel.removeEventListener("click",this.bound_onPanelClick))),s.default.unlockPageScroll()}onChange(){this.value&&this.label?(this.label.classList.add("mdw-select--float-above"),this.label.classList.remove("mdw-empty-no-float"),this.outlined&&(this.notch.style.width=this.labelWidth+"px")):(this.label.classList.remove("mdw-select--float-above"),this.label.classList.add("mdw-empty-no-float"),this.outlined&&(this.notch.style.width="0"))}onClick(e){if(this._focusIndex,this.onFocus(),s.default.isMobile){const e=this.sheet;e.open(),e.addEventListener("MDWSheet:closed",this.bound_onBlur),e.addEventListener("click",this.bound_onPanelClick);const t=e.querySelector(".mdw-focused");t&&t.classList.remove("mdw-focused");const n=e.querySelector("[selected]");n&&n.classList.add("mdw-focused")}else{const e=this.panel;e.autoPosition(),e.open(!0),e.addEventListener("MDWPanel:closed",this.bound_onBlur),e.addEventListener("click",this.bound_onPanelClick);const t=e.querySelector(".mdw-focused");t&&t.classList.remove("mdw-focused");const n=e.querySelector("[selected]");n&&n.classList.add("mdw-focused")}s.default.lockPageScroll()}onPanelClick(e){if(!e.target.hasAttribute("value"))return;this.value=e.target.getAttribute("value"),this.setSelectedText(e.target.innerText);const t=this.panel.querySelector("[selected]");t&&t.removeAttribute("selected"),e.target.setAttribute("selected",""),this.panel.close()}setSelectedText(e){this.shadowRoot.querySelector(".mdw-select__selected-text").innerText=e}get internalStylesFile(){return"./internal.css"}template(){return`\n      <i class="mdw-select__icon"></i>\n      ${this.isEnhanced_?`\n        <div class="mdw-select__selected-text">${this.selected_.text}</div>\n      `:"<slot></slot>"}\n      <label>${this.labelText_}</label>\n      ${this.outlined?"":'<div class="mdw-line-ripple"></div>'}\n      ${this.outlined?'\n        <div class="mdw-outlined-border-container">\n          <div class="mdw-outlined-leading"></div>\n          <div class="mdw-outlined-notch"></div>\n          <div class="mdw-outlined-trailing"></div>\n        </div>\n      ':""}\n    `}onKeyDown(e){if(this.panel.isOpen())switch(e.keyCode){case 40:case 39:this.focusNext(),e.preventDefault();break;case 38:case 37:this.focusPrevious(),e.preventDefault();break;case 13:this.selectFocused(),e.preventDefault();break;default:if(e.keyCode>=31||e.keyCode<=90){const t=this.keyboardSearchNodes(e.keyCode);void 0!==t&&this.selectNode(t),e.stopPropagation(),e.preventDefault()}}}keyboardSearchNodes(e){void 0!==this._clearSearchTimeout&&clearTimeout(this._clearSearchTimeout),this._clearSearchTimeout=setTimeout(()=>{this._clearSearchTimeout=void 0,this._keyboardSearchStr="",this._keyboardOptionNames=void 0},300),void 0===this._keyboardSearchStr&&(this._keyboardSearchStr=""),this._keyboardSearchStr+=String.fromCharCode(e);const t=new RegExp("^"+this._keyboardSearchStr,"i");this._keyboardOptionNames||(this._keyboardOptionNames=[...this.panel.querySelectorAll("mdw-list-item")].map(e=>e.innerText));const n=this._keyboardOptionNames.length;let i=0;for(;i<n;){if(t.test(this._keyboardOptionNames[i]))return i;i+=1}}selectNode(e){const t=[...this.panel.querySelectorAll("mdw-list-item")];this._focusIndex=e,this._focusedOption&&this._focusedOption.classList.remove("mdw-focused"),this._focusedOption=t[this._focusIndex],this._focusedOption.classList.add("mdw-focused")}focusNext(){if(!this.panel.isOpen())return;const e=[...this.panel.querySelectorAll("mdw-list-item")];if(void 0===this._focusIndex){const t=e.findIndex(e=>e.classList.contains("mdw-focused"));t>=0&&(this._focusedOption=e[t]),this._focusIndex=t<=0?1:t+1}else this._focusIndex+=1;this._focusIndex>e.length-1&&(this._focusIndex=e.length-1),this._focusedOption&&this._focusedOption.classList.remove("mdw-focused"),this._focusedOption=e[this._focusIndex],this._focusedOption.classList.add("mdw-focused")}focusPrevious(){if(!this.panel.isOpen())return;const e=[...this.panel.querySelectorAll("mdw-list-item")];void 0===this._focusIndex?this._focusIndex=0:this._focusIndex-=1,this._focusIndex<=0&&(this._focusIndex=0),this._focusedOption&&this._focusedOption.classList.remove("mdw-focused"),this._focusedOption=e[this._focusIndex],this._focusedOption.classList.add("mdw-focused")}selectFocused(){if(!this.panel.isOpen())return;const e=[...this.panel.querySelectorAll("mdw-list-item")];(null==this._focusIndex||this._focusIndex>e.length-1)&&(this._focusIndex=0),this.onPanelClick({target:e[this._focusIndex]})}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-sheet-header",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.hasCollapsedHeader=0!==(this.children||[]).length,this.hasCollapsedHeader||this.classList.add("mdw-hide-collapsed-header"),this.parentNode.registerHeader&&this.parentNode.registerHeader(this,this.hasCollapsedHeader),this.innerHTMLString=this.innerHTML,this.innerHTML="",this.cloneTemplate(!0),this.showingFullscreen=!1,this.bound_close=this.close.bind(this),this.parentNode.classList.contains("mdw-shaped")&&this.classList.add("mdw-shaped")}connectedCallback(){this.closeButton.addEventListener("click",this.bound_close)}disconnectedCallback(){this.closeButton.removeEventListener("click",this.bound_close)}get closeButton(){return this.shadowRoot.querySelector("#mdw-sheet-close-action")}get title(){return this.title_?this.title_:this.hasAttribute("mdw-title")?this.getAttribute("mdw-title"):""}set title(e){this.title_=e}get isModal(){return this.parentNode&&this.parentNode.isModal||!1}close(){this.isModal?this.parentNode.close():this.parentNode.collapse()}disableCollapsedHeader(){this.classList.add("mdw-sheet-disable-collapsed-header")}showFullscreen(){this.classList.add("mdw-show-fullscreen")}hideFullscreen(){this.classList.remove("mdw-show-fullscreen")}toggleFullscreen(e){this.showingFullscreen&&!e?(this.showingFullscreen=e,this.hideFullscreen()):e&&(this.showingFullscreen=e,this.showFullscreen())}showDragIcon(){this.classList.add("mdw-sheet-header-draggable")}get internalStylesFile(){return"./header-internal.css"}template(){return`\n      <div class="mdw-sheet-header-drag-icon"></div>\n\n      <div class="mdw-sheet-header-fullscreen">\n        ${this.isModal?'\n          <mdw-button id="mdw-sheet-close-action" class="mdw-icon">\n            <mdw-icon>close</mdw-icon>\n          </mdw-button>\n        ':'\n          <mdw-button id="mdw-sheet-close-action" class="mdw-icon">\n            <mdw-icon>keyboard_arrow_down</mdw-icon>\n          </mdw-button>\n        '}\n        ${this.title}\n      </div>\n\n      <div class="mdw-sheet-header-container">\n        ${this.innerHTMLString}\n      </div>\n    `}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1),o=n(3);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-sheet",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.isOpen=!1,this.classList.add("mdw-closed"),this.currentDragPosition=-1,this.bound_onDrag=this.onDrag.bind(this),this.bound_onScroll=this.onScroll.bind(this),this.style[s.default.transformPropertyName]="translate3d(0, 100%, 0)",this.setupHeader()}disconnectedCallback(){Object(o.removeDragListener)(this.contentElement,this.bound_onDrag),this.removeEventListener("scroll",this.bound_onScroll),this.removeBackdrop()}get contentElement(){return this.querySelector("mdw-sheet-content")}get title(){return this.hasAttribute("mdw-title")?this.getAttribute("mdw-title"):""}get isModal(){return this.hasAttribute("mdw-modal")}registerHeader(e,t){this.headerElement=e,this.headerElement.title=this.title,t&&this.classList.add("mdw-has-collasped-header"),this.isModal&&e.disableCollapsedHeader()}setupHeader(){this.querySelector("mdw-sheet-header")||this.insertAdjacentHTML("afterbegin",`<mdw-sheet-header mdw-title="${this.title}"></mdw-sheet-header>`)}addBackdrop(){this.isModal&&(this.backdrop=s.default.addBackdrop(this,()=>{this.close()}))}removeBackdrop(){this.backdrop&&this.backdrop.remove(),this.backdrop=void 0}setInitalPositions(){this.viewHeight=window.innerHeight,this.clientCenter=this.isModal?this.viewHeight/2:this.viewHeight/4,this.contentHeight=this.contentElement.offsetHeight,this.intialHeight=Math.min(this.contentHeight,this.clientCenter),this.hasAttribute("mdw-collapsed-height")&&(this.intialHeight=parseInt(this.getAttribute("mdw-collapsed-height").replace("px",""))),this.scrollY=-(this.viewHeight-this.intialHeight-56),this.isDraggable=this.contentHeight>this.clientCenter,this.style.top=`calc(100% - ${this.intialHeight+56}px)`}open(){this.closeTimeout&&(clearTimeout(this.closeTimeout),this.closeTimeout=void 0),this.classList.remove("mdw-closed"),this.addBackdrop(),setTimeout(()=>{this.setInitalPositions(),this.setPosition(0),this.isDraggable&&Object(o.addDragListener)(this.contentElement,this.bound_onDrag),this.contentElement.addEventListener("scroll",this.bound_onScroll),this.notifyOpen()},0),this.isModal&&s.default.lockPageScroll()}close(){Object(o.removeDragListener)(this.contentElement,this.bound_onDrag),this.contentElement.removeEventListener("scroll",this.bound_onScroll),this.setPosition(this.intialHeight+this.headerElement.offsetHeight),this.closeTimeout=setTimeout(()=>{this.classList.add("mdw-closed"),this.headerElement.hideFullscreen()},600),this.isOpen=!1,this.removeBackdrop(),this.notifyClose()}notifyClose(){this.dispatchEvent(new Event("MDWSheet:closed",this))}notifyOpen(){this.dispatchEvent(new Event("MDWSheet:open"),this)}collapse(){this.isDraggable&&Object(o.addDragListener)(this.contentElement,this.bound_onDrag),this.setPosition(0)}toggle(){this.isOpen?this.close():this.open()}onDrag(e){switch(e.state){case"start":this.startDragPosition=this.currentDragPosition;break;case"move":this.setPosition(this.startDragPosition+e.distance.y);break;case"end":this.snapPosition(e.velocity.y)}}setPosition(e){e<=this.scrollY&&(e=this.scrollY,this.style.touchAction="",Object(o.disableDragListenerForElement)(this.contentElement)),this.currentDragPosition!==e&&(this.style[s.default.transformPropertyName]=`translate3d(0, ${e}px, 0)`,this.currentDragPosition=e,e-this.scrollY<80?(this.headerElement.showFullscreen(),this.classList.add("mdw-sheet-fullscreen")):(this.headerElement.hideFullscreen(),this.classList.remove("mdw-sheet-fullscreen")),this.isDraggable&&this.headerElement.showDragIcon())}snapPosition(e){if(e<-.7)return this.setPosition(this.scrollY);if(this.startDragPosition===this.scrollY&&e>.7)return this.setPosition(0);if(this.startDragPosition<=0&&e>.7)return this.close();const t=Math.abs(this.scrollY)/2;this.currentDragPosition-this.scrollY<t?this.setPosition(this.scrollY):this.currentDragPosition>t?this.close():this.setPosition(0)}onScroll(){0===this.contentElement.scrollTop&&Object(o.enableDragListenerForElement)(this.contentElement)}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1),o=n(3);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-slider",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.cloneTemplate(),this.bound_onMouseDown=this.onMouseDown.bind(this),this.bound_onMouseUp=this.onMouseUp.bind(this),this.bound_onMouseMove=this.onMouseMove.bind(this),this.bound_onMouseEnter=this.onMouseEnter.bind(this),this.bound_onMouseLeave=this.onMouseLeave.bind(this),this.bound_trackClick=this.trackClick.bind(this),this.bound_onDrag=this.onDrag.bind(this)}connectedCallback(){this.value=this.attrValue,this.thumbContainer.style.left=`${(this.attrValue-this.min)/this.range*this.offsetWidth}px`,this.notchContainer.style.marginLeft=`-${this.offsetWidth-(this.attrValue-this.min)/this.range*this.offsetWidth}px`,this.throttled_dispatchChange=s.default.rafThrottle(this.dispatchChange),Object(o.addDragListener)(this.thumb,this.bound_onDrag)}disconnectedCallback(){this.track.removeEventListener("click",this.bound_trackClick),Object(o.removeDragListener)(this.thumb,this.bound_onDrag)}static get observedAttributes(){return["value","min","max","step"]}attributeChangedCallback(e,t,n){this[e]=n,["min","max","step"].includes(e)&&this.render()}get min(){return this.min_||0}set min(e){this.min_=parseFloat(e)}get max(){return this.max_||100}set max(e){this.max_=parseFloat(e)}get range(){return this.max-this.min}get step(){return this.step_}set step(e){this.step_=parseFloat(e)}get stepCount(){return this.step?Math.floor(this.range/this.step):0}get attrValue(){let e=parseFloat(this.getAttribute("value")||0);return e<this.min&&(e=this.min),e}get value(){const{width:e}=this.getBoundingClientRect(),t=(this.thumbContainer.style.left||"0px").replace("px","")/e,n=this.range;return this.value_=this.min+t*n,(""+this.step).includes(".")||(this.value_=parseInt(this.value_)),this.value_||0}set value(e){this.value_=parseFloat(e)}get thumb(){return this.shadowRoot.querySelector(".mdw-slider__thumb-hover")}get thumbContainer(){return this.thumbContainer_||(this.thumbContainer_=this.shadowRoot.querySelector(".mdw-slider__thumb-container")),this.thumbContainer_}get notchContainer(){return this.notchContainer_||(this.notchContainer_=this.shadowRoot.querySelector(".mdw-slider__notch-container")),this.notchContainer_}get track(){return this.shadowRoot.querySelector(".mdw-slider__track-container")}trackClick(e){const{left:t,width:n}=this.getBoundingClientRect();let i=e.layerX;e.clientX<t&&(i=0),i>n&&(i=n),this.thumbContainer.style.left=`${this.snap(i,n)}px`,this.notchContainer.style.marginLeft=`-${this.offsetWidth-this.snap(i,n)}px`,this.dispatchChange()}onDrag(e){switch(e.state){case"start":this.classList.add("mdw-pressed"),this.initialX_=parseInt((this.thumbContainer.style.left||"0px").replace("px",""));break;case"move":const{left:t,width:n}=this.getBoundingClientRect();let i=e.distance.x+this.initialX_;i<0&&(i=0),i>n&&(i=n),this.thumbContainer.style.left=`${this.snap(i,n)}px`,this.notchContainer.style.marginLeft=`-${this.offsetWidth-this.snap(i,n)}px`,this.throttled_dispatchChange();break;case"end":this.classList.remove("mdw-pressed")}}onMouseDown(e){this.classList.add("mdw-pressed"),document.addEventListener("mouseup",this.bound_onMouseUp),document.addEventListener("mousemove",this.bound_onMouseMove)}onMouseUp(e){this.classList.remove("mdw-pressed"),document.removeEventListener("mouseup",this.bound_onMouseUp),document.removeEventListener("mousemove",this.bound_onMouseMove)}onMouseMove(e){const{left:t,width:n}=this.getBoundingClientRect();let i=e.layerX;e.clientX<t&&(i=0),i>n&&(i=n),this.thumbContainer.style.left=`${this.snap(i,n)}px`,this.notchContainer.style.marginLeft=`-${this.offsetWidth-this.snap(i,n)}px`,this.throttled_dispatchChange()}onMouseEnter(e){this.classList.add("mdw-hover"),this.thumb.addEventListener("mouseleave",this.bound_onMouseLeave)}onMouseLeave(e){this.classList.remove("mdw-hover"),this.thumb.removeEventListener("mouseleave",this.bound_onMouseLeave)}snap(e,t){if(!this.step)return e;const n=e/t,i=this.range,s=n*i;return(s-s%this.step)/i*t}dispatchChange(){this.dispatchEvent(new Event("change",this))}get internalStylesFile(){return"./internal.css"}template(){return`\n      <div class="mdw-slider__track-container">\n        <div class="mdw-slider__track"></div>\n\n        <div class="mdw-slider__notch-container">\n          <div class="mdw-slider__notch-pre-container">\n            ${[...new Array(this.stepCount)].map(e=>'<div class="mdw-slider__notch"></div>').join("\n")}\n          </div>\n\n          <div class="mdw-slider__notch-post-container">\n            ${[...new Array(this.stepCount)].map(e=>'<div class="mdw-slider__notch"></div>').join("\n")}\n          </div>\n        </div>\n      </div>\n      <div class="mdw-slider__thumb-container">\n        <div class="mdw-slider__thumb"></div>\n        <div class="mdw-slider__thumb-hover"></div>\n      </div>\n    `}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(6);n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-snackbar",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_onPanelClose=this.onPanelClose.bind(this),this.panelId=`${this.getAttribute("id")}_panel`}connectedCallback(){this.querySelector("mdw-panel").setAttribute("id",`${this.panelId}`),this.hasBckdrop=!0,this.panel.clickOutsideClose=!1}disconnectedCallback(){this.panel.removeEventListener("MDWPanel:closed",this.bound_onPanelClose)}get panel(){return document.querySelector(`#${this.panelId}`)}get position(){return this.position_||"inner-bottom inner-left"}setPosition(e){const t=e.split(" ");this.position_=`${t[0]||"top"} ${t[1]||"left"}`,this.panel.setPosition(this.position)}show(){s.default.add(this)}close(e){s.default.remove(this,e)}_open(){this.panel.hoistToBody(this.parentNode),this.panel.setPosition(this.position),this.panel.autoPosition(),this.panel.open(),this.panel.addEventListener("MDWPanel:closed",this.bound_onPanelClose),this.autoCancelTimeout=setTimeout(()=>{this.close()},3e3)}_close(e){this.panel.removeEventListener("MDWPanel:closed",this.bound_onPanelClose),this.panel.close(),this.dispatchClose(e),clearTimeout(this.autoCancelTimeout),setTimeout(()=>{this.panel.remove()},200)}onPanelClose(){this.panel.removeEventListener("MDWPanel:closed",this.bound_onPanelClose)}dispatchClose(e=!1){this.dispatchEvent(new CustomEvent("close",{detail:{ok:e}}))}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(2);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-switch",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_onInputChange=this.onInputChange.bind(this),this.cloneTemplate()}connectedCallback(){this.input.addEventListener("change",this.bound_onInputChange),this.ripple=new s.default({element:this.shadowRoot.querySelector(".mdw-ripple"),triggerElement:[this.input],radius:20,centered:!0})}disconnectedCallback(){this.input.addEventListener("click",this.bound_click),this.ripple.destroy()}static get observedAttributes(){return["checked","disabled"]}attributeChangedCallback(e,t,n){this[e]=n}get input(){return this.input_||(this.input_=this.shadowRoot.querySelector("input")),this.input_}get checked(){return this.input.checked}set checked(e){""===e&&(e=!0),this.input.checked=e,this.updateCheckedClass()}set disabled(e){(e=!!e||""===e)?this.input.setAttribute("disabled","disabled"):this.input.removeAttribute("disabled")}updateCheckedClass(){this.checked?this.classList.add("checked"):this.classList.remove("checked")}dispatchChange(){this.dispatchEvent(new CustomEvent("change",this))}onInputChange(e){this.updateCheckedClass(),this.dispatchChange()}get internalStylesFile(){return"./internal.css"}template(){return html`
+    `;
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+});
+
+});
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-list-item', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.bound_hrefClick = this.hrefClick.bind(this);
+    this.bound_onSelect = this.onSelect.bind(this);
+    this.bound_onclickSelect = this.onclickSelect.bind(this);
+    this.bound_checkHREFActive = this.checkHREFActive.bind(this);
+  }
+
+  get list() {
+    return this.parentNode;
+  }
+
+  isSelect() {
+    return !!this.list.selectType;
+  }
+
+  selectOnclick() {
+    return !!this.list.selectOnclick;
+  }
+
+  connectedCallback() {
+    this.connectRipple();
+    this.connectHREF();
+    this.connectSelect();
+  }
+
+  disconnectedCallback() {
+    if (this.ripple) this.ripple.destroy();
+    this.removeEventListener('click', this.bound_hrefClick);
+    if (this._selectEl) this._selectEl.removeEventListener('change', this.bound_onSelect);
+    this.removeEventListener('click', this.bound_onclickSelect);
+    window.removeEventListener('hashchange', this.bound_checkHREFActive);
+  }
+
+  connectRipple() {
+    const element = this.querySelector('.mdw-ripple');
+    if (!element) return;
+    this.ripple = new _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      element,
+      triggerElement: this
+    });
+    this.classList.add('mdw-has-ripple');
+  }
+
+  connectHREF() {
+    if (!this.hasAttribute('href')) return;
+    this.checkHREFActive();
+    window.addEventListener('hashchange', this.bound_checkHREFActive);
+    this.addEventListener('click', this.bound_hrefClick);
+  }
+
+  checkHREFActive() {
+    if (!this.hasAttribute('href')) return;
+    const href = document.location.href;
+    const hash = document.location.hash;
+    if (href === this.getAttribute('href') || href === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
+    else if (hash === this.getAttribute('href') || hash === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
+    else this.removeAttribute('active');
+  }
+
+  hrefClick() {
+    // open in new tab / window
+    if (this.getAttribute('target') === '_blank') {
+      window.open(this.getAttribute('href'), '_blank');
+      return;
+    }
+
+    document.location.href = this.getAttribute('href');
+  }
+
+  onSelect(e) {
+    if (e.target.checked) this.list.itemSelected(this);
+    else this.list.itemDeselected(this);
+  }
+
+  onclickSelect(e) {
+    if (!this.selectOnclick()) return;
+    if (e.target === this._selectEl) return;
+    this._selectEl.checked = !this._selectEl.checked;
+  }
+
+  connectSelect() {
+    if (this.isSelect()) {
+      this._selectEl = this.querySelector('mdw-checkbox');
+      if (this._selectEl) this._selectEl.addEventListener('change', this.bound_onSelect);
+      if (this.selectOnclick()) this.addEventListener('click', this.bound_onclickSelect);
+    }
+  }
+
+  deselect() {
+    this._selectEl.checked = false;
+  }
+});
+
+});
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-list', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this._selectedIndexes = [];
+  }
+
+  static get observedAttributes() {
+    return ['mdw-select', 'mdw-select-onclick'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch(name) {
+      case 'mdw-select':
+        this.selectType = newValue;
+        break;
+      case 'mdw-select-onclick':
+        this.selectOnclick = newValue !== null;
+        break;
+    }
+  }
+
+  set selectOnclick(value) {
+    this._selectOnclick = value;
+  }
+
+  get selectOnclick() {
+    return this._selectOnclick;
+  }
+
+  set selectType(value) {
+    this._selectType = value;
+  }
+
+  get selectType() {
+    return this._selectType;
+  }
+
+  get selected() {
+    return [].concat(this._selectedIndexes);
+  }
+
+  deselectAll() {
+    [...this.children].forEach(child => child.deselect());
+    this._selectedIndexes = [];
+  }
+
+  itemSelected(listItem) {
+    const index = Array.prototype.indexOf.call(this.children, listItem);
+    if (this._selectType === 'single') {
+      const children = [...this.children];
+      this._selectedIndexes.forEach(i => children[i].deselect());
+      this._selectedIndexes = [];
+    }
+    this._selectedIndexes.push(index);
+    this.handleChange();
+  }
+
+  itemDeselected(listItem) {
+    const index = Array.prototype.indexOf.call(this.children, listItem);
+    this._selectedIndexes.splice(this._selectedIndexes.indexOf(index), 1);
+    this.handleChange();
+  }
+
+  handleChange() {
+    this.dispatchEvent(new CustomEvent('change', this));
+  }
+});
+
+});
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-menu', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.bound_onClick = this.onClick.bind(this);
+    this.bound_onPanelClick = this.onPanelClick.bind(this);
+
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile === true) this.createSheet();
+    else this.createPanel();
+  }
+
+  connectedCallback() {
+    this.button.addEventListener('click', this.bound_onClick);
+
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile !== true) {
+      this.classList.add('mdw-panel--container');
+      this.panel.classList.add('mdw-menu');
+    }
+  }
+
+  onClick() {
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile !== true) {
+      this.panel.setAttribute('mdw-position', this.panelPosition);
+      this.panel.open(true);
+      this.panel.addEventListener('click', this.bound_onPanelClick);
+    } else {
+      this.sheet.open();
+    }
+  }
+
+  onPanelClick() {
+    this.panel.close();
+  }
+
+  set panelPosition(value) {
+    // TODO validate
+    this._panelPosition = value;
+  }
+
+  get panelPosition() {
+    return this._panelPosition || 'inner-left inner-top';
+  }
+
+  get button() {
+    return this.children[0];
+  }
+
+  get contentElement() {
+    return this.querySelector('mdw-menu-content');
+  }
+
+  get panel() {
+    return this.querySelector('mdw-panel');
+  }
+
+  get sheet() {
+    return this.querySelector('mdw-sheet');
+  }
+
+  createSheet() {
+    this.insertAdjacentHTML('beforeend', `
+      <mdw-sheet mdw-modal>
+        <mdw-sheet-content>
+          ${this.contentElement.innerHTML}
+        </mdw-sheet-content>
+      </mdw-sheet>
+    `);
+    this.contentElement.remove();
+  }
+
+  createPanel() {
+    if (!this.contentElement) return;
+    this.insertAdjacentHTML('beforeend', `
+      <mdw-panel>
+        ${this.contentElement.innerHTML}
+      </mdw-panel>
+    `);
+    this.contentElement.remove();
+  }
+});
+
+});
+
+/***/ }),
+/* 44 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+
+/* --- mdw-panel ---
+ * The panel allows you to create positions floating elements.
+ * mdw-panel is used for menu, dialog, tooltip
+ */
+
+ // TODO fix open and close animations
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-panel', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.FOCUSABLE_ELEMENTS = [
+      'button:not(:disabled)', '[href]:not([aria-disabled="true"])', 'input:not(:disabled)',
+      'select:not(:disabled)', 'textarea:not(:disabled)', '[tabindex]:not([tabindex="-1"]):not([aria-disabled="true"])',
+    ].join(', ');
+    this._clickOutsideClose = false;
+    this._boundHandleBodyClick = this._handleBodyClick.bind(this);
+    this._boundHandleKeydown = this._handleKeydown.bind(this);
+    this._clickOutsideCloseIgnorElement = [];
+    this._autoPosition = true;
+    this.isReady = true;
+    this.setTarget(this.getAttribute('mdw-target') || this.parentNode);
+  }
+
+  connectedCallback() {
+    this.classList.add('mdw-upgraded');
+    this.transformPropertyName = _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].transformPropertyName;
+  }
+
+  disconnectedCallback() {
+    this.removeBodyClickEvent_();
+    this.removeKeydownEvent_();
+    clearTimeout(this._openAnimationEndTimerId);
+    clearTimeout(this._closeAnimationEndTimerId);
+    cancelAnimationFrame(this._animationRequestId);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-position'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch(name) {
+      case 'mdw-position':
+        const split = newValue.split(' ');
+        this._position = `${split[0] || 'left'} ${split[1] || 'top'}`;
+        this._setPosition();
+        break;
+    }
+  }
+
+  get target() {
+    return this._target;
+  }
+
+  setTarget(value) {
+    // convert css selector to node
+    if (value && typeof value === 'string') {
+      const orig = value;
+      value = document.querySelector(value);
+      if (value === null) throw Error(`invalid css selector or elemnt does not exits for target value ${orig}`);
+    }
+    this._target = value;
+  }
+
+  setClickOutsideClose(value) {
+    this._clickOutsideClose = !!value;
+  }
+
+  setQuickOpen(value) {
+    this._isQuickOpen = !!value;
+  }
+
+  setAutoPosition(value) {
+    this._autoPosition = !!value;
+  }
+
+  clickBodyToClose() {
+    this._clickOutsideClose = true;
+  }
+
+  isOpen() {
+    return this._isOpen;
+  }
+
+  open(clickBodyToClose) {
+    if (clickBodyToClose !== undefined) this._clickOutsideClose = clickBodyToClose;
+    // handle focused element
+    const focusableElements = this.querySelectorAll(this.FOCUSABLE_ELEMENTS);
+    this._firstFocusableElement = focusableElements[0];
+    this._lastFocusableElement = focusableElements[focusableElements.length - 1];
+    this.saveFocus();
+
+    // handle animation
+    if (!this._isQuickOpen) {
+      this.classList.add('mdw-panel--animating-open');
+      this._animationRequestId = this._runNextAnimationFrame(() => {
+        this.classList.add('mdw-open');
+        this._openAnimationEndTimerId = setTimeout(() => {
+          this._openAnimationEndTimerId = 0;
+          this.classList.remove('mdw-panel--animating-open');
+          this.notifyOpen();
+        }, 150);
+
+        this._setPosition();
+      });
+    } else {
+      this.classList.add('mdw-open');
+      this._setPosition();
+    }
+
+    this.addBodyClickEvent_();
+    this.addKeydownEvent_();
+    this._isOpen = true;
+  }
+
+  // TODO FIX THE CLOSING ANIMATION
+  close() {
+    if (!this._isQuickOpen) {
+      this.classList.add('mdw-panel--animating-closed');
+      this.removeBodyClickEvent_();
+      this._animationRequestId = this._runNextAnimationFrame(() => {
+        this.classList.remove('mdw-open');
+        if (this._isQuickOpen) this.notifyClose();
+        else {
+          this._closeAnimationEndTimerId = setTimeout(() => {
+            this._closeAnimationEndTimerId = 0;
+            this.classList.remove('mdw-panel--animating-closed');
+            this.resetPosition();
+            this.notifyClose();
+          }, 75);
+        }
+      });
+    } else {
+      this.classList.remove('mdw-open');
+      this.resetPosition();
+    }
+
+    this.removeKeydownEvent_();
+    this._isOpen = false;
+    const isRootFocused = this.isFocused();
+    const childHasFocus = document.activeElement && this.contains(document.activeElement);
+    if (isRootFocused || childHasFocus) this.restoreFocus();
+  }
+
+  _runNextAnimationFrame(callback) {
+    cancelAnimationFrame(this._animationFrame);
+    this._animationFrame = requestAnimationFrame(() => {
+      this._animationFrame = 0;
+      clearTimeout(this._animationTimer);
+      this._animationTimer = setTimeout(callback, 0);
+    });
+  }
+
+  hoistToBody() {
+    if (this._isHoisted) return;
+    document.body.appendChild(this);
+    this._isHoisted = true;
+  }
+
+  fixPosition(value = true) {
+    this._isFixed = !!value;
+    this.classList.toggle('mdw-fixed', this._isFixed);
+  }
+
+  isFocused() {
+    return document.activeElement === this;
+  }
+
+  saveFocus() {
+    this._previousFocus = document.activeElement;
+  }
+
+  restoreFocus() {
+    if (this.contains(document.activeElement) && this._previousFocus && this._previousFocus.focus) this._previousFocus.focus();
+  }
+
+  focusFirstElement() {
+    if (this._firstFocusableElement && this._firstFocusableElement.focus) this._firstFocusableElement.focus()
+  }
+
+  focusLastElement() {
+    if (this._lastFocusableElement && this._lastFocusableElement.focus) this._lastFocusableElement.focus()
+  }
+
+  isFirstElementFocused() {
+    this._firstFocusableElement ? this._firstFocusableElement === document.activeElement : false;
+  }
+
+  isLastElementFocused() {
+    this._lastFocusableElement ? this._lastFocusableElement === document.activeElement : false;
+  }
+
+  addBodyClickEvent_() {
+    if (!this._clickOutsideClose) return;
+    setTimeout(() => {
+      this.hasBodyEvent = true;
+      document.body.addEventListener('click', this._boundHandleBodyClick);
+    }, 0);
+  }
+
+  removeBodyClickEvent_() {
+    if (this.hasBodyEvent) document.body.removeEventListener('click', this._boundHandleBodyClick);
+    this.hasBodyEvent = false;
+  }
+
+  addKeydownEvent_() {
+    this.hasKeydownEvent = true;
+    document.body.addEventListener('keydown', this._boundHandleKeydown);
+  }
+
+  removeKeydownEvent_() {
+    if (this.hasKeydownEvent) document.body.removeEventListener('keydown', this._boundHandleKeydown);
+    this.hasKeydownEvent = false;
+  }
+
+  ignoreElementOnClickToClose(el) {
+    this._clickOutsideCloseIgnorElement.push(el);
+  }
+
+  _handleBodyClick(event) {
+    const el = event.target;
+    if (this._clickOutsideCloseIgnorElement.includes(el)) return;
+    if (this.contains(el)) return;
+    this.removeBodyClickEvent_();
+    this.close();
+  }
+
+  _handleKeydown(event) {
+    const { key, keyCode, shiftKey } = event;
+    const isEscape = key === 'Escape' || keyCode === 27;
+    const isTab = key === 'Tab' || keyCode === 9;
+
+    if (isEscape) this.close();
+    else if (isTab) {
+      if (this.isLastElementFocused() && !shiftKey) {
+        this.focusFirstElement();
+        event.preventDefault();
+      } else if (this.isFirstElementFocused() && shiftKey) {
+        this.focusLastElement();
+        event.preventDefault();
+      }
+    }
+  }
+
+  notifyClose() {
+    this.dispatchEvent(new Event('MDWPanel:closed', this));
+  }
+
+  notifyOpen() {
+    this.dispatchEvent(new Event('MDWPanel:open'), this);
+  }
+
+  _setPosition() {
+    if (!this.isOpen()) return;
+
+    // use offset with and height to avoid problems due to transform: scale()
+    // getBoundingClientRect will return the adjusted width based on the scale factor
+    const position = this._position.split(' ');
+    let aValue = position[0];
+    let bValue = position[1];
+    // auto correct swapped values
+    if (['top', 'bottom', 'inner-bottom', 'inner-top'].includes(aValue) || ['left', 'right', 'inner-left', 'inner-right'].includes(bValue)) {
+      aValue = position[1];
+      bValue = position[0];
+    }
+
+    const { left, top } = this._calculatePosition(aValue, bValue);
+
+    this.style.top = `${parseInt(top)}px`;
+    this.style.left = `${parseInt(left)}px`;
+    this.style[this.transformPropertyName] = 'scale(1)';
+    this.style[`${this.transformPropertyName}-origin`] = `${this._scaleOriginX} ${this._scaleOriginY}`;
+  }
+
+  _calculatePosition(xValue, yValue, count = 0) {
+    const target = this.target;
+    const offsetParent = this.offsetParent;
+    let targetRect = target.getBoundingClientRect();
+    if (this._isFixed) targetRect = {
+      x: 0,
+      y: 0,
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight,
+    };
+    const offsetParentRect = offsetParent ? offsetParent.getBoundingClientRect() : { x: 0, y:0 };
+    const width = this.offsetWidth;
+    const height = this.offsetHeight;
+    let top = 0;
+    let left = 0;
+
+    switch(xValue) {
+      case 'left':
+        left = targetRect.x - width - offsetParentRect.x;
+        this._scaleOriginX = 'right';
+        break;
+      case 'right':
+        left = targetRect.x + targetRect.width - offsetParentRect.x;
+        this._scaleOriginX = 'left';
+        break;
+      case 'center':
+        left = targetRect.x + (targetRect.width / 2) - (width / 2) - offsetParentRect.x;
+        this._scaleOriginX = 'center';
+        break;
+      case 'inner-left':
+        left = targetRect.x - offsetParentRect.x;
+        this._scaleOriginX = 'left';
+        break;
+      case 'inner-right':
+        left = targetRect.x + targetRect.width - width - offsetParentRect.x;
+        this._scaleOriginX = 'right';
+        break;
+    }
+
+    switch(yValue) {
+      case 'top':
+        top = targetRect.y - height - offsetParentRect.y;
+        this._scaleOriginY = 'bottom';
+        break;
+      case 'bottom':
+        top = targetRect.y + targetRect.height - offsetParentRect.y;
+        this._scaleOriginY = 'top';
+        break;
+      case 'center':
+        top = targetRect.y + (targetRect.height / 2) - (height / 2) - offsetParentRect.y;
+        this._scaleOriginY = 'center';
+        break;
+      case 'inner-top':
+        top = targetRect.y - offsetParentRect.y;
+        this._scaleOriginY = 'top';
+        break;
+      case 'inner-bottom':
+        top = targetRect.y + targetRect.height - height - offsetParentRect.y;
+        this._scaleOriginY = 'bottom';
+        break;
+    }
+
+    return this._adjustOutOfBoundsPosition(xValue, yValue, left, top, count);
+  }
+
+  _adjustOutOfBoundsPosition(xValue, yValue, left, top, count) {
+    if (this._isFixed || !this._autoPosition) return { left, top };
+
+    const width = this.offsetWidth;
+    const height = this.offsetHeight;
+    const { clientWidth, clientHeight } = document.documentElement;
+    let recalculate = false;
+
+    switch(yValue) {
+      case 'top':
+        if (top < 0) {
+          yValue = 'bottom';
+          recalculate = true;
+        }
+      case 'inner-bottom':
+        if (top < 0) {
+          yValue = 'inner-top';
+          recalculate = true;
+        }
+        break;
+      case 'bottom':
+        if (Math.ceil((top + height) - clientHeight) > 0) {
+          yValue = 'top';
+          recalculate = true;
+        }
+        break;
+      case 'inner-top':
+        if (Math.ceil((top + height) - clientHeight) > 0) {
+          yValue = 'inner-bottom';
+          recalculate = true;
+        }
+        break;
+      case 'center':
+        const bottom = Math.ceil((top + height) - clientHeight);
+        if (top < 0) top = 0;
+        else if (bottom > 0) top -= bottom;
+        break;
+    }
+
+    switch(yValue) {
+      case 'left':
+        if (left < 0) {
+          xValue = 'right';
+          recalculate = true;
+        }
+        break;
+      case 'inner-right':
+        if (left < 0) {
+          xValue = 'inner-right';
+          recalculate = true;
+        }
+        break;
+      case 'right':
+        if (Math.ceil((left + width) - clientWidth) > 0) {
+          xValue = 'left';
+          recalculate = true;
+        }
+        break;
+      case 'inner-left':
+        if (Math.ceil((left + width) - clientWidth) > 0) {
+          xValue = 'inner-right';
+          recalculate = true;
+        }
+        break;
+      case 'center':
+        const right = Math.ceil((left + width) - clientWidth);
+        if (left < 0) left = 0;
+        else if (right > 0) left -= right;
+        break;
+    }
+
+    // use count to prevent infinite looping
+    //   This can be caused wehn the side of the panel is wider or taller than the screen
+    if (recalculate === true && count < 3) return this._calculatePosition(xValue, yValue, count++);
+
+    return { left, top };
+  }
+
+  resetPosition() {
+    // this.style.top = '';
+    // this.style.left = '';
+    this.style[this.transformPropertyName] = '';
+  }
+});
+
+});
+
+/***/ }),
+/* 45 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-radio-group', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.initialValue = this.getAttribute('mdw-value');
+    // this.bound_change = this.change.bind(this);
+  }
+
+  // connectedCallback() {
+  //   this.radios.forEach(r => r.input.addEventListener('change', this.bound_change));
+  // }
+  //
+  // disoconnectedCallback() {
+  //   this.radios.forEach(r => r.input.removeEventListener('change', this.bound_change));
+  // }
+  //
+  // change(e) {
+  //   console.log(e);
+  // }
+  //
+  // get radios() {
+  //   return [...this.querySelectorAll('mdw-radio')];
+  // }
+});
+
+});
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-radio', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    // input radio will not work correctly in shadowroot
+    this.insertAdjacentHTML('beforeend', this.rippleTemplate());
+  }
+
+  connectedCallback() {
+    if (this.parentNode.initialValue === this.value) this.input.checked = true;
+    if (!this.input.hasAttribute('type')) this.input.setAttribute('type', 'radio');
+    if (!this.input.hasAttribute('name')) this.input.setAttribute('name', this.name);
+    this.ripple = new _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      element: this.querySelector('.mdw-ripple'),
+      triggerElement: [this.input],
+      radius: 20,
+      centered: true
+    });
+  }
+
+  disconnectedCallback() {
+    this.ripple.destroy();
+  }
+
+  get value() {
+    return this.input.value;
+  }
+
+  get input() {
+    return this.querySelector('input');
+  }
+
+  get name() {
+    if (this.parentNode && this.parentNode.hasAttribute('name')) {
+      this._name = this.parentNode.getAttribute('name');
+    } else if (this.hasAttribute('name')) {
+      this._name = this.getAttribute('name');
+    }
+
+    // create name if one was not provided
+    // name is required for radio buttons to work
+    if (!this._name) {
+      this._name = _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].uid();
+      if (this.parentNode) this.parentNode.setAttribute('name', this._name);
+      else this.setAttribute('name', this._name);
+    }
+    return this._name;
+  }
+
+  rippleTemplate() {
+    return `
+      <div class="mdw-radio-background">
+        <div class="mdw-radio__outer-circle"></div>
+        <div class="mdw-radio__inner-circle"></div>
+      </div>
+      <div class="mdw-ripple mdw-radio-ripple"></div>
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+
+// TODO implaent validity
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-select', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this._setupLabel();
+    if (this._isEnhanced) this._prepareEnhance();
+    this.classList.add('mdw-no-animation');
+    this.cloneTemplate(true);
+
+    this.bound_onFocus = this.onFocus.bind(this);
+    this.bound_onBlur = this.onBlur.bind(this);
+    this.bound_onClick = this.onClick.bind(this);
+    this.bound_onChange = this.onChange.bind(this);
+    this.bound_onPanelClick = this.onPanelClick.bind(this);
+    this.bound_onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  connectedCallback() {
+    if (this._isEnhanced) {
+      if (this._selected) this.value = this._selected.value;
+      this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
+      document.body.addEventListener('keydown', this.bound_onKeyDown);
+    } else {
+      this.selectElement.addEventListener('focus', this.bound_onFocus);
+      this.selectElement.addEventListener('blur', this.bound_onBlur);
+      this.selectElement.addEventListener('change', this.bound_onChange);
+    }
+
+    // capture option selected attribute and float the label
+    this.onChange();
+
+    setTimeout(() => {
+      this.classList.add('mdw-no-animation');
+      if (this._isEnhanced) {
+        if (this.panel) this.panel.style.minWidth = `${this.offsetWidth}px`;
+      }
+    }, 0);
+  }
+
+  disconnectedCallback() {
+    // console.log(this.enhacedElementId);
+    if (this._isEnhanced) {
+      this.shadowRoot.querySelector('render-block').removeEventListener('click', this.bound_onClick);
+      document.body.removeEventListener('keydown', this.bound_onKeyDown);
+    } else {
+      this.selectElement.removeEventListener('focus', this.bound_onFocus);
+      this.selectElement.removeEventListener('blur', this.bound_onBlur);
+      this.selectElement.removeEventListener('change', this.bound_onChange);
+    }
+
+    if (this.panel) this.panel.remove();
+  }
+
+  get value() {
+    if (this._isEnhanced) return this._value;
+    return this.selectElement.value || this._value;
+  }
+
+  set value(value) {
+    this._value = value;
+    this.onChange();
+    this.dispatchEvent(new Event('change'));
+  }
+
+  get selectElement() {
+    return _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].querySlotted(this, 'select');
+  }
+
+  get label() {
+    return this.shadowRoot.querySelector('label');
+  }
+
+  get labelWidth() {
+    return this.label.offsetWidth * 0.9;
+  }
+
+
+  get enhacedElementId() {
+    if (!this._enhacedElementId) this._enhacedElementId = `select-enhanced-${_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].uid()}`;
+    return this._enhacedElementId;
+  }
+
+  get panel() {
+    return document.querySelector(`#${this.enhacedElementId}`);
+  }
+
+  get sheet() {
+    return document.querySelector(`#${this.enhacedElementId}`);
+  }
+
+  get _isEnhanced() {
+    return this.getAttribute('mdw-enhanced') !== null;
+  }
+
+  get outlined() {
+    return [].slice.apply(this.classList || []).includes('mdw-outlined');
+  }
+
+  get notch() {
+    if (!this._notch) this._notch = this.shadowRoot.querySelector('.mdw-outlined-notch');
+    return this._notch;
+  }
+
+  _setupLabel() {
+    const label = this.querySelector('label');
+    if (label) {
+      this._labelText = label.innerText;
+      label.remove();
+    }
+  }
+
+  _prepareEnhance() {
+    this._optionsMap = [...this.querySelectorAll('option')].map(el => {
+      return {
+        text: el.innerText,
+        value: el.value,
+        selected: el.hasAttribute('selected')
+      };
+    });
+
+    this._selected = (this._optionsMap.filter(({ selected }) => selected === true)[0] || { text: '', value: '' });
+
+    const selectElement = this.querySelector('select');
+    if (selectElement) {
+      const selectOnchange = selectElement.getAttribute('onchange');
+      if (selectOnchange) this.setAttribute('onchange', selectOnchange);
+      selectElement.remove();
+    }
+
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile) this._prepareSheet();
+    else this._preparePanel();
+  }
+
+  _preparePanel() {
+    const panelHTML = `
+      <mdw-panel id="${this.enhacedElementId}" mdw-position="inner-top center" mdw-flex-position="inner-left bottom" class="mdw-panel-hoisted">
+        <mdw-list>
+          ${this._optionsMap.map(({ text, value, selected }) => `
+            <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
+          `).join('\n')}
+        </mdw-list>
+      </mdw-panel>
+    `;
+    document.body.insertAdjacentHTML('beforeend', panelHTML);
+    const panelEl = this.panel;
+    if (panelEl.hoistToBody) {
+      panelEl.setTarget(this);
+      panelEl.hoistToBody(this);
+    }
+  }
+
+  _prepareSheet() {
+    const sheetHTML = `
+      <mdw-sheet mdw-modal id=${this.enhacedElementId}>
+        <mdw-sheet-content>
+          <mdw-list>
+            ${this._optionsMap.map(({ text, value, selected }) => `
+              <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
+            `).join('\n')}
+          </mdw-list>
+        </mdw-sheet-content>
+      </mdw-sheet>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', sheetHTML);
+  }
+
+  onFocus() {
+    this.classList.add('mdw-focused');
+    if (this.outlined) this.notch.style.width = this.labelWidth + 'px';
+  }
+
+  onBlur() {
+    this.classList.remove('mdw-focused');
+    this.classList.toggle('mdw-not-empty', this.value);
+
+    if (this._isEnhanced) {
+      if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile) {
+        this.sheet.removeEventListener('MDWSheet:closed', this.bound_onBlur);
+        this.sheet.removeEventListener('click', this.bound_onPanelClick);
+      } else {
+        this.panel.removeEventListener('MDWPanel:closed', this.bound_onBlur);
+        this.panel.removeEventListener('click', this.bound_onPanelClick);
+      }
+    }
+
+    _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].unlockPageScroll();
+  }
+
+  onChange() {
+    if (this.value && this.label) {
+      this.label.classList.add('mdw-select--float-above');
+      this.label.classList.remove('mdw-empty-no-float');
+      if (this.outlined) this.notch.style.width = this.labelWidth + 'px';
+    } else {
+      this.label.classList.remove('mdw-select--float-above');
+      this.label.classList.add('mdw-empty-no-float');
+      if (this.outlined) this.notch.style.width = '0';
+    }
+  }
+
+  onClick() {
+    this._focusIndex === undefined;
+    this.onFocus();
+
+    if (_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].isMobile) {
+      const sheetElement = this.sheet;
+      sheetElement.open();
+      sheetElement.addEventListener('MDWSheet:closed', this.bound_onBlur);
+      sheetElement.addEventListener('click', this.bound_onPanelClick);
+      const focusedElement = sheetElement.querySelector('.mdw-focused');
+      if (focusedElement) focusedElement.classList.remove('mdw-focused');
+      const selectedElement = sheetElement.querySelector('[selected]');
+      if (selectedElement) selectedElement.classList.add('mdw-focused');
+    } else {
+      const panelElement = this.panel;
+      panelElement.open(true);
+      panelElement.addEventListener('MDWPanel:closed', this.bound_onBlur);
+      panelElement.addEventListener('click', this.bound_onPanelClick);
+      const focusedElement = panelElement.querySelector('.mdw-focused');
+      if (focusedElement) focusedElement.classList.remove('mdw-focused');
+      const selectedElement = panelElement.querySelector('[selected]');
+      if (selectedElement) selectedElement.classList.add('mdw-focused');
+    }
+
+    _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].lockPageScroll();
+  }
+
+  onPanelClick(event) {
+    if (!event.target.hasAttribute('value')) return;
+    this.value = event.target.getAttribute('value');
+    this.setSelectedText(event.target.innerText);
+    const currentSelected = this.panel.querySelector('[selected]');
+    if (currentSelected) currentSelected.removeAttribute('selected');
+    event.target.setAttribute('selected', '');
+    this.panel.close();
+  }
+
+  setSelectedText(value) {
+    this.shadowRoot.querySelector('.mdw-select__selected-text').innerText = value;
+  }
+
+  get internalStylesFile() {
+    return './internal.css';
+  }
+
+  template() {
+    return `
+      <i class="mdw-select__icon"></i>
+      ${!this._isEnhanced ? '<slot></slot>' : `
+        <div class="mdw-select__selected-text">${this._selected.text}</div>
+      `}
+      <label>${this._labelText}</label>
+      ${this.outlined ? '' : '<div class="mdw-line-ripple"></div>'}
+      ${!this.outlined ? '' : `
+        <div class="mdw-outlined-border-container">
+          <div class="mdw-outlined-leading"></div>
+          <div class="mdw-outlined-notch"></div>
+          <div class="mdw-outlined-trailing"></div>
+        </div>
+      `}
+    `;
+  }
+
+
+
+  // --- key controls ---
+
+  onKeyDown(e) {
+    if (!this.panel.isOpen()) return
+
+    switch (e.keyCode) {
+      case 40: //down
+      case 39: //right
+        this.focusNext();
+        e.preventDefault();
+        break;
+
+      case 38: //up
+      case 37: //left
+        this.focusPrevious();
+        e.preventDefault();
+        break;
+
+      case 13: //enter
+        this.selectFocused();
+        e.preventDefault();
+        break;
+
+      default:
+        if (e.keyCode >= 31 || e.keyCode <= 90) {
+          const nodeIndex = this.keyboardSearchNodes(e.keyCode);
+          if (nodeIndex !== undefined) this.selectNode(nodeIndex);
+          e.stopPropagation();
+          e.preventDefault();
+        }
+    }
+  }
+
+  // key searching
+  //   if you press "s" then it will find the first item that starts with an "s"
+  //   if you press "s" then "t" it will find the first item that starts with an "st"
+  keyboardSearchNodes(keyCode) {
+    if (this._clearSearchTimeout !== undefined) clearTimeout(this._clearSearchTimeout);
+    this._clearSearchTimeout = setTimeout(() => {
+      this._clearSearchTimeout = undefined;
+      this._keyboardSearchStr = '';
+      this._keyboardOptionNames = undefined;
+    }, 300);
+    if (this._keyboardSearchStr === undefined) this._keyboardSearchStr = '';
+    this._keyboardSearchStr += String.fromCharCode(keyCode);
+    const search = new RegExp('^' + this._keyboardSearchStr, 'i');
+
+    if (!this._keyboardOptionNames) this._keyboardOptionNames = [...this.panel.querySelectorAll('mdw-list-item')].map(el => el.innerText);
+
+    const length = this._keyboardOptionNames.length;
+    let i = 0;
+    while (i < length) {
+      if (search.test(this._keyboardOptionNames[i])) {
+        return i;
+      }
+      i += 1;
+    }
+  }
+
+  selectNode(index) {
+    const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
+    this._focusIndex = index;
+    if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
+    this._focusedOption = optionElements[this._focusIndex];
+    this._focusedOption.classList.add('mdw-focused');
+  }
+
+  focusNext() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
+    if (this._focusIndex === undefined) {
+      const index = optionElements.findIndex(el => el.classList.contains('mdw-focused'));
+      if (index >= 0) this._focusedOption = optionElements[index];
+      this._focusIndex = index <= 0 ? 1 : index + 1;
+    } else this._focusIndex += 1;
+    if (this._focusIndex > optionElements.length - 1) this._focusIndex = optionElements.length - 1;
+    if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
+    this._focusedOption = optionElements[this._focusIndex];
+    this._focusedOption.classList.add('mdw-focused');
+  }
+
+  focusPrevious() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
+    if (this._focusIndex === undefined) this._focusIndex = 0;
+    else this._focusIndex -= 1;
+    if (this._focusIndex <= 0) this._focusIndex = 0;
+    if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
+    this._focusedOption = optionElements[this._focusIndex];
+    this._focusedOption.classList.add('mdw-focused');
+  }
+
+  selectFocused() {
+    if (!this.panel.isOpen()) return;
+    const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
+    if (this._focusIndex == undefined || this._focusIndex > optionElements.length - 1) this._focusIndex = 0;
+    this.onPanelClick({ target: optionElements[this._focusIndex] });
+  }
+});
+
+});
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-sheet-header', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.hasCollapsedHeader = (this.children || []).length !== 0;
+    if (!this.hasCollapsedHeader) this.classList.add('mdw-hide-collapsed-header');
+    if (this.parentNode.registerHeader) this.parentNode.registerHeader(this, this.hasCollapsedHeader);
+    this.innerHTMLString = this.innerHTML;
+    this.innerHTML = '';
+    this.cloneTemplate(true);
+    this.showingFullscreen = false;
+    this.bound_close = this.close.bind(this);
+
+    if (this.parentNode.classList.contains('mdw-shaped')) this.classList.add('mdw-shaped');
+  }
+
+  connectedCallback() {
+    this.closeButton.addEventListener('click', this.bound_close);
+  }
+
+  disconnectedCallback() {
+    this.closeButton.removeEventListener('click', this.bound_close);
+  }
+
+  get closeButton() {
+    return this.shadowRoot.querySelector('#mdw-sheet-close-action');
+  }
+
+  get title() {
+    return !!this._title ? this._title : this.hasAttribute('mdw-title') ? this.getAttribute('mdw-title') : '';
+  }
+
+  set title(value) {
+    this._title = value;
+  }
+
+  get isModal() {
+    if (!this.parentNode) return false;
+    return this.parentNode.isModal || false;
+  }
+
+  close() {
+    if (this.isModal) this.parentNode.close();
+    else this.parentNode.collapse();
+  }
+
+  disableCollapsedHeader() {
+    this.classList.add('mdw-sheet-disable-collapsed-header');
+  }
+
+  showFullscreen() {
+    this.classList.add('mdw-show-fullscreen');
+  }
+
+  hideFullscreen() {
+    this.classList.remove('mdw-show-fullscreen');
+  }
+
+  toggleFullscreen(value) {
+    if (this.showingFullscreen && !value) {
+      this.showingFullscreen = value;
+      this.hideFullscreen();
+    } else if (value) {
+      this.showingFullscreen = value;
+      this.showFullscreen();
+    }
+  }
+
+  showDragIcon() {
+    this.classList.add('mdw-sheet-header-draggable');
+  }
+
+  get internalStylesFile() {
+    return './header-internal.css';
+  }
+
+  template() {
+    return `
+      <div class="mdw-sheet-header-drag-icon"></div>
+
+      <div class="mdw-sheet-header-fullscreen">
+        ${this.isModal ? `
+          <mdw-button id="mdw-sheet-close-action" class="mdw-icon">
+            <mdw-icon>close</mdw-icon>
+          </mdw-button>
+        ` :
+        `
+          <mdw-button id="mdw-sheet-close-action" class="mdw-icon">
+            <mdw-icon>keyboard_arrow_down</mdw-icon>
+          </mdw-button>
+        `}
+        ${this.title}
+      </div>
+
+      <div class="mdw-sheet-header-container">
+        ${this.innerHTMLString}
+      </div>
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_gestures_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-sheet', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.isOpen = false;
+    this.classList.add('mdw-closed');
+    this.currentDragPosition = -1;
+    this.bound_onDrag = this.onDrag.bind(this);
+    this.bound_onScroll = this.onScroll.bind(this);
+    this.style[_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].transformPropertyName] = 'translate3d(0, 100%, 0)';
+    this.setupHeader();
+  }
+
+  disconnectedCallback() {
+    Object(_core_gestures_js__WEBPACK_IMPORTED_MODULE_2__["removeDragListener"])(this.contentElement, this.bound_onDrag);
+    this.removeEventListener('scroll', this.bound_onScroll);
+    this.removeBackdrop();
+  }
+
+  get contentElement() {
+    return this.querySelector('mdw-sheet-content');
+  }
+
+  get title() {
+    return this.hasAttribute('mdw-title') ? this.getAttribute('mdw-title') : '';
+  }
+
+  get isModal() {
+    return this.hasAttribute('mdw-modal');
+  }
+
+  registerHeader(element, hasCollaspedHeader) {
+    this.headerElement = element;
+    this.headerElement.title = this.title;
+    if (hasCollaspedHeader) this.classList.add('mdw-has-collasped-header');
+    if (this.isModal) element.disableCollapsedHeader();
+  }
+
+  setupHeader() {
+    if (!this.querySelector('mdw-sheet-header')) {
+      this.insertAdjacentHTML('afterbegin', `<mdw-sheet-header mdw-title="${this.title}"></mdw-sheet-header>`);
+    }
+  }
+
+  addBackdrop() {
+    if (this.isModal) {
+      this.backdrop = _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].addBackdrop(this, () => {
+        this.close();
+      });
+    }
+  }
+
+  removeBackdrop() {
+    if (this.backdrop) this.backdrop.remove();
+    this.backdrop = undefined;
+  }
+
+  setInitalPositions() {
+    // page height
+    this.viewHeight = window.innerHeight;
+
+    // half height for modal, quater hight for non modal
+    this.clientCenter = this.isModal ? this.viewHeight / 2 : this.viewHeight / 4;
+    this.contentHeight = this.contentElement.offsetHeight;
+    this.intialHeight = Math.min(this.contentHeight, this.clientCenter);
+
+    // user set inital height
+    if (this.hasAttribute('mdw-collapsed-height')) this.intialHeight = parseInt(this.getAttribute('mdw-collapsed-height').replace('px', ''));
+
+    // the transform: translateY postion for the top of the page
+    this.scrollY = -(this.viewHeight - this.intialHeight - 56);
+    this.isDraggable = this.contentHeight > this.clientCenter;
+    this.style.top = `calc(100% - ${this.intialHeight + 56}px)`;
+  }
+
+  open() {
+    // lear close timeout so we do not overlap on a fast open
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = undefined;
+    }
+    this.classList.remove('mdw-closed');
+    this.addBackdrop();
+
+    // animation in sheet
+    setTimeout(() => {
+      this.setInitalPositions();
+      this.setPosition(0);
+      if (this.isDraggable) Object(_core_gestures_js__WEBPACK_IMPORTED_MODULE_2__["addDragListener"])(this.contentElement, this.bound_onDrag);
+      this.contentElement.addEventListener('scroll', this.bound_onScroll);
+      this.notifyOpen();
+    }, 0);
+    if (this.isModal) _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].lockPageScroll();
+  }
+
+  close() {
+    Object(_core_gestures_js__WEBPACK_IMPORTED_MODULE_2__["removeDragListener"])(this.contentElement, this.bound_onDrag);
+    this.contentElement.removeEventListener('scroll', this.bound_onScroll);
+    this.setPosition(this.intialHeight + this.headerElement.offsetHeight);
+    this.closeTimeout = setTimeout(() => {
+      this.classList.add('mdw-closed');
+      this.headerElement.hideFullscreen();
+    }, 600);
+    this.isOpen = false;
+    this.removeBackdrop();
+    this.notifyClose();
+  }
+
+  notifyClose() {
+    this.dispatchEvent(new Event('MDWSheet:closed', this));
+  }
+
+  notifyOpen() {
+    this.dispatchEvent(new Event('MDWSheet:open'), this);
+  }
+
+  collapse() {
+    if (this.isDraggable) Object(_core_gestures_js__WEBPACK_IMPORTED_MODULE_2__["addDragListener"])(this.contentElement, this.bound_onDrag);
+    this.setPosition(0);
+  }
+
+  toggle() {
+    if (this.isOpen) this.close();
+    else this.open();
+  }
+
+  onDrag(event) {
+    switch (event.state) {
+      case 'start':
+        this.startDragPosition = this.currentDragPosition;
+        break;
+      case 'move':
+        this.setPosition(this.startDragPosition + event.distance.y);
+        break;
+      case 'end':
+        this.snapPosition(event.velocity.y);
+        break;
+    }
+  }
+
+  setPosition(y) {
+    // if the sheet is at top then setup scrolling
+    if (y <= this.scrollY) {
+      y = this.scrollY;
+      this.style.touchAction = '';
+      Object(_core_gestures_js__WEBPACK_IMPORTED_MODULE_2__["disableDragListenerForElement"])(this.contentElement);
+    }
+    if (this.currentDragPosition === y) return;
+    this.style[_core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].transformPropertyName] = `translate3d(0, ${y}px, 0)`;
+    this.currentDragPosition = y;
+
+    // show header befor it hits the top
+    if (y - this.scrollY < 80) {
+      this.headerElement.showFullscreen();
+      this.classList.add('mdw-sheet-fullscreen');
+    } else {
+      this.headerElement.hideFullscreen();
+      this.classList.remove('mdw-sheet-fullscreen');
+    }
+
+    // if is draggable
+    if (this.isDraggable) this.headerElement.showDragIcon();
+  }
+
+  snapPosition(velocity) {
+    // snap based on velocity (swipe montion)
+    if (velocity < -0.7) return this.setPosition(this.scrollY);
+    if (this.startDragPosition === this.scrollY && velocity > 0.7) return this.setPosition(0);
+    if (this.startDragPosition <= 0 && velocity > 0.7) return this.close();
+
+    // snap based on position
+    const split = Math.abs(this.scrollY) / 2;
+    // half way between center and top
+    if (this.currentDragPosition - this.scrollY < split) this.setPosition(this.scrollY);
+    // half way between center and bottom
+    else if (this.currentDragPosition > split) this.close();
+    else this.setPosition(0);
+  }
+
+  onScroll() {
+    if (this.contentElement.scrollTop === 0) {
+      Object(_core_gestures_js__WEBPACK_IMPORTED_MODULE_2__["enableDragListenerForElement"])(this.contentElement);
+    }
+  }
+});
+
+});
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_gestures_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-slider', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.cloneTemplate();
+    this.bound_onMouseDown = this.onMouseDown.bind(this);
+    this.bound_onMouseUp = this.onMouseUp.bind(this);
+    this.bound_onMouseMove = this.onMouseMove.bind(this);
+    this.bound_onMouseEnter = this.onMouseEnter.bind(this);
+    this.bound_onMouseLeave = this.onMouseLeave.bind(this);
+    this.bound_trackClick = this.trackClick.bind(this);
+    this.bound_onDrag = this.onDrag.bind(this);
+  }
+
+  connectedCallback() {
+    this.value = this.attrValue;
+    this.thumbContainer.style.left = `${((this.attrValue - this.min) / this.range) * this.offsetWidth}px`;
+    this.notchContainer.style.marginLeft = `-${this.offsetWidth - (((this.attrValue - this.min) / this.range) * this.offsetWidth)}px`;
+    this.throttled_dispatchChange = _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].rafThrottle(this.dispatchChange);
+    // this.thumb.addEventListener('mousedown', this.bound_onMouseDown);
+    // this.thumb.addEventListener('mouseenter', this.bound_onMouseEnter);
+    // this.track.addEventListener('click', this.bound_trackClick);
+    Object(_core_gestures_js__WEBPACK_IMPORTED_MODULE_2__["addDragListener"])(this.thumb, this.bound_onDrag);
+  }
+
+  disconnectedCallback() {
+    // this.thumb.removeEventListener('mousedown', this.bound_onMouseDown);
+    // this.thumb.removeEventListener('mouseenter', this.bound_onMouseEnter);
+    // this.thumb.removeEventListener('mouseleave', this.bound_onMouseLeave);
+    this.track.removeEventListener('click', this.bound_trackClick);
+    // document.removeEventListener('mouseup', this.bound_onMouseUp);
+    // document.removeEventListener('mousemove', this.bound_onMouseMove);
+    Object(_core_gestures_js__WEBPACK_IMPORTED_MODULE_2__["removeDragListener"])(this.thumb, this.bound_onDrag);
+  }
+
+  static get observedAttributes() {
+    return ['value', 'min', 'max', 'step'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this[name] = newValue;
+    if (['min', 'max', 'step'].includes(name)) this.render();
+  }
+
+  get min() {
+    return this._min || 0;
+  }
+
+  set min(value) {
+    this._min = parseFloat(value);
+  }
+
+  get max() {
+    return this._max || 100;
+  }
+
+  set max(value) {
+    this._max = parseFloat(value);
+  }
+
+  get range() {
+    return this.max - this.min;
+  }
+
+  get step() {
+    return this._step;
+  }
+
+  set step(value) {
+    this._step = parseFloat(value);
+  }
+
+  get stepCount() {
+    return !this.step ? 0 : Math.floor(this.range / this.step);
+  }
+
+  get attrValue() {
+    let value = parseFloat(this.getAttribute('value') || 0);
+    if (value < this.min) value = this.min;
+    return value;
+  }
+
+  get value() {
+    const { width } = this.getBoundingClientRect();
+    const x = (this.thumbContainer.style.left || '0px').replace('px', '');
+    const percent = x / width;
+    const range = this.range;
+    this._value = this.min + (percent * range);
+    // check if the step is a integer and then garentee the value is an int
+    // becuase of how math works in javascript(floating point) this is not a garentee without parseInt
+    if (!(''+this.step).includes('.')) this._value = parseInt(this._value);
+    return this._value || 0;
+  }
+
+  set value(value) {
+    this._value = parseFloat(value);
+  }
+
+  get thumb() {
+    return this.shadowRoot.querySelector('.mdw-slider__thumb-hover');
+  }
+
+  get thumbContainer() {
+    return this.shadowRoot.querySelector('.mdw-slider__thumb-container');
+  }
+
+  get notchContainer() {
+    return this.shadowRoot.querySelector('.mdw-slider__notch-container');
+  }
+
+  get track() {
+    return this.shadowRoot.querySelector('.mdw-slider__track-container');
+  }
+
+  trackClick(e) {
+    const { left, width } = this.getBoundingClientRect();
+    let x = e.layerX;
+    if (e.clientX < left) x = 0;
+    if (x > width) x = width;
+    this.thumbContainer.style.left = `${this.snap(x, width)}px`;
+    this.notchContainer.style.marginLeft = `-${this.offsetWidth - this.snap(x, width)}px`;
+    this.dispatchChange();
+  }
+
+  onDrag(e) {
+    switch(e.state) {
+      case 'start':
+        this.classList.add('mdw-pressed');
+        this._initialX = parseInt((this.thumbContainer.style.left || '0px').replace('px', ''));
+        break;
+      case 'move':
+        const { left, width } = this.getBoundingClientRect();
+        let x = e.distance.x + this._initialX;
+        if (x < 0) x = 0;
+        if (x > width) x = width;
+        this.thumbContainer.style.left = `${this.snap(x, width)}px`;
+        this.notchContainer.style.marginLeft = `-${this.offsetWidth - this.snap(x, width)}px`;
+        this.throttled_dispatchChange();
+        break;
+      case 'end':
+        this.classList.remove('mdw-pressed');
+        break;
+    }
+  }
+
+  onMouseDown(e) {
+    this.classList.add('mdw-pressed');
+    document.addEventListener('mouseup', this.bound_onMouseUp);
+    document.addEventListener('mousemove', this.bound_onMouseMove);
+  }
+
+  onMouseUp(e) {
+    this.classList.remove('mdw-pressed');
+    document.removeEventListener('mouseup', this.bound_onMouseUp);
+    document.removeEventListener('mousemove', this.bound_onMouseMove);
+  }
+
+  onMouseMove(e) {
+    const { left, width } = this.getBoundingClientRect();
+    let x = e.layerX;
+    if (e.clientX < left) x = 0;
+    if (x > width) x = width;
+    this.thumbContainer.style.left = `${this.snap(x, width)}px`;
+    this.notchContainer.style.marginLeft = `-${this.offsetWidth - this.snap(x, width)}px`;
+    this.throttled_dispatchChange();
+  }
+
+  onMouseEnter(e) {
+    this.classList.add('mdw-hover');
+    this.thumb.addEventListener('mouseleave', this.bound_onMouseLeave);
+  }
+
+  onMouseLeave(e) {
+    this.classList.remove('mdw-hover');
+    this.thumb.removeEventListener('mouseleave', this.bound_onMouseLeave);
+  }
+
+  snap(x, width) {
+    if (!this.step) return x;
+    const percent = x / width;
+    const range = this.range;
+    const convertedValue = percent * range;
+    const snapedValue = convertedValue - (convertedValue % this.step);
+    return (snapedValue / range) * width
+  }
+
+  dispatchChange() {
+    this.dispatchEvent(new Event('change', this));
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+
+  template() {
+    return `
+      <div class="mdw-slider__track-container">
+        <div class="mdw-slider__track"></div>
+
+        <div class="mdw-slider__notch-container">
+          <div class="mdw-slider__notch-pre-container">
+            ${[...new Array(this.stepCount)].map(i => `<div class="mdw-slider__notch"></div>`).join('\n')}
+          </div>
+
+          <div class="mdw-slider__notch-post-container">
+            ${[...new Array(this.stepCount)].map(i => `<div class="mdw-slider__notch"></div>`).join('\n')}
+          </div>
+        </div>
+      </div>
+      <div class="mdw-slider__thumb-container">
+        <div class="mdw-slider__thumb"></div>
+        <div class="mdw-slider__thumb-hover"></div>
+      </div>
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-snackbar', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.bound_onPanelClose = this.onPanelClose.bind(this);
+    this.panelId = `${this.getAttribute('id')}_panel`;
+  }
+
+  connectedCallback() {
+    this.querySelector('mdw-panel').setAttribute('id', `${this.panelId}`);
+    this.hasBckdrop = true;
+    this.panel.clickOutsideClose = false;
+  }
+
+  disconnectedCallback() {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.remove();
+  }
+
+  get panel() {
+    return document.querySelector(`#${this.panelId}`);
+  }
+
+  get position() {
+    return this._position || 'inner-bottom inner-left';
+  }
+
+  setPosition(value) {
+    const split = value.split(' ');
+    this._position = `${split[0] || 'top'} ${split[1] || 'left'}`;
+    this.panel.setPosition(this.position);
+  }
+
+  show() {
+    _service_js__WEBPACK_IMPORTED_MODULE_1__["default"].add(this);
+  }
+
+  close(ok) {
+    _service_js__WEBPACK_IMPORTED_MODULE_1__["default"].remove(this, ok);
+  }
+
+  _open() {
+    this.panel.hoistToBody(this.parentNode);
+    this.panel.setPosition(this.position);
+    this.panel.autoPosition();
+    this.panel.open();
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.autoCancelTimeout = setTimeout(() => {
+      this.close();
+    }, 3000);
+  }
+
+  _close(ok) {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.close();
+    this.dispatchClose(ok);
+    clearTimeout(this.autoCancelTimeout);
+
+    // NOTE is this needed for proper cleanup?
+    // remove panel element
+    // setTimeout(() => {
+    //   this.panel.remove();
+    //   this.panel = undefined;
+    // }, 200);
+  }
+
+  onPanelClose() {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+  }
+
+  dispatchClose(isOk = false) {
+    this.dispatchEvent(new CustomEvent('close', {
+      detail: {
+        ok: isOk
+      }
+    }));
+  }
+});
+
+});
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-switch', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.bound_onInputChange = this.onInputChange.bind(this);
+    this.cloneTemplate();
+  }
+
+  connectedCallback() {
+    this.input.addEventListener('change', this.bound_onInputChange);
+    this.ripple = new _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      element: this.shadowRoot.querySelector('.mdw-ripple'),
+      triggerElement: [this.input],
+      radius: 20,
+      centered: true
+    });
+  }
+
+  disconnectedCallback() {
+    this.input.addEventListener('click', this.bound_click);
+    this.ripple.destroy();
+  }
+
+  static get observedAttributes() {
+    return ['checked', 'disabled'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    this[name] = newValue;
+  }
+
+  get input() {
+    return this.shadowRoot.querySelector('input');
+  }
+
+  get checked() {
+    return this.input.checked;
+  }
+
+  set checked(value) {
+    if (value === '') value = true;
+    this.input.checked = value;
+    this.updateCheckedClass();
+  }
+
+  set disabled(value) {
+    value = !!value || value === '';
+    if (value) this.input.setAttribute('disabled', 'disabled');
+    else this.input.removeAttribute('disabled');
+  }
+
+  updateCheckedClass() {
+    if (this.checked) this.classList.add('checked');
+    else this.classList.remove('checked');
+  }
+
+  dispatchChange() {
+    this.dispatchEvent(new CustomEvent('change', this));
+  }
+
+  onInputChange(e) {
+    this.updateCheckedClass();
+    this.dispatchChange();
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+
+  template() {
+    return html`
       <div class="mdw-track"></div>
       <div class="mdw-thumb-underlay">
         <div class="mdw-thumb">
@@ -416,17 +9701,223 @@
           <div class="mdw-ripple mdw-switch-ripple"></div>
         </div>
       </div>
-    `}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-tab-body",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.cloneTemplate()}connectedCallback(){this.parentNode.registerBody(this)}disconnectedCallback(){this.parentNode.unregisterBody(this)}addSlot(){this.shadowRoot.querySelector("mdw-tab-body-content").insertAdjacentHTML("beforeend","<slot></slot>")}removeSlot(){this.shadowRoot.querySelector("slot").remove()}activate(){this.addSlot(),this.classList.add("mdw-active")}deactivate(){this.removeSlot(),this.classList.remove("mdw-active")}template(){return html`
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-tab-body', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.cloneTemplate();
+  }
+
+  connectedCallback() {
+    this.parentNode.registerBody(this);
+  }
+
+  disconnectedCallback() {
+    this.parentNode.unregisterBody(this);
+  }
+
+  addSlot() {
+    this.shadowRoot.querySelector('mdw-tab-body-content').insertAdjacentHTML('beforeend', '<slot></slot>');
+  }
+
+  removeSlot() {
+    this.shadowRoot.querySelector('slot').remove();
+  }
+
+  activate() {
+    this.addSlot();
+    this.classList.add('mdw-active');
+  }
+
+  deactivate() {
+    this.removeSlot();
+    this.classList.remove('mdw-active');
+  }
+
+  template() {
+    return html`
       <mdw-tab-body-content>
         <!-- slot is added dynamicly -->
       </mdw-tab-body-content>
-    `}get internalStylesFile(){return"./internal.css"}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(2);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-tab-button",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.bound_click=this.click.bind(this),this.cloneTemplate()}connectedCallback(){this.ripple=new s.default({element:this.shadowRoot.querySelector(".mdw-ripple"),triggerElement:this}),this.parentNode.registerTab(this),this.addEventListener("click",this.bound_click)}disconnectedCallback(){this.ripple.destroy(),this.parentNode.unregisterTab(this),this.removeEventListener("click",this.bound_click)}get indicator(){return this.shadowRoot.querySelector(".mdw-tab-button-indicator__content")}click(e){this.parentNode.tabClick(this)}activate(){clearTimeout(this._animationTimer),this.indicator.style.transform="",this._runNextAnimationFrame(()=>{this._animationTimer=setTimeout(()=>{this.classList.add("mdw-active")},180)})}deactivate(e){clearTimeout(this._animationTimer),this.indicator.style.transform=`translateX(${e.toString()}px)`,this._animationTimer=setTimeout(()=>{this.classList.remove("mdw-active")},200)}_runNextAnimationFrame(e){cancelAnimationFrame(this._animationFrame),this._animationFrame=requestAnimationFrame(()=>{this._animationFrame=0,clearTimeout(this._animationTimer),this._animationTimer=setTimeout(e,0)})}template(){return html`
+    `;
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+});
+
+});
+
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-tab-button', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.bound_click = this.click.bind(this);
+    this.cloneTemplate();
+  }
+
+  connectedCallback() {
+    this.ripple = new _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      element: this.shadowRoot.querySelector('.mdw-ripple'),
+      triggerElement: this
+    });
+    this.parentNode.registerTab(this);
+    this.addEventListener('click', this.bound_click);
+  }
+
+  disconnectedCallback() {
+    this.ripple.destroy();
+    this.parentNode.unregisterTab(this);
+    this.removeEventListener('click', this.bound_click);
+  }
+
+  get indicator() {
+    return this.shadowRoot.querySelector('.mdw-tab-button-indicator__content');
+  }
+
+  click(e) {
+    this.parentNode.tabClick(this);
+  }
+
+  activate() {
+    clearTimeout(this._animationTimer);
+    this.indicator.style.transform = ``;
+    this._runNextAnimationFrame(() => {
+      this._animationTimer = setTimeout(() => {
+        this.classList.add('mdw-active');
+      }, 180);
+    });
+  }
+
+  deactivate(moveX) {
+    clearTimeout(this._animationTimer);
+    this.indicator.style.transform = `translateX(${moveX.toString()}px)`;
+    this._animationTimer = setTimeout(() => {
+      this.classList.remove('mdw-active');
+    }, 200);
+  }
+
+  _runNextAnimationFrame(callback) {
+    cancelAnimationFrame(this._animationFrame);
+    this._animationFrame = requestAnimationFrame(() => {
+      this._animationFrame = 0;
+      clearTimeout(this._animationTimer);
+      this._animationTimer = setTimeout(callback, 0);
+    });
+  }
+
+  template() {
+    return html`
       <span class="text"><slot></slot></span>
       <span class="mdw-tab-button-indicator">
         <span class="mdw-tab-button-indicator__content mdw-tab-button-indicator__content--underline"></span>
       </span>
       <div class="mdw-ripple mdw-tab-button-ripple"></div>
-    `}get internalStylesFile(){return"./internal.css"}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-tabs-bar",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this._activeTab=0,this.tabIdCounter=0,this._contentElements=[],this.cloneTemplate()}registerTab(e){e.setAttribute("tab-id",this.tabIdCounter),0===this.tabIdCounter&&(this.activeTab=e,e.activate()),this.tabIdCounter++}unregisterTab(e){}registerContent(e){this._contentElements.push(e),e.changeTab(this.activeTab.getAttribute("tab-id"))}unregisterContent(e){this._contentElements=this._contentElements.filter(t=>t!=e)}tabClick(e){const t=parseInt(e.getBoundingClientRect().x-this.activeTab.getBoundingClientRect().x);this.activeTab.deactivate(t),this.activeTab=e,this.activeTab.activate(),this._contentElements.forEach(e=>e.changeTab(this.activeTab.getAttribute("tab-id")))}get activeTab(){return this._activeTab}set activeTab(e){this._activeTab=e}get internalStylesFile(){return"./internal.css"}template(){return html`
+    `;
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+});
+
+});
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-tabs-bar', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this._activeTab = 0;
+    this.tabIdCounter = 0;
+    this._contentElements = [];
+    this.cloneTemplate();
+  }
+
+  // called from mdw-tab
+  registerTab(el) {
+    el.setAttribute('tab-id', this.tabIdCounter);
+    if (this.tabIdCounter === 0) {
+      this.activeTab = el;
+      el.activate();
+    }
+    this.tabIdCounter++;
+  }
+
+  // called from mdw-tab
+  unregisterTab(el) {
+    // TODO handle if it is active
+  }
+
+  // called from mdw-tabs-content
+  registerContent(el) {
+    this._contentElements.push(el);
+    el.changeTab(this.activeTab.getAttribute('tab-id'));
+  }
+
+  // called from mdw-tabs-content
+  unregisterContent(el) {
+    this._contentElements = this._contentElements.filter(e => e != el);
+  }
+
+  // called from mdw-tab
+  tabClick(el) {
+    const moveX = parseInt(el.getBoundingClientRect().x - this.activeTab.getBoundingClientRect().x);
+    this.activeTab.deactivate(moveX);
+    this.activeTab = el;
+    this.activeTab.activate();
+    this._contentElements.forEach(el => el.changeTab(this.activeTab.getAttribute('tab-id')));
+  }
+
+  get activeTab() {
+    return this._activeTab;
+  }
+
+  set activeTab(el) {
+    this._activeTab = el;
+  }
+
+  get internalStylesFile() {
+    return './internal.css'
+  }
+
+  template() {
+    return html`
       <mdw-tabs-bar-scroller>
         <mdw-tabs-bar-scroller-area>
           <mdw-tabs-bar-scroller-content>
@@ -434,8 +9925,644 @@
           </mdw-tabs-bar-scroller-content>
         </mdw-tabs-bar-scroller-area>
       </mdw-tabs-bar-scroller>
-    `}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-tabs-content",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this._bodies=[]}connectedCallback(){this.tabsBar.registerContent(this)}disconnectedCallback(){this.tabsBar&&this.tabsBar.unregisterContent(this)}get tabsBar(){return document.body.querySelector(`mdw-tabs-bar#${this.getAttribute("tabs-id")}`)}registerBody(e){this._bodies.push(e),void 0!==this._wiatForBodyActiveId&&this._bodies.length===this._wiatForBodyActiveId+1&&(this._activeBody=e,e.activate(),this._wiatForBodyActiveId=void 0)}unregisterBody(e){this._bodies=this._bodies.filter(t=>t!=e)}changeTab(e){this._bodies.length?(this._activeBody&&this._activeBody.deactivate(),this._activeBody=this._bodies[e],this._activeBody.activate()):this._wiatForBodyActiveId=parseInt(e)}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-textfield",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.classList.add("mdw-no-animation"),this.bound_onFocus=this.onFocus.bind(this),this.bound_onBlur=this.onBlur.bind(this),this.bound_onInput=this.onInput.bind(this)}connectedCallback(){this.compose(),this.checkForValue(),setTimeout(()=>{this.classList.remove("mdw-no-animation")},0),this.input.addEventListener("focus",this.bound_onFocus),this.input.addEventListener("blur",this.bound_onBlur),this.input.addEventListener("input",this.bound_onInput),this.classList.toggle("mdw-invalid",!this.valid)}disconnectedCallback(){this.input.removeEventListener("focus",this.bound_onFocus),this.input.removeEventListener("blur",this.bound_onBlur),this.input.removeEventListener("input",this.bound_onInput)}compose(){this.classList.add("mdw-upgraded"),this.isTextarea()&&this.classList.add("mdw-textarea"),this.outlined&&(this.insertAdjacentHTML("beforeend",this.outlinedHTML),this.setNotchWidth()),this.querySelector(".mdw-line-ripple")||this.insertAdjacentHTML("beforeend",this.lineRippleHTML),this.isTrailingIcon()&&this.classList.add("mdw-trailing-icon")}checkForValue(){this.classList.toggle("not-empty",!!this.input.value.length)}onFocus(){this.setNotchWidth()}onBlur(){this.classList.toggle("not-empty",!!this.input.value.length),this.classList.toggle("mdw-invalid",!this.valid)}onInput(){this.classList.toggle("mdw-invalid",!this.valid)}setNotchWidth(){this.outlined&&(this.notch.style.width=this.labelWidth+"px")}isTrailingIcon(){return!!this.iconElement&&[...this.children].indexOf(this.iconElement)>1}isTextarea(){return!!this.querySelector("textarea")}get valid(){return this.input.validity.valid}get outlined(){return[].slice.apply(this.classList||[]).includes("mdw-outlined")}get input(){return this.inputType_||(this.inputType_=this.querySelector("input")?"input":"textarea"),this.querySelector(this.inputType_)}get notch(){return this.querySelector(".mdw-outlined-notch")}get label(){return this.querySelector("label")}get labelWidth(){return.95*this.label.offsetWidth}get helperTextElement(){return this.querySelector("mdw-textfield-helper")}get iconElement(){return this.querySelector("mdw-icon")}get outlinedHTML(){return'\n      <div class="mdw-outlined-border-container">\n        <div class="mdw-outlined-leading"></div>\n        <div class="mdw-outlined-notch"></div>\n        <div class="mdw-outlined-trailing"></div>\n      </div>\n    '}get lineRippleHTML(){return'<div class="mdw-line-ripple"></div>'}})})},function(e,t,n){"use strict";n.r(t);var i=n(0);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-tooltip",class extends i.HTMLElementExtendedPaxComponents{constructor(){super()}template(){return html`
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-tabs-content', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this._bodies = [];
+  }
+
+  connectedCallback() {
+    this.tabsBar.registerContent(this);
+  }
+
+  disconnectedCallback() {
+    this.tabsBar && this.tabsBar.unregisterContent(this);
+  }
+
+  get tabsBar() {
+    return document.body.querySelector(`mdw-tabs-bar#${this.getAttribute('tabs-id')}`);
+  }
+
+  registerBody(el) {
+    this._bodies.push(el);
+    if (this._wiatForBodyActiveId  !== undefined && this._bodies.length === this._wiatForBodyActiveId + 1) {
+      this._activeBody = el;
+      el.activate();
+      this._wiatForBodyActiveId = undefined;
+    }
+  }
+
+  unregisterBody(el) {
+    this._bodies = this._bodies.filter(i => i != el);
+  }
+
+  changeTab(tabId) {
+    if (!this._bodies.length) {
+      this._wiatForBodyActiveId = parseInt(tabId);
+      return;
+    }
+    if (this._activeBody) this._activeBody.deactivate();
+    this._activeBody = this._bodies[tabId];
+    this._activeBody.activate();
+  }
+});
+
+});
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-textfield', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.classList.add('mdw-no-animation');
+    this.bound_onFocus = this.onFocus.bind(this);
+    this.bound_onBlur = this.onBlur.bind(this);
+    this.bound_onInput = this.onInput.bind(this);
+  }
+
+  connectedCallback() {
+    this.compose();
+    this.checkForValue();
+
+    setTimeout(() => {
+      this.classList.remove('mdw-no-animation');
+    }, 0);
+
+    // add listeners
+    this.input.addEventListener('focus', this.bound_onFocus);
+    this.input.addEventListener('blur', this.bound_onBlur);
+    this.input.addEventListener('input', this.bound_onInput);
+
+    this.classList.toggle('mdw-invalid', !this.valid);
+  }
+
+  disconnectedCallback() {
+    // remove listeners
+    this.input.removeEventListener('focus', this.bound_onFocus);
+    this.input.removeEventListener('blur', this.bound_onBlur);
+    this.input.removeEventListener('input', this.bound_onInput);
+  }
+
+  compose() {
+    /* For backwards compatability most of the features are built with css and the code is treated as an upgrade
+     *  'mdw-upgraded' lets us know that the code is hooked up
+     */
+    this.classList.add('mdw-upgraded');
+
+    /* textarea css marker
+     *  test area mostly works without wc compatability. The only thing that does not work is some overlapping with the label
+     */
+    if (this.isTextarea()) this.classList.add('mdw-textarea');
+
+    /* Add html for outlined
+     *  outlined does not work without compatability
+     */
+    if (this.outlined) {
+      this.insertAdjacentHTML('beforeend', this.outlinedHTML);
+      this.setNotchWidth();
+    }
+
+    /* Add ripple html if it does not exist
+     */
+    if (!this.querySelector('.mdw-line-ripple')) this.insertAdjacentHTML('beforeend', this.lineRippleHTML);
+
+    /* Fix layout for icons blaced before he input
+     *  This is not handled in non compatable browsers
+     */
+    if (this.isTrailingIcon()) this.classList.add('mdw-trailing-icon');
+  }
+
+  checkForValue() {
+    this.classList.toggle('not-empty', !!this.input.value.length);
+  }
+
+  onFocus() {
+    this.setNotchWidth();
+  }
+
+  onBlur() {
+    this.classList.toggle('not-empty', !!this.input.value.length);
+    this.classList.toggle('mdw-invalid', !this.valid);
+  }
+
+  onInput() {
+    this.classList.toggle('mdw-invalid', !this.valid);
+  }
+
+  setNotchWidth() {
+    if (this.outlined) this.notch.style.width = this.labelWidth + 'px';
+  }
+
+  /* Icons can be places at the begining ro end of a text field
+   * there is some css that is hard to apply when the icon is at the begining, this helps
+   */
+  isTrailingIcon() {
+    if (!this.iconElement) return false;
+    return [...this.children].indexOf(this.iconElement) > 1;
+  }
+
+  isTextarea() {
+    return !!this.querySelector('textarea');
+  }
+
+  get valid() {
+    return this.input.validity.valid;
+  }
+
+  get outlined() {
+    return [].slice.apply(this.classList || []).includes('mdw-outlined');
+  }
+
+  get input() {
+    if (!this._inputType) this._inputType = this.querySelector('input') ? 'input' : 'textarea';
+    return this.querySelector(this._inputType);
+  }
+
+  // this is the section where the labels sits when in outlined mode
+  get notch() {
+    return this.querySelector('.mdw-outlined-notch');
+  }
+
+  get label() {
+    return this.querySelector('label');
+  }
+
+  // figure out a more acurate way or getting the width
+  get labelWidth() {
+    return this.label.offsetWidth * 0.95;
+  }
+
+  get helperTextElement() {
+    return this.querySelector('mdw-textfield-helper');
+  }
+
+  get iconElement() {
+    return this.querySelector('mdw-icon');
+  }
+
+  get outlinedHTML() {
+    return `
+      <div class="mdw-outlined-border-container">
+        <div class="mdw-outlined-leading"></div>
+        <div class="mdw-outlined-notch"></div>
+        <div class="mdw-outlined-trailing"></div>
+      </div>
+    `;
+  }
+
+  get lineRippleHTML() {
+    return '<div class="mdw-line-ripple"></div>';
+  }
+});
+
+});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-tooltip', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+  }
+
+  template() {
+    return html`
       <div class="tooltip">
         <slot></slot>
       </div>
-    `}})})},function(e,t,n){"use strict";n.r(t);var i=n(0),s=n(1);window.addEventListener("DOMContentLoaded",()=>{customElements.define("mdw-top-app-bar",class extends i.HTMLElementExtendedPaxComponents{constructor(){super(),this.MAX_TOP_APP_BAR_HEIGHT=128,this.isCurrentlyBeingResized=!1,this.currentAppBarOffsetTop=0,this.wasDocked=!0,this.isDockedShowing=!0,this.isCurrentlyBeingResized=!1}connectedCallback(){if(this.scrollTarget=this.getScrollTarget(),this.lastScrollPosition=this.getViewportScrollY(),this.topAppBarHeight=this.height,this.hasContent&&!this.scrollTarget.querySelector(".mdw-top-app-bar")){const e=document.createElement("div");e.classList.add("mdw-top-app-bar"),this.scrollTarget.prepend(e)}document.body.classList.add("mdw-top-app-bar"),this.throttledScrollHandler=s.default.rafThrottle(this.scrollHandler),this.throttledResizeHandler=s.default.rafThrottle(this.resizeHandler),this.scrollTarget.addEventListener("scroll",this.throttledScrollHandler.bind(this)),window.addEventListener("resize",this.throttledResizeHandler.bind(this))}disconnectedCallback(){this.scrollTarget.removeEventListener("scroll",this.throttledScrollHandler.bind(this)),window.removeEventListener("resize",this.throttledResizeHandler.bind(this))}get fixed(){return this.classList.contains("mdw-fixed")}get height(){return this.clientHeight}getScrollTarget(){if("MDW-PAGE"===this.parentNode.nodeName){const e=document.querySelector("mdw-content");if(e)return this.hasContent=!0,e}return window}topAppBarScrollHandler(){const e=Math.max(this.getViewportScrollY(),0),t=e-this.lastScrollPosition;this.lastScrollPosition=e,this.isCurrentlyBeingResized||(this.currentAppBarOffsetTop-=t,this.currentAppBarOffsetTop>0?this.currentAppBarOffsetTop=0:Math.abs(this.currentAppBarOffsetTop)>this.topAppBarHeight&&(this.currentAppBarOffsetTop=-this.topAppBarHeight),this.moveTopAppBar())}moveTopAppBar(){if(this.checkForUpdate()){let e=this.currentAppBarOffsetTop;Math.abs(e)>=this.topAppBarHeight&&(e=-this.MAX_TOP_APP_BAR_HEIGHT),this.style.top=e+"px"}}checkForUpdate(){const e=-this.topAppBarHeight,t=this.currentAppBarOffsetTop<0,n=this.currentAppBarOffsetTop>e,i=t&&n;if(i)this.wasDocked=!1;else{if(!this.wasDocked)return this.wasDocked=!0,!0;if(this.isDockedShowing!==n)return this.isDockedShowing=n,!0}return i}resizeHandler(){this.isCurrentlyBeingResized=!0;const e=this.height;this.topAppBarHeight!==e&&(this.wasDocked=!1,this.currentAppBarOffsetTop-=this.topAppBarHeight-e,this.topAppBarHeight=e),this.topAppBarScrollHandler(),this.isCurrentlyBeingResized=!1}scrollHandler(){const e=Math.max(this.getViewportScrollY(),0);if(this.fixed)e<=0?this.wasScrolled_&&(this.classList.remove("mdw-scrolled"),this.wasScrolled_=!1):this.wasScrolled_||(this.classList.add("mdw-scrolled"),this.wasScrolled_=!0);else{const t=e-this.lastScrollPosition;this.lastScrollPosition=e,this.isCurrentlyBeingResized||(this.currentAppBarOffsetTop-=t,this.currentAppBarOffsetTop>0?this.currentAppBarOffsetTop=0:Math.abs(this.currentAppBarOffsetTop)>this.topAppBarHeight&&(this.currentAppBarOffsetTop=-this.topAppBarHeight),this.moveTopAppBar())}}getViewportScrollY(){return this.scrollTarget[this.scrollTarget===window?"pageYOffset":"scrollTop"]}})})},function(e,t,n){"use strict";n.r(t);var i=n(7);const s=new class{constructor(){this.hexREGEX=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i,this.paletteRegex=/(?<base>--mdw-theme-palette--)(?<color>\w*)-?(?<contrast>contrast)?-(?<hue>\w*)$/,this.textRegex=/(?<base>--mdw-theme-text--)(?<on>on-\w*)?(?<state>\w*)--(?<contrast>\w*)$/,this.contentWithContrastRegex=/(?<base>--mdw-theme-)(?<content>\w*)--(?<contrast>\w*)$/,this.contrast_="light",this.palettes={primary:"deeppurple",secondary:"teal",error:"red"},this.createBaseThemeStyleElement();const e=Object.assign({contrast:"light"},this.palettes,window.MDWThemeConfig);this.setPalettes(e),["light","dark"].indexOf(e.contrast)>-1&&(this.contrast=e.contrast),this.categorize(),this.setThemeVars(),this.setOtherVars()}get contrast(){return this.contrast_}set contrast(e){if("light"!==e&&"dark"!==e)throw Error('valid values are "light" and "dark"');this.contrast_=e}changeTheme({primary:e,secondary:t,error:n,contrast:i}){e=e||this.palettes.primary,t=t||this.palettes.secondary,n=n||this.palettes.error,i&&(this.contrast=i),this.setPalettes({primary:e,secondary:t,error:n}),this.setThemeVars(),this.setOtherVars()}setPalettes({primary:e,secondary:t,error:n}={}){this.palettes={primary:e||"deeppurple",secondary:t||"teal",error:n||"red"}}setThemeVars(){Object.keys(this.palettes).forEach(e=>{const t=this.palettes[e];this.paletteVars(t).forEach(t=>{const n=`--mdw-theme-${e}${t.contrast?`-${t.contrast}`:""}${!1===t.default?`-${t.hue}`:""}`,i=this.getVar(t.var);if(this.setVar(n,i),this.setVar(`${n}--rgb`,this.convertToRGB(i)),t.hue===this.contrast){const e=n.replace(`-${this.contrast}`,"");this.setVar(e,i),this.setVar(`${e}--rgb`,this.convertToRGB(i))}})})}setOtherVars(){this.otherVars().forEach(e=>{const t=this.getVar(e.var);this.setVar(e.normalized,t),this.setVar(`${e.normalized}--rgb`,this.convertToRGB(t))})}paletteVars(e){return Object.keys(this.normalizedVars).filter(t=>t.startsWith(`--mdw-theme-palette--${e}`)).map(e=>this.normalizedVars[e][0])}otherVars(){return Object.keys(this.normalizedVars).filter(e=>e.startsWith("--mdw-theme")&&!e.startsWith("--mdw-theme-palette")).map(e=>this.pickVar(this.normalizedVars[e]))}setVars(){Object.keys(this.normalizedVars).forEach(e=>{const t=this.pickVar(this.normalizedVars[e]);this.setVar(t.normalized,this.getVar(t.var))})}setVar(e,t){document.documentElement.style.setProperty(e,t)}getVar(e){return getComputedStyle(document.documentElement).getPropertyValue(e)}pickVar(e){let t=e.find(e=>{if(!0===e.default&&this.contrast===e.contrast)return!0});return t||(t=e.find(e=>this.contrast===e.contrast||(!0===e.default||void 0))),t||e[0]}categorize(){const e=this.getAllVars().map(e=>this.parseVar(e)).reduce((e,t)=>!0!==t.noMatch&&t.normalized?(e[t.normalized]||(e[t.normalized]=[]),e[t.normalized].push(t),e):e,{});this.normalizedVars=e}getAllVars(){return[...Object(i.default)().matchAll(/(.*?):.*?;/g)].map(e=>e[1].trim())}getUnmatched(){return this.getAllVars().map(e=>this.parseVar(e)).filter(e=>!0===e.noMatch)}parseVar(e){if(this.paletteRegex.test(e)){const t=e.match(this.paletteRegex).groups,n=`${t.base}${t.color}${t.contrast?"-contrast":""}-${t.hue}`;return Object.assign({var:e,type:"palette",default:e.indexOf("default")>0,normalized:n},t)}if(this.textRegex.test(e)){const t=e.match(this.textRegex).groups,n=`${t.base}${t.state||""}${t.on||""}`;return Object.assign({var:e,type:"text",default:e.indexOf("default")>0,normalized:n},t)}if(this.contentWithContrastRegex.test(e)){const t=e.match(this.contentWithContrastRegex).groups,n=`${t.base}${t.content}`;return Object.assign({var:e,type:"content",default:e.indexOf("default")>0,normalized:n},t)}return{var:e,noMatch:!0}}convertToRGB(e){const t=this.hexREGEX.exec(e.trim());return t?`${parseInt(t[1],16)}, ${parseInt(t[2],16)}, ${parseInt(t[3],16)}`:null}createBaseThemeStyleElement(){const e=document.createElement("style");document.head.appendChild(e),e.type="text/css",e.appendChild(document.createTextNode(Object(i.default)()))}};window.MDWTheme=s,t.default=s},function(e,t,n){"use strict";n.r(t),n.d(t,"routerConfig",function(){return i});const i={custom:{},root:void 0}}]);
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-top-app-bar', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+    this.MAX_TOP_APP_BAR_HEIGHT = 128;
+    this.isCurrentlyBeingResized = false;
+    this.currentAppBarOffsetTop = 0;
+    this.wasDocked = true;
+    this.isDockedShowing = true;
+    this.isCurrentlyBeingResized = false;
+  }
+
+  connectedCallback() {
+    this.scrollTarget = this.getScrollTarget();
+    this.lastScrollPosition = this.getViewportScrollY();
+    this.topAppBarHeight = this.height;
+
+    // add spacer to content area
+    // TODO add another class based on prominent, dense
+    if (this.hasContent && !this.scrollTarget.querySelector('.mdw-top-app-bar')) {
+      const div = document.createElement('div');
+      div.classList.add('mdw-top-app-bar');
+      this.scrollTarget.prepend(div);
+    }
+
+    document.body.classList.add('mdw-top-app-bar');
+
+    this.throttledScrollHandler = _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].rafThrottle(this.scrollHandler);
+    this.throttledResizeHandler = _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].rafThrottle(this.resizeHandler);
+    this.scrollTarget.addEventListener('scroll', this.throttledScrollHandler.bind(this));
+    window.addEventListener('resize', this.throttledResizeHandler.bind(this));
+  }
+
+  disconnectedCallback() {
+    this.scrollTarget.removeEventListener('scroll', this.throttledScrollHandler.bind(this));
+    window.removeEventListener('resize', this.throttledResizeHandler.bind(this));
+  }
+
+  get fixed() {
+    return this.classList.contains('mdw-fixed');
+  }
+
+  get height() {
+    return this.clientHeight;
+  }
+
+  getScrollTarget() {
+    if (this.parentNode.nodeName === 'MDW-PAGE') {
+      const content = document.querySelector('mdw-content');
+      if (content) {
+        this.hasContent = true;
+        return content;
+      }
+    }
+    return window;
+  }
+
+  topAppBarScrollHandler() {
+    const currentScrollPosition = Math.max(this.getViewportScrollY(), 0);
+    const diff = currentScrollPosition - this.lastScrollPosition;
+    this.lastScrollPosition = currentScrollPosition;
+
+    // If the window is being resized the lastScrollPosition_ needs to be updated but the
+    // current scroll of the top app bar should stay in the same position.
+    if (!this.isCurrentlyBeingResized) {
+      this.currentAppBarOffsetTop -= diff;
+
+      if (this.currentAppBarOffsetTop > 0) {
+        this.currentAppBarOffsetTop = 0;
+      } else if (Math.abs(this.currentAppBarOffsetTop) > this.topAppBarHeight) {
+        this.currentAppBarOffsetTop = -this.topAppBarHeight;
+      }
+
+      this.moveTopAppBar();
+    }
+  }
+
+  moveTopAppBar() {
+    if (this.checkForUpdate()) {
+      // Once the top app bar is fully hidden we use the max potential top app bar height as our offset
+      // so the top app bar doesn't show if the window resizes and the new height > the old height.
+      let offset = this.currentAppBarOffsetTop;
+      if (Math.abs(offset) >= this.topAppBarHeight) {
+        offset = -this.MAX_TOP_APP_BAR_HEIGHT;
+      }
+
+      this.style.top = offset + 'px';
+    }
+  }
+
+  checkForUpdate() {
+    const offscreenBoundaryTop = -this.topAppBarHeight;
+    const hasAnyPixelsOffscreen = this.currentAppBarOffsetTop < 0;
+    const hasAnyPixelsOnscreen = this.currentAppBarOffsetTop > offscreenBoundaryTop;
+    const partiallyShowing = hasAnyPixelsOffscreen && hasAnyPixelsOnscreen;
+
+    // If it's partially showing, it can't be docked.
+    if (partiallyShowing) {
+      this.wasDocked = false;
+    } else {
+      // Not previously docked and not partially showing, it's now docked.
+      if (!this.wasDocked) {
+        this.wasDocked = true;
+        return true;
+      } else if (this.isDockedShowing !== hasAnyPixelsOnscreen) {
+        this.isDockedShowing = hasAnyPixelsOnscreen;
+        return true;
+      }
+    }
+
+    return partiallyShowing;
+  }
+
+  resizeHandler() {
+    this.isCurrentlyBeingResized = true;
+    const currentHeight = this.height;
+    if (this.topAppBarHeight !== currentHeight) {
+      this.wasDocked = false;
+
+      // Since the top app bar has a different height depending on the screen width, this
+      // will ensure that the top app bar remains in the correct location if
+      // completely hidden and a resize makes the top app bar a different height.
+      this.currentAppBarOffsetTop -= this.topAppBarHeight - currentHeight;
+      this.topAppBarHeight = currentHeight;
+    }
+    this.topAppBarScrollHandler();
+    this.isCurrentlyBeingResized = false;
+  }
+
+
+  scrollHandler() {
+    const currentScrollPosition = Math.max(this.getViewportScrollY(), 0);
+
+    if (!this.fixed) {
+      const diff = currentScrollPosition - this.lastScrollPosition;
+      this.lastScrollPosition = currentScrollPosition;
+
+      // If the window is being resized the lastScrollPosition_ needs to be updated but the
+      // current scroll of the top app bar should stay in the same position.
+      if (!this.isCurrentlyBeingResized) {
+        this.currentAppBarOffsetTop -= diff;
+
+        if (this.currentAppBarOffsetTop > 0) {
+          this.currentAppBarOffsetTop = 0;
+        } else if (Math.abs(this.currentAppBarOffsetTop) > this.topAppBarHeight) {
+          this.currentAppBarOffsetTop = -this.topAppBarHeight;
+        }
+
+        this.moveTopAppBar();
+      }
+    } else {
+      if (currentScrollPosition <= 0) {
+        if (this.wasScrolled_) {
+          this.classList.remove('mdw-scrolled');
+          this.wasScrolled_ = false;
+        }
+      } else {
+        if (!this.wasScrolled_) {
+          this.classList.add('mdw-scrolled');
+          this.wasScrolled_ = true;
+        }
+      }
+    }
+  }
+
+  getViewportScrollY() {
+    return this.scrollTarget[this.scrollTarget === window ? 'pageYOffset' : 'scrollTop'];
+  }
+});
+
+});
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _base_theme_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+// TODO enable configuration of theme on load
+
+
+const MDWTheme = new class {
+  constructor() {
+    this.hexREGEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+    this.paletteRegex = /(?<base>--mdw-theme-palette--)(?<color>\w*)-?(?<contrast>contrast)?-(?<hue>\w*)$/;
+    this.textRegex = /(?<base>--mdw-theme-text--)(?<on>on-\w*)?(?<state>\w*)--(?<contrast>\w*)$/;
+    this.contentWithContrastRegex = /(?<base>--mdw-theme-)(?<content>\w*)--(?<contrast>\w*)$/;
+    this._contrast = 'light';
+    this.palettes = {
+      primary: 'deeppurple',
+      secondary: 'teal',
+      error: 'red'
+    };
+
+    this.createBaseThemeStyleElement();
+    const initialConfig = Object.assign({ contrast: 'light' }, this.palettes, window.MDWThemeConfig);
+    this.setPalettes(initialConfig);
+    if (['light', 'dark'].indexOf(initialConfig.contrast) > -1) this.contrast = initialConfig.contrast;
+    this.categorize();
+    this.setThemeVars();
+    this.setOtherVars();
+  }
+
+  get contrast() {
+    return this._contrast;
+  }
+
+  set contrast(value) {
+    if (value !== 'light' && value !== 'dark') throw Error('valid values are "light" and "dark"');
+    this._contrast = value;
+  }
+
+  changeTheme({ primary, secondary, error, contrast }) {
+    primary = primary || this.palettes.primary;
+    secondary = secondary || this.palettes.secondary;
+    error = error || this.palettes.error;
+    if (contrast) this.contrast = contrast;
+    this.setPalettes({ primary, secondary, error });
+    this.setThemeVars();
+    this.setOtherVars();
+  }
+
+  setPalettes({ primary, secondary, error } = {}) {
+    this.palettes = {
+      primary: primary || 'deeppurple',
+      secondary: secondary || 'teal',
+      error: error || 'red'
+    };
+  }
+
+  setThemeVars() {
+    Object.keys(this.palettes).forEach(key => {
+      const colorName = this.palettes[key];
+      const paletteVars = this.paletteVars(colorName);
+      paletteVars.forEach(palette => {
+        const name = `--mdw-theme-${key}${palette.contrast ? `-${palette.contrast}` : ''}${palette.default === false ? `-${palette.hue}` : ''}`;
+        const value = this.getVar(palette.var);
+        this.setVar(name, value);
+        this.setVar(`${name}--rgb`, this.convertToRGB(value));
+
+        if (palette.hue === this.contrast) {
+          const normalized = name.replace(`-${this.contrast}`, '');
+          this.setVar(normalized, value);
+          this.setVar(`${normalized}--rgb`, this.convertToRGB(value));
+        }
+      });
+    });
+  }
+
+  setOtherVars() {
+    this.otherVars().forEach(v => {
+      const value = this.getVar(v.var);
+      this.setVar(v.normalized, value);
+      this.setVar(`${v.normalized}--rgb`, this.convertToRGB(value));
+    });
+  }
+
+  paletteVars(colorName) {
+    const paletteVarNames = Object.keys(this.normalizedVars).filter(key => key.startsWith(`--mdw-theme-palette--${colorName}`));
+    return paletteVarNames.map(key => this.normalizedVars[key][0]);
+  }
+
+  otherVars() {
+    const paletteVarNames = Object.keys(this.normalizedVars).filter(key => key.startsWith('--mdw-theme') && !key.startsWith('--mdw-theme-palette'));
+    return paletteVarNames.map(key => this.pickVar(this.normalizedVars[key]));
+  }
+
+  setVars() {
+    Object.keys(this.normalizedVars).forEach(key => {
+      const picked = this.pickVar(this.normalizedVars[key]);
+      this.setVar(picked.normalized, this.getVar(picked.var));
+    });
+  }
+
+  setVar(name, value) {
+    document.documentElement.style.setProperty(name, value);
+  }
+
+  getVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name);
+  }
+
+  pickVar(arr) {
+    let found = arr.find(item => {
+      if (item.default === true && this.contrast === item.contrast) return true;
+    });
+    if (!found) {
+      found = arr.find(item => {
+        if (this.contrast === item.contrast) return true;
+        if (item.default === true) return true;
+      });
+    }
+    return found || arr[0];
+  }
+
+  categorize() {
+    const parsed = this.getAllVars().map(v => this.parseVar(v));
+    const normalizedHash = parsed.reduce((a, b) => {
+      if (b.noMatch === true || !b.normalized) return a;
+
+      if (!a[b.normalized]) a[b.normalized] = [];
+      a[b.normalized].push(b);
+      return a;
+    }, {});
+
+    this.normalizedVars = normalizedHash;
+  }
+
+  // parse out variables in :root
+  getAllVars() {
+    return [...Object(_base_theme_js__WEBPACK_IMPORTED_MODULE_0__["default"])().matchAll(/(.*?):.*?;/g)].map(a => a[1].trim());
+  }
+
+  getUnmatched() {
+    const parsed = this.getAllVars().map(v => this.parseVar(v));
+    return parsed.filter(n => n.noMatch === true);
+  }
+
+  parseVar(varName) {
+    if (this.paletteRegex.test(varName)) {
+      const groups = varName.match(this.paletteRegex).groups;
+      const normalized = `${groups.base}${groups.color}${groups.contrast ? `-contrast` : ''}-${groups.hue}`;
+      return Object.assign({
+        var: varName,
+        type: 'palette',
+        default: varName.indexOf('default') > 0,
+        normalized
+      }, groups);
+    }
+    if (this.textRegex.test(varName)) {
+      const groups = varName.match(this.textRegex).groups;
+      const normalized = `${groups.base}${groups.state || ''}${groups.on || ''}`;
+      return Object.assign({
+        var: varName,
+        type: 'text',
+        default: varName.indexOf('default') > 0,
+        normalized
+      }, groups);
+    }
+    if (this.contentWithContrastRegex.test(varName)) {
+      const groups = varName.match(this.contentWithContrastRegex).groups;
+      const normalized = `${groups.base}${groups.content}`;
+      return Object.assign({
+        var: varName,
+        type: 'content',
+        default: varName.indexOf('default') > 0,
+        normalized
+      }, groups);
+    }
+
+    return {
+      var: varName,
+      noMatch: true
+    };
+  }
+
+  convertToRGB(hex) {
+    const result = this.hexREGEX.exec(hex.trim());
+    return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+  }
+
+  createBaseThemeStyleElement() {
+    const styleNode = document.createElement('style');
+    document.head.appendChild(styleNode);
+    styleNode.type = 'text/css';
+    styleNode.appendChild(document.createTextNode(Object(_base_theme_js__WEBPACK_IMPORTED_MODULE_0__["default"])()));
+  }
+};
+
+window.MDWTheme = MDWTheme;
+/* harmony default export */ __webpack_exports__["default"] = (MDWTheme);
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routerConfig", function() { return routerConfig; });
+const routerConfig = {
+  custom: {},
+  root: undefined
+};
+
+/***/ })
+/******/ ]);
