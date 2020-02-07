@@ -109,162 +109,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-
-
-const MDWUtils = new class {
-  constructor() {
-    this._uid = 1;
-    this._setupTransitionEvent();
-    this._setTransformPropertyName();
-    this.isPhone = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhone"];
-    this.isPhoneAndTablet = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhoneAndTablet"];
-    // add class indecator for mobile
-    if (this.isMobile) document.body.classList.add('mdw-is-mobile');
-    else document.body.classList.remove('mdw-is-mobile');
-  }
-
-  uid() {
-    return `id_${this._uid++}`;
-  }
-
-  get isMobile() {
-    return this.isPhoneAndTablet;
-  }
-
-  lockPageScroll() {
-    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
-    scrollElement.style.overflow = 'hidden';
-  }
-
-  unlockPageScroll() {
-    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
-    scrollElement.style.overflow = '';
-  }
-
-  debounce(fn, wait) {
-    let timer;
-    return function debounced() {
-      const args = arguments;
-      const context = this
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        timer = undefined;
-        fn.apply(context, args);
-      }, wait || 10);
-    };
-  }
-
-  throttle(fn, limit) {
-    let alreadyQueued;
-    return function throttled() {
-      const args = arguments;
-      const context = this;
-      if (!alreadyQueued) {
-        alreadyQueued = true;
-        fn.apply(context, args);
-        setTimeout(() => {
-          alreadyQueued = false;
-        }, limit);
-      }
-    };
-  }
-
-  // throttle on request animation frameyy
-  rafThrottle(fn) {
-    let alreadyQueued;
-    return function throttled() {
-      const args = arguments;
-      const context = this;
-      if (!alreadyQueued) {
-        alreadyQueued = true;
-        fn.apply(context, args);
-        requestAnimationFrame(() => {
-          alreadyQueued = false;
-        });
-      }
-    };
-  }
-
-  querySlotted(component, selector) {
-    if (!component) throw Error('requires either component');
-    if (!selector) throw Error('requires selector');
-    if (!component.shadowRoot.querySelector('slot')) return null;
-    return component.shadowRoot.querySelector('slot').assignedNodes().find(el => {
-      if (!el.matches) return false;
-      return el.matches(selector);
-    });
-  }
-
-  querySlottedAll(component, selector) {
-    if (!component) throw Error('requires either component');
-    if (!selector) throw Error('requires selector');
-    return component.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }).reduce((a, el) => {
-      if (!el.querySelectorAll) return a;
-      return a.concat([...el.querySelectorAll(selector)]);
-    }, []);
-  }
-
-  slottedChildren(component) {
-    if (!component) throw Error('requires either component');
-    return component.shadowRoot.querySelector('slot').assignedNodes();
-  }
-
-  get transitionEventName() {
-    return this.transitionEventName_;
-  }
-
-  get transformPropertyName() {
-    return this.transformPropertyName_;
-  }
-
-  addBackdrop(element, clickCallback, options = {}) {
-    const id = this.uid();
-    element.insertAdjacentHTML('afterend', `<div id="${id}" class="mdw-backdrop"></div>`);
-    const backdropElement = document.querySelector(`#${id}`);
-    if (options.drawer === true) backdropElement.classList.add('mdw-drawer-backdrop');
-    if (clickCallback) backdropElement.addEventListener('click', clickCallback);
-    return {
-      remove() {
-        if (clickCallback) backdropElement.removeEventListener('click', clickCallback);
-        backdropElement.remove();
-      }
-    };
-  }
-
-  _setupTransitionEvent() {
-    const el = document.createElement('fakeelement');
-    const transitions = {
-      transition: 'transitionend',
-      OTransition: 'oTransitionEnd',
-      MozTransition: 'transitionend',
-      WebkitTransition: 'webkitTransitionEnd'
-    };
-
-    for (let t in transitions){
-      if (el.style[t] !== undefined) this.transitionEventName_ = transitions[t];
-    }
-  }
-
-  _setTransformPropertyName(forceRefresh = false) {
-    if (this.transformPropertyName_ === undefined || forceRefresh) {
-      const el = document.createElement('div');
-      this.transformPropertyName_ = 'transform' in el.style ? 'transform' : '-webkit-transform';
-    }
-  }
-}
-
-window.MDWUtils = MDWUtils;
-
-/* harmony default export */ __webpack_exports__["default"] = (MDWUtils);
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
 // NOTE Months start at 1 not 0
 
 const MDWDateUtil = new class {
@@ -597,6 +441,162 @@ window.MDWDateUtil = MDWDateUtil;
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+
+
+const MDWUtils = new class {
+  constructor() {
+    this._uid = 1;
+    this._setupTransitionEvent();
+    this._setTransformPropertyName();
+    this.isPhone = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhone"];
+    this.isPhoneAndTablet = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhoneAndTablet"];
+    // add class indecator for mobile
+    if (this.isMobile) document.body.classList.add('mdw-is-mobile');
+    else document.body.classList.remove('mdw-is-mobile');
+  }
+
+  uid() {
+    return `id_${this._uid++}`;
+  }
+
+  get isMobile() {
+    return this.isPhoneAndTablet;
+  }
+
+  lockPageScroll() {
+    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    scrollElement.style.overflow = 'hidden';
+  }
+
+  unlockPageScroll() {
+    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    scrollElement.style.overflow = '';
+  }
+
+  debounce(fn, wait) {
+    let timer;
+    return function debounced() {
+      const args = arguments;
+      const context = this
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = undefined;
+        fn.apply(context, args);
+      }, wait || 10);
+    };
+  }
+
+  throttle(fn, limit) {
+    let alreadyQueued;
+    return function throttled() {
+      const args = arguments;
+      const context = this;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        fn.apply(context, args);
+        setTimeout(() => {
+          alreadyQueued = false;
+        }, limit);
+      }
+    };
+  }
+
+  // throttle on request animation frameyy
+  rafThrottle(fn) {
+    let alreadyQueued;
+    return function throttled() {
+      const args = arguments;
+      const context = this;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        fn.apply(context, args);
+        requestAnimationFrame(() => {
+          alreadyQueued = false;
+        });
+      }
+    };
+  }
+
+  querySlotted(component, selector) {
+    if (!component) throw Error('requires either component');
+    if (!selector) throw Error('requires selector');
+    if (!component.shadowRoot.querySelector('slot')) return null;
+    return component.shadowRoot.querySelector('slot').assignedNodes().find(el => {
+      if (!el.matches) return false;
+      return el.matches(selector);
+    });
+  }
+
+  querySlottedAll(component, selector) {
+    if (!component) throw Error('requires either component');
+    if (!selector) throw Error('requires selector');
+    return component.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }).reduce((a, el) => {
+      if (!el.querySelectorAll) return a;
+      return a.concat([...el.querySelectorAll(selector)]);
+    }, []);
+  }
+
+  slottedChildren(component) {
+    if (!component) throw Error('requires either component');
+    return component.shadowRoot.querySelector('slot').assignedNodes();
+  }
+
+  get transitionEventName() {
+    return this.transitionEventName_;
+  }
+
+  get transformPropertyName() {
+    return this.transformPropertyName_;
+  }
+
+  addBackdrop(element, clickCallback, options = {}) {
+    const id = this.uid();
+    element.insertAdjacentHTML('afterend', `<div id="${id}" class="mdw-backdrop"></div>`);
+    const backdropElement = document.querySelector(`#${id}`);
+    if (options.drawer === true) backdropElement.classList.add('mdw-drawer-backdrop');
+    if (clickCallback) backdropElement.addEventListener('click', clickCallback);
+    return {
+      remove() {
+        if (clickCallback) backdropElement.removeEventListener('click', clickCallback);
+        backdropElement.remove();
+      }
+    };
+  }
+
+  _setupTransitionEvent() {
+    const el = document.createElement('fakeelement');
+    const transitions = {
+      transition: 'transitionend',
+      OTransition: 'oTransitionEnd',
+      MozTransition: 'transitionend',
+      WebkitTransition: 'webkitTransitionEnd'
+    };
+
+    for (let t in transitions){
+      if (el.style[t] !== undefined) this.transitionEventName_ = transitions[t];
+    }
+  }
+
+  _setTransformPropertyName(forceRefresh = false) {
+    if (this.transformPropertyName_ === undefined || forceRefresh) {
+      const el = document.createElement('div');
+      this.transformPropertyName_ = 'transform' in el.style ? 'transform' : '-webkit-transform';
+    }
+  }
+}
+
+window.MDWUtils = MDWUtils;
+
+/* harmony default export */ __webpack_exports__["default"] = (MDWUtils);
+
+
+/***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -794,7 +794,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeDragListener", function() { return removeDragListener; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableDragListenerForElement", function() { return enableDragListenerForElement; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "disableDragListenerForElement", function() { return disableDragListenerForElement; });
-/* harmony import */ var _Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 
 
 const swipeInstancesByElementAndFunction = new Map();
@@ -996,7 +996,7 @@ class Drag {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 
 
 const MDWBanner = new class {
@@ -1802,8 +1802,8 @@ __webpack_require__(29);
 __webpack_require__(30);
 __webpack_require__(31);
 __webpack_require__(32);
-__webpack_require__(11);
 __webpack_require__(33);
+__webpack_require__(11);
 __webpack_require__(34);
 __webpack_require__(35);
 __webpack_require__(36);
@@ -1822,8 +1822,8 @@ __webpack_require__(48);
 __webpack_require__(49);
 __webpack_require__(50);
 __webpack_require__(51);
-__webpack_require__(7);
 __webpack_require__(52);
+__webpack_require__(7);
 __webpack_require__(53);
 __webpack_require__(54);
 __webpack_require__(55);
@@ -1831,14 +1831,15 @@ __webpack_require__(56);
 __webpack_require__(57);
 __webpack_require__(58);
 __webpack_require__(59);
+__webpack_require__(60);
 __webpack_require__(8);
-__webpack_require__(2);
+__webpack_require__(1);
 __webpack_require__(4);
 __webpack_require__(6);
 __webpack_require__(3);
-__webpack_require__(60);
-__webpack_require__(1);
-module.exports = __webpack_require__(61);
+__webpack_require__(61);
+__webpack_require__(2);
+module.exports = __webpack_require__(62);
 
 
 /***/ }),
@@ -2673,94 +2674,98 @@ window.addEventListener('DOMContentLoaded', function () {
   mdwdatepickerviewmonthsinglemobile.setAttribute('id','mdw-date-picker--view-month-single--mobile--template');
   mdwdatepickerviewmonthsinglemobile.innerHTML= `
     <style>
-      .mdw-date-picker--controls-container {
-        flex-direction: row;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 4px;
-        padding-top: 4px;
-      }
       
-      .mdw-date-picker--body-year-view-button {
-        margin-left: 24px;
-        position: relative;
-        padding-right: 28px;
-        cursor: pointer;
-        color: var(--mdw-theme-text--body);
-        display: flex;
-        justify-content: space-between;
-      }
+            .mdw-date-picker--controls-container {
+              flex-direction: row;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding-bottom: 4px;
+              padding-top: 4px;
+            }
       
-      .mdw-date-picker--body-year-view-button .mdw-select__icon {
-        right: 8px;
-        top: 7px;
-        width: 0;
-        height: 0;
-        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-        pointer-events: none;
-        position: absolute;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid var(--mdw-theme-text--body);
-      }
+            .mdw-date-picker--body-year-view-button {
+              margin-left: 24px;
+              position: relative;
+              padding-right: 28px;
+              cursor: pointer;
+              color: var(--mdw-theme-text--body);
+              display: flex;
+              justify-content: space-between;
+            }
       
-      .mdw-date-picker--body-nav-buttons-container {
-        display: flex;
-        flex-direction: row;
-        padding-right: 12px;
-      }
+            .mdw-date-picker--body-year-view-button .mdw-select__icon {
+              right: 8px;
+              top: 7px;
+              width: 0;
+              height: 0;
+              transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+              pointer-events: none;
+              position: absolute;
+              border-left: 5px solid transparent;
+              border-right: 5px solid transparent;
+              border-top: 5px solid var(--mdw-theme-text--body);
+            }
       
-      .mdw-date-picker--body-nav-buttons {
-        color: var(--mdw-theme-text--body);
-      }
+            .mdw-date-picker--body-nav-buttons-container {
+              display: flex;
+              flex-direction: row;
+              padding-right: 12px;
+            }
       
-      .mdw-date-picker--view-month-day-header {
-        color: var(--mdw-theme-text--body);
-        font-size: 12px;
-        margin-left: 12px;
-        margin-right: 12px;
-        line-height: 40px;
-        flex: 1;
-        display: flex;
-        justify-content: space-around;
-      }
+            .mdw-date-picker--body-nav-buttons {
+              color: var(--mdw-theme-text--body);
+            }
+      
+            .mdw-date-picker--view-month-day-header {
+              color: var(--mdw-theme-text--body);
+              font-size: 12px;
+              margin-left: 12px;
+              margin-right: 12px;
+              line-height: 40px;
+              flex: 1;
+              display: flex;
+              justify-content: space-around;
+            }
+          
     </style>
     <render-block>
-      <div class="mdw-date-picker--controls-container">
-        <div class="mdw-date-picker--body-year-view-button">
-          <div id="month-year-dropdown">February 2020</div>
-          <i class="mdw-select__icon"></i>
-        </div>
       
-        <div class="mdw-date-picker--body-nav-buttons-container">
-          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--left">
-            <mdw-icon>keyboard_arrow_left</mdw-icon>
-          </mdw-button>
+            <div class="mdw-date-picker--controls-container">
+              <div class="mdw-date-picker--body-year-view-button">
+                <div id="month-year-dropdown">February 2020</div>
+                <i class="mdw-select__icon"></i>
+              </div>
       
-          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--right">
-            <mdw-icon>keyboard_arrow_right</mdw-icon>
-          </mdw-button>
-        </div>
-      </div>
+              <div class="mdw-date-picker--body-nav-buttons-container">
+                <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--left">
+                  <mdw-icon>keyboard_arrow_left</mdw-icon>
+                </mdw-button>
       
-      <div class="mdw-date-picker--view-month-day-header">
-        <span>S</span>
-        <span>M</span>
-        <span>T</span>
-        <span>W</span>
-        <span>T</span>
-        <span>F</span>
-        <span>S</span>
-      </div>
+                <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--right">
+                  <mdw-icon>keyboard_arrow_right</mdw-icon>
+                </mdw-button>
+              </div>
+            </div>
       
-      <mdw-date-picker--view-month-single
-        class=""
-        mdw-display-date="Wed Feb 05 2020 19:36:11 GMT-0500 (Eastern Standard Time)"
-        mdw-selected-date=""
-        mdw-min-date=""
-        mdw-max-date=""
-        ></mdw-date-picker--view-month-single>
+            <div class="mdw-date-picker--view-month-day-header">
+              <span>S</span>
+      <span>M</span>
+      <span>T</span>
+      <span>W</span>
+      <span>T</span>
+      <span>F</span>
+      <span>S</span>
+            </div>
+      
+            <mdw-date-picker--view-month-single
+              class=""
+              mdw-display-date="Thu Feb 06 2020 19:18:31 GMT-0500 (Eastern Standard Time)"
+              mdw-selected-date=""
+              mdw-min-date=""
+              mdw-max-date=""
+              ></mdw-date-picker--view-month-single>
+          
     </render-block>
   `;
   document.body.insertAdjacentElement('beforeend', mdwdatepickerviewmonthsinglemobile);
@@ -2788,14 +2793,191 @@ window.addEventListener('DOMContentLoaded', function () {
     <render-block>
       <div class="mdw-date-picker--view-month--mobile-container">
         <div class="mdw-date-picker--view-month--mobile-scroller" style="-webkit-transform: translateX(-100%); transition: none;">
-          <mdw-date-picker--view-month-single--mobile mdw-display-date="Sun Jan 05 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
-          <mdw-date-picker--view-month-single--mobile class="mdw-active-month" mdw-display-date="Wed Feb 05 2020 19:36:11 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
-          <mdw-date-picker--view-month-single--mobile mdw-display-date="Thu Mar 05 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
+          <mdw-date-picker--view-month-single--mobile mdw-display-date="Mon Jan 06 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
+          <mdw-date-picker--view-month-single--mobile class="mdw-active-month" mdw-display-date="Thu Feb 06 2020 19:18:31 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
+          <mdw-date-picker--view-month-single--mobile mdw-display-date="Fri Mar 06 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
         </div>
       </div>
     </render-block>
   `;
   document.body.insertAdjacentElement('beforeend', mdwdatepickerviewmonthmobile);
+  var mdwdatepickermobile = document.createElement('template');
+  mdwdatepickermobile.setAttribute('id','mdw-date-picker--mobile--template');
+  mdwdatepickermobile.innerHTML= `
+    <style>
+      
+            :host {
+              width: 328px;
+            }
+      
+            .header {
+              width: calc(100% - 48px);
+              padding: 28px 24px 20px 24px;
+              background-color: var(--mdw-theme-primary);
+              color: var(--mdw-theme-text--on-primary);
+            }
+      
+            .header-title {
+              font-size: 14px;
+              padding-bottom: 32px;
+            }
+      
+            .header-date {
+              font-size: 36px;
+            }
+      
+            .header-date-edit {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
+      
+            .mdw-date-picker--month-day-header {
+              color: var(--mdw-theme-text--body);
+              font-size: 12px;
+              padding: 8px 16px;
+              flex: 1;
+              display: flex;
+              justify-content: space-around;
+            }
+      
+            .mdw-date-picker--views {
+              display: flex;
+              overflow: hidden;
+              width: 100%;
+            }
+      
+            .mdw-date-picker--scroll-container {
+              display: flex;
+              width: 100%;
+              transition: transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+      
+            .mdw-date-picker--controls-container {
+              flex-direction: row;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding-bottom: 4px;
+              padding-top: 4px;
+            }
+      
+            .single-month {
+              width: 100%;
+              flex-shrink: 0;
+            }
+      
+            .bottom-controls {
+              flex-direction: row;
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+              padding: 8px;
+            }
+          
+    </style>
+    <render-block>
+      
+            <div class="header">
+              <div class="header-title">Select date</div>
+      
+              <div class="header-date-edit">
+                <div class="header-date">Select date</div>
+                <mdw-icon>edit</mdw-icon>
+              </div>
+            </div>
+      
+            <div class="mdw-date-picker--views">
+              <div class="mdw-date-picker--scroll-container" style="-webkit-transform: translateX(-100%); transition: none;">
+                
+                  <div class="single-month">
+                    <div class="mdw-date-picker--controls-container">
+                      <mdw-date-picker--year-view-button mdw-display-date="Mon Jan 06 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--year-view-button>
+                      <mdw-date-picker--month-navigation-buttons></mdw-date-picker--month-navigation-buttons>
+                    </div>
+      
+                    <div class="mdw-date-picker--month-day-header">
+                      <span>S</span>
+      <span>M</span>
+      <span>T</span>
+      <span>W</span>
+      <span>T</span>
+      <span>F</span>
+      <span>S</span>
+                    </div>
+      
+                    <mdw-date-picker--month-days class=""
+                      mdw-fill-month
+                      mdw-display-date="Mon Jan 06 2020 00:00:00 GMT-0500 (Eastern Standard Time)"
+                      mdw-selected-date=""
+                      mdw-min-date="undefined"
+                      mdw-max-date="undefined"
+                      ></mdw-date-picker--month-days>
+                  </div>
+                
+      
+                  <div class="single-month">
+                    <div class="mdw-date-picker--controls-container">
+                      <mdw-date-picker--year-view-button mdw-display-date="Thu Feb 06 2020 19:18:31 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--year-view-button>
+                      <mdw-date-picker--month-navigation-buttons></mdw-date-picker--month-navigation-buttons>
+                    </div>
+      
+                    <div class="mdw-date-picker--month-day-header">
+                      <span>S</span>
+      <span>M</span>
+      <span>T</span>
+      <span>W</span>
+      <span>T</span>
+      <span>F</span>
+      <span>S</span>
+                    </div>
+      
+                    <mdw-date-picker--month-days class="mdw-active-month"
+                      mdw-fill-month
+                      mdw-display-date="Thu Feb 06 2020 19:18:31 GMT-0500 (Eastern Standard Time)"
+                      mdw-selected-date=""
+                      mdw-min-date="undefined"
+                      mdw-max-date="undefined"
+                      ></mdw-date-picker--month-days>
+                  </div>
+                
+      
+                  <div class="single-month">
+                    <div class="mdw-date-picker--controls-container">
+                      <mdw-date-picker--year-view-button mdw-display-date="Fri Mar 06 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--year-view-button>
+                      <mdw-date-picker--month-navigation-buttons></mdw-date-picker--month-navigation-buttons>
+                    </div>
+      
+                    <div class="mdw-date-picker--month-day-header">
+                      <span>S</span>
+      <span>M</span>
+      <span>T</span>
+      <span>W</span>
+      <span>T</span>
+      <span>F</span>
+      <span>S</span>
+                    </div>
+      
+                    <mdw-date-picker--month-days class=""
+                      mdw-fill-month
+                      mdw-display-date="Fri Mar 06 2020 00:00:00 GMT-0500 (Eastern Standard Time)"
+                      mdw-selected-date=""
+                      mdw-min-date="undefined"
+                      mdw-max-date="undefined"
+                      ></mdw-date-picker--month-days>
+                  </div>
+                
+              </div>
+            </div>
+      
+            <div class="bottom-controls">
+              <mdw-button id="cancel-button" class="mdw-primary">cancel</mdw-button>
+              <mdw-button id="ok-button" class="mdw-primary">ok</mdw-button>
+            </div>
+          
+    </render-block>
+  `;
+  document.body.insertAdjacentElement('beforeend', mdwdatepickermobile);
   var mdwdatepickermonthdays = document.createElement('template');
   mdwdatepickermonthdays.setAttribute('id','mdw-date-picker--month-days--template');
   mdwdatepickermonthdays.innerHTML= `
@@ -2827,8 +3009,8 @@ window.addEventListener('DOMContentLoaded', function () {
       :host(.mdw-mobile) .container {
         grid-template-columns: repeat(7, 40px);
         grid-template-rows: repeat(6, 36px);
-        grid-column-gap: 0px;
-        padding: 0;
+        grid-column-gap: 4px;
+        padding: 0 12px;
       }
       
       .mdw-date-picker--day {
@@ -2839,6 +3021,8 @@ window.addEventListener('DOMContentLoaded', function () {
         cursor: pointer;
         pointer-events: none;
         position: relative;
+        text-align: center;
+        padding: 6px;
       }
       
       .mdw-date-picker--day::before {
@@ -2850,10 +3034,6 @@ window.addEventListener('DOMContentLoaded', function () {
         left: calc(50% - 14px);
         border-radius: 50%;
         z-index: -1;
-      }
-      
-      :host(.mdw-mobile) .mdw-date-picker--day {
-        line-height: 32px;
       }
       
       .mdw-date-picker--day.mdw-interactable {
@@ -2876,7 +3056,6 @@ window.addEventListener('DOMContentLoaded', function () {
       }
       
       .mdw-date-picker--day.mdw-selected {
-        background-color: var(--mdw-theme-primary);
         color: var(--mdw-theme-text--on-primary);
       }
       
@@ -4375,7 +4554,7 @@ window.addEventListener('DOMContentLoaded', function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -4640,7 +4819,7 @@ customElements.define('mdw-backdrop', class extends _webformula_pax_core_index_j
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
@@ -5097,8 +5276,8 @@ customElements.define('mdw-circular-progress', class extends _webformula_pax_cor
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
@@ -5462,11 +5641,13 @@ customElements.define('mdw-date-picker--old', class extends _webformula_pax_core
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
+
+// TODO update change (month, day year) events to be updateDate and selectDate
 
 window.addEventListener('DOMContentLoaded', () => {
 customElements.define('mdw-date-picker', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
@@ -5479,8 +5660,10 @@ customElements.define('mdw-date-picker', class extends _webformula_pax_core_inde
     this.bound_onMonthChange = this.onMonthChange.bind(this);
     this.bound_onDayChange = this.onDayChange.bind(this);
     this.bound_open = this.open.bind(this);
+    this.bound_close = this.close.bind(this);
 
     this.displayDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.getAttribute('mdw-date') || _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today());
+    this.selectedDate = this.getAttribute('mdw-selected-date') || '';
     this.panelId = `mdw-date-picker_${_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].uid()}`;
 
     this._checkForTextField();
@@ -5516,12 +5699,14 @@ customElements.define('mdw-date-picker', class extends _webformula_pax_core_inde
     this.pickerElement.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
     this.pickerElement.addEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
     this.pickerElement.addEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+    this.pickerElement.addEventListener('MDWDatePicker:close', this.bound_close);
   }
 
   removeEvents() {
     this.pickerElement.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
     this.pickerElement.removeEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
     this.pickerElement.removeEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+    this.pickerElement.removeEventListener('MDWDatePicker:close', this.bound_close);
   }
 
   get panel() {
@@ -5535,7 +5720,8 @@ customElements.define('mdw-date-picker', class extends _webformula_pax_core_inde
     if (desktopElement) return desktopElement;
 
     // mobile
-    // return this.panel.querySelector('mdw-date-picker--desktop');
+    const mobileElement = this.panel.querySelector('mdw-date-picker--mobile');
+    if (mobileElement) return mobileElement;
   }
 
   get minDate() {
@@ -5643,15 +5829,32 @@ customElements.define('mdw-date-picker', class extends _webformula_pax_core_inde
     const layout = _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile ? 'center center' : 'inner-left inner-top';
     const template = _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
       <mdw-panel id="${this.panelId}" mdw-position="${layout}" class="mdw-date-picker--panel">
-        <mdw-date-picker--desktop
+        ${!_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].isMobile ? this._desktopTemplate() : this._mobileTemplate()}
+      </mdw-panel>
+    `;
+    document.body.insertAdjacentHTML('beforeend', template);
+  }
+
+  _desktopTemplate() {
+    return /*html*/`
+      <mdw-date-picker--desktop
           mdw-display-date="${this.displayDate}"
           mdw-selected-date="${this.selectedDate}"
           mdw-min-date="${this.minDate}"
           mdw-max-date="${this.maxDate}"
         ></mdw-date-picker--desktop>
-      </mdw-panel>
     `;
-    document.body.insertAdjacentHTML('beforeend', template);
+  }
+
+  _mobileTemplate() {
+    return /*html*/`
+      <mdw-date-picker--mobile
+          mdw-display-date="${this.displayDate}"
+          mdw-selected-date="${this.selectedDate}"
+          mdw-min-date="${this.minDate}"
+          mdw-max-date="${this.maxDate}"
+        ></mdw-date-picker--mobile>
+    `;
   }
 });
 
@@ -5664,9 +5867,11 @@ customElements.define('mdw-date-picker', class extends _webformula_pax_core_inde
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
+
+// TODO update change (month, day year) events to be updateDate and selectDate
 
 /* TODO
  *  add year view cahnge animation
@@ -6005,7 +6210,7 @@ customElements.define('mdw-date-picker--desktop', class extends _webformula_pax_
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -6104,7 +6309,7 @@ customElements.define('mdw-date-picker--view-month-single--mobile', class extend
   }
 
   template() {
-    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
+    return /*html*/`
       <div class="mdw-date-picker--controls-container">
         <div class="mdw-date-picker--body-year-view-button">
           <div id="month-year-dropdown">${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(this.displayDate, 'MMMM YYYY')}</div>
@@ -6137,7 +6342,7 @@ customElements.define('mdw-date-picker--view-month-single--mobile', class extend
   }
 
   styles() {
-    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
+    return /*css*/`
       .mdw-date-picker--controls-container {
         flex-direction: row;
         display: flex;
@@ -6203,8 +6408,8 @@ customElements.define('mdw-date-picker--view-month-single--mobile', class extend
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
@@ -6380,13 +6585,330 @@ customElements.define('mdw-date-picker--view-month--mobile', class extends _webf
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
-// old
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
 
+// TODO update change (month, day year) events to be updateDate and selectDate
+
+window.addEventListener('DOMContentLoaded', () => {
+customElements.define('mdw-date-picker--mobile', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
+  constructor() {
+    super();
+
+    this.bound_nextMonth = this.nextMonth.bind(this);
+    this.bound_prevMonth = this.prevMonth.bind(this);
+    this.bound_onCancel = this.onCancel.bind(this);
+    this.bound_onOk = this.onOk.bind(this);
+
+    this.dayOfWeekNames = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getDayOfWeekNames('narrow');
+    this._openingDate = this.selectedDate;
+
+    this.cloneTemplate(true);
+  }
+
+  addEvents() {
+    [...this.shadowRoot.querySelectorAll('mdw-date-picker--month-navigation-buttons')].forEach(el => {
+      el.addEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
+      el.addEventListener('MDWDatePicker:prevMonth', this.bound_prevMonth);
+    });
+
+    this.cancelButton.addEventListener('click', this.bound_onCancel);
+    this.okButton.addEventListener('click', this.bound_onOk);
+  }
+
+  removeEvents() {
+    [...this.shadowRoot.querySelectorAll('mdw-date-picker--month-navigation-buttons')].forEach(el => {
+      el.removeEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
+      el.removeEventListener('MDWDatePicker:prevMonth', this.bound_prevMonth);
+    });
+
+    this.cancelButton.addEventListener('click', this.bound_onCancel);
+    this.okButton.addEventListener('click', this.bound_onOk);
+  }
+
+  static get observedAttributes() {
+    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!newValue || newValue === oldValue) return;
+
+    const activeMonth = this.activeMonth;
+    switch(name) {
+      case 'mdw-display-date':
+        this.render();
+        break;
+
+      case 'mdw-selected-date':
+        const selectedDateFormatted = newValue ? _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(newValue), 'ddd, MMM DD') : 'Select date';
+        this.headerDate.innerHTML = selectedDateFormatted;
+        if (activeMonth) activeMonth.setAttribute('mdw-selected-date', newValue);
+        break;
+
+      case 'mdw-min-date':
+        if (activeMonth) activeMonth.setAttribute('mdw-min-date', newValue);
+        break;
+
+      case 'mdw-max-date':
+        if (activeMonth) activeMonth.setAttribute('mdw-max-date', newValue);
+        break;
+    }
+  }
+
+  get displayDate() {
+    return this.getAttribute('mdw-display-date') || '';
+  }
+
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date') || '';
+  }
+
+  get minDate() {
+    return this.getAttribute('mdw-min-date');
+  }
+
+  get maxDate() {
+    return this.getAttribute('mdw-max-date');
+  }
+
+  get monthsScroller() {
+    return this.shadowRoot.querySelector('.mdw-date-picker--scroll-container');
+  }
+
+  get headerDate() {
+    return this.shadowRoot.querySelector('.header-date');
+  }
+
+  get activeMonth() {
+    return this.shadowRoot.querySelector('.mdw-active-month');
+  }
+
+  get cancelButton() {
+    return this.shadowRoot.querySelector('#cancel-button');
+  }
+
+  get okButton() {
+    return this.shadowRoot.querySelector('#ok-button');
+  }
+
+  onCancel() {
+    // revet date back
+    if (this._openingDate) {
+      this.dispatchEvent(new CustomEvent('MDWDatePicker:dayChange', {
+        composed: true,
+        detail: _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this._openingDate))
+      }));
+    } else {
+      const today = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
+      this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
+        composed: true,
+        detail: _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(today)
+      }));
+    }
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:close', {
+      composed: true
+    }));
+  }
+
+  onOk() {
+    this._openingDate = this.selectedDate;
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:close', {
+      composed: true
+    }));
+  }
+
+  nextMonth() {
+    if (this._isMoving) return;
+    this._isMoving = true;
+
+    this.monthsScroller.style.transition = '';
+    this.monthsScroller.style[_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName] = `translateX(-200%)`;
+    this.onChangeComplete(() => {
+      const { month, year, day } = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate), { add: { month: 1 } }));
+      // this event will cause a render
+      this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
+        composed: true,
+        detail: {
+          year,
+          month,
+          day
+        }
+      }));
+      this._isMoving = false;
+    });
+  }
+
+  prevMonth() {
+    if (this._isMoving) return;
+    this._isMoving = true;
+
+    this.monthsScroller.style.transition = '';
+    this.monthsScroller.style[_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName] = `translateX(0)`;
+    this.onChangeComplete(() => {
+      const { month, year, day } = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate), { add: { month: -1 } }));
+      // this event will cause a render
+      this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
+        composed: true,
+        detail: {
+          year,
+          month,
+          day
+        }
+      }));
+      this._isMoving = false;
+    });
+  }
+
+  onChangeComplete(callback) {
+    const monthsScroller = this.monthsScroller;
+    monthsScroller.addEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transitionEventName, function handler() {
+      monthsScroller.removeEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transitionEventName, handler);
+      callback();
+    });
+  }
+
+  template() {
+    const displayDateObj = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate || _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today());
+    const prevDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(displayDateObj, { add: { month: -1 } });
+    const postDate = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(displayDateObj, { add: { month: 1 } });
+    const dates = [prevDate, displayDateObj, postDate];
+    const selectedDate = this.selectedDate;
+    const selectedDateFormatted = selectedDate ? _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(selectedDate), 'ddd, MMM DD') : 'Select date';
+    return /*html*/`
+      <div class="header">
+        <div class="header-title">Select date</div>
+
+        <div class="header-date-edit">
+          <div class="header-date">${selectedDateFormatted}</div>
+          <mdw-icon>edit</mdw-icon>
+        </div>
+      </div>
+
+      <div class="mdw-date-picker--views">
+        <div class="mdw-date-picker--scroll-container" style="${_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName}: translateX(-100%); transition: none;">
+          ${dates.map((date, i) => /*html*/`
+            <div class="single-month">
+              <div class="mdw-date-picker--controls-container">
+                <mdw-date-picker--year-view-button mdw-display-date="${date}"></mdw-date-picker--year-view-button>
+                <mdw-date-picker--month-navigation-buttons></mdw-date-picker--month-navigation-buttons>
+              </div>
+
+              <div class="mdw-date-picker--month-day-header">
+                ${this.dayOfWeekNames.map(n => `<span>${n}</span>`).join('\n')}
+              </div>
+
+              <mdw-date-picker--month-days class="${i === 1 ? 'mdw-active-month' : ''}"
+                mdw-fill-month
+                mdw-display-date="${date}"
+                mdw-selected-date="${this.selectedDate}"
+                mdw-min-date="${this.minDate}"
+                mdw-max-date="${this.maxDate}"
+                ></mdw-date-picker--month-days>
+            </div>
+          `).join('\n')}
+        </div>
+      </div>
+
+      <div class="bottom-controls">
+        <mdw-button id="cancel-button" class="mdw-primary">cancel</mdw-button>
+        <mdw-button id="ok-button" class="mdw-primary">ok</mdw-button>
+      </div>
+    `;
+  }
+
+  styles() {
+    return /*css*/`
+      :host {
+        width: 328px;
+      }
+
+      .header {
+        width: calc(100% - 48px);
+        padding: 28px 24px 20px 24px;
+        background-color: var(--mdw-theme-primary);
+        color: var(--mdw-theme-text--on-primary);
+      }
+
+      .header-title {
+        font-size: 14px;
+        padding-bottom: 32px;
+      }
+
+      .header-date {
+        font-size: 36px;
+      }
+
+      .header-date-edit {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .mdw-date-picker--month-day-header {
+        color: var(--mdw-theme-text--body);
+        font-size: 12px;
+        padding: 8px 16px;
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .mdw-date-picker--views {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .mdw-date-picker--scroll-container {
+        display: flex;
+        width: 100%;
+        transition: transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+
+      .mdw-date-picker--controls-container {
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 4px;
+        padding-top: 4px;
+      }
+
+      .single-month {
+        width: 100%;
+        flex-shrink: 0;
+      }
+
+      .bottom-controls {
+        flex-direction: row;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 8px;
+      }
+    `;
+  }
+});
+
+});
+
+/***/ }),
+/* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+
+
+
+
+// TODO update change (month, day year) events to be updateDate and selectDate
 
 window.addEventListener('DOMContentLoaded', () => {
 customElements.define('mdw-date-picker--month-days', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
@@ -6536,8 +7058,8 @@ customElements.define('mdw-date-picker--month-days', class extends _webformula_p
       :host(.mdw-mobile) .container {
         grid-template-columns: repeat(7, 40px);
         grid-template-rows: repeat(6, 36px);
-        grid-column-gap: 0px;
-        padding: 0;
+        grid-column-gap: 4px;
+        padding: 0 12px;
       }
 
       .mdw-date-picker--day {
@@ -6548,6 +7070,8 @@ customElements.define('mdw-date-picker--month-days', class extends _webformula_p
         cursor: pointer;
         pointer-events: none;
         position: relative;
+        text-align: center;
+        padding: 6px;
       }
 
       .mdw-date-picker--day::before {
@@ -6559,10 +7083,6 @@ customElements.define('mdw-date-picker--month-days', class extends _webformula_p
         left: calc(50% - 14px);
         border-radius: 50%;
         z-index: -1;
-      }
-
-      :host(.mdw-mobile) .mdw-date-picker--day {
-        line-height: 32px;
       }
 
       .mdw-date-picker--day.mdw-interactable {
@@ -6585,7 +7105,6 @@ customElements.define('mdw-date-picker--month-days', class extends _webformula_p
       }
 
       .mdw-date-picker--day.mdw-selected {
-        background-color: var(--mdw-theme-primary);
         color: var(--mdw-theme-text--on-primary);
       }
 
@@ -6603,13 +7122,13 @@ customElements.define('mdw-date-picker--month-days', class extends _webformula_p
 });
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -6689,14 +7208,14 @@ customElements.define('mdw-date-picker--month-navigation-buttons', class extends
 });
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
@@ -6777,13 +7296,13 @@ customElements.define('mdw-date-picker--view-month', class extends _webformula_p
 });
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -6915,13 +7434,13 @@ customElements.define('mdw-date-picker--year-view-button', class extends _webfor
 });
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -7109,14 +7628,14 @@ customElements.define('mdw-date-picker--year', class extends _webformula_pax_cor
 });
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
@@ -7209,13 +7728,13 @@ customElements.define('mdw-dialog', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -7320,7 +7839,7 @@ customElements.define('mdw-drawer', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7350,7 +7869,7 @@ customElements.define('mdw-expander-arrow', class extends _webformula_pax_core_i
 });
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7396,13 +7915,13 @@ customElements.define('mdw-expander-container', class extends _webformula_pax_co
 });
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -7483,7 +8002,7 @@ customElements.define('mdw-expander-content', class extends _webformula_pax_core
 });
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7524,7 +8043,7 @@ customElements.define('mdw-expander-header', class extends _webformula_pax_core_
 });
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7629,7 +8148,7 @@ customElements.define('mdw-fab', class extends _webformula_pax_core_index_js__WE
 });
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7699,7 +8218,7 @@ customElements.define('mdw-icon', class extends _webformula_pax_core_index_js__W
 });
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7758,7 +8277,7 @@ customElements.define('mdw-linear-progress', class extends _webformula_pax_core_
 });
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7867,7 +8386,7 @@ customElements.define('mdw-list-item', class extends _webformula_pax_core_index_
 });
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7947,13 +8466,13 @@ customElements.define('mdw-list', class extends _webformula_pax_core_index_js__W
 });
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -8042,13 +8561,13 @@ customElements.define('mdw-menu', class extends _webformula_pax_core_index_js__W
 });
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -8479,7 +8998,7 @@ customElements.define('mdw-panel', class extends _webformula_pax_core_index_js__
 });
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8515,14 +9034,14 @@ customElements.define('mdw-radio-group', class extends _webformula_pax_core_inde
 });
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
@@ -8590,13 +9109,13 @@ customElements.define('mdw-radio', class extends _webformula_pax_core_index_js__
 });
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -8972,7 +9491,7 @@ customElements.define('mdw-select', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9085,13 +9604,13 @@ customElements.define('mdw-sheet-header', class extends _webformula_pax_core_ind
 });
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _core_gestures_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 
 
@@ -9287,13 +9806,13 @@ customElements.define('mdw-sheet', class extends _webformula_pax_core_index_js__
 });
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _core_gestures_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 
 
@@ -9519,14 +10038,14 @@ customElements.define('mdw-slider', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
 
 
 
@@ -9613,7 +10132,7 @@ customElements.define('mdw-snackbar', class extends _webformula_pax_core_index_j
 });
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9708,7 +10227,7 @@ customElements.define('mdw-switch', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9765,7 +10284,7 @@ customElements.define('mdw-tab-body', class extends _webformula_pax_core_index_j
 });
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9851,7 +10370,7 @@ customElements.define('mdw-tab-button', class extends _webformula_pax_core_index
 });
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9932,7 +10451,7 @@ customElements.define('mdw-tabs-bar', class extends _webformula_pax_core_index_j
 });
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9986,7 +10505,7 @@ customElements.define('mdw-tabs-content', class extends _webformula_pax_core_ind
 });
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10142,7 +10661,7 @@ customElements.define('mdw-textfield', class extends _webformula_pax_core_index_
 });
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10168,13 +10687,13 @@ customElements.define('mdw-tooltip', class extends _webformula_pax_core_index_js
 });
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -10351,7 +10870,7 @@ customElements.define('mdw-top-app-bar', class extends _webformula_pax_core_inde
 });
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10553,7 +11072,7 @@ window.MDWTheme = MDWTheme;
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

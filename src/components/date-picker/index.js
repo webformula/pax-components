@@ -2,6 +2,8 @@ import { HTMLElementExtended, html } from '@webformula/pax-core';
 import MDWDateUtil from '../../core/DateUtil.js';
 import MDWUtils from '../../core/Utils.js';
 
+// TODO update change (month, day year) events to be updateDate and selectDate
+
 customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -12,8 +14,10 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.bound_onMonthChange = this.onMonthChange.bind(this);
     this.bound_onDayChange = this.onDayChange.bind(this);
     this.bound_open = this.open.bind(this);
+    this.bound_close = this.close.bind(this);
 
     this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-date') || MDWDateUtil.today());
+    this.selectedDate = this.getAttribute('mdw-selected-date') || '';
     this.panelId = `mdw-date-picker_${MDWUtils.uid()}`;
 
     this._checkForTextField();
@@ -49,12 +53,14 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     this.pickerElement.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
     this.pickerElement.addEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
     this.pickerElement.addEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+    this.pickerElement.addEventListener('MDWDatePicker:close', this.bound_close);
   }
 
   removeEvents() {
     this.pickerElement.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
     this.pickerElement.removeEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
     this.pickerElement.removeEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+    this.pickerElement.removeEventListener('MDWDatePicker:close', this.bound_close);
   }
 
   get panel() {
@@ -68,7 +74,8 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     if (desktopElement) return desktopElement;
 
     // mobile
-    // return this.panel.querySelector('mdw-date-picker--desktop');
+    const mobileElement = this.panel.querySelector('mdw-date-picker--mobile');
+    if (mobileElement) return mobileElement;
   }
 
   get minDate() {
@@ -176,14 +183,31 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     const layout = MDWUtils.isMobile ? 'center center' : 'inner-left inner-top';
     const template = html`
       <mdw-panel id="${this.panelId}" mdw-position="${layout}" class="mdw-date-picker--panel">
-        <mdw-date-picker--desktop
+        ${!MDWUtils.isMobile ? this._desktopTemplate() : this._mobileTemplate()}
+      </mdw-panel>
+    `;
+    document.body.insertAdjacentHTML('beforeend', template);
+  }
+
+  _desktopTemplate() {
+    return /*html*/`
+      <mdw-date-picker--desktop
           mdw-display-date="${this.displayDate}"
           mdw-selected-date="${this.selectedDate}"
           mdw-min-date="${this.minDate}"
           mdw-max-date="${this.maxDate}"
         ></mdw-date-picker--desktop>
-      </mdw-panel>
     `;
-    document.body.insertAdjacentHTML('beforeend', template);
+  }
+
+  _mobileTemplate() {
+    return /*html*/`
+      <mdw-date-picker--mobile
+          mdw-display-date="${this.displayDate}"
+          mdw-selected-date="${this.selectedDate}"
+          mdw-min-date="${this.minDate}"
+          mdw-max-date="${this.maxDate}"
+        ></mdw-date-picker--mobile>
+    `;
   }
 });

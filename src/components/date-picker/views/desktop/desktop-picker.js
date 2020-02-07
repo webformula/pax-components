@@ -1,6 +1,8 @@
 import { HTMLElementExtended, html, css } from '@webformula/pax-core';
 import MDWDateUtil from '../../../../core/DateUtil.js';
 
+// TODO update change (month, day year) events to be updateDate and selectDate
+
 /* TODO
  *  add year view cahnge animation
  *  add selected bg animation (circle moving from day to day)

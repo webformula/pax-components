@@ -1,8 +1,8 @@
-// old
-
 import { html, css, HTMLElementExtended } from '@webformula/pax-core';
 import MDWDateUtil from '../../../core/DateUtil.js';
 import MDWUtils from '../../../core/Utils.js';
+
+// TODO update change (month, day year) events to be updateDate and selectDate
 
 customElements.define('mdw-date-picker--month-days', class extends HTMLElementExtended {
   constructor() {
@@ -151,8 +151,8 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
       :host(.mdw-mobile) .container {
         grid-template-columns: repeat(7, 40px);
         grid-template-rows: repeat(6, 36px);
-        grid-column-gap: 0px;
-        padding: 0;
+        grid-column-gap: 4px;
+        padding: 0 12px;
       }
 
       .mdw-date-picker--day {
@@ -163,6 +163,8 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
         cursor: pointer;
         pointer-events: none;
         position: relative;
+        text-align: center;
+        padding: 6px;
       }
 
       .mdw-date-picker--day::before {
@@ -174,10 +176,6 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
         left: calc(50% - 14px);
         border-radius: 50%;
         z-index: -1;
-      }
-
-      :host(.mdw-mobile) .mdw-date-picker--day {
-        line-height: 32px;
       }
 
       .mdw-date-picker--day.mdw-interactable {
@@ -200,7 +198,6 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
       }
 
       .mdw-date-picker--day.mdw-selected {
-        background-color: var(--mdw-theme-primary);
         color: var(--mdw-theme-text--on-primary);
       }
 

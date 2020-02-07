@@ -24,24 +24,3 @@ mdw-panel.mdw-date-picker--panel.mdw-open {
   box-sizing: border-box;
   flex-direction: column;
 }
-
-.mdw-date-picker--header {
-  width: calc(100% - 48px);
-  padding: 28px 24px 20px 24px;
-  background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-text--on-primary);
-}
-
-.mdw-date-picker--body {
-  background: var(--mdw-theme-background_white);
-}
-
-
-.mdw-date-picker--header-title {
-  font-size: 14px;
-  padding-bottom: 32px;
-}
-
-.mdw-date-picker--header-date {
-  font-size: 36px;
-}
