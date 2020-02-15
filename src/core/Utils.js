@@ -8,8 +8,21 @@ const MDWUtils = new class {
     this.isPhone = isPhone;
     this.isPhoneAndTablet = isPhoneAndTablet;
     // add class indecator for mobile
-    if (this.isMobile) document.body.classList.add('mdw-is-mobile');
-    else document.body.classList.remove('mdw-is-mobile');
+    
+    this.onReady(() => {
+      if (this.isMobile) document.body.classList.add('mdw-is-mobile');
+      else document.body.classList.remove('mdw-is-mobile');
+    });
+  }
+
+  onReady(callback) {
+    if (!document) {
+      setInterval(() => {
+        console.log('okokko');
+        this.onReady(callback);
+      }, 10);
+    }
+    callback();
   }
 
   uid() {
