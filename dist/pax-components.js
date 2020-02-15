@@ -109,6 +109,162 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+
+
+const MDWUtils = new class {
+  constructor() {
+    this._uid = 1;
+    this._setupTransitionEvent();
+    this._setTransformPropertyName();
+    this.isPhone = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhone"];
+    this.isPhoneAndTablet = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhoneAndTablet"];
+    // add class indecator for mobile
+    if (this.isMobile) document.body.classList.add('mdw-is-mobile');
+    else document.body.classList.remove('mdw-is-mobile');
+  }
+
+  uid() {
+    return `id_${this._uid++}`;
+  }
+
+  get isMobile() {
+    return this.isPhoneAndTablet;
+  }
+
+  lockPageScroll() {
+    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    scrollElement.style.overflow = 'hidden';
+  }
+
+  unlockPageScroll() {
+    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    scrollElement.style.overflow = '';
+  }
+
+  debounce(fn, wait) {
+    let timer;
+    return function debounced() {
+      const args = arguments;
+      const context = this
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = undefined;
+        fn.apply(context, args);
+      }, wait || 10);
+    };
+  }
+
+  throttle(fn, limit) {
+    let alreadyQueued;
+    return function throttled() {
+      const args = arguments;
+      const context = this;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        fn.apply(context, args);
+        setTimeout(() => {
+          alreadyQueued = false;
+        }, limit);
+      }
+    };
+  }
+
+  // throttle on request animation frameyy
+  rafThrottle(fn) {
+    let alreadyQueued;
+    return function throttled() {
+      const args = arguments;
+      const context = this;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        fn.apply(context, args);
+        requestAnimationFrame(() => {
+          alreadyQueued = false;
+        });
+      }
+    };
+  }
+
+  querySlotted(component, selector) {
+    if (!component) throw Error('requires either component');
+    if (!selector) throw Error('requires selector');
+    if (!component.shadowRoot.querySelector('slot')) return null;
+    return component.shadowRoot.querySelector('slot').assignedNodes().find(el => {
+      if (!el.matches) return false;
+      return el.matches(selector);
+    });
+  }
+
+  querySlottedAll(component, selector) {
+    if (!component) throw Error('requires either component');
+    if (!selector) throw Error('requires selector');
+    return component.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }).reduce((a, el) => {
+      if (!el.querySelectorAll) return a;
+      return a.concat([...el.querySelectorAll(selector)]);
+    }, []);
+  }
+
+  slottedChildren(component) {
+    if (!component) throw Error('requires either component');
+    return component.shadowRoot.querySelector('slot').assignedNodes();
+  }
+
+  get transitionEventName() {
+    return this.transitionEventName_;
+  }
+
+  get transformPropertyName() {
+    return this.transformPropertyName_;
+  }
+
+  addBackdrop(element, clickCallback, options = {}) {
+    const id = this.uid();
+    element.insertAdjacentHTML('afterend', `<div id="${id}" class="mdw-backdrop"></div>`);
+    const backdropElement = document.querySelector(`#${id}`);
+    if (options.drawer === true) backdropElement.classList.add('mdw-drawer-backdrop');
+    if (clickCallback) backdropElement.addEventListener('click', clickCallback);
+    return {
+      remove() {
+        if (clickCallback) backdropElement.removeEventListener('click', clickCallback);
+        backdropElement.remove();
+      }
+    };
+  }
+
+  _setupTransitionEvent() {
+    const el = document.createElement('fakeelement');
+    const transitions = {
+      transition: 'transitionend',
+      OTransition: 'oTransitionEnd',
+      MozTransition: 'transitionend',
+      WebkitTransition: 'webkitTransitionEnd'
+    };
+
+    for (let t in transitions){
+      if (el.style[t] !== undefined) this.transitionEventName_ = transitions[t];
+    }
+  }
+
+  _setTransformPropertyName(forceRefresh = false) {
+    if (this.transformPropertyName_ === undefined || forceRefresh) {
+      const el = document.createElement('div');
+      this.transformPropertyName_ = 'transform' in el.style ? 'transform' : '-webkit-transform';
+    }
+  }
+}
+
+window.MDWUtils = MDWUtils;
+
+/* harmony default export */ __webpack_exports__["default"] = (MDWUtils);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 // NOTE Months start at 1 not 0
 
 const MDWDateUtil = new class {
@@ -441,162 +597,6 @@ window.MDWDateUtil = MDWDateUtil;
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-
-
-const MDWUtils = new class {
-  constructor() {
-    this._uid = 1;
-    this._setupTransitionEvent();
-    this._setTransformPropertyName();
-    this.isPhone = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhone"];
-    this.isPhoneAndTablet = _mobile_info_js__WEBPACK_IMPORTED_MODULE_0__["isPhoneAndTablet"];
-    // add class indecator for mobile
-    if (this.isMobile) document.body.classList.add('mdw-is-mobile');
-    else document.body.classList.remove('mdw-is-mobile');
-  }
-
-  uid() {
-    return `id_${this._uid++}`;
-  }
-
-  get isMobile() {
-    return this.isPhoneAndTablet;
-  }
-
-  lockPageScroll() {
-    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
-    scrollElement.style.overflow = 'hidden';
-  }
-
-  unlockPageScroll() {
-    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
-    scrollElement.style.overflow = '';
-  }
-
-  debounce(fn, wait) {
-    let timer;
-    return function debounced() {
-      const args = arguments;
-      const context = this
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        timer = undefined;
-        fn.apply(context, args);
-      }, wait || 10);
-    };
-  }
-
-  throttle(fn, limit) {
-    let alreadyQueued;
-    return function throttled() {
-      const args = arguments;
-      const context = this;
-      if (!alreadyQueued) {
-        alreadyQueued = true;
-        fn.apply(context, args);
-        setTimeout(() => {
-          alreadyQueued = false;
-        }, limit);
-      }
-    };
-  }
-
-  // throttle on request animation frameyy
-  rafThrottle(fn) {
-    let alreadyQueued;
-    return function throttled() {
-      const args = arguments;
-      const context = this;
-      if (!alreadyQueued) {
-        alreadyQueued = true;
-        fn.apply(context, args);
-        requestAnimationFrame(() => {
-          alreadyQueued = false;
-        });
-      }
-    };
-  }
-
-  querySlotted(component, selector) {
-    if (!component) throw Error('requires either component');
-    if (!selector) throw Error('requires selector');
-    if (!component.shadowRoot.querySelector('slot')) return null;
-    return component.shadowRoot.querySelector('slot').assignedNodes().find(el => {
-      if (!el.matches) return false;
-      return el.matches(selector);
-    });
-  }
-
-  querySlottedAll(component, selector) {
-    if (!component) throw Error('requires either component');
-    if (!selector) throw Error('requires selector');
-    return component.shadowRoot.querySelector('slot').assignedNodes({ flatten: true }).reduce((a, el) => {
-      if (!el.querySelectorAll) return a;
-      return a.concat([...el.querySelectorAll(selector)]);
-    }, []);
-  }
-
-  slottedChildren(component) {
-    if (!component) throw Error('requires either component');
-    return component.shadowRoot.querySelector('slot').assignedNodes();
-  }
-
-  get transitionEventName() {
-    return this.transitionEventName_;
-  }
-
-  get transformPropertyName() {
-    return this.transformPropertyName_;
-  }
-
-  addBackdrop(element, clickCallback, options = {}) {
-    const id = this.uid();
-    element.insertAdjacentHTML('afterend', `<div id="${id}" class="mdw-backdrop"></div>`);
-    const backdropElement = document.querySelector(`#${id}`);
-    if (options.drawer === true) backdropElement.classList.add('mdw-drawer-backdrop');
-    if (clickCallback) backdropElement.addEventListener('click', clickCallback);
-    return {
-      remove() {
-        if (clickCallback) backdropElement.removeEventListener('click', clickCallback);
-        backdropElement.remove();
-      }
-    };
-  }
-
-  _setupTransitionEvent() {
-    const el = document.createElement('fakeelement');
-    const transitions = {
-      transition: 'transitionend',
-      OTransition: 'oTransitionEnd',
-      MozTransition: 'transitionend',
-      WebkitTransition: 'webkitTransitionEnd'
-    };
-
-    for (let t in transitions){
-      if (el.style[t] !== undefined) this.transitionEventName_ = transitions[t];
-    }
-  }
-
-  _setTransformPropertyName(forceRefresh = false) {
-    if (this.transformPropertyName_ === undefined || forceRefresh) {
-      const el = document.createElement('div');
-      this.transformPropertyName_ = 'transform' in el.style ? 'transform' : '-webkit-transform';
-    }
-  }
-}
-
-window.MDWUtils = MDWUtils;
-
-/* harmony default export */ __webpack_exports__["default"] = (MDWUtils);
-
-
-/***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -794,7 +794,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeDragListener", function() { return removeDragListener; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableDragListenerForElement", function() { return enableDragListenerForElement; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "disableDragListenerForElement", function() { return disableDragListenerForElement; });
-/* harmony import */ var _Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 
 
 const swipeInstancesByElementAndFunction = new Map();
@@ -996,7 +996,7 @@ class Drag {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 
 
 const MDWBanner = new class {
@@ -1801,9 +1801,9 @@ __webpack_require__(28);
 __webpack_require__(29);
 __webpack_require__(30);
 __webpack_require__(31);
+__webpack_require__(11);
 __webpack_require__(32);
 __webpack_require__(33);
-__webpack_require__(11);
 __webpack_require__(34);
 __webpack_require__(35);
 __webpack_require__(36);
@@ -1821,25 +1821,23 @@ __webpack_require__(47);
 __webpack_require__(48);
 __webpack_require__(49);
 __webpack_require__(50);
+__webpack_require__(7);
 __webpack_require__(51);
 __webpack_require__(52);
-__webpack_require__(7);
 __webpack_require__(53);
 __webpack_require__(54);
 __webpack_require__(55);
 __webpack_require__(56);
 __webpack_require__(57);
 __webpack_require__(58);
-__webpack_require__(59);
-__webpack_require__(60);
 __webpack_require__(8);
-__webpack_require__(1);
+__webpack_require__(2);
 __webpack_require__(4);
 __webpack_require__(6);
 __webpack_require__(3);
-__webpack_require__(61);
-__webpack_require__(2);
-module.exports = __webpack_require__(62);
+__webpack_require__(59);
+__webpack_require__(1);
+module.exports = __webpack_require__(60);
 
 
 /***/ }),
@@ -2670,137 +2668,6 @@ window.addEventListener('DOMContentLoaded', function () {
     </render-block>
   `;
   document.body.insertAdjacentElement('beforeend', mdwdatepickerdesktop);
-  var mdwdatepickerviewmonthsinglemobile = document.createElement('template');
-  mdwdatepickerviewmonthsinglemobile.setAttribute('id','mdw-date-picker--view-month-single--mobile--template');
-  mdwdatepickerviewmonthsinglemobile.innerHTML= `
-    <style>
-      
-            .mdw-date-picker--controls-container {
-              flex-direction: row;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              padding-bottom: 4px;
-              padding-top: 4px;
-            }
-      
-            .mdw-date-picker--body-year-view-button {
-              margin-left: 24px;
-              position: relative;
-              padding-right: 28px;
-              cursor: pointer;
-              color: var(--mdw-theme-text--body);
-              display: flex;
-              justify-content: space-between;
-            }
-      
-            .mdw-date-picker--body-year-view-button .mdw-select__icon {
-              right: 8px;
-              top: 7px;
-              width: 0;
-              height: 0;
-              transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-              pointer-events: none;
-              position: absolute;
-              border-left: 5px solid transparent;
-              border-right: 5px solid transparent;
-              border-top: 5px solid var(--mdw-theme-text--body);
-            }
-      
-            .mdw-date-picker--body-nav-buttons-container {
-              display: flex;
-              flex-direction: row;
-              padding-right: 12px;
-            }
-      
-            .mdw-date-picker--body-nav-buttons {
-              color: var(--mdw-theme-text--body);
-            }
-      
-            .mdw-date-picker--view-month-day-header {
-              color: var(--mdw-theme-text--body);
-              font-size: 12px;
-              margin-left: 12px;
-              margin-right: 12px;
-              line-height: 40px;
-              flex: 1;
-              display: flex;
-              justify-content: space-around;
-            }
-          
-    </style>
-    <render-block>
-      
-            <div class="mdw-date-picker--controls-container">
-              <div class="mdw-date-picker--body-year-view-button">
-                <div id="month-year-dropdown">February 2020</div>
-                <i class="mdw-select__icon"></i>
-              </div>
-      
-              <div class="mdw-date-picker--body-nav-buttons-container">
-                <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--left">
-                  <mdw-icon>keyboard_arrow_left</mdw-icon>
-                </mdw-button>
-      
-                <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--right">
-                  <mdw-icon>keyboard_arrow_right</mdw-icon>
-                </mdw-button>
-              </div>
-            </div>
-      
-            <div class="mdw-date-picker--view-month-day-header">
-              <span>S</span>
-      <span>M</span>
-      <span>T</span>
-      <span>W</span>
-      <span>T</span>
-      <span>F</span>
-      <span>S</span>
-            </div>
-      
-            <mdw-date-picker--view-month-single
-              class=""
-              mdw-display-date="Thu Feb 06 2020 19:18:31 GMT-0500 (Eastern Standard Time)"
-              mdw-selected-date=""
-              mdw-min-date=""
-              mdw-max-date=""
-              ></mdw-date-picker--view-month-single>
-          
-    </render-block>
-  `;
-  document.body.insertAdjacentElement('beforeend', mdwdatepickerviewmonthsinglemobile);
-  var mdwdatepickerviewmonthmobile = document.createElement('template');
-  mdwdatepickerviewmonthmobile.setAttribute('id','mdw-date-picker--view-month--mobile--template');
-  mdwdatepickerviewmonthmobile.innerHTML= `
-    <style>
-      .mdw-date-picker--view-month--mobile-container {
-        display: flex;
-        overflow: hidden;
-        width: 100%;
-      }
-      
-      .mdw-date-picker--view-month--mobile-scroller {
-        display: flex;
-        width: 100%;
-        transition: transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }
-      
-      mdw-date-picker--view-month-single--mobile {
-        width: 100%;
-        flex-shrink: 0;
-      }
-    </style>
-    <render-block>
-      <div class="mdw-date-picker--view-month--mobile-container">
-        <div class="mdw-date-picker--view-month--mobile-scroller" style="-webkit-transform: translateX(-100%); transition: none;">
-          <mdw-date-picker--view-month-single--mobile mdw-display-date="Mon Jan 06 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
-          <mdw-date-picker--view-month-single--mobile class="mdw-active-month" mdw-display-date="Thu Feb 06 2020 19:18:31 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
-          <mdw-date-picker--view-month-single--mobile mdw-display-date="Fri Mar 06 2020 00:00:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--view-month-single--mobile>
-        </div>
-      </div>
-    </render-block>
-  `;
-  document.body.insertAdjacentElement('beforeend', mdwdatepickerviewmonthmobile);
   var mdwdatepickermobile = document.createElement('template');
   mdwdatepickermobile.setAttribute('id','mdw-date-picker--mobile--template');
   mdwdatepickermobile.innerHTML= `
@@ -2918,7 +2785,7 @@ window.addEventListener('DOMContentLoaded', function () {
       
                   <div class="single-month">
                     <div class="mdw-date-picker--controls-container">
-                      <mdw-date-picker--year-view-button mdw-display-date="Thu Feb 06 2020 19:18:31 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--year-view-button>
+                      <mdw-date-picker--year-view-button mdw-display-date="Thu Feb 06 2020 20:03:00 GMT-0500 (Eastern Standard Time)"></mdw-date-picker--year-view-button>
                       <mdw-date-picker--month-navigation-buttons></mdw-date-picker--month-navigation-buttons>
                     </div>
       
@@ -2934,7 +2801,7 @@ window.addEventListener('DOMContentLoaded', function () {
       
                     <mdw-date-picker--month-days class="mdw-active-month"
                       mdw-fill-month
-                      mdw-display-date="Thu Feb 06 2020 19:18:31 GMT-0500 (Eastern Standard Time)"
+                      mdw-display-date="Thu Feb 06 2020 20:03:00 GMT-0500 (Eastern Standard Time)"
                       mdw-selected-date=""
                       mdw-min-date="undefined"
                       mdw-max-date="undefined"
@@ -4554,7 +4421,7 @@ window.addEventListener('DOMContentLoaded', function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -4819,7 +4686,7 @@ customElements.define('mdw-backdrop', class extends _webformula_pax_core_index_j
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
@@ -5276,8 +5143,8 @@ customElements.define('mdw-circular-progress', class extends _webformula_pax_cor
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
@@ -5641,8 +5508,8 @@ customElements.define('mdw-date-picker--old', class extends _webformula_pax_core
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
@@ -5867,7 +5734,7 @@ customElements.define('mdw-date-picker', class extends _webformula_pax_core_inde
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -6210,388 +6077,14 @@ customElements.define('mdw-date-picker--desktop', class extends _webformula_pax_
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-
-
-
-window.addEventListener('DOMContentLoaded', () => {
-customElements.define('mdw-date-picker--view-month-single--mobile', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
-  constructor() {
-    super();
-
-    this.bound_nextMonth = this.nextMonth.bind(this);
-    this.bound_prevMonth = this.prevMonth.bind(this);
-    this.bound_yearClick = this.yearClick.bind(this);
-
-    this.today = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
-    this.dayOfWeekNames = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getDayOfWeekNames('narrow');
-    this.cloneTemplate(true);
-  }
-
-  addEvents() {
-    this.navButtonLeft.addEventListener('click', this.bound_prevMonth);
-    this.navButtonRight.addEventListener('click', this.bound_nextMonth);
-    this.yearButton.addEventListener('click', this.bound_yearClick);
-  }
-
-  removeEvents() {
-    this.navButtonLeft.removeEventListener('click', this.bound_prevMonth);
-    this.navButtonRight.removeEventListener('click', this.bound_nextMonth);
-    this.yearButton.removeEventListener('click', this.bound_yearClick);
-  }
-
-  static get observedAttributes() {
-    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (!newValue || newValue === oldValue) return;
-
-    switch(name) {
-      case 'mdw-max-date':
-      case 'mdw-min-date':
-      case 'mdw-selected-date':
-      case 'mdw-display-date':
-        this.render();
-        break;
-    }
-  }
-
-
-  get displayDate() {
-    return _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.getAttribute('mdw-display-date') || this.today);
-  }
-
-  get selectedDate() {
-    return this.getAttribute('mdw-selected-date') || '';
-  }
-
-  get minDate() {
-    return this.getAttribute('mdw-min-date') || '';
-  }
-
-  get maxDate() {
-    return this.getAttribute('mdw-max-date') || '';
-  }
-
-  get navButtonLeft() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--body-nav-buttons--left');
-  }
-
-  get navButtonRight() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--body-nav-buttons--right');
-  }
-
-  get yearButton() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--body-year-view-button');
-  }
-
-  get isActiveMonth() {
-    return this.classList.contains('mdw-active-month');
-  }
-
-  yearClick() {
-    this.dispatchEvent(new CustomEvent('MDWDatePicker:showYearView', {
-      composed: true
-    }));
-  }
-
-  nextMonth() {
-    this.dispatchEvent(new CustomEvent('MDWDatePicker:nextMonth', {
-      composed: true
-    }));
-  }
-
-  prevMonth() {
-    this.dispatchEvent(new CustomEvent('MDWDatePicker:previousMonth', {
-      composed: true
-    }));
-  }
-
-  template() {
-    return /*html*/`
-      <div class="mdw-date-picker--controls-container">
-        <div class="mdw-date-picker--body-year-view-button">
-          <div id="month-year-dropdown">${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].format(this.displayDate, 'MMMM YYYY')}</div>
-          <i class="mdw-select__icon"></i>
-        </div>
-
-        <div class="mdw-date-picker--body-nav-buttons-container">
-          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--left">
-            <mdw-icon>keyboard_arrow_left</mdw-icon>
-          </mdw-button>
-
-          <mdw-button class="mdw-icon mdw-date-picker--body-nav-buttons mdw-date-picker--body-nav-buttons--right">
-            <mdw-icon>keyboard_arrow_right</mdw-icon>
-          </mdw-button>
-        </div>
-      </div>
-
-      <div class="mdw-date-picker--view-month-day-header">
-        ${this.dayOfWeekNames.map(n => `<span>${n}</span>`).join('\n')}
-      </div>
-
-      <mdw-date-picker--view-month-single
-        class="${this.isActiveMonth ? 'mdw-active-month' : ''}"
-        mdw-display-date="${this.displayDate}"
-        mdw-selected-date="${this.selectedDate}"
-        mdw-min-date="${this.minDate}"
-        mdw-max-date="${this.maxDate}"
-        ></mdw-date-picker--view-month-single>
-    `;
-  }
-
-  styles() {
-    return /*css*/`
-      .mdw-date-picker--controls-container {
-        flex-direction: row;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 4px;
-        padding-top: 4px;
-      }
-
-      .mdw-date-picker--body-year-view-button {
-        margin-left: 24px;
-        position: relative;
-        padding-right: 28px;
-        cursor: pointer;
-        color: var(--mdw-theme-text--body);
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .mdw-date-picker--body-year-view-button .mdw-select__icon {
-        right: 8px;
-        top: 7px;
-        width: 0;
-        height: 0;
-        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-        pointer-events: none;
-        position: absolute;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid var(--mdw-theme-text--body);
-      }
-
-      .mdw-date-picker--body-nav-buttons-container {
-        display: flex;
-        flex-direction: row;
-        padding-right: 12px;
-      }
-
-      .mdw-date-picker--body-nav-buttons {
-        color: var(--mdw-theme-text--body);
-      }
-
-      .mdw-date-picker--view-month-day-header {
-        color: var(--mdw-theme-text--body);
-        font-size: 12px;
-        margin-left: 12px;
-        margin-right: 12px;
-        line-height: 40px;
-        flex: 1;
-        display: flex;
-        justify-content: space-around;
-      }
-    `;
-  }
-});
-
-});
-
-/***/ }),
-/* 26 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
-
-
-
-
-window.addEventListener('DOMContentLoaded', () => {
-customElements.define('mdw-date-picker--view-month--mobile', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
-  constructor() {
-    super();
-
-    this.bound_nextMonth = this.nextMonth.bind(this);
-    this.bound_prevMonth = this.prevMonth.bind(this);
-
-    this.today = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].today();
-    this.dayOfWeekNames = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getDayOfWeekNames('narrow');
-    this.cloneTemplate(true);
-  }
-
-  addEvents() {
-    [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single--mobile')].forEach(el => {
-      el.addEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
-      el.addEventListener('MDWDatePicker:previousMonth', this.bound_prevMonth);
-    });
-  }
-
-  removeEvents() {
-    [...this.shadowRoot.querySelectorAll('mdw-date-picker--view-month-single--mobile')].forEach(el => {
-      el.removeEventListener('MDWDatePicker:nextMonth', this.bound_nextMonth);
-      el.removeEventListener('MDWDatePicker:previousMonth', this.bound_prevMonth);
-    });
-  }
-
-  static get observedAttributes() {
-    return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (!newValue || newValue === oldValue) return;
-
-    const activeMonth = this.activeMonth;
-    switch(name) {
-      case 'mdw-display-date':
-        this.render();
-        break;
-
-      case 'mdw-selected-date':
-        if (activeMonth) activeMonth.setAttribute('mdw-selected-date', newValue);
-        break;
-
-      case 'mdw-min-date':
-        if (activeMonth) activeMonth.setAttribute('mdw-min-date', newValue);
-        break;
-
-      case 'mdw-max-date':
-        if (activeMonth) activeMonth.setAttribute('mdw-max-date', newValue);
-        break;
-    }
-  }
-
-
-  get displayDate() {
-    return _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.getAttribute('mdw-display-date') || this.today);
-  }
-
-  get selectedDate() {
-    return this.getAttribute('mdw-selected-date') || '';
-  }
-
-  get minDate() {
-    return this.getAttribute('mdw-min-date');
-  }
-
-  get maxDate() {
-    return this.getAttribute('mdw-max-date');
-  }
-
-  get monthsScroller() {
-    return this.shadowRoot.querySelector('.mdw-date-picker--view-month--mobile-scroller');
-  }
-
-  get activeMonth() {
-    return this.shadowRoot.querySelector('.mdw-active-month');
-  }
-
-  nextMonth() {
-    if (this._isMoving) return;
-    this._isMoving = true;
-
-    this.monthsScroller.style.transition = '';
-    this.monthsScroller.style[_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName] = `translateX(-200%)`;
-    this.onChangeComplete(() => {
-      const { month, year } = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(this.displayDate, { add: { month: 1 } }));
-      // this event will cause a render
-      this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
-        composed: true,
-        detail: {
-          year,
-          month
-        }
-      }));
-      this._isMoving = false;
-    });
-  }
-
-  prevMonth() {
-    if (this._isMoving) return;
-    this._isMoving = true;
-
-    this.monthsScroller.style.transition = '';
-    this.monthsScroller.style[_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName] = `translateX(0)`;
-    this.onChangeComplete(() => {
-      const { month, year } = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].getParts(_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(this.displayDate, { add: { month: -1 } }));
-      // this event will cause a render
-      this.dispatchEvent(new CustomEvent('MDWDatePicker:monthChange', {
-        composed: true,
-        detail: {
-          year,
-          month
-        }
-      }));
-      this._isMoving = false;
-    });
-  }
-
-  onChangeComplete(callback) {
-    const monthsScroller = this.monthsScroller;
-    monthsScroller.addEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transitionEventName, function handler() {
-      monthsScroller.removeEventListener(_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transitionEventName, handler);
-      callback();
-    });
-  }
-
-  template() {
-    const displayDateObj = _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].parse(this.displayDate);
-    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["html"]`
-      <div class="mdw-date-picker--view-month--mobile-container">
-        <div class="mdw-date-picker--view-month--mobile-scroller" style="${_core_Utils_js__WEBPACK_IMPORTED_MODULE_2__["default"].transformPropertyName}: translateX(-100%); transition: none;">
-          <mdw-date-picker--view-month-single--mobile mdw-display-date="${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(displayDateObj, { add: { month: -1 } })}"></mdw-date-picker--view-month-single--mobile>
-          <mdw-date-picker--view-month-single--mobile class="mdw-active-month" mdw-display-date="${this.displayDate}"></mdw-date-picker--view-month-single--mobile>
-          <mdw-date-picker--view-month-single--mobile mdw-display-date="${_core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__["default"].adjustDate(displayDateObj, { add: { month: 1 } })}"></mdw-date-picker--view-month-single--mobile>
-        </div>
-      </div>
-    `;
-  }
-
-  styles() {
-    return _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["css"]`
-      .mdw-date-picker--view-month--mobile-container {
-        display: flex;
-        overflow: hidden;
-        width: 100%;
-      }
-
-      .mdw-date-picker--view-month--mobile-scroller {
-        display: flex;
-        width: 100%;
-        transition: transform 0.36s cubic-bezier(0.25, 0.8, 0.25, 1);
-      }
-
-      mdw-date-picker--view-month-single--mobile {
-        width: 100%;
-        flex-shrink: 0;
-      }
-    `;
-  }
-});
-
-});
-
-/***/ }),
-/* 27 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
 
 // TODO update change (month, day year) events to be updateDate and selectDate
+// TODO year view
 
 window.addEventListener('DOMContentLoaded', () => {
 customElements.define('mdw-date-picker--mobile', class extends _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__["HTMLElementExtendedPaxComponents"] {
@@ -6896,14 +6389,14 @@ customElements.define('mdw-date-picker--mobile', class extends _webformula_pax_c
 });
 
 /***/ }),
-/* 28 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
@@ -7122,13 +6615,13 @@ customElements.define('mdw-date-picker--month-days', class extends _webformula_p
 });
 
 /***/ }),
-/* 29 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -7208,14 +6701,14 @@ customElements.define('mdw-date-picker--month-navigation-buttons', class extends
 });
 
 /***/ }),
-/* 30 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
@@ -7296,13 +6789,13 @@ customElements.define('mdw-date-picker--view-month', class extends _webformula_p
 });
 
 /***/ }),
-/* 31 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -7434,13 +6927,13 @@ customElements.define('mdw-date-picker--year-view-button', class extends _webfor
 });
 
 /***/ }),
-/* 32 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _core_DateUtil_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 
 
 
@@ -7628,14 +7121,14 @@ customElements.define('mdw-date-picker--year', class extends _webformula_pax_cor
 });
 
 /***/ }),
-/* 33 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
@@ -7728,13 +7221,13 @@ customElements.define('mdw-dialog', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 34 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -7839,7 +7332,7 @@ customElements.define('mdw-drawer', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 35 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7869,7 +7362,7 @@ customElements.define('mdw-expander-arrow', class extends _webformula_pax_core_i
 });
 
 /***/ }),
-/* 36 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7915,13 +7408,13 @@ customElements.define('mdw-expander-container', class extends _webformula_pax_co
 });
 
 /***/ }),
-/* 37 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -8002,7 +7495,7 @@ customElements.define('mdw-expander-content', class extends _webformula_pax_core
 });
 
 /***/ }),
-/* 38 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8043,7 +7536,7 @@ customElements.define('mdw-expander-header', class extends _webformula_pax_core_
 });
 
 /***/ }),
-/* 39 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8148,7 +7641,7 @@ customElements.define('mdw-fab', class extends _webformula_pax_core_index_js__WE
 });
 
 /***/ }),
-/* 40 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8218,7 +7711,7 @@ customElements.define('mdw-icon', class extends _webformula_pax_core_index_js__W
 });
 
 /***/ }),
-/* 41 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8277,7 +7770,7 @@ customElements.define('mdw-linear-progress', class extends _webformula_pax_core_
 });
 
 /***/ }),
-/* 42 */
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8386,7 +7879,7 @@ customElements.define('mdw-list-item', class extends _webformula_pax_core_index_
 });
 
 /***/ }),
-/* 43 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8466,13 +7959,13 @@ customElements.define('mdw-list', class extends _webformula_pax_core_index_js__W
 });
 
 /***/ }),
-/* 44 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -8561,13 +8054,13 @@ customElements.define('mdw-menu', class extends _webformula_pax_core_index_js__W
 });
 
 /***/ }),
-/* 45 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -8998,7 +8491,7 @@ customElements.define('mdw-panel', class extends _webformula_pax_core_index_js__
 });
 
 /***/ }),
-/* 46 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9034,14 +8527,14 @@ customElements.define('mdw-radio-group', class extends _webformula_pax_core_inde
 });
 
 /***/ }),
-/* 47 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _core_Ripple_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
@@ -9109,13 +8602,13 @@ customElements.define('mdw-radio', class extends _webformula_pax_core_index_js__
 });
 
 /***/ }),
-/* 48 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -9491,7 +8984,7 @@ customElements.define('mdw-select', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 49 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9604,13 +9097,13 @@ customElements.define('mdw-sheet-header', class extends _webformula_pax_core_ind
 });
 
 /***/ }),
-/* 50 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 /* harmony import */ var _core_gestures_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 
 
@@ -9806,13 +9299,13 @@ customElements.define('mdw-sheet', class extends _webformula_pax_core_index_js__
 });
 
 /***/ }),
-/* 51 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 /* harmony import */ var _core_gestures_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 
 
@@ -10038,14 +9531,14 @@ customElements.define('mdw-slider', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 52 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 
 
 
@@ -10132,7 +9625,7 @@ customElements.define('mdw-snackbar', class extends _webformula_pax_core_index_j
 });
 
 /***/ }),
-/* 53 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10227,7 +9720,7 @@ customElements.define('mdw-switch', class extends _webformula_pax_core_index_js_
 });
 
 /***/ }),
-/* 54 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10284,7 +9777,7 @@ customElements.define('mdw-tab-body', class extends _webformula_pax_core_index_j
 });
 
 /***/ }),
-/* 55 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10370,7 +9863,7 @@ customElements.define('mdw-tab-button', class extends _webformula_pax_core_index
 });
 
 /***/ }),
-/* 56 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10451,7 +9944,7 @@ customElements.define('mdw-tabs-bar', class extends _webformula_pax_core_index_j
 });
 
 /***/ }),
-/* 57 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10505,7 +9998,7 @@ customElements.define('mdw-tabs-content', class extends _webformula_pax_core_ind
 });
 
 /***/ }),
-/* 58 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10661,7 +10154,7 @@ customElements.define('mdw-textfield', class extends _webformula_pax_core_index_
 });
 
 /***/ }),
-/* 59 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10687,13 +10180,13 @@ customElements.define('mdw-tooltip', class extends _webformula_pax_core_index_js
 });
 
 /***/ }),
-/* 60 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webformula_pax_core_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _core_Utils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 
 
 
@@ -10870,7 +10363,7 @@ customElements.define('mdw-top-app-bar', class extends _webformula_pax_core_inde
 });
 
 /***/ }),
-/* 61 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11072,7 +10565,7 @@ window.MDWTheme = MDWTheme;
 
 
 /***/ }),
-/* 62 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
