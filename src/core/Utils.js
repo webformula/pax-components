@@ -16,11 +16,11 @@ const MDWUtils = new class {
   }
 
   onReady(callback) {
-    if (!document) {
-      setInterval(() => {
-        console.log('okokko');
+    if (!document.body) {
+      setTimeout(() => {
         this.onReady(callback);
-      }, 10);
+      }, 0);
+      return;
     }
     callback();
   }
