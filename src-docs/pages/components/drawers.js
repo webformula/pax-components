@@ -137,12 +137,32 @@ export default class Drawers extends Page {
                     </mdw-drawer-content>
 
                     <mdw-drawer-icon-bar>
-                      <mdw-icon>inbox</mdw-icon>
-                      <mdw-icon>star</mdw-icon>
-                      <mdw-icon>star</mdw-icon>
-                      <mdw-icon>star</mdw-icon>
-                      <mdw-icon>star</mdw-icon>
-                      <mdw-icon>star</mdw-icon>
+                      <mdw-drawer-icon-bar--header>
+                        <mdw-button class="mdw-icon" onclick="document.querySelector('mdw-drawer').toggle()">
+                          <mdw-icon>menu</mdw-icon>
+                        </mdw-button>
+                      </mdw-drawer-icon-bar--header>
+
+                      <mdw-drawer-icon-bar--content>
+                        <mdw-button class="mdw-icon">
+                          <mdw-icon>inbox</mdw-icon>
+                        </mdw-button>
+                        <mdw-button class="mdw-icon">
+                          <mdw-icon>star</mdw-icon>
+                        </mdw-button>
+                        <mdw-button class="mdw-icon">
+                          <mdw-icon>inbox</mdw-icon>
+                        </mdw-button>
+                        <mdw-button class="mdw-icon">
+                          <mdw-icon>star</mdw-icon>
+                        </mdw-button>
+                        <mdw-button class="mdw-icon">
+                          <mdw-icon>inbox</mdw-icon>
+                        </mdw-button>
+                        <mdw-button class="mdw-icon">
+                          <mdw-icon>star</mdw-icon>
+                        </mdw-button>
+                      </mdw-drawer-icon-bar--content>
                     </mdw-drawer-icon-bar>
                   </mdw-drawer>
 
