@@ -1,0 +1,123 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
+  <link rel="stylesheet" href="pax-components.css">
+  <link rel="stylesheet" href="main.css">
+  <script type="module" src="pax-components.js"></script>
+</head>
+
+  <body>
+    <mdw-drawer class="mdw-locked-open">
+      <mdw-drawer-fixed>
+        <mdw-drawer-header>
+          <div class="mdw-title">Nav title</div>
+          <div class="mdw-subtitle">Pages</div>
+        </mdw-drawer-header>
+
+        <mdw-drawer-content>
+          <mdw-list>
+            <mdw-list-item active onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">inbox</span>
+              Inbox
+            </mdw-list-item>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Two
+            </mdw-list-item>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Three
+            </mdw-list-item>
+
+            <mdw-divider></mdw-divider>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Four
+            </mdw-list-item>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Five
+            </mdw-list-item>
+
+            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+              <span class="mdw-list-item__graphic material-icons">star</span>
+              Six
+            </mdw-list-item>
+          </mdw-list>
+        </mdw-drawer-content>
+
+        <mdw-drawer-icon-bar>
+          <mdw-drawer-icon-bar--header>
+            <mdw-button class="mdw-icon" onclick="document.querySelector('mdw-drawer').toggle()">
+              <mdw-icon>menu</mdw-icon>
+            </mdw-button>
+          </mdw-drawer-icon-bar--header>
+
+          <mdw-drawer-icon-bar--content>
+            <mdw-button class="mdw-icon">
+              <mdw-icon>inbox</mdw-icon>
+            </mdw-button>
+            <mdw-button class="mdw-icon">
+              <mdw-icon>star</mdw-icon>
+            </mdw-button>
+            <mdw-button class="mdw-icon">
+              <mdw-icon>inbox</mdw-icon>
+            </mdw-button>
+            <mdw-button class="mdw-icon">
+              <mdw-icon>star</mdw-icon>
+            </mdw-button>
+            <mdw-button class="mdw-icon">
+              <mdw-icon>inbox</mdw-icon>
+            </mdw-button>
+            <mdw-button class="mdw-icon">
+              <mdw-icon>star</mdw-icon>
+            </mdw-button>
+          </mdw-drawer-icon-bar>
+        </mdw-drawer-icon-bar--content>
+      </mdw-drawer-fixed>
+    </mdw-drawer>
+
+    <mdw-page>
+      <mdw-top-app-bar>
+        <section>
+          <mdw-icon onclick="document.querySelector('mdw-drawer').toggle()">menu</mdw-icon>
+          <span class="title">Example</span>
+        </section>
+      </mdw-top-app-bar>
+      <mdw-content class="constrain-width">
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+  anim id est laborum.
+        </p>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+  anim id est laborum.
+        </p>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+  anim id est laborum.
+        </p>
+      </mdw-content>
+    </mdw-page>
+  </body>
+</html>

@@ -19,6 +19,8 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     // add spacing for scroll
     if (this.contentElement) this.contentElement.style.height = `calc(100% - ${this.contentElement.offsetTop + 18}px)`;
 
+    this.setupIconBar();
+
     this.lockBody();
     this.addCloseOnChange();
   }
@@ -32,8 +34,16 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     return this.classList.contains('mdw-locked-open');
   }
 
+  get headerElement() {
+    return this.querySelector('mdw-drawer-header');
+  }
+
   get contentElement() {
     return this.querySelector('mdw-drawer-content');
+  }
+
+  get iconBarElement() {
+    return this.querySelector('mdw-drawer-icon-bar');
   }
 
   get fixedElement() {
@@ -64,6 +74,15 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     }
     this.isShowing = false;
     if (this.backdrop) this.backdrop.remove();
+
+    if (!this.iconBarElement) return;
+    this.iconBarElement.classList.add('mdw-show');
+    const that = this;
+    this.addEventListener('transitionend', function handle() {
+      that.removeEventListener('transitionend', handle);
+      that.contentElement.classList.add('mdw-hide');
+      that.headerElement.classList.add('mdw-hide');
+    });
   }
 
   show() {
@@ -75,6 +94,11 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
 
     // add spacing for scroll
     if (this.contentElement) this.contentElement.style.height = `calc(100% - ${this.contentElement.offsetTop + 18}px)`;
+
+    if (!this.iconBarElement) return;
+    this.iconBarElement.classList.remove('mdw-show');
+    this.contentElement.classList.remove('mdw-hide');
+    this.headerElement.classList.remove('mdw-hide');
   }
 
   toggle() {
@@ -95,5 +119,16 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
       && !MDWUtils.isMobile // only valid in non mobile
       && document.querySelector('mdw-page > mdw-content') // contains nessacary elements to make sure scrolling will still work
     ) document.body.classList.add('prevent-over-scroll');
+  }
+
+
+  // you can add an iconbar.
+  // when the drawer is closed it will minimize to show the icon bar instead of completly hiding
+  setupIconBar() {
+    const iconBar = this.querySelector('mdw-drawer-icon-bar');
+    if (!iconBar) return;
+
+    this.classList.add('mdw-has-icon-bar');
+    this.hasIconBar = true;
   }
 });

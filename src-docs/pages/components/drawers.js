@@ -92,6 +92,7 @@ export default class Drawers extends Page {
                   <mdw-page>
                     <mdw-top-app-bar>
                       <section>
+                        <mdw-icon onclick="document.querySelector('mdw-drawer').toggle()">menu</mdw-icon>
                         <span class='title'>Example</span>
                       </section>
                     </mdw-top-app-bar>
@@ -106,6 +107,63 @@ export default class Drawers extends Page {
             <div class="mdw-card__content" style="display: block;">
               <div class="demo">
                 <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="drawer-standard.html"></iframe>
+              </div>
+            </div>
+          </mdw-card>
+
+
+
+          <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html" content="${`
+                <body>
+                  <mdw-drawer class='mdw-locked-open'>
+                    <mdw-drawer-header>
+                      <div class='mdw-title'>Nav title</div>
+                      <div class='mdw-subtitle'>Pages</div>
+                    </mdw-drawer-header>
+
+                    <mdw-drawer-content>
+                      <mdw-list>
+                        <mdw-list-item active onclick='$Drawers.handleNavLClick(this)'>
+                          <span class='mdw-list-item__graphic material-icons'>inbox</span>
+                          Inbox
+                        </mdw-list-item>
+
+                        <mdw-list-item onclick='$Drawers.handleNavLClick(this)'>
+                          <span class='mdw-list-item__graphic material-icons'>star</span>
+                          Two
+                        </mdw-list-item>
+                      </mdw-list>
+                    </mdw-drawer-content>
+
+                    <mdw-drawer-icon-bar>
+                      <mdw-icon>inbox</mdw-icon>
+                      <mdw-icon>star</mdw-icon>
+                      <mdw-icon>star</mdw-icon>
+                      <mdw-icon>star</mdw-icon>
+                      <mdw-icon>star</mdw-icon>
+                      <mdw-icon>star</mdw-icon>
+                    </mdw-drawer-icon-bar>
+                  </mdw-drawer>
+
+                  <mdw-page>
+                    <mdw-top-app-bar>
+                      <section>
+                        <mdw-icon onclick="document.querySelector('mdw-drawer').toggle()">menu</mdw-icon>
+                        <span class='title'>Example</span>
+                      </section>
+                    </mdw-top-app-bar>
+                    <mdw-content>
+                      <!-- main page content -->
+                    </mdw-content>
+                  </mdw-page>
+                </body>
+              `}"></monaco-editor>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <div class="demo">
+                <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="drawer-icon-bar.html"></iframe>
               </div>
             </div>
           </mdw-card>

@@ -31,6 +31,10 @@ mdw-drawer.mdw-closed {
   transform: translate3d(-100%, 0, 0);
 }
 
+mdw-drawer.mdw-closed.mdw-has-icon-bar {
+ transform: translate3d(calc(-100% + 56px), 0, 0);
+}
+
 mdw-drawer.mdw-active.mdw-locked-open-mobile,
 mdw-drawer.mdw-active.mdw-locked-open {
   position: relative;
@@ -97,6 +101,10 @@ mdw-drawer-header {
   padding: 0 16px 4px;
 }
 
+mdw-drawer-header.mdw-hide {
+  display: none;
+}
+
 mdw-drawer-header .mdw-title {
   font-size: 1.25rem;
   line-height: 56px;
@@ -134,6 +142,53 @@ mdw-drawer-content {
   height: 100%;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
+}
+
+mdw-drawer-content.mdw-hide {
+  display: none;
+}
+
+/* --- icon bar --- */
+
+mdw-drawer-icon-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+  margin-right: 4px;
+}
+
+/* hide scroll bar without disabling scroll */
+mdw-drawer-icon-bar::-webkit-scrollbar {
+  width: 0px;
+}
+
+mdw-drawer-icon-bar.mdw-show {
+  display: flex;
+}
+
+mdw-drawer-icon-bar--content {
+  display: flex;
+  flex-direction: column;
+}
+
+mdw-drawer-icon-bar--header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+
+mdw-drawer-icon-bar--content > mdw-button.mdw-icon mdw-icon,
+mdw-drawer-icon-bar--header > mdw-button.mdw-icon mdw-icon {
+  line-height: 22px;
 }
 
 
