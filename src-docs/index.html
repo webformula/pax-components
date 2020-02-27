@@ -16,20 +16,20 @@
   <link rel="stylesheet" href="main.css">
   <script type="module" src="../dist/entry.js"></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css">
   <script src="vs/loader.js"></script>
   <script src="entry.js" type="module"></script>
 
   <script>
-    require(['vs/editor/editor.main'], function () {
-      fetch('vs/themes/NightOwl.json')
-        .then(data => data.json())
-        .then(data => {
+    import('./vs/editor/editor.main.js')
+      .then(() => fetch('vs/themes/NightOwl.json'))
+      .then(data => data.json())
+      .then(data => {
+        setTimeout(() => {
           monaco.editor.defineTheme('NightOwl', data);
-          // monaco.editor.setTheme('NightOwl');
           window.monacoLoaded = true;
-        });
-    });
+        }, 0);
+      });
+
     window.paxVersion = '0.5.2-beta';
     window.MDWThemeConfig = {
       contrast: 'light', // default is light

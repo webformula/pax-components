@@ -117,7 +117,7 @@ customElements.define('monaco-editor', class extends HTMLElementExtended {
     lines = this.removeLeadingTabs(lines.split(/(?:\r\n|\n|\r)/));
 
     this.lineCount = lines.length;
-    this.content_ = lines.join('\n');
-    this.innerHTML = '';
+    this.content_ = lines.join('\n').replace(/src\=/mg, '_src=').replace(/href\=/mg, '_href=');
+    // this.innerHTML = '';
   }
 });
