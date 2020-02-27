@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Layout extends Page {
   constructor() {
@@ -59,7 +59,7 @@ export default class Layout extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
     <style>
       .base-layout-container {
         background-color: #EEE;

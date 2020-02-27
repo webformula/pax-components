@@ -1,7 +1,5 @@
-import { css } from '@webformula/pax-core';
-
 export default function () {
-  return css`
+  return /* css */`
     :root {
       /* --- text --- */
       --mdw-theme-text--primary--light: #ffffff;

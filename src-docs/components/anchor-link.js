@@ -1,4 +1,4 @@
-import { HTMLElementExtended, css } from '@webformula/pax-core';
+import { HTMLElementExtended} from '@webformula/pax-core';
 
 customElements.define('anchor-link', class extends HTMLElementExtended {
   constructor() {
@@ -7,12 +7,12 @@ customElements.define('anchor-link', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    const param = router.getQueryParameter('anchor');
-    if (param && param.replace('hash-', '#') === this.selector) {
-      setTimeout(() => {
-        this.scrollTo();
-      }, 0);
-    }
+    // const param = router.getQueryParameter('anchor');
+    // if (param && param.replace('hash-', '#') === this.selector) {
+    //   setTimeout(() => {
+    //     this.scrollTo();
+    //   }, 0);
+    // }
   }
 
   scrollTo() {

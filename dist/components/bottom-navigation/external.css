@@ -1,0 +1,54 @@
+mdw-bottom-navigation {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+}
+
+mdw-bottom-navigation mdw-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+  opacity: 0.7;
+}
+
+mdw-bottom-navigation mdw-button[active] {
+  opacity: 1;
+}
+
+mdw-bottom-navigation mdw-button mdw-icon {
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: unset;
+  padding: unset;
+
+  font-size: 24px;
+}
+
+mdw-bottom-navigation mdw-bottom-navigation-fixed {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+  justify-content: space-evenly;
+
+  background-color: var(--mdw-theme-primary);
+  color: var(--mdw-theme-text--on-primary);
+
+  box-shadow: 0 -2px 4px -1px rgba(0,0,0,.2),
+              0 4px 5px 0 rgba(0,0,0,.14),
+              0 1px 10px 0 rgba(0,0,0,.12);
+}
+
+mdw-bottom-navigation mdw-button {
+  color: var(--mdw-theme-text--on-primary);
+}

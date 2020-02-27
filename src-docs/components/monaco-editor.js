@@ -1,4 +1,4 @@
-import { HTMLElementExtended, html } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core';
 
 customElements.define('monaco-editor', class extends HTMLElementExtended {
   constructor() {

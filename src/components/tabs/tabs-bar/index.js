@@ -57,7 +57,7 @@ customElements.define('mdw-tabs-bar', class extends HTMLElementExtended {
   }
 
   template() {
-    return html`
+    return /* html */`
       <mdw-tabs-bar-scroller>
         <mdw-tabs-bar-scroller-area>
           <mdw-tabs-bar-scroller-content>
@@ -65,6 +65,32 @@ customElements.define('mdw-tabs-bar', class extends HTMLElementExtended {
           </mdw-tabs-bar-scroller-content>
         </mdw-tabs-bar-scroller-area>
       </mdw-tabs-bar-scroller>
+    `;
+  }
+
+  styles() {
+    return /* css */`
+      mdw-tabs-bar-scroller {
+        display: block;
+        overflow-y: hidden;
+      }
+
+      mdw-tabs-bar-scroller-area {
+        display: flex;
+        /* overflow-x: scroll; */
+      }
+
+      mdw-tabs-bar-scroller-content {
+        position: relative;
+        display: flex;
+        flex: 1 0 auto;
+        transform: none;
+        will-change: transform;
+      }
+
+      ::slotted(mdw-button) {
+        flex: 1 0 auto;
+      }
     `;
   }
 });

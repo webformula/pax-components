@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Dialog extends Page {
   constructor() {
@@ -117,7 +117,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>Menu</h3>
 

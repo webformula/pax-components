@@ -122,7 +122,127 @@ customElements.define('mdw-circular-progress', class extends HTMLElementExtended
     `;
   }
 
-  get internalStylesFile() {
-    return './internal.css'
+  styles() {
+    return /* css */`
+      :host {
+        display: block;
+        position: relative;
+      }
+
+      svg {
+        position: absolute;
+        transform: rotate(-90deg);
+        top: 0;
+        left: 0;
+        transform-origin: center;
+        overflow: visible;
+      }
+
+      circle {
+        fill: transparent;
+        transform-origin: center;
+        transition: stroke-dashoffset 225ms linear;
+        stroke: var(--mdw-theme-primary);
+      }
+
+      :host(.mdw-white) circle {
+        stroke: white;
+      }
+
+      :host(.mdw-grey) circle {
+        stroke: grey;
+      }
+
+      :host(.mdw-secondary) circle {
+        stroke: var(--mdw-theme-secondary);
+      }
+
+      :host(.mdw-error) circle {
+        stroke: var(--mdw-theme-error);
+      }
+
+      :host([mdw-mode='indeterminate']) {
+        animation: mat-progress-spinner-linear-rotate 2000ms linear infinite;
+      }
+
+      :host([mdw-mode='indeterminate']) circle {
+        transition-property: stroke;
+        animation-duration: 4000ms;
+        animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+        animation-iteration-count: infinite;
+      }
+
+      @keyframes mat-progress-spinner-linear-rotate {
+        0%       { transform: rotate(0deg); }
+        100%     { transform: rotate(360deg); }
+      }
+
+      @keyframes mat-progress-spinner-stroke-rotate-100 {
+        0% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotate(0);
+        }
+        12.5% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotate(0);
+        }
+        12.5001% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotateX(180deg) rotate(72.5deg);
+        }
+        25% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotateX(180deg) rotate(72.5deg);
+        }
+        25.0001% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotate(270deg);
+        }
+        37.5% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotate(270deg);
+        }
+        37.5001% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotateX(180deg) rotate(161.5deg);
+        }
+        50% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotateX(180deg) rotate(161.5deg);
+        }
+        50.0001% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotate(180deg);
+        }
+        62.5% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotate(180deg);
+        }
+        62.5001% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotateX(180deg) rotate(251.5deg);
+        }
+        75% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotateX(180deg) rotate(251.5deg);
+        }
+        75.0001% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotate(90deg);
+        }
+        87.5% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotate(90deg);
+        }
+        87.5001% {
+          stroke-dashoffset: 56.5486677px;
+          transform: rotateX(180deg) rotate(341.5deg);
+        }
+        100% {
+          stroke-dashoffset: 268.606171575px;
+          transform: rotateX(180deg) rotate(341.5deg);
+        }
+      }
+    `;
   }
 });

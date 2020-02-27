@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Browsers extends Page {
   constructor() {
@@ -10,7 +10,7 @@ export default class Browsers extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
     <article class="page-article">
       <h1 class="article-title">Browser compatibility</h1>
 

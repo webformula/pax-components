@@ -1,0 +1,13 @@
+/* this is a pure layout element */
+mdw-tabs-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+mdw-tabs-content {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  transition: height .5s cubic-bezier(.35,0,.25,1);
+}

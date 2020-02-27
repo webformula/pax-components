@@ -1,4 +1,4 @@
-import { Page, html, css } from '@webformula/pax-core';
+import { Page} from '@webformula/pax-core';
 
 export default class Buttons extends Page {
   constructor() {
@@ -17,7 +17,7 @@ export default class Buttons extends Page {
   }
 
   styles() {
-    return css`
+    return /* css */`
       .page-article mdw-button {
         margin: 8px;
       }
@@ -25,7 +25,7 @@ export default class Buttons extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>Buttons</h3>
 

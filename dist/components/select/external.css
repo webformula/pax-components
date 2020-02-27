@@ -1,0 +1,49 @@
+mdw-select {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  will-change: transform,opacity,color;
+  display: inline-flex;
+  position: relative;
+  box-sizing: border-box;
+  height: 56px;
+  border-radius: 4px 4px 0 0;
+}
+
+mdw-select.mdw-padding {
+  margin-top: 24px;
+  margin-right: 24px;
+}
+
+/* TODO figure out what color var to use */
+mdw-select:not(.mdw-select--disabled) {
+  background-color: var(--mdw-theme-textfield_background);
+}
+
+mdw-select:after,
+mdw-select:before {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-color: var(--mdw-theme-textfield_background);
+}
+
+mdw-select:before {
+  transition: opacity 15ms linear,
+              background-color 15ms linear;
+  z-index: 1;
+}
+
+/* outlined */
+mdw-select.mdw-outlined:not(.mdw-select--disabled) {
+  background-color: transparent;
+}
+
+mdw-select.mdw-outlined {
+  border: none;
+  overflow: visible;
+}

@@ -3,7 +3,7 @@ import header from './header.js';
 import nav from './navigation.js';
 
 export default function ({ head, body, title }) {
-  return html`
+  return /* html */`
     <!doctype html>
     <html lang="en">
       <head>

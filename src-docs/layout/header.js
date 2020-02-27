@@ -1,7 +1,7 @@
 import { html } from '@webformula/pax-core';
 
 export default function({ title }) {
-  return html`
+  return /* html */`
     <header>
       <mdw-top-app-bar class="mdw-fixed">
         <section>

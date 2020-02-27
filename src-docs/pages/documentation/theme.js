@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class ThemePage extends Page {
   constructor() {
@@ -38,7 +38,7 @@ export default class ThemePage extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
     <article class="page-article">
       <h1 class="article-title">Theme</h1>
       <p>Material Theming is a systematic approach to customize your app to better represent your brand</p>

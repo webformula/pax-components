@@ -1,7 +1,7 @@
 import { html } from '@webformula/pax-core';
 
 export default function () {
-  return html`
+  return /* html */`
     <mdw-drawer class="navigation mdw-locked-open" style="min-width: 220px;">
       <mdw-drawer-fixed>
         <mdw-drawer-header>

@@ -68,7 +68,7 @@ customElements.define('mdw-expander-content', class extends HTMLElementExtended 
   }
 
   template() {
-    return html`
+    return /* html */`
       <slot></slot>
     `;
   }
