@@ -1,4 +1,5 @@
 {
   "watch": ["src/", "src-docs/"],
-  "ext": "js, css"
+  "ext": "js, css",
+  "ignore": ["src-docs/entry.js"]
 }
