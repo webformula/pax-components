@@ -1,8 +1,0 @@
-mdw-autocomplete {
-  position: absolute;
-}
-
-mdw-autocomplete mdw-panel {
-  /* margin-bottom: -25%; */
-  transform: translateY(56px) !important;
-}
