@@ -106,7 +106,7 @@ export default class Layout extends Page {
             <div>
               <div mdw-row mdw-wrap>
                 <mdw-select class="mdw-padding" mdw-enhanced mdw-flex>
-                  <select onchange="$Layout.setDirection(this.value)">
+                  <select onchange="activePage.setDirection(this.value)">
                     <option value="mdw-row" ${this.direction_ === 'mdw-row' ? 'selected' : ''}>mdw-row</option>
                     <option value="mdw-column" ${this.direction_ === 'mdw-column' ? 'selected' : ''}>mdw-column</option>
                   </select>
@@ -114,7 +114,7 @@ export default class Layout extends Page {
                 </mdw-select>
 
                 <mdw-select class="mdw-padding" mdw-enhanced mdw-flex>
-                  <select onchange="$Layout.setWrap(this.value)">
+                  <select onchange="activePage.setWrap(this.value)">
                     <option value="nowrap" ${this.wrap_ === 'nowrap' ? 'selected' : ''}>no wrap</option>
                     <option value="mdw-wrap" ${this.wrap_ === 'mdw-wrap' ? 'selected' : ''}>mdw-wrap</option>
                   </select>
@@ -124,7 +124,7 @@ export default class Layout extends Page {
 
               <div mdw-row mdw-wrap>
                 <mdw-select class="mdw-padding" mdw-enhanced mdw-flex>
-                  <select onchange="$Layout.setPosY(this.value)">
+                  <select onchange="activePage.setPosY(this.value)">
                     <option value="center" ${this.posY_ === 'center' ? 'selected' : ''}>center</option>
                     <option value="top" ${this.posY_ === 'top' ? 'selected' : ''}>top</option>
                     <option value="bottom" ${this.posY_ === 'bottom' ? 'selected' : ''}>bottom</option>
@@ -136,7 +136,7 @@ export default class Layout extends Page {
                 </mdw-select>
 
                 <mdw-select class="mdw-padding" mdw-enhanced mdw-flex>
-                  <select onchange="$Layout.setPosX(this.value)">
+                  <select onchange="activePage.setPosX(this.value)">
                     <option value="center" ${this.posX_ === 'center' ? 'selected' : ''}>center</option>
                     <option value="left" ${this.posX_ === 'left' ? 'selected' : ''}>left</option>
                     <option value="right" ${this.posX_ === 'right' ? 'selected' : ''}>right</option>
@@ -150,7 +150,7 @@ export default class Layout extends Page {
 
               <div mdw-row mdw-wrap>
                 <mdw-select class="mdw-padding" mdw-enhanced mdw-flex>
-                  <select onchange="$Layout.setFlexA(this.value)">
+                  <select onchange="activePage.setFlexA(this.value)">
                     <option value="none" ${this.flexA_ === 'none' ? 'selected' : ''}>none</option>
                     <option value="1" ${this.flexA_ === '1' ? 'selected' : ''}>1</option>
                     <option value=".33" ${this.flexA_ === '.33' ? 'selected' : ''}>.33</option>
@@ -162,7 +162,7 @@ export default class Layout extends Page {
                 </mdw-select>
 
                 <mdw-select class="mdw-padding" mdw-enhanced mdw-flex>
-                  <select onchange="$Layout.setFlexB(this.value)">
+                  <select onchange="activePage.setFlexB(this.value)">
                     <option value="none" ${this.flexB_ === 'none' ? 'selected' : ''}>none</option>
                     <option value="1" ${this.flexB_ === '1' ? 'selected' : ''}>1</option>
                     <option value=".33" ${this.flexB_ === '.33' ? 'selected' : ''}>.33</option>
@@ -202,7 +202,7 @@ export default class Layout extends Page {
           <div class="mdw-card__content" style="display: block;">
             <div style="margin-bottom: 12px;" mdw-row>
               <span mdw-flex></span>
-              <mdw-button onclick="$Layout.toggleWrap()">Test wrap (change container width)</mdw-button>
+              <mdw-button onclick="activePage.toggleWrap()">Test wrap (change container width)</mdw-button>
             </div>
 
             <div class="base-layout-container ${this.baseWrapped_ ? 'add-wrap' : ''}" ${this.direction_} ${this.wrap_ === 'mdw-wrap' ? 'mdw-wrap' : ''} mdw-flex-position="${this.posY_} ${this.posX_}">

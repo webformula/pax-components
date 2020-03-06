@@ -20,7 +20,7 @@ export default class Switch extends Page {
 
         <div class="showcase mdw-elevation-1">
           <label>Label</label>
-          <mdw-switch onchange="$Switch.change(this)" checked></mdw-switch>
+          <mdw-switch onchange="activePage.change(this)" checked></mdw-switch>
         </div>
 
         <a href="https://material.io/design/components/selection-controls.html#switches" target="_new">Material Design Guidlines: switches</a>

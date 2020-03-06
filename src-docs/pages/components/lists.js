@@ -111,12 +111,12 @@ export default class List extends Page {
               <div class="row" style="align-items: center;">
                 <div>
                   <label>Toggle Select single/multiple</label>
-                  <mdw-switch onchange="$List.toggleListSelect(this.checked)"></mdw-switch>
+                  <mdw-switch onchange="activePage.toggleListSelect(this.checked)"></mdw-switch>
                 </div>
 
                 <div>
                   <label>Toggle mdw-select-onclick</label>
-                  <mdw-switch onchange="$List.toggleListOnclickSelect(this.checked)" checked></mdw-switch>
+                  <mdw-switch onchange="activePage.toggleListOnclickSelect(this.checked)" checked></mdw-switch>
                 </div>
 
                 <mdw-button class="mdw-error" onclick="document.querySelector('#select-list').deselectAll()">deselect</mdw-button>

@@ -122,7 +122,7 @@ export default class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="$Buttons.mockWait(this)">Async</mdw-button>
+                <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="activePage.mockWait(this)">Async</mdw-button>
               </monaco-editor>
               <monaco-editor language="javascript">
                 class Buttons extends Page {
@@ -141,7 +141,7 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="$Buttons.mockWait(this)">Async</mdw-button>
+              <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="activePage.mockWait(this)">Async</mdw-button>
             </div>
           </mdw-card>
 

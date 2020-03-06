@@ -43,7 +43,7 @@ export default class FAB extends Page {
         <div style="display: flex; align-items: center;">
           <div style="padding-right: 24px; flex-direction: column; display: flex; width: 200px;">
             <mdw-select id="vertical-position">
-              <select onchange="$FAB.setPositionY(this.value)" style="width: 200px;">
+              <select onchange="activePage.setPositionY(this.value)" style="width: 200px;">
                 <option selected disabled></option>
                 <option value=" ">none</option>
                 <option value="top">top</option>
@@ -56,7 +56,7 @@ export default class FAB extends Page {
             <div style="padding: 12px;"></div>
 
             <mdw-select id="horizontal-position">
-              <select onchange="$FAB.setPositionX(this.value)" style="width: 200px;">
+              <select onchange="activePage.setPositionX(this.value)" style="width: 200px;">
                 <option selected disabled></option>
                 <option value=" ">none</option>
                 <option value="left">left</option>
@@ -159,11 +159,11 @@ export default class FAB extends Page {
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-fab class="mdw-primary" mdw-async onclick="$FAB.mockWait(this)">
+                <mdw-fab class="mdw-primary" mdw-async onclick="activePage.mockWait(this)">
                   <mdw-icon>create</mdw-icon>
                 </mdw-fab>
 
-                <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="$FAB.mockWait(this)">
+                <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="activePage.mockWait(this)">
                   <mdw-icon>create</mdw-icon>
                 </mdw-fab>
               </monaco-editor>
@@ -184,11 +184,11 @@ export default class FAB extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-fab class="mdw-primary" mdw-async onclick="$FAB.mockWait(this)">
+              <mdw-fab class="mdw-primary" mdw-async onclick="activePage.mockWait(this)">
                 <mdw-icon>create</mdw-icon>
               </mdw-fab>
 
-              <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="$FAB.mockWait(this)">
+              <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="activePage.mockWait(this)">
                 <mdw-icon>create</mdw-icon>
               </mdw-fab>
             </div>
