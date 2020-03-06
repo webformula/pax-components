@@ -119,7 +119,7 @@ customElements.define('mdw-tab-button', class extends HTMLElementExtended {
       }
 
       .mdw-ripple-element {
-        background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
         position: absolute;
         border-radius: 50%;
         pointer-events: none;

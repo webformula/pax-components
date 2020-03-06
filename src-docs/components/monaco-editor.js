@@ -118,6 +118,6 @@ customElements.define('monaco-editor', class extends HTMLElementExtended {
 
     this.lineCount = lines.length;
     this.content_ = lines.join('\n').replace(/src\=/mg, '_src=').replace(/href\=/mg, '_href=');
-    // this.innerHTML = '';
+    this.innerHTML = '';
   }
 });

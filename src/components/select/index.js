@@ -388,7 +388,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         height: 0;
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
-        border-top: 5px solid var(--mdw-theme-text--on-secondary);
+        border-top: 5px solid var(--mdw-theme-on-secondary);
       }
 
       ::slotted(select:focus) .mdw-select__icon,
@@ -399,8 +399,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
       :host(:not(.mdw-select--disabled)) ::slotted(select),
       :host(:not(.mdw-select--disabled)) .mdw-select__selected-text {
-        border-bottom-color: var(--mdw-theme-outline_border);
-        color: var(--mdw-theme-text--on-background);
+        border-bottom-color: rgba(var(--mdw-theme-on-background--rgb), 0.54);
+        color: var(--mdw-theme-on-primary);
       }
 
       :host(.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
@@ -489,7 +489,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         will-change: transform;
         transform: none;
         pointer-events: none;
-        color: var(--mdw-theme-text--on-background);
+        color: rgba(var(--mdw-theme-on-background--rgb), .6);
         z-index: 1;
 
         left: 16px;
@@ -587,7 +587,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         border-bottom: 1px solid;
         pointer-events: none;
 
-        border-color: var(--mdw-theme-outline_border);
+        border-color: rgba(var(--mdw-theme-on-background--rgb), 0.54);
       }
 
       .mdw-outlined-notch {

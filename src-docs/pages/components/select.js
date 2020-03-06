@@ -27,7 +27,7 @@ export default class Selects extends Page {
           </mdw-select>
         </div>
 
-        <a href="https://material.io/develop/web/components/input-controls/select-menus" target="_new">Material Design Guidlines: Text fields</a>
+        <a href="https://material.io/components/text-fields/" target="_new">Material Design Guidlines: Text fields</a>
         <p>Provide selection that can be used for smaller selection sets</p>
 
         <div style="display: inline-block">

@@ -1,0 +1,63 @@
+html {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  margin: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  background-color: var(--mdw-theme-background);
+  color: var(--mdw-theme-text--on-background);
+}
+
+body.prevent-over-scroll {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  right: 0;
+}
+
+.mdw-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;;
+  z-index: 7;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.12);
+}
+
+.mdw-backdrop.mdw-drawer-backdrop {
+  z-index: 1;
+}
+
+
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--mdw-theme-background);
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+  border: 2px solid var(--mdw-theme-background);
+  background-color: rgba(var(--mdw-theme-foreground--rgb), 0.4);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--mdw-theme-foreground--rgb), 0.6);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background-color: rgba(0,0,0,0.05);
+}

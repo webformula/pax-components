@@ -105,28 +105,30 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         user-select: none;
         align-items: center;
         border: none;
-        border-radius: 4px;
         box-sizing: border-box;
         display: inline-flex;
         font-family: Roboto, sans-serif;
         font-size: 1rem;
         font-weight: 500;
-        height: 36px;
         justify-content: center;
         letter-spacing: 0.08929em;
-        line-height: 2.25rem;
-        min-width: 64px;
         outline: none;
         overflow: hidden;
-        padding: 0 8px 0 8px;
         position: relative;
         text-decoration: none;
         text-transform: uppercase;
         vertical-align: middle;
         will-change: transform, opacity;
         margin: 0;
-        color: var(--mdw-theme-text--on-surface);
         background-color: transparent;
+
+        border-radius: 4px;
+        line-height: 2.25rem;
+        padding: 0 8px 0 8px;
+        height: 36px;
+        min-width: 64px;
+
+        color: var(--mdw-theme-on-primary);
       }
 
       :host(.mdw-full-height) {
@@ -166,11 +168,10 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
 
       :host([disabled]) {
         background-color: transparent !important;
-        color: rgba(var(--mdw-theme-text--on-surface--rgb), 0.37);
+        color: var(--mdw-theme-text-disabled-on-background);
         cursor: default;
         pointer-events: none;
       }
-
       :host::-moz-focus-inner {
         padding: 0;
         border: 0;
@@ -182,8 +183,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
 
       :host(.mdw-raised),
       :host(.mdw-unelevated) {
-        background-color: white;
-        color: #000000;
+        background-color: var(--mdw-theme-background);
         padding: 0 16px 0 16px;
       }
 
@@ -191,31 +191,22 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       :host(.mdw-unelevated)::before {
         opacity: 0.08;
       }
-
       :host(.mdw-raised) {
-        -webkit-box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-                box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-        -webkit-transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
-        transition: -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
-        -o-transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
         transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
-        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       :host(.mdw-raised:hover),
       :host(.mdw-raised:focus) {
-        -webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-                box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
       }
 
       :host(.mdw-raised:active) {
-        -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
-                box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
       }
 
       :host(.mdw-raised[disabled]) {
-        -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
-                box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
+        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
       }
 
       :host(.mdw-outlined) {
@@ -288,7 +279,6 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
 
 
       /* primary */
-
       :host(.mdw-primary) {
         color: var(--mdw-theme-primary);
       }
@@ -296,7 +286,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       :host(.mdw-primary.mdw-raised),
       :host(.mdw-primary.mdw-unelevated)  {
         background-color: var(--mdw-theme-primary);
-        color: var(--mdw-theme-text--on-primary);
+        color: var(--mdw-theme-text-primary-on-background);
       }
 
       :host(.mdw-primary.mdw-outlined) {
@@ -318,7 +308,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       :host(.mdw-secondary.mdw-raised),
       :host(.mdw-secondary.mdw-unelevated) {
         background-color: var(--mdw-theme-secondary);
-        color: var(--mdw-theme-text--on-secondary);
+        color: var(--mdw-theme-text-primary-on-primary);
       }
 
       :host(.mdw-secondary.mdw-outlined) {
@@ -339,7 +329,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       :host(.mdw-error.mdw-raised),
       :host(.mdw-error.mdw-unelevated) {
         background-color: var(--mdw-theme-error);
-        color: var(--mdw-theme-text--on-error);
+        color: var(--mdw-theme-text-primary-on-primary);
       }
 
       :host(.mdw-error.mdw-outlined) {
@@ -370,7 +360,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       }
 
       .mdw-ripple-element {
-        background-color: rgba(var(--mdw-theme-foreground--rgb), 0.16);
+        background-color: rgba(var(--mdw-theme-on-primary--rgb), 0.16);
         position: absolute;
         border-radius: 50%;
         pointer-events: none;

@@ -93,8 +93,8 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
       }
 
       :host(:not(.checked)) .mdw-track {
-        background-color: var(--mdw-theme-switchtrack);
-        border-color: var(--mdw-theme-switchtrack);
+        background-color: rgba(var(--mdw-theme-on-background--rgb), 0.7);
+        border-color: rgba(var(--mdw-theme-on-background--rgb), 0.7);
       }
 
       :host(.checked) .mdw-track {

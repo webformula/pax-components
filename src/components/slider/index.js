@@ -1,6 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWUtils from '../../core/Utils.js';
-import { addDragListener, removeDragListener, disableDragListenerForElement, enableDragListenerForElement } from '../../core/gestures.js';
+import { addDragListener, removeDragListener } from '../../core/drag.js';
 
 customElements.define('mdw-slider', class extends HTMLElementExtended {
   constructor() {

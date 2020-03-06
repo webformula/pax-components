@@ -31,7 +31,7 @@ export default class Banners extends Page {
         <h3>Banners</h3>
 
         <div class="showcase mdw-elevation-1">
-          <mdw-button onclick="$Banners.makeBanner()" class="mdw-raised">show banner</mdw-button>
+          <mdw-button onclick="activePage.makeBanner()" class="mdw-raised">show banner</mdw-button>
         </div>
 
         <a href="https://material.io/design/components/banners.html" target="_new">Material Design Guidlines: Banners</a>
@@ -77,8 +77,8 @@ export default class Banners extends Page {
             </div>
 
             <div class="mdw-card__content">
-              <mdw-button onclick="$Banners.makeBanner()" class="mdw-raised">show banner</mdw-button>
-              <mdw-button class="mdw-secondary" onclick="$Banners.makeBannerWithAccept()">show banner with acceptLabel</mdw-button>
+              <mdw-button onclick="activePage.makeBanner()" class="mdw-raised">show banner</mdw-button>
+              <mdw-button class="mdw-secondary" onclick="activePage.makeBannerWithAccept()">show banner with acceptLabel</mdw-button>
             </div>
           </mdw-card>
 

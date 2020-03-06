@@ -97,7 +97,7 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
   }
 
   styles() {
-    return /* cs */`
+    return /* css */`
       :host {
         display: block;
         height: 56px;
@@ -114,7 +114,7 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
         width: 100%;
         height: 56px;
         z-index: 1;
-        background-color: var(--mdw-theme-surface_elevation_1);
+        background-color: var(--mdw-theme-surface);
         transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
                     0 4px 5px 0 rgba(0,0,0,.14),
@@ -163,7 +163,7 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
         top: 0;
         transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         background-color: var(--mdw-theme-primary);
-        color: var(--mdw-theme-text--primary);
+        color: var(--mdw-theme-on-primary);
       }
 
       :host(.mdw-shaped) .mdw-sheet-header-container {
@@ -205,8 +205,8 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
 
       :host(.mdw-white) .mdw-sheet-header-container {
         background-color: white;
-        color: var(--mdw-theme-text--primary--on);
-        border-bottom: 1px solid var(--mdw-theme-divider--dark);
+        color: var(--mdw-theme-on-primary);
+        border-bottom: 1px solid var(--mdw-theme-checkboxborder);
       }
 
       /* sections */

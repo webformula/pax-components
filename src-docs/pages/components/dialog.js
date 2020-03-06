@@ -122,7 +122,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
         <h3>Menu</h3>
 
         <div class="showcase mdw-elevation-1">
-          <mdw-button onclick="$Dialog.showDialogWithService()">show dialog</mdw-button>
+          <mdw-button onclick="activePage.showDialogWithService()">show dialog</mdw-button>
         </div>
 
         <a href="https://material.io/design/components/dialogs.html" target="_new">Material Design Guidlines: Dialogs</a>
@@ -160,7 +160,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="$Dialog.showDialogWithService()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialogWithService()">show dialog</mdw-button>
             </div>
           </mdw-card>
 
@@ -187,7 +187,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="$Dialog.showDialogWithServiceClickoutside()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialogWithServiceClickoutside()">show dialog</mdw-button>
             </div>
           </mdw-card>
 
@@ -223,7 +223,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="$Dialog.showDialog()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialog()">show dialog</mdw-button>
             </div>
           </mdw-card>
 
@@ -253,7 +253,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="$Dialog.showScrollDialog()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showScrollDialog()">show dialog</mdw-button>
             </div>
           </mdw-card>
 
@@ -270,7 +270,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
               <mdw-dialog-actions>
                 <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
-                <mdw-button onclick="$Dialog.ok()">ok</mdw-button>
+                <mdw-button onclick="activePage.ok()">ok</mdw-button>
               </mdw-dialog-actions>
 
             </mdw-dialog-container>

@@ -1,0 +1,12 @@
+mdw-radio-group {
+  display: flex;
+  align-items: center;
+}
+
+mdw-radio-group[mdw-column] {
+  flex-direction: column;
+}
+
+mdw-radio-group .mdw-spacer {
+  padding: 12px;
+}

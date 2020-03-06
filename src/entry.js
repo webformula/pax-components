@@ -1,10 +1,10 @@
 import './core/Theme.js';
-import './core/gestures.js';
+import './core/drag.js';
 
 // --- Components ---
 
-import './components/autocomplete/index.js';
-import './components/backdrop/index.js';
+// import './components/autocomplete/index.js';
+// import './components/backdrop/index.js';
 import './components/banner/index.js';
 import './components/bottom-navigation/index.js';
 import './components/button/index.js';
@@ -13,7 +13,7 @@ import './components/checkbox/index.js';
 import './components/circular-progress/index.js';
 import './components/dialog/index.js';
 import './components/drawer/index.js';
-// import './components/expander/index.js';
+// // import './components/expander/index.js';
 import './components/fab/index.js';
 import './components/icon/index.js';
 import './components/linear-progress/index.js';
@@ -33,5 +33,5 @@ import './components/tabs/tab-button/index.js';
 import './components/tabs/tabs-bar/index.js';
 import './components/tabs/tabs-content/index.js';
 import './components/text-field/index.js';
-import './components/tooltip/index.js';
+// import './components/tooltip/index.js';
 import './components/top-app-bar/index.js';

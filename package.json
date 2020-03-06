@@ -37,11 +37,12 @@
     "monaco-editor-webpack-plugin": "^1.9.0",
     "nodemon": "^1.19.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "string.prototype.matchall": "^4.0.2",
     "terser-webpack-plugin": "^2.3.5",
-    "webpack": "^4.29.0",
+    "webpack": "^4.41.6",
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "github:webformula/pax-core#version-7-refactor"
+    "@webformula/pax-core": "file:../pax-core"
   }
 }
