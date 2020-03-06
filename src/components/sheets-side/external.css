@@ -1,0 +1,62 @@
+mdw-sheet-side {
+  --mdw-theme-sheet-width: 320px;
+
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100%;
+  box-sizing: border-box;
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: rgba(var(--mdw-theme-on-background--rgb), .24);
+  overflow: hidden;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  padding: 0 16px;
+  padding-top: 20px;
+
+  /* TODO move variables */
+  width: var(--mdw-theme-sheet-width);
+}
+
+mdw-sheet-side.mdw-left {
+  border-left: none;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: rgba(var(--mdw-theme-on-background--rgb), .24);
+}
+
+mdw-sheet-side--header {
+  display: block;
+  height: 56px;
+  z-index: 1;
+}
+
+mdw-sheet-side--header .mdw-title {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: .0125em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+mdw-sheet-side--header .mdw-subtitle {
+  font-size: 15px;
+  letter-spacing: .0125em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+/* mdw-sheet-side.mdw-dismissible {
+  left: 0;
+  right: auto;
+  display: none;
+  position: absolute;
+}
+
+mdw-sheet-side.mdw-dismissible.mdw-open {
+  display: flex;
+} */
