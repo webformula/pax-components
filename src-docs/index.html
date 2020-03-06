@@ -37,7 +37,7 @@
     };
 
     window.changeContrast = function (value) {
-      MDWTheme.changeTheme({ contrast: value ? 'light' : 'dark' });
+      document.documentElement.classList.toggle('mdw-theme-dark');
     };
 
     const isMobile = typeof window.orientation !== 'undefined';

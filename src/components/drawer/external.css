@@ -226,3 +226,28 @@ mdw-drawer .mdw-subtitle {
   /* margin-left: 16px; */
   color: #777;
 }
+
+
+
+mdw-drawer ::-webkit-scrollbar {
+  width: 10px;
+}
+
+mdw-drawer ::-webkit-scrollbar-track {
+  background-color: inherit;
+}
+
+mdw-drawer ::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 7px;
+  border-radius: 7px;
+  border: none;
+  background-color: rgba(var(--mdw-theme-text-primary-on-background--rgb), 0.24);
+}
+
+mdw-drawer ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--mdw-theme-text-primary-on-background--rgb), 0.42);
+}
+
+mdw-drawer ::-webkit-scrollbar-thumb:window-inactive {
+  background-color: rgba(0,0,0,0.05);
+}
