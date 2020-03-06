@@ -43,6 +43,6 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "file:../pax-core"
+    "@webformula/pax-core": "github:webformula/pax-core#version-7-refactor"
   }
 }
