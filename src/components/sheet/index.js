@@ -1,6 +1,7 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
+import './header.js';
 import MDWUtils from '../../core/Utils.js';
-import { addDragListener, removeDragListener, disableDragListenerForElement, enableDragListenerForElement } from '../../core/gestures.js';
+import { addDragListener, removeDragListener, disableDragListenerForElement, enableDragListenerForElement } from '../../core/drag.js';
 
 customElements.define('mdw-sheet', class extends HTMLElementExtended {
   constructor() {

@@ -4,18 +4,15 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "nodemon --exec \"npm run build\" & npm run serve",
-    "mobile": "nodemon --exec \"npm run build:mobile\" & npm run serve",
-    "kill8080": "lsof -ti:8080 | xargs kill",
-    "serve": "http-server dist-docs/ -p 8081",
-    "build": "npm run build:components && npm run build:css && npm run build:package && npm run build:docs",
-    "build:remove-old": "rm -rf dist-docs && rm -rf dist-files ",
-    "build:mobile": "rm -rf dist-docs && rm -rf dist-files && npm run build:components && npm run build:css && npm run build:package:mobile && npm run build:docs",
-    "build:components": "node --experimental-modules build.js",
-    "build:css": "cp dist-files/app.css dist/pax-components.css",
-    "build:package": "webpack --config webpack.config.js",
-    "build:package:mobile": "webpack --config webpack.config.js --mobile",
-    "build:docs": "node --experimental-modules src-docs/index.js && cp -r src-docs/public/* dist-docs/ && cp dist/* dist-docs/",
+    "start": "nodemon --exec \"npm run package:dev\" & npm run serve",
+    "serve": "http-server ./ -p 8081",
+    "package:dev": "npm run build:docs-entry && npm run package:dev:docs && npm run package:dev:components",
+    "package:dev:docs": "webpack --config webpack.dev.docs.config.cjs",
+    "package:dev:components": "webpack --config webpack.dev.components.config.cjs",
+    "package:prod": "npm run build:docs-entry && npm run package:prod:docs && npm run package:prod:components",
+    "package:prod:docs": "rm -rf dist-docs && webpack --config webpack.prod.docs.config.cjs",
+    "package:prod:components": "rm -rf dist && webpack --config webpack.prod.components.config.cjs && rm dist/entry",
+    "build:docs-entry": "node --experimental-modules buildDocsEntry.mjs",
     "cypress:open": "cypress open",
     "cypress:open-and-serve": "npm start & cypress open"
   },
@@ -30,16 +27,22 @@
   },
   "homepage": "https://github.com/webformula/pax-components#readme",
   "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.4.2",
     "cypress": "^3.3.0",
     "glob": "^7.1.3",
     "http-server": "^0.11.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "monaco-editor": "^0.20.0",
+    "monaco-editor-webpack-plugin": "^1.9.0",
     "nodemon": "^1.19.1",
-    "webpack": "^4.29.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "string.prototype.matchall": "^4.0.2",
+    "terser-webpack-plugin": "^2.3.5",
+    "webpack": "^4.41.6",
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "github:webformula/pax-core#v0.6.0-beta",
-    "monaco-editor": "^0.18.1",
-    "monaco-editor-webpack-plugin": "^1.7.0"
+    "@webformula/pax-core": "github:webformula/pax-core#v0.7.0"
   }
 }

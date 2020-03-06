@@ -33,14 +33,19 @@ customElements.define('mdw-tab-body', class extends HTMLElementExtended {
   }
 
   template() {
-    return html`
+    return /* html */`
       <mdw-tab-body-content>
         <!-- slot is added dynamicly -->
       </mdw-tab-body-content>
     `;
   }
 
-  get internalStylesFile() {
-    return './internal.css'
+  styles() {
+    return /* css */`
+      mdw-tab-body-content {
+        height: 100%;
+        overflow: auto;
+      }
+    `;
   }
 });

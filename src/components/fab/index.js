@@ -23,7 +23,7 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
   }
 
   template() {
-    return html`
+    return /* html */`
       <span class="text"><slot></slot></span>
       <span class="mdw-spinner-container"></span>
       <div class="mdw-ripple mdw-fab-ripple"></div>
@@ -88,7 +88,54 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
     this.spinnerContainer.innerHTML = '';
   }
 
-  get internalStylesFile() {
-    return './internal.css'
+  styles() {
+    return /* css */`
+      :host(.mdw-show-spinner) span.text {
+        opacity: 0;
+      }
+
+      /* --- Ripple --- */
+
+      .mdw-ripple {
+        overflow: hidden;
+      }
+
+      .mdw-ripple.mdw-ripple-unbounded {
+        overflow: visible;
+      }
+
+      .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        transition: opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1);
+        transform: scale(0);
+      }
+
+      .mdw-fab-ripple,
+      .mdw-fab-focus-overlay {
+        border-radius: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        pointer-events: none;
+      }
+
+
+      :host(.mdw-primary) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+
+      :host(.mdw-secondary) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+
+      :host(.mdw-error) .mdw-ripple-element {
+        background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
+      }
+    `;
   }
 });

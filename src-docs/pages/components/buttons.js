@@ -1,4 +1,4 @@
-import { Page, html, css } from '@webformula/pax-core';
+import { Page} from '@webformula/pax-core';
 
 export default class Buttons extends Page {
   constructor() {
@@ -17,7 +17,7 @@ export default class Buttons extends Page {
   }
 
   styles() {
-    return css`
+    return /* css */`
       .page-article mdw-button {
         margin: 8px;
       }
@@ -25,7 +25,7 @@ export default class Buttons extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>Buttons</h3>
 
@@ -122,7 +122,7 @@ export default class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="$Buttons.mockWait(this)">Async</mdw-button>
+                <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="activePage.mockWait(this)">Async</mdw-button>
               </monaco-editor>
               <monaco-editor language="javascript">
                 class Buttons extends Page {
@@ -141,7 +141,7 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="$Buttons.mockWait(this)">Async</mdw-button>
+              <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="activePage.mockWait(this)">Async</mdw-button>
             </div>
           </mdw-card>
 

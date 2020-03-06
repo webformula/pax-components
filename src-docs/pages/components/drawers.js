@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Drawers extends Page {
   constructor() {
@@ -16,7 +16,7 @@ export default class Drawers extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>Drawers</h3>
 
@@ -66,8 +66,8 @@ export default class Drawers extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <monaco-editor language="html" content="${`
-                <body>
+              <monaco-editor language="html">
+                <!-- <body> -->
                   <mdw-drawer class='mdw-locked-open'>
                     <mdw-drawer-header>
                       <div class='mdw-title'>Nav title</div>
@@ -100,8 +100,8 @@ export default class Drawers extends Page {
                       <!-- main page content -->
                     </mdw-content>
                   </mdw-page>
-                </body>
-              `}"></monaco-editor>
+                <!-- </body> -->
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -114,8 +114,8 @@ export default class Drawers extends Page {
 
 
           <div class="mdw-card__content--no-padding">
-              <monaco-editor language="html" content="${`
-                <body>
+              <monaco-editor language="html">
+                <!-- <body> -->
                   <mdw-drawer class='mdw-locked-open'>
                     <mdw-drawer-header>
                       <div class='mdw-title'>Nav title</div>
@@ -177,8 +177,8 @@ export default class Drawers extends Page {
                       <!-- main page content -->
                     </mdw-content>
                   </mdw-page>
-                </body>
-              `}"></monaco-editor>
+                <!-- </body> -->
+              </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">

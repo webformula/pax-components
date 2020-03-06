@@ -1,4 +1,4 @@
-import { Page, html, css } from '@webformula/pax-core';
+import { Page} from '@webformula/pax-core';
 
 export default class List extends Page {
   constructor() {
@@ -59,7 +59,7 @@ export default class List extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>List</h3>
 
@@ -111,12 +111,12 @@ export default class List extends Page {
               <div class="row" style="align-items: center;">
                 <div>
                   <label>Toggle Select single/multiple</label>
-                  <mdw-switch onchange="$List.toggleListSelect(this.checked)"></mdw-switch>
+                  <mdw-switch onchange="activePage.toggleListSelect(this.checked)"></mdw-switch>
                 </div>
 
                 <div>
                   <label>Toggle mdw-select-onclick</label>
-                  <mdw-switch onchange="$List.toggleListOnclickSelect(this.checked)" checked></mdw-switch>
+                  <mdw-switch onchange="activePage.toggleListOnclickSelect(this.checked)" checked></mdw-switch>
                 </div>
 
                 <mdw-button class="mdw-error" onclick="document.querySelector('#select-list').deselectAll()">deselect</mdw-button>

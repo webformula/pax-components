@@ -1,0 +1,13 @@
+mdw-content {
+  overflow: auto;
+  display: block;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0 40px;
+  width: 100%;
+}
+
+mdw-content.constrain-width > render-block-page {
+  display: block;
+  max-width: 840px;
+}

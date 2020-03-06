@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Snackbar extends Page {
   constructor() {
@@ -39,14 +39,14 @@ export default class Snackbar extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>Snackbar</h3>
 
         <div mdw-row>
           <div mdw-flex=".33" mdw-column>
             <mdw-select class="mdw-padding" mdw-enhanced>
-              <select onchange="$Snackbar.setSnackbarPositionY(this.value)">
+              <select onchange="activePage.setSnackbarPositionY(this.value)">
                 <option value="top">top</option>
                 <option value="inner-top">inner-top</option>
                 <option value="bottom">bottom</option>
@@ -57,7 +57,7 @@ export default class Snackbar extends Page {
             </mdw-select>
 
             <mdw-select class="mdw-padding" mdw-enhanced>
-              <select onchange="$Snackbar.setSnackbarPositionX(this.value)">
+              <select onchange="activePage.setSnackbarPositionX(this.value)">
                 <option value="left">left</option>
                 <option value="inner-left" selected>inner-left</option>
                 <option value="right">right</option>
@@ -70,7 +70,7 @@ export default class Snackbar extends Page {
 
           <div mdw-flex=".66">
             <div class="showcase mdw-elevation-1">
-              <mdw-button onclick="$Snackbar.showSnackbar()">show snackbar</mdw-button>
+              <mdw-button onclick="activePage.showSnackbar()">show snackbar</mdw-button>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default class Snackbar extends Page {
               </monaco-editor>
 
               <monaco-editor language="html">
-                <mdw-button onclick="$Snackbar.showSnackbar()">show snackbar</mdw-button>
+                <mdw-button onclick="activePage.showSnackbar()">show snackbar</mdw-button>
               </monaco-editor>
             </div>
           </mdw-card>

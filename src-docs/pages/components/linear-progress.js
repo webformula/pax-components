@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class LinearProgress extends Page {
   constructor() {
@@ -27,7 +27,7 @@ export default class LinearProgress extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>Linear Progress</h3>
 

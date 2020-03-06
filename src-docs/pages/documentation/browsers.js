@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Browsers extends Page {
   constructor() {
@@ -10,13 +10,13 @@ export default class Browsers extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
     <article class="page-article">
       <h1 class="article-title">Browser compatibility</h1>
 
       <section>
         <h2>Web components</h2>
-        <p>PAX components are built using <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_new">web components</a>. Web componets are currently supported by most of the major browsers. If you need to exapnd your browser support there is also a polyfill that exapnds support to IE11.</p>
+        <p>PAX components are built using <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_new">web components</a>. Web components are currently supported by most of the major browsers. If you need to expand your browser support there is also a polyfill that expands support to IE11.</p>
       </section>
 
       <div mdw-row mdw-wrap mdw-flex-position="flex-start space-around">
@@ -113,7 +113,7 @@ export default class Browsers extends Page {
       </div>
 
       <section>
-        <a href="#/documentation/theme">next: Theming</a>
+        <a href="#/documentation/layout">next: Layout</a>
       </section>
     </article>
     `;

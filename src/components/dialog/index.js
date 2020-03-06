@@ -1,5 +1,5 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
-import MDWDialog from './service.js';
+import './service.js';
 import MDWUtils from '../../core/Utils.js';
 
 customElements.define('mdw-dialog', class extends HTMLElementExtended {

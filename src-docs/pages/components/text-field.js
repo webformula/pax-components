@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Textfield extends Page {
   constructor() {
@@ -57,14 +57,14 @@ export default class Textfield extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>Textfield</h3>
 
         <div mdw-row>
           <div mdw-flex=".33" mdw-column>
             <mdw-select id="varient-select" class="mdw-padding" mdw-enhanced>
-              <select onchange="$Textfield.onVarientChange(this.value)">
+              <select onchange="activePage.onVarientChange(this.value)">
                 <option value="filled" selected>Filled</option>
                 <option value="outlined">outlined</option>
               </select>
@@ -72,7 +72,7 @@ export default class Textfield extends Page {
             </mdw-select>
 
             <mdw-select id="pre-icon-select" class="mdw-padding" mdw-enhanced>
-              <select onchange="$Textfield.onPreIconChange(this.value)">
+              <select onchange="activePage.onPreIconChange(this.value)">
                 <option value="hide" selected>Hide</option>
                 <option value="show">show</option>
               </select>
@@ -80,7 +80,7 @@ export default class Textfield extends Page {
             </mdw-select>
 
             <mdw-select id="post-icon-select" class="mdw-padding" mdw-enhanced>
-              <select onchange="$Textfield.onPostIconChange(this.value)">
+              <select onchange="activePage.onPostIconChange(this.value)">
               <option value="hide" selected>Hide</option>
               <option value="show">show</option>
               </select>

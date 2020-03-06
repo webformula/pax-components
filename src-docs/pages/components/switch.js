@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Switch extends Page {
   constructor() {
@@ -14,13 +14,13 @@ export default class Switch extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
       <article class="page-article">
         <h3>Switch</h3>
 
         <div class="showcase mdw-elevation-1">
           <label>Label</label>
-          <mdw-switch onchange="$Switch.change(this)" checked></mdw-switch>
+          <mdw-switch onchange="activePage.change(this)" checked></mdw-switch>
         </div>
 
         <a href="https://material.io/design/components/selection-controls.html#switches" target="_new">Material Design Guidlines: switches</a>

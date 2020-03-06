@@ -1,4 +1,4 @@
-import { Page, html } from '@webformula/pax-core';
+import { Page } from '@webformula/pax-core';
 
 export default class Home extends Page {
   constructor() {
@@ -34,21 +34,22 @@ export default class Home extends Page {
   }
 
   template() {
-    return html`
+    return /* html */`
     <article class="page-article">
       <h1 class="article-title">PAX</h1>
       <h2 class="article-subtitle">Material design: web components</h2>
 
       <section>
-        <h2>About</h2>
         <p>
-        PAX material design web components are a complete set of components with no dependencies. These web components can be used with any website (framework or no framework) as long as the browser supports web components.
-        PAX components are also compatable on mobile sites. There are many components that are targeted directly at mobile development (<a href="#/components/sheet">sheet</a>).
+          PAX components provide material design to the desktop and mobile with no dependencies. These components can be used with any website (framework or no framework) as long as the browser supports web components.
+        </p>
+        <p>
+          Mobile web applications are a top priority. Our goal is to make the mobile web experience feel like the best native applications. To achieve this we added mobile specific components to support mobile interactions. The components automatically change based on the device that loads them. This means no extra work is required to make your application mobile ready.
         </p>
 
         <h2>Powerful, and light weight</h2>
         <p>
-        PAX components are built to be simple, light weight and performant. This is achieved with web compnents, wich are a native browser feature. We are taking advantage of the lowest posiible level in the browser.
+        PAX components are built to be simple, light weight and performant. This is achieved with web components, which are a native browser feature. We are taking advantage of the lowest possible level in the browser.
         </p>
 
         <h2>Built with PAX-CORE</h2>
@@ -59,7 +60,7 @@ export default class Home extends Page {
 
       <mdw-card id="contained">
         <div class="mdw-card__content">
-          <h6>Install</h6>
+          <h6>CDN</h6>
           <div class="mdw-subtitle2">Include the javascript and css, thats it.</div>
         </div>
 
@@ -68,6 +69,36 @@ export default class Home extends Page {
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.css">
             <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.js"></script>
 
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+          </monaco-editor>
+        </div>
+      </mdw-card>
+
+      <h6>Or</h6>
+
+      <mdw-card id="contained">
+        <div class="mdw-card__content">
+          <h6>NPM</h6>
+          <div class="mdw-subtitle2">Install and import</div>
+        </div>
+
+        <div class="mdw-card__content--no-padding">
+          <monaco-editor language="bash">
+            # install
+            npm i @webformula/pax-components
+          </monaco-editor>
+
+          <monaco-editor language="javascript">
+            // import
+            import '@webformula/pax-components/dist/entry.js';
+          </monaco-editor>
+
+          <monaco-editor language="html">
+            <!-- include css -->
+            <link rel="stylesheet" href="node_modules/@webformula/pax-components/dist/entry.css">
+
+            <!-- include font and icons -->
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
           </monaco-editor>

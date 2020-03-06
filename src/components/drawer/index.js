@@ -7,12 +7,6 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
     this.bound_navigationChange = this.navigationChange.bind(this);
     this.isShowing = true;
     this.isRightAligned = this.hasAttribute('right-aligned');
-    this.classList.add('mdw-active');
-    if (MDWUtils.isMobile && !this.classList.contains('mdw-locked-open-mobile')) {
-      this.unlockOpen();
-      this.hide();
-    }
-
     const fixedEl = this.fixedElement;
     if (fixedEl) fixedEl.style.width = `${this.offsetWidth}px`;
 
@@ -23,6 +17,17 @@ customElements.define('mdw-drawer', class extends HTMLElementExtended {
 
     this.lockBody();
     this.addCloseOnChange();
+  }
+
+  connectedCallback() {
+    this.classList.add('mdw-active');
+    if (MDWUtils.isMobile) {
+      this.style.position = 'absolute';
+      if (!this.classList.contains('mdw-locked-open-mobile')) {
+        this.unlockOpen();
+        this.hide();
+      }
+    }
   }
 
   disconnectedCallback() {
