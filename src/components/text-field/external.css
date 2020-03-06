@@ -407,7 +407,7 @@ mdw-helper-text {
   transition: opacity .15s cubic-bezier(.4,0,.2,1);
   opacity: 0;
   will-change: opacity;
-  color: var(--mdw-theme-text-secondary-on-background);
+  color: var(--mdw-theme-on-secondary);
 }
 
 mdw-helper-text[persistent] {
