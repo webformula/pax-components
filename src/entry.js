@@ -1,5 +1,6 @@
 import './core/Theme.js';
 import './core/drag.js';
+import './core/swipe.js';
 
 // --- Components ---
 
@@ -12,7 +13,6 @@ import './components/card/index.js';
 import './components/checkbox/index.js';
 import './components/circular-progress/index.js';
 import './components/dialog/index.js';
-import './components/drawer/index.js';
 // // import './components/expander/index.js';
 import './components/fab/index.js';
 import './components/icon/index.js';
@@ -25,6 +25,7 @@ import './components/radio/index.js';
 import './components/radio-group/index.js';
 import './components/select/index.js';
 import './components/sheet/index.js';
+import './components/sheets-side/index.js';
 import './components/slider/index.js';
 import './components/snackbar/index.js';
 import './components/switch/index.js';

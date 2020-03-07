@@ -119,11 +119,11 @@ const MDWUtils = new class {
     return this.transformPropertyName_;
   }
 
-  addBackdrop(element, clickCallback, options = {}) {
+  addBackdrop(element, clickCallback, options = { sheet: false }) {
     const id = this.uid();
     element.insertAdjacentHTML('afterend', `<div id="${id}" class="mdw-backdrop"></div>`);
     const backdropElement = document.querySelector(`#${id}`);
-    if (options.drawer === true) backdropElement.classList.add('mdw-drawer-backdrop');
+    if (options.sheet === true) backdropElement.classList.add('mdw-sheet-backdrop');
     if (clickCallback) backdropElement.addEventListener('click', clickCallback);
     return {
       remove() {

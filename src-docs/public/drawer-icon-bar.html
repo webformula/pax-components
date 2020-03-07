@@ -9,79 +9,77 @@
 </head>
 
   <body>
-    <mdw-drawer class="mdw-locked-open">
-      <!-- <mdw-drawer-fixed> -->
-        <mdw-drawer-header>
-          <div class="mdw-title">Nav title</div>
-          <div class="mdw-subtitle">Pages</div>
-        </mdw-drawer-header>
+    <mdw-sheet-side class="mdw-navigation-drawer">
+      <dw-sheet-side--header>
+        <div class="mdw-title">Nav title</div>
+        <div class="mdw-subtitle">Pages</div>
+      </dw-sheet-side--header>
 
-        <mdw-drawer-content>
-          <mdw-list>
-            <mdw-list-item active onclick="$Drawers.handleNavLClick(this)">
-              <span class="mdw-list-item__graphic material-icons">inbox</span>
-              Inbox
-            </mdw-list-item>
+      <mdw-sheet-side--content>
+        <mdw-list>
+          <mdw-list-item active onclick="$Drawers.handleNavLClick(this)">
+            <span class="mdw-list-item__graphic material-icons">inbox</span>
+            Inbox
+          </mdw-list-item>
 
-            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-              <span class="mdw-list-item__graphic material-icons">star</span>
-              Two
-            </mdw-list-item>
+          <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+            <span class="mdw-list-item__graphic material-icons">star</span>
+            Two
+          </mdw-list-item>
 
-            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-              <span class="mdw-list-item__graphic material-icons">star</span>
-              Three
-            </mdw-list-item>
+          <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+            <span class="mdw-list-item__graphic material-icons">star</span>
+            Three
+          </mdw-list-item>
 
-            <mdw-divider></mdw-divider>
+          <mdw-divider></mdw-divider>
 
-            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-              <span class="mdw-list-item__graphic material-icons">star</span>
-              Four
-            </mdw-list-item>
+          <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+            <span class="mdw-list-item__graphic material-icons">star</span>
+            Four
+          </mdw-list-item>
 
-            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-              <span class="mdw-list-item__graphic material-icons">star</span>
-              Five
-            </mdw-list-item>
+          <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+            <span class="mdw-list-item__graphic material-icons">star</span>
+            Five
+          </mdw-list-item>
 
-            <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-              <span class="mdw-list-item__graphic material-icons">star</span>
-              Six
-            </mdw-list-item>
-          </mdw-list>
-        </mdw-drawer-content>
+          <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+            <span class="mdw-list-item__graphic material-icons">star</span>
+            Six
+          </mdw-list-item>
+        </mdw-list>
+      </mdw-sheet-side--content>
 
-        <mdw-drawer-icon-bar>
-          <mdw-drawer-icon-bar--header>
-            <mdw-button class="mdw-icon" onclick="document.querySelector('mdw-drawer').toggle()">
-              <mdw-icon>menu</mdw-icon>
-            </mdw-button>
-          </mdw-drawer-icon-bar--header>
+      <!-- <mdw-drawer-icon-bar>
+        <mdw-drawer-icon-bar--header>
+          <mdw-button class="mdw-icon" onclick="document.querySelector('mdw-drawer').toggle()">
+            <mdw-icon>menu</mdw-icon>
+          </mdw-button>
+        </mdw-drawer-icon-bar--header>
 
-          <mdw-drawer-icon-bar--content>
-            <mdw-button class="mdw-icon">
-              <mdw-icon>inbox</mdw-icon>
-            </mdw-button>
-            <mdw-button class="mdw-icon">
-              <mdw-icon>star</mdw-icon>
-            </mdw-button>
-            <mdw-button class="mdw-icon">
-              <mdw-icon>inbox</mdw-icon>
-            </mdw-button>
-            <mdw-button class="mdw-icon">
-              <mdw-icon>star</mdw-icon>
-            </mdw-button>
-            <mdw-button class="mdw-icon">
-              <mdw-icon>inbox</mdw-icon>
-            </mdw-button>
-            <mdw-button class="mdw-icon">
-              <mdw-icon>star</mdw-icon>
-            </mdw-button>
-          </mdw-drawer-icon-bar--content>
-        </mdw-drawer-icon-bar>
-      <!-- </mdw-drawer-fixed> -->
-    </mdw-drawer>
+        <mdw-drawer-icon-bar--content>
+          <mdw-button class="mdw-icon">
+            <mdw-icon>inbox</mdw-icon>
+          </mdw-button>
+          <mdw-button class="mdw-icon">
+            <mdw-icon>star</mdw-icon>
+          </mdw-button>
+          <mdw-button class="mdw-icon">
+            <mdw-icon>inbox</mdw-icon>
+          </mdw-button>
+          <mdw-button class="mdw-icon">
+            <mdw-icon>star</mdw-icon>
+          </mdw-button>
+          <mdw-button class="mdw-icon">
+            <mdw-icon>inbox</mdw-icon>
+          </mdw-button>
+          <mdw-button class="mdw-icon">
+            <mdw-icon>star</mdw-icon>
+          </mdw-button>
+        </mdw-drawer-icon-bar--content>
+      </mdw-drawer-icon-bar> -->
+    </mdw-sheet-side>
 
     <mdw-page>
       <mdw-top-app-bar>

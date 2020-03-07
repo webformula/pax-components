@@ -33,13 +33,14 @@ body.prevent-over-scroll {
   background-color: rgba(0,0,0,0.12);
 }
 
-.mdw-backdrop.mdw-drawer-backdrop {
+.mdw-backdrop.mdw-sheet-backdrop {
   z-index: 1;
 }
 
 
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
