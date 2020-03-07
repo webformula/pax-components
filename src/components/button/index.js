@@ -251,10 +251,6 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         border-radius: 18px;
       }
 
-      :host(.mdw-dense.mdw-shaped) {
-        border-radius: 16px;
-      }
-
       :host(.mdw-icon) {
         border-radius: 50%;
         min-width: 0;

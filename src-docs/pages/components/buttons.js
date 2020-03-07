@@ -12,7 +12,7 @@ export default class Buttons extends Page {
   mockWait(button) {
     if (button.pending) return;
     setTimeout(() => {
-      // button.resolve();
+      button.resolve();
     }, 3000);
   }
 
@@ -81,13 +81,11 @@ export default class Buttons extends Page {
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
                 <mdw-button class="mdw-outlined">outlined</mdw-button>
-                <mdw-button class="mdw-outlined mdw-dense mdw-secondary">outlined shaped secondary</mdw-button>
               </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
               <mdw-button id="outlined" class="mdw-outlined">outlined</mdw-button>
-              <mdw-button id="outlined-dense" class="mdw-outlined mdw-dense mdw-secondary">outlined dense secondary</mdw-button>
             </div>
           </mdw-card>
 
@@ -103,13 +101,11 @@ export default class Buttons extends Page {
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
                 <mdw-button class="mdw-shaped mdw-raised mdw-primary">shaped raised</mdw-button>
-                <mdw-button class="mdw-shaped mdw-outlined mdw-secondary">shaped outlined dense</mdw-button>
               </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
               <mdw-button id="shaped" class="mdw-shaped mdw-raised mdw-primary">shaped raised</mdw-button>
-              <mdw-button id="shaped-outlined" class="mdw-shaped mdw-outlined mdw-error">shaped outlined</mdw-button>
             </div>
           </mdw-card>
 
