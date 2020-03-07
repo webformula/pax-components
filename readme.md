@@ -9,4 +9,5 @@ Website is in progress and may not be up to date
 
 ### CDN links
 https://cdn.jsdelivr.net/gh/webformula/pax-components@0.7.0-beta/dist/entry.js
+
 https://cdn.jsdelivr.net/gh/webformula/pax-components@0.7.0-beta/dist/entry.css
