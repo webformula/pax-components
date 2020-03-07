@@ -12,7 +12,7 @@ export default class Buttons extends Page {
   mockWait(button) {
     if (button.pending) return;
     setTimeout(() => {
-      button.resolve();
+      // button.resolve();
     }, 3000);
   }
 

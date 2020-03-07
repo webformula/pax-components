@@ -58,7 +58,7 @@ export default class Textfield extends Page {
 
   template() {
     return /* html */`
-      <article class="page-article">
+      <article class="page-article mdw-dense-comfortable">
         <h3>Textfield</h3>
 
         <div mdw-row>

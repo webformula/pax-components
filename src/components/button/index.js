@@ -131,19 +131,46 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         color: var(--mdw-theme-on-primary);
       }
 
-      .mdw-dense-comfortable :host,
+      :host-context(.mdw-dense-comfortable),
       :host(.mdw-dense-comfortable) {
         height: 28px;
         margin-top: 0;
         margin-bottom: 0;
       }
-      
-      .mdw-dense-compact :host,
+
+      :host-context(.mdw-dense-compact),
       :host(.mdw-dense-compact) {
         height: 24px;
         margin-top: 0;
         margin-bottom: 0;
       }
+
+      :host(.mdw-icon):host-context(.mdw-dense-comfortable),
+      :host(.mdw-dense-comfortable.mdw-icon) {
+        height: 28px;
+        width: 28px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      
+      :host(.mdw-icon):host-context(.mdw-dense-compact),
+      :host(.mdw-dense-compact.mdw-icon) {
+        height: 24px;
+        width: 24px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      :host-context(.mdw-dense-comfortable) .mdw-spinner-container mdw-circular-progress,
+      :host(.mdw-dense-comfortable) .mdw-spinner-container mdw-circular-progress {
+        top: 2px !important;
+      }
+
+      :host-context(.mdw-dense-compact) .mdw-spinner-container mdw-circular-progress,
+      :host(.mdw-dense-compact) .mdw-spinner-container mdw-circular-progress {
+        top: 0 !important;
+      }
+
 
       :host::before,
       :host::after {
@@ -246,7 +273,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       }
 
       :host(.mdw-icon) ::slotted(mdw-icon) {
-        line-height: 36px;
+        line-height: 19px;
         font-weight: normal;
         font-style: normal;
         font-size: 24px;
