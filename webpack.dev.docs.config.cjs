@@ -1,5 +1,8 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin');
+const { version } = require('./package.json');
 
 const cwd = process.cwd();
 
@@ -22,9 +25,18 @@ module.exports = {
   plugins: [
     new CopyPlugin([
       // copy css files into root of dist folder
-      { from: './src-docs/index.html', to: './' },
       { from: './src-docs/public', to: './' }
     ]),
+
+    new HtmlWebpackPlugin({
+      "template": "./src-docs/index.html",
+      "filename": "./index.html"
+    }),
+
+    new HtmlWebpackStringReplacePlugin({
+      '_DIST_': 'local-dist',
+      '_VERSION_': version
+    })
   ],
 
   mode: 'development',

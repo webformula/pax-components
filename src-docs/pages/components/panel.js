@@ -75,7 +75,7 @@ export default class Panel extends Page {
         <div mdw-row>
           <div mdw-flex=".33" mdw-column>
             <mdw-select class="mdw-padding" mdw-enhanced>
-              <select onchange="$Panel.setDemoPanelPositionY(this.value)">
+              <select onchange="activePage.setDemoPanelPositionY(this.value)">
                 <option value="top">top</option>
                 <option value="inner-top" selected>inner-top</option>
                 <option value="bottom">bottom</option>
@@ -86,7 +86,7 @@ export default class Panel extends Page {
             </mdw-select>
 
             <mdw-select class="mdw-padding" mdw-enhanced>
-              <select onchange="$Panel.setDemoPanelPositionX(this.value)">
+              <select onchange="activePage.setDemoPanelPositionX(this.value)">
                 <option value="left">left</option>
                 <option value="inner-left" selected>inner-left</option>
                 <option value="right">right</option>
@@ -97,7 +97,7 @@ export default class Panel extends Page {
             </mdw-select>
 
             <mdw-select class="mdw-padding" mdw-enhanced>
-              <select onchange="$Panel.setDemoPanelState(this.value)">
+              <select onchange="activePage.setDemoPanelState(this.value)">
                 <option value="open" selected>Open</option>
                 <option value="closed">Closed</option>
               </select>

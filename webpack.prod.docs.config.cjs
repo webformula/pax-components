@@ -3,6 +3,9 @@ const CopyPlugin = require('copy-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin');
+const { version } = require('./package.json');
 
 const cwd = process.cwd();
 
@@ -28,9 +31,19 @@ module.exports = {
 
   plugins: [
     new CopyPlugin([
-      { from: './src-docs/index.html', to: './' },
+      // { from: './src-docs/index.html', to: './' },
       { from: './src-docs/public', to: './' }
     ]),
+
+    new HtmlWebpackPlugin({
+      "template": "./src-docs/index.html",
+      "filename": "./index.html"
+    }),
+
+    new HtmlWebpackStringReplacePlugin({
+      '_DIST_': 'dist',
+      '_VERSION_': version
+    })
   ],
 
   module: {
