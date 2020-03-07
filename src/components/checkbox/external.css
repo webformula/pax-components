@@ -15,27 +15,27 @@ mdw-checkbox {
   will-change: transform, opacity;
 }
 
-.mdw-dense-comfortable mdw-checkbox,
-mdw-checkbox.mdw-dense-comfortable {
+.mdw-density-comfortable mdw-checkbox,
+mdw-checkbox.mdw-density-comfortable {
   padding: 9px;
   margin: 0;
 }
 
-.mdw-dense-comfortable mdw-checkbox + label,
-mdw-checkbox.mdw-dense-comfortable + label,
-.mdw-dense-comfortable label.mdw-checkbox-label {
+.mdw-density-comfortable mdw-checkbox + label,
+mdw-checkbox.mdw-density-comfortable + label,
+.mdw-density-comfortable label.mdw-checkbox-label {
   line-height: 32px;
 }
 
-.mdw-dense-compact mdw-checkbox,
-mdw-checkbox.mdw-dense-compact {
+.mdw-density-compact mdw-checkbox,
+mdw-checkbox.mdw-density-compact {
   padding: 5px;
   margin: 0;
 }
 
-.mdw-dense-compact mdw-checkbox + label,
-mdw-checkbox.mdw-dense-compact + label,
-.mdw-dense-compact label.mdw-checkbox-label {
+.mdw-density-compact mdw-checkbox + label,
+mdw-checkbox.mdw-density-compact + label,
+.mdw-density-compact label.mdw-checkbox-label {
   line-height: 20px;
 }
 

@@ -94,11 +94,11 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
         opacity: 0;
       }
 
-      :host-context(.mdw-dense-comfortable) .mdw-spinner-container mdw-circular-progress {
+      :host-context(.mdw-density-comfortable) .mdw-spinner-container mdw-circular-progress {
         top: 3px !important;
       }
 
-      :host-context(.mdw-dense-compact) .mdw-spinner-container mdw-circular-progress {
+      :host-context(.mdw-density-compact) .mdw-spinner-container mdw-circular-progress {
         top: 0 !important;
       }
 

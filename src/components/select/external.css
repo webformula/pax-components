@@ -8,13 +8,13 @@ mdw-select {
   border-radius: 4px 4px 0 0;
 }
 
-.mdw-dense-comfortable mdw-select {
+.mdw-density-comfortable mdw-select {
   height: 48px;
   margin-top: 0;
   margin-right: 0;
 }
 
-.mdw-dense-compact mdw-select {
+.mdw-density-compact mdw-select {
   height: 40px;
   margin-top: 0;
   margin-right: 0;

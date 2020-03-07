@@ -131,43 +131,43 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         color: var(--mdw-theme-on-primary);
       }
 
-      :host-context(.mdw-dense-comfortable),
-      :host(.mdw-dense-comfortable) {
+      :host-context(.mdw-density-comfortable),
+      :host(.mdw-density-comfortable) {
         height: 28px;
         margin-top: 0;
         margin-bottom: 0;
       }
 
-      :host-context(.mdw-dense-compact),
-      :host(.mdw-dense-compact) {
+      :host-context(.mdw-density-compact),
+      :host(.mdw-density-compact) {
         height: 24px;
         margin-top: 0;
         margin-bottom: 0;
       }
 
-      :host(.mdw-icon):host-context(.mdw-dense-comfortable),
-      :host(.mdw-dense-comfortable.mdw-icon) {
+      :host(.mdw-icon):host-context(.mdw-density-comfortable),
+      :host(.mdw-density-comfortable.mdw-icon) {
         height: 28px;
         width: 28px;
         margin-top: 0;
         margin-bottom: 0;
       }
       
-      :host(.mdw-icon):host-context(.mdw-dense-compact),
-      :host(.mdw-dense-compact.mdw-icon) {
+      :host(.mdw-icon):host-context(.mdw-density-compact),
+      :host(.mdw-density-compact.mdw-icon) {
         height: 24px;
         width: 24px;
         margin-top: 0;
         margin-bottom: 0;
       }
 
-      :host-context(.mdw-dense-comfortable) .mdw-spinner-container mdw-circular-progress,
-      :host(.mdw-dense-comfortable) .mdw-spinner-container mdw-circular-progress {
+      :host-context(.mdw-density-comfortable) .mdw-spinner-container mdw-circular-progress,
+      :host(.mdw-density-comfortable) .mdw-spinner-container mdw-circular-progress {
         top: 2px !important;
       }
 
-      :host-context(.mdw-dense-compact) .mdw-spinner-container mdw-circular-progress,
-      :host(.mdw-dense-compact) .mdw-spinner-container mdw-circular-progress {
+      :host-context(.mdw-density-compact) .mdw-spinner-container mdw-circular-progress,
+      :host(.mdw-density-compact) .mdw-spinner-container mdw-circular-progress {
         top: 0 !important;
       }
 

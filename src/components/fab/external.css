@@ -23,28 +23,28 @@ mdw-fab {
   z-index: 4;
 }
 
-.mdw-dense-comfortable mdw-fab:not(.mdw-extended) {
+.mdw-density-comfortable mdw-fab:not(.mdw-extended) {
   height: 42px;
   width: 42px;
   margin-top: 0;
   margin-bottom: 0;
 }
 
-.mdw-dense-comfortable .mdw-extended {
+.mdw-density-comfortable .mdw-extended {
   height: 42px;
   margin-top: 0;
   margin-bottom: 0;
   padding: 0 16px;
 }
 
-.mdw-dense-compact mdw-fab:not(.mdw-extended) {
+.mdw-density-compact mdw-fab:not(.mdw-extended) {
   height: 32px;
   width: 32px;
   margin-top: 0;
   margin-bottom: 0;
 }
 
-.mdw-dense-compact .mdw-extended {
+.mdw-density-compact .mdw-extended {
   height: 32px;
   margin-top: 0;
   margin-bottom: 0;

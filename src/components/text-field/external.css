@@ -15,21 +15,21 @@ mdw-textfield {
   background-color: rgba(var(--mdw-theme-on-background--rgb), 0.024);
 }
 
-.mdw-dense-comfortable mdw-textfield {
+.mdw-density-comfortable mdw-textfield {
   height: 48px;
   min-height: 48px;
 }
 
-.mdw-dense-comfortable mdw-textfield label {
+.mdw-density-comfortable mdw-textfield label {
   top: 16px;
 }
 
-.mdw-dense-compact mdw-textfield {
+.mdw-density-compact mdw-textfield {
   height: 40px;
   min-height: 40px;
 }
 
-.mdw-dense-compact mdw-textfield label {
+.mdw-density-compact mdw-textfield label {
   top: 12px;
 }
 
@@ -260,14 +260,14 @@ mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
   transform: translateY(-130%) scale(.75);
 }
 
-.mdw-dense-comfortable mdw-textfield.mdw-outlined.mdw-upgraded:focus-within label,
-.mdw-dense-comfortable mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
+.mdw-density-comfortable mdw-textfield.mdw-outlined.mdw-upgraded:focus-within label,
+.mdw-density-comfortable mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
   transform: translateY(-120%) scale(.75);
 }
 
 
-.mdw-dense-compact mdw-textfield.mdw-outlined.mdw-upgraded:focus-within label,
-.mdw-dense-compact mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
+.mdw-density-compact mdw-textfield.mdw-outlined.mdw-upgraded:focus-within label,
+.mdw-density-compact mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
   transform: translateY(-100%) scale(.75);
 }
 
