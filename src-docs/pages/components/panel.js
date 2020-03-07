@@ -184,6 +184,36 @@ export default class Panel extends Page {
               </div>
             </div>
           </mdw-card>
+
+
+          <mdw-card id="positon-inner-top-inner-left">
+            <div class="mdw-card__content">
+              <h6>Draggable</h6>
+              The panel will be draggable in the confines you give it. If you hoist the panel to the body or place it on the body, it will drag ontop of all body elements.
+            </div>
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <div class="mdw-panel--container">
+                  <mdw-panel mdw-position="inner-top inner-left" class="mdw-open">
+                    <mdw-panel-draggable-header>Title</mdw-panel-draggable-header>
+                    <div style="padding: 12px; width: 300px; height: 60px;">
+                      hello, drag me!
+                    </div>
+                  </mdw-panel>
+                </div>
+              </monaco-editor>
+            </div>
+            <div class="mdw-card__content" style="height: 260px;">
+              <div class="mdw-panel--container">
+                <mdw-panel mdw-position="inner-top inner-left" class="mdw-open">
+                  <mdw-panel-draggable-header>Title</mdw-panel-draggable-header>
+                  <div style="padding: 12px; width: 300px; height: 60px;">
+                    hello, drag me!
+                  </div>
+                </mdw-panel>
+              </div>
+            </div>
+          </mdw-card>
         </section>
 
       </article>

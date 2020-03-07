@@ -2,6 +2,12 @@ import MDWUtils from './Utils.js';
 
 const dragInstancesByElementAndFunction = new Map();
 
+export const states = {
+  start: 'start',
+  move: 'move',
+  end: 'end'
+};
+
 export function addDragListener(element, callback) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
   if (typeof callback !== 'function') throw Error('callback must be a function');
