@@ -1,46 +1,46 @@
 import MDWUtils from './Utils.js';
 
-const swipeInstancesByElementAndFunction = new Map();
+const dragInstancesByElementAndFunction = new Map();
 
 export function addDragListener(element, callback) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
   if (typeof callback !== 'function') throw Error('callback must be a function');
 
-  const swipInstance = new Drag(element, callback);
-  swipInstance.addEvents();
+  const dragInstance = new Drag(element, callback);
+  dragInstance.addEvents();
 
-  if (!swipeInstancesByElementAndFunction.get(element)) swipeInstancesByElementAndFunction.set(element, new Map());
-  swipeInstancesByElementAndFunction.get(element).set(callback, swipInstance);
+  if (!dragInstancesByElementAndFunction.get(element)) dragInstancesByElementAndFunction.set(element, new Map());
+  dragInstancesByElementAndFunction.get(element).set(callback, dragInstance);
 };
 
-// if you do not pass in callback then all the swipe events on an element will be removed
+// if you do not pass in callback then all the drag events on an element will be removed
 export function removeDragListener(element, callback = undefined) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
 
-  const swipInstances = swipeInstancesByElementAndFunction.get(element);
-  if (!swipInstances) return;
+  const dragInstances = dragInstancesByElementAndFunction.get(element);
+  if (!dragInstances) return;
   if (callback) {
-    const el = swipInstances.get(callback);
+    const el = dragInstances.get(callback);
     if (el) el.removeEvents();
-    swipInstances.delete(callback);
+    dragInstances.delete(callback);
   } else {
-    swipInstances.forEach(i => i.removeEvents());
-    swipeInstancesByElementAndFunction.delete(element);
+    dragInstances.forEach(i => i.removeEvents());
+    dragInstancesByElementAndFunction.delete(element);
   }
 };
 
 export function enableDragListenerForElement(element) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
-  const swipInstances = swipeInstancesByElementAndFunction.get(element);
-  if (!swipInstances) return;
-  swipInstances.forEach(i => i.enable());
+  const dragInstances = dragInstancesByElementAndFunction.get(element);
+  if (!dragInstances) return;
+  dragInstances.forEach(i => i.enable());
 }
 
 export function disableDragListenerForElement(element) {
   if (!(element instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
-  const swipInstances = swipeInstancesByElementAndFunction.get(element);
-  if (!swipInstances) return;
-  swipInstances.forEach(i => i.disable());
+  const dragInstances = dragInstancesByElementAndFunction.get(element);
+  if (!dragInstances) return;
+  dragInstances.forEach(i => i.disable());
 }
 
 class Drag {
@@ -146,7 +146,7 @@ class Drag {
     this.endTime = Date.now();
     ev.runTime = this.endTime - this.startTime;
     ev.distance = this.getDistance(ev);
-    ev.endDirection = this.getDirection({ x: 0, y: 0 }, ev.distance);
+    ev.direction = this.getDirection({ x: 0, y: 0 }, ev.distance);
     ev.velocity = this.getVelocity(ev.distance, ev.runTime);
 
     if (ev.clientX === undefined) {

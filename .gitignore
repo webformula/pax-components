@@ -61,4 +61,4 @@ typings/
 .next
 
 dist-docs/
-dist-files/
+local-dist/

@@ -10,12 +10,12 @@ module.exports = {
 
   output: {
     filename: '[name]',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'local-dist'),
   },
 
   resolve: {
     alias: {
-      '/@webformula/pax-core/index.js': path.resolve(cwd, 'dist/@webformula/pax-core/index.js')
+      '/@webformula/pax-core/index.js': path.resolve(cwd, 'local-dist/@webformula/pax-core/index.js')
     }
   },
 
