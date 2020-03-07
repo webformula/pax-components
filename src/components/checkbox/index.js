@@ -118,8 +118,8 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        width: 45%;
-        height: 45%;
+        width: 18px;
+        height: 18px;
         transition: background-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1),
                     border-color 90ms 0ms cubic-bezier(0.4, 0, 0.6, 1);
         border: 2px solid currentColor;

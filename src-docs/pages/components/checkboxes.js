@@ -14,7 +14,7 @@ export default class Checkboxes extends Page {
       <article class="page-article">
         <h3>Checkboxes</h3>
 
-        <div class="showcase mdw-elevation-1">
+        <div class="showcase mdw-elevation-1" mdw-column>
           <mdw-checkbox indeterminate></mdw-checkbox>
 
           <!-- can fill in html for browsers that do not support webcomponents -->
