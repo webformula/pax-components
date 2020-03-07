@@ -108,7 +108,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         box-sizing: border-box;
         display: inline-flex;
         font-family: Roboto, sans-serif;
-        font-size: 1rem;
+        font-size: 0.875rem;
         font-weight: 500;
         justify-content: center;
         letter-spacing: 0.08929em;
@@ -131,15 +131,18 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         color: var(--mdw-theme-on-primary);
       }
 
-      :host(.mdw-full-height) {
-        height: 48px;
+      .mdw-dense-comfortable :host,
+      :host(.mdw-dense-comfortable) {
+        height: 28px;
+        margin-top: 0;
+        margin-bottom: 0;
       }
-
-      :host(.mdw-full-width) {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        border-radius: 0;
+      
+      .mdw-dense-compact :host,
+      :host(.mdw-dense-compact) {
+        height: 24px;
+        margin-top: 0;
+        margin-bottom: 0;
       }
 
       :host::before,
@@ -157,9 +160,9 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       }
 
       :host::before {
+        z-index: 1;
         transition: opacity 15ms linear,
                     background-color 15ms linear;
-        z-index: 1;
       }
 
       :host(:hover) {
@@ -219,13 +222,6 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
 
       :host(.mdw-shaped) {
         border-radius: 18px;
-      }
-
-      :host(.mdw-dense) {
-        border-radius: 4px;
-        height: 32px;
-        font-size: .8125rem;
-        line-height: inherit;
       }
 
       :host(.mdw-dense.mdw-shaped) {
