@@ -3,7 +3,7 @@ mdw-textfield {
   display: inline-flex;
   position: relative;
   box-sizing: border-box;
-  min-height: 56px;
+  height: 56px;
   margin-bottom: 16px;
   margin-left: 1px;
   margin-right: 1px;
@@ -17,7 +17,6 @@ mdw-textfield {
 
 .mdw-density-comfortable mdw-textfield {
   height: 48px;
-  min-height: 48px;
 }
 
 .mdw-density-comfortable mdw-textfield label {
@@ -26,7 +25,6 @@ mdw-textfield {
 
 .mdw-density-compact mdw-textfield {
   height: 40px;
-  min-height: 40px;
 }
 
 .mdw-density-compact mdw-textfield label {
@@ -369,7 +367,7 @@ mdw-textfield .mdw-outlined-leading,
 mdw-textfield .mdw-outlined-notch,
 mdw-textfield .mdw-outlined-trailing {
   box-sizing: border-box;
-  height: 100%;
+  height: 99.2%;
   border-top: 1px solid;
   border-bottom: 1px solid;
   pointer-events: none;
