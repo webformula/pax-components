@@ -8,5 +8,5 @@ Website is in progress and may not be up to date
 [webformula](http://webformula.io/)
 
 ### CDN links
-https://cdn.jsdelivr.net/gh/webformula/pax-components@v0.7.0-beta/dist/pax-components.js
-https://cdn.jsdelivr.net/gh/webformula/pax-components@v0.7.0-beta/dist/pax-components.css
+https://cdn.jsdelivr.net/gh/webformula/pax-components@0.7.0-beta/dist/entry.js
+https://cdn.jsdelivr.net/gh/webformula/pax-components@0.7.0-beta/dist/entry.css
