@@ -108,7 +108,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         box-sizing: border-box;
         display: inline-flex;
         font-family: Roboto, sans-serif;
-        font-size: 1rem;
+        font-size: 0.875rem;
         font-weight: 500;
         justify-content: center;
         letter-spacing: 0.08929em;
@@ -131,16 +131,46 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         color: var(--mdw-theme-on-primary);
       }
 
-      :host(.mdw-full-height) {
-        height: 48px;
+      :host-context(.mdw-density-comfortable),
+      :host(.mdw-density-comfortable) {
+        height: 28px;
+        margin-top: 0;
+        margin-bottom: 0;
       }
 
-      :host(.mdw-full-width) {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        border-radius: 0;
+      :host-context(.mdw-density-compact),
+      :host(.mdw-density-compact) {
+        height: 24px;
+        margin-top: 0;
+        margin-bottom: 0;
       }
+
+      :host(.mdw-icon):host-context(.mdw-density-comfortable),
+      :host(.mdw-density-comfortable.mdw-icon) {
+        height: 28px;
+        width: 28px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      
+      :host(.mdw-icon):host-context(.mdw-density-compact),
+      :host(.mdw-density-compact.mdw-icon) {
+        height: 24px;
+        width: 24px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      :host-context(.mdw-density-comfortable) .mdw-spinner-container mdw-circular-progress,
+      :host(.mdw-density-comfortable) .mdw-spinner-container mdw-circular-progress {
+        top: 2px !important;
+      }
+
+      :host-context(.mdw-density-compact) .mdw-spinner-container mdw-circular-progress,
+      :host(.mdw-density-compact) .mdw-spinner-container mdw-circular-progress {
+        top: 0 !important;
+      }
+
 
       :host::before,
       :host::after {
@@ -157,9 +187,9 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       }
 
       :host::before {
+        z-index: 1;
         transition: opacity 15ms linear,
                     background-color 15ms linear;
-        z-index: 1;
       }
 
       :host(:hover) {
@@ -221,17 +251,6 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         border-radius: 18px;
       }
 
-      :host(.mdw-dense) {
-        border-radius: 4px;
-        height: 32px;
-        font-size: .8125rem;
-        line-height: inherit;
-      }
-
-      :host(.mdw-dense.mdw-shaped) {
-        border-radius: 16px;
-      }
-
       :host(.mdw-icon) {
         border-radius: 50%;
         min-width: 0;
@@ -250,7 +269,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       }
 
       :host(.mdw-icon) ::slotted(mdw-icon) {
-        line-height: 36px;
+        line-height: 19px;
         font-weight: normal;
         font-style: normal;
         font-size: 24px;

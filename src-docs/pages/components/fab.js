@@ -79,35 +79,12 @@ export default class FAB extends Page {
 
         <div class="links">
           <div class="eyebrow">contents</div>
-          <anchor-link selector="#dense" offset="64">Dense</anchor-link>
           <anchor-link selector="#extended" offset="64">Extended</anchor-link>
           <anchor-link selector="#async" offset="64">Async with spinner</anchor-link>
         </div>
 
         <section id="types">
           <h4>Types</h4>
-
-          <!-- Dense -->
-          <mdw-card id="dense">
-            <div class="mdw-card__content">
-              <h6>Dense</h6>
-            </div>
-
-            <div class="mdw-card__content--no-padding">
-              <monaco-editor language="html">
-                <mdw-fab class="mdw-dense mdw-error">
-                  <mdw-icon>delete</mdw-icon>
-                </mdw-fab>
-              </monaco-editor>
-            </div>
-
-            <div class="mdw-card__content" style="display: block;">
-            <mdw-fab id="dense-error" class="mdw-dense mdw-error">
-              <mdw-icon>delete</mdw-icon>
-            </mdw-fab>
-            </div>
-          </mdw-card>
-
 
           <!-- extended -->
           <mdw-card id="extended">
@@ -162,10 +139,6 @@ export default class FAB extends Page {
                 <mdw-fab class="mdw-primary" mdw-async onclick="activePage.mockWait(this)">
                   <mdw-icon>create</mdw-icon>
                 </mdw-fab>
-
-                <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="activePage.mockWait(this)">
-                  <mdw-icon>create</mdw-icon>
-                </mdw-fab>
               </monaco-editor>
               <monaco-editor language="javascript">
                 class Buttons extends Page {
@@ -185,10 +158,6 @@ export default class FAB extends Page {
 
             <div class="mdw-card__content" style="display: block;">
               <mdw-fab class="mdw-primary" mdw-async onclick="activePage.mockWait(this)">
-                <mdw-icon>create</mdw-icon>
-              </mdw-fab>
-
-              <mdw-fab class="mdw-dense mdw-secondary" mdw-async onclick="activePage.mockWait(this)">
                 <mdw-icon>create</mdw-icon>
               </mdw-fab>
             </div>

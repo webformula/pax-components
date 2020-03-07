@@ -23,6 +23,34 @@ mdw-fab {
   z-index: 4;
 }
 
+.mdw-density-comfortable mdw-fab:not(.mdw-extended) {
+  height: 42px;
+  width: 42px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.mdw-density-comfortable .mdw-extended {
+  height: 42px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 16px;
+}
+
+.mdw-density-compact mdw-fab:not(.mdw-extended) {
+  height: 32px;
+  width: 32px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.mdw-density-compact .mdw-extended {
+  height: 32px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 10px;
+}
+
 mdw-fab:not(.mdw-fab--extended) {
   border-radius: 50%;
 }
@@ -62,14 +90,6 @@ mdw-fab:before {
               background-color 15ms linear;
   z-index: 1;
 }
-
-mdw-fab.mdw-dense {
-  height: 40px;
-  width: 40px;
-  font-size: .8125rem;
-  line-height: inherit;
-}
-
 
 /* icon */
 mdw-fab mdw-icon {

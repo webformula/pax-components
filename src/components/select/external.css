@@ -8,6 +8,18 @@ mdw-select {
   border-radius: 4px 4px 0 0;
 }
 
+.mdw-density-comfortable mdw-select {
+  height: 48px;
+  margin-top: 0;
+  margin-right: 0;
+}
+
+.mdw-density-compact mdw-select {
+  height: 40px;
+  margin-top: 0;
+  margin-right: 0;
+}
+
 mdw-select.mdw-padding {
   margin-top: 24px;
   margin-right: 24px;

@@ -44,88 +44,93 @@
   min-width: 200px;
 }
 
+/* --- postion --- */
+
+/* position justify (default - x) */
 
 [mdw-row][mdw-flex-position^="center"] {
-  align-items: center;
-}
-[mdw-column][mdw-flex-position^="center"] {
   justify-content: center;
 }
-
-[mdw-row][mdw-flex-position^="top"] {
-  align-items: flex-start;
+[mdw-column][mdw-flex-position^="center"] {
+  align-items: center;
 }
-[mdw-column][mdw-flex-position^="top"] {
+
+[mdw-row][mdw-flex-position^="start"] {
   justify-content: flex-start;
 }
-
-[mdw-row][mdw-flex-position^="bottom"] {
-  align-items: flex-end;
+[mdw-column][mdw-flex-position^="start"] {
+  align-items: flex-start;
 }
-[mdw-column][mdw-flex-position^="bottom"] {
+
+[mdw-row][mdw-flex-position^="end"] {
   justify-content: flex-end;
+}
+[mdw-column][mdw-flex-position^="end"] {
+  align-items: flex-end;
 }
 
 [mdw-row][mdw-flex-position^="space-around"] {
-  align-items: space-around;
+  justify-content: space-around;
 }
 [mdw-column][mdw-flex-position^="space-around"] {
-  justify-content: space-around;
+  align-items: space-around;
 }
 
 [mdw-row][mdw-flex-position^="space-between"] {
-  align-items: space-between;
+  justify-content: space-between;
 }
 [mdw-column][mdw-flex-position^="space-between"] {
-  justify-content: space-between;
+  align-items: space-between;
 }
 
 [mdw-row][mdw-flex-position^="space-evenly"] {
-  align-items: space-evenly;
-}
-[mdw-column][mdw-flex-position^="space-evenly"] {
   justify-content: space-evenly;
 }
+[mdw-column][mdw-flex-position^="space-evenly"] {
+  align-items: space-evenly;
+}
 
+
+/* position align (default - y) */
 
 [mdw-row][mdw-flex-position$="center"] {
-  justify-content: center;
-}
-[mdw-column][mdw-flex-position$="center"] {
   align-items: center;
 }
-
-[mdw-row][mdw-flex-position$="left"] {
-  justify-content: flex-start;
+[mdw-column][mdw-flex-position$="center"] {
+  justify-content: center;
 }
-[mdw-column][mdw-flex-position$="left"] {
+
+[mdw-row][mdw-flex-position$="start"] {
   align-items: flex-start;
 }
-
-[mdw-row][mdw-flex-position$="right"] {
-  justify-content: flex-end;
+[mdw-column][mdw-flex-position$="start"] {
+  justify-content: flex-start;
 }
-[mdw-column][mdw-flex-position$="right"] {
+
+[mdw-row][mdw-flex-position$="end"] {
   align-items: flex-end;
+}
+[mdw-column][mdw-flex-position$="end"] {
+  justify-content: flex-end;
 }
 
 [mdw-row][mdw-flex-position$="space-around"] {
-  justify-content: space-around;
+  align-items: space-around;
 }
 [mdw-column][mdw-flex-position$="space-around"] {
-  align-items: space-around;
+  justify-content: space-around;
 }
 
 [mdw-row][mdw-flex-position$="space-between"] {
-  justify-content: space-between;
+  align-items: space-between;
 }
 [mdw-column][mdw-flex-position$="space-between"] {
-  align-items: space-between;
+  justify-content: space-between;
 }
 
 [mdw-row][mdw-flex-position$="space-evenly"] {
-  justify-content: space-evenly;
+  align-items: space-evenly;
 }
 [mdw-column][mdw-flex-position$="space-evenly"] {
-  align-items: space-evenly;
+  justify-content: space-evenly;
 }

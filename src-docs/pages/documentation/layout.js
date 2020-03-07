@@ -126,25 +126,25 @@ export default class Layout extends Page {
                 <mdw-select class="mdw-padding" mdw-enhanced mdw-flex>
                   <select onchange="activePage.setPosY(this.value)">
                     <option value="center" ${this.posY_ === 'center' ? 'selected' : ''}>center</option>
-                    <option value="top" ${this.posY_ === 'top' ? 'selected' : ''}>top</option>
-                    <option value="bottom" ${this.posY_ === 'bottom' ? 'selected' : ''}>bottom</option>
+                    <option value="start" ${this.posY_ === 'start' ? 'selected' : ''}>start (left)</option>
+                    <option value="end" ${this.posY_ === 'end' ? 'selected' : ''}>end (right)</option>
                     <option value="space-around" ${this.posY_ === 'space-around' ? 'selected' : ''}>space-around</option>
                     <option value="space-between" ${this.posY_ === 'space-between' ? 'selected' : ''}>space-between</option>
                     <option value="space-evenly" ${this.posY_ === 'space-evenly' ? 'selected' : ''}>space-evenly</option>
                   </select>
-                  <label>Positon Y</label>
+                  <label>Positon Justify (X)</label>
                 </mdw-select>
 
                 <mdw-select class="mdw-padding" mdw-enhanced mdw-flex>
                   <select onchange="activePage.setPosX(this.value)">
                     <option value="center" ${this.posX_ === 'center' ? 'selected' : ''}>center</option>
-                    <option value="left" ${this.posX_ === 'left' ? 'selected' : ''}>left</option>
-                    <option value="right" ${this.posX_ === 'right' ? 'selected' : ''}>right</option>
+                    <option value="start" ${this.posX_ === 'start' ? 'selected' : ''}>start (top)</option>
+                    <option value="end" ${this.posX_ === 'end' ? 'selected' : ''}>end (bottom)</option>
                     <option value="space-around" ${this.posX_ === 'space-around' ? 'selected' : ''}>space-around</option>
                     <option value="space-between" ${this.posX_ === 'space-between' ? 'selected' : ''}>space-between</option>
                     <option value="space-evenly" ${this.posX_ === 'space-evenly' ? 'selected' : ''}>space-evenly</option>
                   </select>
-                  <label>Positon X</label>
+                  <label>Positon Align (Y)</label>
                 </mdw-select>
               </div>
 
@@ -176,6 +176,20 @@ export default class Layout extends Page {
             </div>
           </div>
 
+
+          <div class="mdw-card__content" style="display: block;">
+            <div style="margin-bottom: 12px;" mdw-row>
+              <span mdw-flex></span>
+              <mdw-button onclick="activePage.toggleWrap()">Test wrap (change container width)</mdw-button>
+            </div>
+
+            <div class="base-layout-container ${this.baseWrapped_ ? 'add-wrap' : ''}" ${this.direction_} ${this.wrap_ === 'mdw-wrap' ? 'mdw-wrap' : ''} mdw-flex-position="${this.posY_} ${this.posX_}">
+              <div class="sub-layout-container" ${this.flexA_ !== 'none' ? `mdw-flex="${this.flexA_}"` : ''}></div>
+              <div class="sub-layout-container-b" ${this.flexB_ !== 'none' ? `mdw-flex="${this.flexB_}"` : ''}></div>
+            </div>
+          </div>
+
+
           <div class="mdw-card__content--no-padding">
             <monaco-editor language="html">
                 <style>
@@ -197,18 +211,6 @@ export default class Layout extends Page {
                   <div class="sub-layout-container-b" ${this.flexB_ !== 'none' ? `mdw-flex="${this.flexB_}"` : ''}></div>
                 </div>
             </monaco-editor>
-          </div>
-
-          <div class="mdw-card__content" style="display: block;">
-            <div style="margin-bottom: 12px;" mdw-row>
-              <span mdw-flex></span>
-              <mdw-button onclick="activePage.toggleWrap()">Test wrap (change container width)</mdw-button>
-            </div>
-
-            <div class="base-layout-container ${this.baseWrapped_ ? 'add-wrap' : ''}" ${this.direction_} ${this.wrap_ === 'mdw-wrap' ? 'mdw-wrap' : ''} mdw-flex-position="${this.posY_} ${this.posX_}">
-              <div class="sub-layout-container" ${this.flexA_ !== 'none' ? `mdw-flex="${this.flexA_}"` : ''}></div>
-              <div class="sub-layout-container-b" ${this.flexB_ !== 'none' ? `mdw-flex="${this.flexB_}"` : ''}></div>
-            </div>
           </div>
         </mdw-card>
       </section>

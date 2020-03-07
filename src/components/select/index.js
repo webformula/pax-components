@@ -367,6 +367,54 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   styles() {
     return /* css */`
+      :host-context(.mdw-density-comfortable) .mdw-select__icon {
+        bottom: 15px;
+      }
+
+      :host-context(.mdw-density-comfortable) .mdw-select__selected-text {
+        height: 48px;
+        padding-top: 16px;
+      }
+
+      :host(.mdw-outlined):host-context(.mdw-density-comfortable) .mdw-select__icon {
+        bottom: 20px;
+      }
+      
+      :host(.mdw-outlined):host-context(.mdw-density-comfortable) label {
+        top: 18px;
+      }
+
+      :host-context(.mdw-density-compact) .mdw-select__icon {
+        bottom: 12px;
+      }
+
+      :host(.mdw-outlined):host-context(.mdw-density-compact) .mdw-select__icon {
+        top: 18px;
+      }
+
+      :host(.mdw-outlined):host-context(.mdw-density-compact) label {
+        top: 12px;
+      }
+
+      :host-context(.mdw-density-compact) .mdw-select__selected-text {
+        height: 40px;
+        line-height: 1.1rem;
+      }
+
+      :host-context(.mdw-density-compact) ::slotted(select) {
+        height: 40px;
+        padding-top: 12px;
+      }
+
+      :host-context(.mdw-density-compact) label {
+        top: 16px;
+      }
+
+      :host(.mdw-outlined.mdw-focused):host-context(.mdw-density-compact) label,
+      :host(.mdw-outlined):host-context(.mdw-density-compact) label.mdw-select--float-above {
+        transform: translateY(-100%) scale(0.75);
+      }
+
       ::slotted(label.mdw-empty-no-float) {
         transform: none;
       }
@@ -375,7 +423,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         transform: rotate(180deg) translateY(-5px);
         transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
       }
-
 
       .mdw-select__icon {
         transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);

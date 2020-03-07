@@ -94,6 +94,14 @@ customElements.define('mdw-fab', class extends HTMLElementExtended {
         opacity: 0;
       }
 
+      :host-context(.mdw-density-comfortable) .mdw-spinner-container mdw-circular-progress {
+        top: 3px !important;
+      }
+
+      :host-context(.mdw-density-compact) .mdw-spinner-container mdw-circular-progress {
+        top: 0 !important;
+      }
+
       /* --- Ripple --- */
 
       .mdw-ripple {
