@@ -17,6 +17,7 @@ mdw-fab {
   fill: currentColor;
   cursor: pointer;
   user-select: none;
+  -webkit-user-select: none;
   overflow: hidden;
   color: var(--mdw-theme-on-secondary);
   background-color: var(--mdw-theme-secondary);

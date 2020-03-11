@@ -15,18 +15,22 @@ mdw-textfield {
   background-color: rgba(var(--mdw-theme-on-background--rgb), 0.024);
 }
 
+mdw-textfield.mdw-density-comfortable,
 .mdw-density-comfortable mdw-textfield {
   height: 48px;
 }
 
+mdw-textfield.mdw-density-comfortable label,
 .mdw-density-comfortable mdw-textfield label {
   top: 16px;
 }
 
+mdw-textfield.mdw-density-compact,
 .mdw-density-compact mdw-textfield {
   height: 40px;
 }
 
+mdw-textfield.mdw-density-compact label,
 .mdw-density-compact mdw-textfield label {
   top: 12px;
 }
@@ -211,7 +215,7 @@ mdw-textfield label {
   top: 18px;
   pointer-events: none;
 
-  color: rgba(var(--mdw-theme-on-background--rgb), .54);
+  color: rgba(var(--mdw-theme-on-background--rgb), .87);
 }
 
 mdw-textfield.mdw-invalid label {
@@ -258,12 +262,15 @@ mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
   transform: translateY(-130%) scale(.75);
 }
 
+mdw-textfield.mdw-density-comfortable.mdw-outlined.mdw-upgraded:focus-within label,
+mdw-textfield.mdw-density-comfortable.mdw-outlined.mdw-upgraded.not-empty label,
 .mdw-density-comfortable mdw-textfield.mdw-outlined.mdw-upgraded:focus-within label,
 .mdw-density-comfortable mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
   transform: translateY(-120%) scale(.75);
 }
 
-
+mdw-textfield.mdw-density-compact.mdw-outlined.mdw-upgraded:focus-within label,
+mdw-textfield.mdw-density-compact.mdw-outlined.mdw-upgraded.not-empty label,
 .mdw-density-compact mdw-textfield.mdw-outlined.mdw-upgraded:focus-within label,
 .mdw-density-compact mdw-textfield.mdw-outlined.mdw-upgraded.not-empty label {
   transform: translateY(-100%) scale(.75);

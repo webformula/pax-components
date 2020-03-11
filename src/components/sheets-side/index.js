@@ -8,6 +8,8 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
 
     this._useBackdrop = true;
     this.bound_onSwipe = this.onSwipe.bind(this);
+    this.bound_routeChange = this.routeChange.bind(this);
+    
   }
 
   connectedCallback() {
@@ -15,11 +17,17 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     if (MDWUtils.isMobile) this.classList.add('mdw-modal');
     // auto hide if modal
     if (this.isModal && !this.isHidden) this.classList.add('mdw-hide');
+
+    // browser events for url changes
+    window.addEventListener('hashchange', this.bound_routeChange);
+    window.addEventListener('DOMContentLoaded', this.bound_routeChange);
   }
 
   disconnectedCallback() {
     if (this._backdrop) this._backdrop.remove();
     removeSwipeListener(document.body, this.bound_onSwipe);
+    window.removeEventListener('hashchange', this.bound_routeChange);
+    window.removeEventListener('DOMContentLoaded', this.bound_routeChange);
   }
 
   get isModal() {
@@ -32,6 +40,23 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
 
   set useBackdrop(value) {
     this._useBackdrop = !!value;
+  }
+
+  get path() {
+    let path = window.location.hash.replace(/.*#/, '');
+    if (path.indexOf('?') > -1) path = path.split('?')[0];
+    if (path.charAt(0) !== '/') path = '/' + path;
+    return path;
+  }
+
+  routeChange() {
+    // remove current links
+    const currentLinks = document.querySelectorAll('.mdw-current-link');
+    currentLinks.forEach(el => el.classList.remove('mdw-current-link'));
+
+    // add current links
+    const matchingLinks = document.querySelectorAll(`a[href="#${this.path}"]`);
+    matchingLinks.forEach(el => el.classList.add('mdw-current-link'));
   }
 
   show() {

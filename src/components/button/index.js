@@ -103,6 +103,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     return /* css */`
       :host {
         user-select: none;
+        -webkit-user-select: none;
         align-items: center;
         border: none;
         box-sizing: border-box;

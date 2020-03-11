@@ -7,7 +7,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     this.bound_hrefClick = this.hrefClick.bind(this);
     this.bound_onSelect = this.onSelect.bind(this);
     this.bound_onclickSelect = this.onclickSelect.bind(this);
-    this.bound_checkHREFActive = this.checkHREFActive.bind(this);
+    this.bound_checkHREFCurrent = this.checkHREFCurrent.bind(this);
   }
 
   get list() {
@@ -33,7 +33,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     this.removeEventListener('click', this.bound_hrefClick);
     if (this.selectEl_) this.selectEl_.removeEventListener('change', this.bound_onSelect);
     this.removeEventListener('click', this.bound_onclickSelect);
-    window.removeEventListener('hashchange', this.bound_checkHREFActive);
+    window.removeEventListener('hashchange', this.bound_checkHREFCurrent);
   }
 
   connectRipple() {
@@ -48,18 +48,18 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
 
   connectHREF() {
     if (!this.hasAttribute('href')) return;
-    this.checkHREFActive();
-    window.addEventListener('hashchange', this.bound_checkHREFActive);
+    this.checkHREFCurrent();
+    window.addEventListener('hashchange', this.bound_checkHREFCurrent);
     this.addEventListener('click', this.bound_hrefClick);
   }
 
-  checkHREFActive() {
+  checkHREFCurrent() {
     if (!this.hasAttribute('href')) return;
     const href = document.location.href;
     const hash = document.location.hash;
-    if (href === this.getAttribute('href') || href === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
-    else if (hash === this.getAttribute('href') || hash === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
-    else this.removeAttribute('active');
+    if (href === this.getAttribute('href') || href === this.getAttribute('href-alt')) this.classList.add('mdw-current-link');
+    else if (hash === this.getAttribute('href') || hash === this.getAttribute('href-alt')) this.classList.add('mdw-current-link');
+    else this.classList.remove('mdw-current-link');
   }
 
   hrefClick() {

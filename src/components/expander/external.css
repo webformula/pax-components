@@ -30,6 +30,7 @@ mdw-expander-header {
   vertical-align: middle;
   align-items: center;
   user-select: none;
+  -webkit-user-select: none;
   outline: none;
   border: 0;
   background: transparent;

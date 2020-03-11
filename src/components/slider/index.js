@@ -225,6 +225,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
         margin-top: -6px;
         overflow: hidden;
         user-select: none;
+        -webkit-user-select: none;
       }
 
       .mdw-slider__track {
@@ -233,6 +234,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
         height: 2px;
         top: 50%;
         user-select: none;
+        -webkit-user-select: none;
         /* background-color: var(--mdw-theme-secondary); */
       }
 
@@ -250,6 +252,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
         top: 50%;
         left: 0;
         user-select: none;
+        -webkit-user-select: none;
         z-index: 2;
       }
 
@@ -263,6 +266,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
         background-color: var(--mdw-theme-secondary);
         cursor: pointer;
         user-select: none;
+        -webkit-user-select: none;
       }
 
       :host(.mdw-primary) .mdw-slider__thumb {
@@ -315,6 +319,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
         display: flex;
         width: 200%;
         user-select: none;
+        -webkit-user-select: none;
       }
 
       .mdw-slider__notch-pre-container {
@@ -327,6 +332,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
         z-index: 1;
         background-color: var(--mdw-theme-secondary);
         user-select: none;
+        -webkit-user-select: none;
       }
 
       :host(.mdw-primary) .mdw-slider__notch-pre-container {
@@ -353,6 +359,7 @@ customElements.define('mdw-slider', class extends HTMLElementExtended {
         z-index: 1;
         background-color: rgba(var(--mdw-theme-secondary--rgb), 0.5);
         user-select: none;
+        -webkit-user-select: none;
       }
 
       :host(.mdw-primary) .mdw-slider__notch-post-container {
