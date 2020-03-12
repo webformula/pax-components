@@ -10,9 +10,9 @@ export default class Drawers extends Page {
   }
 
   handleNavLClick(listItem) {
-    const currentActive = document.querySelector('#top-example mdw-list-item[active]');
-    if (currentActive) currentActive.removeAttribute('active');
-    listItem.setAttribute('active', 'active');
+    const currentCurrentLink = document.querySelector('#top-example mdw-list-item.mdw-current-link');
+    if (currentCurrentLink) currentCurrentLink.classList.remove('mdw-current-link');
+    listItem.classList.add('mdw-current-link');
   }
 
   template() {
@@ -21,16 +21,15 @@ export default class Drawers extends Page {
         <h3>Drawers</h3>
 
         <div class="showcase mdw-elevation-1">
-          <mdw-drawer class="mdw-locked-open-mobile" id="top-example">
-
-            <mdw-drawer-header>
+          <mdw-sheet-side>
+            <mdw-sheet-side--header>
               <div class="mdw-title">Nav title</div>
               <div class="mdw-subtitle">Pages</div>
-            </mdw-drawer-header>
+            </mdw-sheet-side--header>
 
-            <mdw-drawer-content>
+            <mdw-sheet-side--content>
               <mdw-list>
-                <mdw-list-item active onclick="$Drawers.handleNavLClick(this)">
+                <mdw-list-item class="mdw-current-link" onclick="$Drawers.handleNavLClick(this)">
                   <span class="mdw-list-item__graphic material-icons">inbox</span>
                   Inbox
                 </mdw-list-item>
@@ -39,18 +38,9 @@ export default class Drawers extends Page {
                   <span class="mdw-list-item__graphic material-icons">star</span>
                   Two
                 </mdw-list-item>
-
-                <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-                  <span class="mdw-list-item__graphic material-icons"></span>
-                  With Spacer
-                </mdw-list-item>
-
-                <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-                  No Spacer
-                </mdw-list-item>
               </mdw-list>
-            </mdw-drawer-content>
-          </mdw-drawer>
+            </mdw-sheet-side--content>
+          </mdw-sheet-side>
         </div>
 
         <a href="https://material.io/components/navigation-drawer/" target="_new">Material Design Guidlines: Navigation Drawer</a>
@@ -68,26 +58,26 @@ export default class Drawers extends Page {
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
                 <!-- <body> -->
-                  <mdw-drawer class='mdw-locked-open'>
-                    <mdw-drawer-header>
-                      <div class='mdw-title'>Nav title</div>
-                      <div class='mdw-subtitle'>Pages</div>
-                    </mdw-drawer-header>
+                  <mdw-sheet-side>
+                    <mdw-sheet-side--header>
+                      <div class="mdw-title">Nav title</div>
+                      <div class="mdw-subtitle">Pages</div>
+                    </mdw-sheet-side--header>
 
-                    <mdw-drawer-content>
+                    <mdw-sheet-side--content>
                       <mdw-list>
-                        <mdw-list-item active onclick='$Drawers.handleNavLClick(this)'>
-                          <span class='mdw-list-item__graphic material-icons'>inbox</span>
+                        <mdw-list-item class="mdw-current-link" onclick="$Drawers.handleNavLClick(this)">
+                          <span class="mdw-list-item__graphic material-icons">inbox</span>
                           Inbox
                         </mdw-list-item>
 
-                        <mdw-list-item onclick='$Drawers.handleNavLClick(this)'>
-                          <span class='mdw-list-item__graphic material-icons'>star</span>
+                        <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
+                          <span class="mdw-list-item__graphic material-icons">star</span>
                           Two
                         </mdw-list-item>
                       </mdw-list>
-                    </mdw-drawer-content>
-                  </mdw-drawer>
+                    </mdw-sheet-side--content>
+                  </mdw-sheet-side>
 
                   <mdw-page>
                     <mdw-top-app-bar>
@@ -112,10 +102,9 @@ export default class Drawers extends Page {
           </mdw-card>
 
 
-
-          <div class="mdw-card__content--no-padding">
+          <!-- <mdw-card>
+            <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <!-- <body> -->
                   <mdw-drawer class='mdw-locked-open'>
                     <mdw-drawer-header>
                       <div class='mdw-title'>Nav title</div>
@@ -124,7 +113,7 @@ export default class Drawers extends Page {
 
                     <mdw-drawer-content>
                       <mdw-list>
-                        <mdw-list-item active onclick='$Drawers.handleNavLClick(this)'>
+                        <mdw-list-item class="mdw-current-link" onclick='$Drawers.handleNavLClick(this)'>
                           <span class='mdw-list-item__graphic material-icons'>inbox</span>
                           Inbox
                         </mdw-list-item>
@@ -174,10 +163,8 @@ export default class Drawers extends Page {
                       </section>
                     </mdw-top-app-bar>
                     <mdw-content>
-                      <!-- main page content -->
                     </mdw-content>
                   </mdw-page>
-                <!-- </body> -->
               </monaco-editor>
             </div>
 
@@ -186,7 +173,7 @@ export default class Drawers extends Page {
                 <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="drawer-icon-bar.html"></iframe>
               </div>
             </div>
-          </mdw-card>
+          </mdw-card> -->
 
         </section>
 

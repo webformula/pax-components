@@ -319,8 +319,6 @@ mdw-panel option {
   text-align: -webkit-match-parent;
   cursor: pointer;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   display: -ms-flexbox;
   display: flex;

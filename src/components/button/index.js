@@ -103,6 +103,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     return /* css */`
       :host {
         user-select: none;
+        -webkit-user-select: none;
         align-items: center;
         border: none;
         box-sizing: border-box;
@@ -327,7 +328,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       :host(.mdw-secondary.mdw-raised),
       :host(.mdw-secondary.mdw-unelevated) {
         background-color: var(--mdw-theme-secondary);
-        color: var(--mdw-theme-text-primary-on-primary);
+        color: var(--mdw-theme-text-primary-on-background);
       }
 
       :host(.mdw-secondary.mdw-outlined) {
@@ -348,7 +349,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       :host(.mdw-error.mdw-raised),
       :host(.mdw-error.mdw-unelevated) {
         background-color: var(--mdw-theme-error);
-        color: var(--mdw-theme-text-primary-on-primary);
+        color: var(--mdw-theme-text-primary-on-background);
       }
 
       :host(.mdw-error.mdw-outlined) {

@@ -9,9 +9,10 @@ mdw-list-item {
   white-space: nowrap;
 }
 
-/* active */
-mdw-list-item[active],
-mdw-list-item[active] .mdw-list-item__graphic,
+/* --- current link --- */
+
+mdw-list-item.mdw-current-link,
+mdw-list-item.mdw-current-link .mdw-list-item__graphic,
 mdw-list-item[selected],
 mdw-list-item[selected] .mdw-list-item__graphic {
   color: rgba(var(--mdw-theme-primary--rgb), 0.7);
@@ -21,8 +22,8 @@ mdw-list-item.mdw-focused {
   background-color: var(--mdw-theme-list_item_focus);
 }
 
-mdw-list-item[active]:not([disabled]):after,
-mdw-list-item[active]:not([disabled]):before {
+mdw-list-item.mdw-current-link:not([disabled]):after,
+mdw-list-item.mdw-current-link:not([disabled]):before {
   background-color: rgba(var(--mdw-theme-primary--rgb), 0.24);
 }
 
@@ -31,33 +32,33 @@ mdw-list-item:not(.mdw-has-ripple):not([disabled])::after {
 }
 
 /* active (state) */
-mdw-list-item[active]:not(.mdw-has-ripple):not([disabled])::before {
+mdw-list-item.mdw-current-link:not(.mdw-has-ripple):not([disabled])::before {
   opacity: .12;
 }
 
 /* :active (mouse down) */
-mdw-list-item[active]:not(.mdw-has-ripple):not([disabled]):active::after {
+mdw-list-item.mdw-current-link:not(.mdw-has-ripple):not([disabled]):active::after {
   transition-duration: 75ms;
   opacity: .24;
 }
 
-mdw-list-item:not(.mdw-has-ripple):not([active]):not([disabled]):active::after {
+mdw-list-item:not(.mdw-has-ripple):not(.mdw-current-link):not([disabled]):active::after {
   transition-duration: 75ms;
   opacity: .12;
 }
 
 /* focus */
-mdw-list-item[active]:not(.mdw-has-ripple):not([disabled]):focus::before {
+mdw-list-item.mdw-current-link:not(.mdw-has-ripple):not([disabled]):focus::before {
   transition-duration: 75ms;
   opacity: .24;
 }
 
 /* hover */
-mdw-list-item:not([disabled]):not([active]):hover::before {
+mdw-list-item:not([disabled]):not(.mdw-current-link):hover::before {
   opacity: .06;
 }
 
-mdw-list-item:not([disabled])[active]:hover::before {
+mdw-list-item:not([disabled]).mdw-current-link:hover::before {
   opacity: .16;
 }
 
@@ -159,7 +160,7 @@ mdw-list-item .mdw-list-item-ripple {
   pointer-events: none;
 }
 
-mdw-list-item[active]:not([disabled]) .mdw-ripple-element {
+mdw-list-item.mdw-current-link:not([disabled]) .mdw-ripple-element {
   background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
 }
 

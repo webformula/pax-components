@@ -7,7 +7,8 @@ const cwd = process.cwd();
 module.exports = {
   entry: {
     'entry.js': './src/entry.js',
-    'entry': './src/entry.css'
+    'entry': './src/entry.css',
+    'theme': './src/theme.css'
   },
 
   output: {

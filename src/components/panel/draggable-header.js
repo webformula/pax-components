@@ -60,6 +60,7 @@ customElements.define('mdw-panel-draggable-header', class extends HTMLElementExt
         cursor: move;
         padding: 12px;
         user-select: none;
+        -webkit-user-select: none;
       }
       mdw-icon {
         cursor: pointer;

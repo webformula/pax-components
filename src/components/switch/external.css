@@ -3,6 +3,7 @@ mdw-switch {
   position: relative;
   outline: none;
   user-select: none;
+  -webkit-user-select: none;
 }
 
 mdw-switch + label {
