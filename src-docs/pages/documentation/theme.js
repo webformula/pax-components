@@ -69,13 +69,68 @@ export default class ThemePage extends Page {
   }
 
   setValue(inputElement, property) {
-    
+    // TODO invalidate input
+    if (!this.isValidColor(inputElement.value)) return;
+
+    inputElement.parentNode.querySelector('.post-icon').style.backgroundColor = inputElement.value;
+    this.setValues[property] = inputElement.value;
+    document.documentElement.style.setProperty(property, inputElement.value);
+  }
+
+  isValidColor(value) {
+    const s = new Option().style;
+    s.color = value;
+    return !!s.color;
+  }
+
+  copyTheme() {
+    const css = themeGenerator.generateThemeCss(JSON.stringify(this.setValues));
+    navigator.clipboard.writeText(css).then(() => {
+      MDWSnackbar.show({ message: 'Theme copied to clipboard' });
+    }, () => {
+      MDWSnackbar.show({ message: 'copy to clipbard denied' });
+    });
+  }
+
+  downloadTheme() {
+    const css = themeGenerator.generateThemeCss(JSON.stringify(this.setValues));
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(css));
+    element.setAttribute('download', 'theme.css');
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+
+  resetTheme() {
+    this.setValues = Object.assign({}, this.initialValues);
+    Object.entries(this.initialValues).forEach(([property, value]) => {
+      document.documentElement.style.setProperty(property, value);
+    });
+    this.render();
+  }
+
+  styles() {
+    return /* css */`
+      .colors-container {
+        padding: 56px 24px;
+      }
+
+      .colors-container mdw-textfield {
+        width: 150px;
+        margin: 8px 8px;
+      }
+    `;
   }
 
   template() {
-    const lightThemeVars = this.getThemeCss().split(':root.mdw-theme-dark {')[0].trim().replace(/}$/, '').replace(':root {', '');
-    console.log(lightThemeVars)
-    const darkThemeVars = this.getThemeCss().split(':root.mdw-theme-dark {')[1].replace(/}$/, '');
+    const theme = this.getThemeCss();
+    const lightThemeVars = theme.split(':root.mdw-theme-dark {')[0].trim().replace(/}$/, '').replace(':root {', '');
+    const darkThemeVars = theme.split(':root.mdw-theme-dark {')[1].replace(/}$/, '');
 
     return /* html */`
     <article class="page-article">
@@ -96,99 +151,53 @@ export default class ThemePage extends Page {
         <p>There are 4 main parts to the theme system that you can adjust to fit your brands needs. Primary, secondary, error, and contrast.</p>
       </section>
 
-      <mdw-card>
-        <div class="mdw-card__content">
-          <h6>Customize your perfect theme</h6>
-        </div>
+      <div mdw-row style="align-items: baseline">
+        <mdw-card style="margin-right: 24px">
+          <div class="mdw-card__content">
+            <h6>Customize your perfect theme</h6>
+          </div>
 
-        <div class="mdw-card__content" style="display: block;">
-          <div class="mdw-subtitle">Main colors</div>
-          <div mdw-row>
-            <div mdw-column style="margin-right: 6px;" class="mdw-density-compact">
-              <div mdw-row style="padding-top: 12px; padding-left: 12px; ${lightThemeVars} background-color: ${this.setValues['--mdw-theme-background--light']};">
-                <mdw-textfield style="width: 150px">
+          <div class="mdw-card__content" style="display: block;">
+            <div mdw-column>
+              <div class="mdw-subtitle" style="margin-bottom: -32px; padding-left: 12px; z-index: 1">Light</div>
+              <div class="colors-container mdw-density-compact" mdw-row mdw-wrap mdw-flex-position="center" style="background-color: ${this.setValues['--mdw-theme-background--light']}; ${lightThemeVars}">
+                <mdw-textfield>
                   <label>Primary light</label>
-                  <input value="${this.setValues['--mdw-theme-primary--light']}" onchange="activePage.setValue(this, '--mdw-theme-text-disabled-on-background--dark')"/>
+                  <input value="${this.setValues['--mdw-theme-primary--light']}" onchange="activePage.setValue(this, '--mdw-theme-primary')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-primary--light']}"></div>
                 </mdw-textField>
 
-                <mdw-textfield style="width: 150px">
+                <mdw-textfield>
                   <label>Secondary light</label>
-                  <input value="${this.setValues['--mdw-theme-secondary--light']}" />
+                  <input value="${this.setValues['--mdw-theme-secondary--light']}" onchange="activePage.setValue(this, '--mdw-theme-secondary')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-secondary--light']}"></div>
                 </mdw-textField>
 
-                <mdw-textfield style="width: 150px">
+                <mdw-textfield>
                   <label>Error light</label>
-                  <input value="${this.setValues['--mdw-theme-error--light']}" />
+                  <input value="${this.setValues['--mdw-theme-error--light']}" onchange="activePage.setValue(this, '--mdw-theme-error')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-error--light']}"></div>
                 </mdw-textField>
-              </div>
 
-              <div mdw-row style="padding-top: 12px; padding-left: 12px; padding-right: 12px; ${darkThemeVars} background-color: ${this.setValues['--mdw-theme-background--dark']};">
-                <mdw-textfield style="width: 150px;">
-                  <label>Primary dark</label>
-                  <input value="${this.setValues['--mdw-theme-primary--dark']}" />
-                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-primary--dark']}"></div>
-                </mdw-textField>
-
-                <mdw-textfield style="width: 150px">
-                  <label>Secondary dark</label>
-                  <input value="${this.setValues['--mdw-theme-secondary--dark']}" />
-                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-secondary--dark']}"></div>
-                </mdw-textField>
-
-                <mdw-textfield style="width: 150px">
-                  <label>Error dark</label>
-                  <input value="${this.setValues['--mdw-theme-error--dark']}" />
-                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-error--dark']}"></div>
-                </mdw-textField>
-              </div>
-
-
-              <div class="mdw-subtitle" style="margin-top: 24px">On colors</div>
-              <div mdw-row style="padding-top: 12px; padding-left: 12px; padding-right: 12px; ${lightThemeVars} background-color: ${this.setValues['--mdw-theme-background--light']};">
-                <mdw-textfield style="width: 150px">
-                  <label>On primary light</label>
-                  <input value="${this.setValues['--mdw-theme-on-primary--light']}" />
+                <mdw-textfield>
+                  <label>On primary (text) light</label>
+                  <input value="${this.setValues['--mdw-theme-on-primary--light']}" onchange="activePage.setValue(this, '--mdw-theme-on-primary')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-primary--light']}"></div>
                 </mdw-textField>
 
-                <mdw-textfield style="width: 150px">
+                <!-- add later
+                <mdw-textfield>
                   <label>On secondary light</label>
-                  <input value="${this.setValues['--mdw-theme-on-secondary--light']}" />
+                  <input value="${this.setValues['--mdw-theme-on-secondary--light']}" onchange="activePage.setValue(this, '--mdw-theme-on-secondary')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-secondary--light']}"></div>
                 </mdw-textField>
 
-                <mdw-textfield style="width: 150px">
+                <mdw-textfield>
                   <label>On error light</label>
-                  <input value="${this.setValues['--mdw-theme-on-error--light']}" />
+                  <input value="${this.setValues['--mdw-theme-on-error--light']}" onchange="activePage.setValue(this, '--mdw-theme-on-error')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-error--light']}"></div>
                 </mdw-textField>
-              </div>
 
-              <div mdw-row style="padding-top: 12px; padding-left: 12px; padding-right: 12px; ${darkThemeVars} background-color: ${this.setValues['--mdw-theme-background--dark']};">
-                <mdw-textfield style="width: 150px;">
-                  <label>On primary dark</label>
-                  <input value="${this.setValues['--mdw-theme-on-primary--dark']}" />
-                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-primary--dark']}"></div>
-                </mdw-textField>
-
-                <mdw-textfield style="width: 150px">
-                  <label>On secondary dark</label>
-                  <input value="${this.setValues['--mdw-theme-on-secondary--dark']}" />
-                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-secondary--dark']}"></div>
-                </mdw-textField>
-
-                <mdw-textfield style="width: 150px">
-                  <label>On error dark</label>
-                  <input value="${this.setValues['--mdw-theme-on-error--dark']}" />
-                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-error--dark']}"></div>
-                </mdw-textField>
-              </div>
-
-              <div class="mdw-subtitle" style="margin-top: 24px">Text on bckground colors</div>
-              <div mdw-row style="padding-top: 12px; padding-left: 12px; padding-right: 12px; ${lightThemeVars} background-color: ${this.setValues['--mdw-theme-background--light']};">
                 <mdw-textfield style="width: 240px">
                   <label>Primary on background light</label>
                   <input value="${this.setValues['--mdw-theme-text-primary-on-background--light']}" />
@@ -200,10 +209,67 @@ export default class ThemePage extends Page {
                   <input value="${this.setValues['--mdw-theme-text-secondary-on-background--light']}" />
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-secondary-on-background--light']}"></div>
                 </mdw-textField>
+
+                <mdw-textfield style="width: 240px">
+                  <label>Hint on background light</label>
+                  <input value="${this.setValues['--mdw-theme-text-hint-on-background--light']}" />
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-hint-on-background--light']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield style="width: 240px">
+                  <label>Disabled on background light</label>
+                  <input value="${this.setValues['--mdw-theme-text-disabled-on-background--light']}" />
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-disabled-on-background--light']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield style="width: 240px">
+                  <label>Icon on background light</label>
+                  <input value="${this.setValues['--mdw-theme-text-icon-on-background--light']}" />
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-icon-on-background--light']}"></div>
+                </mdw-textField>
+                -->
               </div>
 
-              <div mdw-row style="padding-top: 12px; padding-left: 12px; padding-right: 12px; ${darkThemeVars} background-color: ${this.setValues['--mdw-theme-background--dark']};">
-                <mdw-textfield style="width: 240px;">
+              <div class="mdw-subtitle" style="margin-bottom: -32px; color: white; padding-left: 12px; z-index: 1">Dark</div>
+              <div class="colors-container mdw-density-compact" mdw-row mdw-wrap mdw-flex-position="center" style="background-color: ${this.setValues['--mdw-theme-background--dark']}; ${darkThemeVars}">
+                <mdw-textfield>
+                  <label>Primary dark</label>
+                  <input value="${this.setValues['--mdw-theme-primary--dark']}" onchange="activePage.setValue(this, '--mdw-theme-primary')"/>
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-primary--dark']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield>
+                  <label>Secondary dark</label>
+                  <input value="${this.setValues['--mdw-theme-secondary--dark']}" onchange="activePage.setValue(this, '--mdw-theme-secondary')"/>
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-secondary--dark']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield>
+                  <label>Error dark</label>
+                  <input value="${this.setValues['--mdw-theme-error--dark']}" onchange="activePage.setValue(this, '--mdw-theme-error')"/>
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-error--dark']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield>
+                  <label>On primary (text) dark</label>
+                  <input value="${this.setValues['--mdw-theme-on-primary--dark']}" onchange="activePage.setValue(this, '--mdw-theme-on-primary')"/>
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-primary--dark']}"></div>
+                </mdw-textField>
+
+                <!-- add later
+                <mdw-textfield>
+                  <label>On secondary dark</label>
+                  <input value="${this.setValues['--mdw-theme-on-secondary--dark']}" onchange="activePage.setValue(this, '--mdw-theme-on-secondary')"/>
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-secondary--dark']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield>
+                  <label>On error dark</label>
+                  <input value="${this.setValues['--mdw-theme-on-error--dark']}" onchange="activePage.setValue(this, '--mdw-theme-on-error')"/>
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-error--dark']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield style="width: 240px">
                   <label>Primary on background dark</label>
                   <input value="${this.setValues['--mdw-theme-text-primary-on-background--dark']}" />
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-primary-on-background--dark']}"></div>
@@ -214,78 +280,60 @@ export default class ThemePage extends Page {
                   <input value="${this.setValues['--mdw-theme-text-secondary-on-background--dark']}" />
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-secondary-on-background--dark']}"></div>
                 </mdw-textField>
+
+                <mdw-textfield style="width: 240px">
+                  <label>Hint on background dark</label>
+                  <input value="${this.setValues['--mdw-theme-text-hint-on-background--dark']}" />
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-hint-on-background--dark']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield style="width: 240px">
+                  <label>Disabled on background dark</label>
+                  <input value="${this.setValues['--mdw-theme-text-disabled-on-background--dark']}" />
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-disabled-on-background--dark']}"></div>
+                </mdw-textField>
+
+                <mdw-textfield style="width: 240px">
+                  <label>Icon on background dark</label>
+                  <input value="${this.setValues['--mdw-theme-text-icon-on-background--dark']}" />
+                  <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-icon-on-background--dark']}"></div>
+                </mdw-textField>
+                -->
               </div>
             </div>
-
-
-            <mdw-card>
-              <div class="mdw-card__content">
-                <h6>This is a demonstration of the theme</h6>
-                <div class="mdw-subtitle">This is a subtitle</div>
-              </div>
-
-              <div class="mdw-card__content-action">
-                <div class="mdw-card__media--16-9" style="background-image: url(https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg)"></div>
-                <div class="mdw-card__supporting mdw-body">Visit ten places on our planet that are undergoing the biggest changes today.</div>
-              </div>
-
-              <div class="mdw-card__actions">
-                <div>
-                  <mdw-button class="mdw-raised mdw-primary">primary</mdw-button>
-                  <mdw-button class="mdw-raised mdw-secondary">secondary</mdw-button>
-                  <mdw-button class="mdw-raised mdw-error">error</mdw-button>
-                </div>
-              </div>
-            </mdw-card>
           </div>
 
+          <div class="mdw-card__actions">
+            <mdw-button class="mdw-raised mdw-primary" onclick="activePage.downloadTheme()">Download</mdw-button>
+            <mdw-button class="mdw-raised mdw-secondary" onclick="activePage.copyTheme()">Copy to clipboard</mdw-button>
+            <mdw-button class="mdw-error" onclick="activePage.resetTheme()">reset theme</mdw-button>
+          </div>
+        </mdw-card>
 
-          <div class="mdw-subtitle" style="margin-top: 24px">Text on bckground colors continued</div>
-          <div mdw-row style="padding-top: 12px; padding-left: 12px; ${lightThemeVars} background-color: ${this.setValues['--mdw-theme-background--light']};" class="mdw-density-compact">
-            <mdw-textfield style="width: 240px">
-              <label>Hint on background light</label>
-              <input value="${this.setValues['--mdw-theme-text-hint-on-background--light']}" />
-              <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-hint-on-background--light']}"></div>
-            </mdw-textField>
-            <mdw-textfield style="width: 240px">
-              <label>Disabled on background light</label>
-              <input value="${this.setValues['--mdw-theme-text-disabled-on-background--light']}" />
-              <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-disabled-on-background--light']}"></div>
-            </mdw-textField>
-
-            <mdw-textfield style="width: 240px">
-              <label>Icon on background light</label>
-              <input value="${this.setValues['--mdw-theme-text-icon-on-background--light']}" />
-              <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-icon-on-background--light']}"></div>
-            </mdw-textField>
+        <mdw-card>
+          <div class="mdw-card__content">
+            <h6>This is a demonstration of the theme</h6>
+            <div class="mdw-subtitle">This is a subtitle</div>
           </div>
 
-          <div mdw-row class="mdw-density-compact" style="padding-top: 12px; padding-left: 12px; ${darkThemeVars} background-color: ${this.setValues['--mdw-theme-background--dark']};">
-            <mdw-textfield style="width: 240px">
-              <label>Hint on background dark</label>
-              <input value="${this.setValues['--mdw-theme-text-hint-on-background--dark']}" />
-              <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-hint-on-background--dark']}"></div>
-            </mdw-textField>
-
-            <mdw-textfield style="width: 240px">
-              <label>Disabled on background dark</label>
-              <input value="${this.setValues['--mdw-theme-text-disabled-on-background--dark']}" onchange="activePage.setValue(this, '--mdw-theme-text-disabled-on-background--dark')"/>
-              <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-disabled-on-background--dark']}"></div>
-            </mdw-textField>
-
-            <mdw-textfield style="width: 240px">
-              <label>Icon on background dark</label>
-              <input value="${this.setValues['--mdw-theme-text-icon-on-background--dark']}" />
-              <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-text-icon-on-background--dark']}"></div>
-            </mdw-textField>
+          <div class="mdw-card__content-action">
+            <div class="mdw-card__media--16-9" style="background-image: url(https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg)"></div>
+            <div class="mdw-card__supporting mdw-body">Visit ten places on our planet that are undergoing the biggest changes today.</div>
           </div>
 
-        </div>
-      </mdw-card>
+          <div class="mdw-card__actions">
+            <div>
+              <mdw-button class="mdw-raised mdw-primary">primary</mdw-button>
+              <mdw-button class="mdw-raised mdw-secondary">secondary</mdw-button>
+              <mdw-button class="mdw-raised mdw-error">error</mdw-button>
+            </div>
+          </div>
+        </mdw-card>
+      </div>
 
       <section>
         <h2>Palettes</h2>
-        <p>These colors are built from palettes. There are 16 built in palettes to choose from. You can also add your own custom palettes</p>
+        <p>Here are some palettes to choose colors from</p>
 
         <div mdw-row mdw-wrap class="palettes-container">
           <div mdw-column>

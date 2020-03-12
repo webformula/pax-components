@@ -136,6 +136,10 @@ mdw-card .mdw-subtitle2 {
   padding: 0;
 }
 
+.mdw-card__actions mdw-button + mdw-button {
+  margin-left: 12px;
+}
+
 
 .mdw-card__actions > div,
 .mdw-card__action-buttons {

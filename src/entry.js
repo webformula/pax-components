@@ -1,4 +1,3 @@
-import './core/Theme.js';
 import './core/drag.js';
 import './core/swipe.js';
 
@@ -36,3 +35,12 @@ import './components/tabs/tabs-content/index.js';
 import './components/text-field/index.js';
 // import './components/tooltip/index.js';
 import './components/top-app-bar/index.js';
+
+
+import MDWDialog from './components/dialog/service.js';
+import MDWSnackbar from './components/snackbar/service.js';
+
+export {
+  MDWDialog,
+  MDWSnackbar
+}

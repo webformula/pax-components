@@ -23,8 +23,9 @@ export default class Install extends Page {
 
         <div class="mdw-card__content--no-padding">
           <monaco-editor language="html">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.css">
-            <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/pax-components.js"></script>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/theme.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.css">
+            <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.js"></script>
 
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
@@ -48,12 +49,18 @@ export default class Install extends Page {
           </monaco-editor>
 
           <monaco-editor language="javascript">
-            // import
+            // import the src usign es modules
+            import '@webformula/pax-components/src/entry.js';
+
+            // you can alterativly import the dist file, this is a cjs module
             import '@webformula/pax-components/dist/entry.js';
+            // or
+            require('@webformula/pax-components/dist/entry.js');
           </monaco-editor>
 
           <monaco-editor language="html">
             <!-- include css -->
+            <link rel="stylesheet" href="node_modules/@webformula/pax-components/dist/theme.css">
             <link rel="stylesheet" href="node_modules/@webformula/pax-components/dist/entry.css">
 
             <!-- include font and icons -->
