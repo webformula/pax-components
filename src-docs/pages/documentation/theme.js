@@ -167,6 +167,25 @@ export default class ThemePage extends Page {
       <h6>How does theming work?</h6>
       <p style="margin-top: -12px">There are 3 main colors you can set in material. Primary, secondary, and error. Along side the colors you can adjust the colors that show on them for content like text and icons.There is also 2 contrast setting you can choose. Light (default), and dark (the cool one)</p>
       
+      <mdw-card id="contained">
+        <div class="mdw-card__content">
+          <h6>Add you theme</h6>
+        </div>
+
+        <div class="mdw-card__content">
+          To add a custom theme, use the genroator below and create a css file. Once you have the theme css file you can load that in place of 'theme.css' in pax-components distrobution.
+        </div>
+
+        <div class="mdw-card__content--no-padding">
+          <monaco-editor language="html">
+            <!-- add your theme css -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/theme.css">
+
+            <!-- remove this distributation css file -->
+            <link rel="stylesheet" href="your-path/your-theme.css">
+          </monaco-editor>
+        </div>
+      </mdw-card>
 
       <div mdw-row style="align-items: baseline">
         <mdw-card style="margin-right: 24px">
