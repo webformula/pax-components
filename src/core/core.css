@@ -102,15 +102,15 @@ a.mdw-current-link:not(.mdw-has-ripple):not([disabled]):focus::before {
 }
 
 /* hover */
-a:not([disabled]):not(.mdw-current-link):hover::before {
+/* a:not([disabled]):not(.mdw-current-link):hover::before {
   opacity: .06;
 }
 
 a:not([disabled]).mdw-current-link:hover::before {
   opacity: .16;
-}
+} */
 
-a:not([disabled]):before,
+/* a:not([disabled]):before,
 a:not([disabled]):after {
   background-color: var(--mdw-theme-on-secondary);
   top: -50%;
@@ -122,7 +122,7 @@ a:not([disabled]):after {
   opacity: 0;
   pointer-events: none;
   content: "";
-}
+} */
 
 .a__text {
   text-overflow: ellipsis;

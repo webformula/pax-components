@@ -58,10 +58,31 @@ export default class ThemePage extends Page {
     };
 
     this.setValues = Object.assign({}, this.initialValues);
+    this.bound_onGlobalContrastChange = this.onGlobalContrastChange.bind(this);
   }
 
   get title() {
     return 'Theme';
+  }
+
+  get globalContrastSwitch() {
+    return document.querySelector('#global-contrast-switch');
+  }
+
+  get contrastSwitch() {
+    return document.querySelector('#theme-contrast-switch');
+  }
+
+  connectedCallback() {
+    this.globalContrastSwitch.addEventListener('change', this.bound_onGlobalContrastChange);
+  }
+
+  disconnectedCallback() {
+    this.globalContrastSwitch.removeEventListener('change', this.bound_onGlobalContrastChange);
+  }
+
+  onGlobalContrastChange({ target }) {
+    this.contrastSwitch.checked = target.checked;
   }
 
   getThemeCss() {
@@ -114,6 +135,11 @@ export default class ThemePage extends Page {
     this.render();
   }
 
+  changeContrast() {
+    window.changeContrast();
+    document.querySelector('#global-contrast-switch').checked = !document.querySelector('#global-contrast-switch').checked;
+  }
+
   styles() {
     return /* css */`
       .colors-container {
@@ -126,6 +152,7 @@ export default class ThemePage extends Page {
       }
     `;
   }
+  
 
   template() {
     const theme = this.getThemeCss();
@@ -134,32 +161,26 @@ export default class ThemePage extends Page {
 
     return /* html */`
     <article class="page-article">
-      <h1 class="article-title">Theme</h1>
-      <p>Material Theming is a systematic approach to customize your app to better represent your brand</p>
+      <h1 class="article-title">Theming</h1>
+      <p>Material Theming is a systematic approach to customize your app to better represent your brand <a href="https://material.io/design/material-theming/#material-theming" style="display: inline;" target="_new">Material Theming</a></p>
 
-      <section id="info">
-        <h2>Contrast</h2>
-        <p>There are 2 contrasts. These are built from the color palettes. Dark mode can be used to help readability and accesability. It is common to turn on dark mode at night or in dark areas.</p>
-        <ul>
-          <li>Light (default)</li>
-          <li>Dark</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Color scheme</h2>
-        <p>There are 4 main parts to the theme system that you can adjust to fit your brands needs. Primary, secondary, error, and contrast.</p>
-      </section>
+      <h6>How does theming work?</h6>
+      <p style="margin-top: -12px">There are 3 main colors you can set in material. Primary, secondary, and error. Along side the colors you can adjust the colors that show on them for content like text and icons.There is also 2 contrast setting you can choose. Light (default), and dark (the cool one)</p>
+      
 
       <div mdw-row style="align-items: baseline">
         <mdw-card style="margin-right: 24px">
-          <div class="mdw-card__content">
-            <h6>Customize your perfect theme</h6>
+          <div class="mdw-card__content" mdw-row mdw-flex-position="space-between center">
+            <h6 mdw-flex>Customize your perfect theme</h6>
+            <div>
+              <label>Contrast</label>
+              <mdw-switch id="theme-contrast-switch" onchange="activePage.changeContrast()" ${document.querySelector('#global-contrast-switch').checked ? 'checked' : ''}></mdw-switch>
+            </div>
           </div>
 
           <div class="mdw-card__content" style="display: block;">
             <div mdw-column>
-              <div class="mdw-subtitle" style="margin-bottom: -32px; padding-left: 12px; z-index: 1">Light</div>
+              <div class="mdw-subtitle" style="margin-bottom: -32px; padding-left: 12px; z-index: 1; color: black;">Light</div>
               <div class="colors-container mdw-density-compact" mdw-row mdw-wrap mdw-flex-position="center" style="background-color: ${this.setValues['--mdw-theme-background--light']}; ${lightThemeVars}">
                 <mdw-textfield>
                   <label>Primary light</label>
