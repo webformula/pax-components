@@ -9,16 +9,20 @@ mdw-sheet-side {
   border-left-color: rgba(var(--mdw-theme-on-background--rgb), .24);
   overflow: hidden;
   padding-right: 16px;
+  padding-left: 16px;
   padding-top: 20px;
-  transition: width 0.2s cubic-bezier(.4,0,.2,1),
-              padding 0.2s cubic-bezier(.4,0,.2,1);
   margin: 0;
 
   /* TODO move variables */
   width: var(--mdw-theme-sheet-width);
 }
 
-mdw-sheet-side.mdw-hide {
+mdw-sheet-side:not(.mdw-modal) {
+  transition: width 0.2s cubic-bezier(.4,0,.2,1),
+              padding 0.2s cubic-bezier(.4,0,.2,1);
+}
+
+mdw-sheet-side.mdw-hide:not(.mdw-modal) {
   width: 0;
   padding: 0;
   padding-top: 20px;
@@ -66,6 +70,15 @@ mdw-sheet-side.mdw-modal {
   background: var(--mdw-theme-background);
 }
 
+mdw-sheet-side.mdw-modal {
+  transition: right 0.2s cubic-bezier(.4,0,.2,1),
+              padding 0.2s cubic-bezier(.4,0,.2,1);
+}
+
+mdw-sheet-side.mdw-modal.mdw-hide {
+  right: -100%;
+}
+
 
 
 /* --- list item : modifications --- */
@@ -91,7 +104,6 @@ mdw-sheet-side mdw-divider {
 }
 
 mdw-sheet-side .mdw-subtitle {
-  /* margin-left: 16px; */
   color: #777;
 }
 
@@ -130,14 +142,28 @@ mdw-sheet-side.mdw-navigation-drawer {
   --mdw-theme-sheet-width: 220px;
 }
 
-mdw-sheet-side.mdw-left,
-mdw-sheet-side.mdw-navigation-drawer {
+mdw-sheet-side.mdw-left.mdw-modal,
+mdw-sheet-side.mdw-navigation-drawer.mdw-modal {
   padding-right: 0;
   padding-left: 16px;
   border-left: none;
   border-right-width: 1px;
   border-right-style: solid;
   border-right-color: rgba(var(--mdw-theme-on-background--rgb), .24);
+  transition: left 0.2s cubic-bezier(.4,0,.2,1),
+              padding 0.2s cubic-bezier(.4,0,.2,1);
+}
+
+mdw-sheet-side.mdw-left.mdw-modal.mdw-hide,
+mdw-sheet-side.mdw-navigation-drawer.mdw-modal.mdw-hide {
+  left: -100%;
+}
+
+
+mdw-sheet-side.mdw-left,
+mdw-sheet-side.mdw-navigation-drawer {
+  right: unset;
+  left: 0;
 }
 
  .mdw-navigation-drawer a {
