@@ -179,10 +179,10 @@ export default class ThemePage extends Page {
         <div class="mdw-card__content--no-padding">
           <monaco-editor language="html">
             <!-- add your theme css -->
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/theme.css">
+            <link rel="stylesheet" href="your-path/your-theme.css">
 
             <!-- remove this distributation css file -->
-            <link rel="stylesheet" href="your-path/your-theme.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/theme.css">
           </monaco-editor>
         </div>
       </mdw-card>

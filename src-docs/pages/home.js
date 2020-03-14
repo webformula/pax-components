@@ -54,7 +54,7 @@ export default class Home extends Page {
 
         <h2>Built with PAX-CORE</h2>
         <p>
-        PAX components are built using <a href="http://webformula.io" target="_new">PAX-core</a>. This means the components are easy to develop and the end product requires no dependencies. So no broken npm sub modules.
+        PAX components are built using <a class="mdw-secondary" href="http://webformula.io" target="_new">PAX-core</a>. This means the components are easy to develop and the end product requires no dependencies. So no broken npm sub modules.
         </p>
       </section>
 

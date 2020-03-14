@@ -11,7 +11,7 @@
     "package:dev:components": "webpack --config webpack.dev.components.config.cjs",
     "package:prod": "npm run build:docs-entry && npm run package:prod:docs && npm run package:prod:components",
     "package:prod:docs": "rm -rf dist-docs && webpack --config webpack.prod.docs.config.cjs",
-    "package:prod:components": "rm -rf dist && webpack --config webpack.prod.components.config.cjs && rm dist/entry",
+    "package:prod:components": "rm -rf dist && webpack --config webpack.prod.components.config.cjs &&  && rm dist/theme",
     "build:docs-entry": "node --experimental-modules buildDocsEntry.mjs",
     "cypress:open": "cypress open",
     "cypress:open-and-serve": "npm start & cypress open"
