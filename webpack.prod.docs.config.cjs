@@ -11,7 +11,7 @@ const cwd = process.cwd();
 
 module.exports = {
   entry: {
-    'entry.js': './src-docs/entry.js'
+    'entry.js': './src-docs/pax-entry.js'
   },
 
   output: {

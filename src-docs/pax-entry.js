@@ -71,4 +71,8 @@ router.addPageClass(Home, 'home');
 router.setRoot('home');
 router.init();
 window.router = router;
+
+export {
+  router
+}
   

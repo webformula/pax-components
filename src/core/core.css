@@ -40,89 +40,20 @@ body.prevent-over-scroll {
 
 /* --- links --- */
 
-a {
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: flex-start;
-  height: 48px;
-  padding: 0 16px;
-  overflow: hidden;
-  white-space: nowrap;
-  color: #b3b3b3;
-  font-weight: 400;
-  text-align: left;
+a.mdw-primary {
+  color: var(--mdw-theme-primary);
   text-decoration: none;
-  text-transform: none;
-  white-space: nowrap;
 }
 
-/* --- current link --- */
-
-a.mdw-current-link,
-a.mdw-current-link .a__graphic,
-a[selected],
-a[selected] .a__graphic {
-  /* color: rgba(var(--mdw-theme-primary--rgb), 0.7); */
+a.mdw-secondary {
+  color: var(--mdw-theme-secondary);
+  text-decoration: none;
 }
 
-a.mdw-focused {
-  background-color: var(--mdw-theme-list_item_focus);
+a.mdw-error {
+  color: var(--mdw-theme-error);
+  text-decoration: none;
 }
-
-a.mdw-current-link:not([disabled]):after,
-a.mdw-current-link:not([disabled]):before {
-  /* background-color: rgba(var(--mdw-theme-primary--rgb), 0.24); */
-}
-
-a:not(.mdw-has-ripple):not([disabled])::after {
-  transition: opacity .15s linear;
-}
-
-/* active (state) */
-a.mdw-current-link:not(.mdw-has-ripple):not([disabled])::before {
-  opacity: .12;
-}
-
-/* :active (mouse down) */
-a.mdw-current-link:not(.mdw-has-ripple):not([disabled]):active::after {
-  transition-duration: 75ms;
-  opacity: .24;
-}
-
-a:not(.mdw-has-ripple):not(.mdw-current-link):not([disabled]):active::after {
-  transition-duration: 75ms;
-  opacity: .12;
-}
-
-/* focus */
-a.mdw-current-link:not(.mdw-has-ripple):not([disabled]):focus::before {
-  transition-duration: 75ms;
-  opacity: .24;
-}
-
-/* hover */
-/* a:not([disabled]):not(.mdw-current-link):hover::before {
-  opacity: .06;
-}
-
-a:not([disabled]).mdw-current-link:hover::before {
-  opacity: .16;
-} */
-
-/* a:not([disabled]):before,
-a:not([disabled]):after {
-  background-color: var(--mdw-theme-on-secondary);
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  content: "";
-} */
 
 .a__text {
   text-overflow: ellipsis;
