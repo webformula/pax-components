@@ -122,6 +122,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         will-change: transform, opacity;
         margin: 0;
         background-color: transparent;
+        white-space: nowrap;
 
         border-radius: 4px;
         line-height: 2.25rem;
@@ -153,7 +154,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         margin-top: 0;
         margin-bottom: 0;
       }
-      
+
       :host(.mdw-icon):host-context(.mdw-density-compact),
       :host(.mdw-density-compact.mdw-icon) {
         height: 24px;
