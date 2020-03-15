@@ -12,7 +12,7 @@ export default class ThemePage extends Page {
       '--mdw-theme-error--light': '#b00020',
       '--mdw-theme-background--light': '#ffffff',
       '--mdw-theme-surface--light': '#ffffff',
-      
+
       '--mdw-theme-primary--dark': '#b39ddb',
       '--mdw-theme-secondary--dark': '#80cbc4',
       '--mdw-theme-error--dark': '#ef9a9a',
@@ -54,7 +54,7 @@ export default class ThemePage extends Page {
       '--mdw-theme-checkboxborder--dark': 'rgba(255,255,255, .5)',
       '--mdw-theme-checkboxborderdisabled--dark': 'rgba(255,255,255, .24)',
       '--mdw-theme-list_item_focus--dark': 'rgba(100,100,100,.16)',
-      
+
     };
 
     this.setValues = Object.assign({}, this.initialValues);
@@ -91,7 +91,11 @@ export default class ThemePage extends Page {
 
   setValue(inputElement, property) {
     // TODO invalidate input
-    if (!this.isValidColor(inputElement.value)) return;
+    if (!this.isValidColor(inputElement.value)) {
+      inputElement.setCustomValidity('invalid color');
+      return;
+    }
+    inputElement.setCustomValidity('');
 
     inputElement.parentNode.querySelector('.post-icon').style.backgroundColor = inputElement.value;
     this.setValues[property] = inputElement.value;
@@ -152,7 +156,7 @@ export default class ThemePage extends Page {
       }
     `;
   }
-  
+
 
   template() {
     const theme = this.getThemeCss();
@@ -166,7 +170,7 @@ export default class ThemePage extends Page {
 
       <h6>How does theming work?</h6>
       <p style="margin-top: -12px">There are 3 main colors you can set in material. Primary, secondary, and error. Along side the colors you can adjust the colors that show on them for content like text and icons.There is also 2 contrast setting you can choose. Light (default), and dark (the cool one)</p>
-      
+
       <mdw-card id="contained">
         <div class="mdw-card__content">
           <h6>Add you theme</h6>
@@ -203,38 +207,38 @@ export default class ThemePage extends Page {
               <div class="colors-container mdw-density-compact" mdw-row mdw-wrap mdw-flex-position="center" style="background-color: ${this.setValues['--mdw-theme-background--light']}; ${lightThemeVars}">
                 <mdw-textfield>
                   <label>Primary light</label>
-                  <input value="${this.setValues['--mdw-theme-primary--light']}" onchange="activePage.setValue(this, '--mdw-theme-primary')"/>
+                  <input value="${this.setValues['--mdw-theme-primary--light']}" oninput="activePage.setValue(this, '--mdw-theme-primary')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-primary--light']}"></div>
                 </mdw-textField>
 
                 <mdw-textfield>
                   <label>Secondary light</label>
-                  <input value="${this.setValues['--mdw-theme-secondary--light']}" onchange="activePage.setValue(this, '--mdw-theme-secondary')"/>
+                  <input value="${this.setValues['--mdw-theme-secondary--light']}" oninput="activePage.setValue(this, '--mdw-theme-secondary')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-secondary--light']}"></div>
                 </mdw-textField>
 
                 <mdw-textfield>
                   <label>Error light</label>
-                  <input value="${this.setValues['--mdw-theme-error--light']}" onchange="activePage.setValue(this, '--mdw-theme-error')"/>
+                  <input value="${this.setValues['--mdw-theme-error--light']}" oninput="activePage.setValue(this, '--mdw-theme-error')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-error--light']}"></div>
                 </mdw-textField>
 
                 <mdw-textfield>
                   <label>On primary (text) light</label>
-                  <input value="${this.setValues['--mdw-theme-on-primary--light']}" onchange="activePage.setValue(this, '--mdw-theme-on-primary')"/>
+                  <input value="${this.setValues['--mdw-theme-on-primary--light']}" oninput="activePage.setValue(this, '--mdw-theme-on-primary')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-primary--light']}"></div>
                 </mdw-textField>
 
                 <!-- add later
                 <mdw-textfield>
                   <label>On secondary light</label>
-                  <input value="${this.setValues['--mdw-theme-on-secondary--light']}" onchange="activePage.setValue(this, '--mdw-theme-on-secondary')"/>
+                  <input value="${this.setValues['--mdw-theme-on-secondary--light']}" oninput="activePage.setValue(this, '--mdw-theme-on-secondary')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-secondary--light']}"></div>
                 </mdw-textField>
 
                 <mdw-textfield>
                   <label>On error light</label>
-                  <input value="${this.setValues['--mdw-theme-on-error--light']}" onchange="activePage.setValue(this, '--mdw-theme-on-error')"/>
+                  <input value="${this.setValues['--mdw-theme-on-error--light']}" oninput="activePage.setValue(this, '--mdw-theme-on-error')"/>
                   <div class="post-icon" style="height: 100%; width: 64px; background-color: ${this.setValues['--mdw-theme-on-error--light']}"></div>
                 </mdw-textField>
 
@@ -361,12 +365,10 @@ export default class ThemePage extends Page {
             <div class="mdw-card__supporting mdw-body">Visit ten places on our planet that are undergoing the biggest changes today.</div>
           </div>
 
-          <div class="mdw-card__actions">
-            <div>
-              <mdw-button class="mdw-raised mdw-primary">primary</mdw-button>
-              <mdw-button class="mdw-raised mdw-secondary">secondary</mdw-button>
-              <mdw-button class="mdw-raised mdw-error">error</mdw-button>
-            </div>
+          <div class="mdw-card__actions" mdw-wrap>
+            <mdw-button class="mdw-raised mdw-primary">primary</mdw-button>
+            <mdw-button class="mdw-raised mdw-secondary">secondary</mdw-button>
+            <mdw-button class="mdw-raised mdw-error">error</mdw-button>
           </div>
         </mdw-card>
       </div>
