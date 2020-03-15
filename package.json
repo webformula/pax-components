@@ -1,6 +1,6 @@
 {
   "name": "@webformula/pax-components",
-  "version": "0.8.1-beta",
+  "version": "0.8.2-beta",
   "description": "",
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "package:dev:components": "webpack --config webpack.dev.components.config.cjs",
     "package:prod": "npm run build:docs-entry && npm run package:prod:docs && npm run package:prod:components",
     "package:prod:docs": "rm -rf dist-docs && webpack --config webpack.prod.docs.config.cjs",
-    "package:prod:components": "rm -rf dist && webpack --config webpack.prod.components.config.cjs &&  && rm dist/theme",
+    "package:prod:components": "rm -rf dist && webpack --config webpack.prod.components.config.cjs && rm dist/entry && rm dist/theme",
     "build:docs-entry": "node --experimental-modules buildDocsEntry.mjs",
     "cypress:open": "cypress open",
     "cypress:open-and-serve": "npm start & cypress open"
@@ -50,6 +50,6 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "github:webformula/pax-core#v0.7.1"
+    "@webformula/pax-core": "github:webformula/pax-core#v0.8.0"
   }
 }

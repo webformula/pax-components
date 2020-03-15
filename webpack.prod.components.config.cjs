@@ -7,7 +7,7 @@ const cwd = process.cwd();
 module.exports = {
   entry: {
     'entry.js': './src/entry.js',
-    'entry': './src/entry.css',
+    'entry': './src/entry.scss',
     'theme': './src/theme.css'
   },
 
@@ -35,10 +35,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.s?css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader'
+          'css-loader',
+          'sass-loader'
         ]
       }
     ]

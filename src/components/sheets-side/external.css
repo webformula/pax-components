@@ -9,7 +9,6 @@ mdw-sheet-side {
   border-left-color: rgba(var(--mdw-theme-on-background--rgb), .24);
   overflow: hidden;
   padding-right: 16px;
-  padding-left: 16px;
   padding-top: 20px;
   margin: 0;
 
@@ -163,6 +162,8 @@ mdw-sheet-side.mdw-navigation-drawer.mdw-modal.mdw-hide {
 
 mdw-sheet-side.mdw-left,
 mdw-sheet-side.mdw-navigation-drawer {
+  padding-right: 0;
+  padding-left: 16px;
   right: unset;
   left: 0;
 }
