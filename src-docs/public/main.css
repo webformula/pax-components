@@ -305,3 +305,14 @@ mdw-card code-mirror code {
   left: -120px;
   position: relative;
 }
+
+
+
+a.mdw-current-link {
+  color: #e3fdff !important;
+}
+
+a.mdw-current-link:not([disabled]):after,
+a.mdw-current-link:not([disabled]):before {
+  background-color: #968b9e !important;
+}

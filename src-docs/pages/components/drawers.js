@@ -9,12 +9,6 @@ export default class Drawers extends Page {
     return 'Drawers';
   }
 
-  handleNavLClick(listItem) {
-    const currentCurrentLink = document.querySelector('#top-example mdw-list-item.mdw-current-link');
-    if (currentCurrentLink) currentCurrentLink.classList.remove('mdw-current-link');
-    listItem.classList.add('mdw-current-link');
-  }
-
   template() {
     return /* html */`
       <article class="page-article">
@@ -65,17 +59,17 @@ export default class Drawers extends Page {
                     </mdw-sheet-side--header>
 
                     <mdw-sheet-side--content>
-                      <mdw-list>
-                        <mdw-list-item class="mdw-current-link" onclick="$Drawers.handleNavLClick(this)">
-                          <span class="mdw-list-item__graphic material-icons">inbox</span>
+                      <nav>
+                        <a class="mdw-list-item mdw-current-link" href="">
+                          <mdw-icon>inbox</mdw-icon>
                           Inbox
-                        </mdw-list-item>
+                        </a>
 
-                        <mdw-list-item onclick="$Drawers.handleNavLClick(this)">
-                          <span class="mdw-list-item__graphic material-icons">star</span>
+                        <a class="mdw-list-item" href="">
+                          <mdw-icon>star</mdw-icon>
                           Two
-                        </mdw-list-item>
-                      </mdw-list>
+                        </a>
+                      </nav>
                     </mdw-sheet-side--content>
                   </mdw-sheet-side>
 

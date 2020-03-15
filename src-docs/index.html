@@ -2,23 +2,23 @@
 
 <head>
   <title></title>
-  
+
   <meta charset="utf-8">
   <meta http-equiv="Cache-Control" content="no-store" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="./main.css">
   <link rel="stylesheet" href="../_DIST_/theme.css">
   <link rel="stylesheet" href="../_DIST_/entry.css">
   <script src="../_DIST_/entry.js"></script>
-  
+
   <script src="vs/loader.js"></script>
   <script src="entry.js"></script>
-  
+
   <script>
     require(['vs/editor/editor.main'], function () {
       fetch('vs/themes/NightOwl.json')
@@ -52,10 +52,11 @@
       <span class="main-title">WEB</span>
       <span class="main-title">COMPONENTS</span>
     </mdw-sheet-side--header>
-  
+
     <mdw-sheet-side--content>
       <nav>
         <span class="title">Documentation</span>
+
         <a href="#/home">Getting started</a>
         <a href="#/documentation/install">Installation</a>
         <a href="#/documentation/browsers">Browser compatability</a>
@@ -64,7 +65,7 @@
         <a href="#/documentation/density">Density</a>
         <!-- <a href="#/documentation/mobile">Mobile</a> -->
         <a href="https://github.com/webformula/pax-components" target="_new">Github</a>
-  
+
         <mdw-divider></mdw-divider>
         <span class="title">Components</span>
         <!-- <a href="#/components/autocomplete">Autocomplete</a> -->
@@ -85,13 +86,13 @@
         <a href="#/components/tabs">Tabs</a>
         <a href="#/components/text-field">Textfield</a>
         <a href="#/components/top-app-bar">Top app bar</a>
-  
+
         <!-- notification components -->
         <mdw-divider></mdw-divider>
         <span class="title">Notification</span>
         <a href="#/components/banners">Banners</a>
         <a href="#/components/snackbar">Snackbar</a>
-  
+
         <!-- Mobile components -->
         <mdw-divider></mdw-divider>
         <span class="title">Mobile (also desktop)</span>
@@ -99,7 +100,7 @@
         <a href="#/components/sheets">Sheets bottom</a>
         <a href="#/components/sheets-side">Sheets side</a>
         <!-- <a href="#/components/backdrop">backdrop</a> -->
-  
+
         <!-- supporting components -->
         <mdw-divider></mdw-divider>
         <span class="title">Supporting</span>
@@ -115,14 +116,14 @@
           <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
           <span class="mdw-title">PAX web components _VERSION_</span>
         </section>
-    
+
         <section>
           <div>
             <label>Contrast</label>
             <mdw-switch id="global-contrast-switch" onchange="changeContrast(!this.checked)"></mdw-switch>
           </div>
         </section>
-    
+
         <section>
           <a href="https://github.com/webformula/pax-documentation" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">

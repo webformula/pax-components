@@ -83,7 +83,8 @@ mdw-sheet-side.mdw-modal.mdw-hide {
 
 /* --- list item : modifications --- */
 
-mdw-sheet-side mdw-list-item {
+mdw-sheet-side mdw-list-item,
+mdw-sheet-side .mdw-list-item {
   font-size: .875rem;
   line-height: 1.375rem;
   font-weight: 500;
@@ -169,6 +170,7 @@ mdw-sheet-side.mdw-navigation-drawer {
  .mdw-navigation-drawer a {
   display: flex;
   position: relative;
+  line-height: 48px;
   height: 48px;
   padding: 0 16px;
   overflow: hidden;
@@ -194,71 +196,4 @@ mdw-sheet-side.mdw-navigation-drawer {
 .mdw-navigation-drawer a.mdw-error {
   color: var(--mdw-theme-error);
   text-decoration: none;
-}
-
-/* --- current link --- */
-
-.mdw-navigation-drawer a.mdw-current-link,
-.mdw-navigation-drawer a.mdw-current-link .a__graphic,
-.mdw-navigation-drawer a[selected],
-.mdw-navigation-drawer a[selected] .a__graphic {
-  /* color: rgba(var(--mdw-theme-primary--rgb), 0.7); */
-}
-
-.mdw-navigation-drawer a.mdw-focused {
-  /* background-color: var(--mdw-theme-list_item_focus); */
-}
-
-.mdw-navigation-drawer a.mdw-current-link:not([disabled]):after,
-.mdw-navigation-drawer a.mdw-current-link:not([disabled]):before {
-  /* background-color: rgba(var(--mdw-theme-primary--rgb), 0.24); */
-}
-
-.mdw-navigation-drawer a:not(.mdw-has-ripple):not([disabled])::after {
-  transition: opacity .15s linear;
-}
-
-/* active (state) */
-.mdw-navigation-drawer a.mdw-current-link:not(.mdw-has-ripple):not([disabled])::before {
-  opacity: .12;
-}
-
-/* :active (mouse down) */
-.mdw-navigation-drawer a.mdw-current-link:not(.mdw-has-ripple):not([disabled]):active::after {
-  transition-duration: 75ms;
-  opacity: .24;
-}
-
-.mdw-navigation-drawer a:not(.mdw-has-ripple):not(.mdw-current-link):not([disabled]):active::after {
-  transition-duration: 75ms;
-  opacity: .12;
-}
-
-/* focus */
-.mdw-navigation-drawer a.mdw-current-link:not(.mdw-has-ripple):not([disabled]):focus::before {
-  transition-duration: 75ms;
-  opacity: .24;
-}
-
-/* hover */
-.mdw-navigation-drawer a:not([disabled]):not(.mdw-current-link):hover::before {
-  opacity: .06;
-}
-
-.mdw-navigation-drawer a:not([disabled]).mdw-current-link:hover::before {
-  opacity: .16;
-}
-
-.mdw-navigation-drawer a:not([disabled]):before,
-.mdw-navigation-drawer a:not([disabled]):after {
-  /* background-color: var(--mdw-theme-on-secondary); */
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  content: "";
 }

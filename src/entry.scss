@@ -1,4 +1,4 @@
-@import url(./core/core.css);
+@import url(core/core.css);
 @import url(./core/layout.css);
 @import url(./core/headings-text.css);
 @import url(./core/elevation.css);
@@ -16,7 +16,7 @@
 @import url(./components/divider/external.css);
 /* @import url(./components/expander/external.css); */
 @import url(./components/fab/external.css);
-@import url(./components/list-item/external.css);
+@import './components/list-item/external.scss';
 @import url(./components/list/external.css);
 @import url(./components/media/external.css);
 @import url(./components/menu/external.css);

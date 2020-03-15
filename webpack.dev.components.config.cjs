@@ -1,11 +1,14 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const cwd = process.cwd();
 
 module.exports = {
   entry: {
-    'entry.js': './src/entry.js'
+    'entry.js': './src/entry.js',
+    'entry': './src/entry.scss',
+    'theme': './src/theme.css'
   },
 
   output: {
@@ -19,15 +22,23 @@ module.exports = {
     }
   },
 
-  plugins: [
-    new CopyPlugin([
-      // copy css files into root of dist folder
+  module: {
+    rules: [
       {
-        from: './src/**/*.css',
-        transformPath(targetPath, absolutePath) {
-          return targetPath.replace('src/', '/');
-        } }
-    ]),
+        test: /\.s?css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader"
+        ]
+      }
+    ]
+  },
+
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].css"
+    })
   ],
 
   mode: 'development',
