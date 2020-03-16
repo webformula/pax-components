@@ -35,6 +35,7 @@ import './components/tabs/tabs-content/index.js';
 import './components/text-field/index.js';
 // import './components/tooltip/index.js';
 import './components/top-app-bar/index.js';
+import './components/date-picker/index.js';
 
 
 import MDWDialog from './components/dialog/service.js';
