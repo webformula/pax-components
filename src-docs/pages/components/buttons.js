@@ -16,6 +16,10 @@ export default class Buttons extends Page {
     }, 3000);
   }
 
+  setBoarderRadius(inputElement) {
+    document.documentElement.style.setProperty('--mdw-theme--button-shape-radius', inputElement.value);
+  }
+
   styles() {
     return /* css */`
       .page-article mdw-button {
@@ -31,10 +35,10 @@ export default class Buttons extends Page {
 
         <div class="showcase mdw-elevation-1">
           <mdw-button id="basic">basic</mdw-button>
-          <mdw-button class="mdw-raised mdw-primary">raised</mdw-button>
+          <mdw-button class="mdw-contained mdw-primary">contained</mdw-button>
         </div>
 
-        <a href="https://material.io/design/components/buttons.html" target="_new">Material Design Guidlines: Buttons</a>
+        <a href="https://material.io/design/components/buttons.html" target="_new">Material Design Guidelines: Buttons</a>
         <p>Buttons allow users to take actions, and make choices, with a single tap</p>
 
         <div class="links">
@@ -59,14 +63,14 @@ export default class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-button class="mdw-raised">raised</mdw-button>
-                <mdw-button class="mdw-raised mdw-primary">raised primary</mdw-button>
+                <mdw-button class="mdw-contained">contained</mdw-button>
+                <mdw-button class="mdw-contained mdw-primary">contained primary</mdw-button>
               </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="raised" class="mdw-raised">raised</mdw-button>
-              <mdw-button id="raised-primary" class="mdw-raised  mdw-primary">raised primary</mdw-button>
+              <mdw-button id="contained" class="mdw-contained">contained</mdw-button>
+              <mdw-button id="contained-primary" class="mdw-contained  mdw-primary">contained primary</mdw-button>
             </div>
           </mdw-card>
 
@@ -94,18 +98,18 @@ export default class Buttons extends Page {
           <mdw-card id="shaped">
             <div class="mdw-card__content">
               <h6>Shaped button</h6>
-              <a href="https://material.io/design/shape/about-shape.html">Material Design Guidlines: Shape</a>
+              <a href="https://material.io/design/shape/about-shape.html">Material Design Guidelines: Shape</a>
               <div class="description">Material surfaces can be displayed in different shapes. Shapes direct attention, identify components, communicate state, and express brand</div>
             </div>
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-button class="mdw-shaped mdw-raised mdw-primary">shaped raised</mdw-button>
+                <mdw-button class="mdw-shaped mdw-contained mdw-primary">shaped contained</mdw-button>
               </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="shaped" class="mdw-shaped mdw-raised mdw-primary">shaped raised</mdw-button>
+              <mdw-button id="shaped" class="mdw-shaped mdw-contained mdw-primary">shaped contained</mdw-button>
             </div>
           </mdw-card>
 
@@ -118,7 +122,7 @@ export default class Buttons extends Page {
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="activePage.mockWait(this)">Async</mdw-button>
+                <mdw-button id="async-button" class="mdw-contained mdw-primary" mdw-async onclick="activePage.mockWait(this)">Async</mdw-button>
               </monaco-editor>
               <monaco-editor language="javascript">
                 class Buttons extends Page {
@@ -137,7 +141,7 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="async-button" class="mdw-raised mdw-primary" mdw-async onclick="activePage.mockWait(this)">Async</mdw-button>
+              <mdw-button id="async-button" class="mdw-contained mdw-primary" mdw-async onclick="activePage.mockWait(this)">Async</mdw-button>
             </div>
           </mdw-card>
 
@@ -155,7 +159,7 @@ export default class Buttons extends Page {
                   Icon
                 </mdw-button>
 
-                <mdw-button class="mdw-raised mdw-primary mdw-icon">
+                <mdw-button class="mdw-contained mdw-primary mdw-icon">
                   <mdw-icon>star</mdw-icon>
                 </mdw-button>
 
@@ -166,12 +170,12 @@ export default class Buttons extends Page {
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="icon" class="mdw-raised mdw-primary">
+              <mdw-button id="icon" class="mdw-contained mdw-primary">
                 <mdw-icon>star</mdw-icon>
                 Icon
               </mdw-button>
 
-              <mdw-button class="mdw-raised mdw-primary mdw-icon">
+              <mdw-button class="mdw-contained mdw-primary mdw-icon">
                 <mdw-icon>star</mdw-icon>
               </mdw-button>
 
@@ -205,22 +209,76 @@ export default class Buttons extends Page {
           <mdw-card>
             <div class="mdw-card__content">
               <h6>Colors</h6>
+              <div class="mdw-subtitle">Buttons can use the primary, secondary and error colors configured in the theme</div>
             </div>
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-button class="mdw-raised">base</mdw-button>
-                <mdw-button class="mdw-raised mdw-primary">primary</mdw-button>
-                <mdw-button class="mdw-raised mdw-secondary">secondary</mdw-button>
-                <mdw-button class="mdw-raised mdw-error">error</mdw-button>
+                <mdw-button class="">base</mdw-button>
+                <mdw-button class=" mdw-primary">primary</mdw-button>
+                <mdw-button class=" mdw-secondary">secondary</mdw-button>
+                <mdw-button class=" mdw-error">error</mdw-button>
+
+                <mdw-button class="mdw-outlined">base</mdw-button>
+                <mdw-button class="mdw-outlined mdw-primary">primary</mdw-button>
+                <mdw-button class="mdw-outlined mdw-secondary">secondary</mdw-button>
+                <mdw-button class="mdw-outlined mdw-error">error</mdw-button>
+                
+                <mdw-button class="mdw-contained">base</mdw-button>
+                <mdw-button class="mdw-contained mdw-primary">primary</mdw-button>
+                <mdw-button class="mdw-contained mdw-secondary">secondary</mdw-button>
+                <mdw-button class="mdw-contained mdw-error">error</mdw-button>
               </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button id="base-raised" class="mdw-raised">base</mdw-button>
-              <mdw-button id="primary-raised" class="mdw-raised mdw-primary">primary</mdw-button>
-              <mdw-button id="secondary-raised" class="mdw-raised mdw-secondary">secondary</mdw-button>
-              <mdw-button id="error-raised" class="mdw-raised mdw-error">error</mdw-button>
+              <div mdw-column>
+                <div mdw-row>
+                  <mdw-button class="">base</mdw-button>
+                  <mdw-button class=" mdw-primary">primary</mdw-button>
+                  <mdw-button class=" mdw-secondary">secondary</mdw-button>
+                  <mdw-button class=" mdw-error">error</mdw-button>
+                </div>
+                <div mdw-row>
+                  <mdw-button class="mdw-outlined">base</mdw-button>
+                  <mdw-button class="mdw-outlined mdw-primary">primary</mdw-button>
+                  <mdw-button class="mdw-outlined mdw-secondary">secondary</mdw-button>
+                  <mdw-button class="mdw-outlined mdw-error">error</mdw-button>
+                </div>
+                <div mdw-row>
+                  <mdw-button class="mdw-contained">base</mdw-button>
+                  <mdw-button class="mdw-contained mdw-primary">primary</mdw-button>
+                  <mdw-button class="mdw-contained mdw-secondary">secondary</mdw-button>
+                  <mdw-button class="mdw-contained mdw-error">error</mdw-button>
+                </div>
+              </div>
+            </div>
+          </mdw-card>
+
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Shaped</h6>
+              <div class="mdw-subtitle"> You can adjust the shaped button radius using the css variable <i>--mdw-theme--button-shape-radius</i></div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="css">
+                /* set property on the body: default is 18px */
+                body {
+                  -mdw-theme--button-shape-radius: 18px;
+                }
+              </monaco-editor>
+              <monaco-editor language="html">
+                <mdw-button class="mdw-contained mdw-secondary mdw-shaped">base</mdw-button>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <mdw-textfield>
+                <label>--mdw-theme--button-shape-radius</label>
+                <input oninput="activePage.setBoarderRadius(this)" value="18px" />
+              </mdw-textfield>
+              <mdw-button class="mdw-contained mdw-secondary mdw-shaped">base</mdw-button>
             </div>
           </mdw-card>
         </section>

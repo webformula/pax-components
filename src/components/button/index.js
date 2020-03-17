@@ -108,7 +108,6 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         border: none;
         box-sizing: border-box;
         display: inline-flex;
-        font-family: Roboto, sans-serif;
         font-size: 0.875rem;
         font-weight: 500;
         justify-content: center;
@@ -138,6 +137,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: 28px;
         margin-top: 0;
         margin-bottom: 0;
+        padding: 0 8px 0 8px;
       }
 
       :host-context(.mdw-density-compact),
@@ -145,6 +145,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: 24px;
         margin-top: 0;
         margin-bottom: 0;
+        padding: 0 4px 0 4px;
       }
 
       :host(.mdw-icon):host-context(.mdw-density-comfortable),
@@ -213,30 +214,38 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         outline: none;
       }
 
+      :host(.mdw-contained),
       :host(.mdw-raised),
       :host(.mdw-unelevated) {
         background-color: var(--mdw-theme-background);
         padding: 0 16px 0 16px;
       }
 
+      :host(.mdw-contained)::before,
       :host(.mdw-raised)::before,
       :host(.mdw-unelevated)::before {
         opacity: 0.08;
       }
+
+      :host(.mdw-contained),
       :host(.mdw-raised) {
         box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
         transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
       }
 
+      :host(.mdw-contained:hover),
+      :host(.mdw-contained:focus),
       :host(.mdw-raised:hover),
       :host(.mdw-raised:focus) {
         box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
       }
 
+      :host(.mdw-contained:active),
       :host(.mdw-raised:active) {
         box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
       }
 
+      :host(.mdw-contained[disabled]),
       :host(.mdw-raised[disabled]) {
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
       }
@@ -250,7 +259,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       }
 
       :host(.mdw-shaped) {
-        border-radius: 18px;
+        border-radius: var(--mdw-theme--button-shape-radius, 18px);
       }
 
       :host(.mdw-icon) {
@@ -304,6 +313,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         color: var(--mdw-theme-primary);
       }
 
+      :host(.mdw-primary.mdw-contained),
       :host(.mdw-primary.mdw-raised),
       :host(.mdw-primary.mdw-unelevated)  {
         background-color: var(--mdw-theme-primary);
@@ -326,6 +336,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         color: var(--mdw-theme-secondary);
       }
 
+      :host(.mdw-secondary.mdw-contained),
       :host(.mdw-secondary.mdw-raised),
       :host(.mdw-secondary.mdw-unelevated) {
         background-color: var(--mdw-theme-secondary);
@@ -347,6 +358,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         color: var(--mdw-theme-error);
       }
 
+      :host(.mdw-error.mdw-contained),
       :host(.mdw-error.mdw-raised),
       :host(.mdw-error.mdw-unelevated) {
         background-color: var(--mdw-theme-error);
@@ -405,6 +417,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         background-color: rgba(var(--mdw-theme-primary--rgb), 0.16);
       }
 
+      :host(.mdw-primary.mdw-contained) .mdw-ripple-element,
       :host(.mdw-primary.mdw-raised) .mdw-ripple-element,
       :host(.mdw-primary.mdw-unelevated) .mdw-ripple-element {
         background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
@@ -414,6 +427,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         background-color: rgba(var(--mdw-theme-secondary--rgb), 0.16);
       }
 
+      :host(.mdw-secondary.mdw-contained) .mdw-ripple-element,
       :host(.mdw-secondary.mdw-raised) .mdw-ripple-element,
       :host(.mdw-secondary.mdw-unelevated) .mdw-ripple-element {
         background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
@@ -423,6 +437,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         background-color: rgba(var(--mdw-theme-error--rgb), 0.16);
       }
 
+      :host(.error.mdw-contained) .mdw-ripple-element,
       :host(.error.mdw-raised) .mdw-ripple-element,
       :host(.error.mdw-unelevated) .mdw-ripple-element {
         background-color: rgba(var(--mdw-theme-background--rgb), 0.16);
