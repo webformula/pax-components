@@ -6,13 +6,13 @@ export default class Drawers extends Page {
   }
 
   get title() {
-    return 'Drawers';
+    return 'Navigation drawer';
   }
 
   template() {
     return /* html */`
       <article class="page-article">
-        <h3>Drawers</h3>
+        <h3>Navigation drawer</h3>
 
         <div class="showcase mdw-elevation-1">
           <mdw-sheet-side>
