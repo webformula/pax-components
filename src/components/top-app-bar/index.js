@@ -10,6 +10,8 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     this.wasDocked = true;
     this.isDockedShowing = true;
     this.isCurrentlyBeingResized = false;
+
+    if (this.classList.contains('mdw-prominent') && this.parentNode.nodeName === 'HEADER') this.parentNode.classList.add('mdw-prominent');
   }
 
   connectedCallback() {

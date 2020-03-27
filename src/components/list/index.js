@@ -66,4 +66,8 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   handleChange() {
     this.dispatchEvent(new CustomEvent('change', this));
   }
+
+  closeExpanded() {
+    this.dispatchEvent(new CustomEvent('MDWList:closeExpanded', this));
+  }
 });

@@ -1,5 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWRipple from '../../core/Ripple.js';
+import './expanded.js';
 
 customElements.define('mdw-list-item', class extends HTMLElementExtended {
   constructor() {
@@ -14,8 +15,19 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     return this.parentNode;
   }
 
+  get expanded() {
+    return this.querySelector('mdw-list-item-expanded');
+  }
+
+  get key() {
+    return this.getAttribute('mdw-key');
+  }
+
   isSelect() {
-    return !!this.list.selectType;
+    const type = this.list.selectType;
+    const value = ['single', 'multiple'].includes(type);
+    if (type && !value) console.warn('mdw-list[mdw-select] - only excepts "single" or "multiple"');
+    return value;
   }
 
   selectOnclick() {
@@ -26,6 +38,13 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     this.connectRipple();
     this.connectHREF();
     this.connectSelect();
+
+    const expanded = this.expanded;
+    if (expanded) {
+      requestAnimationFrame(() => {
+        expanded.listItem = this;
+      });
+    }
   }
 
   disconnectedCallback() {
@@ -34,6 +53,13 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     if (this.selectEl_) this.selectEl_.removeEventListener('change', this.bound_onSelect);
     this.removeEventListener('click', this.bound_onclickSelect);
     window.removeEventListener('hashchange', this.bound_checkHREFCurrent);
+  }
+
+  expand() {
+    const expandElement = this.expanded;
+    if (expandElement) {
+      expandElement.open();
+    }
   }
 
   connectRipple() {

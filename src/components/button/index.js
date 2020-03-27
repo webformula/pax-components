@@ -268,6 +268,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         width: 48px;
         height: 48px;
         padding: 12px;
+        line-height: 19px;
       }
 
       :host(.mdw-bottom-navigation) {

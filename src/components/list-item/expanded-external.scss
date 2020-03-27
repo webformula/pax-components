@@ -1,0 +1,25 @@
+mdw-list-item-expanded,
+.mdw-list-item-expanded {
+  display: none;
+
+  .mdw-list-item-expanded_header {
+    display: inline-flex;
+    align-items: center;
+    min-height: 56px;
+    width: 100%;
+    z-index: 1;
+
+    border-bottom: 1px solid rgba(var(--mdw-theme-on-background--rgb), 0.32);
+
+    background-color: var(--mdw-theme-surface);
+    // box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
+    //             0 4px 5px 0 rgba(0,0,0,.14),
+    //             0 1px 10px 0 rgba(0,0,0,.12);
+
+    .mdw-title {
+      font-weight: 500;
+      font-size: 1.25rem;
+      letter-spacing: .0125em;
+    }
+  }
+}

@@ -9,7 +9,6 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     this._useBackdrop = true;
     this.bound_onSwipe = this.onSwipe.bind(this);
     this.bound_routeChange = this.routeChange.bind(this);
-    
   }
 
   connectedCallback() {
@@ -51,11 +50,12 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
 
   routeChange() {
     // remove current links
-    const currentLinks = document.querySelectorAll('.mdw-current-link');
+    const currentLinks = this.querySelectorAll('.mdw-current-link');
     currentLinks.forEach(el => el.classList.remove('mdw-current-link'));
 
     // add current links
-    const matchingLinks = document.querySelectorAll(`a[href="#${this.path}"]`);
+    let matchingLinks = this.querySelectorAll(`[href="#${this.path}"]`);
+    if (!matchingLinks || matchingLinks.length === 0) matchingLinks = this.querySelectorAll(`[alt-href="#${this.path}"]`);
     matchingLinks.forEach(el => el.classList.add('mdw-current-link'));
   }
 

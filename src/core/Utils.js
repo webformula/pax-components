@@ -7,11 +7,14 @@ const MDWUtils = new class {
     this._setTransformPropertyName();
     this.isPhone = isPhone;
     this.isPhoneAndTablet = isPhoneAndTablet;
+    this.routeChangeCallbacks = new Set();
     // add class indecator for mobile
-    
+
     this.onReady(() => {
       if (this.isMobile) document.body.classList.add('mdw-is-mobile');
       else document.body.classList.remove('mdw-is-mobile');
+
+      window.addEventListener('hashchange', this.onRouteChange);
     });
   }
 
@@ -131,6 +134,52 @@ const MDWUtils = new class {
         backdropElement.remove();
       }
     };
+  }
+
+  get searchParamters() {
+    return this._extractSearchParameters(this._clean(window.location.href)).split(',').filter(a => !!a).reduce((a, b) => {
+      const split = b.split('=');
+      a[split[0]] = split[1];
+      return a;
+    }, {});
+  }
+
+  setSearchParamter(name, value) {
+    const parameters = this.searchParamters;
+    if (value === undefined || value === null) delete parameters[name];
+    else parameters[name] = value;
+    let path = window.location.href.split('?')[0];
+    if (Object.keys(parameters).length > 0) path += '?' + Object.keys(parameters).map(key => `${key}=${parameters[key]}`).join(',');
+
+    window.history.pushState({ path }, '', path);
+  }
+
+  removeSearchParamter(name) {
+    this.setSearchParamter(name, undefined);
+  }
+
+  addOnRouteChange(callback) {
+    this.routeChangeCallbacks.add(callback);
+    return () => {
+      this.routeChangeCallbacks.delete(callback);
+    }
+  }
+
+  removeOnRouteChange(callback) {
+    if (this.routeChangeCallbacks.has(callback)) this.routeChangeCallbacks.delete(callback);
+  }
+
+  _routeChange({ oldUrl, newURL } = { oldUrl: undefined, newURL: undefined }) {
+    this.routeChangeCallbacks.forEach(cb => cb({ oldUrl, newURL }));
+  }
+
+  _clean(str) {
+    if (str instanceof RegExp) return s;
+    return str.replace(/\/+$/, '').replace(/^\/+/, '/');
+  }
+
+  _extractSearchParameters(url) {
+    return url.split(/\?(.*)?$/).slice(1).join('');
   }
 
   _setupTransitionEvent() {
