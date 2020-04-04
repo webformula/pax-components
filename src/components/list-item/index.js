@@ -24,10 +24,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   }
 
   isSelect() {
-    const type = this.list.selectType;
-    const value = ['single', 'multiple'].includes(type);
-    if (type && !value) console.warn('mdw-list[mdw-select] - only excepts "single" or "multiple"');
-    return value;
+    return ['single', 'multiple'].includes(this.list.selectType);
   }
 
   selectOnclick() {

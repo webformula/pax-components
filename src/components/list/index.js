@@ -30,6 +30,7 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   }
 
   set selectType(value) {
+    if (!['single', 'multiple'].includes(value)) console.warn('mdw-list[mdw-select] attribute - only accepts "single" or "multiple"');
     this.selectType_ = value;
   }
 
@@ -42,12 +43,12 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   }
 
   deselectAll() {
-    [...this.children].forEach(child => child.deselect());
+    [...this.querySelectorAll('mdw-list-item')].forEach(child => child.deselect());
     this.selectedIndexes_ = [];
   }
 
   itemSelected(listItem) {
-    const index = Array.prototype.indexOf.call(this.children, listItem);
+    const index = Array.prototype.indexOf.call(this.children, listItem) - 1;
     if (this.selectType_ === 'single') {
       const children = [...this.children];
       this.selectedIndexes_.forEach(i => children[i].deselect());
@@ -58,7 +59,7 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   }
 
   itemDeselected(listItem) {
-    const index = Array.prototype.indexOf.call(this.children, listItem);
+    const index = Array.prototype.indexOf.call(this.children, listItem) - 1;
     this.selectedIndexes_.splice(this.selectedIndexes_.indexOf(index), 1);
     this.handleChange();
   }
