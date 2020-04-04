@@ -15,8 +15,13 @@ mdw-textfield {
   background-color: rgba(var(--mdw-theme-on-background--rgb), 0.024);
 }
 
+mdw-textfield.mdw-spacer {
+  margin-bottom: 32px;
+}
+
 mdw-textfield.mdw-on-background input {
   color: var(--mdw-theme-text-primary-on-background);
+  caret-color: var(--mdw-theme-text-primary-on-background);
 }
 
 mdw-textfield.mdw-on-background input::placeholder {
@@ -107,6 +112,7 @@ mdw-textfield:not(.mdw-no-animation):not(.mdw-outlined):before {
               background-color 15ms linear;
 }
 
+mdw-textfield.mdw-focused:not(.mdw-outlined):before,
 mdw-textfield:focus-within:not(.mdw-outlined):before {
   transition-duration: 75ms;
   opacity: 0.12;
@@ -182,7 +188,7 @@ mdw-textfield input {
 
   border-bottom-color: rgba(var(--mdw-theme-on-background--rgb), 0.42);
   color: var(--mdw-theme-on-background);
-  caret-color: rgba(var(--mdw-theme-primary--rgb), .7);
+  caret-color: var(--mdw-theme-on-background);
 }
 
 mdw-textfield:not(.mdw-no-animation) textarea,
@@ -193,7 +199,7 @@ mdw-textfield:not(.mdw-no-animation) input {
 mdw-textfield.mdw-invalid textarea,
 mdw-textfield.mdw-invalid input {
   border-bottom-color: var(--mdw-theme-error);
-  caret-color: rgba(var(--mdw-theme-error--rgb), .7);
+  caret-color: var(--mdw-theme-error);
 }
 
 mdw-textfield mdw-icon:not([onclick]) {

@@ -36,7 +36,7 @@ mdw-top-app-bar {
               0 4px 5px 0 rgba(0,0,0,.14),
               0 1px 10px 0 rgba(0,0,0,.12);
 
-  transition: background-color 100ms linear;
+  transition: background-color 120ms linear;
   background-color: var(--mdw-theme-primary);
   color: var(--mdw-theme-text-primary-on-background);
 
@@ -112,7 +112,6 @@ mdw-top-app-bar {
   &[mdw-contextual] {
     // TODO figure otu what color this should be
     background-color: #333333;
-    // color: var(--mdw-theme-text-primary-on-background);
 
     [mdw-not-contextual] {
       display: none;
