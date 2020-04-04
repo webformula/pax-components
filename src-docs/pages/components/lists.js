@@ -144,6 +144,72 @@ export default class List extends Page {
 
           <mdw-card>
             <div class="mdw-card__content">
+              <h6>Subheaders</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-list>
+                  <div class="mdw-subheader">Header 1</div>
+
+                  <mdw-list-item>
+                    <mdw-icon>inbox</mdw-icon>
+                    <div class="mdw-list-item__text">
+                      <div class="mdw-list-item__primary-text">One</div>
+                    </div>
+                  </mdw-list-item>
+
+                  <div class="mdw-subheader">Header 2</div>
+
+                  <mdw-list-item>
+                    <mdw-icon>inbox</mdw-icon>
+                    <div class="mdw-list-item__text">
+                      <div class="mdw-list-item__primary-text">One</div>
+                    </div>
+                  </mdw-list-item>
+                </mdw-list>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content">
+              <mdw-list>
+                <div class="mdw-subheader">Header 1</div>
+
+                <mdw-list-item>
+                  <mdw-icon>inbox</mdw-icon>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">One</div>
+                  </div>
+                </mdw-list-item>
+
+                <mdw-list-item>
+                  <mdw-icon>inbox</mdw-icon>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">Two</div>
+                  </div>
+                </mdw-list-item>
+
+                <div class="mdw-subheader">Header 2</div>
+
+                <mdw-list-item>
+                  <mdw-icon>inbox</mdw-icon>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">Three</div>
+                  </div>
+                </mdw-list-item>
+
+                <mdw-list-item>
+                  <mdw-icon>inbox</mdw-icon>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">Four</div>
+                  </div>
+                </mdw-list-item>
+              </mdw-list>
+            </div>
+          </mdw-card>
+
+          <mdw-card>
+            <div class="mdw-card__content">
               <h6>Huge ass list</h6>
             </div>
 
