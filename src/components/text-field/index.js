@@ -35,6 +35,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
   compose() {
     /* For backwards compatability most of the features are built with css and the code is treated as an upgrade
      *  'mdw-upgraded' lets us know that the code is hooked up
+     *  TODO evealuate the benefit of this feature
      */
     this.classList.add('mdw-upgraded');
 
