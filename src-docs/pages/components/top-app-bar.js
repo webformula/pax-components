@@ -25,7 +25,7 @@ export default class TopAppBar extends Page {
   }
 
   disconnectedCallback() {
-    this.contextualList.removeEventListener('change', this.bound_onSelect);
+    this.contextualList && this.contextualList.removeEventListener('change', this.bound_onSelect);
   }
 
   onSelect() {

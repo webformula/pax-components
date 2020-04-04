@@ -55,7 +55,7 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
 
   disconnectedCallback() {
     if (this._observer) this._observer.destroy();
-    this._scrollTarget.removeEventListener('scroll', this.throttledScrollHandler.bind(this));
+    if (this._scrollTarget) this._scrollTarget.removeEventListener('scroll', this.throttledScrollHandler.bind(this));
     // window.removeEventListener('resize', this.throttledResizeHandler.bind(this));
   }
 
