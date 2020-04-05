@@ -9,7 +9,9 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     this._throttledResizeHandler = MDWUtils.rafThrottle(this._resizeHandler);
     this.bound_throttledScrollHandler = this._throttledScrollHandler.bind(this);
     this.bound_throttledResizeHandler = this._throttledResizeHandler.bind(this);
+  }
 
+  connectedCallback() {
     this._isProminent = this.hasAttribute('mdw-prominent');
     this._isFixed = this.hasAttribute('mdw-fixed');
     this._isShrink = this.hasAttribute('mdw-shrink');
@@ -29,17 +31,13 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
         return {
           element,
           property: rawProperty[0],
-          valueWrapper: rawProperty[1] || '', 
+          valueWrapper: rawProperty[1] || '',
           start,
           end,
           range: Math.abs(start - end)
         };
       });
-    }
-  }
 
-  connectedCallback() {
-    if (this._isShrink) {
       this._scrollTarget = this._getScrollTarget();
       this._lastScrollPosition = this._getViewportScrollY();
       this._topAppBarHeight = this.clientHeight + 6;
