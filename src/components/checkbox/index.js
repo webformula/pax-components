@@ -46,7 +46,10 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
   set state(value) {
     if (!['checked', 'unchecked', 'indeterminate'].includes(value)) console.error(`ivalid state fro checkbox "${value}". Only excepts "checked", "unchecked", "indeterminate"`);
     this.setAttribute('mdw-state', value);
+    const stateChange = this._state !== value;
     this._state = value;
+
+    if (stateChange === true) this.dispatchEvent(new Event('change'));
   }
 
   get checked() {
@@ -91,7 +94,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
         break;
     }
 
-    if (stateChange === true) this.dispatchEvent(new Event('change'));
+    // if (stateChange === true) this.dispatchEvent(new Event('change'));
   }
   
 
