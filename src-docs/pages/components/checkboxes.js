@@ -16,15 +16,6 @@ export default class Checkboxes extends Page {
 
         <div class="showcase mdw-elevation-1" mdw-column>
           <mdw-checkbox indeterminate></mdw-checkbox>
-
-          <!-- can fill in html for browsers that do not support webcomponents -->
-          <!-- <mdw-checkbox indeterminate>
-            <input type="checkbox">
-            <div class="background">
-              <div class="checkmark"></div>
-              <div class="mixedmark"></div>
-            </div>
-          </mdw-checkbox> -->
         </div>
 
         <a href="https://material.io/design/components/selection-controls.html#checkboxes" target="_new">Material Design Guidlines: Checkboxes</a>
@@ -35,6 +26,7 @@ export default class Checkboxes extends Page {
           <anchor-link selector="#unselected" offset="64">Unselected</anchor-link>
           <anchor-link selector="#checked" offset="64">Checked</anchor-link>
           <anchor-link selector="#indeterminate" offset="64">Indeterminate</anchor-link>
+          <anchor-link selector="#custom" offset="64">Custom icons</anchor-link>
           <anchor-link selector="#theming" offset="64">Theming</anchor-link>
         </div>
 
@@ -128,6 +120,30 @@ export default class Checkboxes extends Page {
 
             <div class="mdw-card__content">
               <mdw-checkbox indeterminate class="mdw-primary"></mdw-checkbox>
+            </div>
+          </mdw-card>
+
+
+          <!-- custom icons -->
+          <mdw-card id="custom">
+            <div class="mdw-card__content">
+              <h6>Custom icons</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-checkbox class="mdw-large">
+                  <mdw-icon mdw-unchecked>person</mdw-icon>
+                  <mdw-icon mdw-checked>check_circle</mdw-icon>
+                </mdw-checkbox>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content">
+              <mdw-checkbox class="mdw-large">
+                <mdw-icon mdw-unchecked>person</mdw-icon>
+                <mdw-icon mdw-checked>check_circle</mdw-icon>
+              </mdw-checkbox>
             </div>
           </mdw-card>
 
