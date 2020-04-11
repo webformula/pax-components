@@ -1,6 +1,6 @@
 import { Page } from '@webformula/pax-core';
 
-export default class Selects extends Page {
+export default class Select extends Page {
   constructor() {
     super();
   }

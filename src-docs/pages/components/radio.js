@@ -7,13 +7,13 @@ export default class Radio extends Page {
   }
 
   get title() {
-    return 'Selects';
+    return 'Radio';
   }
 
   template() {
     return /* html */`
       <article class="page-article">
-        <h3>Selects</h3>
+        <h3>Radio</h3>
 
         <div class="showcase mdw-elevation-1">
           <mdw-radio-group mdw-column name="test" mdw-value="${this.initialValue}">

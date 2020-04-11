@@ -8,11 +8,11 @@ const cwd = process.cwd();
 
 module.exports = {
   entry: {
-    'entry.js': './src-docs/pax-entry.js'
+    'entry': './src-docs/pax-entry.js'
   },
 
   output: {
-    filename: '[name]',
+    filename: `[name].${version}.js`,
     path: path.resolve(__dirname, 'dist-docs'),
   },
 
@@ -35,7 +35,7 @@ module.exports = {
 
     new HtmlWebpackStringReplacePlugin({
       '_DIST_': 'local-dist',
-      '_VERSION_': version
+      '_VERSION_': version,
     })
   ],
 
