@@ -13,9 +13,9 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     this.compose();
     this.checkForValue();
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       this.classList.remove('mdw-no-animation');
-    }, 0);
+    });
 
     // add listeners
     this.input.addEventListener('focus', this.bound_onFocus);
@@ -35,6 +35,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
   compose() {
     /* For backwards compatability most of the features are built with css and the code is treated as an upgrade
      *  'mdw-upgraded' lets us know that the code is hooked up
+     *  TODO evealuate the benefit of this feature
      */
     this.classList.add('mdw-upgraded');
 
@@ -92,6 +93,10 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   isTextarea() {
     return !!this.querySelector('textarea');
+  }
+
+  clear() {
+    this.input.value = '';
   }
 
   get valid() {

@@ -19,16 +19,16 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
   }
 
   get panel() {
-    if (!this.panel_) this.panel_ = this.querySelector('mdw-panel');
-    return this.panel_;
+    if (!this._panel) this._panel = this.querySelector('mdw-panel');
+    return this._panel;
   }
 
   get position() {
-    return this.position_ || 'center center';
+    return this._position || 'center center';
   }
 
   set position(value) {
-    this.position_ = value;
+    this._position = value;
   }
 
   get clickOutsideClose() {
@@ -41,17 +41,25 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
 
   show() {
     this.panel.hoistToBody();
-    this.panel.setPosition(this.position);
-    this.panel.open();
-    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
-    this.classList.add('mdw-show');
-    // TODO find a better way to handle positioning against body.
-    // this.panel.setPositionStyle(document.body);
-
-    this.backdrop = MDWUtils.addBackdrop(this.panel, () => {
-      if (this.clickOutsideClose === true) this.close();
+    const onclose = () => {
+      el.removeEventListener('close', onclose);
+      el.remove();
+    };
+    el.addEventListener('close', onclose);
+    requestAnimationFrame(() => {
+      this.panel.show();
     });
-    MDWUtils.lockPageScroll();
+    // this.panel.setPosition(this.position);
+    // this.panel.open();
+    // this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    // this.classList.add('mdw-show');
+    // // TODO find a better way to handle positioning against body.
+    // // this.panel.setPositionStyle(document.body);
+    //
+    // this.backdrop = MDWUtils.addBackdrop(this.panel, () => {
+    //   if (this.clickOutsideClose === true) this.close();
+    // });
+    // MDWUtils.lockPageScroll();
   }
 
   close(ok) {

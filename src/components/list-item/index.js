@@ -1,5 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWRipple from '../../core/Ripple.js';
+import './expanded.js';
 
 customElements.define('mdw-list-item', class extends HTMLElementExtended {
   constructor() {
@@ -14,8 +15,16 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     return this.parentNode;
   }
 
+  get expanded() {
+    return this.querySelector('mdw-list-item-expanded');
+  }
+
+  get key() {
+    return this.getAttribute('mdw-key');
+  }
+
   isSelect() {
-    return !!this.list.selectType;
+    return ['single', 'multiple'].includes(this.list.selectType);
   }
 
   selectOnclick() {
@@ -26,14 +35,28 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     this.connectRipple();
     this.connectHREF();
     this.connectSelect();
+
+    const expanded = this.expanded;
+    if (expanded) {
+      requestAnimationFrame(() => {
+        expanded.listItem = this;
+      });
+    }
   }
 
   disconnectedCallback() {
     if (this.ripple) this.ripple.destroy();
     this.removeEventListener('click', this.bound_hrefClick);
-    if (this.selectEl_) this.selectEl_.removeEventListener('change', this.bound_onSelect);
+    if (this._selectEl) this._selectEl.removeEventListener('change', this.bound_onSelect);
     this.removeEventListener('click', this.bound_onclickSelect);
     window.removeEventListener('hashchange', this.bound_checkHREFCurrent);
+  }
+
+  expand() {
+    const expandElement = this.expanded;
+    if (expandElement) {
+      expandElement.open();
+    }
   }
 
   connectRipple() {
@@ -79,19 +102,19 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
 
   onclickSelect(e) {
     if (!this.selectOnclick()) return;
-    if (e.target === this.selectEl_) return;
-    this.selectEl_.checked = !this.selectEl_.checked;
+    if (e.target === this._selectEl) return;
+    this._selectEl.checked = !this._selectEl.checked;
   }
 
   connectSelect() {
     if (this.isSelect()) {
-      this.selectEl_ = this.querySelector('mdw-checkbox');
-      if (this.selectEl_) this.selectEl_.addEventListener('change', this.bound_onSelect);
+      this._selectEl = this.querySelector('mdw-checkbox');
+      if (this._selectEl) this._selectEl.addEventListener('change', this.bound_onSelect);
       if (this.selectOnclick()) this.addEventListener('click', this.bound_onclickSelect);
     }
   }
 
   deselect() {
-    this.selectEl_.checked = false;
+    this._selectEl.checked = false;
   }
 });

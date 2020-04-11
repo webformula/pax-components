@@ -477,15 +477,10 @@ export default class ThemePage extends Page {
         </div>
       </section>
 
-      <section id="customize">
-        <h4>Customize</h4>
-
-        <p>Add your own custom colors... Coming soon!</p>
-      </section>
-
-      <section>
-        <!-- <a href="#/documentation/mobile">next: Mobile</a> -->
-        <a href="#/documentation/layout">Documentation: Layout</a>
+      <section mdw-row>
+        <mdw-button class="mdw-secondary" href="#/documentation/browsers">< compatibility</mdw-button>
+        <span mdw-flex></span>
+        <mdw-button class="mdw-secondary" href="#/documentation/layout">layout ></mdw-button>
       </section>
     </article>
     `;

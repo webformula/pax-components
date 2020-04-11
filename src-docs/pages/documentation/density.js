@@ -131,8 +131,10 @@ export default class Density extends Page {
         </mdw-card>
       </section>
 
-      <section>
-        <a href="#/components/buttons">components: Buttons</a>
+      <section mdw-row>
+        <mdw-button class="mdw-secondary" href="#/documentation/layout">< layout</mdw-button>
+        <span mdw-flex></span>
+        <mdw-button class="mdw-secondary" href="#/components/app-bar-bottom">App bar: Bottom ></mdw-button>
       </section>
     </article>
     `;

@@ -38,7 +38,7 @@ export default class Tabs extends Page {
           </mdw-tabs-container>
         </div>
 
-        <a href="https://material.io/components/tabs" target="_new">Material Design Guidlines: Tabs</a>
+        <a href="https://material.io/components/tabs" target="_new">Material Design Guidelines: Tabs</a>
         <p>Tabs organize content across different screens, data sets, and other interactions</p>
 
       </article>

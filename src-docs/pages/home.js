@@ -5,6 +5,26 @@ export default class Home extends Page {
     super();
   }
 
+  connectedCallback() {
+    document.querySelector('#editor-1').content = `
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/theme.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.css">
+      <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.js"></script>
+
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+    `;
+
+    document.querySelector('#editor-2').content = `
+      <!-- include css -->
+      <link rel="stylesheet" href="node_modules/@webformula/pax-components/dist/entry.css">
+
+      <!-- include font and icons -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+    `;
+  }
+
   get title() {
     return 'Home';
   }
@@ -65,14 +85,7 @@ export default class Home extends Page {
         </div>
 
         <div class="mdw-card__content--no-padding">
-          <monaco-editor language="html">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/theme.css">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.css">
-            <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.js"></script>
-
-            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-          </monaco-editor>
+          <monaco-editor id="editor-1" language="html"></monaco-editor>
         </div>
       </mdw-card>
 
@@ -95,19 +108,13 @@ export default class Home extends Page {
             import '@webformula/pax-components/dist/entry.js';
           </monaco-editor>
 
-          <monaco-editor language="html">
-            <!-- include css -->
-            <link rel="stylesheet" href="node_modules/@webformula/pax-components/dist/entry.css">
-
-            <!-- include font and icons -->
-            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-          </monaco-editor>
+          <monaco-editor id="editor-2" language="html"></monaco-editor>
         </div>
       </mdw-card>
 
-      <section>
-        <a href="#/documentation/install">next: Install</a>
+      <section mdw-row>
+        <span mdw-flex></span>
+        <mdw-button class="mdw-secondary" href="#/documentation/install">install ></mdw-button>
       </section>
     </article>
     `;

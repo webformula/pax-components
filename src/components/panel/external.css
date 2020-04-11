@@ -14,24 +14,69 @@ mdw-panel {
   will-change: transform, opacity;
   z-index: 8;
   border-radius: 4px;
-  transition: opacity .03s linear,
-              transform .12s cubic-bezier(0,0,.2,1);
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
               0 8px 10px 1px rgba(0,0,0,.14),
               0 3px 14px 2px rgba(0,0,0,.12);
+  transition: opacity .03s linear,
+              transform .12s cubic-bezier(0,0,.2,1);
   background-color: var(--mdw-theme-background);
   color: var(--mdw-theme-on-surface);
 }
 
-mdw-panel.mdw-panel-hoisted {
-  position: fixed;
+.mdw-no-animation mdw-panel,
+mdw-panel.mdw-no-animation {
+  transition: none;
 }
-
 
 mdw-panel.mdw-open {
   display: inline-block;
   opacity: 1;
   transform: scale(1);
+}
+
+mdw-panel.mdw-list-item-expanded {
+  position: fixed;
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 72px;
+  animation: mdw-list-item--expaned--animation 0.42s cubic-bezier(0,0,.2,1);
+}
+
+.mdw-no-animation mdw-panel.mdw-list-item-expanded,
+mdw-panel.mdw-list-item-expanded.mdw-no-animation {
+  animation: none;
+}
+
+@keyframes mdw-list-item--expaned--animation {
+  0% {
+    transform: scaleX(0.6) translateY(276px);
+    max-height: 72px;
+    overflow: hidden;
+  }
+
+  30% {
+    transform: scaleX(1) translateY(276px);
+    max-height: 72px;
+    overflow: hidden;
+  }
+
+  100% {
+    transform: translateY(0);
+    max-height: 100%;
+    overflow: hidden;
+  }
+}
+
+
+mdw-panel.mdw-list-item-expanded.mdw-open {
+  max-height: 100%;
+}
+
+
+mdw-panel.mdw-panel-hoisted {
+  position: fixed;
 }
 
 .mdw-panel--fixed {
@@ -47,7 +92,7 @@ mdw-panel.mdw-open {
 
 
 /* animations */
-.mdw-panel--animating-open {
+.mdw-panel--animating-open:not(.mdw-list-item-expanded) {
   display: inline-block;
   overflow: hidden;
   transition:
@@ -55,7 +100,7 @@ mdw-panel.mdw-open {
     transform 150ms cubic-bezier(0,0,.2,1) 0ms;
 }
 
-.mdw-panel--animating-closed {
+.mdw-panel--animating-closed:not(.mdw-list-item-expanded) {
   display: inline-block;
   overflow: hidden;
   transition:
@@ -63,6 +108,12 @@ mdw-panel.mdw-open {
     transform 1075ms cubic-bezier(0,0,.2,1) 0ms;
 }
 
+.mdw-no-animation mdw-panel.mdw-panel--animating-open,
+.mdw-no-animation mdw-panel.mdw-panel--animating-closed,
+mdw-panel.mdw-panel--animating-open.mdw-no-animation,
+mdw-panel.mdw-panel--animating-closed.mdw-no-animation {
+  transition: none;
+}
 
 /* containered */
 mdw-panel:not(.mdw-panel-hoisted):not(.mdw-upgraded)[mdw-position="top left"] {

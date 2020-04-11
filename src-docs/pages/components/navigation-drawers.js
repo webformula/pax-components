@@ -37,7 +37,7 @@ export default class Drawers extends Page {
           </mdw-sheet-side>
         </div>
 
-        <a href="https://material.io/components/navigation-drawer/" target="_new">Material Design Guidlines: Navigation Drawer</a>
+        <a href="https://material.io/components/navigation-drawer/" target="_new">Material Design Guidelines: Navigation Drawer</a>
         <p>Navigation drawers provide access to destinations in your app</p>
 
 

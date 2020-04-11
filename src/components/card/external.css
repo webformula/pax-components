@@ -5,6 +5,19 @@ mdw-card {
   box-sizing: border-box;
 }
 
+mdw-card .mdw-title {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  letter-spacing: .0125em;
+  text-decoration: inherit;
+  text-transform: inherit;
+}
+
+mdw-card.mdw-margin {
+  margin: 8px;
+}
+
 .mdw-card__content {
   display: flex;
   flex-direction: column;

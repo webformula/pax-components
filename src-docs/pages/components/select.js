@@ -27,7 +27,7 @@ export default class Selects extends Page {
           </mdw-select>
         </div>
 
-        <a href="https://material.io/components/text-fields/" target="_new">Material Design Guidlines: Text fields</a>
+        <a href="https://material.io/components/text-fields/" target="_new">Material Design Guidelines: Text fields</a>
         <p>Provide selection that can be used for smaller selection sets</p>
 
         <div style="display: inline-block">
@@ -52,7 +52,7 @@ export default class Selects extends Page {
                 <mdw-select>
                   <select>
                     <option disabled selected></option>
-                    <option value="a">aoptiomn</option>
+                    <option value="a">a</option>
                     <option value="b">b</option>
                   </select>
                   <label>Select</label>
@@ -65,7 +65,7 @@ export default class Selects extends Page {
                 <select>
                   <!-- empty select to start -->
                   <option disabled selected></option>
-                  <option value="a">aoptiomn</option>
+                  <option value="a">a</option>
                   <option value="b">b</option>
                 </select>
                 <label>Select</label>
@@ -78,7 +78,7 @@ export default class Selects extends Page {
           <mdw-card id="enhanced">
             <div class="mdw-card__content">
               <h6>Enhanced</h6>
-              <div class="description">Enahnced material select menu</div>
+              <div class="description">Enhanced material select menu</div>
             </div>
 
             <div class="mdw-card__content--no-padding">

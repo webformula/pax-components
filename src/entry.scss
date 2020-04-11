@@ -8,7 +8,7 @@
 @import url(./components/autocomplete/external.css);
 @import url(./components/backdrop/external.css);
 @import url(./components/banner/external.css);
-@import url(./components/bottom-navigation/external.css);
+@import url(./components/bottom-app-bar/external.css);
 @import url(./components/card/external.css);
 @import url(./components/checkbox/external.css);
 @import url(./components/content/external.css);
@@ -17,7 +17,8 @@
 /* @import url(./components/expander/external.css); */
 @import url(./components/fab/external.css);
 @import './components/list-item/external.scss';
-@import url(./components/list/external.css);
+@import './components/list-item/expanded-external.scss';
+@import './components/list/external.scss';
 @import url(./components/media/external.css);
 @import url(./components/menu/external.css);
 @import url(./components/page/external.css);
@@ -35,4 +36,4 @@
 @import url(./components/tabs/tabs-bar/external.css);
 @import url(./components/tabs/tabs-content/external.css);
 @import url(./components/text-field/external.css);
-@import url(./components/top-app-bar/external.css);
+@import './components/top-app-bar/external.scss';

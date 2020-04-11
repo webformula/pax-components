@@ -32,7 +32,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   }
 
   get pending() {
-    return this.pending_;
+    return this._pending;
   }
 
   setupAsync() {
@@ -41,14 +41,14 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   }
 
   resolve() {
-    if (this.pending_ === false) return;
-    this.pending_ = false;
+    if (this._pending === false) return;
+    this._pending = false;
     this.hideSpinner();
   }
 
   asyncClick(e) {
-    if (this.pending_ === true) return;
-    this.pending_ = true;
+    if (this._pending === true) return;
+    this._pending = true;
     this.showSpinner();
   }
 
@@ -268,6 +268,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         width: 48px;
         height: 48px;
         padding: 12px;
+        line-height: 19px;
       }
 
       :host(.mdw-bottom-navigation) {

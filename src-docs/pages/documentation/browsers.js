@@ -16,7 +16,7 @@ export default class Browsers extends Page {
 
       <section>
         <h2>Web components</h2>
-        <p>PAX components are built using <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_new">web components</a>. Web components are currently supported by most of the major browsers. If you need to expand your browser support there is also a polyfill that expands support to IE11.</p>
+        <p>PAX components are built using <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_new">web components</a>. Web components are currently supported by most of the major browsers.</p>
       </section>
 
       <div mdw-row mdw-wrap mdw-flex-position="space-around start">
@@ -112,8 +112,10 @@ export default class Browsers extends Page {
         </section>
       </div>
 
-      <section>
-        <a href="#/documentation/layout">next: Layout</a>
+      <section mdw-row>
+        <mdw-button class="mdw-secondary" href="#/documentation/app-index">< app index.html</mdw-button>
+        <span mdw-flex></span>
+        <mdw-button class="mdw-secondary" href="#/documentation/theme">theme ></mdw-button>
       </section>
     </article>
     `;

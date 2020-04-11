@@ -50,7 +50,7 @@ export default class FAB extends Page {
                 <option value="bottom">bottom</option>
                 <option value="center">center</option>
               </select>
-              <label>Positon Y</label>
+              <label>Position Y</label>
             </mdw-select>
 
             <div style="padding: 12px;"></div>
@@ -63,7 +63,7 @@ export default class FAB extends Page {
                 <option value="right">right</option>
                 <option value="center">center</option>
               </select>
-              <label>Positon X</label>
+              <label>Position X</label>
             </mdw-select>
           </div>
 
@@ -74,7 +74,7 @@ export default class FAB extends Page {
           </div>
         </div>
 
-        <a href="https://material.io/design/components/buttons.html" target="_new">Material Design Guidlines: Buttons</a>
+        <a href="https://material.io/design/components/buttons.html" target="_new">Material Design Guidelines: Buttons</a>
         <p>Buttons allow users to take actions, and make choices, with a single tap</p>
 
         <div class="links">

@@ -4,49 +4,74 @@ import MDWUtils from '../../core/Utils.js';
 customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
   constructor() {
     super();
-    this.MAX_TOP_APP_BAR_HEIGHT = 128;
-    this.isCurrentlyBeingResized = false;
-    this.currentAppBarOffsetTop = 0;
-    this.wasDocked = true;
-    this.isDockedShowing = true;
-    this.isCurrentlyBeingResized = false;
+
+    this._throttledScrollHandler = MDWUtils.rafThrottle(this._scrollHandler);
+    this._throttledResizeHandler = MDWUtils.rafThrottle(this._resizeHandler);
+    this.bound_throttledScrollHandler = this._throttledScrollHandler.bind(this);
+    this.bound_throttledResizeHandler = this._throttledResizeHandler.bind(this);
   }
 
   connectedCallback() {
-    this.scrollTarget = this.getScrollTarget();
-    this.lastScrollPosition = this.getViewportScrollY();
-    this.topAppBarHeight = this.height;
+    this._isProminent = this.hasAttribute('mdw-prominent');
+    this._isFixed = this.hasAttribute('mdw-fixed');
+    this._isShrink = this.hasAttribute('mdw-shrink');
 
-    // add spacer to content area
-    // TODO add another class based on prominent, dense
-    if (this.hasContent && !this.scrollTarget.querySelector('.mdw-top-app-bar')) {
-      const div = document.createElement('div');
-      div.classList.add('mdw-top-app-bar');
-      this.scrollTarget.prepend(div);
+    if (this.parentNode && this.parentNode.nodeName === 'HEADER') {
+      this.parentNode.classList.add('mdw-top-app-bar');
+      if (this._isProminent) this.parentNode.classList.add('mdw-prominent');
+      if (this._isFixed) this.parentNode.classList.add('mdw-fixed');
+      if (this._isShrink) this.parentNode.classList.add('mdw-shrink');
+    }
+
+    if (this._isShrink) {
+      this._animationElements = [...(this.querySelectorAll('[mdw-animation-property]') || [])].map(element => {
+        const start = parseFloat(element.getAttribute('mdw-animation-start') || 0);
+        const end = parseFloat(element.getAttribute('mdw-animation-end') || 0);
+        const rawProperty = element.getAttribute('mdw-animation-property').split(':');
+        return {
+          element,
+          property: rawProperty[0],
+          valueWrapper: rawProperty[1] || '',
+          start,
+          end,
+          range: Math.abs(start - end)
+        };
+      });
+
+      this._scrollTarget = this._getScrollTarget();
+      this._lastScrollPosition = this._getViewportScrollY();
+      this._topAppBarHeight = this.clientHeight + 6;
+      this._scrollHandler();
+      this._createObserver();
+
+      this._scrollTarget.addEventListener('scroll', this.bound_throttledScrollHandler);
+      // window.addEventListener('resize', this.throttledResizeHandler.bind(this));
     }
 
     document.body.classList.add('mdw-top-app-bar');
-
-    this.throttledScrollHandler = MDWUtils.rafThrottle(this.scrollHandler);
-    this.throttledResizeHandler = MDWUtils.rafThrottle(this.resizeHandler);
-    this.scrollTarget.addEventListener('scroll', this.throttledScrollHandler.bind(this));
-    window.addEventListener('resize', this.throttledResizeHandler.bind(this));
   }
 
   disconnectedCallback() {
-    this.scrollTarget.removeEventListener('scroll', this.throttledScrollHandler.bind(this));
-    window.removeEventListener('resize', this.throttledResizeHandler.bind(this));
+    if (this._observer) this._observer.destroy();
+    if (this._scrollTarget) this._scrollTarget.removeEventListener('scroll', this.throttledScrollHandler.bind(this));
+    // window.removeEventListener('resize', this.throttledResizeHandler.bind(this));
   }
 
-  get fixed() {
-    return this.classList.contains('mdw-fixed');
+  notContextual() {
+    this.removeAttribute('mdw-contextual');
   }
 
-  get height() {
-    return this.clientHeight;
+  contextual() {
+    this.setAttribute('mdw-contextual', '');
   }
 
-  getScrollTarget() {
+
+
+  _getAllFixedSections() {
+    return this.querySelectorAll('section[mdw-fixed]');
+  }
+
+  _getScrollTarget() {
     if (this.parentNode.nodeName === 'MDW-PAGE') {
       const content = document.querySelector('mdw-content');
       if (content) {
@@ -57,115 +82,65 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     return window;
   }
 
-  topAppBarScrollHandler() {
-    const currentScrollPosition = Math.max(this.getViewportScrollY(), 0);
-    const diff = currentScrollPosition - this.lastScrollPosition;
-    this.lastScrollPosition = currentScrollPosition;
-
-    // If the window is being resized the lastScrollPosition_ needs to be updated but the
-    // current scroll of the top app bar should stay in the same position.
-    if (!this.isCurrentlyBeingResized) {
-      this.currentAppBarOffsetTop -= diff;
-
-      if (this.currentAppBarOffsetTop > 0) {
-        this.currentAppBarOffsetTop = 0;
-      } else if (Math.abs(this.currentAppBarOffsetTop) > this.topAppBarHeight) {
-        this.currentAppBarOffsetTop = -this.topAppBarHeight;
-      }
-
-      this.moveTopAppBar();
-    }
+  _getViewportScrollY() {
+    return this._scrollTarget[this._scrollTarget === window ? 'pageYOffset' : 'scrollTop'];
   }
 
-  moveTopAppBar() {
-    if (this.checkForUpdate()) {
-      // Once the top app bar is fully hidden we use the max potential top app bar height as our offset
-      // so the top app bar doesn't show if the window resizes and the new height > the old height.
-      let offset = this.currentAppBarOffsetTop;
-      if (Math.abs(offset) >= this.topAppBarHeight) {
-        offset = -this.MAX_TOP_APP_BAR_HEIGHT;
-      }
+  _scrollHandler() {
+    const currentScrollPosition = Math.max(this._getViewportScrollY(), 0);
+    // const diff = currentScrollPosition - this._lastScrollPosition;
+    // this._lastScrollPosition = currentScrollPosition;
+    
+    let position;
+    if (this._isProminent) {
+      const halfHeight = this._topAppBarHeight / 2;
+      if (currentScrollPosition <= halfHeight) position = currentScrollPosition;
+      else position = halfHeight;
+    } else if (currentScrollPosition <= this._topAppBarHeight) position = currentScrollPosition;
+    else position = this._topAppBarHeight;
 
-      this.style.top = offset + 'px';
-    }
+    this.style.transform = `translateY(-${position}px)`;
+    this._getAllFixedSections().forEach((element) => {
+      element.style.transform = `translateY(${position}px)`
+    });
   }
 
-  checkForUpdate() {
-    const offscreenBoundaryTop = -this.topAppBarHeight;
-    const hasAnyPixelsOffscreen = this.currentAppBarOffsetTop < 0;
-    const hasAnyPixelsOnscreen = this.currentAppBarOffsetTop > offscreenBoundaryTop;
-    const partiallyShowing = hasAnyPixelsOffscreen && hasAnyPixelsOnscreen;
-
-    // If it's partially showing, it can't be docked.
-    if (partiallyShowing) {
-      this.wasDocked = false;
-    } else {
-      // Not previously docked and not partially showing, it's now docked.
-      if (!this.wasDocked) {
-        this.wasDocked = true;
-        return true;
-      } else if (this.isDockedShowing !== hasAnyPixelsOnscreen) {
-        this.isDockedShowing = hasAnyPixelsOnscreen;
-        return true;
-      }
-    }
-
-    return partiallyShowing;
+  _resizeHandler() {
+    
   }
 
-  resizeHandler() {
-    this.isCurrentlyBeingResized = true;
-    const currentHeight = this.height;
-    if (this.topAppBarHeight !== currentHeight) {
-      this.wasDocked = false;
-
-      // Since the top app bar has a different height depending on the screen width, this
-      // will ensure that the top app bar remains in the correct location if
-      // completely hidden and a resize makes the top app bar a different height.
-      this.currentAppBarOffsetTop -= this.topAppBarHeight - currentHeight;
-      this.topAppBarHeight = currentHeight;
-    }
-    this.topAppBarScrollHandler();
-    this.isCurrentlyBeingResized = false;
+  _createObserver() {
+    if (this._animationElements.length === 0) return;
+    this._observer = new IntersectionObserver(this._handleIntersect.bind(this), {
+      root: null,
+      rootMargin: "0px",
+      threshold: this._buildThresholdList()
+    });
+    this._observer.observe(this);
   }
 
+  _buildThresholdList() {
+    let thresholds = [];
+    let numSteps = 68;
 
-  scrollHandler() {
-    const currentScrollPosition = Math.max(this.getViewportScrollY(), 0);
-
-    if (!this.fixed) {
-      const diff = currentScrollPosition - this.lastScrollPosition;
-      this.lastScrollPosition = currentScrollPosition;
-
-      // If the window is being resized the lastScrollPosition_ needs to be updated but the
-      // current scroll of the top app bar should stay in the same position.
-      if (!this.isCurrentlyBeingResized) {
-        this.currentAppBarOffsetTop -= diff;
-
-        if (this.currentAppBarOffsetTop > 0) {
-          this.currentAppBarOffsetTop = 0;
-        } else if (Math.abs(this.currentAppBarOffsetTop) > this.topAppBarHeight) {
-          this.currentAppBarOffsetTop = -this.topAppBarHeight;
-        }
-
-        this.moveTopAppBar();
-      }
-    } else {
-      if (currentScrollPosition <= 0) {
-        if (this.wasScrolled_) {
-          this.classList.remove('mdw-scrolled');
-          this.wasScrolled_ = false;
-        }
-      } else {
-        if (!this.wasScrolled_) {
-          this.classList.add('mdw-scrolled');
-          this.wasScrolled_ = true;
-        }
-      }
+    for (let i = 1.0; i <= numSteps; i++) {
+      let ratio = i / numSteps;
+      thresholds.push(ratio);
     }
+
+    this._intersectionThresholds = thresholds;
+    return this._intersectionThresholds;
   }
 
-  getViewportScrollY() {
-    return this.scrollTarget[this.scrollTarget === window ? 'pageYOffset' : 'scrollTop'];
+  _handleIntersect(entries, observer) {
+    entries.forEach((entry) => {
+      let percent;
+      if (this._isProminent) percent = -entry.boundingClientRect.top / (this._topAppBarHeight / 2);
+      this._animationElements.forEach(v => this._animationValue(percent, v));
+    });
+  }
+
+  _animationValue(percent, { element, property, valueWrapper, start, end, range}) {
+    element.style[property] = valueWrapper.replace('#', start - (percent * range));
   }
 });

@@ -18,6 +18,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._clickOutsideClose = false;
     this._boundHandleBodyClick = this._handleBodyClick.bind(this);
     this._boundHandleKeydown = this._handleKeydown.bind(this);
+    this.bound_close = this.close.bind(this);
     this._clickOutsideCloseIgnorElement = [];
     this._autoPosition = false;
   }
@@ -57,6 +58,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   get position() {
     return this._position;
+  }
+
+  fullscreen() {
+    this.classList.add('mdw-fullscreen');
   }
 
   setPosition(value) {
@@ -111,11 +116,15 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     this.addBodyClickEvent_();
     this.addKeydownEvent_();
+    this.addEventListener('MDWPanel:close', this.bound_close);
     this._isOpen = true;
   }
 
   // TODO FIX THE CLOSING ANIMATION
-  close() {
+  close(event) {
+    if (event) event.stopPropagation();
+
+    this.removeEventListener('MDWPanel:close', this.bound_close);
     if (!this._isQuickOpen) {
       this.classList.add('mdw-panel--animating-closed');
       this.removeBodyClickEvent_();
@@ -237,7 +246,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   notifyOpen() {
-    this.dispatchEvent(new Event('MDWPanel:open'), this);
+    this.dispatchEvent(new Event('MDWPanel:opened'), this);
   }
 
   hoistToBody(target) {
@@ -292,8 +301,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         const { clientWidth, clientHeight } = document.documentElement;
         const height = this.offsetHeight;
         const width = this.offsetWidth;
-        const aValue = this.position.split(' ')[0];
-        const bValue = this.position.split(' ')[1];
+        // no defaults
+        const split = (this.position || ' ').split(' ');
+        const aValue = split[0];
+        const bValue = split[1];
 
         switch(aValue) {
           case 'top':
@@ -361,8 +372,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     // using getBoundingClientRect will return the adjusted width based on the scale factor
     const width = this.offsetWidth;
     const height = this.offsetHeight;
-    const aValue = position.split(' ')[0];
-    const bValue = position.split(' ')[1];
+    // no defaults
+    const split = (this.position || ' ').split(' ');
+    const aValue = split[0];
+    const bValue = split[1];
     let top = 0;
     let left = 0;
 

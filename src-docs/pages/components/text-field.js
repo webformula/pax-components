@@ -68,7 +68,7 @@ export default class Textfield extends Page {
                 <option value="filled" selected>Filled</option>
                 <option value="outlined">outlined</option>
               </select>
-              <label>Varient</label>
+              <label>Variant</label>
             </mdw-select>
 
             <mdw-select id="pre-icon-select" class="mdw-padding" mdw-enhanced>
@@ -131,12 +131,13 @@ export default class Textfield extends Page {
           </div>
         </div>
 
-        <a href="https://material.io/design/components/text-fields.html" target="_new">Material Design Guidlines: Text fields</a>
+        <a href="https://material.io/design/components/text-fields.html" target="_new">Material Design Guidelines: Text fields</a>
         <p>Text fields let users enter and edit text</p>
 
         <div class="links">
           <div class="eyebrow">contents</div>
           <anchor-link selector="#outlined" offset="64">Outlined</anchor-link>
+          <anchor-link selector="#shaped" offset="64">Shaped</anchor-link>
           <anchor-link selector="#helper-text" offset="64">Helper text</anchor-link>
           <anchor-link selector="#validation" offset="64">Validation</anchor-link>
           <anchor-link selector="#icons" offset="64">Icons</anchor-link>
@@ -166,6 +167,67 @@ export default class Textfield extends Page {
                 <input>
                 <label>label</label>
               </mdw-textfield>
+            </div>
+          </mdw-card>
+
+          <!-- shaped -->
+          <mdw-card id="shaped">
+            <div class="mdw-card__content">
+              <h6>Outlined</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-textfield class="mdw-shaped mdw-density-compact">
+                  <mdw-icon>search</mdw-icon>
+                  <input placeholder="Search">
+                </mdw-textfield>
+
+                <mdw-textfield class="mdw-shaped mdw-outlined mdw-density-compact">
+                  <mdw-icon>search</mdw-icon>
+                  <input placeholder="Search">
+                </mdw-textfield>
+
+                <mdw-textfield class="mdw-shaped">
+                  <input>
+                  <label>label</label>
+                </mdw-textfield>
+
+                <mdw-textfield class="mdw-shaped mdw-outlined">
+                  <input>
+                  <label>label</label>
+                </mdw-textfield>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content">
+              <div>
+                <mdw-textfield class="mdw-shaped mdw-density-compact">
+                  <mdw-icon>search</mdw-icon>
+                  <input placeholder="Search">
+                </mdw-textfield>
+              </div>
+
+              <div>
+                <mdw-textfield class="mdw-shaped mdw-outlined mdw-density-compact">
+                  <mdw-icon>search</mdw-icon>
+                  <input placeholder="Search">
+                </mdw-textfield>
+              </div>
+
+              <div>
+                <mdw-textfield class="mdw-shaped">
+                  <input>
+                  <label>label</label>
+                </mdw-textfield>
+              </div>
+
+              <div>
+                <mdw-textfield class="mdw-shaped mdw-outlined">
+                  <input>
+                  <label>label</label>
+                </mdw-textfield>
+              </div>
             </div>
           </mdw-card>
 

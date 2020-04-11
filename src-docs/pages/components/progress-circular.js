@@ -35,7 +35,7 @@ export default class CircularProgress extends Page {
           <mdw-circular-progress mdw-mode="indeterminate"></mdw-circular-progress>
         </div>
 
-        <a href="https://material.io/design/components/progress-indicators.html#circular-progress-indicators" target="_new">Material Design Guidlines: Circular progress</a>
+        <a href="https://material.io/design/components/progress-indicators.html#circular-progress-indicators" target="_new">Material Design Guidelines: Circular progress</a>
         <p>Circular progress indicators display progress by animating an indicator along an invisible circular track in a clockwise direction. They can be applied directly to a surface, such as a button or card</p>
 
         <div class="links">

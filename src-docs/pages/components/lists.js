@@ -74,7 +74,7 @@ export default class List extends Page {
           </mdw-list>
         </div>
 
-        <a href="https://material.io/components/lists/" target="_new">Material Design Guidlines: Lists</a>
+        <a href="https://material.io/components/lists/" target="_new">Material Design Guidelines: Lists</a>
         <p>Lists are continuous, vertical indexes of text or images</p>
 
         <section id="types">
@@ -138,6 +138,72 @@ export default class List extends Page {
                     <div class="mdw-ripple mdw-list-item-ripple"></div>
                   </mdw-list-item>
                 `).join('\n')}
+              </mdw-list>
+            </div>
+          </mdw-card>
+
+          <mdw-card>
+            <div class="mdw-card__content">
+              <h6>Subheaders</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-list>
+                  <div class="mdw-subheader">Header 1</div>
+
+                  <mdw-list-item>
+                    <mdw-icon>inbox</mdw-icon>
+                    <div class="mdw-list-item__text">
+                      <div class="mdw-list-item__primary-text">One</div>
+                    </div>
+                  </mdw-list-item>
+
+                  <div class="mdw-subheader">Header 2</div>
+
+                  <mdw-list-item>
+                    <mdw-icon>inbox</mdw-icon>
+                    <div class="mdw-list-item__text">
+                      <div class="mdw-list-item__primary-text">One</div>
+                    </div>
+                  </mdw-list-item>
+                </mdw-list>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content">
+              <mdw-list>
+                <div class="mdw-subheader">Header 1</div>
+
+                <mdw-list-item>
+                  <mdw-icon>inbox</mdw-icon>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">One</div>
+                  </div>
+                </mdw-list-item>
+
+                <mdw-list-item>
+                  <mdw-icon>inbox</mdw-icon>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">Two</div>
+                  </div>
+                </mdw-list-item>
+
+                <div class="mdw-subheader">Header 2</div>
+
+                <mdw-list-item>
+                  <mdw-icon>inbox</mdw-icon>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">Three</div>
+                  </div>
+                </mdw-list-item>
+
+                <mdw-list-item>
+                  <mdw-icon>inbox</mdw-icon>
+                  <div class="mdw-list-item__text">
+                    <div class="mdw-list-item__primary-text">Four</div>
+                  </div>
+                </mdw-list-item>
               </mdw-list>
             </div>
           </mdw-card>

@@ -30,7 +30,7 @@ export default class Slider extends Page {
           <mdw-slider id="slider1" min="0" max="100" value="50"></mdw-slider>
         </div>
 
-        <a href="https://material.io/design/components/sliders.html" target="_new">Material Design Guidlines: Sliders</a>
+        <a href="https://material.io/design/components/sliders.html" target="_new">Material Design Guidelines: Sliders</a>
         <p>Sliders allow users to make selections from a range of values</p>
 
         <div class="column">

@@ -9,12 +9,22 @@ mdw-list {
   margin: 0;
   padding: 8px 0;
   list-style-type: none;
-}
 
-mdw-list.mdw-two-line mdw-list-item {
-  height: 72px;
-}
+  &.mdw-two-line {
+    mdw-list-item {
+      height: 72px;
+    }
+  }
 
-mdw-list.mdw-three-line mdw-list-item {
-  height: 88px;
+  &.mdw-three-line {
+    mdw-list-item {
+      height: 88px;
+    }
+  }
+
+  .mdw-subheader {
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0 16px;
+  }
 }

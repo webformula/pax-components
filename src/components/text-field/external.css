@@ -15,6 +15,44 @@ mdw-textfield {
   background-color: rgba(var(--mdw-theme-on-background--rgb), 0.024);
 }
 
+mdw-textfield.mdw-spacer {
+  margin-bottom: 32px;
+}
+
+mdw-textfield.mdw-on-background input {
+  color: var(--mdw-theme-text-primary-on-background);
+  caret-color: var(--mdw-theme-text-primary-on-background);
+}
+
+mdw-textfield.mdw-on-background input::placeholder {
+  color: rgba(var(--mdw-theme-text-primary-on-background--rgb), 0.7);
+}
+
+mdw-textfield input[placeholder] {
+  padding-top: 8px;
+}
+
+.mdw-density-comfortable mdw-textfield input[placeholder],
+mdw-textfield.mdw-density-comfortable input[placeholder] {
+  padding-top: 6px;
+}
+
+.mdw-density-compact mdw-textfield input[placeholder],
+mdw-textfield.mdw-density-compact input[placeholder] {
+  padding-top: 4px;
+}
+
+.mdw-density-comfortable mdw-textfield.mdw-outlined input[placeholder],
+mdw-textfield.mdw-density-comfortable.mdw-outlined input[placeholder] {
+  padding-top: 12px;
+}
+
+.mdw-density-compact mdw-textfield.mdw-outlined input[placeholder],
+mdw-textfield.mdw-density-compact.mdw-outlined input[placeholder] {
+  padding-top: 12px;
+}
+
+
 mdw-textfield.mdw-density-comfortable,
 .mdw-density-comfortable mdw-textfield {
   height: 48px;
@@ -60,10 +98,21 @@ mdw-textfield:not(.mdw-outlined):before {
   pointer-events: none;
   content: "";
   background-color: var(--mdw-theme-background);
+}
+
+mdw-textfield.mdw-shaped:not(.mdw-outlined):after,
+mdw-textfield.mdw-shaped:not(.mdw-outlined):before  {
+  border-radius: var(--mdw-theme--button-shape-radius, 18px);
+  /* border: none; */
+}
+
+mdw-textfield:not(.mdw-no-animation):not(.mdw-outlined):after,
+mdw-textfield:not(.mdw-no-animation):not(.mdw-outlined):before {
   transition: opacity 15ms linear,
               background-color 15ms linear;
 }
 
+mdw-textfield.mdw-focused:not(.mdw-outlined):before,
 mdw-textfield:focus-within:not(.mdw-outlined):before {
   transition-duration: 75ms;
   opacity: 0.12;
@@ -103,14 +152,20 @@ mdw-textfield.mdw-invalid.mdw-outlined:not(.mdw-upgraded):focus-within {
 
 
 
+/* --- shaped --- */
+mdw-textfield.mdw-shaped {
+  border-radius: var(--mdw-theme--button-shape-radius, 18px);
+  /* border: none; */
+}
+
+mdw-textfield.mdw-shaped input {
+  border: none;
+}
 
 /* --- input --- */
 
 mdw-textfield textarea,
 mdw-textfield input {
-  font-family: Roboto,sans-serif;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
   font-size: 1rem;
   line-height: 1.75rem;
   font-weight: 400;
@@ -123,8 +178,6 @@ mdw-textfield input {
   width: 100%;
   height: 100%;
   padding: 20px 16px 6px;
-  -o-transition: opacity .18s cubic-bezier(.4,0,.2,1);
-  transition: opacity .18s cubic-bezier(.4,0,.2,1);
   border: none;
   border-bottom: 1px solid;
   border-radius: 0;
@@ -135,13 +188,18 @@ mdw-textfield input {
 
   border-bottom-color: rgba(var(--mdw-theme-on-background--rgb), 0.42);
   color: var(--mdw-theme-on-background);
-  caret-color: rgba(var(--mdw-theme-primary--rgb), .7);
+  caret-color: var(--mdw-theme-on-background);
+}
+
+mdw-textfield:not(.mdw-no-animation) textarea,
+mdw-textfield:not(.mdw-no-animation) input {
+  transition: opacity .18s cubic-bezier(.4,0,.2,1);
 }
 
 mdw-textfield.mdw-invalid textarea,
 mdw-textfield.mdw-invalid input {
   border-bottom-color: var(--mdw-theme-error);
-  caret-color: rgba(var(--mdw-theme-error--rgb), .7);
+  caret-color: var(--mdw-theme-error);
 }
 
 mdw-textfield mdw-icon:not([onclick]) {
@@ -189,9 +247,6 @@ mdw-textfield.mdw-outlined:not(.mdw-upgraded) input {
 /* --- label --- */
 
 mdw-textfield label {
-  font-family: Roboto,sans-serif;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
   font-size: 1rem;
   line-height: 1.75rem;
   font-weight: 400;
@@ -200,8 +255,6 @@ mdw-textfield label {
   text-transform: inherit;
   position: absolute;
   transform-origin: left top;
-  transition: transform .15s cubic-bezier(.4,0,.2,1),
-              color .15s cubic-bezier(.4,0,.2,1);
   line-height: 1.15rem;
   text-align: left;
   text-overflow: ellipsis;
@@ -216,6 +269,11 @@ mdw-textfield label {
   pointer-events: none;
 
   color: rgba(var(--mdw-theme-on-background--rgb), .87);
+}
+
+mdw-textfield:not(.mdw-no-animation) label {
+  transition: transform .15s cubic-bezier(.4,0,.2,1),
+              color .15s cubic-bezier(.4,0,.2,1);
 }
 
 mdw-textfield.mdw-invalid label {
@@ -285,23 +343,16 @@ mdw-textfield.mdw-density-compact.mdw-outlined.mdw-upgraded.not-empty label,
   left: 0;
   width: 100%;
   height: 2px;
-  -webkit-transform: scaleX(0);
-  -ms-transform: scaleX(0);
   transform: scaleX(0);
-  -webkit-transition: opacity .18s cubic-bezier(.4,0,.2,1),
-                      -webkit-transform .18s cubic-bezier(.4,0,.2,1);
-  transition: opacity .18s cubic-bezier(.4,0,.2,1),
-              -webkit-transform .18s cubic-bezier(.4,0,.2,1);
-  -o-transition: transform .18s cubic-bezier(.4,0,.2,1),
-                  opacity .18s cubic-bezier(.4,0,.2,1);
   transition: transform .18s cubic-bezier(.4,0,.2,1),
               opacity .18s cubic-bezier(.4,0,.2,1);
-  transition: transform .18s cubic-bezier(.4,0,.2,1),
-              opacity .18s cubic-bezier(.4,0,.2,1),
-              -webkit-transform .18s cubic-bezier(.4,0,.2,1);
   opacity: 0;
   z-index: 2;
   background-color: rgba(var(--mdw-theme-primary--rgb), .7);
+}
+
+mdw-textfield.mdw-shaped .mdw-line-ripple {
+  display: none;
 }
 
 mdw-textfield.mdw-invalid .mdw-line-ripple {
@@ -351,6 +402,13 @@ mdw-textfield .mdw-outlined-leading {
   width: 12px;
 }
 
+mdw-textfield.mdw-shaped .mdw-outlined-leading {
+  border-radius: var(--mdw-theme--button-shape-radius, 18px) 0 0 var(--mdw-theme--button-shape-radius, 18px);
+  border-left: 1px solid;
+  border-right: none;
+  width: 12px;
+}
+
 mdw-textfield:not(.mdw-trailing-icon) mdw-icon ~ .mdw-outlined-border-container .mdw-outlined-leading {
   width: 42px;
 }
@@ -369,6 +427,11 @@ mdw-textfield .mdw-outlined-trailing {
   -ms-flex-positive: 1;
   flex-grow: 1;
 }
+
+mdw-textfield.mdw-shaped .mdw-outlined-trailing {
+  border-radius: 0 var(--mdw-theme--button-shape-radius, 18px) var(--mdw-theme--button-shape-radius, 18px) 0;
+}
+
 
 mdw-textfield .mdw-outlined-leading,
 mdw-textfield .mdw-outlined-notch,
@@ -495,6 +558,16 @@ mdw-textfield mdw-icon {
   position: absolute;
   bottom: 16px;
   cursor: pointer;
+}
+
+.mdw-density-comfortable mdw-textfield mdw-icon,
+mdw-textfield.mdw-density-comfortable mdw-icon {
+  bottom: 12px;
+}
+
+.mdw-density-compact mdw-textfield mdw-icon,
+mdw-textfield.mdw-density-compact mdw-icon {
+  bottom: 8px;
 }
 
 mdw-textfield:not(:disabled) mdw-icon {

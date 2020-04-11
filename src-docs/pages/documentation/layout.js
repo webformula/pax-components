@@ -215,8 +215,10 @@ export default class Layout extends Page {
         </mdw-card>
       </section>
 
-      <section>
-        <a href="#/components/buttons">components: Buttons</a>
+      <section mdw-row>
+        <mdw-button class="mdw-secondary" href="#/documentation/theme">< theme</mdw-button>
+        <span mdw-flex></span>
+        <mdw-button class="mdw-secondary" href="#/documentation/density">density ></mdw-button>
       </section>
     </article>
     `;
