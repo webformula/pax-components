@@ -68,7 +68,7 @@ export default class Textfield extends Page {
                 <option value="filled" selected>Filled</option>
                 <option value="outlined">outlined</option>
               </select>
-              <label>Varient</label>
+              <label>Variant</label>
             </mdw-select>
 
             <mdw-select id="pre-icon-select" class="mdw-padding" mdw-enhanced>
@@ -131,7 +131,7 @@ export default class Textfield extends Page {
           </div>
         </div>
 
-        <a href="https://material.io/design/components/text-fields.html" target="_new">Material Design Guidlines: Text fields</a>
+        <a href="https://material.io/design/components/text-fields.html" target="_new">Material Design Guidelines: Text fields</a>
         <p>Text fields let users enter and edit text</p>
 
         <div class="links">

@@ -5,3 +5,13 @@ mdw-page {
   width: 100%;
   overflow-y: hidden;
 }
+
+
+mdw-page-content {
+  overflow: auto;
+  display: block;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0 40px;
+  width: 100%;
+}

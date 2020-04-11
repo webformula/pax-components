@@ -1,6 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 
-customElements.define('mdw-bottom-navigation', class extends HTMLElementExtended {
+customElements.define('mdw-bottom-app-bar', class extends HTMLElementExtended {
   constructor() {
     super();
 

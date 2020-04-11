@@ -75,7 +75,7 @@ export default class Snackbar extends Page {
           </div>
         </div>
 
-        <a href="https://material.io/design/components/snackbars.html" target="_new">Material Design Guidlines: Snackbars</a>
+        <a href="https://material.io/design/components/snackbars.html" target="_new">Material Design Guidelines: Snackbars</a>
         <p>Snackbars provide brief messages about app processes at the bottom of the screen</p>
 
 

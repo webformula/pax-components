@@ -18,7 +18,7 @@ export default class Checkboxes extends Page {
           <mdw-checkbox indeterminate></mdw-checkbox>
         </div>
 
-        <a href="https://material.io/design/components/selection-controls.html#checkboxes" target="_new">Material Design Guidlines: Checkboxes</a>
+        <a href="https://material.io/design/components/selection-controls.html#checkboxes" target="_new">Material Design Guidelines: Checkboxes</a>
         <p>Checkboxes allow the user to select one or more items from a set. Checkboxes can be used to turn an option on or off</p>
 
         <div class="links">

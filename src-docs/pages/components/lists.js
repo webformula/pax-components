@@ -74,7 +74,7 @@ export default class List extends Page {
           </mdw-list>
         </div>
 
-        <a href="https://material.io/components/lists/" target="_new">Material Design Guidlines: Lists</a>
+        <a href="https://material.io/components/lists/" target="_new">Material Design Guidelines: Lists</a>
         <p>Lists are continuous, vertical indexes of text or images</p>
 
         <section id="types">

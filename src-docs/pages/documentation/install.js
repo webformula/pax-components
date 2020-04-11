@@ -34,7 +34,7 @@ export default class Install extends Page {
     return /* html */`
     <article class="page-article">
       <h1 class="article-title">Installation</h1>
-      <p>You have two options. Include with the CDN, or install via NPM</p>
+      <p>You have two options. Include with a CDN, or install via NPM</p>
 
       <mdw-card id="contained">
         <div class="mdw-card__content">
@@ -63,12 +63,12 @@ export default class Install extends Page {
           </monaco-editor>
 
           <monaco-editor language="javascript">
-            // import the src usign es modules
+            // import the src using es modules
             import '@webformula/pax-components/src/entry.js';
 
-            // you can alterativly import the dist file, this is a cjs module
+            // you can alteratively import the dist file, this is a cjs module
             import '@webformula/pax-components/dist/entry.js';
-            // or
+            // ors
             require('@webformula/pax-components/dist/entry.js');
           </monaco-editor>
 
@@ -76,8 +76,10 @@ export default class Install extends Page {
         </div>
       </mdw-card>
 
-      <section>
-        <a href="#/documentation/browsers">next: browser compatability</a>
+      <section mdw-row>
+        <mdw-button class="mdw-secondary" href="#/home">< welcome</mdw-button>
+        <span mdw-flex></span>
+        <mdw-button class="mdw-secondary" href="#/documentation/app-index">app index.html ></mdw-button>
       </section>
     </article>
     `;

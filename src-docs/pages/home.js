@@ -112,8 +112,9 @@ export default class Home extends Page {
         </div>
       </mdw-card>
 
-      <section>
-        <a href="#/documentation/install">next: Install</a>
+      <section mdw-row>
+        <span mdw-flex></span>
+        <mdw-button class="mdw-secondary" href="#/documentation/install">install ></mdw-button>
       </section>
     </article>
     `;

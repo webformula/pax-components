@@ -189,7 +189,7 @@ export default class Panel extends Page {
           <mdw-card id="positon-inner-top-inner-left">
             <div class="mdw-card__content">
               <h6>Draggable</h6>
-              The panel will be draggable in the confines you give it. If you hoist the panel to the body or place it on the body, it will drag ontop of all body elements.
+              The panel will be draggable in the confines you give it. If you hoist the panel to the body or place it on the body, it will drag on top of all body elements.
             </div>
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">

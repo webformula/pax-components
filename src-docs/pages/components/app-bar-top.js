@@ -9,7 +9,7 @@ export default class TopAppBar extends Page {
   }
 
   get title() {
-    return 'Top app bar';
+    return 'App bar: Top';
   }
 
   get contextualList() {
@@ -36,10 +36,18 @@ export default class TopAppBar extends Page {
     this.contextualTopAppBar.contextual();
   }
 
+  styles() {
+    return `
+      .showcase mdw-top-app-bar::after {
+        padding-right: 0 !important;
+      }
+    `;
+  }
+
   template() {
     return /* html */`
       <article class="page-article">
-        <h3>Top app bar</h3>
+        <h3>App bar: Top</h3>
 
         <div class="showcase mdw-elevation-1">
           <mdw-top-app-bar style="width: 400px; position: relative;">

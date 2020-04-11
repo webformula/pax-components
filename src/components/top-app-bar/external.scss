@@ -1,3 +1,10 @@
+body.mdw-navigation-drawer-open {
+  mdw-top-app-bar:after {
+    content: '';
+    padding-right: 220px;
+  }
+}
+
 header {
   &.mdw-top-app-bar {
     position: relative;
@@ -5,7 +12,7 @@ header {
     &.mdw-prominent {
       &.mdw-fixed,
       &.mdw-shrink {
-        & + mdw-content:before {
+        & + mdw-page-content:before {
           content: '';
           display: block;
           height: 128px;
@@ -15,7 +22,7 @@ header {
 
     &:not(.mdw-prominent) {
       &.mdw-fixed {
-        & + mdw-content:before {
+        & + mdw-page-content:before {
           content: '';
           display: block;
           height: 64px;

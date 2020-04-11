@@ -57,8 +57,6 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     // window.removeEventListener('resize', this.throttledResizeHandler.bind(this));
   }
 
-
-
   notContextual() {
     this.removeAttribute('mdw-contextual');
   }

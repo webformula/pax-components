@@ -12,14 +12,19 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
+    this._isNavigationDrawer = this.classList.contains('mdw-navigation-drawer');
+    if (this._isNavigationDrawer) document.body.classList.add('mdw-has-navigation-drawer');
+
     // auto add modal for mobile
     if (MDWUtils.isMobile) this.classList.add('mdw-modal');
     // auto hide if modal
     if (this.isModal && !this.isHidden) this.classList.add('mdw-hide');
+    else if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
 
     // browser events for url changes
     window.addEventListener('hashchange', this.bound_routeChange);
     window.addEventListener('DOMContentLoaded', this.bound_routeChange);
+    
   }
 
   disconnectedCallback() {
@@ -65,12 +70,16 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
       addSwipeListener(document.body, this.bound_onSwipe);
       if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.hide(), { sheet: true });
     }
+
+    if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
   }
 
   hide() {
     this.classList.add('mdw-hide');
     if (this._backdrop) this._backdrop.remove();
     removeSwipeListener(document.body, this.bound_onSwipe);
+
+    if (this._isNavigationDrawer) document.body.classList.remove('mdw-navigation-drawer-open');
   }
 
   toggle() {

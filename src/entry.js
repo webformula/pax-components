@@ -6,7 +6,7 @@ import './core/swipe.js';
 // import './components/autocomplete/index.js';
 // import './components/backdrop/index.js';
 import './components/banner/index.js';
-import './components/bottom-navigation/index.js';
+import './components/bottom-app-bar/index.js';
 import './components/button/index.js';
 import './components/card/index.js';
 import './components/checkbox/index.js';

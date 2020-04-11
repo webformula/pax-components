@@ -42,7 +42,7 @@ export default class Menu extends Page {
           </mdw-menu>
         </div>
 
-        <a href="https://material.io/design/components/menus.html" target="_new">Material Design Guidlines: menus</a>
+        <a href="https://material.io/design/components/menus.html" target="_new">Material Design Guidelines: menus</a>
         <p>Menus display a list of choices on temporary surfaces</p>
 
         <div class="links">

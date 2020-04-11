@@ -19,7 +19,7 @@ export default class Cards extends Page {
             <div class="mdw-card__content">
               <h6>Card title</h6>
               <div class="mdw-subtitle">subtitle text</div>
-              <div class="mdw-card__supporting mdw-body">This is some supporting text for the card conent</div>
+              <div class="mdw-card__supporting mdw-body">This is some supporting text for the card content</div>
             </div>
 
             <div class="mdw-card__actions">
@@ -31,7 +31,7 @@ export default class Cards extends Page {
           </mdw-card>
         </div>
 
-        <a href="https://material.io/design/components/cards.html" target="_new">Material Design Guidlines: Cards</a>
+        <a href="https://material.io/design/components/cards.html" target="_new">Material Design Guidelines: Cards</a>
         <p>Cards contain content and actions about a single subject</p>
 
         <!-- <div class="column">

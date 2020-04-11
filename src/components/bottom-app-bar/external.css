@@ -1,4 +1,4 @@
-mdw-bottom-navigation {
+mdw-bottom-app-bar {
   display: flex;
   position: fixed;
   bottom: -1px;
@@ -16,14 +16,14 @@ mdw-bottom-navigation {
               0 1px 10px 0 rgba(0,0,0,.12);
 }
 
-/* mdw-bottom-navigation mdw-button {
+/* mdw-bottom-app-bar mdw-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: auto;
 }
 
-mdw-bottom-navigation mdw-button mdw-icon {
+mdw-bottom-app-bar mdw-button mdw-icon {
   font-size: 24px;
   display: flex;
   flex-direction: column;
@@ -36,10 +36,10 @@ mdw-bottom-navigation mdw-button mdw-icon {
   font-size: 24px;
 } */
 
-mdw-bottom-navigation mdw-button {
+mdw-bottom-app-bar mdw-button {
   color: rgba(var(--mdw-theme-text-primary-on-background--rgb), 0.7);
 }
 
-mdw-bottom-navigation mdw-button.mdw-current-link {
+mdw-bottom-app-bar mdw-button.mdw-current-link {
   color: var(--mdw-theme-text-primary-on-background);
 }
