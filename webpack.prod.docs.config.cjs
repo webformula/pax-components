@@ -31,8 +31,16 @@ module.exports = {
 
   plugins: [
     new CopyPlugin([
-      // { from: './src-docs/index.html', to: './' },
-      { from: './src-docs/public', to: './' }
+      {
+        from: './src-docs/public',
+        to: './',
+        transform(content, path) {
+          if (path.includes('.html')) {
+            return content.toString().replace(/_VERSION_/gm, version);
+          }
+          return content;
+        },
+      }
     ]),
 
     new HtmlWebpackPlugin({

@@ -25,7 +25,16 @@ module.exports = {
   plugins: [
     new CopyPlugin([
       // copy css files into root of dist folder
-      { from: './src-docs/public', to: './' }
+      {
+        from: './src-docs/public',
+        to: './',
+        transform(content, path) {
+          if (path.includes('.html')) {
+            return content.toString().replace(/_VERSION_/gm, version);
+          }
+          return content;
+        },
+      }
     ]),
 
     new HtmlWebpackPlugin({

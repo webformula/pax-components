@@ -3,16 +3,18 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cwd = process.cwd();
+const { version } = require('./package.json');
+
 
 module.exports = {
   entry: {
-    'entry.js': './src/entry.js',
+    [`entry.${version}`]: './src/entry.js',
     'entry': './src/entry.scss',
     'theme': './src/theme.css'
   },
 
   output: {
-    filename: '[name]',
+    // filename: `${version}.[name]`,
     path: path.resolve(__dirname, 'dist'),
   },
 
@@ -28,7 +30,7 @@ module.exports = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: `[name].${version}.css`
     })
   ],
 

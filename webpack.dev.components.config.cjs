@@ -1,19 +1,19 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { version } = require('./package.json');
 
 const cwd = process.cwd();
 
 module.exports = {
   entry: {
-    'entry.js': './src/entry.js',
+    [`entry.${version}`]: './src/entry.js',
     'entry': './src/entry.scss',
     'theme': './src/theme.css'
   },
 
   output: {
-    filename: '[name]',
-    path: path.resolve(__dirname, 'local-dist'),
+    path: path.resolve(__dirname, 'local-dist')
   },
 
   resolve: {
@@ -37,7 +37,7 @@ module.exports = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].css"
+      filename: `[name].${version}.css`
     })
   ],
 
