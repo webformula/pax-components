@@ -5,6 +5,7 @@ customElements.define('mdw-bottom-navigation', class extends HTMLElementExtended
     super();
 
     this.bound_routeChange = this.routeChange.bind(this);
+    document.body.classList.add('mdw-has-bottom-navigation');
   }
 
   connectedCallback() {

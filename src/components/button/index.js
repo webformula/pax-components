@@ -269,6 +269,15 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: 48px;
         padding: 12px;
         line-height: 19px;
+        height: auto;
+        width: auto;
+      }
+
+      :host(.mdw-icon) span.text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 0.75rem;
       }
 
       :host(.mdw-bottom-navigation) {
@@ -290,7 +299,6 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         display: inline-block;
         white-space: nowrap;
         word-wrap: normal;
-        direction: ltr;
       }
 
       /* mdw-icon */

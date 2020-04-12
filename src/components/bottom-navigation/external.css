@@ -16,30 +16,18 @@ mdw-bottom-navigation {
               0 1px 10px 0 rgba(0,0,0,.12);
 }
 
-/* mdw-bottom-navigation mdw-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: auto;
-}
-
-mdw-bottom-navigation mdw-button mdw-icon {
-  font-size: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  margin: unset;
-  padding: unset;
-
-  font-size: 24px;
-} */
-
 mdw-bottom-navigation mdw-button {
   color: rgba(var(--mdw-theme-text-primary-on-background--rgb), 0.7);
 }
 
 mdw-bottom-navigation mdw-button.mdw-current-link {
   color: var(--mdw-theme-text-primary-on-background);
+}
+
+
+/* add spacer to page container */
+body.mdw-has-bottom-navigation mdw-page-content:after {
+  content: '';
+  display: block;
+  height: 56px;
 }

@@ -9,10 +9,10 @@
   <script type="module" src="../dist/entry._VERSION_.js"></script>
 </head>
 
-<body mdw-column>
+<body>
   <mdw-page>
-    <mdw-content class="constrain-width">
-      <div style="padding-top: 70px;">
+    <mdw-page-content>
+      <div>
         <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
   sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -41,21 +41,24 @@
   anim id est laborum.
         </p>
       </div>
-    </mdw-content>
+    </mdw-page-content>
+
+    <mdw-bottom-navigation>
+      <mdw-button class="mdw-icon" href="#/">
+        <mdw-icon>home</mdw-icon>
+        home
+      </mdw-button>
+    
+      <mdw-button class="mdw-icon" href="#/a">
+        <mdw-icon>start</mdw-icon>
+        start
+      </mdw-button>
+    
+      <mdw-button class="mdw-icon" href="#/b">
+        <mdw-icon>note</mdw-icon>
+        note
+      </mdw-button>
+    </mdw-bottom-navigation>
   </mdw-page>
-
-  <mdw-bottom-navigation>
-    <mdw-button class="mdw-icon" href="#/">
-      <mdw-icon>home</mdw-icon>
-    </mdw-button>
-
-    <mdw-button class="mdw-icon" href="#/">
-      <mdw-icon>start</mdw-icon>
-    </mdw-button>
-
-    <mdw-button class="mdw-icon" href="#/">
-      <mdw-icon>note</mdw-icon>
-    </mdw-button>
-  </mdw-bottom-navigation>
 </body>
 </html>
