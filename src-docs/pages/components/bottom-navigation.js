@@ -1,22 +1,22 @@
 import { Page } from '@webformula/pax-core';
 
-export default class BottomAppBar extends Page {
+export default class BottomNavigation extends Page {
   constructor() {
     super();
   }
 
   get title() {
-    return 'App bar: Bottom';
+    return 'Bottom navigation';
   }
 
   template() {
     return /* html */`
       <article class="page-article">
-        <h3>App bar: Bottom</h3>
+        <h3>Bottom navigation</h3>
 
         <div class="showcase">
-          <mdw-bottom-app-bar style="background-color: var(--mdw-theme-primary); color: var(--mdw-theme-text--on-primary); position: relative;">
-            <mdw-button class="mdw-icon">
+          <mdw-bottom-navigation style="background-color: var(--mdw-theme-primary); color: var(--mdw-theme-text--on-primary); position: relative;">
+            <mdw-button class="mdw-icon mdw-current-link">
               <mdw-icon>home</mdw-icon>
             </mdw-button>
 
@@ -31,7 +31,7 @@ export default class BottomAppBar extends Page {
             <mdw-button class="mdw-icon">
               <mdw-icon>cake</mdw-icon>
             </mdw-button>
-          </mdw-bottom-app-bar>
+          </mdw-bottom-navigation>
         </div>
 
         <a href="https://material.io/components/bottom-navigation" target="_new">Material Design Guidelines: Bottom navigation</a>
@@ -48,7 +48,7 @@ export default class BottomAppBar extends Page {
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-bottom-app-bar>
+                <mdw-bottom-navigation>
                   <mdw-button class="mdw-icon" href="#/">
                     <mdw-icon>home</mdw-icon>
                   </mdw-button>
@@ -60,7 +60,7 @@ export default class BottomAppBar extends Page {
                   <mdw-button class="mdw-icon" href="#/">
                     <mdw-icon>note</mdw-icon>
                   </mdw-button>
-                </mdw-bottom-app-bar>
+                </mdw-bottom-navigation>
               </monaco-editor>
             </div>
 

@@ -1,4 +1,4 @@
-mdw-bottom-app-bar {
+mdw-bottom-navigation {
   display: flex;
   position: fixed;
   bottom: -1px;
@@ -16,14 +16,14 @@ mdw-bottom-app-bar {
               0 1px 10px 0 rgba(0,0,0,.12);
 }
 
-/* mdw-bottom-app-bar mdw-button {
+/* mdw-bottom-navigation mdw-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: auto;
 }
 
-mdw-bottom-app-bar mdw-button mdw-icon {
+mdw-bottom-navigation mdw-button mdw-icon {
   font-size: 24px;
   display: flex;
   flex-direction: column;
@@ -36,10 +36,10 @@ mdw-bottom-app-bar mdw-button mdw-icon {
   font-size: 24px;
 } */
 
-mdw-bottom-app-bar mdw-button {
+mdw-bottom-navigation mdw-button {
   color: rgba(var(--mdw-theme-text-primary-on-background--rgb), 0.7);
 }
 
-mdw-bottom-app-bar mdw-button.mdw-current-link {
+mdw-bottom-navigation mdw-button.mdw-current-link {
   color: var(--mdw-theme-text-primary-on-background);
 }

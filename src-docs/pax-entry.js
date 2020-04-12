@@ -3,11 +3,11 @@ import './components/anchor-link.js';
 import './components/monaco-editor.js';
 
 import { router } from '@webformula/pax-core';
-import BottomAppBar from './pages/components/app-bar-bottom.js';
 import TopAppBar from './pages/components/app-bar-top.js';
 import Autocomplete from './pages/components/autocomplete.js';
 import Backdrop from './pages/components/backdrop.js';
 import Banners from './pages/components/banners.js';
+import BottomNavigation from './pages/components/bottom-navigation.js';
 import Buttons from './pages/components/buttons.js';
 import Cards from './pages/components/cards.js';
 import Checkboxes from './pages/components/checkboxes.js';
@@ -37,11 +37,11 @@ import Mobile from './pages/documentation/mobile.js';
 import ThemePage from './pages/documentation/theme.js';
 import Home from './pages/home.js';
 
-router.addPageClass(BottomAppBar, 'components/app-bar-bottom');
 router.addPageClass(TopAppBar, 'components/app-bar-top');
 router.addPageClass(Autocomplete, 'components/autocomplete');
 router.addPageClass(Backdrop, 'components/backdrop');
 router.addPageClass(Banners, 'components/banners');
+router.addPageClass(BottomNavigation, 'components/bottom-navigation');
 router.addPageClass(Buttons, 'components/buttons');
 router.addPageClass(Cards, 'components/cards');
 router.addPageClass(Checkboxes, 'components/checkboxes');
