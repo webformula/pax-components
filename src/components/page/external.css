@@ -15,3 +15,18 @@ mdw-page-content {
   padding: 0 40px;
   width: 100%;
 }
+
+mdw-page-content.mdw-no-padding {
+  padding: 0;
+}
+
+mdw-page-content.mdw-no-scroll {
+  overflow: unset;
+}
+
+
+body.mdw-has-navigation-rail mdw-page:before {
+  content: '';
+  display: block;
+  width: 72px;
+}

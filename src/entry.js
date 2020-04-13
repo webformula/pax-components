@@ -19,6 +19,7 @@ import './components/linear-progress/index.js';
 import './components/list/index.js';
 import './components/list-item/index.js';
 import './components/menu/index.js';
+import './components/navigation-rail/index.js';
 import './components/panel/index.js';
 import './components/radio/index.js';
 import './components/radio-group/index.js';

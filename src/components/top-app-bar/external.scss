@@ -17,12 +17,24 @@ header {
           display: block;
           height: 128px;
         }
+
+        & + mdw-content:before {
+          content: '';
+          display: block;
+          height: 128px;
+        }
       }
     }
 
     &:not(.mdw-prominent) {
       &.mdw-fixed {
         & + mdw-page-content:before {
+          content: '';
+          display: block;
+          height: 64px;
+        }
+
+        & + mdw-content:before {
           content: '';
           display: block;
           height: 64px;
