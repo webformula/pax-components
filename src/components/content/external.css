@@ -7,7 +7,11 @@ mdw-content {
   width: 100%;
 }
 
-mdw-content.constrain-width > render-block-page {
+mdw-content.mdw-no-padding {
+  padding: 0;
+}
+
+mdw-content.mdw-constrain-width > render-block-page {
   display: block;
   max-width: 840px;
 }

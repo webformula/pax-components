@@ -272,12 +272,13 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: auto;
         width: auto;
       }
-
+      
       :host(.mdw-icon) span.text {
         display: flex;
         flex-direction: column;
         align-items: center;
         font-size: 0.75rem;
+        text-transform: none;
       }
 
       :host(.mdw-bottom-navigation) {

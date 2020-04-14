@@ -11,13 +11,17 @@ mdw-sheet-side {
   padding-right: 16px;
   padding-top: 20px;
   margin: 0;
+  z-index: 2;
 
   /* TODO move variables */
   width: var(--mdw-theme-sheet-width);
+
+  background-color: var(--mdw-theme-background);
 }
 
 mdw-sheet-side:not(.mdw-modal) {
   transition: width 0.2s cubic-bezier(.4,0,.2,1),
+              margin-right 0.2s cubic-bezier(.4,0,.2,1),
               padding 0.2s cubic-bezier(.4,0,.2,1);
 }
 

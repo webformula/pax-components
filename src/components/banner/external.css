@@ -17,24 +17,24 @@ mdw-banner {
 }
 
 /* initial state */
-body.mdw-top-app-bar mdw-banner {
+body.mdw-has-top-app-bar mdw-banner {
   margin-top: 0;
 }
 
 /* show states */
-body.mdw-top-app-bar mdw-banner.mdw-show {
+body.mdw-has-top-app-bar mdw-banner.mdw-show {
   margin-top: 65px;
 }
 
-body.mdw-top-app-bar--prominent mdw-banner.mdw-show {
+body.mdw-has-top-app-bar--prominent mdw-banner.mdw-show {
   margin-top: 130px;
 }
 
-body.mdw-top-app-bar--dense mdw-banner.mdw-show {
+body.mdw-has-top-app-bar--dense mdw-banner.mdw-show {
   margin-top: 56px;
 }
 
-body.mdw-top-app-bar--prominent-dense mdw-banner.mdw-show {
+body.mdw-has-top-app-bar--prominent-dense mdw-banner.mdw-show {
   margin-top: 112px;
 }
 
@@ -47,7 +47,7 @@ mdw-banner.mdw-show {
   transition: margin-top 150ms var(--mdw-animation--enter);
 }
 
-body.mdw-top-app-bar mdw-banner.mdw-dismiss {
+body.mdw-has-top-app-bar mdw-banner.mdw-dismiss {
   margin-top: 0;
 }
 
