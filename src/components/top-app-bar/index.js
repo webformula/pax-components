@@ -9,6 +9,8 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     this._throttledResizeHandler = MDWUtils.rafThrottle(this._resizeHandler);
     this.bound_throttledScrollHandler = this._throttledScrollHandler.bind(this);
     this.bound_throttledResizeHandler = this._throttledResizeHandler.bind(this);
+
+    document.body.classList.add('mdw-has-top-app-bar');
   }
 
   connectedCallback() {
@@ -48,7 +50,7 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
       // window.addEventListener('resize', this.throttledResizeHandler.bind(this));
     }
 
-    document.body.classList.add('mdw-top-app-bar');
+    // document.body.classList.add('mdw-has-top-app-bar');
   }
 
   disconnectedCallback() {

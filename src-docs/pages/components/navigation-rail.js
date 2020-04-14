@@ -23,21 +23,6 @@ export default class NavigationRail extends Page {
   </head>
 
   <body style="height: 100%">
-    <mdw-navigation-rail style="position: relative;">
-      <mdw-button class="mdw-icon" href="#/">
-        <mdw-icon>home</mdw-icon>
-      </mdw-button>
-
-      <mdw-button class="mdw-icon">
-        <mdw-icon>star</mdw-icon>
-        star
-      </mdw-button>
-
-      <mdw-button class="mdw-icon">
-        <mdw-icon>inbox</mdw-icon>
-        inbox
-      </mdw-button>
-    </mdw-navigation-rail>
 
     <mdw-page>
       <mdw-top-app-bar>
@@ -45,34 +30,53 @@ export default class NavigationRail extends Page {
           <span class="title">Example</span>
         </section>
       </mdw-top-app-bar>
-      <mdw-content class="constrain-width">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-          anim id est laborum.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-          anim id est laborum.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-          anim id est laborum.
-        </p>
+
+      <mdw-content mdw-row class="mdw-no-padding">
+        <mdw-navigation-rail>
+          <mdw-button class="mdw-icon" href="#/">
+            <mdw-icon>home</mdw-icon>
+          </mdw-button>
+        
+          <mdw-button class="mdw-icon">
+            <mdw-icon>star</mdw-icon>
+            star
+          </mdw-button>
+        
+          <mdw-button class="mdw-icon">
+            <mdw-icon>inbox</mdw-icon>
+            inbox
+          </mdw-button>
+        </mdw-navigation-rail>
+
+        <mdw-page-content>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+          </p>
+        </mdw-page-content>
       </mdw-content>
     </mdw-page>
   </body>
@@ -80,7 +84,7 @@ export default class NavigationRail extends Page {
     `;
 
     document.querySelector('#editor-2').content = `
-    <html>
+<html>
   <head>
     <meta http-equiv="Cache-Control" content="no-store" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -92,22 +96,6 @@ export default class NavigationRail extends Page {
   </head>
 
   <body style="height: 100%">
-    <mdw-navigation-rail style="position: relative;">
-      <mdw-button class="mdw-icon" href="#/">
-        <mdw-icon>home</mdw-icon>
-      </mdw-button>
-    
-      <mdw-button class="mdw-icon">
-        <mdw-icon>star</mdw-icon>
-        star
-      </mdw-button>
-    
-      <mdw-button class="mdw-icon">
-        <mdw-icon>inbox</mdw-icon>
-        inbox
-      </mdw-button>
-    </mdw-navigation-rail>
-
     <mdw-sheet-side class="mdw-navigation-drawer">
       <mdw-sheet-side--header>
         <div class="mdw-title">Nav title</div>
@@ -158,39 +146,130 @@ export default class NavigationRail extends Page {
           <span class="title">Example</span>
         </section>
       </mdw-top-app-bar>
-      <mdw-page-content class="constrain-width">
+      
+      <mdw-content mdw-row class="mdw-no-padding">
+        <mdw-navigation-rail>
+          <mdw-button class="mdw-icon" href="#/">
+            <mdw-icon>home</mdw-icon>
+          </mdw-button>
+
+          <mdw-button class="mdw-icon">
+            <mdw-icon>star</mdw-icon>
+            star
+          </mdw-button>
+
+          <mdw-button class="mdw-icon">
+            <mdw-icon>inbox</mdw-icon>
+            inbox
+          </mdw-button>
+        </mdw-navigation-rail>
+
+        <mdw-page-content>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+            anim id est laborum.
+          </p>
+        </mdw-page-content>
+      </mdw-content>
+    </mdw-page>
+  </body>
+</html>
+    `;
+
+
+    document.querySelector('#editor-3').content =  `
+<html>
+
+  <head>
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
+    <link rel="stylesheet" href="../local-dist/theme._VERSION_.css">
+    <link rel="stylesheet" href="../local-dist/entry._VERSION_.css">
+    <link rel="stylesheet" href="main.css">
+    <script type="module" src="../local-dist/entry._VERSION_.js"></script>
+  </head>
+
+  <body style="height: 100%">
+    <mdw-navigation-rail>
+      <mdw-button class="mdw-icon" href="#/">
+        <mdw-icon>home</mdw-icon>
+      </mdw-button>
+
+      <mdw-button class="mdw-icon">
+        <mdw-icon>star</mdw-icon>
+        star
+      </mdw-button>
+
+      <mdw-button class="mdw-icon">
+        <mdw-icon>inbox</mdw-icon>
+        inbox
+      </mdw-button>
+    </mdw-navigation-rail>
+
+    <mdw-page>
+      <mdw-top-app-bar>
+        <section>
+          <span class="title">Example</span>
+        </section>
+      </mdw-top-app-bar>
+
+      <mdw-page-content mdw-row>
         <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-  anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+          occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+          anim id est laborum.
         </p>
         <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-  anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+          occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+          anim id est laborum.
         </p>
         <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-  anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+          occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+          anim id est laborum.
         </p>
       </mdw-page-content>
     </mdw-page>
   </body>
 </html>
-    `;
+    `
   }
 
   template() {
@@ -218,6 +297,7 @@ export default class NavigationRail extends Page {
           <div class="eyebrow">contents</div>
           <anchor-link selector="#basic" offset="64">Basic</anchor-link>
           <anchor-link selector="#nav" offset="64">With navigation drawer</anchor-link>
+          <anchor-link selector="#notnested" offset="64">Not nested under top app bar</anchor-link>
         </div>
 
         <section id="types">
@@ -229,7 +309,7 @@ export default class NavigationRail extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <monaco-editor id="editor-1" language="html"></monaco-editor>
+              <monaco-editor id="editor-1" language="html" style="max-height: 320px;"></monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
@@ -246,12 +326,29 @@ export default class NavigationRail extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <monaco-editor id="editor-2" language="html"></monaco-editor>
+              <monaco-editor id="editor-2" language="html" style="max-height: 320px;"></monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
               <div class="demo">
                 <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="navigation-rail-with-drawer.html"></iframe>
+              </div>
+            </div>
+          </mdw-card>
+
+
+          <mdw-card id="notnested">
+            <div class="mdw-card__content">
+              <h6>Rail not nested under top app bar</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor id="editor-3" language="html" style="max-height: 320px;"></monaco-editor>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <div class="demo">
+                <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="navigation-rail-not-nested.html"></iframe>
               </div>
             </div>
           </mdw-card>

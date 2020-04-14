@@ -25,8 +25,14 @@ mdw-page-content.mdw-no-scroll {
 }
 
 
-body.mdw-has-navigation-rail mdw-page:before {
+body > mdw-navigation-rail + mdw-page:before {
   content: '';
   display: block;
   width: 72px;
+}
+
+
+mdw-page-content.mdw-constrain-width > render-block-page {
+  display: block;
+  max-width: 840px;
 }

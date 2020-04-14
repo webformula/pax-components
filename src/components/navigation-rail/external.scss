@@ -3,12 +3,18 @@ mdw-navigation-rail {
   flex-direction: column;
   align-items: center;
   height: 100%;
+  box-sizing: border-box;
 
   background-color: var(--mdw-theme-background);
 }
 
-body.mdw-has-navigation-drawer mdw-navigation-rail {
-  position: absolute;
+// body.mdw-has-navigation-drawer mdw-navigation-rail {
+//   margin-left: 0;
+//   transition: margin-left 0.2s linear;
+// }
+
+body.mdw-navigation-drawer-open mdw-navigation-rail {
+  margin-left: -72px;
 }
 
 

@@ -31,11 +31,6 @@ mdw-sheet-side.mdw-hide:not(.mdw-modal) {
   padding-top: 20px;
 }
 
-/* if navigation rail exists leave spacing so the navigation rail does not get hidden by page */
-body.mdw-has-navigation-rail mdw-sheet-side.mdw-hide:not(.mdw-modal) {
-  margin-right: 72px;
-}
-
 mdw-sheet-side--header {
   display: block;
   z-index: 1;
