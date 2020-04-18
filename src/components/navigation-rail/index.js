@@ -1,11 +1,18 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
+import { isPhoneAndTablet } from '../../core/mobile-info.js';
 
 customElements.define('mdw-navigation-rail', class extends HTMLElementExtended {
   constructor() {
     super();
 
-    this.bound_routeChange = this.routeChange.bind(this);
-    document.body.classList.add('mdw-has-navigation-rail');
+    console.log(isPhoneAndTablet && this.hasAttribute('mdw-desktop-only'), isPhoneAndTablet, this.hasAttribute('mdw-desktop-only'));
+    if (isPhoneAndTablet && this.hasAttribute('mdw-desktop-only')) {
+      this.style.display = 'none';
+      this.style.pointerEvents = 'none';
+    } else {
+      this.bound_routeChange = this.routeChange.bind(this);
+      document.body.classList.add('mdw-has-navigation-rail');
+    }
   }
 
   connectedCallback() {

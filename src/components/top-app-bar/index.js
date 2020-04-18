@@ -41,6 +41,7 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
       });
 
       this._scrollTarget = this._getScrollTarget();
+      console.log(this._scrollTarget);
       this._lastScrollPosition = this._getViewportScrollY();
       this._topAppBarHeight = this.clientHeight + 6;
       this._scrollHandler();
@@ -67,20 +68,26 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     this.setAttribute('mdw-contextual', '');
   }
 
-
-
   _getAllFixedSections() {
     return this.querySelectorAll('section[mdw-fixed]');
   }
 
   _getScrollTarget() {
-    if (this.parentNode.nodeName === 'MDW-PAGE') {
-      const content = document.querySelector('mdw-content');
-      if (content) {
-        this.hasContent = true;
-        return content;
-      }
+    // get sibling mdw-content
+    if (this.parentNode.nodeName === 'HEADER') {
+      const contentSibling = this.parentNode.parentNode.querySelector('header + mdw-content:not([mdw-no-scroll])');
+      if (contentSibling) return contentSibling;
     }
+
+    // get page container
+    const pageContent = document.querySelector('mdw-page-content');
+    if (pageContent && pageContent.contains(this)) return pageContent;
+
+    // get wrapping content
+    const content = document.querySelector('mdw-content');
+    if (content && content.contains(this)) return content;
+
+    // default to window
     return window;
   }
 

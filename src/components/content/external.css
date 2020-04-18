@@ -7,6 +7,10 @@ mdw-content {
   width: 100%;
 }
 
+mdw-content[mdw-no-scroll] {
+  overflow: unset;
+}
+
 mdw-content.mdw-no-padding {
   padding: 0;
 }
