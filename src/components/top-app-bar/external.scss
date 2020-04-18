@@ -5,7 +5,7 @@ body.mdw-navigation-drawer-open {
   }
 }
 
-header {
+header:not(.mdw-hide-non-page-container) {
   &.mdw-top-app-bar {
     position: relative;
 
