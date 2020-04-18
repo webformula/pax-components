@@ -22,6 +22,58 @@ export default class TopAppBar extends Page {
 
   connectedCallback() {
     this.contextualList.addEventListener('change', this.bound_onSelect);
+
+    document.querySelector('#editor-1').content = `
+  <body>
+    <mdw-page mdw-scroll>
+      <header>
+        <mdw-top-app-bar>
+          <section>
+            <mdw-icon>menu</mdw-icon>
+          </section>
+          
+          <section mdw-flex>
+            <span class="mdw-title">Standard</span>
+          </section>
+          
+          <section>
+            <mdw-icon>bookmark</mdw-icon>
+          </section>
+        </mdw-top-app-bar>
+      </header>
+
+      <mdw-page-content>
+        ...pagecontent
+      </mdw-page-content>
+    </mdw-page>
+  </body>`;
+
+  document.querySelector('#editor-2').content = `
+<body>
+  <mdw-page mdw-scroll>
+    <header>
+      <mdw-top-app-bar>
+        <section>
+          <mdw-icon>menu</mdw-icon>
+        </section>
+
+        <section mdw-flex>
+          <span class="mdw-title">Standard</span>
+        </section>
+
+        <section>
+          <mdw-icon>bookmark</mdw-icon>
+        </section>
+      </mdw-top-app-bar>
+    </header>
+
+    <mdw-page-content>
+      ...pagecontent
+      </p>
+    </mdw-page-content>
+  </mdw-page>
+</body>
+  `;
   }
 
   disconnectedCallback() {
@@ -83,24 +135,11 @@ export default class TopAppBar extends Page {
           <mdw-card id="standard">
             <div class="mdw-card__content">
               <h6>Standard</h6>
+              <p>Pace top-app-bar inside mdw-page and tell mdw-page to be the scroll node</p>
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <monaco-editor language="html">
-                <mdw-top-app-bar>
-                  <section>
-                    <mdw-icon>menu</mdw-icon>
-                  </section>
-                  
-                  <section mdw-flex>
-                    <span class="mdw-title">Standard</span>
-                  </section>
-                  
-                  <section>
-                    <mdw-icon>bookmark</mdw-icon>
-                  </section>
-                </mdw-top-app-bar>
-              </monaco-editor>
+              <monaco-editor id="editor-1" language="html"></monaco-editor>
             </div>
 
             <div class="mdw-card__content">
@@ -111,24 +150,11 @@ export default class TopAppBar extends Page {
           <mdw-card id="fixed">
             <div class="mdw-card__content">
               <h6>Fixed</h6>
+              <p>Pace top-app-bar inside mdw-page</p>
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <monaco-editor language="html">
-                <mdw-top-app-bar mdw-fixed>
-                  <section>
-                    <mdw-icon>menu</mdw-icon>
-                  </section>
-
-                  <section mdw-flex>
-                    <span class="mdw-title">Fixed</span>
-                  </section>
-
-                  <section>
-                    <mdw-icon>bookmark</mdw-icon>
-                  </section>
-                </mdw-top-app-bar>
-              </monaco-editor>
+              <monaco-editor id="editor-2" language="html"></monaco-editor>
             </div>
             <div class="mdw-card__content">
               <iframe style="width: 100%; height: 200px; border: 1px solid #ddd" src="top-app-bar-fixed.html"></iframe>
@@ -285,31 +311,31 @@ export default class TopAppBar extends Page {
                 </mdw-top-app-bar>
 
                 <mdw-content>
-                    <mdw-list mdw-select="multiple" class="contextual">
-                      <mdw-list-item>
-                        <mdw-icon>inbox</mdw-icon>
-                        <div class="mdw-list-item__text">
-                          <div class="mdw-list-item__primary-text">One</div>
-                        </div>
-                        <mdw-checkbox class="mdw-list-item__meta"></mdw-checkbox>
-                      </mdw-list-item>
+                  <mdw-list mdw-select="multiple" mdw-select-onclick class="contextual">
+                    <mdw-list-item>
+                      <mdw-icon>inbox</mdw-icon>
+                      <div class="mdw-list-item__text">
+                        <div class="mdw-list-item__primary-text">One</div>
+                      </div>
+                      <mdw-checkbox class="mdw-list-item__meta"></mdw-checkbox>
+                    </mdw-list-item>
 
-                      <mdw-list-item>
-                        <mdw-icon>inbox</mdw-icon>
-                        <div class="mdw-list-item__text">
-                          <div class="mdw-list-item__primary-text">Two</div>
-                        </div>
-                        <mdw-checkbox class="mdw-list-item__meta"></mdw-checkbox>
-                      </mdw-list-item>
+                    <mdw-list-item>
+                      <mdw-icon>inbox</mdw-icon>
+                      <div class="mdw-list-item__text">
+                        <div class="mdw-list-item__primary-text">Two</div>
+                      </div>
+                      <mdw-checkbox class="mdw-list-item__meta"></mdw-checkbox>
+                    </mdw-list-item>
 
-                      <mdw-list-item>
-                        <mdw-icon>inbox</mdw-icon>
-                        <div class="mdw-list-item__text">
-                          <div class="mdw-list-item__primary-text">Three</div>
-                        </div>
-                        <mdw-checkbox class="mdw-list-item__meta"></mdw-checkbox>
-                      </mdw-list-item>
-                    </mdw-list>
+                    <mdw-list-item>
+                      <mdw-icon>inbox</mdw-icon>
+                      <div class="mdw-list-item__text">
+                        <div class="mdw-list-item__primary-text">Three</div>
+                      </div>
+                      <mdw-checkbox class="mdw-list-item__meta"></mdw-checkbox>
+                    </mdw-list-item>
+                  </mdw-list>
                 </mdw-content>
               </mdw-page>
             </div>

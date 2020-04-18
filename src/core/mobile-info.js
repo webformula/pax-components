@@ -2,7 +2,6 @@ export const isPhone = isPhoneCheck();
 export const isPhoneAndTablet = isPhoneAndTabletCheck();
 
 function isPhoneAndTabletCheck() {
-  console.log('isPhoneAndTabletCheck');
   if (typeof FORCE_MOBILE !=='undefined' && FORCE_MOBILE === 'true') return true;
   var check = false;
   (function (a) {

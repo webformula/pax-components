@@ -6,6 +6,10 @@ mdw-page {
   overflow-y: hidden;
 }
 
+mdw-page[mdw-scroll] {
+  overflow: auto;
+}
+
 
 mdw-page-content {
   display: block;
@@ -13,7 +17,9 @@ mdw-page-content {
   height: 100%;
   padding: 0 40px;
   width: 100%;
+}
 
+mdw-page:not([mdw-scroll]) mdw-page-content {
   overflow: auto;
 }
 

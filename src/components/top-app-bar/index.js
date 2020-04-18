@@ -41,7 +41,6 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
       });
 
       this._scrollTarget = this._getScrollTarget();
-      console.log(this._scrollTarget);
       this._lastScrollPosition = this._getViewportScrollY();
       this._topAppBarHeight = this.clientHeight + 6;
       this._scrollHandler();
@@ -50,8 +49,6 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
       this._scrollTarget.addEventListener('scroll', this.bound_throttledScrollHandler);
       // window.addEventListener('resize', this.throttledResizeHandler.bind(this));
     }
-
-    // document.body.classList.add('mdw-has-top-app-bar');
   }
 
   disconnectedCallback() {
