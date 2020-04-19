@@ -1,11 +1,13 @@
+import MDWUtils from '../../core/Utils.js';
+
 const MDWDialog = new class {
   constructor() {
     this.currentDialog = null;
   }
 
-  show({ title, message, okLabel, cancelLabel, position = 'center center', clickOutsideClose = false }) {
+  open({ title, message, okLabel, cancelLabel, position = 'center center', clickOutsideClose = false }) {
     return new Promise(resolve => {
-      const id = this.uid();
+      const id = MDWUtils.uid('dialog');
       const template = this.template({ id, title, message, okLabel, cancelLabel, position });
 
       document.body.insertAdjacentHTML('beforeend', template);
@@ -20,18 +22,14 @@ const MDWDialog = new class {
       el.clickOutsideClose = clickOutsideClose;
       this.currentDialog = el;
 
-      setTimeout(() => {
-        el.show();
-      }, 0);
+      requestAnimationFrame(() => {
+        el.open();
+      });
     });
   }
 
   removeCurrent() {
     this.currentDialog.close();
-  }
-
-  uid() {
-    return `dialog_${parseInt(Math.random() * 99999)}`;
   }
 
   template({ id, title, message, okLabel, cancelLabel, position }) {

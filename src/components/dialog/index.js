@@ -39,7 +39,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.clickOutsideClose_ = value;
   }
 
-  show() {
+  open() {
     this.panel.hoistToBody();
     this.panel.setPosition(this.position);
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
@@ -60,7 +60,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
   close(ok) {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.close();
-    this.panel.remove();
+    this.panel.removeOnAnimationComplete();
     this.backdrop.remove();
     this.backdrop = undefined;
     this.dispatchClose(ok);

@@ -28,8 +28,8 @@ const MDWUtils = new class {
     callback();
   }
 
-  uid() {
-    return `id_${this._uid++}`;
+  uid(label = 'id') {
+    return `${label}_${this._uid++}`;
   }
 
   get isMobile() {

@@ -23,6 +23,7 @@ import './components/navigation-rail/index.js';
 import './components/panel/index.js';
 import './components/radio/index.js';
 import './components/radio-group/index.js';
+import './components/screen/index.js';
 import './components/select/index.js';
 import './components/sheet/index.js';
 import './components/sheets-side/index.js';
@@ -41,8 +42,10 @@ import './components/bound-property/index.js';
 
 import MDWDialog from './components/dialog/service.js';
 import MDWSnackbar from './components/snackbar/service.js';
+import MDWScreen from './components/screen/service.js';
 
 export {
   MDWDialog,
-  MDWSnackbar
+  MDWSnackbar,
+  MDWScreen
 }

@@ -75,6 +75,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._autoPosition = true;
   }
 
+  setAnimation(animationConfig) {
+    this._animationConfig = animationConfig;
+  }
+
   clickBodyToClose() {
     this._clickOutsideClose = true;
   }
@@ -93,7 +97,8 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     // handle animation
     if (!this._isQuickOpen) {
-      this.classList.add('mdw-panel--animating-open');
+      this.prepareAnimation();
+
       this._animationRequestId = this._runNextAnimationFrame(() => {
         this.classList.add('mdw-open');
         if (this._isQuickOpen) this.notifyOpen();
@@ -101,6 +106,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
           this._openAnimationEndTimerId = setTimeout(() => {
             this._openAnimationEndTimerId = 0;
             this.classList.remove('mdw-panel--animating-open');
+            this.classList.remove('mdw-panel_animate-open-parent-child');
             this.notifyOpen();
           }, 150);
         }
@@ -119,6 +125,24 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.addEventListener('MDWPanel:close', this.bound_close);
     this._isOpen = true;
   }
+
+
+  prepareAnimation() {
+    if (this._animationConfig) {
+      console.log(this._animationConfig.target.offsetHeight)
+      this.style.height = `${this._animationConfig.target.offsetHeight}px`;
+      this.style.transform = `translateY(${this._animationConfig.target.offsetTop}px)`; // this is undone by positioning code
+      this.classList.add('mdw-panel_animate-open-parent-child');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.style.height = '';
+        });
+      });
+    } else {
+      this.classList.add('mdw-panel--animating-open');
+    }
+  }
+
 
   // TODO FIX THE CLOSING ANIMATION
   close(event) {
@@ -150,6 +174,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const isRootFocused = this.isFocused();
     const childHasFocus = document.activeElement && this.contains(document.activeElement);
     if (isRootFocused || childHasFocus) this.restoreFocus();
+  }
+
+  // TODO implement
+  removeOnAnimationComplete() {
+    this.remove();
   }
 
   _runNextAnimationFrame(callback) {
@@ -326,7 +355,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
         switch(bValue) {
           case 'left':
-            left = -width;
+            left = 0;
             break;
           case 'inner-left':
             left = bounds.x + 12;

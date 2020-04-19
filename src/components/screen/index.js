@@ -1,6 +1,5 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
-import './service.js';
-import MDWUtils from '../../core/Utils.js';
+import MDWScreen from './service.js';
 
 customElements.define('mdw-screen', class extends HTMLElementExtended {
   constructor() {
@@ -18,19 +17,36 @@ customElements.define('mdw-screen', class extends HTMLElementExtended {
     return this._panel;
   }
 
+  set animation(value) {
+    this._animation = value;
+  }
+
   onPanelClose() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
   }
 
-  show() {
+  open() {
+    this.panel.classList.add('mdw-screen');
     this.panel.hoistToBody();
-    const onclose = () => {
-      this.panel.removeEventListener('close', onclose);
-      this.panel.remove();
-    };
-    this.panel.addEventListener('close', onclose);
+    this.panel.fullscreen();
+    this.panel.setPosition('top left');
+    if (this._animation) this.panel.setAnimation(this._animation);
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+
     requestAnimationFrame(() => {
-      this.panel.show();
+      this.panel.open();
     });
+  }
+
+  close() {
+    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.panel.close();
+    this.panel.removeOnAnimationComplete();
+    this.dispatchClose();
+    MDWScreen.currentSceen = undefined;
+  }
+
+  dispatchClose() {
+    this.dispatchEvent(new Event('close'));
   }
 });

@@ -5,7 +5,6 @@ customElements.define('mdw-navigation-rail', class extends HTMLElementExtended {
   constructor() {
     super();
 
-    console.log(isPhoneAndTablet && this.hasAttribute('mdw-desktop-only'), isPhoneAndTablet, this.hasAttribute('mdw-desktop-only'));
     if (isPhoneAndTablet && this.hasAttribute('mdw-desktop-only')) {
       this.style.display = 'none';
       this.style.pointerEvents = 'none';

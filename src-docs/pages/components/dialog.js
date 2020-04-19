@@ -77,11 +77,11 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
   showDialog() {
     // this.d1.hoistToBody();
-    this.d1.show();
+    this.d1.open();
   }
 
   showDialogWithService() {
-    MDWDialog.show({
+    MDWDialog.open({
       title: 'Title',
       message: 'message message 123',
       okLabel: 'ok',
@@ -92,7 +92,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
   }
 
   showDialogWithServiceClickoutside() {
-    MDWDialog.show({
+    MDWDialog.open({
       title: 'Title',
       message: 'Try to click background to close',
       okLabel: 'ok',
@@ -104,7 +104,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
   }
 
   showScrollDialog() {
-    MDWDialog.show({
+    MDWDialog.open({
       title: 'Title',
       message: this.finnigens,
       okLabel: 'ok',
@@ -122,7 +122,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
         <h3>Menu</h3>
 
         <div class="showcase mdw-elevation-1">
-          <mdw-button onclick="activePage.showDialogWithService()">show dialog</mdw-button>
+          <mdw-button onclick="activePage.showDialogWithService()">open dialog</mdw-button>
         </div>
 
         <a href="https://material.io/design/components/dialogs.html" target="_new">Material Design Guidlines: Dialogs</a>
@@ -148,7 +148,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="javascript">
-                MDWDialog.show({
+                MDWDialog.open({
                   title: 'Title',
                   message: 'message message 123',
                   okLabel: 'ok',
@@ -160,7 +160,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialogWithService()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialogWithService()">open dialog</mdw-button>
             </div>
           </mdw-card>
 
@@ -174,7 +174,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="javascript">
-                MDWDialog.show({
+                MDWDialog.open({
                   title: 'Title',
                   message: 'message message 123',
                   okLabel: 'ok',
@@ -187,7 +187,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialogWithServiceClickoutside()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialogWithServiceClickoutside()">open dialog</mdw-button>
             </div>
           </mdw-card>
 
@@ -217,13 +217,13 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
                 <!--
                   document.querySelector('#d1').hoistToBody();
-                  document.querySelector('#d1').show();
+                  document.querySelector('#d1').open();
                 -->
               </monaco-editor>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialog()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialog()">open dialog</mdw-button>
             </div>
           </mdw-card>
 
@@ -253,7 +253,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
 
             <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showScrollDialog()">show dialog</mdw-button>
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showScrollDialog()">open dialog</mdw-button>
             </div>
           </mdw-card>
 

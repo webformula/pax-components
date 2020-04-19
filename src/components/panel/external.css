@@ -12,7 +12,7 @@ mdw-panel {
   opacity: 0;
   overflow: auto;
   will-change: transform, opacity;
-  z-index: 8;
+  z-index: 9;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),
               0 8px 10px 1px rgba(0,0,0,.14),
@@ -21,6 +21,17 @@ mdw-panel {
               transform .12s cubic-bezier(0,0,.2,1);
   background-color: var(--mdw-theme-background);
   color: var(--mdw-theme-on-surface);
+}
+
+mdw-panel.mdw-fullscreen {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  max-width: unset;
+  max-height: unset;
 }
 
 .mdw-no-animation mdw-panel,
@@ -34,7 +45,10 @@ mdw-panel.mdw-open {
   transform: scale(1);
 }
 
-mdw-panel.mdw-list-item-expanded {
+
+
+
+/* mdw-panel.mdw-list-item-expanded {
   position: fixed;
   border-radius: 0;
   width: 100%;
@@ -72,12 +86,12 @@ mdw-panel.mdw-list-item-expanded.mdw-no-animation {
 
 mdw-panel.mdw-list-item-expanded.mdw-open {
   max-height: 100%;
-}
+} */
 
 
 mdw-panel.mdw-panel-hoisted {
   position: fixed;
-  z-index: 9;
+  z-index: 10;
 }
 
 .mdw-panel--fixed {
@@ -93,7 +107,7 @@ mdw-panel.mdw-panel-hoisted {
 
 
 /* animations */
-.mdw-panel--animating-open:not(.mdw-list-item-expanded) {
+/* .mdw-panel--animating-open:not(.mdw-list-item-expanded) {
   display: inline-block;
   overflow: hidden;
   transition:
@@ -107,7 +121,7 @@ mdw-panel.mdw-panel-hoisted {
   transition:
     opacity 1075ms cubic-bezier(0,0,.2,1) 0ms,
     transform 1075ms cubic-bezier(0,0,.2,1) 0ms;
-}
+} */
 
 .mdw-no-animation mdw-panel.mdw-panel--animating-open,
 .mdw-no-animation mdw-panel.mdw-panel--animating-closed,
@@ -428,3 +442,12 @@ mdw-panel option.mdw-selected:not(.disabled):after {
 mdw-panel option.mdw-selected:after {
   background-color: var(--mdw-theme-primary);
 } */
+
+
+
+
+/* --- animations --- */
+mdw-panel.mdw-panel_animate-open-parent-child {
+  transition: height 0.15s cubic-bezier(0.4, 0.0, 0.2, 1),
+              transform 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
