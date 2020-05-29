@@ -18,7 +18,7 @@ export default class List extends Page {
   }
 
   get listHugeData() {
-    return [...Array(400)].map((_, pos) => ({
+    return [...Array(200)].map((_, pos) => ({
       id: pos,
       label: `Item ${pos}`,
       secondary: 'secondary title'
