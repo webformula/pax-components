@@ -19,7 +19,6 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
     if (!this.hasAttribute('mdw-no-ripple')) this.ripple = new MDWRipple({
       element: this.shadowRoot.querySelector('.mdw-ripple'),
       triggerElement: [this],
-      radius: 20,
       centered: true
     });
 
@@ -119,6 +118,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
   styles() {
     return /* css */`
       :host {
+        --mdw-checkbox-size: 24px;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         -webkit-box-sizing: content-box;
         box-sizing: content-box;
@@ -129,11 +129,14 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
         white-space: nowrap;
         cursor: pointer;
 
-        /* flex: 0 0 18px; */
-        width: 18px;
-        height: 18px;
+        width: var(--mdw-checkbox-size);
+        height: var(--mdw-checkbox-size);
         line-height: 0;
-        padding: 11px;
+        padding: 8px 0;
+      }
+
+      :host(.mdw-no-padding) {
+        padding: 0;
       }
 
       :host([disabled]) {
@@ -158,17 +161,11 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
         position: absolute;
         user-select: none;
         outline: none;
-        left: 8px;
-        top: 9px;
+        font-size: var(--mdw-checkbox-size);
       }
 
-      :host(.mdw-large) ::slotted(mdw-icon) {
-        font-size: 36px;
-        width: 36px;
-        height: 36px;
-        line-height: 36px;
-        left: 2px;
-        top: 2px;
+      :host(.mdw-large) {
+        --mdw-checkbox-size: 48px;
       }
 
       :host(.mdw-primary) ::slotted(mdw-icon) {
@@ -231,6 +228,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
         border-radius: 50%;
         z-index: 1;
         pointer-events: none;
+        overflow: visible;
       }
 
       :host(.mdw-primary) .mdw-ripple-element {

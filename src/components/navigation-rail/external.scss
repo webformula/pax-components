@@ -13,7 +13,7 @@ mdw-navigation-rail {
 //   transition: margin-left 0.2s linear;
 // }
 
-body.mdw-navigation-drawer-open mdw-navigation-rail {
+body.mdw-navigation-drawer-open:not(.mdw-navigation-drawer-modal) mdw-navigation-rail {
   margin-left: -72px;
 }
 

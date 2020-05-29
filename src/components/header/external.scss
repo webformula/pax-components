@@ -1,0 +1,38 @@
+mdw-header {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 16px;
+
+  &.mdw-two-line {
+    height: 72px;
+  }
+
+  &.mdw-three-line {
+    height: 88px;
+  }
+
+  .mdw-title {
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    letter-spacing: .0125em;
+    text-decoration: inherit;
+    text-transform: inherit;
+
+    + .mdw-subtitle {
+      margin-top: -10px;
+    }
+  }
+
+  .mdw-subtitle {
+    font-size: 15px;
+    letter-spacing: .0125em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

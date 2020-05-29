@@ -42,7 +42,6 @@ export default class Templates extends Page {
       \`);
     `;
 
-
     document.querySelector('#vs-three').content = `
       // register and load template immediately
       MDWTemplate.registerAndLoad('three', 'http://site/test.html');

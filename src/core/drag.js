@@ -197,3 +197,11 @@ class Drag {
     };
   }
 }
+
+window.MDWDrag = {
+  states,
+  addDragListener,
+  removeDragListener,
+  enableDragListenerForElement,
+  disableDragListenerForElement
+};

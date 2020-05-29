@@ -58,7 +58,7 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   }
 
   dispatchChange() {
-    this.dispatchEvent(new CustomEvent('change', this));
+    this.dispatchEvent(new Event('change'));
   }
 
   onInputChange(e) {
