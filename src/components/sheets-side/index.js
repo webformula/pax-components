@@ -10,6 +10,8 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
 
     this.bound_onSwipe = this.onSwipe.bind(this);
     this.bound_routeChange = this.routeChange.bind(this);
+    this.bound_onTransitionRun = this.onTransitionRun.bind(this);
+    this.bound_onTransitionEnd = this.onTransitionEnd.bind(this);
   }
 
   connectedCallback() {
@@ -38,7 +40,9 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
       window.addEventListener('hashchange', this.bound_routeChange);
       window.addEventListener('DOMContentLoaded', this.bound_routeChange);
     }
-    
+
+    this._topAppBar = document.querySelector('mdw-top-app-bar');
+    if (this._topAppBar) this.addEventListener('transitionrun', this.bound_onTransitionRun);
   }
 
   disconnectedCallback() {
@@ -49,6 +53,8 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
       window.removeEventListener('hashchange', this.bound_routeChange);
       window.removeEventListener('DOMContentLoaded', this.bound_routeChange);
     }
+
+    if (this._topAppBar) this.removeEventListener('transitionrun', this.bound_onTransitionRun);
   }
 
   get isModal() {
@@ -83,12 +89,16 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
 
   show() {
     this.classList.remove('mdw-hide');
+    this.classList.add('mdw-show');
     if (this.isModal) {
       addSwipeListener(document.body, this.bound_onSwipe);
       if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.hide(), { sheet: true });
     }
 
     if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
+
+    // adjust top app bar width if is fixed
+    if (this._topAppBar) this._topAppBar._resizeHandler();
   }
 
   hide() {
@@ -98,6 +108,18 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     removeSwipeListener(document.body, this.bound_onSwipe);
 
     if (this._isNavigationDrawer) document.body.classList.remove('mdw-navigation-drawer-open');
+
+    // adjust top app bar width if is fixed
+    if (this._topAppBar) this._topAppBar._resizeHandler();
+  }
+
+  onTransitionRun() {
+    this._topAppBar._resizeHandler();
+  }
+
+  onTransitionEnd() {
+    this.removeEventListener('transitionrun', this.bound_onTransitionRun);
+    this.removeEventListener('transitionend', this.bound_onTransitionEnd);
   }
 
   toggle() {

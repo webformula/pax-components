@@ -12,9 +12,7 @@ const MDWScreen = new class {
 
     let screenTemplate;
     if (MDWUtils.isMobile) screenTemplate = mobileComponent === 'mdw-sheet-side' ? this._buildSheetSideTemplate(template, id) : this._buildPanelTemplate(template, id);
-    else screenTemplate = desktopComponent === 'mdw-panee' ? this._buildPanelTemplate(template, id) : this._buildSheetSideTemplate(template, id);
-   
-    document.body.insertAdjacentHTML('beforeend', screenTemplate);
+    else screenTemplate = desktopComponent === 'mdw-panel' ? this._buildPanelTemplate(template, id) : this._buildSheetSideTemplate(template, id);
     const screenComponent = document.querySelector(`#${id}`);
     this._currentScreen = screenComponent;
     screenComponent.animation = animation;
@@ -25,27 +23,31 @@ const MDWScreen = new class {
   }
 
   _buildPanelTemplate(templateString, id) {
-    return /* html */`
+    document.body.insertAdjacentHTML('beforeend', /* html */`
       <mdw-screen id="${id}">
         <mdw-panel>
-          <mdw-screen-container>
-            ${templateString}
-          </mdw-screen-container>
+          ${templateString}
         </mdw-panel>
       </mdw-screen>
-    `;
+    `);
   }
 
   _buildSheetSideTemplate(templateString, id) {
-    return /* html */`
+    const page = document.querySelector('mdw-page');
+    if (page) page.insertAdjacentHTML('afterEnd', /* html */`
       <mdw-screen id="${id}">
-        <mdw-panel>
-          <mdw-screen-container>
-            ${templateString}
-          </mdw-screen-container>
-        </mdw-panel>
+        <mdw-sheet-side class="mdw-hide">
+          ${templateString}
+        </mdw-sheet-side>
       </mdw-screen>
-    `;
+    `);
+    else document.body.insertAdjacentHTML('beforeend', /* html */`
+      <mdw-screen id="${id}">
+        <mdw-sheet-side class="mdw-hide">
+          ${templateString}
+        </mdw-sheet-side>
+      </mdw-screen>
+    `);
   }
 
   close() {

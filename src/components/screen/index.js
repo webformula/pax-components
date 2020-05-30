@@ -36,7 +36,6 @@ customElements.define('mdw-screen', class extends HTMLElementExtended {
     if (!this._component) {
       if (MDWUtils.isMobile) this._component = this.mobileComponent === 'mdw-sheet-side' ? this.querySelector('mdw-sheet-side') : this.querySelector('mdw-panel');
       else this._component = this.desktopComponent === 'mdw-panel' ? this.querySelector('mdw-panel') : this.querySelector('mdw-sheet-side');
-      this._component = this.querySelector('mdw-panel');
     }
     return this._component;
   }

@@ -15,6 +15,7 @@ mdw-sheet-side {
   overflow: hidden;
   margin: 0;
   z-index: 2;
+  height: 100%;
 
   /* TODO move variables */
   width: var(--mdw-theme-sheet-width);
