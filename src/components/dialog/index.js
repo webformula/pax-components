@@ -11,7 +11,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
 
   disconnectedCallback() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
-
+    this.panel.remove();
     if (this.backdrop) {
       this.backdrop.remove();
       this.backdrop = undefined;
@@ -39,7 +39,8 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.clickOutsideClose_ = value;
   }
 
-  open() {
+  open(fromService = false) {
+    this._fromService = fromService;
     this.panel.hoistToBody();
     this.panel.setPosition(this.position);
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
@@ -51,27 +52,24 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     requestAnimationFrame(() => {
       this.panel.open();
     });
-
-    // this.classList.add('mdw-show');
-    // TODO find a better way to handle positioning against body.
-    // this.panel.setPositionStyle(document.body);
   }
 
   close(ok) {
-    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.close();
-    this.panel.removeOnAnimationComplete();
-    this.backdrop.remove();
-    this.backdrop = undefined;
     this.dispatchClose(ok);
   }
 
   onPanelClose() {
-    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
-    if (this.backdrop) {
-      this.backdrop.remove();
-      this.backdrop = undefined;
+    // don't remove if we are closing a template
+    if (!this._fromService) {
+      this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+      if (this.backdrop) {
+        this.backdrop.remove();
+        this.backdrop = undefined;
+      }
+      return;
     }
+    this.remove();
   }
 
   dispatchClose(isOk = false) {

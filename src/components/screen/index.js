@@ -1,5 +1,8 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWScreen from './service.js';
+import MDWUtils from '../../core/Utils.js';
+
+const validComponents = ['mdw-panel', 'mdw-sheet-side'];
 
 customElements.define('mdw-screen', class extends HTMLElementExtended {
   constructor() {
@@ -9,44 +12,79 @@ customElements.define('mdw-screen', class extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.component.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+  }
+  
+  get desktopComponent() {
+    return this._desktopComponent || 'mdw-sheet-side';
+  }
+  set desktopComponent(value) {
+    if (!validComponents.includes(value)) throw Error(`Invalid components, please use one of these: ${validComponents.join(' ')}`);
+    this._desktopComponent = value;
   }
 
-  get panel() {
-    if (!this._panel) this._panel = this.querySelector('mdw-panel');
-    return this._panel;
+  get mobileComponent() {
+    return this._mobileComponent || 'mdw-sheet-side';
+  }
+  set mobileComponent(value) {
+    if (!validComponents.includes(value)) throw Error(`Invalid components, please use one of these: ${validComponents.join(' ')}`);
+    this._mobileComponent = value;
+  }
+
+  // get component based on mobile context and config
+  get component() {
+    if (!this._component) {
+      if (MDWUtils.isMobile) this._component = this.mobileComponent === 'mdw-sheet-side' ? this.querySelector('mdw-sheet-side') : this.querySelector('mdw-panel');
+      else this._component = this.desktopComponent === 'mdw-panel' ? this.querySelector('mdw-panel') : this.querySelector('mdw-sheet-side');
+      this._component = this.querySelector('mdw-panel');
+    }
+    return this._component;
   }
 
   set animation(value) {
     this._animation = value;
   }
 
-  onPanelClose() {
-    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+  close() {
+    if (this.component.nodeName === 'MDW-PANEL') this.closePanel();
+    else this.closeSideSheet();
   }
 
+  closePanel() {
+    this.component.close();
+    this.dispatchEvent(new Event('close'));
+    MDWScreen.currentScreen = undefined;
+  }
+
+  onPanelClose() {
+    this.component.remove();
+    this.remove();
+  }
+
+  closeSideSheet() {
+    this.component.hide();
+  }
+
+
   open() {
-    this.panel.classList.add('mdw-screen');
-    this.panel.hoistToBody();
-    this.panel.fullscreen();
-    this.panel.setPosition('top left');
-    if (this._animation) this.panel.setAnimation(this._animation);
-    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    if (this.component.nodeName === 'MDW-PANEL') this.openPanel();
+    else this.openSideSheet();
+  }
+
+  openPanel() {
+    this.component.classList.add('mdw-screen');
+    this.component.hoistToBody();
+    this.component.fullscreen();
+    this.component.setPosition('top left');
+    if (this._animation) this.component.setAnimation(this._animation);
+    this.component.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
 
     requestAnimationFrame(() => {
-      this.panel.open();
+      this.component.open();
     });
   }
 
-  close() {
-    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
-    this.panel.close();
-    this.panel.removeOnAnimationComplete();
-    this.dispatchClose();
-    MDWScreen.currentSceen = undefined;
-  }
-
-  dispatchClose() {
-    this.dispatchEvent(new Event('close'));
+  openSideSheet() {
+    this.component.show();
   }
 });

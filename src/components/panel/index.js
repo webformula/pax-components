@@ -21,6 +21,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.bound_close = this.close.bind(this);
     this._clickOutsideCloseIgnorElement = [];
     this._autoPosition = false;
+    this._animationConfig = {
+      type: 'scale',
+      opacity: true
+    };
 
     this.bound_onOpenTransitionEnd = this.onOpenAnimationEnd.bind(this);
   }
@@ -110,25 +114,21 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     // handle animation
     if (!this._isQuickOpen) {
       this.prepareAnimation();
+
+      if (this._isHoisted) this.setHoistedPosition();
+      else this.setPositionStyle();
+
       this._animationRequestId = this._runNextAnimationFrame(() => {
-        if (this._isHoisted) this.setHoistedPosition();
-        else this.setPositionStyle();
-
-        if (this._isQuickOpen) {
-          this.classList.remove('mdw-panel--animating-open');
-          this.notifyOpen();
-          return;
-        }
-
         switch (this._animationConfig.type) {
-          case 'scale':
-            this.style.transition = 'transform .1s cubic-bezier(0,0,.2,1), opacity 0.1s linear';
+          case 'height':
+            this.style.transition = 'max-height .22s cubic-bezier(0,0,.2,1), transform .22s cubic-bezier(0,0,.2,1), opacity .22s linear';
+            this.style.maxHeight = this.classList.contains('mdw-fullscreen') ? '100%' : `${this.scrollHeight}px`;
             this.style.transform = '';
             break;
 
-          case 'height':
-            this.style.transition = 'max-height .16s cubic-bezier(0,0,.2,1), transform .16s cubic-bezier(0,0,.2,1), opacity .16s linear';
-            this.style.maxHeight = this.classList.contains('mdw-fullscreen') ? '100%' : `${this.scrollHeight}px`;
+          case 'scale':
+          default:
+            this.style.transition = 'transform .1s cubic-bezier(0,0,.2,1), opacity 0.1s linear';
             this.style.transform = '';
             break;
         }
@@ -153,23 +153,25 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     // default animation
     this.classList.add('mdw-open');
     this.classList.add('mdw-panel--animating-open');
-    if (!this._animationConfig) return;
-
+    
     switch(this._animationConfig.type) {
-      case 'scale':
-        this.style.transform = 'scaleY(0.9)';
-        this.style.transformOrigin = this._animationConfig.origin || 'center';
-        break;
-
       case 'height':
         this.style.overflow = 'hidden'
-        this.style.maxHeight = '0';
+        this.style.maxHeight = this._animationConfig.target ? `${this._animationConfig.target.offsetHeight}px` : '0';
 
         switch (this._animationConfig.origin) {
           case 'center':
-            this.style.transform = this.classList.contains('mdw-fullscreen') ? `translateY(${window.innerHeight / 2}px)` : `translateY(${this.scrollHeight / 2}px)`;
+            let transformValue = this.classList.contains('mdw-fullscreen') ? window.innerHeight / 2 : this.scrollHeight / 2;
+            if (this._animationConfig.target) transformValue = this._animationConfig.target.offsetTop;
+            this.style.transform = `translateY(${transformValue}px)`;
             break;
         }
+        break;
+
+      case 'scale':
+      default:
+        this.style.transform = 'scale(0.9)';
+        this.style.transformOrigin = this._animationConfig.origin || 'center';
         break;
     }
 
@@ -209,11 +211,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const isRootFocused = this.isFocused();
     const childHasFocus = document.activeElement && this.contains(document.activeElement);
     if (isRootFocused || childHasFocus) this.restoreFocus();
-  }
-
-  // TODO implement
-  removeOnAnimationComplete() {
-    this.remove();
   }
 
   _runNextAnimationFrame(callback) {

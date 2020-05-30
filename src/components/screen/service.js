@@ -3,22 +3,40 @@ import MDWTemplate from '../templates/service.js';
 
 const MDWScreen = new class {
   constructor() {
-    this._currentSceen = null;
+    this._currentScreen = null;
   }
 
-  async show({ animation, templateData, templateId }) {
+  async show({ animation, templateData, templateId, desktopComponent = 'mdw-sheet-side', mobileComponent= 'mdw-panel' }) {
     const id = MDWUtils.uid('screen');
     const template = await MDWTemplate.get(templateId, templateData);
-    const screenTemplate = this._buildTemplate(template, id);
+
+    let screenTemplate;
+    if (MDWUtils.isMobile) screenTemplate = mobileComponent === 'mdw-sheet-side' ? this._buildSheetSideTemplate(template, id) : this._buildPanelTemplate(template, id);
+    else screenTemplate = desktopComponent === 'mdw-panee' ? this._buildPanelTemplate(template, id) : this._buildSheetSideTemplate(template, id);
+   
     document.body.insertAdjacentHTML('beforeend', screenTemplate);
     const screenComponent = document.querySelector(`#${id}`);
-    this._currentSceen = screenComponent;
+    this._currentScreen = screenComponent;
     screenComponent.animation = animation;
+    screenComponent.desktopComponent = desktopComponent;
+    screenComponent.mobileComponent = mobileComponent;
     screenComponent.open();
     return screenComponent;
   }
 
-  _buildTemplate(templateString, id) {
+  _buildPanelTemplate(templateString, id) {
+    return /* html */`
+      <mdw-screen id="${id}">
+        <mdw-panel>
+          <mdw-screen-container>
+            ${templateString}
+          </mdw-screen-container>
+        </mdw-panel>
+      </mdw-screen>
+    `;
+  }
+
+  _buildSheetSideTemplate(templateString, id) {
     return /* html */`
       <mdw-screen id="${id}">
         <mdw-panel>
@@ -31,8 +49,8 @@ const MDWScreen = new class {
   }
 
   close() {
-    if (!this._currentSceen) return;
-    this._currentSceen.close();
+    if (!this._currentScreen) return;
+    this._currentScreen.close();
   }
 }
 
