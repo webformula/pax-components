@@ -1,5 +1,5 @@
-import './core/drag.js';
-import './core/swipe.js';
+import MDWDrag from './core/drag.js';
+import MDWSwipe from './core/swipe.js';
 
 // --- Components ---
 
@@ -39,13 +39,19 @@ import './components/text-field/index.js';
 import './components/top-app-bar/index.js';
 import './components/bound-property/index.js';
 
+import './components/templates/index.js';
+
 
 import MDWDialog from './components/dialog/service.js';
 import MDWSnackbar from './components/snackbar/service.js';
 import MDWScreen from './components/screen/service.js';
+import MDWTemplate from './components/templates/service.js';
 
 export {
   MDWDialog,
   MDWSnackbar,
-  MDWScreen
+  MDWScreen,
+  MDWTemplate,
+  MDWDrag,
+  MDWSwipe
 }

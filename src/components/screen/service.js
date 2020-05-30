@@ -1,26 +1,29 @@
 import MDWUtils from '../../core/Utils.js';
+import MDWTemplate from '../templates/service.js';
 
 const MDWScreen = new class {
   constructor() {
-    this.currentSceen = null;
+    this._currentSceen = null;
   }
 
-  create({ animation, data, template }) {
+  async show({ animation, templateData, templateId }) {
     const id = MDWUtils.uid('screen');
-    const screenTemplate = this.buildTemplate(data, template, id);
+    const template = await MDWTemplate.get(templateId, templateData);
+    const screenTemplate = this._buildTemplate(template, id);
     document.body.insertAdjacentHTML('beforeend', screenTemplate);
     const screenComponent = document.querySelector(`#${id}`);
-    this.currentSceen = screenComponent;
+    this._currentSceen = screenComponent;
     screenComponent.animation = animation;
+    screenComponent.open();
     return screenComponent;
   }
 
-  buildTemplate(data, template, id) {
+  _buildTemplate(templateString, id) {
     return /* html */`
       <mdw-screen id="${id}">
         <mdw-panel>
           <mdw-screen-container>
-            ${template(data)}
+            ${templateString}
           </mdw-screen-container>
         </mdw-panel>
       </mdw-screen>
@@ -28,35 +31,8 @@ const MDWScreen = new class {
   }
 
   close() {
-    if (!this.currentSceen) return;
-    this.currentSceen.close();
-  }
-
-  // open() {
-  //   return new Promise(resolve => {
-  //     const id = this.uid();
-  //     const template = this.template({ id, title, message, okLabel, cancelLabel, position });
-
-  //     document.body.insertAdjacentHTML('beforeend', template);
-  //     const el = document.querySelector(`#${id}`);
-  //     const onclose = (e) => {
-  //       resolve(e.detail.ok);
-  //       el.removeEventListener('close', onclose);
-  //       el.remove();
-  //       this.currentDialog = null;
-  //     };
-  //     el.addEventListener('close', onclose);
-  //     el.clickOutsideClose = clickOutsideClose;
-  //     this.currentDialog = el;
-
-  //     requestAnimationFrame(() => {
-  //       el.open();
-  //     });
-  //   });
-  // }
-
-  removeCurrent() {
-    this.currentDialog.close();
+    if (!this._currentSceen) return;
+    this._currentSceen.close();
   }
 }
 

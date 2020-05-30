@@ -29,4 +29,9 @@ customElements.define('mdw-template', class extends HTMLElementExtended {
   get templateUrl() {
     return this.getAttribute('template-url')
   }
+
+  async show(templateId) {
+    const htmlSting = await MDWTemplate.get(templateId)
+    this.innerHTML = htmlSting;
+  }
 })

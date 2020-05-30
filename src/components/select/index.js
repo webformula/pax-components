@@ -35,7 +35,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.onChange();
 
     setTimeout(() => {
-      this.classList.add('mdw-no-animation');
+      this.classList.remove('mdw-no-animation');
 
       if (this._isEnhanced) {
         this.panel.style.minWidth = `${this.offsetWidth}px`;
@@ -146,8 +146,13 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     `;
     document.body.insertAdjacentHTML('beforeend', panelHTML);
     const panelEl = this.panel;
-    if (panelEl.hoistToBody) panelEl.hoistToBody(this);
-    panelEl.style.transform = 'scale(1)';
+    panelEl.setAnimation({
+      target: this.querySelector('select'),
+      type: 'scale',
+      origin: 'top',
+      opacity: true
+    });
+    panelEl.hoistToBody(this);
   }
 
   prepareSheet_() {

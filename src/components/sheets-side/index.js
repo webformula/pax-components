@@ -6,7 +6,8 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
   constructor() {
     super();
 
-    this._useBackdrop = true;
+    this._useBackdrop = !this.hasAttribute('mdw-no-backdrop');
+
     this.bound_onSwipe = this.onSwipe.bind(this);
     this.bound_routeChange = this.routeChange.bind(this);
   }
@@ -16,26 +17,42 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     if (this._isNavigationDrawer) document.body.classList.add('mdw-has-navigation-drawer');
 
     // auto add modal for mobile
-    if (MDWUtils.isMobile) this.classList.add('mdw-modal');
-    // auto hide if modal
-    if (this.isModal && !this.isHidden) this.classList.add('mdw-hide');
-    else if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
+    if (MDWUtils.isMobile) {
+      this.setAttribute('mdw-modal', '');
+    }
 
-    // browser events for url changes
-    window.addEventListener('hashchange', this.bound_routeChange);
-    window.addEventListener('DOMContentLoaded', this.bound_routeChange);
+    // the use can add the modal class manually so we don't want to use the same isMobile check
+    if (this._isNavigationDrawer && this.isModal) {
+      document.body.classList.add('mdw-navigation-drawer-modal');
+    }
+
+    // auto hide if modal and navigation
+    if (this.isModal && this._isNavigationDrawer && !this.isHidden && !this.classList.contains('mdw-show')) this.classList.add('mdw-hide');
+    else if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
+    else if (this.isModal && !this.isHidden) {
+      if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.hide(), { sheet: true });
+    }
+
+     // browser events for url changes. only use this for navigation
+    if (this._isNavigationDrawer) {
+      window.addEventListener('hashchange', this.bound_routeChange);
+      window.addEventListener('DOMContentLoaded', this.bound_routeChange);
+    }
     
   }
 
   disconnectedCallback() {
     if (this._backdrop) this._backdrop.remove();
     removeSwipeListener(document.body, this.bound_onSwipe);
-    window.removeEventListener('hashchange', this.bound_routeChange);
-    window.removeEventListener('DOMContentLoaded', this.bound_routeChange);
+
+    if (this._isNavigationDrawer) {
+      window.removeEventListener('hashchange', this.bound_routeChange);
+      window.removeEventListener('DOMContentLoaded', this.bound_routeChange);
+    }
   }
 
   get isModal() {
-    return this.classList.contains('mdw-modal');
+    return this.hasAttribute('mdw-modal');
   }
 
   get isHidden() {
@@ -75,6 +92,7 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
   }
 
   hide() {
+    this.classList.remove('mdw-show');
     this.classList.add('mdw-hide');
     if (this._backdrop) this._backdrop.remove();
     removeSwipeListener(document.body, this.bound_onSwipe);

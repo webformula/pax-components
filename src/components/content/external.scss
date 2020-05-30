@@ -1,7 +1,6 @@
 mdw-content {
   display: block;
   box-sizing: border-box;
-  height: 100%;
   padding: 0 16px;
   width: 100%;
   overflow: auto;
@@ -13,4 +12,9 @@ mdw-content {
   &.mdw-no-padding {
     padding: 0;
   }
+}
+
+
+mdw-page > mdw-content  {
+  height: 100%;
 }

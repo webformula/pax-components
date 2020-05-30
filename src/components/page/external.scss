@@ -14,11 +14,6 @@ mdw-page {
     }
   }
 
-  &.mdw-no-padding {
-  padding: 0;
-}
-
-
   mdw-page-content {
     display: block;
     box-sizing: border-box;
@@ -26,6 +21,10 @@ mdw-page {
     padding: 0 40px;
     width: 100%;
     overflow: auto;
+
+    &.mdw-no-padding {
+      padding: 0;
+    }
 
     .mdw-no-scroll {
       overflow: unset;

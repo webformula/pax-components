@@ -27,10 +27,10 @@ const MDWTemplate = new class {
     this._templates[id] = undefined;
   }
 
-  async get(id) {
+  async get(id, data) {
     if (!this._templates[id]) throw Error(`no template found with id: ${id}`);
     const template = this._templates[id];
-    if (typeof template === 'function') return template();
+    if (typeof template === 'function') return template(data);
     if (template.includes('.html')) return await this.loadHtml(template);
     return template;
   }

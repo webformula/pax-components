@@ -21,6 +21,8 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.bound_close = this.close.bind(this);
     this._clickOutsideCloseIgnorElement = [];
     this._autoPosition = false;
+
+    this.bound_onOpenTransitionEnd = this.onOpenAnimationEnd.bind(this);
   }
 
   connectedCallback() {
@@ -87,6 +89,16 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     return this._isOpen;
   }
 
+  onOpenAnimationEnd() {
+    this.style.transition = '';
+    this.style.transformOrigin = '';
+    this.style.overflow = '';
+    this.style.maxHeight = '';
+    this.classList.remove('mdw-panel--animating-open');
+    this.removeEventListener('transitionend', this.bound_onOpenTransitionEnd);
+    this.notifyOpen();
+  }
+
   open(clickBodyToClose) {
     if (clickBodyToClose !== undefined) this._clickOutsideClose = clickBodyToClose;
     // handle focused element
@@ -98,48 +110,71 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     // handle animation
     if (!this._isQuickOpen) {
       this.prepareAnimation();
-
       this._animationRequestId = this._runNextAnimationFrame(() => {
-        this.classList.add('mdw-open');
-        if (this._isQuickOpen) this.notifyOpen();
-        else {
-          this._openAnimationEndTimerId = setTimeout(() => {
-            this._openAnimationEndTimerId = 0;
-            this.classList.remove('mdw-panel--animating-open');
-            this.classList.remove('mdw-panel_animate-open-parent-child');
-            this.notifyOpen();
-          }, 150);
+        if (this._isHoisted) this.setHoistedPosition();
+        else this.setPositionStyle();
+
+        if (this._isQuickOpen) {
+          this.classList.remove('mdw-panel--animating-open');
+          this.notifyOpen();
+          return;
         }
 
-        if (this._isHoisted) this.setHoisetedPosition();
-        else this.setPositionStyle();
+        switch (this._animationConfig.type) {
+          case 'scale':
+            this.style.transition = 'transform .1s cubic-bezier(0,0,.2,1), opacity 0.1s linear';
+            this.style.transform = '';
+            break;
+
+          case 'height':
+            this.style.transition = 'max-height .16s cubic-bezier(0,0,.2,1), transform .16s cubic-bezier(0,0,.2,1), opacity .16s linear';
+            this.style.maxHeight = this.classList.contains('mdw-fullscreen') ? '100%' : `${this.scrollHeight}px`;
+            this.style.transform = '';
+            break;
+        }
+
+        this.style.opacity = 1;
+        this.addEventListener('transitionend', this.bound_onOpenTransitionEnd);
       });
     } else {
       this.classList.add('mdw-open');
-      if (this._isHoisted) this.setHoisetedPosition();
+      if (this._isHoisted) this.setHoistedPosition();
       else this.setPositionStyle();
     }
 
-    this.addBodyClickEvent_();
-    this.addKeydownEvent_();
+    this._addBodyClickEvent();
+    this._addKeydownEvent();
     this.addEventListener('MDWPanel:close', this.bound_close);
     this._isOpen = true;
   }
 
 
   prepareAnimation() {
-    if (this._animationConfig) {
-      console.log(this._animationConfig.target.offsetHeight)
-      this.style.height = `${this._animationConfig.target.offsetHeight}px`;
-      this.style.transform = `translateY(${this._animationConfig.target.offsetTop}px)`; // this is undone by positioning code
-      this.classList.add('mdw-panel_animate-open-parent-child');
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          this.style.height = '';
-        });
-      });
-    } else {
-      this.classList.add('mdw-panel--animating-open');
+    // default animation
+    this.classList.add('mdw-open');
+    this.classList.add('mdw-panel--animating-open');
+    if (!this._animationConfig) return;
+
+    switch(this._animationConfig.type) {
+      case 'scale':
+        this.style.transform = 'scaleY(0.9)';
+        this.style.transformOrigin = this._animationConfig.origin || 'center';
+        break;
+
+      case 'height':
+        this.style.overflow = 'hidden'
+        this.style.maxHeight = '0';
+
+        switch (this._animationConfig.origin) {
+          case 'center':
+            this.style.transform = this.classList.contains('mdw-fullscreen') ? `translateY(${window.innerHeight / 2}px)` : `translateY(${this.scrollHeight / 2}px)`;
+            break;
+        }
+        break;
+    }
+
+    if (this._animationConfig.opacity) {
+      this.style.opacity = 0;
     }
   }
 
@@ -218,7 +253,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._lastFocusableElement ? this._lastFocusableElement === document.activeElement : false;
   }
 
-  addBodyClickEvent_() {
+  _addBodyClickEvent() {
     if (!this._clickOutsideClose) return;
     setTimeout(() => {
       this.hasBodyEvent = true;
@@ -231,7 +266,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.hasBodyEvent = false;
   }
 
-  addKeydownEvent_() {
+  _addKeydownEvent() {
     this.hasKeydownEvent = true;
     document.body.addEventListener('keydown', this._boundHandleKeydown);
   }
@@ -311,11 +346,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.top = `${panelY}px`;
   }
 
-  setHoisetedPosition() {
+  setHoistedPosition() {
     const bounds = this._container.getBoundingClientRect();
     this.style.top = `${bounds.top}px`;
     this.style.left = `${bounds.left}px`;
-    this.style[this.transformPropertyName] = 'scale(1)';
+    // this.style[this.transformPropertyName] = 'scale(1)';
 
     if (!this._positionSet) {
       this._autoPositionHoisted();
@@ -447,12 +482,12 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     this.style.top = `${parseInt(top)}px`;
     this.style.left = `${parseInt(left)}px`;
-    this.style[this.transformPropertyName] = 'scale(1)';
+    // this.style[this.transformPropertyName] = 'scale(1)';
   }
 
   resetPosition() {
     this.style.top = '';
     this.style.left = '';
-    this.style[this.transformPropertyName] = '';
+    // this.style[this.transformPropertyName] = '';
   }
 });
