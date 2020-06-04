@@ -69,14 +69,14 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
   }
 
   showDragIcon() {
-    this.classList.add('mdw-sheet-header-draggable');
+    this.classList.add('mdw-sheet-top-bar-draggable');
   }
 
   template() {
     return `
-      <div class="mdw-sheet-header-drag-icon"></div>
+      <div class="mdw-sheet-top-bar-drag-icon"></div>
 
-      <div class="mdw-sheet-header-fullscreen">
+      <div class="mdw-sheet-top-bar-fullscreen">
         ${this.isModal ? `
           <mdw-button id="mdw-sheet-close-action" class="mdw-icon">
             <mdw-icon>close</mdw-icon>
@@ -90,7 +90,7 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
         ${this.title}
       </div>
 
-      <div class="mdw-sheet-header-container">
+      <div class="mdw-sheet-top-bar-container">
         ${this.innerHTMLString}
       </div>
     `;
@@ -104,7 +104,7 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
         z-index: 1;
       }
 
-      :host .mdw-sheet-header-fullscreen {
+      :host .mdw-sheet-top-bar-fullscreen {
         opacity: 0;
         pointer-events: none;
         display: inline-flex;
@@ -121,13 +121,13 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
                     0 1px 10px 0 rgba(0,0,0,.12);
       }
 
-      :host(.mdw-show-fullscreen) .mdw-sheet-header-fullscreen {
+      :host(.mdw-show-fullscreen) .mdw-sheet-top-bar-fullscreen {
         opacity: 1;
         pointer-events: all;
         position: relative;
       }
 
-      .mdw-sheet-header-drag-icon {
+      .mdw-sheet-top-bar-drag-icon {
         display: none;
         opacity: 1;
         width: 12%;
@@ -140,11 +140,11 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
         background-color: #DDD;
       }
 
-      :host(.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {
+      :host(.mdw-sheet-top-bar-draggable) .mdw-sheet-top-bar-drag-icon {
         display: block;
       }
 
-      :host(.mdw-show-fullscreen.mdw-sheet-header-draggable) .mdw-sheet-header-drag-icon {
+      :host(.mdw-show-fullscreen.mdw-sheet-top-bar-draggable) .mdw-sheet-top-bar-drag-icon {
         opacity: 0;
       }
 
@@ -152,7 +152,7 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
 
       /* collapsed header */
 
-      .mdw-sheet-header-container {
+      .mdw-sheet-top-bar-container {
         display: flex;
         opacity: 1;
         position: relative;
@@ -166,44 +166,44 @@ customElements.define('mdw-sheet-header', class extends HTMLElementExtended {
         color: var(--mdw-theme-on-primary);
       }
 
-      :host(.mdw-shaped) .mdw-sheet-header-container {
+      :host(.mdw-shaped) .mdw-sheet-top-bar-container {
         border-radius: 8px 8px 0 0;
       }
 
-      :host(.mdw-sheet-disable-collapsed-header) .mdw-sheet-header-container {
+      :host(.mdw-sheet-disable-collapsed-header) .mdw-sheet-top-bar-container {
         display: none;
       }
 
-      :host(.mdw-show-fullscreen) .mdw-sheet-header-container {
+      :host(.mdw-show-fullscreen) .mdw-sheet-top-bar-container {
         opacity: 0;
         pointer-events: none;
       }
 
-      :host(.mdw-hide-collapsed-header) .mdw-sheet-header-container {
+      :host(.mdw-hide-collapsed-header) .mdw-sheet-top-bar-container {
         display: none;
       }
 
-      :host(.mdw-two-line) .mdw-sheet-header-fullscreen,
-      :host(.mdw-two-line) .mdw-sheet-header-container {
+      :host(.mdw-two-line) .mdw-sheet-top-bar-fullscreen,
+      :host(.mdw-two-line) .mdw-sheet-top-bar-container {
         height: 72px;
       }
 
-      :host(.mdw-three-line) .mdw-sheet-header-fullscreen,
-      :host(.mdw-three-line) .mdw-sheet-header-container {
+      :host(.mdw-three-line) .mdw-sheet-top-bar-fullscreen,
+      :host(.mdw-three-line) .mdw-sheet-top-bar-container {
         height: 88px;
       }
 
-      :host(.mdw-two-line.mdw-shaped) .mdw-sheet-header-fullscreen,
-      :host(.mdw-two-line.mdw-shaped) .mdw-sheet-header-container {
+      :host(.mdw-two-line.mdw-shaped) .mdw-sheet-top-bar-fullscreen,
+      :host(.mdw-two-line.mdw-shaped) .mdw-sheet-top-bar-container {
         border-radius: 10px 10px 0 0;
       }
 
-      :host(.mdw-three-line.mdw-shaped) .mdw-sheet-header-fullscreen,
-      :host(.mdw-three-line.mdw-shaped) .mdw-sheet-header-container {
+      :host(.mdw-three-line.mdw-shaped) .mdw-sheet-top-bar-fullscreen,
+      :host(.mdw-three-line.mdw-shaped) .mdw-sheet-top-bar-container {
         border-radius: 12px 12px 0 0;
       }
 
-      :host(.mdw-white) .mdw-sheet-header-container {
+      :host(.mdw-white) .mdw-sheet-top-bar-container {
         background-color: white;
         color: var(--mdw-theme-on-primary);
         border-bottom: 1px solid var(--mdw-theme-checkboxborder);

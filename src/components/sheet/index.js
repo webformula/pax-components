@@ -1,190 +1,89 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
-import './header.js';
+import MDWScreen from './service.js';
 import MDWUtils from '../../core/Utils.js';
-import { addDragListener, removeDragListener, disableDragListenerForElement, enableDragListenerForElement } from '../../core/drag.js';
 
-customElements.define('mdw-sheet', class extends HTMLElementExtended {
+const validComponents = ['mdw-panel', 'mdw-sheet-side'];
+
+customElements.define('mdw-screen', class extends HTMLElementExtended {
   constructor() {
     super();
 
-    this.isOpen = false;
-    this.classList.add('mdw-closed');
-    this.currentDragPosition = -1;
-    this.bound_onDrag = this.onDrag.bind(this);
-    this.bound_onScroll = this.onScroll.bind(this);
-    this.style[MDWUtils.transformPropertyName] = 'translate3d(0, 100%, 0)';
-    this.setupHeader();
+    this.bound_onPanelClose = this.onPanelClose.bind(this);
   }
 
   disconnectedCallback() {
-    removeDragListener(this.contentElement, this.bound_onDrag);
-    this.removeEventListener('scroll', this.bound_onScroll);
-    this.removeBackdrop();
+    this.component.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+  }
+  
+  get desktopComponent() {
+    return this._desktopComponent || 'mdw-sheet-side';
+  }
+  set desktopComponent(value) {
+    if (!validComponents.includes(value)) throw Error(`Invalid components, please use one of these: ${validComponents.join(' ')}`);
+    this._desktopComponent = value;
   }
 
-  get contentElement() {
-    return this.querySelector('mdw-sheet-content');
+  get mobileComponent() {
+    return this._mobileComponent || 'mdw-sheet-side';
+  }
+  set mobileComponent(value) {
+    if (!validComponents.includes(value)) throw Error(`Invalid components, please use one of these: ${validComponents.join(' ')}`);
+    this._mobileComponent = value;
   }
 
-  get title() {
-    return this.hasAttribute('mdw-title') ? this.getAttribute('mdw-title') : '';
-  }
-
-  get isModal() {
-    return this.hasAttribute('mdw-modal');
-  }
-
-  registerHeader(element, hasCollaspedHeader) {
-    this.headerElement = element;
-    this.headerElement.title = this.title;
-    if (hasCollaspedHeader) this.classList.add('mdw-has-collasped-header');
-    if (this.isModal) element.disableCollapsedHeader();
-  }
-
-  setupHeader() {
-    if (!this.querySelector('mdw-sheet-header')) {
-      this.insertAdjacentHTML('afterbegin', `<mdw-sheet-header mdw-title="${this.title}"></mdw-sheet-header>`);
+  // get component based on mobile context and config
+  get component() {
+    if (!this._component) {
+      if (MDWUtils.isMobile) this._component = this.mobileComponent === 'mdw-sheet-side' ? this.querySelector('mdw-sheet-side') : this.querySelector('mdw-panel');
+      else this._component = this.desktopComponent === 'mdw-panel' ? this.querySelector('mdw-panel') : this.querySelector('mdw-sheet-side');
     }
+    return this._component;
   }
 
-  addBackdrop() {
-    if (this.isModal) {
-      this.backdrop = MDWUtils.addBackdrop(this, () => {
-        this.close();
-      });
-    }
-  }
-
-  removeBackdrop() {
-    if (this.backdrop) this.backdrop.remove();
-    this.backdrop = undefined;
-  }
-
-  setInitalPositions() {
-    // page height
-    this.viewHeight = window.innerHeight;
-
-    // half height for modal, quater hight for non modal
-    this.clientCenter = this.isModal ? this.viewHeight / 2 : this.viewHeight / 4;
-    this.contentHeight = this.contentElement.offsetHeight;
-    this.intialHeight = Math.min(this.contentHeight, this.clientCenter);
-
-    // user set inital height
-    if (this.hasAttribute('mdw-collapsed-height')) this.intialHeight = parseInt(this.getAttribute('mdw-collapsed-height').replace('px', ''));
-
-    // the transform: translateY postion for the top of the page
-    this.scrollY = -(this.viewHeight - this.intialHeight - 56);
-    this.isDraggable = this.contentHeight > this.clientCenter;
-    this.style.top = `calc(100% - ${this.intialHeight + 56}px)`;
-  }
-
-  open() {
-    // lear close timeout so we do not overlap on a fast open
-    if (this.closeTimeout) {
-      clearTimeout(this.closeTimeout);
-      this.closeTimeout = undefined;
-    }
-    this.classList.remove('mdw-closed');
-    this.addBackdrop();
-
-    // animation in sheet
-    setTimeout(() => {
-      this.setInitalPositions();
-      this.setPosition(0);
-      if (this.isDraggable) addDragListener(this.contentElement, this.bound_onDrag);
-      this.contentElement.addEventListener('scroll', this.bound_onScroll);
-      this.notifyOpen();
-    }, 0);
-    if (this.isModal) MDWUtils.lockPageScroll();
+  set animation(value) {
+    this._animation = value;
   }
 
   close() {
-    removeDragListener(this.contentElement, this.bound_onDrag);
-    this.contentElement.removeEventListener('scroll', this.bound_onScroll);
-    this.setPosition(this.intialHeight + this.headerElement.offsetHeight);
-    this.closeTimeout = setTimeout(() => {
-      this.classList.add('mdw-closed');
-      this.headerElement.hideFullscreen();
-    }, 600);
-    this.isOpen = false;
-    this.removeBackdrop();
-    this.notifyClose();
+    if (this.component.nodeName === 'MDW-PANEL') this.closePanel();
+    else this.closeSideSheet();
   }
 
-  notifyClose() {
-    this.dispatchEvent(new Event('MDWSheet:closed', this));
+  closePanel() {
+    this.component.close();
+    this.dispatchEvent(new Event('close'));
+    MDWScreen.currentScreen = undefined;
   }
 
-  notifyOpen() {
-    this.dispatchEvent(new Event('MDWSheet:open'), this);
+  onPanelClose() {
+    this.component.remove();
+    this.remove();
   }
 
-  collapse() {
-    if (this.isDraggable) addDragListener(this.contentElement, this.bound_onDrag);
-    this.setPosition(0);
+  closeSideSheet() {
+    this.component.hide();
   }
 
-  toggle() {
-    if (this.isOpen) this.close();
-    else this.open();
+
+  open() {
+    if (this.component.nodeName === 'MDW-PANEL') this.openPanel();
+    else this.openSideSheet();
   }
 
-  onDrag(event) {
-    switch (event.state) {
-      case 'start':
-        this.startDragPosition = this.currentDragPosition;
-        break;
-      case 'move':
-        this.setPosition(this.startDragPosition + event.distance.y);
-        break;
-      case 'end':
-        this.snapPosition(event.velocity.y);
-        break;
-    }
+  openPanel() {
+    this.component.classList.add('mdw-screen');
+    this.component.hoistToBody();
+    this.component.fullscreen();
+    this.component.setPosition('top left');
+    if (this._animation) this.component.setAnimation(this._animation);
+    this.component.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+
+    requestAnimationFrame(() => {
+      this.component.open();
+    });
   }
 
-  setPosition(y) {
-    // if the sheet is at top then setup scrolling
-    if (y <= this.scrollY) {
-      y = this.scrollY;
-      this.style.touchAction = '';
-      disableDragListenerForElement(this.contentElement);
-    }
-    if (this.currentDragPosition === y) return;
-    this.style[MDWUtils.transformPropertyName] = `translate3d(0, ${y}px, 0)`;
-    this.currentDragPosition = y;
-
-    // show header befor it hits the top
-    if (y - this.scrollY < 80) {
-      this.headerElement.showFullscreen();
-      this.classList.add('mdw-sheet-fullscreen');
-    } else {
-      this.headerElement.hideFullscreen();
-      this.classList.remove('mdw-sheet-fullscreen');
-    }
-
-    // if is draggable
-    if (this.isDraggable) this.headerElement.showDragIcon();
-  }
-
-  snapPosition(velocity) {
-    // snap based on velocity (swipe montion)
-    if (velocity < -0.7) return this.setPosition(this.scrollY);
-    if (this.startDragPosition === this.scrollY && velocity > 0.7) return this.setPosition(0);
-    if (this.startDragPosition <= 0 && velocity > 0.7) return this.close();
-
-    // snap based on position
-    const split = Math.abs(this.scrollY) / 2;
-    // half way between center and top
-    if (this.currentDragPosition - this.scrollY < split) this.setPosition(this.scrollY);
-    // half way between center and bottom
-    else if (this.currentDragPosition > split) this.close();
-    else this.setPosition(0);
-  }
-
-  onScroll() {
-    if (this.contentElement.scrollTop === 0) {
-      enableDragListenerForElement(this.contentElement);
-    }
+  openSideSheet() {
+    this.component.show();
   }
 });

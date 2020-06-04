@@ -23,10 +23,10 @@ import './components/navigation-rail/index.js';
 import './components/panel/index.js';
 import './components/radio/index.js';
 import './components/radio-group/index.js';
-import './components/screen/index.js';
 import './components/select/index.js';
 import './components/sheet/index.js';
-import './components/sheets-side/index.js';
+import './components/sheet-bottom/index.js';
+import './components/sheet-side/index.js';
 import './components/slider/index.js';
 import './components/snackbar/index.js';
 import './components/switch/index.js';
@@ -44,13 +44,13 @@ import './components/templates/index.js';
 
 import MDWDialog from './components/dialog/service.js';
 import MDWSnackbar from './components/snackbar/service.js';
-import MDWScreen from './components/screen/service.js';
+import MDWSheet from './components/sheet/service.js';
 import MDWTemplate from './components/templates/service.js';
 
 export {
   MDWDialog,
   MDWSnackbar,
-  MDWScreen,
+  MDWSheet,
   MDWTemplate,
   MDWDrag,
   MDWSwipe

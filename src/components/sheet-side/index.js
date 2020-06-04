@@ -65,6 +65,10 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     return this.classList.contains('mdw-hide');
   }
 
+  get isLeft() {
+    return this.classList.contains('mdw-left') || this.classList.contains('mdw-navigation-drawer');
+  }
+
   set useBackdrop(value) {
     this._useBackdrop = !!value;
   }
@@ -128,6 +132,10 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
   }
 
   onSwipe(event) {
-    if (event.direction.x === 1) this.hide();
+    if (this.isLeft) {
+      if (event.direction.x === -1 && event.velocity.x < -0.8) this.hide();
+    } else {
+      if (event.direction.x === 1 && event.velocity.x > 0.8) this.hide();
+    }
   }
 });

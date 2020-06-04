@@ -6,7 +6,7 @@ export default class SheetsSide extends Page {
   }
 
   get title() {
-    return 'Sheets side';
+    return 'Sheets: side';
   }
 
   connectedCallback() {
@@ -113,7 +113,7 @@ export default class SheetsSide extends Page {
   template() {
     return /* html */`
       <article class="page-article">
-        <h3>Sheets side</h3>
+        <h3>Sheets: side</h3>
 
         <a href="https://material.io/components/sheets-side" target="_new">Material Design Guidelines: sheets side</a>
         <p>Side sheets that are modal on mobile, due to limited screen width, can become standard side sheets on tablet and desktop. The reverse is also true.</p>
