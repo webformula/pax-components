@@ -1,137 +1,122 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
-import './top-bar.js';
+import './header.js';
+import StandardHelper from './standard.js';
+import ModalHelper from './modal.js';
 import MDWUtils from '../../core/Utils.js';
-import { addDragListener, removeDragListener, disableDragListenerForElement, enableDragListenerForElement } from '../../core/drag.js';
+import { addDragListener, removeDragListener } from '../../core/drag.js';
 
 customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
   constructor() {
     super();
 
+    switch (this.type) {
+      case 'modal':
+        this._helpers = new ModalHelper(this);
+        break;
+
+      default:
+        this._helpers = new StandardHelper(this);
+        break;
+    }
+
     this.bound_onTransitionEnd = this._onTransitionEnd.bind(this);
-    this.throttle_whileTransitionRun = MDWUtils.rafThrottle(this._whileTransitionRun.bind(this));
     this.bound_onTransitionEndClose = this._onTransitionEndClose.bind(this);
     this.bound_onDrag = this._onDrag.bind(this);
-    this._setupTopBar();
 
-    this._currentPosition = 0;
+    this._helpers.setupHeader();
+    this._setupOverScroll();
   }
 
   get title() {
     return this.getAttribute('mdw-title');
   }
 
-  get isModal() {
-    return this.hasAttribute('mdw-modal');
+  get type() {
+    if (this.hasAttribute('mdw-modal')) return 'modal';
+    return 'standard';
   }
 
   get contentElement() {
     return this.querySelector('mdw-content');
   }
 
-  // half height for modal, quarter hight for non modal
-  get _clientPosition() {
-    const viewHeight = window.innerHeight;
-    return this.isModal ? viewHeight / 2 : viewHeight / 4
+  get contentHeight() {
+    return this.contentElement.scrollHeight;
   }
 
   get _isDraggable() {
-    return this.contentElement.offsetHeight > this._clientPosition;
+    return this._helpers.isDraggable;
+  }
+
+  get _headerHeight() {
+    return this._helpers.headerElement.scrollHeight;
+  }
+
+  get _maxScroll() {
+    return this.contentHeight + this._headerHeight;
   }
 
   get _topPosition() {
     const viewHeight = window.innerHeight;
-    const contentHeight = this.contentElement.offsetHeight;
-    return viewHeight - (contentHeight >= viewHeight - 56 ? 0 : viewHeight - 56 - contentHeight);
-  }
+    const contentHeight = this.contentHeight;
+    const headerHeight = this._headerHeight;
 
-  get _maxScroll() {
-    return this.contentElement.offsetHeight + 56;
+    if (this.type === 'standard') return viewHeight - (55 - headerHeight);
+    return viewHeight - (contentHeight >= viewHeight - headerHeight ? 55 - headerHeight : viewHeight - headerHeight - contentHeight);
   }
 
   get _scrollDistanceRemaining() {
     return this._maxScroll - this._currentPosition;
   }
 
-
-  disconnectedCallback() {
-    this._removeBackdrop();
+  get _initialPosition() {
+    return this._helpers.initialPosition;
   }
 
   show() {
     this._cancelTransitions();
     this.classList.add('mdw-show');
 
-    this._calculateInitialPosition();
-    this._positionBottom();
-    this._animateToInitialPosition();
-    this._addBackdrop();
+    this.style.height = `${this.contentHeight + this._headerHeight}px`;
 
-    if (this._isDraggable) addDragListener(this.contentElement, this.bound_onDrag);
+    this._positionBottom();
+    this._transitionToInitialPosition();
+    this._helpers.addBackdrop();
+
+    if (this._isDraggable) {
+      addDragListener(this.contentElement, this.bound_onDrag);
+      if (this._helpers.headerElement) addDragListener(this._helpers.headerElement, this.bound_onDrag);
+    }
   }
 
   hide() {
     removeDragListener(this.contentElement, this.bound_onDrag);
+    if (this._helpers.headerElement) removeDragListener(this._helpers.headerElement, this.bound_onDrag);
     this._cancelTransitions();
     this.classList.add('mdw-animating-close');
+    this._positionBottom();
+    this.addEventListener('transitionend', this.bound_onTransitionEndClose);
+  }
 
-    requestAnimationFrame(() => {
-      this._positionBottom();
-      this._transitioning = true;
-      this._transitionRunInterval = setInterval(this.throttle_whileTransitionRun, 10);
-      this.addEventListener('transitionend', this.bound_onTransitionEndClose);
-    });
+  minimize() {
+    if (this.type === 'modal') this.hide();
+    else {
+      this._cancelTransitions();
+      this._transitionToPosition(this._initialPosition);
+    }
   }
 
   toggle() {
     if (this.classList.contains('mdw-show')) this.hide();
     else this.show();
   }
-  
 
-  _registerTopBar(element) {
-    this._headerElement = element;
-    this._headerElement.title = this.title;
-  }
-
-  _setupTopBar() {
-    if (this.isModal) this.insertAdjacentHTML('afterbegin', `<mdw-sheet-top-bar mdw-title="${this.title}"></mdw-sheet-top-bar>`);
-  }
-
-  _showTopBar() {
-    if (this._headerElement) this._headerElement.show();
-  }
-
-  _hideTopBar() {
-    if (this._headerElement) this._headerElement.hide();
-  }
-
-  _addBackdrop() {
-    if (this.isModal) {
-      this._backdrop = MDWUtils.addBackdrop(this, () => {
-        this.hide();
-      });
-    }
-  }
-
-  _removeBackdrop() {
-    if (this._backdrop) this._backdrop.remove();
-    this._backdrop = undefined;
-  }
-
-  _calculateInitialPosition() {
-    const clientPosition = this._clientPosition;
-    const contentHeight = this.contentElement.offsetHeight;
-
-    // set position for center of the page unless the modal is not that tall
-    this._initialPosition = Math.min(contentHeight, clientPosition);
+  _registerHeader(element) {
+    this._helpers.registerHeader(element);
   }
 
   _positionTop() {
     this._setPosition(this._topPosition);
-  }
-
-  _positionInitial() {
-    this._setPosition(this._initialPosition);
   }
 
   _positionBottom() {
@@ -139,31 +124,63 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     this.style.top = '100%';
   }
 
-  _setPosition(y) {
-    const maxScroll = this._maxScroll;
-    if (y > maxScroll) y = maxScroll;
-
-    this._isAtOrAboveTop = y >= window.innerHeight;
-    this._currentPosition = y;
-    this.style.top = `calc(100% - ${y}px)`;
+  _positionInitial() {
+    this._setPosition(this._initialPosition);
   }
 
-  _animateToPosition(y) {
+  _setPosition(y) {
+    const maxScroll = this._maxScroll;
+    let overScroll = 0;
+    if (y > maxScroll) {
+      const scale = 100;
+      overScroll = scale * Math.log((y - maxScroll) + scale) - scale * Math.log(scale);
+      y = maxScroll;
+    }
+
+    const isAtTopHeight = window.innerHeight + (this._headerHeight - 55);
+    this._isAtTop = y === isAtTopHeight;
+    this._isAboveTop = y > isAtTopHeight;
+    this._isAtOrAboveTop = this._isAtTop || this._isAboveTop;
+    this._currentPosition = y;
+    this.style.top = `calc(100% - ${y + overScroll}px)`;
+
+    const initialToTopDistance = window.innerHeight - this._initialPosition;
+    const targetingTop = !this._isAtOrAboveTop && (y - this._initialPosition) >= initialToTopDistance / 2;
+    const targetingInitial = !this._isAtOrAboveTop && (y - this._initialPosition) < initialToTopDistance / 2;
+    this._helpers.handleOnMove({
+      position: y,
+      isAtTop: this._isAtTop,
+      isAboveTop: this._isAboveTop,
+      targetingTop,
+      targetingInitial
+    });
+  }
+
+  // if resting at initial position then positionTop
+  _transitionToNearestPosition() {
+    const newPosition = this._currentPosition;
+
+    // if is at initial position based on offsetTop
+    if (this._initialOffsetTop === this.offsetTop) return this._transitionToTopPosition();
+
+    const halfWayPoint = (this._topPosition - this._initialPosition) / 2;
+    if ((newPosition - this._initialPosition) >= halfWayPoint) this._transitionToTopPosition();
+    else this._transitionToInitialPosition();
+  }
+
+  _transitionToTopPosition() {
+    this._transitionToPosition(this._topPosition);
+  }
+
+  _transitionToInitialPosition() {
+    this._transitionToPosition(this._initialPosition);
+  }
+
+  _transitionToPosition(y) {
     this.classList.add('mdw-animating-open');
 
     requestAnimationFrame(() => {
       this._setPosition(y);
-      this._transitioning = true;
-      this.addEventListener('transitionend', this.bound_onTransitionEnd);
-    });
-  }
-
-  _animateToInitialPosition() {
-    this.classList.add('mdw-animating-open');
-
-    requestAnimationFrame(() => {
-      this._positionInitial();
-      this._transitioning = true;
       this.addEventListener('transitionend', this.bound_onTransitionEnd);
     });
   }
@@ -183,27 +200,23 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
   }
 
   _onTransitionEnd() {
+    this._initialOffsetTop = this.offsetTop;
     this._cancelTransitions();
   }
 
   _onTransitionEndClose() {
     this._cancelTransitions()
     this.classList.remove('mdw-show');
-    this._removeBackdrop();
+    this._helpers.removeBackdrop();
   }
 
-  _whileTransitionRun() {
-    // show / hide top bar
-    if (this.getBoundingClientRect().y <= 20) this._showTopBar();
-    else this._hideTopBar();
-  }
-
+  // --- drag / swipe
   _onDrag(event) {
     switch (event.state) {
       case 'start':
         this._cancelTransitions();
         this._startPosition = this._currentPosition;
-        this._statedAtOrAboveTop = this._isAtOrAboveTop;
+        this.classList.add('mdw-dragging');
         break;
 
       case 'move':
@@ -211,43 +224,46 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
         break;
 
       case 'end':
-        this._handleScroll(event.velocity.y);
+        this.classList.add('mdw-animating-scroll');
+        this._handleScrollEnd(event.velocity.y, event.direction.y);
+        // this._transitionRunInterval = setInterval(this.throttle_whileTransitionRun, 10);
+        this.addEventListener('transitionend', this.bound_onTransitionEnd);
+        this.classList.remove('mdw-dragging');
         break;
     }
   }
 
-  _handleScroll(velocity) {
-    this._transitioning = true;
-    this.classList.add('mdw-animating-scroll');
-
-    // snap based on velocity (swipe motion)
-
+  _handleScrollEnd(velocity, direction) {
     // open all the way on swipe up
     if (!this._isAtOrAboveTop && velocity < -1.1) this._positionTop();
 
-    //swipe back to initial position
-    // if (this._statedAtOrAboveTop && velocity > 1.1) return this._positionInitial();
+    // close when swipe down from initial position
+    else if (!this._isAtOrAboveTop && velocity > 0.7) return this.minimize();
 
-    // swipe away from initial position
-    else if (!this._isAtOrAboveTop && velocity > 0.7) return this.hide();
-
+    // scrolling and snapping
     else {
-      const direction = velocity > 0 ? 1 : -1;
-      let distanceToMove = this._scrollDistanceRemaining * (Math.abs(velocity) / 3) * -direction;
+      const multiplier = Math.abs(velocity) / 3;
+      let distanceToMove = this._scrollDistanceRemaining * multiplier * -direction;
       if (distanceToMove > this._scrollDistanceRemaining) distanceToMove = this._scrollDistanceRemaining;
       const newPosition = distanceToMove + this._currentPosition;
 
-      // snap to top
-      if (newPosition < this._topPosition + 80 && newPosition > this._topPosition - 80) this._positionTop();
-      // snap to initial
-      else if (newPosition < this._topPosition - 80) this._positionInitial();
-      else {
-        this.style.transitionDuration = `${((Math.abs(velocity) / 3) * 0.5) + 0.5}s`;
-        this._setPosition(newPosition);
+      if (this._isAtOrAboveTop) {
+        if (newPosition < this._topPosition + 80) this._positionTop();
+        else {
+          this.style.transitionDuration = `${(multiplier * 0.5) + 0.3}s`;
+          this._setPosition(newPosition);
+        }
+
+      // snap to either top or initial. Do not allow arbitrary positioning below top
+      } else {
+        const halfWayPoint = (this._topPosition - this._initialPosition) / 2;
+        if ((newPosition - this._initialPosition) >= halfWayPoint) this._positionTop();
+        else this._positionInitial();
       }
     }
+  }
 
-    this._transitionRunInterval = setInterval(this.throttle_whileTransitionRun, 10);
-    this.addEventListener('transitionend', this.bound_onTransitionEnd);
+  _setupOverScroll() {
+    this.insertAdjacentHTML('beforeend', '<div class="mdw-sheet-bottom-over-scroll"></div>');
   }
 });
