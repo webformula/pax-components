@@ -24,7 +24,7 @@ import './components/panel/index.js';
 import './components/radio/index.js';
 import './components/radio-group/index.js';
 import './components/select/index.js';
-import './components/sheet/index.js';
+import './components/sheet/service.js';
 import './components/sheet-bottom/index.js';
 import './components/sheet-side/index.js';
 import './components/slider/index.js';

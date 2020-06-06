@@ -49,7 +49,8 @@ customElements.define('mdw-sheet-bottom-header', class extends HTMLElementExtend
   }
 
   close() {
-    this.parentNode.minimize();
+    if (this.isModal) return this.parentNode.hide();
+    this.parentNode.exitFullscreen();
   }
 
   disable() {

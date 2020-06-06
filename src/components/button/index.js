@@ -269,8 +269,6 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: 48px;
         padding: 12px;
         line-height: 19px;
-        height: auto;
-        width: auto;
       }
       
       :host(.mdw-icon) span.text {
@@ -290,6 +288,13 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         padding: 28px;
       }
 
+      :host(:not(.mdw-icon)) .text ::slotted(mdw-icon) {
+        display: inline-block;
+        height: 28px;
+        vertical-align: middle;
+      }
+
+      /*
       :host(.mdw-icon) ::slotted(mdw-icon) {
         line-height: 19px;
         font-weight: normal;
@@ -302,7 +307,6 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         word-wrap: normal;
       }
 
-      /* mdw-icon */
       ::slotted(mdw-icon) {
         width: 18px;
         height: 18px;
@@ -312,6 +316,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         vertical-align: top;
         line-height: 36px;
       }
+      */
 
       :host ::slotted(svg.mdw-icon) {
         fill: currentColor;

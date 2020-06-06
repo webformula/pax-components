@@ -27,6 +27,12 @@ const MDWTemplate = new class {
     this._templates[id] = undefined;
   }
 
+  isString(template) {
+    if (typeof template !== 'string') return false;
+    if (template.includes('.html')) return false;
+    return template.includes('<');
+  }
+
   async get(id, data) {
     if (!this._templates[id]) throw Error(`no template found with id: ${id}`);
     const template = this._templates[id];

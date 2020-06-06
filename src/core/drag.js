@@ -111,7 +111,6 @@ class Drag {
   }
 
   handleGestureStart(ev) {
-    console.log(ev);
     if (ev.type === 'mousedown' && ev.button !== 0) return;
     ev.state = 'start';
 

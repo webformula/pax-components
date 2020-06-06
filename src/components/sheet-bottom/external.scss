@@ -43,6 +43,10 @@ mdw-sheet-bottom {
 
     mdw-sheet-bottom-header {
       border-radius: 12px 12px 0 0;
+
+      mdw-header {
+        border-radius: 12px 12px 0 0;
+      }
     }
   }
 
@@ -128,20 +132,6 @@ mdw-sheet-bottom {
           color: unset;
           background-color: unset;
         }
-      }
-    }
-
-    mdw-header {
-      background-color: var(--mdw-theme-surface);
-
-      &.mdw-primary {
-        background-color: var(--mdw-theme-primary);
-        color: var(--mdw-theme-text-primary-on-background);
-      }
-
-      &.mdw-secondary {
-        background-color: var(--mdw-theme-secondary);
-        color: var(--mdw-theme-text-primary-on-background);
       }
     }
 

@@ -1,7 +1,7 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWUtils from '../../core/Utils.js';
 import { addSwipeListener, removeSwipeListener } from '../../core/swipe.js';
-
+// TODO rewrite this component
 customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -10,8 +10,6 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
 
     this.bound_onSwipe = this.onSwipe.bind(this);
     this.bound_routeChange = this.routeChange.bind(this);
-    this.bound_onTransitionRun = this.onTransitionRun.bind(this);
-    this.bound_onTransitionEnd = this.onTransitionEnd.bind(this);
   }
 
   connectedCallback() {
@@ -19,9 +17,7 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     if (this._isNavigationDrawer) document.body.classList.add('mdw-has-navigation-drawer');
 
     // auto add modal for mobile
-    if (MDWUtils.isMobile) {
-      this.setAttribute('mdw-modal', '');
-    }
+    if (MDWUtils.isMobile) this.setAttribute('mdw-modal', '');
 
     // the use can add the modal class manually so we don't want to use the same isMobile check
     if (this._isNavigationDrawer && this.isModal) {
@@ -40,9 +36,6 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
       window.addEventListener('hashchange', this.bound_routeChange);
       window.addEventListener('DOMContentLoaded', this.bound_routeChange);
     }
-
-    this._topAppBar = document.querySelector('mdw-top-app-bar');
-    if (this._topAppBar) this.addEventListener('transitionrun', this.bound_onTransitionRun);
   }
 
   disconnectedCallback() {
@@ -54,7 +47,7 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
       window.removeEventListener('DOMContentLoaded', this.bound_routeChange);
     }
 
-    if (this._topAppBar) this.removeEventListener('transitionrun', this.bound_onTransitionRun);
+    this.onTransitionEnd();
   }
 
   get isModal() {
@@ -92,17 +85,17 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
   }
 
   show() {
-    this.classList.remove('mdw-hide');
-    this.classList.add('mdw-show');
-    if (this.isModal) {
-      addSwipeListener(document.body, this.bound_onSwipe);
-      if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.hide(), { sheet: true });
-    }
+    console.log(this.classList.contains('mdw-hide'));
+    setTimeout(() => {
+      this.classList.remove('mdw-hide');
+      this.classList.add('mdw-show');
+      if (this.isModal) {
+        addSwipeListener(document.body, this.bound_onSwipe);
+        if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.hide(), { sheet: true });
+      }
 
-    if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
-
-    // adjust top app bar width if is fixed
-    if (this._topAppBar) this._topAppBar._resizeHandler();
+      if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
+    }, 10); // this is a temporary fix
   }
 
   hide() {
@@ -112,18 +105,6 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     removeSwipeListener(document.body, this.bound_onSwipe);
 
     if (this._isNavigationDrawer) document.body.classList.remove('mdw-navigation-drawer-open');
-
-    // adjust top app bar width if is fixed
-    if (this._topAppBar) this._topAppBar._resizeHandler();
-  }
-
-  onTransitionRun() {
-    this._topAppBar._resizeHandler();
-  }
-
-  onTransitionEnd() {
-    this.removeEventListener('transitionrun', this.bound_onTransitionRun);
-    this.removeEventListener('transitionend', this.bound_onTransitionEnd);
   }
 
   toggle() {

@@ -1,14 +1,15 @@
 export default class SheetBottomStandard {
   constructor(componentElement) {
     this.componentElement = componentElement;
+    this.isAnchored = componentElement.hasAttribute('mdw-anchored');
   }
 
   get initialPosition() {
-    return this.headerElement.offsetHeight;
+    return this.componentElement._headerHeight + (window.innerHeight / 4);
   }
 
-  get topPosition() {
-
+  get minimizedPosition() {
+    return this.componentElement._headerHeight;
   }
 
   get clientPosition() {

@@ -2,7 +2,6 @@ import { HTMLElementExtended } from '@webformula/pax-core';
 import './header.js';
 import StandardHelper from './standard.js';
 import ModalHelper from './modal.js';
-import MDWUtils from '../../core/Utils.js';
 import { addDragListener, removeDragListener } from '../../core/drag.js';
 
 customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
@@ -41,7 +40,7 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
   }
 
   get contentHeight() {
-    return this.contentElement.scrollHeight;
+    return this.contentElement.offsetHeight;
   }
 
   get _isDraggable() {
@@ -49,7 +48,7 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
   }
 
   get _headerHeight() {
-    return this._helpers.headerElement.scrollHeight;
+    return this._helpers.headerElement.offsetHeight;
   }
 
   get _maxScroll() {
@@ -73,6 +72,14 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     return this._helpers.initialPosition;
   }
 
+  get _minimizedPosition() {
+    return this._helpers.minimizedPosition;
+  }
+
+  get _isAnchored() {
+    return this.hasAttribute('mdw-anchored');
+  }
+
   show() {
     this._cancelTransitions();
     this.classList.add('mdw-show');
@@ -80,7 +87,8 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     this.style.height = `${this.contentHeight + this._headerHeight}px`;
 
     this._positionBottom();
-    this._transitionToInitialPosition();
+    if (this._isAnchored) this._transitionToPosition(this._minimizedPosition);
+    else this._transitionToPosition(this._initialPosition);
     this._helpers.addBackdrop();
 
     if (this._isDraggable) {
@@ -99,11 +107,14 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
   }
 
   minimize() {
-    if (this.type === 'modal') this.hide();
-    else {
-      this._cancelTransitions();
-      this._transitionToPosition(this._initialPosition);
-    }
+    this._cancelTransitions();
+    this._transitionToPosition(this._minimizedPosition);
+  }
+
+  exitFullscreen() {
+    this._cancelTransitions();
+    if (this._isAnchored) this._transitionToPosition(this._minimizedPosition);
+    else this._transitionToPosition(this._initialPosition);
   }
 
   toggle() {
@@ -126,6 +137,10 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
 
   _positionInitial() {
     this._setPosition(this._initialPosition);
+  }
+
+  _positionMinimized() {
+    this._setPosition(this._minimizedPosition);
   }
 
   _setPosition(y) {
@@ -161,19 +176,14 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     const newPosition = this._currentPosition;
 
     // if is at initial position based on offsetTop
-    if (this._initialOffsetTop === this.offsetTop) return this._transitionToTopPosition();
+    if (this._initialOffsetTop === this.offsetTop) {
+      if (newPosition === this._minimizedPosition) return this._transitionToPosition(this._initialPosition);
+      else return this._transitionToPosition(this._topPosition);
+    }
 
     const halfWayPoint = (this._topPosition - this._initialPosition) / 2;
-    if ((newPosition - this._initialPosition) >= halfWayPoint) this._transitionToTopPosition();
-    else this._transitionToInitialPosition();
-  }
-
-  _transitionToTopPosition() {
-    this._transitionToPosition(this._topPosition);
-  }
-
-  _transitionToInitialPosition() {
-    this._transitionToPosition(this._initialPosition);
+    if ((newPosition - this._initialPosition) >= halfWayPoint) this._transitionToPosition(this._topPosition);
+    else this._transitionToPosition(this._initialPosition);
   }
 
   _transitionToPosition(y) {
@@ -192,11 +202,6 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     this.style.transitionDuration = '';
     this.removeEventListener('transitionend', this.bound_onTransitionEnd);
     this.removeEventListener('transitionend', this.bound_onTransitionEndClose);
-
-    if (this._transitionRunInterval) {
-      clearInterval(this._transitionRunInterval);
-      this._transitionRunInterval = undefined;
-    }
   }
 
   _onTransitionEnd() {
@@ -226,7 +231,6 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
       case 'end':
         this.classList.add('mdw-animating-scroll');
         this._handleScrollEnd(event.velocity.y, event.direction.y);
-        // this._transitionRunInterval = setInterval(this.throttle_whileTransitionRun, 10);
         this.addEventListener('transitionend', this.bound_onTransitionEnd);
         this.classList.remove('mdw-dragging');
         break;
@@ -238,7 +242,10 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     if (!this._isAtOrAboveTop && velocity < -1.1) this._positionTop();
 
     // close when swipe down from initial position
-    else if (!this._isAtOrAboveTop && velocity > 0.7) return this.minimize();
+    else if (!this._isAtOrAboveTop && velocity > 0.7) {
+      if (this.type === 'modal') return this.hide();
+      return this.minimize();
+    }
 
     // scrolling and snapping
     else {

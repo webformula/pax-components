@@ -6,6 +6,10 @@ export default class ModalHelper {
   }
 
   get initialPosition() {
+    return this.minimizedPosition;
+  }
+
+  get minimizedPosition() {
     const contentHeight = this.componentElement.contentHeight;
     return Math.min(contentHeight, this.clientPosition);
   }

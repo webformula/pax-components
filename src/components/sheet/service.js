@@ -1,61 +1,64 @@
 import MDWUtils from '../../core/Utils.js';
 import MDWTemplate from '../templates/service.js';
 
-const MDWScreen = new class {
-  constructor() {
-    this._currentScreen = null;
-  }
+let _currentSheet;
 
-  async show({ animation, templateData, templateId, desktopComponent = 'mdw-sheet-side', mobileComponent= 'mdw-panel' }) {
+const MDWSheet = new class {
+  /* template:
+   * this can be a template id, template url or template string
+   */
+  async show({ template, templateData }) {
+    // make sure we do not stack
+    if (window._currentSheet) this.hide();
+
     const id = MDWUtils.uid('screen');
-    const template = await MDWTemplate.get(templateId, templateData);
+    const templateString = MDWTemplate.isString(template) ? template : await MDWTemplate.get(template, templateData);
 
-    let screenTemplate;
-    if (MDWUtils.isMobile) screenTemplate = mobileComponent === 'mdw-sheet-side' ? this._buildSheetSideTemplate(template, id) : this._buildPanelTemplate(template, id);
-    else screenTemplate = desktopComponent === 'mdw-panel' ? this._buildPanelTemplate(template, id) : this._buildSheetSideTemplate(template, id);
-    const screenComponent = document.querySelector(`#${id}`);
-    this._currentScreen = screenComponent;
-    screenComponent.animation = animation;
-    screenComponent.desktopComponent = desktopComponent;
-    screenComponent.mobileComponent = mobileComponent;
-    screenComponent.open();
-    return screenComponent;
+    let sheetTemplate;
+    if (MDWUtils.isMobile) sheetTemplate = this._buildSheetBottomTemplate(templateString, id);
+    else sheetTemplate = this._buildSheetSideTemplate(templateString, id);
+
+    const sheetComponent = document.querySelector(`#${id}`);
+    window._currentSheet = sheetComponent;
+    sheetComponent.show();
+    return sheetComponent;
   }
 
-  _buildPanelTemplate(templateString, id) {
-    document.body.insertAdjacentHTML('beforeend', /* html */`
-      <mdw-screen id="${id}">
-        <mdw-panel>
-          ${templateString}
-        </mdw-panel>
-      </mdw-screen>
-    `);
+  hide() {
+    if (!window._currentSheet) return;
+    window._currentSheet.hide();
   }
+
+  exitFullscreen() {
+    if (!window._currentSheet) return;
+    window._currentSheet.exitFullscreen();
+  }
+
+
+  _buildSheetBottomTemplate(templateString, id) {
+    const html = /* html */`
+      <mdw-sheet-bottom id="${id}">
+        ${templateString}
+      </mdw-sheet-bottom>
+    `;
+    const page = document.querySelector('mdw-page');
+    if (page) page.insertAdjacentHTML('afterEnd', html);
+    else document.body.insertAdjacentHTML('beforeend', html);
+  }
+
 
   _buildSheetSideTemplate(templateString, id) {
+    const html = /* html */`
+      <mdw-sheet-side id="${id}" class="mdw-hide" mdw-modal mdw-no-backdrop>
+        ${templateString}
+      </mdw-sheet-side>
+    `;
     const page = document.querySelector('mdw-page');
-    if (page) page.insertAdjacentHTML('afterEnd', /* html */`
-      <mdw-screen id="${id}">
-        <mdw-sheet-side class="mdw-hide">
-          ${templateString}
-        </mdw-sheet-side>
-      </mdw-screen>
-    `);
-    else document.body.insertAdjacentHTML('beforeend', /* html */`
-      <mdw-screen id="${id}">
-        <mdw-sheet-side class="mdw-hide">
-          ${templateString}
-        </mdw-sheet-side>
-      </mdw-screen>
-    `);
+    if (page) page.insertAdjacentHTML('afterEnd', html);
+    else document.body.insertAdjacentHTML('beforeend', html);
   }
+};
 
-  close() {
-    if (!this._currentScreen) return;
-    this._currentScreen.close();
-  }
-}
+window.MDWSheet = MDWSheet;
 
-window.MDWScreen = MDWScreen;
-
-export default MDWScreen;
+export default MDWSheet;
