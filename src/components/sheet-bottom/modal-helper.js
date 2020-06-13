@@ -44,7 +44,7 @@ export default class ModalHelper {
 
   handleOnMove({ position, isAtTop, isAboveTop, targetingTop, targetingInitial }) {
     if (targetingTop || isAtTop || isAboveTop) this.headerElement.show();
-    else this.headerElement.close();
+    else this.headerElement.hide();
 
     if (isAtTop || isAboveTop) this.headerElement.classList.add('mdw-fullscreen');
     else this.headerElement.classList.remove('mdw-fullscreen');
