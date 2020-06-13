@@ -69,6 +69,11 @@ export default class Surface extends Page {
   openPanel(target) {
     MDWSurface.open({
       component: 'panel',
+      // animation: {
+      //   type: 'height',
+      //   origin: 'center',
+      //   fullscreen: true
+      // },
       animationTarget: target,
       template: this.basicTemplate
     });
@@ -138,7 +143,14 @@ export default class Surface extends Page {
                 MDWSurface.open({
                   component: 'panel',
                   target,
-                  template: this.basicTemplate
+                  template: this.basicTemplate,
+                  
+                  // default animation config for panel
+                  animation: {
+                    type: 'height',
+                    origin: 'center',
+                    fullscreen: true
+                  },
                 });
               }
             </monaco-editor>

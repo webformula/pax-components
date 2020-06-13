@@ -120,6 +120,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
       this._animationRequestId = this._runNextAnimationFrame(() => {
         if (this._animationConfig.fullscreen) this.classList.add('mdw-fullscreen');
+
         switch (this._animationConfig.type) {
           case 'height':
             this.style.transition = 'max-height .22s cubic-bezier(0,0,.2,1), transform .22s cubic-bezier(0,0,.2,1), opacity .22s linear';
@@ -154,6 +155,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     // default animation
     this.classList.add('mdw-open');
     this.classList.add('mdw-panel--animating-open');
+
+    if (this._animationConfig.target && this._animationConfig.fullscreen) {
+      this.style.width = '100%';
+    }
     
     switch(this._animationConfig.type) {
       case 'height':
@@ -163,8 +168,16 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         switch (this._animationConfig.origin) {
           case 'center':
             let transformValue = this.classList.contains('mdw-fullscreen') ? window.innerHeight / 2 : this.scrollHeight / 2;
-            if (this._animationConfig.target) transformValue = this._animationConfig.target.offsetTop;
+            if (this._animationConfig.target) transformValue = this._animationConfig.target.getBoundingClientRect().y;
             this.style.transform = `translateY(${transformValue}px)`;
+            break;
+
+          case 'top':
+          default:
+            if (this._animationConfig.target) {
+              transformValue = this._animationConfig.target.offsetTop;
+              this.style.transform = `translateY(${transformValue}px)`;
+            }
             break;
         }
         break;
