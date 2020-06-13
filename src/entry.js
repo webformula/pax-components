@@ -24,7 +24,6 @@ import './components/panel/index.js';
 import './components/radio/index.js';
 import './components/radio-group/index.js';
 import './components/select/index.js';
-import './components/sheet/service.js';
 import './components/sheet-bottom/index.js';
 import './components/sheet-side/index.js';
 import './components/slider/index.js';
@@ -38,20 +37,19 @@ import './components/text-field/index.js';
 // import './components/tooltip/index.js';
 import './components/top-app-bar/index.js';
 import './components/bound-property/index.js';
-
 import './components/templates/index.js';
 
 
 import MDWDialog from './components/dialog/service.js';
 import MDWSnackbar from './components/snackbar/service.js';
-import MDWSheet from './components/sheet/service.js';
 import MDWTemplate from './components/templates/service.js';
+import MDWSurface from './components/surface/service.js';
 
 export {
   MDWDialog,
   MDWSnackbar,
-  MDWSheet,
   MDWTemplate,
+  MDWSurface,
   MDWDrag,
   MDWSwipe
 }

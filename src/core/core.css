@@ -16,6 +16,10 @@ body {
   color: var(--mdw-theme-on-primary);
 }
 
+body.mdw-no-select {
+  user-select: none;
+}
+
 body.prevent-over-scroll {
   position: absolute;
   height: 100%;

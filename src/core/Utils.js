@@ -46,6 +46,14 @@ const MDWUtils = new class {
     scrollElement.style.overflow = '';
   }
 
+  disableUserSelect() {
+    document.body.classList.add('mdw-no-select');
+  }
+
+  enableUserSelect() {
+    document.body.classList.remove('mdw-no-select');
+  }
+
   debounce(fn, wait) {
     let timer;
     return function debounced() {

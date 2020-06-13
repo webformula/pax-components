@@ -1,7 +1,7 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWUtils from '../../core/Utils.js';
 import { addSwipeListener, removeSwipeListener } from '../../core/swipe.js';
-// TODO rewrite this component
+
 customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -28,7 +28,7 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     if (this.isModal && this._isNavigationDrawer && !this.isHidden && !this.classList.contains('mdw-show')) this.classList.add('mdw-hide');
     else if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
     else if (this.isModal && !this.isHidden) {
-      if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.hide(), { sheet: true });
+      if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.close(), { sheet: true });
     }
 
      // browser events for url changes. only use this for navigation
@@ -46,8 +46,6 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
       window.removeEventListener('hashchange', this.bound_routeChange);
       window.removeEventListener('DOMContentLoaded', this.bound_routeChange);
     }
-
-    this.onTransitionEnd();
   }
 
   get isModal() {
@@ -84,39 +82,45 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     matchingLinks.forEach(el => el.classList.add('mdw-current-link'));
   }
 
-  show() {
+  open() {
     console.log(this.classList.contains('mdw-hide'));
     setTimeout(() => {
       this.classList.remove('mdw-hide');
       this.classList.add('mdw-show');
       if (this.isModal) {
         addSwipeListener(document.body, this.bound_onSwipe);
-        if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.hide(), { sheet: true });
+        if (this._useBackdrop) this._backdrop = MDWUtils.addBackdrop(this, () => this.close(), { sheet: true });
       }
 
       if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
     }, 10); // this is a temporary fix
   }
 
-  hide() {
-    this.classList.remove('mdw-show');
-    this.classList.add('mdw-hide');
-    if (this._backdrop) this._backdrop.remove();
-    removeSwipeListener(document.body, this.bound_onSwipe);
+  async close() {
+    return new Promise(resolve => {
+      this.classList.remove('mdw-show');
+      this.classList.add('mdw-hide');
+      if (this._backdrop) this._backdrop.remove();
+      removeSwipeListener(document.body, this.bound_onSwipe);
 
-    if (this._isNavigationDrawer) document.body.classList.remove('mdw-navigation-drawer-open');
+      if (this._isNavigationDrawer) document.body.classList.remove('mdw-navigation-drawer-open');
+
+      setTimeout(() => {
+        resolve();
+      }, 200);
+    });
   }
 
   toggle() {
-    if (this.isHidden) this.show();
-    else this.hide();
+    if (this.isHidden) this.open();
+    else this.close();
   }
 
   onSwipe(event) {
     if (this.isLeft) {
-      if (event.direction.x === -1 && event.velocity.x < -0.8) this.hide();
+      if (event.direction.x === -1 && event.velocity.x < -0.8) this.close();
     } else {
-      if (event.direction.x === 1 && event.velocity.x > 0.8) this.hide();
+      if (event.direction.x === 1 && event.velocity.x > 0.8) this.close();
     }
   }
 });

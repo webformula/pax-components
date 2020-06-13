@@ -28,7 +28,7 @@ export default class SheetsBottom extends Page {
         <h3>Sheets: bottom</h3>
 
         <div class="showcase mdw-elevation-1" style="overflow: hidden">
-          <mdw-button onclick="document.querySelector('mdw-sheet-bottom').toggle()">show</mdw-button>
+          <mdw-button onclick="document.querySelector('mdw-sheet-bottom').toggle()">open</mdw-button>
 
           <mdw-sheet-bottom id="theSheet" mdw-title="Standard sheet" class="mdw-shaped">
             <mdw-header class="mdw-primary mdw-two-line">
@@ -126,7 +126,7 @@ export default class SheetsBottom extends Page {
           </div>
 
           <div class="mdw-card__content mdw-row">
-            <mdw-button onclick="document.querySelector('#modal-sheet').toggle()">show</mdw-button>
+            <mdw-button onclick="document.querySelector('#modal-sheet').toggle()">open</mdw-button>
             <mdw-sheet-bottom mdw-modal mdw-title="Modal sheet" id="modal-sheet">
               <mdw-content>
                 <mdw-list>
@@ -198,7 +198,7 @@ export default class SheetsBottom extends Page {
           </div>
 
           <div class="mdw-card__content mdw-row">
-            <mdw-button onclick="document.querySelector('#shaped-modal').toggle()">show</mdw-button>
+            <mdw-button onclick="document.querySelector('#shaped-modal').toggle()">open</mdw-button>
             <mdw-sheet-bottom mdw-modal mdw-title="Modal shaped" class="mdw-shaped test" id="shaped-modal">
               <mdw-content>
                 <mdw-list>
@@ -265,7 +265,7 @@ export default class SheetsBottom extends Page {
           </div>
 
           <div class="mdw-card__content mdw-row">
-            <mdw-button onclick="document.querySelector('#theSheet').toggle()">show</mdw-button>
+            <mdw-button onclick="document.querySelector('#theSheet').toggle()">open</mdw-button>
             <mdw-sheet-bottom id="theSheet" mdw-title="Standard sheet" class="mdw-shaped">
               <mdw-header>
                 <mdw-sheet-top-bar>
@@ -374,7 +374,7 @@ export default class SheetsBottom extends Page {
           </div>
 
           <div class="mdw-card__content mdw-row">
-            <mdw-button onclick="document.querySelector('#anchoredSheet').toggle()">show</mdw-button>
+            <mdw-button onclick="document.querySelector('#anchoredSheet').toggle()">open</mdw-button>
             <mdw-sheet-bottom id="anchoredSheet" mdw-title="Standard sheet" class="mdw-shaped" mdw-anchored>
               <mdw-header class="mdw-primary mdw-two-line">
                 <mdw-sheet-top-bar>

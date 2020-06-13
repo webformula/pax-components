@@ -49,7 +49,7 @@ customElements.define('mdw-sheet-bottom-header', class extends HTMLElementExtend
   }
 
   close() {
-    if (this.isModal) return this.parentNode.hide();
+    if (this.isModal) return this.parentNode.close();
     this.parentNode.exitFullscreen();
   }
 
@@ -68,6 +68,7 @@ customElements.define('mdw-sheet-bottom-header', class extends HTMLElementExtend
   }
 
   toTop() {
+    console.log('to top')
     this.parentNode._transitionToNearestPosition();
   }
 

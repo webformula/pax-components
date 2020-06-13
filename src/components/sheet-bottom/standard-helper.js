@@ -1,21 +1,19 @@
-import MDWUtils from '../../core/Utils.js';
-
-export default class ModalHelper {
+export default class StandardHelper {
   constructor(componentElement) {
     this.componentElement = componentElement;
+    this.isAnchored = componentElement.hasAttribute('mdw-anchored');
   }
 
   get initialPosition() {
-    return this.minimizedPosition;
+    return this.componentElement._headerHeight + (window.innerHeight / 4);
   }
 
   get minimizedPosition() {
-    const contentHeight = this.componentElement.contentHeight;
-    return Math.min(contentHeight, this.clientPosition);
+    return this.componentElement._headerHeight;
   }
 
   get clientPosition() {
-    return window.innerHeight / 2;
+    return window.innerHeight / 4;
   }
 
   get isDraggable() {
@@ -28,18 +26,17 @@ export default class ModalHelper {
   }
 
   setupHeader() {
-    this.componentElement.insertAdjacentHTML('afterbegin', `<mdw-sheet-bottom-header mdw-title="${this.componentElement.title}"></mdw-sheet-bottom-header>`);
+    const header = this.componentElement.querySelector('mdw-header');
+    this.componentElement.insertAdjacentHTML('afterbegin', `<mdw-sheet-bottom-header mdw-title="${this.componentElement.title}" class="${header.classList.toString()}">${header && header.innerHTML}</mdw-sheet-bottom-header>`);
+    if (header) header.remove();
   }
 
   addBackdrop() {
-    this.backdrop = MDWUtils.addBackdrop(this.componentElement, () => {
-      this.componentElement.hide();
-    });
+
   }
 
   removeBackdrop() {
-    if (this.backdrop) this.backdrop.remove();
-    this.backdrop = undefined;
+    
   }
 
   handleOnMove({ position, isAtTop, isAboveTop, targetingTop, targetingInitial }) {
@@ -53,3 +50,4 @@ export default class ModalHelper {
     else this.headerElement.classList.remove('mdw-is-above-top');
   }
 }
+ 

@@ -1,8 +1,9 @@
 import { HTMLElementExtended } from '@webformula/pax-core';
 import './header.js';
-import StandardHelper from './standard.js';
-import ModalHelper from './modal.js';
+import StandardHelper from './standard-helper.js';
+import ModalHelper from './modal-helper.js';
 import { addDragListener, removeDragListener } from '../../core/drag.js';
+import MDWUtils from '../../core/Utils.js';
 
 customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
   constructor() {
@@ -80,7 +81,17 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     return this.hasAttribute('mdw-anchored');
   }
 
-  show() {
+  disconnectedCallback() {
+    // make sure we don't accidentally lock the page scroll for ever
+    if (this.classList.contains('mdw-dragging')) {
+      MDWUtils.unlockPageScroll();
+      MDWUtils.disableUserSelect();
+    }
+
+    this._cancelTransitions();
+  }
+
+  open() {
     this._cancelTransitions();
     this.classList.add('mdw-show');
 
@@ -92,18 +103,25 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     this._helpers.addBackdrop();
 
     if (this._isDraggable) {
-      addDragListener(this.contentElement, this.bound_onDrag);
+      // addDragListener(this.contentElement, this.bound_onDrag);
       if (this._helpers.headerElement) addDragListener(this._helpers.headerElement, this.bound_onDrag);
     }
   }
 
-  hide() {
-    removeDragListener(this.contentElement, this.bound_onDrag);
-    if (this._helpers.headerElement) removeDragListener(this._helpers.headerElement, this.bound_onDrag);
-    this._cancelTransitions();
-    this.classList.add('mdw-animating-close');
-    this._positionBottom();
-    this.addEventListener('transitionend', this.bound_onTransitionEndClose);
+  async close() {
+    return new Promise(resolve => {
+      removeDragListener(this.contentElement, this.bound_onDrag);
+      if (this._helpers.headerElement) removeDragListener(this._helpers.headerElement, this.bound_onDrag);
+      this._cancelTransitions();
+      this.classList.add('mdw-animating-close');
+      this._positionBottom();
+      this.addEventListener('transitionend', () => {
+        this._cancelTransitions()
+        this.classList.remove('mdw-show');
+        this._helpers.removeBackdrop();
+        resolve();
+      }, { once: true });
+    });
   }
 
   minimize() {
@@ -118,8 +136,8 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
   }
 
   toggle() {
-    if (this.classList.contains('mdw-show')) this.hide();
-    else this.show();
+    if (this.classList.contains('mdw-show')) this.close();
+    else this.open();
   }
 
   _registerHeader(element) {
@@ -143,6 +161,7 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     this._setPosition(this._minimizedPosition);
   }
 
+  // TODO fix whater is continuasly calling this
   _setPosition(y) {
     const maxScroll = this._maxScroll;
     let overScroll = 0;
@@ -222,6 +241,9 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
         this._cancelTransitions();
         this._startPosition = this._currentPosition;
         this.classList.add('mdw-dragging');
+        MDWUtils.lockPageScroll();
+        MDWUtils.disableUserSelect();
+        // TODO figure out global hover disable
         break;
 
       case 'move':
@@ -233,6 +255,8 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
         this._handleScrollEnd(event.velocity.y, event.direction.y);
         this.addEventListener('transitionend', this.bound_onTransitionEnd);
         this.classList.remove('mdw-dragging');
+        MDWUtils.unlockPageScroll();
+        MDWUtils.enableUserSelect();
         break;
     }
   }
@@ -243,7 +267,7 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
 
     // close when swipe down from initial position
     else if (!this._isAtOrAboveTop && velocity > 0.7) {
-      if (this.type === 'modal') return this.hide();
+      if (this.type === 'modal') return this.close();
       return this.minimize();
     }
 

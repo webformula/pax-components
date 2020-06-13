@@ -5,10 +5,6 @@ customElements.define('mdw-backdrop', class extends HTMLElementExtended {
     super();
   }
 
-  connectedCallback() {
-    // this.frontElement.classList.add('mdw-elevation-1--shadow');
-  }
-
   get frontElement() {
     if (!this.frontElement_) this.frontElement_ = this.querySelector('mdw-backdrop-front');
     return this.frontElement_;

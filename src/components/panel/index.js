@@ -119,6 +119,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
       else this.setPositionStyle();
 
       this._animationRequestId = this._runNextAnimationFrame(() => {
+        if (this._animationConfig.fullscreen) this.classList.add('mdw-fullscreen');
         switch (this._animationConfig.type) {
           case 'height':
             this.style.transition = 'max-height .22s cubic-bezier(0,0,.2,1), transform .22s cubic-bezier(0,0,.2,1), opacity .22s linear';
@@ -182,35 +183,36 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
 
   // TODO FIX THE CLOSING ANIMATION
-  close(event) {
-    if (event) event.stopPropagation();
+  async close(event) {
+    return new Promise(resolve => {
+      if (event) event.stopPropagation();
 
-    this.removeEventListener('MDWPanel:close', this.bound_close);
-    if (!this._isQuickOpen) {
-      this.classList.add('mdw-panel--animating-closed');
-      this.removeBodyClickEvent_();
-      this._animationRequestId = this._runNextAnimationFrame(() => {
-        this.classList.remove('mdw-open');
-        if (this._isQuickOpen) this.notifyClose();
-        else {
+      this.removeEventListener('MDWPanel:close', this.bound_close);
+      if (!this._isQuickOpen) {
+        this.classList.add('mdw-panel--animating-closed');
+        this.removeBodyClickEvent_();
+        this._animationRequestId = this._runNextAnimationFrame(() => {
+          this.classList.remove('mdw-open');
           this._closeAnimationEndTimerId = setTimeout(() => {
             this._closeAnimationEndTimerId = 0;
             this.classList.remove('mdw-panel--animating-closed');
             this.resetPosition();
             this.notifyClose();
+            resolve();
           }, 75);
-        }
-      });
-    } else {
-      this.classList.remove('mdw-open');
-      this.resetPosition();
-    }
+        });
+      } else {
+        this.classList.remove('mdw-open');
+        this.resetPosition();
+        resolve();
+      }
 
-    this.removeKeydownEvent_();
-    this._isOpen = false;
-    const isRootFocused = this.isFocused();
-    const childHasFocus = document.activeElement && this.contains(document.activeElement);
-    if (isRootFocused || childHasFocus) this.restoreFocus();
+      this.removeKeydownEvent_();
+      this._isOpen = false;
+      const isRootFocused = this.isFocused();
+      const childHasFocus = document.activeElement && this.contains(document.activeElement);
+      if (isRootFocused || childHasFocus) this.restoreFocus();
+    });
   }
 
   _runNextAnimationFrame(callback) {

@@ -1,19 +1,21 @@
-export default class SheetBottomStandard {
+import MDWUtils from '../../core/Utils.js';
+
+export default class ModalHelper {
   constructor(componentElement) {
     this.componentElement = componentElement;
-    this.isAnchored = componentElement.hasAttribute('mdw-anchored');
   }
 
   get initialPosition() {
-    return this.componentElement._headerHeight + (window.innerHeight / 4);
+    return this.minimizedPosition;
   }
 
   get minimizedPosition() {
-    return this.componentElement._headerHeight;
+    const contentHeight = this.componentElement.contentHeight;
+    return Math.min(contentHeight, this.clientPosition);
   }
 
   get clientPosition() {
-    return window.innerHeight / 4;
+    return window.innerHeight / 2;
   }
 
   get isDraggable() {
@@ -26,22 +28,23 @@ export default class SheetBottomStandard {
   }
 
   setupHeader() {
-    const header = this.componentElement.querySelector('mdw-header');
-    this.componentElement.insertAdjacentHTML('afterbegin', `<mdw-sheet-bottom-header mdw-title="${this.componentElement.title}" class="${header.classList.toString()}">${header && header.innerHTML}</mdw-sheet-bottom-header>`);
-    if (header) header.remove();
+    this.componentElement.insertAdjacentHTML('afterbegin', `<mdw-sheet-bottom-header mdw-title="${this.componentElement.title}"></mdw-sheet-bottom-header>`);
   }
 
   addBackdrop() {
-
+    this.backdrop = MDWUtils.addBackdrop(this.componentElement, () => {
+      this.componentElement.close();
+    });
   }
 
   removeBackdrop() {
-    
+    if (this.backdrop) this.backdrop.remove();
+    this.backdrop = undefined;
   }
 
   handleOnMove({ position, isAtTop, isAboveTop, targetingTop, targetingInitial }) {
     if (targetingTop || isAtTop || isAboveTop) this.headerElement.show();
-    else this.headerElement.hide();
+    else this.headerElement.close();
 
     if (isAtTop || isAboveTop) this.headerElement.classList.add('mdw-fullscreen');
     else this.headerElement.classList.remove('mdw-fullscreen');
@@ -50,4 +53,3 @@ export default class SheetBottomStandard {
     else this.headerElement.classList.remove('mdw-is-above-top');
   }
 }
- 
