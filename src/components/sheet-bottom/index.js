@@ -103,7 +103,7 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     this._helpers.addBackdrop();
 
     if (this._isDraggable) {
-      // addDragListener(this.contentElement, this.bound_onDrag);
+      addDragListener(this.contentElement, this.bound_onDrag);
       if (this._helpers.headerElement) addDragListener(this._helpers.headerElement, this.bound_onDrag);
     }
   }
