@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWUtils from '../../core/Utils.js';
 
 customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {

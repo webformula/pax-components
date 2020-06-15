@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 
 customElements.define('mdw-textfield', class extends HTMLElementExtended {
   constructor() {

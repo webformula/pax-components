@@ -2,7 +2,7 @@
 import './components/anchor-link.js';
 import './components/monaco-editor.js';
 
-import { router } from '@webformula/pax-core';
+import { router } from '/web_modules/@webformula/pax-core/index.js';
 import TopAppBar from './pages/components/app-bar-top.js';
 import Autocomplete from './pages/components/autocomplete.js';
 import Backdrop from './pages/components/backdrop.js';

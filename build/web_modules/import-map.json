@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@webformula/pax-core": "./@webformula/pax-core.js",
+    "@webformula/pax-core/index.js": "./@webformula/pax-core/index.js"
+  }
+}

@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWTemplate from './service.js';
 
 customElements.define('mdw-template', class extends HTMLElementExtended {

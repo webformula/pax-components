@@ -1,0 +1,137 @@
+import {Page} from "/web_modules/@webformula/pax-core/index.js";
+export default class Density extends Page {
+  constructor() {
+    super();
+  }
+  get title() {
+    return "Density";
+  }
+  get densityWrapperElement() {
+    return document.querySelector("#density-wrapper");
+  }
+  updateDensity(value) {
+    this.densityWrapperElement.classList.remove("mdw-density-comfortable");
+    this.densityWrapperElement.classList.remove("mdw-density-compact");
+    if (value && value !== "default")
+      this.densityWrapperElement.classList.add(value);
+  }
+  template() {
+    return `
+    <article class="page-article">
+      <h1 class="article-title">Density</h1>
+      <h2 class="article-subtitle">Set component density</h2>
+
+      <p>
+        Material components have 3 differenct levels of density.
+        <ul>
+          <li>Default</li>
+          <li>Comfortable</li>
+          <li>Compact</li>
+        </ul>
+        You can control these from the root document level all the way to a single component, using simple css class names.
+         <ul>
+          <li>.mdw-density-comfortable</li>
+          <li>.mdw-density-compact</li>
+        </ul>
+      </p>
+
+      <section>
+        <mdw-card id="density-wrapper">
+          <div class="mdw-card__content">
+            <h6>Desity Example</h6>
+          </div>
+
+          <div mdw-row style="padding: 20px; background-color: rgba(100,100,100,0.2);">
+            <mdw-select mdw-enhanced style="min-width: 180px; margin-right: 12px">
+              <select onchange="activePage.updateDensity(this.value)">
+                <option value="default" selected>Default</option>
+                <option value="mdw-density-comfortable">Comfortable</option>
+                <option value="mdw-density-compact">Compact</option>
+              </select>
+              <label>Density</label>
+            </mdw-select>
+
+            <mdw-divider></mdw-divider>
+          </div>
+
+          <div class="mdw-card__content" style="display: block;">
+            <div style="padding: 20px">
+              <mdw-button class="mdw-raised mdw-primary">Button</mdw-button>
+              <mdw-button class="mdw-raised mdw-icon mdw-secondary"><mdw-icon>home</mdw-icon></mdw-button>
+            </div>
+
+            <div style="padding: 8px" mdw-row mdw-flex-position="start center">
+              <mdw-textfield>
+                <input>
+                <label>Label</label>
+                <mdw-textfield-helper>
+                  <mdw-helper-text persistent>Helper text</mdw-helper-text>
+                </mdw-textfield-helper>
+              </mdw-textfield>
+
+              <mdw-textfield class="mdw-outlined">
+                <input>
+                <label>Label</label>
+              </mdw-textfield>
+            </div>
+
+            <div style="padding: 8px" mdw-row>
+              <mdw-select mdw-enhanced style="min-width: 120px; margin-right: 12px">
+                <select>
+                  <option value="a" selected>aaaaaa</option>
+                  <option value="b">bbbbbb</option>
+                </select>
+                <label>Label</label>
+              </mdw-select>
+
+              <mdw-select mdw-enhanced class="mdw-outlined" style="min-width: 120px">
+                <select>
+                  <option value="a" selected>aaaaaa</option>
+                  <option value="b">bbbbbb</option>
+                </select>
+                <label>Label</label>
+              </mdw-select>
+            </div>
+
+            <div style="padding: 8px">
+              <div>
+                <mdw-checkbox indeterminate></mdw-checkbox>
+                <label>Label</label>
+              </div>
+
+              <div>
+                <mdw-checkbox></mdw-checkbox>
+                <label>Label</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mdw-card__content--no-padding">
+            <monaco-editor language="html">
+              <!-- change density on parent of components -->
+              <div class="mdw-density-comfortable">
+                <mdw-button>Button</mdw-button>
+              </div>
+            </monaco-editor>
+
+            <monaco-editor language="html">
+              <!-- change density of single component -->
+
+              <!-- comfortable -->
+              <mdw-button class="mdw-density-comfortable">Button</mdw-button>
+              <!-- compact -->
+              <mdw-button class="mdw-density-compact">Button</mdw-button>
+            </monaco-editor>
+          </div>
+        </mdw-card>
+      </section>
+
+      <section mdw-row>
+        <mdw-button class="mdw-secondary" href="#/documentation/layout">< layout</mdw-button>
+        <span mdw-flex></span>
+        <mdw-button class="mdw-secondary" href="#/components/app-bar-bottom">App bar: Bottom ></mdw-button>
+      </section>
+    </article>
+    `;
+  }
+}

@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '/web_modules/@webformula/pax-core/index.js';
 
 // this is called twice because the docs loads multiple versions of the code. To prevent an error we are double checking for the existence
 if (!customElements.get('monaco-editor')) {

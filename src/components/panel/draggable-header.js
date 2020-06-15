@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import { addDragListener, removeDragListener, states } from '../../core/drag.js';
 
 /*

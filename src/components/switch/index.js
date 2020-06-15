@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWRipple from '../../core/Ripple.js';
 
 customElements.define('mdw-switch', class extends HTMLElementExtended {

@@ -1,5 +1,4 @@
-import { Page } from '@webformula/pax-core';
-import MDWSurface from '../../../src/components/surface/service.js';
+import { Page } from '/web_modules/@webformula/pax-core/index.js';
 
 export default class Surface extends Page {
   constructor() {

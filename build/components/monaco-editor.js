@@ -1,0 +1,124 @@
+import {HTMLElementExtended} from "/web_modules/@webformula/pax-core/index.js";
+if (!customElements.get("monaco-editor")) {
+  customElements.define("monaco-editor", class extends HTMLElementExtended {
+    constructor() {
+      super();
+      this.getContent();
+    }
+    connectedCallback() {
+      if (window.monacoLoaded)
+        this.init();
+      else
+        this.wait();
+    }
+    set content(str = "") {
+      const lines = this.removeLeadingTabs(str.split(/(?:\r\n|\n|\r)/));
+      this.lineCount = lines.length;
+      this._content = lines.join("\n");
+      this.style.height = `${this.lineCount * 18 + 12}px`;
+      if (window.monacoLoaded) {
+        this.editor.setValue(this._content);
+      } else
+        this.wait();
+    }
+    wait() {
+      setTimeout(() => {
+        if (window.monacoLoaded)
+          this.init();
+        else
+          this.wait();
+      }, 500);
+    }
+    init() {
+      this.style.height = `${this.lineCount * 18 + 12}px`;
+      if (this.editor) {
+        this.editor.value = this._content;
+        return;
+      }
+      this.editor = monaco.editor.create(this, {
+        value: this._content,
+        language: this.language,
+        scrollBeyondLastLine: false,
+        theme: "NightOwl",
+        minimap: {
+          enabled: false
+        },
+        readOnly: true,
+        autoIndent: true,
+        indentGuides: {
+          enabled: false
+        },
+        automaticLayout: true
+      });
+      [...this.querySelectorAll("textarea")].forEach((el) => {
+        el.setAttribute("readonly", "readonly");
+      });
+    }
+    singleLineString(strings, ...values) {
+      let output = "";
+      for (let i = 0; i < values.length; i++) {
+        output += strings[i] + values[i];
+      }
+      output += strings[values.length];
+      let lines = output.split(/(?:\r\n|\n|\r)/);
+      return lines.map((line, i) => {
+        let notSpace = true;
+        if (i === 0) {
+          const spaceCount = line.split(" ").filter((i2) => {
+            if (i2 !== " ")
+              notSpace = false;
+            return notSpace;
+          }).length;
+          console.log("spaceCount", spaceCount);
+        }
+        ;
+        return line.replace(/^\s+/gm, "");
+      }).join(" ").trim();
+    }
+    get language() {
+      let mode = this.hasAttribute("language") ? this.getAttribute("language") : "javascript";
+      return mode;
+    }
+    get code() {
+      if (!this._code)
+        this._code = this.querySelector("code");
+      return this._code;
+    }
+    removeLeadingTabs(lines) {
+      if (lines[0] === "")
+        lines.shift();
+      let idSpace = true;
+      const maxSpaceCount = (lines[0] || "1").split(/(?:\s)/).filter((i) => {
+        if (i !== "")
+          idSpace = false;
+        return idSpace;
+      }).length - 1;
+      lines = lines.map((line) => {
+        let notSpace = false;
+        return line.split(/(?:\s)/).filter((c, i) => {
+          if (notSpace || i >= maxSpaceCount)
+            return true;
+          if (c !== "") {
+            notSpace = true;
+            return true;
+          }
+          return false;
+        }).join(" ");
+      });
+      if (lines[lines.length - 1] === "")
+        lines.pop();
+      return lines;
+    }
+    getContent() {
+      let lines;
+      if (this.hasAttribute("content"))
+        lines = this.getAttribute("content");
+      else
+        lines = this.querySelector("code") ? this.querySelector("code").innerHTML : this.innerHTML || "";
+      lines = this.removeLeadingTabs(lines.split(/(?:\r\n|\n|\r)/));
+      this.lineCount = lines.length;
+      this._content = lines.join("\n");
+      this.innerHTML = "";
+    }
+  });
+}

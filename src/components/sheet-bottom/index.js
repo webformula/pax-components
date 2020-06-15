@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import './header.js';
 import StandardHelper from './standard-helper.js';
 import ModalHelper from './modal-helper.js';

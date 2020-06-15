@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 
 customElements.define('mdw-bound-property', class extends HTMLElementExtended {
   constructor() {

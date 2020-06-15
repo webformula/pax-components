@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWUtils from '../../core/Utils.js';
 import { addDragListener, removeDragListener } from '../../core/drag.js';
 

@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import { isPhoneAndTablet } from '../../core/mobile-info.js';
 
 customElements.define('mdw-navigation-rail', class extends HTMLElementExtended {
