@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "local": "snowpack dev --config snowpack.config.json",
+    "local": "node-sass src/entry.scss local/entry.css && snowpack dev --config snowpack.config.json",
     "local:release": "snowpack dev --config snowpack.config.release.json",
     "build": "snowpack build --config snowpack.config.release.json"
   },
