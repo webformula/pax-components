@@ -10,7 +10,7 @@
     "build:index.html": "replace '_VERSION_' '_V_' build/index.html"
   },
   "plugins": [
-    "@snowpack/plugin-parcel"
+    "@snowpack/plugin-webpack"
   ],
   "install": [
     "@webformula/pax-core"
