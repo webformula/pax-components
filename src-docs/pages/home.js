@@ -7,9 +7,9 @@ export default class Home extends Page {
 
   connectedCallback() {
     document.querySelector('#editor-1').content = `
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/theme.css">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.css">
-      <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/release/theme.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/release/entry.css">
+      <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/release/entry.js"></script>
 
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@ export default class Home extends Page {
 
     document.querySelector('#editor-2').content = `
       <!-- include css -->
-      <link rel="stylesheet" href="node_modules/pax-components/dist/entry.css">
+      <link rel="stylesheet" href="node_modules/pax-components/release/entry.css">
 
       <!-- include font and icons -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -105,7 +105,7 @@ export default class Home extends Page {
 
           <monaco-editor language="javascript">
             // import
-            import 'pax-components/dist/entry.js';
+            import 'pax-components/release/entry.js';
           </monaco-editor>
 
           <monaco-editor id="editor-2" language="html"></monaco-editor>

@@ -11,9 +11,9 @@ export default class Install extends Page {
 
   connectedCallback() {
     document.querySelector('#editor-1').content = `
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/theme.css">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.css">
-      <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/dist/entry.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/release/theme.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/release/entry.css">
+      <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@${window.paxVersion}/release/entry.js"></script>
 
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
@@ -21,8 +21,8 @@ export default class Install extends Page {
 
     document.querySelector('#editor-2').content = `
       <!-- include css -->
-      <link rel="stylesheet" href="node_modules/pax-components/dist/theme.css">
-      <link rel="stylesheet" href="node_modules/pax-components/dist/entry.css">
+      <link rel="stylesheet" href="node_modules/pax-components/release/theme.css">
+      <link rel="stylesheet" href="node_modules/pax-components/release/entry.css">
 
       <!-- include font and icons -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -66,10 +66,10 @@ export default class Install extends Page {
             // import the src using es modules
             import 'pax-components/src/entry.js';
 
-            // you can alteratively import the dist file, this is a cjs module
-            import 'pax-components/dist/entry.js';
+            // you can alteratively import the release file, this is a cjs module
+            import 'pax-components/release/entry.js';
             // ors
-            require('pax-components/dist/entry.js');
+            require('pax-components/release/entry.js');
           </monaco-editor>
 
           <monaco-editor id="editor-2" language="html"></monaco-editor>
