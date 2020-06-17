@@ -1,4 +1,4 @@
-import { Page } from '@webformula/pax-core';
+import { Page } from '/web_modules/@webformula/pax-core/index.js';
 
 export default class GettingStarted extends Page {
   constructor() {
@@ -30,47 +30,40 @@ export default class GettingStarted extends Page {
 
   <body>
     <mdw-sheet-side class="mdw-navigation-drawer">
-      <mdw-sheet-side--header>
-        <h6>PAX</h6>
-      </mdw-sheet-side--header>
+      <mdw-header>
+        <section>
+          <div class="mdw-title">Nav title</div>
+          <div class="mdw-subtitle">Pages</div>
+        </section>
+      </mdw-header>
 
-      <mdw-sheet-side--content>
-        <nav>
-          <a href="#/home">Welcome</a>
+      <mdw-content>
+        <mdw-list>
+          <mdw-list-item class="mdw-current-link">
+            <mdw-icon>inbox</mdw-icon>
+            Inbox
+          </mdw-list-item>
 
-          <span class="title">Documentation</span>
-
-          <a href="#/documentation/getting-started">Getting started</a>
-          <a href="#/documentation/install">Installation</a>
-
-          <mdw-divider></mdw-divider>
-          <span class="title">Components</span>
-          <a href="#/components/buttons">Buttons</a>
-          <a href="#/components/fab">Buttons: FAB</a>
-          <a href="#/components/cards">Cards</a>
-        </nav>
-      </mdw-sheet-side--content>
+          <mdw-list-item>
+            <mdw-icon>star</mdw-icon>
+            Two
+          </mdw-list-item>
+        </mdw-list>
+      </mdw-content>
     </mdw-sheet-side>
 
     <mdw-page>
-      <header>
-        <mdw-top-app-bar mdw-fixed>
-          <section>
-            <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
-          </section>
-
-          <section mdw-flex>
-            <span class="mdw-title">PAX web components _VERSION_</span>
-          </section>
-        </mdw-top-app-bar>
-      </header>
+      <mdw-top-app-bar>
+        <section>
+          <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
+        </section>
+        <section>
+          <span class="mdw-title">Example</span>
+        </section>
+      </mdw-top-app-bar>
 
       <mdw-page-content>
-        <!-- place page contents here -->
-
-        <!-- if you are using PAX-core then you can place the page-container element here -->
-        <page-container></page-container>
-        
+        ...content
       </mdw-page-content>
     </mdw-page>
   </body>
@@ -92,6 +85,12 @@ export default class GettingStarted extends Page {
 
         <div class="mdw-card__content--no-padding">
           <monaco-editor id="editor-1" language="html"></monaco-editor>
+        </div>
+
+        <div class="mdw-card__content" style="display: block;">
+          <div class="demo">
+            <iframe style="width: 100%; height: 280px; border: 1px solid #ddd" src="app-index.html"></iframe>
+          </div>
         </div>
       </mdw-card>
 

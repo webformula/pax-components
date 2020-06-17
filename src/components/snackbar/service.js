@@ -50,7 +50,7 @@ const MDWSnackbar = new class {
     let el = document.body.querySelector('mdw-content');
     if (el) return el;
 
-    el = document.bodyquerySelector('mdw-body');
+    el = document.body.querySelector('mdw-body');
     if (el) return el;
 
     return document.body;

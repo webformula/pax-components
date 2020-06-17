@@ -1,4 +1,4 @@
-import { Page } from '@webformula/pax-core';
+import { Page } from '/web_modules/@webformula/pax-core/index.js';
 
 export default class Layout extends Page {
   constructor() {

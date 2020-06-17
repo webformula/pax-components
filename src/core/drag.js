@@ -111,6 +111,7 @@ class Drag {
   }
 
   handleGestureStart(ev) {
+    if (ev.type === 'mousedown' && ev.button !== 0) return;
     ev.state = 'start';
 
     if (MDWUtils.isMobile) {
@@ -125,16 +126,13 @@ class Drag {
     this.startTime = Date.now();
     this.initialTouchPos = this.getClientXY(ev);
     this.lastDistance = this.getDistance(ev);
-    ev.distance = this.lastDistance;
-    ev.direction = this.getDirection(this.lastDistance, this.lastDistance);
-    this.callback(ev);
-    // ev.preventDefault();
+    this.moved = false;
   }
 
   handleGestureMove(ev) {
-    ev.state = 'move';
+    ev.state = this.moved ? 'move' : 'start';
+    this.moved = true;
     if (this.initialTouchPos) this.callbackThrottle(ev);
-    // ev.preventDefault();
   }
 
   handleGestureEnd(ev) {
@@ -149,6 +147,9 @@ class Drag {
       window.removeEventListener('mouseup', this.bound_handleGestureEnd);
     }
 
+    // no drag took place
+    if (this.moved === false) return;
+
     this.endTime = Date.now();
     ev.runTime = this.endTime - this.startTime;
     ev.distance = this.getDistance(ev);
@@ -161,7 +162,6 @@ class Drag {
       ev.clientY = clientPos.y;
     }
     this.callback(ev);
-    // ev.preventDefault();
   }
 
   getDistance(event) {
@@ -197,3 +197,11 @@ class Drag {
     };
   }
 }
+
+window.MDWDrag = {
+  states,
+  addDragListener,
+  removeDragListener,
+  enableDragListenerForElement,
+  disableDragListenerForElement
+};

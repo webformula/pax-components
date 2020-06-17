@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import './service.js';
 import MDWUtils from '../../core/Utils.js';
 
@@ -11,7 +11,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
 
   disconnectedCallback() {
     this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
-
+    this.panel.remove();
     if (this.backdrop) {
       this.backdrop.remove();
       this.backdrop = undefined;
@@ -39,44 +39,37 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.clickOutsideClose_ = value;
   }
 
-  show() {
+  open(fromService = false) {
+    this._fromService = fromService;
     this.panel.hoistToBody();
-    const onclose = () => {
-      el.removeEventListener('close', onclose);
-      el.remove();
-    };
-    el.addEventListener('close', onclose);
-    requestAnimationFrame(() => {
-      this.panel.show();
+    this.panel.setPosition(this.position);
+    this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+
+    this.backdrop = MDWUtils.addBackdrop(this.panel, () => {
+      if (this.clickOutsideClose === true) this.close();
     });
-    // this.panel.setPosition(this.position);
-    // this.panel.open();
-    // this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
-    // this.classList.add('mdw-show');
-    // // TODO find a better way to handle positioning against body.
-    // // this.panel.setPositionStyle(document.body);
-    //
-    // this.backdrop = MDWUtils.addBackdrop(this.panel, () => {
-    //   if (this.clickOutsideClose === true) this.close();
-    // });
-    // MDWUtils.lockPageScroll();
+
+    requestAnimationFrame(() => {
+      this.panel.open();
+    });
   }
 
   close(ok) {
-    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.panel.close();
-    MDWUtils.unlockPageScroll();
-    this.backdrop.remove();
-    this.backdrop = undefined;
     this.dispatchClose(ok);
   }
 
   onPanelClose() {
-    this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
-    if (this.backdrop) {
-      this.backdrop.remove();
-      this.backdrop = undefined;
+    // don't remove if we are closing a template
+    if (!this._fromService) {
+      this.panel.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+      if (this.backdrop) {
+        this.backdrop.remove();
+        this.backdrop = undefined;
+      }
+      return;
     }
+    this.remove();
   }
 
   dispatchClose(isOk = false) {

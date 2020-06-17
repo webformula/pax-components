@@ -1,4 +1,4 @@
-import { Page} from '@webformula/pax-core';
+import { Page} from '/web_modules/@webformula/pax-core/index.js';
 
 export default class List extends Page {
   constructor() {
@@ -18,7 +18,7 @@ export default class List extends Page {
   }
 
   get listHugeData() {
-    return [...Array(400)].map((_, pos) => ({
+    return [...Array(200)].map((_, pos) => ({
       id: pos,
       label: `Item ${pos}`,
       secondary: 'secondary title'

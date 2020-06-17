@@ -1,7 +1,7 @@
 <html lang="en">
 
 <head>
-  <title></title>
+  <title>Pax Components _VERSION_</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Cache-Control" content="no-store" />
@@ -11,25 +11,16 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="./main.css">
-  <link rel="stylesheet" href="../local-dist/theme._VERSION_.css">
-  <link rel="stylesheet" href="../local-dist/entry._VERSION_.css">
-  <script src="../local-dist/entry._VERSION_.js"></script>
+  <link href="./pax-components/theme.css" rel="stylesheet">
+  <link href="./pax-components/entry.css" rel="stylesheet">
+  <script src="./pax-components/entry.js"></script>
 
-  <script src="vs/loader.js"></script>
-  <script src="entry._VERSION_.js"></script>
+  <link href="./main.css" rel="stylesheet">
+  <script src="./pax-entry.js" type="module"></script>
+  <script src="./monaco-dist/app.js" async></script>
 
-  <script>
-    require(['vs/editor/editor.main'], function () {
-      fetch('vs/themes/NightOwl.json')
-        .then(function (data) { return data.json(); })
-        .then(function (data) {
-          monaco.editor.defineTheme('NightOwl', data);
-          window.monacoLoaded = true;
-        });
-    });
+  <script type="module">
     window.paxVersion = '_VERSION_';
-
     window.changeContrast = function (value) {
       document.documentElement.classList.toggle('mdw-theme-dark');
     };
@@ -41,13 +32,13 @@
 
 <body>
   <mdw-sheet-side class="mdw-navigation-drawer navigation">
-    <mdw-sheet-side--header>
+    <mdw-header mdw-column mdw-flex-position="start center" style="padding-bottom: 8px">
       <span class="main-title">PAX</span>
       <span class="main-title">WEB</span>
       <span class="main-title">COMPONENTS</span>
-    </mdw-sheet-side--header>
+    </mdw-header>
 
-    <mdw-sheet-side--content>
+    <mdw-content>
       <nav>
         <a href="#/home">Welcome</a>
 
@@ -78,9 +69,13 @@
         <a href="#/components/progress-linear">Progress linear</a>
         <a href="#/components/radio">Radio</a>
         <a href="#/components/select">Selects</a>
+        <a href="#/components/sheet-bottom">Sheets: bottom</a>
+        <a href="#/components/sheet-side">Sheets: side</a>
         <a href="#/components/slider">Slider</a>
+        <a href="#/components/surface">Surface</a>
         <a href="#/components/switch">Switch</a>
         <a href="#/components/tabs">Tabs</a>
+        <a href="#/components/templates">Templates</a>
         <a href="#/components/text-field">Textfield</a>
 
         <!-- notification components -->
@@ -93,8 +88,6 @@
         <mdw-divider></mdw-divider>
         <span class="title">Supporting</span>
         <a href="#/components/panel">Panel</a>
-        <a href="#/components/sheets">Sheets bottom</a>
-        <a href="#/components/sheets-side">Sheets side</a>
       </nav>
     </mdw-sheet-side--content>
   </mdw-sheet-side>

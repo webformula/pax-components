@@ -28,8 +28,8 @@ const MDWUtils = new class {
     callback();
   }
 
-  uid() {
-    return `id_${this._uid++}`;
+  uid(label = 'id') {
+    return `${label}_${this._uid++}`;
   }
 
   get isMobile() {
@@ -44,6 +44,14 @@ const MDWUtils = new class {
   unlockPageScroll() {
     const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
     scrollElement.style.overflow = '';
+  }
+
+  disableUserSelect() {
+    document.body.classList.add('mdw-no-select');
+  }
+
+  enableUserSelect() {
+    document.body.classList.remove('mdw-no-select');
   }
 
   debounce(fn, wait) {

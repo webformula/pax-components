@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWSnackbar from './service.js';
 import MDWUtils from '../../core/Utils.js';
 

@@ -1,12 +1,8 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 
 customElements.define('mdw-backdrop', class extends HTMLElementExtended {
   constructor() {
     super();
-  }
-
-  connectedCallback() {
-    // this.frontElement.classList.add('mdw-elevation-1--shadow');
   }
 
   get frontElement() {

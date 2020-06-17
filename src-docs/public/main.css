@@ -86,6 +86,10 @@ header mdw-top-app-bar {
   border-left: 1px solid rgba(255,255,255,0.12);
 }
 
+mdw-sheet-side.navigation mdw-header {
+  background-color: #332f36;
+}
+
 .navigation {
   background-color: #332f36 !important;
 }
@@ -136,7 +140,7 @@ anchor-link {
   cursor: pointer;
 }
 
-.navigation nav a {
+mdw-sheet-side.mdw-navigation-drawer nav a {
   color: #b3b3b3;
 }
 

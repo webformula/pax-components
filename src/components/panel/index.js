@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWUtils from '../../core/Utils.js';
 import './draggable-header.js';
 
@@ -21,6 +21,12 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.bound_close = this.close.bind(this);
     this._clickOutsideCloseIgnorElement = [];
     this._autoPosition = false;
+    this._animationConfig = {
+      type: 'scale',
+      opacity: true
+    };
+
+    this.bound_onOpenTransitionEnd = this.onOpenAnimationEnd.bind(this);
   }
 
   connectedCallback() {
@@ -75,12 +81,26 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._autoPosition = true;
   }
 
+  setAnimation(animationConfig) {
+    this._animationConfig = animationConfig;
+  }
+
   clickBodyToClose() {
     this._clickOutsideClose = true;
   }
 
   isOpen() {
     return this._isOpen;
+  }
+
+  onOpenAnimationEnd() {
+    this.style.transition = '';
+    this.style.transformOrigin = '';
+    this.style.overflow = '';
+    this.style.maxHeight = '';
+    this.classList.remove('mdw-panel--animating-open');
+    this.removeEventListener('transitionend', this.bound_onOpenTransitionEnd);
+    this.notifyOpen();
   }
 
   open(clickBodyToClose) {
@@ -93,63 +113,119 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     // handle animation
     if (!this._isQuickOpen) {
-      this.classList.add('mdw-panel--animating-open');
+      this.prepareAnimation();
+
+      if (this._isHoisted) this.setHoistedPosition();
+      else this.setPositionStyle();
+
       this._animationRequestId = this._runNextAnimationFrame(() => {
-        this.classList.add('mdw-open');
-        if (this._isQuickOpen) this.notifyOpen();
-        else {
-          this._openAnimationEndTimerId = setTimeout(() => {
-            this._openAnimationEndTimerId = 0;
-            this.classList.remove('mdw-panel--animating-open');
-            this.notifyOpen();
-          }, 150);
+        if (this._animationConfig.fullscreen) this.classList.add('mdw-fullscreen');
+
+        switch (this._animationConfig.type) {
+          case 'height':
+            this.style.transition = 'max-height .22s cubic-bezier(0,0,.2,1), transform .22s cubic-bezier(0,0,.2,1), opacity .22s linear';
+            this.style.maxHeight = this.classList.contains('mdw-fullscreen') ? '100%' : `${this.scrollHeight}px`;
+            this.style.transform = '';
+            break;
+
+          case 'scale':
+          default:
+            this.style.transition = 'transform .1s cubic-bezier(0,0,.2,1), opacity 0.1s linear';
+            this.style.transform = '';
+            break;
         }
 
-        if (this._isHoisted) this.setHoisetedPosition();
-        else this.setPositionStyle();
+        this.style.opacity = 1;
+        this.addEventListener('transitionend', this.bound_onOpenTransitionEnd);
       });
     } else {
       this.classList.add('mdw-open');
-      if (this._isHoisted) this.setHoisetedPosition();
+      if (this._isHoisted) this.setHoistedPosition();
       else this.setPositionStyle();
     }
 
-    this.addBodyClickEvent_();
-    this.addKeydownEvent_();
+    this._addBodyClickEvent();
+    this._addKeydownEvent();
     this.addEventListener('MDWPanel:close', this.bound_close);
     this._isOpen = true;
   }
 
-  // TODO FIX THE CLOSING ANIMATION
-  close(event) {
-    if (event) event.stopPropagation();
 
-    this.removeEventListener('MDWPanel:close', this.bound_close);
-    if (!this._isQuickOpen) {
-      this.classList.add('mdw-panel--animating-closed');
-      this.removeBodyClickEvent_();
-      this._animationRequestId = this._runNextAnimationFrame(() => {
-        this.classList.remove('mdw-open');
-        if (this._isQuickOpen) this.notifyClose();
-        else {
+  prepareAnimation() {
+    // default animation
+    this.classList.add('mdw-open');
+    this.classList.add('mdw-panel--animating-open');
+
+    if (this._animationConfig.target && this._animationConfig.fullscreen) {
+      this.style.width = '100%';
+    }
+    
+    switch(this._animationConfig.type) {
+      case 'height':
+        this.style.overflow = 'hidden'
+        this.style.maxHeight = this._animationConfig.target ? `${this._animationConfig.target.offsetHeight}px` : '0';
+
+        switch (this._animationConfig.origin) {
+          case 'center':
+            let transformValue = this.classList.contains('mdw-fullscreen') ? window.innerHeight / 2 : this.scrollHeight / 2;
+            if (this._animationConfig.target) transformValue = this._animationConfig.target.getBoundingClientRect().y;
+            this.style.transform = `translateY(${transformValue}px)`;
+            break;
+
+          case 'top':
+          default:
+            if (this._animationConfig.target) {
+              transformValue = this._animationConfig.target.offsetTop;
+              this.style.transform = `translateY(${transformValue}px)`;
+            }
+            break;
+        }
+        break;
+
+      case 'scale':
+      default:
+        this.style.transform = 'scale(0.9)';
+        this.style.transformOrigin = this._animationConfig.origin || 'center';
+        break;
+    }
+
+    if (this._animationConfig.opacity) {
+      this.style.opacity = 0;
+    }
+  }
+
+
+  // TODO FIX THE CLOSING ANIMATION
+  async close(event) {
+    return new Promise(resolve => {
+      if (event) event.stopPropagation();
+
+      this.removeEventListener('MDWPanel:close', this.bound_close);
+      if (!this._isQuickOpen) {
+        this.classList.add('mdw-panel--animating-closed');
+        this.removeBodyClickEvent_();
+        this._animationRequestId = this._runNextAnimationFrame(() => {
+          this.classList.remove('mdw-open');
           this._closeAnimationEndTimerId = setTimeout(() => {
             this._closeAnimationEndTimerId = 0;
             this.classList.remove('mdw-panel--animating-closed');
             this.resetPosition();
             this.notifyClose();
+            resolve();
           }, 75);
-        }
-      });
-    } else {
-      this.classList.remove('mdw-open');
-      this.resetPosition();
-    }
+        });
+      } else {
+        this.classList.remove('mdw-open');
+        this.resetPosition();
+        resolve();
+      }
 
-    this.removeKeydownEvent_();
-    this._isOpen = false;
-    const isRootFocused = this.isFocused();
-    const childHasFocus = document.activeElement && this.contains(document.activeElement);
-    if (isRootFocused || childHasFocus) this.restoreFocus();
+      this.removeKeydownEvent_();
+      this._isOpen = false;
+      const isRootFocused = this.isFocused();
+      const childHasFocus = document.activeElement && this.contains(document.activeElement);
+      if (isRootFocused || childHasFocus) this.restoreFocus();
+    });
   }
 
   _runNextAnimationFrame(callback) {
@@ -189,7 +265,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._lastFocusableElement ? this._lastFocusableElement === document.activeElement : false;
   }
 
-  addBodyClickEvent_() {
+  _addBodyClickEvent() {
     if (!this._clickOutsideClose) return;
     setTimeout(() => {
       this.hasBodyEvent = true;
@@ -202,7 +278,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.hasBodyEvent = false;
   }
 
-  addKeydownEvent_() {
+  _addKeydownEvent() {
     this.hasKeydownEvent = true;
     document.body.addEventListener('keydown', this._boundHandleKeydown);
   }
@@ -282,11 +358,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.top = `${panelY}px`;
   }
 
-  setHoisetedPosition() {
+  setHoistedPosition() {
     const bounds = this._container.getBoundingClientRect();
     this.style.top = `${bounds.top}px`;
     this.style.left = `${bounds.left}px`;
-    this.style[this.transformPropertyName] = 'scale(1)';
+    // this.style[this.transformPropertyName] = 'scale(1)';
 
     if (!this._positionSet) {
       this._autoPositionHoisted();
@@ -326,7 +402,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
         switch(bValue) {
           case 'left':
-            left = -width;
+            left = 0;
             break;
           case 'inner-left':
             left = bounds.x + 12;
@@ -418,12 +494,12 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     this.style.top = `${parseInt(top)}px`;
     this.style.left = `${parseInt(left)}px`;
-    this.style[this.transformPropertyName] = 'scale(1)';
+    // this.style[this.transformPropertyName] = 'scale(1)';
   }
 
   resetPosition() {
     this.style.top = '';
     this.style.left = '';
-    this.style[this.transformPropertyName] = '';
+    // this.style[this.transformPropertyName] = '';
   }
 });

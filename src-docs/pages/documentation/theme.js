@@ -1,4 +1,4 @@
-import { Page } from '@webformula/pax-core';
+import { Page } from '/web_modules/@webformula/pax-core/index.js';
 import themeGenerator from '../../themeGenerator.js';
 
 export default class ThemePage extends Page {

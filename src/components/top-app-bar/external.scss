@@ -5,6 +5,12 @@ body.mdw-navigation-drawer-open {
   }
 }
 
+body.mdw-has-navigation-rail {
+  mdw-top-app-bar {
+    // width: calc(100% - 72px);
+  }
+}
+
 header:not(.mdw-hide-non-page-container) {
   &.mdw-top-app-bar {
     position: relative;
@@ -50,7 +56,6 @@ mdw-top-app-bar {
   width: 100%;
   height: 64px;
   z-index: 9;
-  overflow: hidden;
   box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
               0 4px 5px 0 rgba(0,0,0,.14),
               0 1px 10px 0 rgba(0,0,0,.12);

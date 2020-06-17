@@ -47,3 +47,9 @@ export function removeSwipeListener(element, callback) {
     swipeInstancesByElementAndFunction.delete(element);
   }
 }
+
+
+window.MDWSwipe = {
+  addSwipeListener,
+  removeSwipeListener
+};

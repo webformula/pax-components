@@ -127,6 +127,10 @@ mdw-list-item,
     /* color: var(--mdw-theme-text--hint--on-background); */
   }
 
+  .mdw-list-item__meta ~ .mdw-list-item__meta {
+    margin-left: 0;
+  }
+
 
   // --- ripple ---
 

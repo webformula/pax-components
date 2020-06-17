@@ -4,21 +4,24 @@
   <meta http-equiv="Cache-Control" content="no-store" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
-  <link rel="stylesheet" href="../local-dist/theme._VERSION_.css">
-  <link rel="stylesheet" href="../local-dist/entry._VERSION_.css">
+  <link href="/pax-components/theme.css" rel="stylesheet">
+  <link href="/pax-components/entry.css" rel="stylesheet">
+  <script src="/pax-components/entry.js"></script>
   <link rel="stylesheet" href="main.css">
-  <script type="module" src="../local-dist/entry._VERSION_.js"></script>
 </head>
 
-<body style="height: 100%">
-  <mdw-page style="overflow-y: scroll;">
+<body>
+  <mdw-page>
     <mdw-top-app-bar>
-      <section>
-        <span class="title">Example</span>
+      <section mdw-flex>
+        <span class="mdw-title">Example</span>
       </section>
-      <mdw-icon onclick="document.querySelector('mdw-sheet-side').toggle()">menu</mdw-icon>
+      <section>
+        <mdw-icon onclick="document.querySelector('mdw-sheet-side').toggle()">menu</mdw-icon>
+      </section>
     </mdw-top-app-bar>
-    <mdw-content class="constrain-width">
+
+    <mdw-page-content>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -46,14 +49,17 @@
         occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
         anim id est laborum.
       </p>
-    </mdw-content>
+    </mdw-page-content>
   </mdw-page>
 
-  <mdw-sheet-side>
-    <mdw-sheet-side--header>
-      <div class="mdw-title">Title</div>
-    </mdw-sheet-side--header>
-    <mdw-sheet-side--content>
+  <mdw-sheet-side id="sideSheet">
+    <mdw-header>
+      <div class="mdw-title" mdw-flex>Title</div>
+      <mdw-button class="mdw-icon" onclick="sideSheet.close()"">
+        <mdw-icon>close</mdw-icon>
+      </mdw-button>
+    </mdw-header>
+    <mdw-content>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit,
       sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
       enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -61,7 +67,7 @@
       voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
       occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
       anim id est laborum.
-    </mdw-sheet-side--content>
+    </mdw-content>
   </mdw-sheet-side>
 </body>
 

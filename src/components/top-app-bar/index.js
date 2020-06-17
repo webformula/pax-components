@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWUtils from '../../core/Utils.js';
 
 customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
@@ -21,8 +21,8 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     if (this.parentNode && this.parentNode.nodeName === 'HEADER') {
       this.parentNode.classList.add('mdw-top-app-bar');
       if (this._isProminent) this.parentNode.classList.add('mdw-prominent');
-      if (this._isFixed) this.parentNode.classList.add('mdw-fixed');
       if (this._isShrink) this.parentNode.classList.add('mdw-shrink');
+      if (this._isFixed) this.parentNode.classList.add('mdw-fixed');
     }
 
     if (this._isShrink) {
@@ -47,14 +47,23 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
       this._createObserver();
 
       this._scrollTarget.addEventListener('scroll', this.bound_throttledScrollHandler);
-      // window.addEventListener('resize', this.throttledResizeHandler.bind(this));
     }
+
+    if (this._isFixed || this._isShrink) {
+      this._page = document.querySelector('mdw-page');
+      if (this._page) this.style.width = `${this._page.offsetWidth}px`;
+    }
+    window.addEventListener('resize', this.bound_throttledResizeHandler);
   }
 
   disconnectedCallback() {
-    if (this._observer) this._observer.destroy();
-    if (this._scrollTarget) this._scrollTarget.removeEventListener('scroll', this.throttledScrollHandler.bind(this));
-    // window.removeEventListener('resize', this.throttledResizeHandler.bind(this));
+    if (this._observer) {
+      this._observer.unobserve(this);
+      this._observer.disconnect();
+      this._observer = undefined;
+    }
+    if (this._scrollTarget) this._scrollTarget.removeEventListener('scroll', this.bound_throttledScrollHandler);
+    window.removeEventListener('resize', this.throttledResizeHandler);
   }
 
   notContextual() {
@@ -112,7 +121,10 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
   }
 
   _resizeHandler() {
-    
+    if (this._isFixed || this._isShrink) {
+      this._page = document.querySelector('mdw-page');
+      if (this._page) this.style.width = `${this._page.offsetWidth}px`;
+    }
   }
 
   _createObserver() {

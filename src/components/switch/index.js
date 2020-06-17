@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWRipple from '../../core/Ripple.js';
 
 customElements.define('mdw-switch', class extends HTMLElementExtended {
@@ -58,7 +58,7 @@ customElements.define('mdw-switch', class extends HTMLElementExtended {
   }
 
   dispatchChange() {
-    this.dispatchEvent(new CustomEvent('change', this));
+    this.dispatchEvent(new Event('change'));
   }
 
   onInputChange(e) {

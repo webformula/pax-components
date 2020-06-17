@@ -1,4 +1,4 @@
-import { Page } from '@webformula/pax-core';
+import { Page } from '/web_modules/@webformula/pax-core/index.js';
 
 export default class Install extends Page {
   constructor() {
@@ -21,8 +21,8 @@ export default class Install extends Page {
 
     document.querySelector('#editor-2').content = `
       <!-- include css -->
-      <link rel="stylesheet" href="node_modules/@webformula/pax-components/dist/theme.css">
-      <link rel="stylesheet" href="node_modules/@webformula/pax-components/dist/entry.css">
+      <link rel="stylesheet" href="node_modules/pax-components/dist/theme.css">
+      <link rel="stylesheet" href="node_modules/pax-components/dist/entry.css">
 
       <!-- include font and icons -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -59,17 +59,17 @@ export default class Install extends Page {
         <div class="mdw-card__content--no-padding">
           <monaco-editor language="bash">
             # install
-            npm i @webformula/pax-components
+            npm i pax-components
           </monaco-editor>
 
           <monaco-editor language="javascript">
             // import the src using es modules
-            import '@webformula/pax-components/src/entry.js';
+            import 'pax-components/src/entry.js';
 
             // you can alteratively import the dist file, this is a cjs module
-            import '@webformula/pax-components/dist/entry.js';
+            import 'pax-components/dist/entry.js';
             // ors
-            require('@webformula/pax-components/dist/entry.js');
+            require('pax-components/dist/entry.js');
           </monaco-editor>
 
           <monaco-editor id="editor-2" language="html"></monaco-editor>
