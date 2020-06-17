@@ -65,6 +65,7 @@ typings/
 dist-docs/
 local-dist/
 
+.build
 build
 local
 .cache
