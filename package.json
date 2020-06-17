@@ -4,7 +4,7 @@
   "description": "Web components using material design language",
   "type": "module",
   "scripts": {
-    "start": "node-sass src/entry.scss local/entry.css && snowpack dev --config snowpack.config.js",
+    "start": "node-sass src/entry.scss local/entry.css && snowpack dev --config snowpack.config.json",
     "release": "snowpack build --config snowpack.config.release.json && npm run build:replace-version",
     "build:editor": "webpack --progress --config webpack.monaco.editor.cjs",
     "build:replace-version": "replace '_VERSION_' $npm_package_version build/index.html"
