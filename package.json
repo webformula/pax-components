@@ -6,7 +6,8 @@
   "scripts": {
     "local": "node-sass src/entry.scss local/entry.css && snowpack dev --config snowpack.config.json",
     "local:release": "snowpack dev --config snowpack.config.release.json",
-    "build": "snowpack build --config snowpack.config.release.json"
+    "build": "snowpack build --config snowpack.config.release.json",
+    "build:editor": "webpack --progress --config webpack.monaco.editor.cjs"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,9 @@
   },
   "dependencies": {
     "@snowpack/plugin-webpack": "^1.2.0",
-    "@webformula/pax-core": "^0.8.5"
+    "@webformula/pax-core": "^0.8.5",
+    "css-loader": "^3.6.0",
+    "file-loader": "^6.0.0",
+    "style-loader": "^1.2.1"
   }
 }

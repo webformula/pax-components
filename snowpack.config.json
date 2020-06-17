@@ -7,6 +7,7 @@
     "run:js::watch": "$1 --watch",
     "mount:public": "mount src-docs/public --to /",
     "mount:paxcomponents": "mount local --to /pax-components",
+    "mount:monaco": "mount monaco-dist",
     "mount:src": "mount src-docs --to /"
   },
   "plugins": [
@@ -14,5 +15,8 @@
   ],
   "install": [
     "@webformula/pax-core"
-  ]
+  ],
+  "buildOptions": {
+    "baseUrl": "./"
+  }
 }

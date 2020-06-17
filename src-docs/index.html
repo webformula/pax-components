@@ -11,25 +11,16 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 
-  <link href="/pax-components/theme.css" rel="stylesheet">
-  <link href="/pax-components/entry.css" rel="stylesheet">
-  <script src="/pax-components/entry.js"></script>
+  <link href="./pax-components/theme.css" rel="stylesheet">
+  <link href="./pax-components/entry.css" rel="stylesheet">
+  <script src="./pax-components/entry.js"></script>
 
-  <script src="vs/loader.js"></script>
-  <link href="main.css" rel="stylesheet">
-  <script src="pax-entry.js" type="module"></script>
+  <link href="./main.css" rel="stylesheet">
+  <script src="./pax-entry.js" type="module"></script>
+  <script src="./monaco-dist/app.js" async></script>
 
-  <script>
-    require(['vs/editor/editor.main'], function () {
-      fetch('vs/themes/NightOwl.json')
-        .then(function (data) { return data.json(); })
-        .then(function (data) {
-          monaco.editor.defineTheme('NightOwl', data);
-          window.monacoLoaded = true;
-        });
-    });
-    window.paxVersion = '_VERSION_';
-
+  <script type="module">
+    window.paxVersion = '0.10.3-beta';
     window.changeContrast = function (value) {
       document.documentElement.classList.toggle('mdw-theme-dark');
     };
@@ -109,7 +100,7 @@
         </section>
 
         <section mdw-flex>
-          <span class="mdw-title">PAX web components _VERSION_</span>
+          <span class="mdw-title">PAX web components 0.10.3-beta</span>
         </section>
 
         <section>

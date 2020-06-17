@@ -1,5 +1,7 @@
 import { HTMLElementExtended } from '/web_modules/@webformula/pax-core/index.js';
 
+let themeFile;
+
 // this is called twice because the docs loads multiple versions of the code. To prevent an error we are double checking for the existence
 if (!customElements.get('monaco-editor')) {
   customElements.define('monaco-editor', class extends HTMLElementExtended {
@@ -9,7 +11,7 @@ if (!customElements.get('monaco-editor')) {
     }
 
     connectedCallback() {
-      if (window.monacoLoaded) this.init();
+      if (window.monaco) this.init();
       else this.wait();
     }
 
@@ -18,19 +20,28 @@ if (!customElements.get('monaco-editor')) {
       this.lineCount = lines.length;
       this._content = lines.join('\n');
       this.style.height = `${(this.lineCount * 18) + 12}px`;
-      if (window.monacoLoaded) {
+      if (window.monaco) {
         this.editor.setValue(this._content);
       } else this.wait();
     }
 
     wait() {
       setTimeout(() => {
-        if (window.monacoLoaded) this.init();
+        if (window.monaco) this.init();
         else this.wait();
       }, 500);
     }
 
-    init() {
+    async init() {
+      if (!themeFile) {
+        await fetch('./NightOwl.json')
+          .then(function (data) { return data.json(); })
+          .then(function (data) {
+            themeFile = data;
+            monaco.editor.defineTheme('NightOwl', data);
+          });
+      }
+
       this.style.height = `${(this.lineCount * 18) + 12}px`;
       if (this.editor) {
         this.editor.value = this._content;
