@@ -5,6 +5,7 @@
     "run:sass::watch": "$1 --watch",
     "run:js": "webpack --config webpack.dev.config.cjs",
     "run:js::watch": "$1 --watch",
+    "run:js,html": "node --experimental-modules buildDocsEntry.mjs",
     "mount:public": "mount src-docs/public --to /",
     "mount:paxcomponents": "mount local --to /pax-components",
     "mount:monaco": "mount monaco-dist",
