@@ -61,8 +61,8 @@ export default class Textfield extends Page {
       <article class="page-article">
         <h3>Textfield</h3>
 
-        <div mdw-row>
-          <div mdw-flex=".33" mdw-column>
+        <mdw-row>
+          <mdw-column class="mdw-flex-033">
             <mdw-select id="varient-select" class="mdw-padding" mdw-enhanced>
               <select onchange="activePage.onVarientChange(this.value)">
                 <option value="filled" selected>Filled</option>
@@ -86,9 +86,9 @@ export default class Textfield extends Page {
               </select>
               <label>Post Icon</label>
             </mdw-select>
-          </div>
+          </mdw-column>
 
-          <div mdw-flex=".66">
+          <div class="mdw-flex-066">
             <div class="showcase mdw-elevation-1">
               <mdw-textfield id="one">
                 <input>
@@ -129,7 +129,7 @@ export default class Textfield extends Page {
               </mdw-textfield>
             </div>
           </div>
-        </div>
+        </mdw-row>
 
         <a href="https://material.io/design/components/text-fields.html" target="_new">Material Design Guidelines: Text fields</a>
         <p>Text fields let users enter and edit text</p>

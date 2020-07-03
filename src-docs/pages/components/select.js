@@ -61,7 +61,7 @@ export default class Select extends Page {
             </div>
 
             <div class="mdw-card__content mdw-row">
-              <mdw-select mdw-flex="1">
+              <mdw-select class="mdw-flex">
                 <select>
                   <!-- empty select to start -->
                   <option disabled selected></option>
@@ -70,7 +70,7 @@ export default class Select extends Page {
                 </select>
                 <label>Select</label>
               </mdw-select>
-              <span mdw-flex="1"></span>
+              <span class="mdw-flex"></span>
             </div>
           </mdw-card>
 
@@ -97,7 +97,7 @@ export default class Select extends Page {
             </div>
 
             <div class="mdw-card__content mdw-row">
-              <mdw-select class="mdw-padding" mdw-enhanced mdw-flex="1">
+              <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
                 <select>
                   <option value="1" selected>item one</option>
                   <option value="2">item two</option>
@@ -107,7 +107,7 @@ export default class Select extends Page {
                 </select>
                 <label>Floating label</label>
               </mdw-select>
-              <span mdw-flex="1"></span>
+              <span class="mdw-flex"></span>
             </div>
           </mdw-card>
 
@@ -135,7 +135,7 @@ export default class Select extends Page {
             </div>
 
             <div class="mdw-card__content mdw-row">
-              <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced mdw-flex="1">
+              <mdw-select class="mdw-padding mdw-outlined mdw-flex" mdw-enhanced>
                 <select>
                   <option value="1">item one</option>
                   <option value="2">item two</option>
@@ -145,7 +145,7 @@ export default class Select extends Page {
                 </select>
                 <label>Floating label</label>
               </mdw-select>
-              <span mdw-flex="1"></span>
+              <span class="mdw-flex"></span>
             </div>
           </mdw-card>
         </section>
