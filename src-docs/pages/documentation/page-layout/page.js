@@ -66,7 +66,7 @@ export default class PageLayout extends Page {
   ...
   </mdw-sheet-side>
 
-  <div mdw-column>
+  <mdw-column>
     <!-- page header -->
     <mdw-top-app-bar>
     ...
@@ -87,7 +87,7 @@ export default class PageLayout extends Page {
 
     </mdw-scroll-container>
     
-  </div>
+  </mdw-column>
 </body>
     `;
 
@@ -105,7 +105,7 @@ export default class PageLayout extends Page {
 </head>
 
 <body class="mdw-row">
-  <div mdw-column>
+  <mdw-column>
     <!-- navigation -->
     <mdw-sheet-side class="mdw-navigation-drawer">
     ...
@@ -130,11 +130,11 @@ export default class PageLayout extends Page {
     <mdw-sheet-side id="sideSheet">
     ...
     </mdw-sheet-side>
-  </div>
+  </mdw-column>
 </body>
     `;
 
-    document.querySelector('#editor-1').content = `
+    document.querySelector('#editor-4').content = `
 <head>
   <title></title>
   <meta charset="utf-8">

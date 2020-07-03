@@ -11,7 +11,7 @@ module.exports = {
     "run:js": "webpack --config webpack.prod.config.cjs",
 
     // build src
-    "run:pax-build": "node --experimental-modules buildDocsEntry.mjs",
+    "run:pax-build": "node --experimental-modules buildDocsEntryProd.mjs",
     "run:move": "cp -a src-docs/public/* build/",
     "mount:public": "mount src-docs/public --to /",
     "mount:web_modules": "mount web_modules",
