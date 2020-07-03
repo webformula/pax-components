@@ -6,12 +6,11 @@ html {
 
 body {
   display: flex;
+  flex-direction: column;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   margin: 0;
   height: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-
+  width: 100%;
   background-color: var(--mdw-theme-background);
   color: var(--mdw-theme-on-primary);
 }

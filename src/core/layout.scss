@@ -1,136 +1,172 @@
-[mdw-flex] {
-  flex: 1;
-}
+//--- scrolling containers used for main page layout ---
 
-[mdw-flex="1"] {
-  flex: 1;
-}
-
-[mdw-flex=".25"], [mdw-flex="0.25"] {
-  flex: .25;
-}
-
-[mdw-flex=".33"], [mdw-flex="0.33"] {
-  flex: .33;
-}
-
-[mdw-flex=".5"], [mdw-flex="0.5"] {
-  flex: .5;
-}
-
-[mdw-flex=".66"], [mdw-flex="0.66"] {
-  flex: .66;
-}
-
-[mdw-flex=".75"], [mdw-flex="0.75"] {
-  flex: .75;
-}
-
-[mdw-row], .mdw-row {
+mdw-scroll-container {
   display: flex;
   flex-direction: row;
+  position: relative;
+  overflow-y: hidden;
+  width: 100%;
+  height: 100%;
+
+  mdw-scroll-content {
+    display: block;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0 40px;
+    width: 100%;
+    overflow: auto;
+
+    &.mdw-no-padding {
+      padding: 0;
+    }
+  }
 }
 
-[mdw-column], .mdw-column {
+
+//--- flex proxy elements and attributes. This is for convenience ---
+
+// flex containers
+mdw-row,
+.mdw-row {
+  display: flex;
+  flex-direction: row;
+
+  // position X
+  &[mdw-flex-position^="center"] {
+    justify-content: center;
+  }
+
+  &[mdw-flex-position^="start"] {
+    justify-content: flex-start;
+  }
+
+  &[mdw-flex-position^="end"] {
+    justify-content: flex-end;
+  }
+
+  &[mdw-flex-position^="space-around"] {
+    justify-content: space-around;
+  }
+
+  &[mdw-flex-position^="space-between"] {
+    justify-content: space-between;
+  }
+
+  &[mdw-flex-position^="space-evenly"] {
+    justify-content: space-evenly;
+  }
+
+  // position Y
+  &[mdw-flex-position$="center"] {
+    align-items: center;
+  }
+
+  &[mdw-flex-position$="start"] {
+    align-items: flex-start;
+  }
+
+  &[mdw-flex-position$="end"] {
+    align-items: flex-end;
+  }
+
+  &[mdw-flex-position$="space-around"] {
+    align-items: space-around;
+  }
+
+  &[mdw-flex-position$="space-between"] {
+    align-items: space-between;
+  }
+
+  &[mdw-flex-position$="space-evenly"] {
+    align-items: space-evenly;
+  }
+}
+
+mdw-column,
+.mdw-column {
   display: flex;
   flex-direction: column;
+
+  // position X
+  &[mdw-flex-position^="center"] {
+    align-items: center;
+  }
+
+  &[mdw-flex-position^="start"] {
+   align-items: flex-start;
+  }
+
+  &[mdw-flex-position^="end"] {
+    align-items: flex-end;
+  }
+
+  &[mdw-flex-position^="space-around"] {
+    align-items: space-around;
+  }
+
+  &[mdw-flex-position^="space-between"] {
+    align-items: space-between;
+  }
+
+  &[mdw-flex-position^="space-evenly"] {
+    align-items: space-evenly;
+  }
+
+  // position Y
+  &[mdw-flex-position$="center"] {
+    justify-content: center;
+  }
+
+  &[mdw-flex-position$="start"] {
+    justify-content: flex-start;
+  }
+
+  &[mdw-flex-position$="end"] {
+    justify-content: flex-end;
+  }
+
+  &[mdw-flex-position$="space-around"] {
+    justify-content: space-around;
+  }
+
+  &[mdw-flex-position$="space-between"] {
+    justify-content: space-between;
+  }
+
+  &[mdw-flex-position$="space-evenly"] {
+    justify-content: space-evenly;
+  }
 }
 
-[mdw-wrap] {
+.mdw-flex,
+.mdw-flex-1 {
+  flex: 1;
+}
+
+.mdw-flex-025 {
+  flex: 0.25;
+}
+
+.mdw-flex-033 {
+  flex: 0.33;
+}
+
+.mdw-flex-05 {
+  flex: 0.5;
+}
+
+.mdw-flex-066 {
+  flex: 0.66;
+}
+
+.mdw-flex-075 {
+  flex: 0.75;
+}
+
+.mdw-flex-wrap {
   flex-wrap: wrap;
-}
 
-[mdw-wrap] > [mdw-flex] {
-  min-width: 200px;
-}
-
-/* --- postion --- */
-
-/* position justify (default - x) */
-
-[mdw-row][mdw-flex-position^="center"] {
-  justify-content: center;
-}
-[mdw-column][mdw-flex-position^="center"] {
-  align-items: center;
-}
-
-[mdw-row][mdw-flex-position^="start"] {
-  justify-content: flex-start;
-}
-[mdw-column][mdw-flex-position^="start"] {
-  align-items: flex-start;
-}
-
-[mdw-row][mdw-flex-position^="end"] {
-  justify-content: flex-end;
-}
-[mdw-column][mdw-flex-position^="end"] {
-  align-items: flex-end;
-}
-
-[mdw-row][mdw-flex-position^="space-around"] {
-  justify-content: space-around;
-}
-[mdw-column][mdw-flex-position^="space-around"] {
-  align-items: space-around;
-}
-
-[mdw-row][mdw-flex-position^="space-between"] {
-  justify-content: space-between;
-}
-[mdw-column][mdw-flex-position^="space-between"] {
-  align-items: space-between;
-}
-
-[mdw-row][mdw-flex-position^="space-evenly"] {
-  justify-content: space-evenly;
-}
-[mdw-column][mdw-flex-position^="space-evenly"] {
-  align-items: space-evenly;
-}
-
-
-/* position align (default - y) */
-
-[mdw-row][mdw-flex-position$="center"] {
-  align-items: center;
-}
-[mdw-column][mdw-flex-position$="center"] {
-  justify-content: center;
-}
-
-[mdw-row][mdw-flex-position$="start"] {
-  align-items: flex-start;
-}
-[mdw-column][mdw-flex-position$="start"] {
-  justify-content: flex-start;
-}
-
-[mdw-row][mdw-flex-position$="end"] {
-  align-items: flex-end;
-}
-[mdw-column][mdw-flex-position$="end"] {
-  justify-content: flex-end;
-}
-
-[mdw-row][mdw-flex-position$="space-around"] {
-  align-items: space-around;
-}
-[mdw-column][mdw-flex-position$="space-around"] {
-  justify-content: space-around;
-}
-
-[mdw-row][mdw-flex-position$="space-between"] {
-  align-items: space-between;
-}
-[mdw-column][mdw-flex-position$="space-between"] {
-  justify-content: space-between;
-}
-
-[mdw-row][mdw-flex-position$="space-evenly"] {
-  align-items: space-evenly;
-}
-[mdw-column][mdw-flex-position$="space-evenly"] {
-  justify-content: space-evenly;
+  > [mdw-flex] {
+    min-width: 200px;
+  }
 }

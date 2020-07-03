@@ -1,8 +1,8 @@
-
 import './components/anchor-link.js';
 import './components/monaco-editor.js';
+false
 
-import { router } from '/web_modules/@webformula/pax-core/index.js';
+import { router } from '@webformula/pax-core';
 import TopAppBar from './pages/components/app-bar-top.js';
 import Autocomplete from './pages/components/autocomplete.js';
 import Backdrop from './pages/components/backdrop.js';
@@ -31,13 +31,13 @@ import Switch from './pages/components/switch.js';
 import Tabs from './pages/components/tabs.js';
 import Templates from './pages/components/templates.js';
 import Textfield from './pages/components/text-field.js';
-import GettingStarted from './pages/documentation/app-index.js';
 import Browsers from './pages/documentation/browsers.js';
-import Density from './pages/documentation/density.js';
+import Density from './pages/documentation/density/page.js';
 import Install from './pages/documentation/install.js';
-import Layout from './pages/documentation/layout.js';
+import Layout from './pages/documentation/layout/page.js';
 import Mobile from './pages/documentation/mobile.js';
-import ThemePage from './pages/documentation/theme.js';
+import PageLayout from './pages/documentation/page-layout/page.js';
+import ThemePage from './pages/documentation/theming/page.js';
 import Home from './pages/home.js';
 
 router.addPageClass(TopAppBar, 'components/app-bar-top');
@@ -68,13 +68,13 @@ router.addPageClass(Switch, 'components/switch');
 router.addPageClass(Tabs, 'components/tabs');
 router.addPageClass(Templates, 'components/templates');
 router.addPageClass(Textfield, 'components/text-field');
-router.addPageClass(GettingStarted, 'documentation/app-index');
 router.addPageClass(Browsers, 'documentation/browsers');
 router.addPageClass(Density, 'documentation/density');
 router.addPageClass(Install, 'documentation/install');
 router.addPageClass(Layout, 'documentation/layout');
 router.addPageClass(Mobile, 'documentation/mobile');
-router.addPageClass(ThemePage, 'documentation/theme');
+router.addPageClass(PageLayout, 'documentation/page-layout');
+router.addPageClass(ThemePage, 'documentation/theming');
 router.addPageClass(Home, 'home');
 router.setRoot('home');
 router.init();
@@ -82,5 +82,4 @@ window.router = router;
 
 export {
   router
-}
-  
+};

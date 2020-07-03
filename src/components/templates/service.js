@@ -1,44 +1,17 @@
 const MDWTemplate = new class {
   constructor() {
-    this._templates = {};
     this._loadedTemplates = {};
   }
 
-  // ALLOW A TEMPLTE TO BE RGISTERED MORE THAN ONCE WITHOUT THROWING AN ERROR
-  registerOnce(id, template) {
-    if (this._templates[id]) return;
-    this.register(id, template);
-  }
+  async get(template, data) {
+    if (this.isString(template)) {
+      return new Function(`return \`${template}\`;`).call(data);
+    }
 
-  async registerAndLoad(id, templateUrl) {
-    if (this._templates[id]) return;
-    this.register(id, templateUrl);
-    if (templateUrl.includes('.html')) await this.loadHtml(templateUrl);
-  }
+    if (!this.isUrl(template)) throw Error('Template must be a string or url');
 
-  register(id, templateString) {
-    if (!id) throw Error('requires id');
-    if (!templateString) throw Error('requires templateString');
-    if (this._templates[id]) throw Error(`id "${id}" already taken`);
-    this._templates[id] = templateString;
-  }
-
-  unregister(id) {
-    this._templates[id] = undefined;
-  }
-
-  isString(template) {
-    if (typeof template !== 'string') return false;
-    if (template.includes('.html')) return false;
-    return template.includes('<');
-  }
-
-  async get(id, data) {
-    if (!this._templates[id]) throw Error(`no template found with id: ${id}`);
-    const template = this._templates[id];
-    if (typeof template === 'function') return template(data);
-    if (template.includes('.html')) return await this.loadHtml(template);
-    return template;
+    const templateStr = await this.loadHtml(template);
+    return new Function(`return \`${templateStr}\`;`).call(data);
   }
 
   async loadHtml(url) {
@@ -48,6 +21,16 @@ const MDWTemplate = new class {
     const template = await response.text();
     this._loadedTemplates[url] = template;
     return template;
+  }
+
+  isString(template) {
+    if (this.isUrl(template)) return false;
+    if (typeof template !== 'string') return false;
+    return template.includes('<');
+  }
+
+  isUrl(template) {
+    return !!template.match(/.html$/);
   }
 }
 

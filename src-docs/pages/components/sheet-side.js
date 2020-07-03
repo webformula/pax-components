@@ -135,6 +135,17 @@ export default class SheetsSide extends Page {
             </div>
 
             <div class="mdw-card__content--no-padding">
+            <monaco-editor language="css">
+              // globally change all sidebar widths
+              body {
+                --mdw-theme-sheet-width: 400px;
+              }
+
+              // change sidebar width using a class
+              .my-custom-sidebar-width {
+                --mdw-theme-sheet-width: 400px;
+              }
+            </monaco-editor>
               <monaco-editor id="editor-1" language="html"></monaco-editor>
             </div>
 
