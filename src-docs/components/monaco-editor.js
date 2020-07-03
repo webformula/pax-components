@@ -61,7 +61,10 @@ if (!customElements.get('monaco-editor')) {
         indentGuides: {
           enabled: false
         },
-        automaticLayout: true
+        automaticLayout: true,
+        scrollbar: {
+          alwaysConsumeMouseWheel: false
+        }
       });
 
       // prevent keyboard from opening on mobile

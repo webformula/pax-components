@@ -4,34 +4,19 @@ import MDWTemplate from './service.js';
 customElements.define('mdw-template', class extends HTMLElementExtended {
   constructor() {
     super();
-
-    const templateId = this.templateId;
-    if (templateId) MDWTemplate
-      .get(templateId)
-      .then(htmlSting => {
-        this.insertAdjacentHTML('beforeend', htmlSting)
-      })
     
-    const templateUrl = this.templateUrl;
+    const templateUrl = this.url;
     if (templateUrl) {
       MDWTemplate
-        .loadHtml(templateUrl)
+        .get(templateUrl, window.activePage)
         .then(htmlSting => {
+          console.log(htmlSting);
           this.insertAdjacentHTML('beforeend', htmlSting)
-        })
+        });
     }
   }
 
-  get templateId() {
-    return this.getAttribute('template-id')
+  get url() {
+    return this.getAttribute('mdw-url')
   }
-
-  get templateUrl() {
-    return this.getAttribute('template-url')
-  }
-
-  async show(templateId) {
-    const htmlSting = await MDWTemplate.get(templateId)
-    this.innerHTML = htmlSting;
-  }
-})
+});

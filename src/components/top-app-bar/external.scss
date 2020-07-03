@@ -1,14 +1,23 @@
-body.mdw-navigation-drawer-open {
-  mdw-top-app-bar:after {
-    content: '';
-    padding-right: 220px;
-  }
+// body.mdw-navigation-drawer-open {
+//   mdw-top-app-bar:after {
+//     content: '';
+//     padding-right: 220px;
+//   }
+// }
+
+// body.mdw-has-navigation-rail {
+//   mdw-top-app-bar {
+//     // width: calc(100% - 72px);
+//   }
+// }
+
+
+mdw-top-app-bar + mdw-scroll-container {
+ height: calc(100% - 64px); 
 }
 
-body.mdw-has-navigation-rail {
-  mdw-top-app-bar {
-    // width: calc(100% - 72px);
-  }
+mdw-top-app-bar.mdw-prominent + mdw-scroll-container {
+ height: calc(100% - 128px); 
 }
 
 header:not(.mdw-hide-non-page-container) {
@@ -18,13 +27,7 @@ header:not(.mdw-hide-non-page-container) {
     &.mdw-prominent {
       &.mdw-fixed,
       &.mdw-shrink {
-        & + mdw-page-content:before {
-          content: '';
-          display: block;
-          height: 128px;
-        }
-
-        & + mdw-content:before {
+        & + mdw-scroll-container mdw-scroll-content::before {
           content: '';
           display: block;
           height: 128px;
@@ -34,13 +37,7 @@ header:not(.mdw-hide-non-page-container) {
 
     &:not(.mdw-prominent) {
       &.mdw-fixed {
-        & + mdw-page-content:before {
-          content: '';
-          display: block;
-          height: 64px;
-        }
-
-        & + mdw-content:before {
+        & + mdw-scroll-container mdw-scroll-content::before {
           content: '';
           display: block;
           height: 64px;
@@ -67,6 +64,21 @@ mdw-top-app-bar {
 
   &[mdw-fixed] {
     position: fixed;
+
+    & + mdw-scroll-container mdw-scroll-content::before {
+      content: '';
+      display: block;
+      height: 64px;
+    }
+
+    &[mdw-prominent] {
+
+      & + mdw-scroll-container mdw-scroll-content::before {
+        content: '';
+        display: block;
+        height: 128px;
+      }
+    }
   }
 
   &[mdw-prominent] {

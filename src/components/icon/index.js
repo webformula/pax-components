@@ -27,7 +27,6 @@ customElements.define('mdw-icon', class extends HTMLElementExtended {
         direction: ltr;
         font-feature-settings: 'liga';
         -webkit-font-feature-settings: 'liga';
-        -webkit-font-smoothing: antialiased;
       }
 
       :host img {

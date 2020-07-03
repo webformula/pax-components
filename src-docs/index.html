@@ -17,6 +17,7 @@
 
   <link href="./main.css" rel="stylesheet">
   <script src="./pax-entry.js" type="module"></script>
+  <script src="./pax-templates.js"></script>
   <script src="./monaco-dist/app.js" async></script>
 
   <script type="module">
@@ -25,14 +26,14 @@
       document.documentElement.classList.toggle('mdw-theme-dark');
     };
 
-    const isMobile = typeof window.orientation !== 'undefined';
-    document.documentElement.classList.toggle('mdw-is-mobile', isMobile);
+    // const isMobile = typeof window.orientation !== 'undefined';
+    // document.documentElement.classList.toggle('mdw-is-mobile', isMobile);
   </script>
 </head>
 
-<body>
+<body class="mdw-row">
   <mdw-sheet-side class="mdw-navigation-drawer navigation">
-    <mdw-header mdw-column mdw-flex-position="start center" style="padding-bottom: 8px">
+    <mdw-header class="mdw-column" mdw-flex-position="start center" style="padding-bottom: 8px">
       <span class="main-title">PAX</span>
       <span class="main-title">WEB</span>
       <span class="main-title">COMPONENTS</span>
@@ -45,10 +46,10 @@
         <span class="title">Documentation</span>
 
         <a href="#/documentation/install">Installation</a>
-        <a href="#/documentation/app-index">App index.html</a>
         <a href="#/documentation/browsers">Browser compatibility</a>
-        <a href="#/documentation/theme">Theming</a>
-        <a href="#/documentation/layout">Layout</a>
+        <a href="#/documentation/page-layout">Page layouts</a>
+        <a href="#/documentation/layout">Content Layout</a>
+        <a href="#/documentation/theming">Theming</a>
         <a href="#/documentation/density">Density</a>
 
         <mdw-divider></mdw-divider>
@@ -92,24 +93,24 @@
     </mdw-sheet-side--content>
   </mdw-sheet-side>
 
-  <mdw-page>
+  <div mdw-column style="width: 100%;">
     <header>
       <mdw-top-app-bar mdw-fixed>
         <section>
           <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
         </section>
-
+    
         <section mdw-flex>
           <span class="mdw-title">PAX web components _VERSION_</span>
         </section>
-
+    
         <section>
           <div>
             <label>Contrast</label>
             <mdw-switch id="global-contrast-switch" onchange="changeContrast(!this.checked)"></mdw-switch>
           </div>
         </section>
-
+    
         <section>
           <a href="https://github.com/webformula/pax-components" target="_blank" style="padding-right: 24px">
             <svg height="32" width="32" viewBox="0 0 16 16" version="1.1" style="fill: white; transform: scale(0.75);">
@@ -122,10 +123,13 @@
       </mdw-top-app-bar>
     </header>
 
-    <mdw-page-content>
-      <page-container></page-container>
-    </mdw-page-content>
-  </mdw-page>
+    <mdw-scroll-container>
+      <mdw-scroll-content>
+        <page-container></page-container>
+      </mdw-scroll-content>
+    </mdw-scroll-container>
+  </div>
+
 </body>
 
 </html>

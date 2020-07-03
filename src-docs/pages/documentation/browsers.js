@@ -19,7 +19,7 @@ export default class Browsers extends Page {
         <p>PAX components are built using <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_new">web components</a>. Web components are currently supported by most of the major browsers.</p>
       </section>
 
-      <div mdw-row mdw-wrap mdw-flex-position="space-around start">
+      <mdw-row mdw-flex-position="space-around start" class="mdw-flex-wrap">
         <section mdw-flex style="margin-top: 54px">
           <h2>Desktop</h2>
           <mdw-list>
@@ -110,7 +110,7 @@ export default class Browsers extends Page {
           </mdw-list-item>
         </mdw-list>
         </section>
-      </div>
+      </mdw-row>
 
       <section mdw-row>
         <mdw-button class="mdw-secondary" href="#/documentation/app-index">< app index.html</mdw-button>

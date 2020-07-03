@@ -1,13 +1,12 @@
 {
   "name": "@webformula/pax-components",
-  "version": "0.11.0-beta",
+  "version": "0.12.0-beta",
   "description": "Web components using material design language",
   "type": "module",
   "scripts": {
     "start": "node-sass src/entry.scss local/entry.css && snowpack dev --config snowpack.config.json",
-    "release": "snowpack build --config snowpack.config.release.json && npm run build:replace-version",
-    "build:editor": "webpack --progress --config webpack.monaco.editor.cjs",
-    "build:replace-version": "replace '_VERSION_' $npm_package_version build/index.html"
+    "release": "snowpack build --config snowpack.config.release.js && replace '_VERSION_' '0.12.0-beta' build/* && replace '\"web_modules/@webformula/pax-core.js' '\"/web_modules/@webformula/pax-core.js' build/pax-entry.js",
+    "build:editor": "webpack --progress --config webpack.monaco.editor.cjs"
   },
   "repository": {
     "type": "git",
@@ -20,6 +19,9 @@
   },
   "homepage": "https://github.com/webformula/pax-components#readme",
   "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@purtuga/esm-webpack-plugin": "^1.2.1",
     "@snowpack/plugin-webpack": "^1.2.0",
     "css-loader": "^3.6.0",
     "cypress": "^3.3.0",
@@ -35,6 +37,6 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "^0.8.5"
+    "@webformula/pax-core": "file:../pax-core"
   }
 }

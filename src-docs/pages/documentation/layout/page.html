@@ -1,0 +1,162 @@
+<style>
+  .base-layout-container {
+    background-color: #EEE;
+    width: 100%;
+    height: 400px;
+  }
+
+  .base-layout-container.add-wrap {
+    width: 300px;
+    height: 500px;
+  }
+
+  .sub-layout-container {
+    background-color: #CCC;
+    width: 200px;
+    height: 160px;
+  }
+
+  .sub-layout-container-b {
+    background-color: #AAA;
+    width: 200px;
+    height: 160px;
+  }
+</style>
+
+<article class="page-article">
+  <h1 class="article-title">Layout</h1>
+  <h2 class="article-subtitle">Basic layout helpers</h2>
+
+  <section>
+    <!-- contained -->
+    <mdw-card id="flex-layout">
+      <div class="mdw-card__content">
+        <h6>Flex layout</h6>
+        <div class="description">Flex helper attributes</div>
+      </div>
+
+      <div class="mdw-card__content" style="display: block;">
+        <div>
+          <mdw-row class="mdw-wrap">
+            <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
+              <select onchange="activePage.setDirection(this.value)">
+                <option value="mdw-row" ${this.direction_ === 'mdw-row' ? 'selected' : '' }>mdw-row</option>
+                <option value="mdw-column" ${this.direction_ === 'mdw-column' ? 'selected' : '' }>mdw-column</option>
+              </select>
+              <label>Flex direction</label>
+            </mdw-select>
+
+            <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
+              <select onchange="activePage.setWrap(this.value)">
+                <option value="nowrap" ${this.wrap_ === 'nowrap' ? 'selected' : '' }>no wrap</option>
+                <option value="mdw-wrap" ${this.wrap_ === 'mdw-wrap' ? 'selected' : '' }>mdw-wrap</option>
+              </select>
+              <label>Flex wrap</label>
+            </mdw-select>
+          </mdw-row>
+
+          <mdw-row class="mdw-wrap">
+            <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
+              <select onchange="activePage.setPosX(this.value)">
+                <option value="center" ${this.posX_ === 'center' ? 'selected' : '' }>center</option>
+                <option value="start" ${this.posX_ === 'start' ? 'selected' : '' }>start (top)</option>
+                <option value="end" ${this.posX_ === 'end' ? 'selected' : '' }>end (bottom)</option>
+                <option value="space-around" ${this.posX_ === 'space-around' ? 'selected' : '' }>space-around</option>
+                <option value="space-between" ${this.posX_ === 'space-between' ? 'selected' : '' }>space-between</option>
+                <option value="space-evenly" ${this.posX_ === 'space-evenly' ? 'selected' : '' }>space-evenly</option>
+              </select>
+              <label>Position Align (X)</label>
+            </mdw-select>
+
+            <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
+              <select onchange="activePage.setPosY(this.value)">
+                <option value="center" ${this.posY_ === 'center' ? 'selected' : '' }>center</option>
+                <option value="start" ${this.posY_ === 'start' ? 'selected' : '' }>start (left)</option>
+                <option value="end" ${this.posY_ === 'end' ? 'selected' : '' }>end (right)</option>
+                <option value="space-around" ${this.posY_ === 'space-around' ? 'selected' : '' }>space-around</option>
+                <option value="space-between" ${this.posY_ === 'space-between' ? 'selected' : '' }>space-between</option>
+                <option value="space-evenly" ${this.posY_ === 'space-evenly' ? 'selected' : '' }>space-evenly</option>
+              </select>
+              <label>Position Justify (Y)</label>
+            </mdw-select>
+          </mdw-row>
+
+          <mdw-row class="mdw-wrap">
+            <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
+              <select onchange="activePage.setFlexA(this.value)">
+                <option value="none" ${this.flexA_ === 'none' ? 'selected' : '' }>none</option>
+                <option value="1" ${this.flexA_ === '1' ? 'selected' : '' }>1</option>
+                <option value="033" ${this.flexA_ === '033' ? 'selected' : '' }>.33</option>
+                <option value="05" ${this.flexA_ === '05' ? 'selected' : '' }>.5</option>
+                <option value="066" ${this.flexA_ === '066' ? 'selected' : '' }>.66</option>
+                <option value="075" ${this.flexA_ === '075' ? 'selected' : '' }>.75</option>
+              </select>
+              <label>Box a flex</label>
+            </mdw-select>
+
+            <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
+              <select onchange="activePage.setFlexB(this.value)">
+                <option value="none" ${this.flexB_ === 'none' ? 'selected' : '' }>none</option>
+                <option value="1" ${this.flexB_ === '1' ? 'selected' : '' }>1</option>
+                <option value="033" ${this.flexB_ === '033' ? 'selected' : '' }>.33</option>
+                <option value="05" ${this.flexB_ === '05' ? 'selected' : '' }>.5</option>
+                <option value="066" ${this.flexB_ === '066' ? 'selected' : '' }>.66</option>
+                <option value="075" ${this.flexB_ === '075' ? 'selected' : '' }>.75</option>
+              </select>
+              <label>Box b flex</label>
+            </mdw-select>
+          </mdw-row>
+        </div>
+      </div>
+
+
+      <div class="mdw-card__content" style="display: block;">
+        <div style="margin-bottom: 12px;" mdw-row>
+          <span mdw-flex></span>
+          <!-- <mdw-button onclick="activePage.toggleWrap()">Test wrap (change container width)</mdw-button> -->
+          <label>Test wrap (container width)</label>
+          <mdw-switch onclick="activePage.toggleWrap()"></mdw-switch>
+        </div>
+
+        <${this.direction_}
+          class="base-layout-container${this.baseWrapped_ ? ' add-wrap' : ''}${this.wrap_ === 'mdw-wrap' ? ' mdw-flex-wrap' : '' }"
+          mdw-flex-position="${this.posX_} ${this.posY_}">
+          <div class="sub-layout-container ${this.flexA_ !== 'none' ? `mdw-flex-${this.flexA_}` : '' }"></div>
+          <div class="sub-layout-container-b ${this.flexB_ !== 'none' ? `mdw-flex-${this.flexB_}` : ''}"></div>
+        </${this.direction_}>
+      </div>
+
+
+      <div class="mdw-card__content--no-padding">
+        <monaco-editor language="html">
+          <style>
+            .sub-layout-container {
+              background-color: #CCC;
+              width: 200px;
+              height: 160px;
+            }
+
+            .sub-layout-container-b {
+              background-color: #AAA;
+              width: 200px;
+              height: 160px;
+            }
+          </style>
+
+          <${this.direction_}
+            class="base-layout-container${this.baseWrapped_ ? ' add-wrap' : ''}${this.wrap_ === 'mdw-wrap' ? ' mdw-flex-wrap' : '' }"
+            mdw-flex-position="${this.posX_} ${this.posY_}">
+            <div class="sub-layout-container ${this.flexA_ !== 'none' ? `mdw-flex-${this.flexA_}` : '' }"></div>
+            <div class="sub-layout-container-b ${this.flexB_ !== 'none' ? `mdw-flex-${this.flexB_}` : ''}"></div>
+          </${this.direction_}>
+        </monaco-editor>
+      </div>
+    </mdw-card>
+  </section>
+
+  <section mdw-row>
+    <mdw-button class="mdw-secondary" href="#/documentation/theme">theme</mdw-button>
+    <span mdw-flex></span>
+    <mdw-button class="mdw-secondary" href="#/documentation/density">density</mdw-button>
+  </section>
+</article>

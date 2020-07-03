@@ -68,7 +68,7 @@ export default class Install extends Page {
 
             // you can alteratively import the release file, this is a cjs module
             import 'pax-components/release/entry.js';
-            // ors
+            // or
             require('pax-components/release/entry.js');
           </monaco-editor>
 
