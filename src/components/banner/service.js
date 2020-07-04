@@ -47,8 +47,8 @@ const MDWBanner = new class {
     if (!template) template = this.template(message, dismissLabel, acceptLabel, uid);
 
     // try to find the correct parent if not passed in
-    let parentElement = parent || document.querySelector('mdw-page > mdw-top-app-bar');
-    if (!parentElement) parentElement = document.querySelector('mdw-page');
+    let parentElement = parent || document.querySelector('mdw-scroll-container > mdw-top-app-bar');
+    if (!parentElement) parentElement = document.querySelector('mdw-scroll-container');
     if (!parentElement) parentElement = document.querySelector('body');
 
     let bannerElement = undefined;

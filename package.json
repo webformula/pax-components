@@ -1,12 +1,13 @@
 {
   "name": "@webformula/pax-components",
-  "version": "0.12.1-beta",
+  "version": "0.12.2-beta",
   "description": "Web components using material design language",
   "type": "module",
   "scripts": {
     "start": "node-sass src/entry.scss local/entry.css && snowpack dev --config snowpack.config.json",
     "release": "snowpack build --config snowpack.config.release.js && replace '_VERSION_' '0.12.1-beta' build/* && replace '\"web_modules/@webformula/pax-core.js' '\"/web_modules/@webformula/pax-core.js' build/pax-entry.js",
-    "build:editor": "webpack --progress --config webpack.monaco.editor.cjs"
+    "build:editor": "webpack --progress --config webpack.monaco.editor.cjs",
+    "build:release": "webpack --config webpack.prod.config.cjs"
   },
   "repository": {
     "type": "git",

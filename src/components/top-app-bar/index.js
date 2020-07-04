@@ -50,7 +50,7 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     }
 
     if (this._isFixed || this._isShrink) {
-      this._page = document.querySelector('mdw-page');
+      this._page = document.querySelector('mdw-scroll-container');
       if (this._page) this.style.width = `${this._page.offsetWidth}px`;
     }
     window.addEventListener('resize', this.bound_throttledResizeHandler);
@@ -86,7 +86,7 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
     }
 
     // get page container
-    const pageContent = document.querySelector('mdw-page-content');
+    const pageContent = document.querySelector('mdw-scroll-content');
     if (pageContent && pageContent.contains(this)) return pageContent;
 
     // get wrapping content
@@ -122,7 +122,7 @@ customElements.define('mdw-top-app-bar', class extends HTMLElementExtended {
 
   _resizeHandler() {
     if (this._isFixed || this._isShrink) {
-      this._page = document.querySelector('mdw-page');
+      this._page = document.querySelector('mdw-scroll-container');
       if (this._page) this.style.width = `${this._page.offsetWidth}px`;
     }
   }
