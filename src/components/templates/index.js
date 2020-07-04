@@ -10,7 +10,6 @@ customElements.define('mdw-template', class extends HTMLElementExtended {
       MDWTemplate
         .get(templateUrl, window.activePage)
         .then(htmlSting => {
-          console.log(htmlSting);
           this.insertAdjacentHTML('beforeend', htmlSting)
         });
     }

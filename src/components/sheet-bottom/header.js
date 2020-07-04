@@ -68,7 +68,6 @@ customElements.define('mdw-sheet-bottom-header', class extends HTMLElementExtend
   }
 
   toTop() {
-    console.log('to top')
     this.parentNode._transitionToNearestPosition();
   }
 
