@@ -1,20 +1,23 @@
-// body.mdw-navigation-drawer-open {
-//   mdw-top-app-bar:after {
-//     content: '';
-//     padding-right: 220px;
-//   }
-// }
+// fix width for top app bar based on navigation
+// this is needed for fixed positioning of the top app bar
 
-// body.mdw-has-navigation-rail {
-//   mdw-top-app-bar {
-//     // width: calc(100% - 72px);
-//   }
-// }
-
-.mdw-navigation-drawer-open mdw-top-app-bar.mdw-fixed {
-  width: calc(100% - var(--mdw-navigation-drawer-width));
+body.mdw-has-navigation-rail:not(.mdw-navigation-drawer-open) {
+  mdw-top-app-bar {
+    &[mdw-fixed],
+    &[mdw-shrink] {
+      width: calc(100% - 72px);
+    }
+  }
 }
 
+body.mdw-navigation-drawer-open {
+  mdw-top-app-bar {
+    &[mdw-fixed],
+    &[mdw-shrink] {
+      width: calc(100% - var(--mdw-navigation-drawer-width));
+    }
+  }
+}
 
 mdw-top-app-bar + mdw-scroll-container {
  height: calc(100% - 64px); 
@@ -66,9 +69,11 @@ mdw-top-app-bar {
   color: var(--mdw-theme-text-primary-on-background);
 
 
+  &[mdw-shrink],
   &[mdw-fixed] {
     position: fixed;
 
+    & + mdw-content::before,
     & + mdw-scroll-container mdw-scroll-content::before {
       content: '';
       display: block;
@@ -76,7 +81,7 @@ mdw-top-app-bar {
     }
 
     &[mdw-prominent] {
-
+      & + mdw-content::before,
       & + mdw-scroll-container mdw-scroll-content::before {
         content: '';
         display: block;

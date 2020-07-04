@@ -1,6 +1,6 @@
+
 import './components/anchor-link.js';
 import './components/monaco-editor.js';
-import './../build/pax-templates.js';
 
 import { router } from '@webformula/pax-core';
 import TopAppBar from './pages/components/app-bar-top.js';
@@ -69,12 +69,12 @@ router.addPageClass(Tabs, 'components/tabs');
 router.addPageClass(Templates, 'components/templates');
 router.addPageClass(Textfield, 'components/text-field');
 router.addPageClass(Browsers, 'documentation/browsers');
-router.addPageClass(Density, 'documentation/density');
+router.addPageClass(Density, 'documentation/density/page');
 router.addPageClass(Install, 'documentation/install');
-router.addPageClass(Layout, 'documentation/layout');
+router.addPageClass(Layout, 'documentation/layout/page');
 router.addPageClass(Mobile, 'documentation/mobile');
-router.addPageClass(PageLayout, 'documentation/page-layout');
-router.addPageClass(ThemePage, 'documentation/theming');
+router.addPageClass(PageLayout, 'documentation/page-layout/page');
+router.addPageClass(ThemePage, 'documentation/theming/page');
 router.addPageClass(Home, 'home');
 router.setRoot('home');
 router.init();
@@ -82,4 +82,5 @@ window.router = router;
 
 export {
   router
-};
+}
+  

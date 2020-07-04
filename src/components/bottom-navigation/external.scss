@@ -26,7 +26,7 @@ mdw-bottom-navigation mdw-button.mdw-current-link {
 
 
 /* add spacer to page container */
-body.mdw-has-bottom-navigation mdw-page-content:after {
+body.mdw-has-bottom-navigation mdw-scroll-content:after {
   content: '';
   display: block;
   height: 56px;
