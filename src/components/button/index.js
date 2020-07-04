@@ -17,6 +17,8 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       element: this.shadowRoot.querySelector('.mdw-ripple'),
       triggerElement: this
     });
+
+    this.connectFormDisable();
   }
 
   disconnectedCallback() {
@@ -24,6 +26,8 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this.removeEventListener('click', this.bound_asyncClick);
     this.removeEventListener('click', this.bound_hrefClick);
     window.removeEventListener('hashchange', this.bound_checkHREFActive);
+
+    if (this._formValidityInterval) clearInterval(this._formValidityInterval);
   }
 
   get spinnerContainer() {
@@ -79,6 +83,21 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     if (href === this.getAttribute('href') || href === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
     else if (hash === this.getAttribute('href') || hash === this.getAttribute('href-alt')) this.setAttribute('active', 'active');
     else this.removeAttribute('active');
+  }
+
+  connectFormDisable() {
+    const formId = this.getAttribute('mdw-form-disable');
+    if (!formId) return;
+
+    const formElement = document.querySelector(`#${formId}`);
+    if (!formElement) return;
+
+    if (!formElement.checkValidity()) this.setAttribute('disabled', 'disabled');
+    else this.removeAttribute('disabled');
+    this._formValidityInterval = setInterval(() => {
+      if (!formElement.checkValidity()) this.setAttribute('disabled', 'disabled');
+      else this.removeAttribute('disabled');
+    }, 200);
   }
 
   hrefClick() {
@@ -202,7 +221,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       :host([disabled]) {
         background-color: transparent !important;
         color: var(--mdw-theme-text-disabled-on-background);
-        cursor: default;
+        cursor: not-allowed;
         pointer-events: none;
       }
       :host::-moz-focus-inner {

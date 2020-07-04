@@ -38,7 +38,7 @@ Sanglorians, save! Arms apeal with larms, appalling. Killykill-
 killy: a toll, a toll. What chance cuddleys, what cashels aired
 and ventilated! What bidimetoloves sinduced by what tegotetab-
 solvers! What true feeling for their's hayair with what strawng
-voice of false jiccup! O here here how hoth sprowled met the
+voice of false jiccup! O here he          re how hoth sprowled met the
 duskt the father of fornicationists but, (O my shining stars and
 body!) how hath fanespanned most high heaven the skysign of
 soft advertisement! But was iz? Iseut? Ere were sewers? The oaks
@@ -202,16 +202,18 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
               <monaco-editor language="html">
                 <mdw-dialog>
                   <mdw-panel>
-                    <mdw-dialog-container>
-                      <mdw-dialog-title>Title</mdw-dialog-title>
-                      <mdw-dialog-content>
-                        This is some content
-                      </mdw-dialog-content>
-                      <mdw-dialog-actions>
-                        <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
+                    <mdw-header>
+                      <div class="mdw-title">Title</div>
+                    </mdw-header>
+
+                    <mdw-content>
+                      This is some content
+                    </mdw-content>
+
+                    <mdw-footer>
+                      <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
                         <mdw-button onclick="d1.close(true)">ok</mdw-button>
-                      </mdw-dialog-actions>
-                    </mdw-dialog-container>
+                    </mdw-footer>
                   </mdw-panel>
                 </mdw-dialog>
 
@@ -237,16 +239,18 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
               <monaco-editor language="html">
                 <mdw-dialog>
                   <mdw-panel>
-                    <mdw-dialog-container>
-                      <mdw-dialog-title>Title</mdw-dialog-title>
-                      <mdw-dialog-content>
-                        tall text ...
-                      </mdw-dialog-content>
-                      <mdw-dialog-actions>
-                        <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
+                    <mdw-header>
+                      <div class="mdw-title">Title</div>
+                    </mdw-header>
+
+                    <mdw-content>
+                      tall text ...
+                    </mdw-content>
+
+                    <mdw-footer>
+                      <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
                         <mdw-button onclick="d1.close(true)">ok</mdw-button>
-                      </mdw-dialog-actions>
-                    </mdw-dialog-container>
+                    </mdw-footer>
                   </mdw-panel>
                 </mdw-dialog>
               </monaco-editor>
@@ -260,20 +264,18 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
         <mdw-dialog id="d1">
           <mdw-panel mdw-position="center center">
-            <mdw-dialog-container>
+            <mdw-header>
+              <div class="mdw-title">Title</div>
+            </mdw-header>
 
-              <mdw-dialog-title>Title</mdw-dialog-title>
+            <mdw-content>
+              This is some content
+            </mdw-content>
 
-              <mdw-dialog-content>
-                This is some content
-              </mdw-dialog-content>
-
-              <mdw-dialog-actions>
-                <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
-                <mdw-button onclick="activePage.ok()">ok</mdw-button>
-              </mdw-dialog-actions>
-
-            </mdw-dialog-container>
+            <mdw-footer>
+              <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
+              <mdw-button onclick="activePage.ok()">ok</mdw-button>
+            </mdw-footer>
           </mdw-panel>
         </mdw-dialog>
 

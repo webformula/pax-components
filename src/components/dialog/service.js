@@ -36,14 +36,18 @@ const MDWDialog = new class {
     return `
       <mdw-dialog id="${id}">
         <mdw-panel mdw-position="${position}">
-          <mdw-dialog-container>
-            ${!!title ? `<mdw-dialog-title>${title}</mdw-dialog-title>` : ''}
-            <mdw-dialog-content>${message}</mdw-dialog-content>
-            <mdw-dialog-actions>
-              ${!!cancelLabel ? `<mdw-button class="mdw-error" onclick="${id}.close(false)">${cancelLabel}</mdw-button>` : ''}
-              ${!!okLabel ? `<mdw-button onclick="${id}.close(true)">${okLabel}</mdw-button>` : ''}
-            </mdw-dialog-actions>
-          </mdw-dialog-container>
+          <mdw-header>
+            ${!!title ? `<div class="mdw-title">${title}</div>` : ''}
+          </mdw-header>
+
+          <mdw-content>
+            ${message}
+          </mdw-content>
+
+          <mdw-footer>
+            ${!!cancelLabel ? `<mdw-button class="mdw-error" onclick="${id}.close(false)">${cancelLabel}</mdw-button>` : ''}
+            ${!!okLabel ? `<mdw-button onclick="${id}.close(true)">${okLabel}</mdw-button>` : ''}
+          </mdw-footer>
         </mdw-panel>
       </mdw-dialog>
     `;

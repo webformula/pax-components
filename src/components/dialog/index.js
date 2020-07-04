@@ -41,6 +41,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
 
   open(fromService = false) {
     this._fromService = fromService;
+    this.panel.classList.add('mdw-dialog');
     this.panel.hoistToBody();
     this.panel.setPosition(this.position);
     this.panel.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
