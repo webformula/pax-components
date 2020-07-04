@@ -37,7 +37,7 @@
 
       <div class="mdw-card__content" style="display: block;">
         <div>
-          <mdw-row class="mdw-wrap">
+          <mdw-row class="mdw-flex-wrap">
             <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
               <select onchange="activePage.setDirection(this.value)">
                 <option value="mdw-row" ${this.direction_ === 'mdw-row' ? 'selected' : '' }>mdw-row</option>
@@ -55,7 +55,7 @@
             </mdw-select>
           </mdw-row>
 
-          <mdw-row class="mdw-wrap">
+          <mdw-row class="mdw-flex-wrap">
             <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
               <select onchange="activePage.setPosX(this.value)">
                 <option value="center" ${this.posX_ === 'center' ? 'selected' : '' }>center</option>
@@ -81,7 +81,7 @@
             </mdw-select>
           </mdw-row>
 
-          <mdw-row class="mdw-wrap">
+          <mdw-row class="mdw-flex-wrap">
             <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
               <select onchange="activePage.setFlexA(this.value)">
                 <option value="none" ${this.flexA_ === 'none' ? 'selected' : '' }>none</option>

@@ -11,6 +11,10 @@
 //   }
 // }
 
+.mdw-navigation-drawer-open mdw-top-app-bar.mdw-fixed {
+  width: calc(100% - var(--mdw-navigation-drawer-width));
+}
+
 
 mdw-top-app-bar + mdw-scroll-container {
  height: calc(100% - 64px); 

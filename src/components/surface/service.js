@@ -18,11 +18,15 @@ const animationOrigin = [
 ];
 
 class MDWSurfaceInstance {
-  constructor({ id, component, template, animation }) {
+  constructor({ id, component, template, position, animation }) {
     this._id = id;
     this._component = component;
     this._template = template;
     this._animation = animation;
+    this._position = position;
+
+    this.bound_onPanelClose = this._onPanelClose.bind(this);
+    this.bound_onSheetClose = this._onSheetClose.bind(this);
   }
 
   get id() {
@@ -33,54 +37,88 @@ class MDWSurfaceInstance {
     return this._component;
   }
 
+  set element(value) {
+    this._element = value;
+  }
   get element() {
     return this._element;
   }
 
   // TODO figure out open.close - open/close - add/remove
   async open() {
-    const page = document.querySelector('mdw-page');
-    if (page) page.insertAdjacentHTML('afterEnd', this._template);
-    else document.body.insertAdjacentHTML('beforeend', this._template);
+    document.body.insertAdjacentHTML('beforeend', this._template);
     this._element = document.querySelector(`#${this.id}`);
 
     switch (this.component) {
       case 'panel':
-        this._element.setAnimation(this._animation);
+        // prep animation
+        if (this._animation) {
+          this.element.setAnimation(this._animation);
+
+          // hoist to body if target is set. This is confusing and needs to be addressed.
+          //   If not hoisted then the positioning is incorrect.
+          if (this._animation.hoistToBody !== false && this._animation.target instanceof HTMLElement) this.element.hoistToBody(this._animation.target);
+        }
+        if (this._position) this.element.setPosition(this._position);
         this.element.open();
+        this.element.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
         break;
 
       case 'sheetBottom':
         this.element.open();
+        this.element.addEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
 
       case 'sheetSide':
         this.element.open();
+        this.element.addEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
     }
 
     if (window._activeSurface) await window._activeSurface.close();
 
     window._activeSurface = this;
+
+    return this.element;
   }
 
   async close() {
     switch (this.component) {
       case 'panel':
         await this.element.close();
+        if (this.element) this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
         break;
 
       case 'sheetBottom':
         await this.element.close();
+        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
 
       case 'sheetSide':
         await this.element.close();
+        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
     }
 
+    // this may be removed via panel click outside to close
+    if (this._element) {
+      this.element.remove();
+      window._activeSurface = undefined;
+    }
+  }
+
+  _onPanelClose() {
+    this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
     this.element.remove();
     window._activeSurface = undefined;
+    this._element = undefined;
+  }
+
+  _onSheetClose() {
+    this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
+    this.element.remove();
+    window._activeSurface = undefined;
+    this._element = undefined;
   }
 }
 
@@ -102,12 +140,13 @@ const MDWSurface = new class {
   }
 
 
-  async open({ template, templateData, animation, animationTarget, component, mobileComponent, desktopComponent }) {
-    const instance = await this.create({ template, templateData, animation, animationTarget, component, mobileComponent, desktopComponent });
+  async open({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent }) {
+    const instance = await this.create({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent });
     instance.open();
+    return instance;
   }
 
-  async create({ template, templateData, animation, animationTarget, component, mobileComponent, desktopComponent }) {
+  async create({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent }) {
     if (!component) component = this._autoSelectComponent(mobileComponent, desktopComponent);
     this._validateComponent(component);
     if (component === 'panel') {
@@ -121,7 +160,7 @@ const MDWSurface = new class {
     let surfaceTemplate;
     switch (component) {
       case 'panel':
-        surfaceTemplate = this._buildPanel({ id, animation, templateString });
+        surfaceTemplate = this._buildPanel({ id, position, animation, templateString });
         break;
 
       case 'sheetBottom':
@@ -137,7 +176,8 @@ const MDWSurface = new class {
       id,
       component,
       template: surfaceTemplate,
-      animation
+      animation,
+      position
     });
   }
 
@@ -160,7 +200,8 @@ const MDWSurface = new class {
       type: 'height',
       origin: 'center',
       fullscreen: true,
-      target
+      target,
+      hoistToBody: false
     };
   }
 
@@ -169,9 +210,9 @@ const MDWSurface = new class {
     if (animation.origin && !animationOrigin.includes(animation.origin)) throw Error(`animation.type must be one of these: ${animationOrigin.join(', ')} or not defined`);
   }
 
-  _buildPanel({ id, templateString }) {
+  _buildPanel({ id, templateString, position }) {
     return /* html */`
-      <mdw-panel id="${id}">
+      <mdw-panel id="${id}" ${position ? `mdw-position="${position}"` : ''}>
         ${templateString}
       </mdw-panel>
     `
@@ -179,7 +220,8 @@ const MDWSurface = new class {
 
   _buildSheetBottom({ id, templateString }) {
     return /* html */`
-      <mdw-sheet-bottom id="${id}">
+      <mdw-sheet-bottom id="${id}" mdw-modal>
+        ${!templateString.includes('<mdw-header>') ? '<mdw-header></mdw-header>' : ''}
         ${templateString}
       </mdw-sheet-bottom>
     `;
