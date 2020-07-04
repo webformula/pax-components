@@ -106,6 +106,8 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
       addDragListener(this.contentElement, this.bound_onDrag);
       if (this._helpers.headerElement) addDragListener(this._helpers.headerElement, this.bound_onDrag);
     }
+
+    this._notifyOpen();
   }
 
   async close() {
@@ -115,12 +117,16 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
       this._cancelTransitions();
       this.classList.add('mdw-animating-close');
       this._positionBottom();
+      this._helpers.removeBackdrop();
+
+      // TODO fix closing animation
       this.addEventListener('transitionend', () => {
         this._cancelTransitions()
         this.classList.remove('mdw-show');
-        this._helpers.removeBackdrop();
         resolve();
       }, { once: true });
+
+      this._notifyClose();
     });
   }
 
@@ -138,6 +144,14 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
   toggle() {
     if (this.classList.contains('mdw-show')) this.close();
     else this.open();
+  }
+
+  _notifyClose() {
+    this.dispatchEvent(new Event('MDWSheet:closed', this));
+  }
+
+  _notifyOpen() {
+    this.dispatchEvent(new Event('MDWSheet:opened'), this);
   }
 
   _registerHeader(element) {

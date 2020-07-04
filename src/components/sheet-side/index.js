@@ -84,7 +84,6 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
   }
 
   open() {
-    console.log(this.classList.contains('mdw-hide'));
     setTimeout(() => {
       this.classList.remove('mdw-hide');
       this.classList.add('mdw-show');
@@ -94,6 +93,8 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
       }
 
       if (this._isNavigationDrawer) document.body.classList.add('mdw-navigation-drawer-open');
+
+      this._notifyOpen();
     }, 10); // this is a temporary fix
   }
 
@@ -108,6 +109,7 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
 
       setTimeout(() => {
         resolve();
+        this._notifyClose();
       }, 200);
     });
   }
@@ -123,5 +125,13 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     } else {
       if (event.direction.x === 1 && event.velocity.x > 0.8) this.close();
     }
+  }
+
+  _notifyClose() {
+    this.dispatchEvent(new Event('MDWSheet:closed', this));
+  }
+
+  _notifyOpen() {
+    this.dispatchEvent(new Event('MDWSheet:opened'), this);
   }
 });

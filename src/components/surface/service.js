@@ -26,6 +26,7 @@ class MDWSurfaceInstance {
     this._position = position;
 
     this.bound_onPanelClose = this._onPanelClose.bind(this);
+    this.bound_onSheetClose = this._onSheetClose.bind(this);
   }
 
   get id() {
@@ -65,10 +66,12 @@ class MDWSurfaceInstance {
 
       case 'sheetBottom':
         this.element.open();
+        this.element.addEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
 
       case 'sheetSide':
         this.element.open();
+        this.element.addEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
     }
 
@@ -83,20 +86,22 @@ class MDWSurfaceInstance {
     switch (this.component) {
       case 'panel':
         await this.element.close();
+        if (this.element) this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
         break;
 
       case 'sheetBottom':
         await this.element.close();
+        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
 
       case 'sheetSide':
         await this.element.close();
+        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
     }
 
     // this may be removed via panel click outside to close
     if (this._element) {
-      this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
       this.element.remove();
       window._activeSurface = undefined;
     }
@@ -104,7 +109,13 @@ class MDWSurfaceInstance {
 
   _onPanelClose() {
     this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this.element.remove();
+    window._activeSurface = undefined;
+    this._element = undefined;
+  }
 
+  _onSheetClose() {
+    this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
     this.element.remove();
     window._activeSurface = undefined;
     this._element = undefined;
@@ -209,7 +220,8 @@ const MDWSurface = new class {
 
   _buildSheetBottom({ id, templateString }) {
     return /* html */`
-      <mdw-sheet-bottom id="${id}">
+      <mdw-sheet-bottom id="${id}" mdw-modal>
+        ${!templateString.includes('<mdw-header>') ? '<mdw-header></mdw-header>' : ''}
         ${templateString}
       </mdw-sheet-bottom>
     `;

@@ -3,7 +3,7 @@ import MDWUtils from '../../core/Utils.js';
 import MDWSurface from '../surface/service.js';
 
 
-// TODO implaent validity
+// TODO implement validity
 
 customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
@@ -11,7 +11,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     this._handleLabel();
     this._handleEnhanced();
-    // this.classList.add('mdw-no-animation');
     this.cloneTemplate(true);
 
     this.bound_onFocus = this.onFocus.bind(this);
@@ -30,34 +29,12 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     } else {
       this.selectElement.addEventListener('focus', this.bound_onFocus);
       this.selectElement.addEventListener('blur', this.bound_onBlur);
+      this.selectElement.addEventListener('change', this.bound_onChange);
     }
 
     // capture option selected attribute and float the label
     this.onChange();
   }
-
-  // connectedCallback() {
-  //   if (this.isEnhanced) {
-  //     if (this._selected) this.value = this._selected.value;
-  //     this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
-  //     document.body.addEventListener('keydown', this.bound_onKeyDown);
-  //   } else {
-  //     this.selectElement.addEventListener('focus', this.bound_onFocus);
-  //     this.selectElement.addEventListener('blur', this.bound_onBlur);
-  //     this.selectElement.addEventListener('change', this.bound_onChange);
-  //   }
-
-  //   // capture option selected attribute and float the label
-  //   this.onChange();
-
-  //   setTimeout(() => {
-  //     this.classList.remove('mdw-no-animation');
-
-  //     if (this.isEnhanced) {
-  //       this.panel.style.minWidth = `${this.offsetWidth}px`;
-  //     }
-  //   }, 0);
-  // }
 
   disconnectedCallback() {
     if (this.isEnhanced) {
@@ -151,51 +128,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (selectOnchange) this.setAttribute('onchange', selectOnchange);
       selectElement.remove();
     }
-
-    // if(MDWUtils.isMobile) this.prepareSheet_();
-    // else this.preparePanel_();
   }
-
-
-
-
-
-  // preparePanel_() {
-  //   const panelHTML = `
-  //     <mdw-panel id="${this.enhancedElementId}" mdw-position="bottom inner-left" class="mdw-panel-hoisted">
-  //       <mdw-list>
-  //         ${this._optionsMap.map(({ text, value, selected }) => `
-  //           <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
-  //         `).join('\n')}
-  //       </mdw-list>
-  //     </mdw-panel>
-  //   `;
-  //   document.body.insertAdjacentHTML('beforeend', panelHTML);
-  //   const panelEl = this.panel;
-  //   panelEl.setAnimation({
-  //     target: this.querySelector('select'),
-  //     type: 'scale',
-  //     origin: 'top',
-  //     opacity: true
-  //   });
-  //   panelEl.hoistToBody(this);
-  // }
-
-  // prepareSheet_() {
-  //   const sheetHTML = `
-  //     <mdw-sheet mdw-modal id=${this.enhancedElementId}>
-  //       <mdw-sheet-content>
-  //         <mdw-list>
-  //           ${this._optionsMap.map(({ text, value, selected }) => `
-  //             <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
-  //           `).join('\n')}
-  //         </mdw-list>
-  //       </mdw-sheet-content>
-  //     </mdw-sheet>
-  //   `;
-
-  //   document.body.insertAdjacentHTML('afterend', sheetHTML);
-  // }
 
   onFocus() {
     this.classList.add('mdw-focused');
@@ -205,16 +138,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   onBlur() {
     this.classList.remove('mdw-focused');
     this.classList.toggle('mdw-not-empty', this.value);
-
-    // if (this.isEnhanced) {
-    //   if (MDWUtils.isMobile) {
-    //     this.sheet.removeEventListener('MDWSheet:closed', this.bound_onBlur);
-    //     this.sheet.removeEventListener('click', this.bound_onPanelClick);
-    //   } else {
-    //     this.panel.removeEventListener('MDWPanel:closed', this.bound_onBlur);
-    //     this.panel.removeEventListener('click', this.bound_onPanelClick);
-    //   }
-    // }
 
     MDWUtils.unlockPageScroll();
   }
@@ -248,18 +171,18 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         target: this,
       },
       template: `
-        <div style="min-width: ${this.offsetWidth}px">
+        <mdw-content style="min-width: ${this.offsetWidth}px" class="mdw-no-padding">
           <mdw-list>
             ${this._optionsMap.map(({ text, value, selected }) => `
               <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
             `).join('\n')}
           </mdw-list>
-        </div>
+        </mdw-content>
       `
     });
 
     // handle panel element
-    if (this._surfaceElement.element.nodeName === 'MDW-PANEL') {
+    if (this._surfaceElement && this._surfaceElement.element.nodeName === 'MDW-PANEL') {
       this._surfaceElement.element.clickBodyToClose();
       this._surfaceElement.element.addEventListener('click', this.bound_onPanelClick);
       this._surfaceElement.element.addEventListener('MDWPanel:closed', () => {
@@ -267,35 +190,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         this.onBlur();
       });
     }
+
+    if (this._surfaceElement && this._surfaceElement.element.nodeName === 'MDW-SHEET-BOTTOM') {
+      this._surfaceElement.element.addEventListener('click', this.bound_onPanelClick);
+      this._surfaceElement.element.addEventListener('MDWSheet:closed', () => {
+        this._surfaceElement = undefined;
+        this.onBlur();
+      });
+    }
   }
-
-  // onClick(event) {
-  //   this._focusIndex === undefined;
-  //   this.onFocus();
-
-  //   if (MDWUtils.isMobile) {
-  //     const sheetElement = this.sheet;
-  //     sheetElement.open();
-  //     sheetElement.addEventListener('MDWSheet:closed', this.bound_onBlur);
-  //     sheetElement.addEventListener('click', this.bound_onPanelClick);
-  //     const focusedElement = sheetElement.querySelector('.mdw-focused');
-  //     if (focusedElement) focusedElement.classList.remove('mdw-focused');
-  //     const selectedElement = sheetElement.querySelector('[selected]');
-  //     if (selectedElement) selectedElement.classList.add('mdw-focused');
-  //   } else {
-  //     const panelElement = this.panel;
-  //     panelElement.autoPosition();
-  //     panelElement.open(true);
-  //     panelElement.addEventListener('MDWPanel:closed', this.bound_onBlur);
-  //     panelElement.addEventListener('click', this.bound_onPanelClick);
-  //     const focusedElement = panelElement.querySelector('.mdw-focused');
-  //     if (focusedElement) focusedElement.classList.remove('mdw-focused');
-  //     const selectedElement = panelElement.querySelector('[selected]');
-  //     if (selectedElement) selectedElement.classList.add('mdw-focused');
-  //   }
-
-  //   MDWUtils.lockPageScroll();
-  // }
 
   onPanelClick(event) {
     if (!event.target.hasAttribute('value')) return;
@@ -330,7 +233,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   onKeyDown(event) {
     // open if focused
     if (!this._surfaceElement && this.classList.contains('mdw-focused')) {
-      console.log('plplplplplpl');
       this.onClick();
       event.preventDefault();
       return;

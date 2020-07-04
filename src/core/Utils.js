@@ -37,13 +37,15 @@ const MDWUtils = new class {
   }
 
   lockPageScroll() {
-    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    const scrollElement = document.querySelector('mdw-scroll-container > mdw-scroll-content') || document.body;
     scrollElement.style.overflow = 'hidden';
+    this.scrollLocked = true;
   }
 
   unlockPageScroll() {
-    const scrollElement = document.body.classList.contains('prevent-over-scroll') ? document.querySelector('mdw-page > mdw-content') : document.body;
+    const scrollElement = document.querySelector('mdw-scroll-container > mdw-scroll-content') || document.body;
     scrollElement.style.overflow = '';
+    this.scrollLocked = false;
   }
 
   disableUserSelect() {
