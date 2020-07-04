@@ -87,6 +87,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   clickBodyToClose() {
     this._clickOutsideClose = true;
+    if (this._isOpen) this._addBodyClickEvent();
   }
 
   isOpen() {
@@ -266,7 +267,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   _addBodyClickEvent() {
-    if (!this._clickOutsideClose) return;
+    if (!this._clickOutsideClose || this.hasBodyEvent) return;
     setTimeout(() => {
       this.hasBodyEvent = true;
       document.body.addEventListener('click', this._boundHandleBodyClick);
@@ -359,11 +360,12 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   setHoistedPosition() {
+    console.log('setHoistedPosition');
     const bounds = this._container.getBoundingClientRect();
     this.style.top = `${bounds.top}px`;
     this.style.left = `${bounds.left}px`;
     // this.style[this.transformPropertyName] = 'scale(1)';
-
+    
     if (!this._positionSet) {
       this._autoPositionHoisted();
     } else {

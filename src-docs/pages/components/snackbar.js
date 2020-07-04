@@ -43,8 +43,8 @@ export default class Snackbar extends Page {
       <article class="page-article">
         <h3>Snackbar</h3>
 
-        <div mdw-row>
-          <div mdw-flex=".33" mdw-column>
+        <mdw-row>
+          <mdw-column class="mdw-flex-033">
             <mdw-select class="mdw-padding" mdw-enhanced>
               <select onchange="activePage.setSnackbarPositionY(this.value)">
                 <option value="top">top</option>
@@ -66,14 +66,14 @@ export default class Snackbar extends Page {
               </select>
               <label>Positon X</label>
             </mdw-select>
-          </div>
+          </mdw-column>
 
-          <div mdw-flex=".66">
+          <div class="mdw-flex-066">
             <div class="showcase mdw-elevation-1">
               <mdw-button onclick="activePage.showSnackbar()">show snackbar</mdw-button>
             </div>
           </div>
-        </div>
+        </mdw-row>
 
         <a href="https://material.io/design/components/snackbars.html" target="_new">Material Design Guidelines: Snackbars</a>
         <p>Snackbars provide brief messages about app processes at the bottom of the screen</p>

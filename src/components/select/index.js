@@ -1,5 +1,7 @@
 import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWUtils from '../../core/Utils.js';
+import MDWSurface from '../surface/service.js';
+
 
 // TODO implaent validity
 
@@ -7,9 +9,9 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
 
-    this.setupLabel_();
-    if (this._isEnhanced) this.prepareEnhance_();
-    this.classList.add('mdw-no-animation');
+    this._handleLabel();
+    this._handleEnhanced();
+    // this.classList.add('mdw-no-animation');
     this.cloneTemplate(true);
 
     this.bound_onFocus = this.onFocus.bind(this);
@@ -21,30 +23,44 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    if (this._isEnhanced) {
+    if (this.isEnhanced) {
       if (this._selected) this.value = this._selected.value;
       this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
       document.body.addEventListener('keydown', this.bound_onKeyDown);
     } else {
       this.selectElement.addEventListener('focus', this.bound_onFocus);
       this.selectElement.addEventListener('blur', this.bound_onBlur);
-      this.selectElement.addEventListener('change', this.bound_onChange);
     }
 
     // capture option selected attribute and float the label
     this.onChange();
-
-    setTimeout(() => {
-      this.classList.remove('mdw-no-animation');
-
-      if (this._isEnhanced) {
-        this.panel.style.minWidth = `${this.offsetWidth}px`;
-      }
-    }, 0);
   }
 
+  // connectedCallback() {
+  //   if (this.isEnhanced) {
+  //     if (this._selected) this.value = this._selected.value;
+  //     this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
+  //     document.body.addEventListener('keydown', this.bound_onKeyDown);
+  //   } else {
+  //     this.selectElement.addEventListener('focus', this.bound_onFocus);
+  //     this.selectElement.addEventListener('blur', this.bound_onBlur);
+  //     this.selectElement.addEventListener('change', this.bound_onChange);
+  //   }
+
+  //   // capture option selected attribute and float the label
+  //   this.onChange();
+
+  //   setTimeout(() => {
+  //     this.classList.remove('mdw-no-animation');
+
+  //     if (this.isEnhanced) {
+  //       this.panel.style.minWidth = `${this.offsetWidth}px`;
+  //     }
+  //   }, 0);
+  // }
+
   disconnectedCallback() {
-    if (this._isEnhanced) {
+    if (this.isEnhanced) {
       this.shadowRoot.querySelector('render-block').removeEventListener('click', this.bound_onClick);
       document.body.removeEventListener('keydown', this.bound_onKeyDown);
     } else {
@@ -55,7 +71,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   get value() {
-    if (this._isEnhanced) return this._value;
+    if (this.isEnhanced) return this._value;
     return this.selectElement.value || this._value;
   }
 
@@ -77,21 +93,20 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this.label.offsetWidth * 0.9;
   }
 
-
-  get enhacedElementId() {
-    if (!this._enhacedElementId) this._enhacedElementId = `select-enhanced-${MDWUtils.uid()}`;
-    return this._enhacedElementId;
+  get enhancedElementId() {
+    if (!this._enhancedElementId) this._enhancedElementId = `select-enhanced-${MDWUtils.uid()}`;
+    return this._enhancedElementId;
   }
 
   get panel() {
-    return document.querySelector(`#${this.enhacedElementId}`);
+    return document.querySelector(`#${this.enhancedElementId}`);
   }
 
   get sheet() {
-    return document.querySelector(`#${this.enhacedElementId}`);
+    return document.querySelector(`#${this.enhancedElementId}`);
   }
 
-  get _isEnhanced() {
+  get isEnhanced() {
     return this.getAttribute('mdw-enhanced') !== null;
   }
 
@@ -104,7 +119,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this._notch;
   }
 
-  setupLabel_() {
+
+
+
+  _handleLabel() {
     const label = this.querySelector('label');
     if (label) {
       this._labelText = label.innerText;
@@ -112,7 +130,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
   }
 
-  prepareEnhance_() {
+  _handleEnhanced() {
+    if (!this.isEnhanced) return;
+
+    // setup options for generating a list
     this._optionsMap = [...this.querySelectorAll('option')].map(el => {
       return {
         text: el.innerText,
@@ -123,53 +144,58 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     this._selected = (this._optionsMap.filter(({ selected }) => selected === true)[0] || { text: '', value: '' });
 
-    const selectElement = this.querySelector('select');
+    // transfer onchange event
+    const selectElement = this.querySelector('select'); // <select> is the parent element for options. This is not the selected option
     if (selectElement) {
       const selectOnchange = selectElement.getAttribute('onchange');
       if (selectOnchange) this.setAttribute('onchange', selectOnchange);
       selectElement.remove();
     }
 
-    if (MDWUtils.isMobile) this.prepareSheet_();
-    else this.preparePanel_();
+    // if(MDWUtils.isMobile) this.prepareSheet_();
+    // else this.preparePanel_();
   }
 
-  preparePanel_() {
-    const panelHTML = `
-      <mdw-panel id="${this.enhacedElementId}" mdw-position="bottom inner-left" class="mdw-panel-hoisted">
-        <mdw-list>
-          ${this._optionsMap.map(({ text, value, selected }) => `
-            <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
-          `).join('\n')}
-        </mdw-list>
-      </mdw-panel>
-    `;
-    document.body.insertAdjacentHTML('beforeend', panelHTML);
-    const panelEl = this.panel;
-    panelEl.setAnimation({
-      target: this.querySelector('select'),
-      type: 'scale',
-      origin: 'top',
-      opacity: true
-    });
-    panelEl.hoistToBody(this);
-  }
 
-  prepareSheet_() {
-    const sheetHTML = `
-      <mdw-sheet mdw-modal id=${this.enhacedElementId}>
-        <mdw-sheet-content>
-          <mdw-list>
-            ${this._optionsMap.map(({ text, value, selected }) => `
-              <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
-            `).join('\n')}
-          </mdw-list>
-        </mdw-sheet-content>
-      </mdw-sheet>
-    `;
 
-    document.body.insertAdjacentHTML('beforeend', sheetHTML);
-  }
+
+
+  // preparePanel_() {
+  //   const panelHTML = `
+  //     <mdw-panel id="${this.enhancedElementId}" mdw-position="bottom inner-left" class="mdw-panel-hoisted">
+  //       <mdw-list>
+  //         ${this._optionsMap.map(({ text, value, selected }) => `
+  //           <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
+  //         `).join('\n')}
+  //       </mdw-list>
+  //     </mdw-panel>
+  //   `;
+  //   document.body.insertAdjacentHTML('beforeend', panelHTML);
+  //   const panelEl = this.panel;
+  //   panelEl.setAnimation({
+  //     target: this.querySelector('select'),
+  //     type: 'scale',
+  //     origin: 'top',
+  //     opacity: true
+  //   });
+  //   panelEl.hoistToBody(this);
+  // }
+
+  // prepareSheet_() {
+  //   const sheetHTML = `
+  //     <mdw-sheet mdw-modal id=${this.enhancedElementId}>
+  //       <mdw-sheet-content>
+  //         <mdw-list>
+  //           ${this._optionsMap.map(({ text, value, selected }) => `
+  //             <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
+  //           `).join('\n')}
+  //         </mdw-list>
+  //       </mdw-sheet-content>
+  //     </mdw-sheet>
+  //   `;
+
+  //   document.body.insertAdjacentHTML('afterend', sheetHTML);
+  // }
 
   onFocus() {
     this.classList.add('mdw-focused');
@@ -180,15 +206,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.classList.remove('mdw-focused');
     this.classList.toggle('mdw-not-empty', this.value);
 
-    if (this._isEnhanced) {
-      if (MDWUtils.isMobile) {
-        this.sheet.removeEventListener('MDWSheet:closed', this.bound_onBlur);
-        this.sheet.removeEventListener('click', this.bound_onPanelClick);
-      } else {
-        this.panel.removeEventListener('MDWPanel:closed', this.bound_onBlur);
-        this.panel.removeEventListener('click', this.bound_onPanelClick);
-      }
-    }
+    // if (this.isEnhanced) {
+    //   if (MDWUtils.isMobile) {
+    //     this.sheet.removeEventListener('MDWSheet:closed', this.bound_onBlur);
+    //     this.sheet.removeEventListener('click', this.bound_onPanelClick);
+    //   } else {
+    //     this.panel.removeEventListener('MDWPanel:closed', this.bound_onBlur);
+    //     this.panel.removeEventListener('click', this.bound_onPanelClick);
+    //   }
+    // }
 
     MDWUtils.unlockPageScroll();
   }
@@ -205,101 +231,137 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
   }
 
-  onClick(event) {
+
+  async onClick(event) {
+    // handle focus
     this._focusIndex === undefined;
     this.onFocus();
-
-    if (MDWUtils.isMobile) {
-      const sheetElement = this.sheet;
-      sheetElement.open();
-      sheetElement.addEventListener('MDWSheet:closed', this.bound_onBlur);
-      sheetElement.addEventListener('click', this.bound_onPanelClick);
-      const focusedElement = sheetElement.querySelector('.mdw-focused');
-      if (focusedElement) focusedElement.classList.remove('mdw-focused');
-      const selectedElement = sheetElement.querySelector('[selected]');
-      if (selectedElement) selectedElement.classList.add('mdw-focused');
-    } else {
-      const panelElement = this.panel;
-      panelElement.autoPosition();
-      panelElement.open(true);
-      panelElement.addEventListener('MDWPanel:closed', this.bound_onBlur);
-      panelElement.addEventListener('click', this.bound_onPanelClick);
-      const focusedElement = panelElement.querySelector('.mdw-focused');
-      if (focusedElement) focusedElement.classList.remove('mdw-focused');
-      const selectedElement = panelElement.querySelector('[selected]');
-      if (selectedElement) selectedElement.classList.add('mdw-focused');
-    }
-
     MDWUtils.lockPageScroll();
+
+    this._surfaceElement = await MDWSurface.open({
+      mobileComponent: 'sheetBottom',
+      desktopComponent: 'panel',
+      animation: {
+        type: 'scale',
+        origin: 'top',
+        opacity: true,
+        target: this,
+      },
+      template: `
+        <div style="min-width: ${this.offsetWidth}px">
+          <mdw-list>
+            ${this._optionsMap.map(({ text, value, selected }) => `
+              <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
+            `).join('\n')}
+          </mdw-list>
+        </div>
+      `
+    });
+
+    // handle panel element
+    if (this._surfaceElement.element.nodeName === 'MDW-PANEL') {
+      this._surfaceElement.element.clickBodyToClose();
+      this._surfaceElement.element.addEventListener('click', this.bound_onPanelClick);
+      this._surfaceElement.element.addEventListener('MDWPanel:closed', () => {
+        this._surfaceElement = undefined;
+        this.onBlur();
+      });
+    }
   }
+
+  // onClick(event) {
+  //   this._focusIndex === undefined;
+  //   this.onFocus();
+
+  //   if (MDWUtils.isMobile) {
+  //     const sheetElement = this.sheet;
+  //     sheetElement.open();
+  //     sheetElement.addEventListener('MDWSheet:closed', this.bound_onBlur);
+  //     sheetElement.addEventListener('click', this.bound_onPanelClick);
+  //     const focusedElement = sheetElement.querySelector('.mdw-focused');
+  //     if (focusedElement) focusedElement.classList.remove('mdw-focused');
+  //     const selectedElement = sheetElement.querySelector('[selected]');
+  //     if (selectedElement) selectedElement.classList.add('mdw-focused');
+  //   } else {
+  //     const panelElement = this.panel;
+  //     panelElement.autoPosition();
+  //     panelElement.open(true);
+  //     panelElement.addEventListener('MDWPanel:closed', this.bound_onBlur);
+  //     panelElement.addEventListener('click', this.bound_onPanelClick);
+  //     const focusedElement = panelElement.querySelector('.mdw-focused');
+  //     if (focusedElement) focusedElement.classList.remove('mdw-focused');
+  //     const selectedElement = panelElement.querySelector('[selected]');
+  //     if (selectedElement) selectedElement.classList.add('mdw-focused');
+  //   }
+
+  //   MDWUtils.lockPageScroll();
+  // }
 
   onPanelClick(event) {
     if (!event.target.hasAttribute('value')) return;
     this.value = event.target.getAttribute('value');
     this.setSelectedText(event.target.innerText);
-    const currentSelected = this.panel.querySelector('[selected]');
-    if (currentSelected) currentSelected.removeAttribute('selected');
+
+    // handle current selection
+    const currentSelected = this._surfaceElement.element.querySelector('[selected]');
+    if (currentSelected) {
+      currentSelected.removeAttribute('selected');
+      const oldMatch = this._optionsMap.find(({ value }) => value === currentSelected.getAttribute('value'));
+      if (oldMatch) oldMatch.selected = false;
+    }
+
+    // handle new selection
     event.target.setAttribute('selected', '');
-    this.panel.close();
+    const newMatch = this._optionsMap.find(({ value }) => value === event.target.getAttribute('value'));
+    if (newMatch) newMatch.selected = true;
+
+    this._surfaceElement.close();
+    this._surfaceElement = undefined;
+    this.onBlur();
   }
 
   setSelectedText(value) {
     this.shadowRoot.querySelector('.mdw-select__selected-text').innerText = value;
   }
 
-  get internalStylesFile() {
-    return './internal.css';
-  }
-
-  template() {
-    return `
-      <i class="mdw-select__icon"></i>
-      ${!this._isEnhanced ? '<slot></slot>' : `
-        <div class="mdw-select__selected-text">${this._selected.text}</div>
-      `}
-      <label>${this._labelText}</label>
-      ${this.outlined ? '' : '<div class="mdw-line-ripple"></div>'}
-      ${!this.outlined ? '' : `
-        <div class="mdw-outlined-border-container">
-          <div class="mdw-outlined-leading"></div>
-          <div class="mdw-outlined-notch"></div>
-          <div class="mdw-outlined-trailing"></div>
-        </div>
-      `}
-    `;
-  }
-
-
 
   // --- key controls ---
 
-  onKeyDown(e) {
-    if (!this.panel.isOpen()) return
+  onKeyDown(event) {
+    // open if focused
+    if (!this._surfaceElement && this.classList.contains('mdw-focused')) {
+      console.log('plplplplplpl');
+      this.onClick();
+      event.preventDefault();
+      return;
+    }
 
-    switch (e.keyCode) {
+    if (!this._surfaceElement || this._surfaceElement.element.nodeName !== 'MDW-PANEL' || !this._surfaceElement.element.isOpen()) return;
+
+    switch (event.keyCode) {
       case 40: //down
       case 39: //right
         this.focusNext();
-        e.preventDefault();
+        event.preventDefault();
         break;
 
       case 38: //up
       case 37: //left
         this.focusPrevious();
-        e.preventDefault();
+        event.preventDefault();
         break;
 
       case 13: //enter
         this.selectFocused();
-        e.preventDefault();
+        event.preventDefault();
         break;
 
       default:
-        if (e.keyCode >= 31 || e.keyCode <= 90) {
-          const nodeIndex = this.keyboardSearchNodes(e.keyCode);
+        if (event.keyCode >= 31 || event.keyCode <= 90) {
+          const nodeIndex = this.keyboardSearchNodes(event.keyCode);
           if (nodeIndex !== undefined) this.selectNode(nodeIndex);
-          e.stopPropagation();
-          e.preventDefault();
+          event.stopPropagation();
+          event.preventDefault();
         }
     }
   }
@@ -318,7 +380,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this._keyboardSearchStr += String.fromCharCode(keyCode);
     const search = new RegExp('^' + this._keyboardSearchStr, 'i');
 
-    if (!this._keyboardOptionNames) this._keyboardOptionNames = [...this.panel.querySelectorAll('mdw-list-item')].map(el => el.innerText);
+    if (!this._keyboardOptionNames) this._keyboardOptionNames = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')].map(el => el.innerText);
 
     const length = this._keyboardOptionNames.length;
     let i = 0;
@@ -331,7 +393,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   selectNode(index) {
-    const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
+    const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')];
     this._focusIndex = index;
     if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
     this._focusedOption = optionElements[this._focusIndex];
@@ -339,8 +401,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   focusNext() {
-    if (!this.panel.isOpen()) return;
-    const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
+    const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')];
     if (this._focusIndex === undefined) {
       const index = optionElements.findIndex(el => el.classList.contains('mdw-focused'));
       if (index >= 0) this._focusedOption = optionElements[index];
@@ -353,8 +414,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   focusPrevious() {
-    if (!this.panel.isOpen()) return;
-    const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
+    const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')];
     if (this._focusIndex === undefined) this._focusIndex = 0;
     else this._focusIndex -= 1;
     if (this._focusIndex <= 0) this._focusIndex = 0;
@@ -364,10 +424,29 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   selectFocused() {
-    if (!this.panel.isOpen()) return;
-    const optionElements = [...this.panel.querySelectorAll('mdw-list-item')];
+    const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')];
     if (this._focusIndex == undefined || this._focusIndex > optionElements.length - 1) this._focusIndex = 0;
     this.onPanelClick({ target: optionElements[this._focusIndex] });
+  }
+
+
+
+  template() {
+    return `
+      <i class="mdw-select__icon"></i>
+      ${!this.isEnhanced ? '<slot></slot>' : `
+        <div class="mdw-select__selected-text">${this._selected.text}</div>
+      `}
+      <label>${this._labelText}</label>
+      ${this.outlined ? '' : '<div class="mdw-line-ripple"></div>'}
+      ${!this.outlined ? '' : `
+        <div class="mdw-outlined-border-container">
+          <div class="mdw-outlined-leading"></div>
+          <div class="mdw-outlined-notch"></div>
+          <div class="mdw-outlined-trailing"></div>
+        </div>
+      `}
+    `;
   }
 
   styles() {

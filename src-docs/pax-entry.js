@@ -1,6 +1,6 @@
 import './components/anchor-link.js';
 import './components/monaco-editor.js';
-import './../build/pax-templates.js';
+false
 
 import { router } from '@webformula/pax-core';
 import TopAppBar from './pages/components/app-bar-top.js';

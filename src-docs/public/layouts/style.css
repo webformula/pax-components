@@ -42,3 +42,8 @@ mdw-scroll-content {
   width: 100%;
   overflow: auto;
 }
+
+
+mdw-side-sheet.sideSheet {
+  --mdw-theme-sheet-width: 180px;
+}

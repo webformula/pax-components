@@ -72,8 +72,8 @@ export default class Panel extends Page {
       <article class="page-article">
         <h3>Panel</h3>
 
-        <div mdw-row>
-          <div mdw-flex=".33" mdw-column>
+        <mdw-row>
+          <mdw-column class="mdw-flex-033">
             <mdw-select class="mdw-padding" mdw-enhanced>
               <select onchange="activePage.setDemoPanelPositionY(this.value)">
                 <option value="top">top</option>
@@ -103,9 +103,9 @@ export default class Panel extends Page {
               </select>
               <label>State</label>
             </mdw-select>
-          </div>
+          </mdw-column>
 
-          <div mdw-flex=".66">
+          <div class="mdw-flex-066">
             <div class="showcase mdw-elevation-1">
               <div class="container mdw-panel--container">
                 <mdw-panel id="demoPanel" mdw-position="inner-top inner-left" class="mdw-open">
@@ -116,7 +116,7 @@ export default class Panel extends Page {
               </div>
             </div>
           </div>
-        </div>
+        </mdw-row>
 
 
         <div class="links">

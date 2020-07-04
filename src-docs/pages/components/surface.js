@@ -141,14 +141,14 @@ export default class Surface extends Page {
               function openPanel(target) {
                 MDWSurface.open({
                   component: 'panel',
-                  target,
                   template: this.basicTemplate,
                   
                   // default animation config for panel
                   animation: {
                     type: 'height',
                     origin: 'center',
-                    fullscreen: true
+                    fullscreen: true,
+                    target
                   },
                 });
               }
@@ -223,7 +223,7 @@ export default class Surface extends Page {
 
               function openUsingDefaults(target) {
                 MDWSurface.open({
-                  target,
+                  animationTarget: target,
                   template: this.basicTemplate
                 });
               }
@@ -251,7 +251,7 @@ export default class Surface extends Page {
                 MDWSurface.open({
                   mobileComponent: 'sheetBottom',
                   desktopComponent: 'sheetSide',
-                  target,
+                  animationTarget: target,
                   template: this.basicTemplate,
                 });
               }

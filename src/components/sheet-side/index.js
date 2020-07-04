@@ -35,6 +35,7 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     if (this._isNavigationDrawer) {
       window.addEventListener('hashchange', this.bound_routeChange);
       window.addEventListener('DOMContentLoaded', this.bound_routeChange);
+      document.body.style.setProperty('--mdw-navigation-drawer-width', `${this.getBoundingClientRect().width}px`);
     }
   }
 
