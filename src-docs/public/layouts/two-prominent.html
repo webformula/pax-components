@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="height: 100%">
 
 <head>
   <meta http-equiv="Cache-Control" content="no-store" />
@@ -20,7 +20,7 @@
         <div class="mdw-subtitle">Pages</div>
       </section>
     </mdw-header>
-  
+
     <mdw-content>
       <mdw-list>
         <mdw-list-item class="mdw-current-link">
@@ -59,27 +59,54 @@
     </mdw-content>
   </mdw-sheet-side>
 
-  <mdw-column>
+  <mdw-scroll-container>
     <!-- page header -->
-    <mdw-top-app-bar mdw-fixed>
+    <mdw-top-app-bar mdw-prominent mdw-shrink>
       <mdw-content>
-        <section>
-          <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
-        </section>
-    
         <section class="mdw-flex">
-          <span class="mdw-title">Example</span>
+          <sub-section>
+            <div mdw-not-contextual class="mdw-title" style="padding-left: 16px;" mdw-animation-property="transform: scale(#)"
+              mdw-animation-start="1.25" mdw-animation-end="0.75">contacts</div>
+          </sub-section>
+      
+          <sub-section>
+            <div mdw-contextual class="mdw-title" style="padding-left: 16px">
+              <!-- <mdw-bound-property>selectedIndexesLength</mdw-bound-property> -->
+              Selected
+            </div>
+      
+            <mdw-textfield mdw-not-contextual id="search"
+              class="mdw-shaped mdw-density-compact mdw-on-background mdw-focused mdw-flex">
+              <mdw-icon>search</mdw-icon>
+              <input placeholder="contacts" oninput="activePage.debounced_filter(this.value);" />
+              <mdw-icon class="post-icon" onclick="search.clear()">clear</mdw-icon>
+            </mdw-textfield>
+          </sub-section>
         </section>
     
-        <section>
-          <mdw-button class="mdw-on-primary" onclick="document.querySelector('#sideSheet').toggle()">toggle side sheet</mdw-button>
+        <section mdw-fixed>
+          <sub-section>
+            <mdw-button mdw-not-contextual class="mdw-icon">
+              <mdw-icon>create</mdw-icon>
+            </mdw-button>
+      
+            <mdw-button mdw-contextual class="mdw-icon">
+              <mdw-icon>delete</mdw-icon>
+            </mdw-button>
+      
+            <mdw-button mdw-contextual class="mdw-icon">
+              <mdw-icon>cancel</mdw-icon>
+            </mdw-button>
+          </sub-section>
         </section>
       </mdw-content>
     </mdw-top-app-bar>
 
+    <!--- page-body -->
     <mdw-row>
+
       <!-- page content -->
-      <mdw-scroll-container class="mdw-padding">
+      <div>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit,
           sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -107,10 +134,10 @@
           occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
           anim id est laborum.
         </p>
-      </mdw-scroll-container>
+      </div>
 
       <!-- side sheet -->
-      <mdw-sheet-side id="sideSheet" style="--mdw-theme-sheet-width: 200px" class="mdw-hide">
+      <mdw-sheet-side id="sideSheet" style="--mdw-theme-sheet-width: 200px">
         <mdw-header>
           <div class="mdw-title mdw-flex">Title</div>
           <mdw-button class="mdw-icon" onclick="sideSheet.close()">
@@ -142,6 +169,7 @@
         </mdw-content>
       </mdw-sheet-side>
     </mdw-row>
-  </mdw-column>
+  </mdw-scroll-container>
+</body>
 
 </html>

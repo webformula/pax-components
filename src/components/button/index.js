@@ -148,7 +148,11 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: 36px;
         min-width: 64px;
 
-        color: var(--mdw-theme-on-primary);
+        color: var(--mdw-theme-primary);
+      }
+
+      :host(.mdw-on-primary) {
+        color: var(--mdw-theme-text-primary-on-background);
       }
 
       :host-context(.mdw-density-comfortable),
@@ -288,6 +292,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: 48px;
         padding: 12px;
         line-height: 19px;
+        color: var(--mdw-theme-on-primary);
       }
       
       :host(.mdw-icon) span.text {

@@ -1,9 +1,9 @@
-
 import './components/anchor-link.js';
 import './components/monaco-editor.js';
 
 import { router } from '@webformula/pax-core';
-import TopAppBar from './pages/components/app-bar-top.js';
+import TopAppBarOld from './pages/components/app-bar-top-old.js';
+import TopAppBar from './pages/components/app-bar-top/page.js';
 import Autocomplete from './pages/components/autocomplete.js';
 import Backdrop from './pages/components/backdrop.js';
 import Banners from './pages/components/banners.js';
@@ -40,6 +40,7 @@ import PageLayout from './pages/documentation/page-layout/page.js';
 import ThemePage from './pages/documentation/theming/page.js';
 import Home from './pages/home.js';
 
+router.addPageClass(TopAppBarOld, 'components/app-bar-top-old');
 router.addPageClass(TopAppBar, 'components/app-bar-top');
 router.addPageClass(Autocomplete, 'components/autocomplete');
 router.addPageClass(Backdrop, 'components/backdrop');
@@ -69,12 +70,12 @@ router.addPageClass(Tabs, 'components/tabs');
 router.addPageClass(Templates, 'components/templates');
 router.addPageClass(Textfield, 'components/text-field');
 router.addPageClass(Browsers, 'documentation/browsers');
-router.addPageClass(Density, 'documentation/density/page');
+router.addPageClass(Density, 'documentation/density');
 router.addPageClass(Install, 'documentation/install');
-router.addPageClass(Layout, 'documentation/layout/page');
+router.addPageClass(Layout, 'documentation/layout');
 router.addPageClass(Mobile, 'documentation/mobile');
-router.addPageClass(PageLayout, 'documentation/page-layout/page');
-router.addPageClass(ThemePage, 'documentation/theming/page');
+router.addPageClass(PageLayout, 'documentation/page-layout');
+router.addPageClass(ThemePage, 'documentation/theming');
 router.addPageClass(Home, 'home');
 router.setRoot('home');
 router.init();
@@ -82,5 +83,4 @@ window.router = router;
 
 export {
   router
-}
-  
+};

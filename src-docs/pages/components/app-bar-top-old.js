@@ -1,6 +1,6 @@
 import { Page } from '/web_modules/@webformula/pax-core/index.js';
 
-export default class TopAppBar extends Page {
+export default class TopAppBarOld extends Page {
   constructor() {
     super();
 
