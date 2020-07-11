@@ -72,38 +72,6 @@ export default class SheetsSide extends Page {
     </mdw-content>
   </mdw-sheet-side>
 </body>`;
-
-
-    document.querySelector('#editor-3').content = `
-<body>
-  <mdw-page>
-    <mdw-top-app-bar>
-      <section mdw-flex>
-        <span class="mdw-title">Example</span>
-      </section>
-      <section>
-        <mdw-icon onclick="document.querySelector('mdw-sheet-side').toggle()">menu</mdw-icon>
-      </section>
-    </mdw-top-app-bar>
-
-    <mdw-page-content>
-      ...content
-    </mdw-page-content>
-  </mdw-page>
-
-  <mdw-sheet-side mdw-scroll id="sideSheet">
-    <mdw-header>
-      <div class="mdw-title mdw-flex">Title</div>
-      <mdw-button class="mdw-icon" onclick="sideSheet.hide()"">
-        <mdw-icon>close</mdw-icon>
-      </mdw-button>
-    </mdw-header>
-    <mdw-content>
-      ...content
-    </mdw-content>
-  </mdw-sheet-side>
-</body>
-    `;
   }
 
   handleNavLClick(listItem) {
