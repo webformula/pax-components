@@ -10,18 +10,20 @@
   <link rel="stylesheet" href="main.css">
 </head>
 
-<body>
-  <mdw-page>
-    <mdw-top-app-bar>
-      <section mdw-flex>
-        <span class="mdw-title">Example</span>
-      </section>
-      <section>
-        <mdw-icon onclick="document.querySelector('mdw-sheet-side').toggle()">menu</mdw-icon>
-      </section>
+<body class="mdw-row">
+  <mdw-scroll-container>
+    <mdw-top-app-bar mdw-fixed>
+      <mdw-content>
+        <section class="mdw-flex">
+          <span class="mdw-title">Example</span>
+        </section>
+        <section>
+          <mdw-icon onclick="document.querySelector('mdw-sheet-side').toggle()">menu</mdw-icon>
+        </section>
+      </mdw-content>
     </mdw-top-app-bar>
 
-    <mdw-page-content>
+    <div>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -49,13 +51,13 @@
         occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
         anim id est laborum.
       </p>
-    </mdw-page-content>
-  </mdw-page>
+    </div>
+  </mdw-scroll-container>
 
-  <mdw-sheet-side mdw-modal id="sideSheet">
+  <mdw-sheet-side id="sideSheet">
     <mdw-header>
-      <div class="mdw-title" mdw-flex>Title</div>
-      <mdw-button class="mdw-icon" onclick="sideSheet.close()"">
+      <div class="mdw-title mdw-flex">Title</div>
+      <mdw-button class="mdw-icon" onclick="sideSheet.close()">
         <mdw-icon>close</mdw-icon>
       </mdw-button>
     </mdw-header>

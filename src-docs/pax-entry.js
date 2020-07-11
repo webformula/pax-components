@@ -2,7 +2,6 @@ import './components/anchor-link.js';
 import './components/monaco-editor.js';
 
 import { router } from '@webformula/pax-core';
-import TopAppBarOld from './pages/components/app-bar-top-old.js';
 import TopAppBar from './pages/components/app-bar-top/page.js';
 import Autocomplete from './pages/components/autocomplete.js';
 import Backdrop from './pages/components/backdrop.js';
@@ -23,7 +22,7 @@ import LinearProgress from './pages/components/progress-linear.js';
 import Radio from './pages/components/radio.js';
 import Select from './pages/components/select.js';
 import SheetsBottom from './pages/components/sheet-bottom.js';
-import SheetsSide from './pages/components/sheet-side.js';
+import SheetsSide from './pages/components/sheet-side/page.js';
 import Slider from './pages/components/slider.js';
 import Snackbar from './pages/components/snackbar.js';
 import Surface from './pages/components/surface.js';
@@ -40,7 +39,6 @@ import PageLayout from './pages/documentation/page-layout/page.js';
 import ThemePage from './pages/documentation/theming/page.js';
 import Home from './pages/home.js';
 
-router.addPageClass(TopAppBarOld, 'components/app-bar-top-old');
 router.addPageClass(TopAppBar, 'components/app-bar-top');
 router.addPageClass(Autocomplete, 'components/autocomplete');
 router.addPageClass(Backdrop, 'components/backdrop');
