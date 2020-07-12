@@ -40,7 +40,8 @@ mdw-panel.mdw-no-animation {
 }
 
 mdw-panel.mdw-open {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   opacity: 1;
   transform: scale(1);
 }

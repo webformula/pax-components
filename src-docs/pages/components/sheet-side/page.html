@@ -1,0 +1,62 @@
+<article class="page-article">
+  <h3>Sheets: side</h3>
+
+  <a href="https://material.io/components/sheets-side" target="_new">Material Design Guidelines: sheets side</a>
+  <p>Side sheets that are modal on mobile, due to limited screen width, can become standard side sheets on tablet and
+    desktop. The reverse is also true.</p>
+
+  <div class="links">
+    <div class="eyebrow">contents</div>
+    <anchor-link selector="#standard" offset="64">Standard</anchor-link>
+    <anchor-link selector="#modal" offset="64">Modal</anchor-link>
+  </div>
+
+
+  <section id="types">
+    <h4>Types</h4>
+
+    <mdw-card id="standard">
+      <div class="mdw-card__content">
+        <h6>Standard</h6>
+      </div>
+
+      <div class="mdw-card__content--no-padding">
+        <monaco-editor language="css">
+          // globally change all sidebar widths
+          body {
+          --mdw-theme-sheet-width: 400px;
+          }
+
+          // change sidebar width using a class
+          .my-custom-sidebar-width {
+          --mdw-theme-sheet-width: 400px;
+          }
+        </monaco-editor>
+        <monaco-editor id="editor-1" language="html"></monaco-editor>
+      </div>
+
+      <div class="mdw-card__content" style="display: block;">
+        <div class="demo">
+          <iframe style="width: 100%; height: 250px; border: 1px solid #ddd" src="side-sheet/standard.html"></iframe>
+        </div>
+      </div>
+    </mdw-card>
+
+    <mdw-card id="modal">
+      <div class="mdw-card__content">
+        <h6>Modal</h6>
+        <p>You can add <b>mdw-sheet-side[mdw-modal]</b> attribute to make the side sheet a modal. Modal is automatically turned on for mobile</p>
+      </div>
+
+      <div class="mdw-card__content--no-padding">
+        <monaco-editor language="html" id="editor-2"></monaco-editor>
+      </div>
+
+      <div class="mdw-card__content" style="display: block;">
+        <div class="demo">
+          <iframe style="width: 100%; height: 250px; border: 1px solid #ddd" src="side-sheet/modal.html"></iframe>
+        </div>
+      </div>
+    </mdw-card>
+  </section>
+</article>

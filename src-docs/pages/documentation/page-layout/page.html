@@ -5,57 +5,44 @@
 
   <div class="links">
     <div class="eyebrow">contents</div>
-    <anchor-link selector="#one" offset="64">Layout 1</anchor-link>
-    <anchor-link selector="#two" offset="64">Layout 2</anchor-link>
-    <anchor-link selector="#three" offset="64">Layout 3</anchor-link>
-    <anchor-link selector="#four" offset="64">Layout 4</anchor-link>
+    <anchor-link selector="#one" offset="64">Layout A</anchor-link>
+    <anchor-link selector="#two" offset="64">Layout B</anchor-link>
+    <anchor-link selector="#three" offset="64">Layout C</anchor-link>
   </div>
 
   <mdw-row mdw-flex-position="space-around" class="mdw-flex-wrap">
-    <div class="mdw-flex">
-      <h6>One</h6>
-      <div style="margin-top: -40px; margin-bottom: 20px; height: 38px">Top bar covers the entire length of the screen</div>
-      <img src="./layouts/one.png" width="320" height="250" class="mdw-flex-wrap"/>
+    <div class="mdw-flex" style="flex-grow: 0;">
+      <h6>A</h6>
+      <div style="margin-top: -40px; margin-bottom: 20px; height: 38px">Navigation covers the full height of the view. The top bar is on top of the page content and the side sheet</div>
+      <img src="./layouts/two.png" width="320" height="254" class="mdw-flex-wrap"/>
     </div>
-    <div class="mdw-flex">
-      <h6>Two</h6>
-      <div style="margin-top: -40px; margin-bottom: 20px; height: 38px">Navigation covers the full height of the view. The top bar covers the rest</div>
-      <img src="./layouts/two.png" width="320" height="250" class="mdw-flex-wrap"/>
+    <div class="mdw-flex" style="flex-grow: 0;">
+      <h6>B</h6>
+      <div style="margin-top: -40px; margin-bottom: 20px; height: 38px">Navigation is a modal. The top bar is on top of the
+        page content and the side sheet</div>
+      <img src="./layouts/one.png" width="320" height="254" class="mdw-flex-wrap" />
     </div>
   </mdw-row>
   <mdw-row mdw-flex-position="space-around" class="mdw-flex-wrap">
-    <div class="mdw-flex">
-      <h6>Three</h6>
-      <div style="margin-top: -40px; margin-bottom: 20px; height: 38px">Side sheet covers the full height of the view. The top bar covers the rest</div>
-      <img src="./layouts/three.png" width="320" height="250" />
+    <div class="mdw-flex" style="flex-grow: 0;">
+      <h6>C</h6>
+      <div style="margin-top: -40px; margin-bottom: 20px; height: 38px">Navigation and side sheet are modals</div>
+      <img src="./layouts/three.png" width="320" height="254" />
     </div>
-    <div class="mdw-flex">
-      <h6>Four</h6>
-      <div style="margin-top: -40px; margin-bottom: 20px; height: 38px">The navigation and the side sheet cover the full height of the view. The top bar only covers the page content</div>
-      <img src="./layouts/four.png" width="320" height="250" />
+
+    <div class="mdw-flex" style="flex-grow: 0;">
+      <h6>Mobile</h6>
+      <div style="margin-top: -40px; margin-bottom: 20px; height: 38px">All the above layouts will convert to the same
+        mobile layout</div>
+      <img src="./layouts/mobile.png" width="320" height="254" />
     </div>
   </mdw-row>
 
   <section>
-    <mdw-card id="one">
-      <div class="mdw-card__content">
-        <h6>One</h6>
-        <p>Top bar covers the entire length of the screen</p>
-      </div>
-
-      <div class="mdw-card__content--no-padding">
-        <monaco-editor id="editor-1" language="html"></monaco-editor>
-      </div>
-      
-      <div class="mdw-card__content">
-        <iframe style="width: 100%; height: 400px; border: 1px solid #ddd" src="/layouts/one.html"></iframe>
-      </div>
-    </mdw-card>
-
     <mdw-card id="two">
       <div class="mdw-card__content">
-        <h6>Two</h6>
-        <p>Navigation covers the full height of the view. The top bar covers the rest</p>
+        <h6>A</h6>
+        <p>Navigation covers the full height of the view. The top bar is on top of the page content and the side sheet</p>
       </div>
     
       <div class="mdw-card__content--no-padding">
@@ -67,10 +54,25 @@
       </div>
     </mdw-card>
 
+    <mdw-card id="one">
+      <div class="mdw-card__content">
+        <h6>B</h6>
+        <p>Navigation is a modal. The top bar is on top of the page content and the side sheet</p>
+      </div>
+    
+      <div class="mdw-card__content--no-padding">
+        <monaco-editor id="editor-1" language="html"></monaco-editor>
+      </div>
+    
+      <div class="mdw-card__content">
+        <iframe style="width: 100%; height: 400px; border: 1px solid #ddd" src="/layouts/one.html"></iframe>
+      </div>
+    </mdw-card>
+
     <mdw-card id="three">
       <div class="mdw-card__content">
-        <h6>Three</h6>
-        <p>Side sheet covers the full height of the view. The top bar covers the rest</p>
+        <h6>C</h6>
+        <p>Navigation and side sheet are modals</p>
       </div>
     
       <div class="mdw-card__content--no-padding">
@@ -79,21 +81,6 @@
     
       <div class="mdw-card__content">
         <iframe style="width: 100%; height: 400px; border: 1px solid #ddd" src="/layouts/three.html"></iframe>
-      </div>
-    </mdw-card>
-
-    <mdw-card id="four">
-      <div class="mdw-card__content">
-        <h6>Four</h6>
-        <p>The navigation and the side sheet cover the full height of the view. The top bar only covers the page content</p>
-      </div>
-    
-      <div class="mdw-card__content--no-padding">
-        <monaco-editor id="editor-4" language="html"></monaco-editor>
-      </div>
-    
-      <div class="mdw-card__content">
-        <iframe style="width: 100%; height: 400px; border: 1px solid #ddd" src="/layouts/four.html"></iframe>
       </div>
     </mdw-card>
   </section>

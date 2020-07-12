@@ -1,27 +1,29 @@
 //--- scrolling containers used for main page layout ---
 
 mdw-scroll-container {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  overflow-y: hidden;
-  width: 100%;
+  display: block;
+  box-sizing: border-box;
   height: 100%;
+  overflow: auto;
 
-  mdw-scroll-content {
-    display: block;
-    box-sizing: border-box;
-    height: 100%;
+  &.mdw-padding {
     padding: 0 40px;
-    width: 100%;
-    overflow: auto;
-
-    &.mdw-no-padding {
-      padding: 0;
-    }
   }
 }
 
+mdw-header {
+  min-height: 64px;
+}
+
+body.mdw-is-mobile mdw-header {
+  min-height: 56px;
+}
+
+body:not(.mdw-is-mobile) mdw-header {
+  &.mdw-dense {
+    height: 48px;
+  }
+}
 
 //--- flex proxy elements and attributes. This is for convenience ---
 

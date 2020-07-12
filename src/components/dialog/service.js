@@ -1,16 +1,26 @@
 import MDWUtils from '../../core/Utils.js';
+import MDWTemplate from '../templates/service.js';
 
 const MDWDialog = new class {
   constructor() {
     this.currentDialog = null;
   }
 
-  open({ title, message, okLabel, cancelLabel, position = 'center center', clickOutsideClose = false }) {
-    return new Promise(resolve => {
+  async open({ title, message, okLabel, cancelLabel, template, position = 'center center', clickOutsideClose = false }) {
+    return new Promise(async resolve => {
       const id = MDWUtils.uid('dialog');
-      const template = this.template({ id, title, message, okLabel, cancelLabel, position });
-
-      document.body.insertAdjacentHTML('beforeend', template);
+      
+      let templateString;
+      if (template) {
+        if (title !== undefined || message !== undefined || okLabel !== undefined || cancelLabel !== undefined) {
+          console.warn('Cannot use "title", "message", "okLabel", or cancelLabel when using "template');
+        }
+        templateString = this.templateWrapper({ id, position, template: MDWTemplate.isString(template) ? template : await MDWTemplate.get(template) });
+      } else {
+        templateString = this.template({ id, title, message, okLabel, cancelLabel, position });
+      }
+      
+      document.body.insertAdjacentHTML('beforeend', templateString);
       const el = document.querySelector(`#${id}`);
       const onclose = (e) => {
         resolve(e.detail.ok);
@@ -28,7 +38,7 @@ const MDWDialog = new class {
     });
   }
 
-  removeCurrent() {
+  close() {
     this.currentDialog.close();
   }
 
@@ -36,14 +46,28 @@ const MDWDialog = new class {
     return `
       <mdw-dialog id="${id}">
         <mdw-panel mdw-position="${position}">
-          <mdw-dialog-container>
-            ${!!title ? `<mdw-dialog-title>${title}</mdw-dialog-title>` : ''}
-            <mdw-dialog-content>${message}</mdw-dialog-content>
-            <mdw-dialog-actions>
-              ${!!cancelLabel ? `<mdw-button class="mdw-error" onclick="${id}.close(false)">${cancelLabel}</mdw-button>` : ''}
-              ${!!okLabel ? `<mdw-button onclick="${id}.close(true)">${okLabel}</mdw-button>` : ''}
-            </mdw-dialog-actions>
-          </mdw-dialog-container>
+          <mdw-header>
+            ${!!title ? `<div class="mdw-title">${title}</div>` : ''}
+          </mdw-header>
+
+          <mdw-content>
+            ${message}
+          </mdw-content>
+
+          <mdw-footer>
+            ${!!cancelLabel ? `<mdw-button onclick="${id}.close(false)">${cancelLabel}</mdw-button>` : ''}
+            ${!!okLabel ? `<mdw-button onclick="${id}.close(true)">${okLabel}</mdw-button>` : ''}
+          </mdw-footer>
+        </mdw-panel>
+      </mdw-dialog>
+    `;
+  }
+
+  templateWrapper({ id, template, position }) {
+    return `
+      <mdw-dialog id="${id}">
+        <mdw-panel mdw-position="${position}">
+          ${template}
         </mdw-panel>
       </mdw-dialog>
     `;

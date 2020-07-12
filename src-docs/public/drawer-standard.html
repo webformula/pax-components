@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="main.css">
 </head>
 
-  <body>
+  <body class="mdw-row">
     <mdw-sheet-side class="mdw-navigation-drawer">
       <mdw-header>
         <section>
@@ -55,17 +55,19 @@
       </mdw-content>
     </mdw-sheet-side>
 
-    <mdw-page>
-      <mdw-top-app-bar>
-        <section>
-          <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
-        </section>
-        <section>
-          <span class="mdw-title">Example</span>
-        </section>
+    <mdw-scroll-container>
+      <mdw-top-app-bar mdw-fixed>
+        <mdw-content>
+          <section>
+            <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
+          </section>
+          <section>
+            <span class="mdw-title">Example</span>
+          </section>
+        </mdw-content>
       </mdw-top-app-bar>
 
-      <mdw-page-content>
+      <div>
         <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
   sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -93,7 +95,7 @@
   occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
   anim id est laborum.
         </p>
-      </mdw-page-content>
-    </mdw-page>
+      </div>
+    </mdw-scroll-container>
   </body>
 </html>

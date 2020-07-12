@@ -1,58 +1,31 @@
-// fix width for top app bar based on navigation
-// this is needed for fixed positioning of the top app bar
+body.mdw-has-top-app-bar > mdw-row {
+  height: calc(100% - 64px);
+}
 
-body.mdw-has-navigation-rail:not(.mdw-navigation-drawer-open) {
-  mdw-top-app-bar {
-    &[mdw-fixed],
-    &[mdw-shrink] {
-      width: calc(100% - 72px);
+body.mdw-has-top-app-bar > mdw-column > mdw-row {
+  height: calc(100% - 64px);
+}
+
+body.mdw-is-mobile mdw-top-app-bar {
+  height: 56px;
+
+  &> mdw-content {
+    height: 56px;
+  }
+}
+
+body:not(.mdw-is-mobile) mdw-top-app-bar {
+  height: 56px;
+
+  &.mdw-dense:not([mdw-prominent]) {
+    height: 48px;
+
+    &> mdw-content {
+      height: 48px;
     }
   }
 }
 
-body.mdw-navigation-drawer-open {
-  mdw-top-app-bar {
-    &[mdw-fixed],
-    &[mdw-shrink] {
-      width: calc(100% - var(--mdw-navigation-drawer-width));
-    }
-  }
-}
-
-mdw-top-app-bar + mdw-scroll-container {
- height: calc(100% - 64px); 
-}
-
-mdw-top-app-bar.mdw-prominent + mdw-scroll-container {
- height: calc(100% - 128px); 
-}
-
-header:not(.mdw-hide-non-page-container) {
-  &.mdw-top-app-bar {
-    position: relative;
-
-    &.mdw-prominent {
-      &.mdw-fixed,
-      &.mdw-shrink {
-        & + mdw-scroll-container mdw-scroll-content::before {
-          content: '';
-          display: block;
-          height: 128px;
-        }
-      }
-    }
-
-    &:not(.mdw-prominent) {
-      &.mdw-fixed {
-        & + mdw-scroll-container mdw-scroll-content::before {
-          content: '';
-          display: block;
-          height: 64px;
-        }
-      }
-    }
-  }
-}
 
 mdw-top-app-bar {
   display: flex;
@@ -60,51 +33,80 @@ mdw-top-app-bar {
   width: 100%;
   height: 64px;
   z-index: 9;
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
-              0 4px 5px 0 rgba(0,0,0,.14),
-              0 1px 10px 0 rgba(0,0,0,.12);
 
-  transition: background-color 120ms linear;
-  background-color: var(--mdw-theme-primary);
-  color: var(--mdw-theme-text-primary-on-background);
-
-
-  &[mdw-shrink],
-  &[mdw-fixed] {
-    position: fixed;
-
-    & + mdw-content::before,
-    & + mdw-scroll-container mdw-scroll-content::before {
-      content: '';
-      display: block;
-      height: 64px;
-    }
-
-    &[mdw-prominent] {
-      & + mdw-content::before,
-      & + mdw-scroll-container mdw-scroll-content::before {
-        content: '';
-        display: block;
-        height: 128px;
-      }
+  &[mdw-fixed],
+  &[mdw-shrink] {
+    &> mdw-content {
+      position: fixed;
     }
   }
 
   &[mdw-prominent] {
     height: 128px;
 
-    &[mdw-shrink] {
-      position: fixed;
+    &> mdw-content {
+      height: 128px;
+
+      section {
+        flex-direction: column;
+        align-items: unset;
+        padding: 0;
+      }
+    }
+  }
+
+  &.mdw-scrolled {
+    &> mdw-content {
+      box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
+                0 4px 5px 0 rgba(0,0,0,.14),
+                0 1px 10px 0 rgba(0,0,0,.12);
     }
   }
 
 
+  &[mdw-contextual] {
+
+    &> mdw-content {
+      // TODO figure otu what color this should be
+      background-color: #333333;
+    }
+
+    [mdw-not-contextual] {
+      display: none;
+    }
+  }
+
+  &:not([mdw-contextual]) {
+    [mdw-contextual] {
+      display: none;
+    }
+  }
+}
+
+mdw-top-app-bar > mdw-content {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  height: 64px;
+  z-index: 9;
+
+  transition: background-color 120ms linear;
+  background-color: var(--mdw-theme-primary);
+  color: var(--mdw-theme-text-primary-on-background);
+
   section {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16px;
 
     &> mdw-button.mdw-icon {
       color: var(--mdw-theme-text-primary-on-background);
+    }
+
+    &> mdw-textfield {
+      margin: 0;
+      margin-top: 4px;
     }
 
     sub-section {
@@ -124,26 +126,6 @@ mdw-top-app-bar {
     }
   }
 
-  &:not([mdw-prominent]) {
-    section {
-      display: flex;
-      flex-direction: row;
-      height: 64px;
-      align-items: center;
-      padding: 0 16px;
-
-      &> mdw-button.mdw-icon {
-        color: var(--mdw-theme-text-primary-on-background);
-      }
-
-      &> mdw-textfield {
-        margin: 0;
-        margin-top: 4px;
-      }
-    }
-  }
-
-
   .mdw-title {
     font-weight: 500;
     font-size: 1.25rem;
@@ -152,20 +134,120 @@ mdw-top-app-bar {
     text-decoration: inherit;
     text-transform: inherit;
   }
-
-
-  &[mdw-contextual] {
-    // TODO figure otu what color this should be
-    background-color: #333333;
-
-    [mdw-not-contextual] {
-      display: none;
-    }
-  }
-
-  &:not([mdw-contextual]) {
-    [mdw-contextual] {
-      display: none;
-    }
-  }
 }
+
+// mdw-top-app-bar,
+// mdw-top-app-bar > mdw-content {
+//   display: flex;
+//   box-sizing: border-box;
+//   width: 100%;
+//   height: 64px;
+//   z-index: 9;
+//   box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
+//               0 4px 5px 0 rgba(0,0,0,.14),
+//               0 1px 10px 0 rgba(0,0,0,.12);
+
+//   transition: background-color 120ms linear;
+//   background-color: var(--mdw-theme-primary);
+//   color: var(--mdw-theme-text-primary-on-background);
+
+//   // &[mdw-fixed],
+//   // &[mdw-shrink] {
+//   //   position: fixed;
+
+//   //   & + mdw-content::before,
+//   //   & + mdw-scroll-container mdw-scroll-content::before {
+//   //     content: '';
+//   //     display: block;
+//   //     height: 64px;
+//   //   }
+
+//   //   &[mdw-prominent] {
+//   //     & + mdw-content::before,
+//   //     & + mdw-scroll-container mdw-scroll-content::before {
+//   //       content: '';
+//   //       display: block;
+//   //       height: 128px;
+//   //     }
+//   //   }
+//   // }
+
+//   &[mdw-prominent] {
+//     height: 128px;
+
+//     // &[mdw-shrink] {
+//     //   position: fixed;
+//     // }
+//   }
+
+
+//   section {
+//     display: flex;
+//     flex-direction: column;
+
+//     &> mdw-button.mdw-icon {
+//       color: var(--mdw-theme-text-primary-on-background);
+//     }
+
+//     sub-section {
+//       display: flex;
+//       height: 64px;
+//       align-items: center;
+//       padding: 0 16px;
+
+//       &> mdw-button.mdw-icon {
+//         color: var(--mdw-theme-text-primary-on-background);
+//       }
+
+//       &> mdw-textfield {
+//         margin: 0;
+//         margin-top: 4px;
+//       }
+//     }
+//   }
+
+//   &:not([mdw-prominent]) {
+//     section {
+//       display: flex;
+//       flex-direction: row;
+//       height: 64px;
+//       align-items: center;
+//       padding: 0 16px;
+
+//       &> mdw-button.mdw-icon {
+//         color: var(--mdw-theme-text-primary-on-background);
+//       }
+
+//       &> mdw-textfield {
+//         margin: 0;
+//         margin-top: 4px;
+//       }
+//     }
+//   }
+
+
+//   .mdw-title {
+//     font-weight: 500;
+//     font-size: 1.25rem;
+//     line-height: 2rem;
+//     letter-spacing: .0125em;
+//     text-decoration: inherit;
+//     text-transform: inherit;
+//   }
+
+
+//   &[mdw-contextual] {
+//     // TODO figure otu what color this should be
+//     background-color: #333333;
+
+//     [mdw-not-contextual] {
+//       display: none;
+//     }
+//   }
+
+//   &:not([mdw-contextual]) {
+//     [mdw-contextual] {
+//       display: none;
+//     }
+//   }
+// }

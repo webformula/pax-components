@@ -17,6 +17,8 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       element: this.shadowRoot.querySelector('.mdw-ripple'),
       triggerElement: this
     });
+
+    this.connectFormDisable();
   }
 
   disconnectedCallback() {
@@ -24,6 +26,8 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this.removeEventListener('click', this.bound_asyncClick);
     this.removeEventListener('click', this.bound_hrefClick);
     window.removeEventListener('hashchange', this.bound_checkHREFActive);
+
+    if (this._formValidityInterval) clearInterval(this._formValidityInterval);
   }
 
   get spinnerContainer() {
@@ -81,6 +85,21 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     else this.removeAttribute('active');
   }
 
+  connectFormDisable() {
+    const formId = this.getAttribute('mdw-form-disable');
+    if (!formId) return;
+
+    const formElement = document.querySelector(`#${formId}`);
+    if (!formElement) return;
+
+    if (!formElement.checkValidity()) this.setAttribute('disabled', 'disabled');
+    else this.removeAttribute('disabled');
+    this._formValidityInterval = setInterval(() => {
+      if (!formElement.checkValidity()) this.setAttribute('disabled', 'disabled');
+      else this.removeAttribute('disabled');
+    }, 200);
+  }
+
   hrefClick() {
     // open in new tab / window
     if (this.getAttribute('target') === '_blank') {
@@ -129,7 +148,11 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: 36px;
         min-width: 64px;
 
-        color: var(--mdw-theme-on-primary);
+        color: var(--mdw-theme-primary);
+      }
+
+      :host(.mdw-on-primary) {
+        color: var(--mdw-theme-text-primary-on-background);
       }
 
       :host-context(.mdw-density-comfortable),
@@ -202,7 +225,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
       :host([disabled]) {
         background-color: transparent !important;
         color: var(--mdw-theme-text-disabled-on-background);
-        cursor: default;
+        cursor: not-allowed;
         pointer-events: none;
       }
       :host::-moz-focus-inner {
@@ -269,6 +292,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
         height: 48px;
         padding: 12px;
         line-height: 19px;
+        color: var(--mdw-theme-on-primary);
       }
       
       :host(.mdw-icon) span.text {

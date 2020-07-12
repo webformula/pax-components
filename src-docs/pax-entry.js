@@ -1,9 +1,8 @@
-
 import './components/anchor-link.js';
 import './components/monaco-editor.js';
 
 import { router } from '@webformula/pax-core';
-import TopAppBar from './pages/components/app-bar-top.js';
+import TopAppBar from './pages/components/app-bar-top/page.js';
 import Autocomplete from './pages/components/autocomplete.js';
 import Backdrop from './pages/components/backdrop.js';
 import Banners from './pages/components/banners.js';
@@ -16,17 +15,17 @@ import FAB from './pages/components/fab.js';
 import List from './pages/components/lists.js';
 import Menu from './pages/components/menu.js';
 import Drawers from './pages/components/navigation-drawers.js';
-import NavigationRail from './pages/components/navigation-rail.js';
+import NavigationRail from './pages/components/navigation-rail/page.js';
 import Panel from './pages/components/panel.js';
 import CircularProgress from './pages/components/progress-circular.js';
 import LinearProgress from './pages/components/progress-linear.js';
 import Radio from './pages/components/radio.js';
 import Select from './pages/components/select.js';
 import SheetsBottom from './pages/components/sheet-bottom.js';
-import SheetsSide from './pages/components/sheet-side.js';
+import SheetsSide from './pages/components/sheet-side/page.js';
 import Slider from './pages/components/slider.js';
 import Snackbar from './pages/components/snackbar.js';
-import Surface from './pages/components/surface.js';
+import Surface from './pages/components/surface/page.js';
 import Switch from './pages/components/switch.js';
 import Tabs from './pages/components/tabs.js';
 import Templates from './pages/components/templates.js';
@@ -69,12 +68,12 @@ router.addPageClass(Tabs, 'components/tabs');
 router.addPageClass(Templates, 'components/templates');
 router.addPageClass(Textfield, 'components/text-field');
 router.addPageClass(Browsers, 'documentation/browsers');
-router.addPageClass(Density, 'documentation/density/page');
+router.addPageClass(Density, 'documentation/density');
 router.addPageClass(Install, 'documentation/install');
-router.addPageClass(Layout, 'documentation/layout/page');
+router.addPageClass(Layout, 'documentation/layout');
 router.addPageClass(Mobile, 'documentation/mobile');
-router.addPageClass(PageLayout, 'documentation/page-layout/page');
-router.addPageClass(ThemePage, 'documentation/theming/page');
+router.addPageClass(PageLayout, 'documentation/page-layout');
+router.addPageClass(ThemePage, 'documentation/theming');
 router.addPageClass(Home, 'home');
 router.setRoot('home');
 router.init();
@@ -82,5 +81,4 @@ window.router = router;
 
 export {
   router
-}
-  
+};

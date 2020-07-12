@@ -7,171 +7,113 @@ export default class PageLayout extends Page {
 
   connectedCallback() {
     document.querySelector('#editor-1').content = `
+<!doctype html>
+<html lang="en">
+
 <head>
-  <title></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/theme.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/entry.css">
-  <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/entry.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-  <script src="app-entry.js"></script>
+  ...
 </head>
 
 <body>
   <!-- page header -->
-  <mdw-top-app-bar>
-  ...
+  <mdw-top-app-bar mdw-fixed>
+    ...
   </mdw-top-app-bar>
 
   <!--- page-body -->
-  <mdw-scroll-container>
+  <mdw-row>
 
     <!-- navigation -->
-    <mdw-sheet-side class="mdw-navigation-drawer">
-    ...
+    <mdw-sheet-side class="mdw-navigation-drawer" mdw-modal>
+      ...
     </mdw-sheet-side>
 
     <!-- page content -->
-    <mdw-scroll-content>
-    ...
-    </mdw-scroll-content>
+    <mdw-scroll-container class="mdw-padding">
+      ...
+    </mdw-scroll-container>
 
     <!-- side sheet -->
-    <mdw-sheet-side id="sideSheet">
-    ...
+    <mdw-sheet-side style="--mdw-theme-sheet-width: 200px">
+      ...
     </mdw-sheet-side>
-
-  </mdw-scroll-container>
+  </mdw-row>
 </body>
+
+</html>
     `;
 
     document.querySelector('#editor-2').content = `
+<!doctype html>
+<html lang="en">
+
 <head>
-  <title></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/theme.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/entry.css">
-  <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/entry.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-  <script src="app-entry.js"></script>
+  ...
 </head>
+
 
 <body class="mdw-row">
   <!-- navigation -->
   <mdw-sheet-side class="mdw-navigation-drawer">
-  ...
+    ...
   </mdw-sheet-side>
 
   <mdw-column>
     <!-- page header -->
-    <mdw-top-app-bar>
-    ...
+    <mdw-top-app-bar mdw-fixed>
+      ...
     </mdw-top-app-bar>
 
-      <!--- page-body -->
-    <mdw-scroll-container>
-
+    <mdw-row>
       <!-- page content -->
-      <mdw-scroll-content>
-      ...
-      </mdw-scroll-content>
+      <mdw-scroll-container>
+        ...
+      </mdw-scroll-container>
 
       <!-- side sheet -->
-      <mdw-sheet-side id="sideSheet">
-      ...
+      <mdw-sheet-side style="--mdw-theme-sheet-width: 200px">
+        ...
       </mdw-sheet-side>
-
-    </mdw-scroll-container>
-    
+    </mdw-row>
   </mdw-column>
-</body>
+
+</html>
     `;
 
     document.querySelector('#editor-3').content = `
+<!doctype html>
+<html lang="en">
+
 <head>
-  <title></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/theme.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/entry.css">
-  <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/entry.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-  <script src="app-entry.js"></script>
-</head>
-
-<body class="mdw-row">
-  <mdw-column>
-    <!-- navigation -->
-    <mdw-sheet-side class="mdw-navigation-drawer">
-    ...
-    </mdw-sheet-side>
-
-    <!-- page header -->
-    <mdw-top-app-bar>
-    ...
-    </mdw-top-app-bar>
-
-      <!--- page-body -->
-    <mdw-scroll-container>
-
-      <!-- page content -->
-      <mdw-scroll-content>
-      ...
-      </mdw-scroll-content>
-
-    </mdw-scroll-container>
-    
-    <!-- side sheet -->
-    <mdw-sheet-side id="sideSheet">
-    ...
-    </mdw-sheet-side>
-  </mdw-column>
-</body>
-    `;
-
-    document.querySelector('#editor-4').content = `
-<head>
-  <title></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/theme.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/entry.css">
-  <script type="module" src="https://cdn.jsdelivr.net/gh/webformula/pax-components@_VERSION_/release/entry.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-  <script src="app-entry.js"></script>
+  ...
 </head>
 
 <body>
   <!-- page header -->
-  <mdw-top-app-bar>
-  ...
+  <mdw-top-app-bar mdw-fixed>
+    ...
   </mdw-top-app-bar>
 
   <!--- page-body -->
-  <mdw-scroll-container>
-
+  <mdw-row>
     <!-- navigation -->
-    <mdw-sheet-side class="mdw-navigation-drawer">
-    ...
+    <mdw-sheet-side class="mdw-navigation-drawer" mdw-modal>
+      ...
     </mdw-sheet-side>
 
     <!-- page content -->
-    <mdw-scroll-content>
-    ...
-    </mdw-scroll-content>
-  </mdw-scroll-container>
+    <mdw-scroll-container class="mdw-padding">
+      ...
+    </mdw-scroll-container>
 
-  <!-- side sheet -->
-  <mdw-sheet-side id="sideSheet">
-  ...
-  </mdw-sheet-side>
+    <!-- side sheet -->
+    <mdw-sheet-side mdw-modal>
+      ...
+    </mdw-sheet-side>
+  </mdw-row>
 </body>
+
+</html>
     `;
   }
 

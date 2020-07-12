@@ -6,8 +6,8 @@
   --mdw-theme-text-secondary-on-background--rgb: 255, 255, 255;
   --mdw-theme-text-hint-on-background: rgba(255,255,255, .5);
   --mdw-theme-text-hint-on-background--rgb: 255, 255, 255;
-  --mdw-theme-text-disabled-on-background: rgba(255,255,255, .5);
-  --mdw-theme-text-disabled-on-background--rgb: 255, 255, 255;
+  --mdw-theme-text-disabled-on-background: rgba(0,0,0, .5);
+  --mdw-theme-text-disabled-on-background--rgb: 0, 0, 0;
   --mdw-theme-text-icon-on-background: rgba(255,255,255, .5);
   --mdw-theme-text-icon-on-background--rgb: 255, 255, 255;
 
@@ -54,8 +54,8 @@
   --mdw-theme-text-secondary-on-background--rgb: 0, 0, 0;
   --mdw-theme-text-hint-on-background: rgba(0,0,0, .38);
   --mdw-theme-text-hint-on-background--rgb: 0, 0, 0;
-  --mdw-theme-text-disabled-on-background: rgba(0,0,0, .38);
-  --mdw-theme-text-disabled-on-background--rgb: 0, 0, 0;
+  --mdw-theme-text-disabled-on-background: rgba(255,255,255, .38);
+  --mdw-theme-text-disabled-on-background--rgb: 255, 255, 255;
   --mdw-theme-text-icon-on-background: rgba(0,0,0, .38);
   --mdw-theme-text-icon-on-background--rgb: 0, 0, 0;
 

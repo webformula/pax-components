@@ -24,15 +24,6 @@ mdw-sheet-side {
   width: var(--mdw-theme-sheet-width);
   background-color: var(--mdw-theme-background);
 
-  &[mdw-scroll] {
-    overflow-y: auto;
-
-     mdw-content,
-    .mdw-content {
-      overflow: visible;
-    }
-  }
-
   &[mdw-modal] {
     position: fixed;
     top: 0;
@@ -60,7 +51,8 @@ mdw-sheet-side {
   }
 
   mdw-content {
-    width: var(--mdw-theme-sheet-width);
+    padding: 0 16px;
+    overflow-y: auto;
   }
 
   mdw-divider {
@@ -87,6 +79,10 @@ mdw-sheet-side {
       &.mdw-hide {
         left: -100%;
       }
+    }
+
+    mdw-content {
+      padding: 0;
     }
   }
   

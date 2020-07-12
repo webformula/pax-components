@@ -1,11 +1,11 @@
 {
   "name": "@webformula/pax-components",
-  "version": "0.12.2-beta",
+  "version": "0.13.0-beta",
   "description": "Web components using material design language",
   "type": "module",
   "scripts": {
     "start": "node-sass src/entry.scss local/entry.css && snowpack dev --config snowpack.config.json",
-    "release": "snowpack build --config snowpack.config.release.js && replace '_VERSION_' '0.12.1-beta' build/* && replace '\"web_modules/@webformula/pax-core.js' '\"/web_modules/@webformula/pax-core.js' build/pax-entry.js",
+    "release": "snowpack build --config snowpack.config.release.js && replace '_VERSION_' '0.13.0-beta' build/* && replace '\"web_modules/@webformula/pax-core.js' '\"/web_modules/@webformula/pax-core.js' build/pax-entry.js",
     "build:editor": "webpack --progress --config webpack.monaco.editor.cjs",
     "build:release": "webpack --config webpack.prod.config.cjs"
   },
@@ -31,6 +31,7 @@
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.0",
     "node-sass": "^4.13.1",
+    "nodemon": "^2.0.4",
     "replace": "^1.2.0",
     "snowpack": "^2.5.2",
     "style-loader": "^1.2.1",

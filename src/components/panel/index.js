@@ -360,7 +360,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   setHoistedPosition() {
-    console.log('setHoistedPosition');
     const bounds = this._container.getBoundingClientRect();
     this.style.top = `${bounds.top}px`;
     this.style.left = `${bounds.left}px`;

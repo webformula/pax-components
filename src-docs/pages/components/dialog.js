@@ -38,7 +38,7 @@ Sanglorians, save! Arms apeal with larms, appalling. Killykill-
 killy: a toll, a toll. What chance cuddleys, what cashels aired
 and ventilated! What bidimetoloves sinduced by what tegotetab-
 solvers! What true feeling for their's hayair with what strawng
-voice of false jiccup! O here here how hoth sprowled met the
+voice of false jiccup! O here he          re how hoth sprowled met the
 duskt the father of fornicationists but, (O my shining stars and
 body!) how hath fanespanned most high heaven the skysign of
 soft advertisement! But was iz? Iseut? Ere were sewers? The oaks
@@ -83,23 +83,27 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
   showDialogWithService() {
     MDWDialog.open({
       title: 'Title',
-      message: 'message message 123',
-      okLabel: 'ok',
-      cancelLabel: 'cancel'
-    }).then(data => {
-      console.log(data);
+      message: 'Do you like this message?',
+      okLabel: 'yes',
+      cancelLabel: 'no'
+    }).then(function (isYes) {
+      // If the use presses yes then the dialog promise is resolved with true
+      // If the use presses yes then the dialog promise is resolved with false
+      console.log(isYes);
     });
   }
 
   showDialogWithServiceClickoutside() {
     MDWDialog.open({
       title: 'Title',
-      message: 'Try to click background to close',
-      okLabel: 'ok',
-      cancelLabel: 'cancel',
+      message: 'Do you like this message? click outside and close',
+      okLabel: 'yes',
+      cancelLabel: 'no',
       clickOutsideClose: true
-    }).then(data => {
-      console.log(data);
+    }).then(function (isYes) {
+      // If the use presses yes then the dialog promise is resolved with true
+      // If the use presses yes then the dialog promise is resolved with false
+      console.log(isYes);
     });
   }
 
@@ -109,6 +113,12 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
       message: this.finnigens,
       okLabel: 'ok',
       cancelLabel: 'cancel'
+    });
+  }
+
+  showScrollTemplateUrl() {
+    MDWDialog.open({
+      template: 'dialog-template.html'
     });
   }
 
@@ -130,10 +140,10 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
         <div style="display: inline-block">
           <div class="eyebrow">contents</div>
-          <anchor-link selector="#service">Dialog service</anchor-link>
-          <anchor-link selector="#with-click">Dialog click background to close</anchor-link>
-          <anchor-link selector="#template">Dialog template</anchor-link>
-          <anchor-link selector="#scrollable">Dialog scrollable</anchor-link>
+          <anchor-link selector="#service">Basic Dialog</anchor-link>
+          <anchor-link selector="#service-template">Dialog using template</anchor-link>
+          <anchor-link selector="#with-click">Click background to close</anchor-link>
+          <anchor-link selector="#scrollable">Scrolling dialog</anchor-link>
         </div>
 
         <section id="types">
@@ -143,18 +153,20 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
           <mdw-card id="service">
             <div class="mdw-card__content">
               <h6>Dialog service</h6>
-              <div class="description">Use MDWDialog service to create promise based dialog</div>
+              <div class="description">Basic dialog confirmation</div>
             </div>
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="javascript">
                 MDWDialog.open({
                   title: 'Title',
-                  message: 'message message 123',
-                  okLabel: 'ok',
-                  cancelLabel: 'cancel'
-                }).then(function (data) {
-                  console.log(data);
+                  message: 'Do you like this message?',
+                  okLabel: 'yes',
+                  cancelLabel: 'no'
+                }).then(function (isYes) {
+                  // If the use presses yes then the dialog promise is resolved with true
+                  // If the use presses yes then the dialog promise is resolved with false
+                  console.log(isYes);
                 });
               </monaco-editor>
             </div>
@@ -164,24 +176,81 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
           </mdw-card>
 
+          <mdw-card id="service-template">
+            <div class="mdw-card__content">
+              <h6>Dialog Service with html template</h6>
+              <div class="description">Basic dialog confirmation using a html template</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="javascript">
+                MDWDialog.open({
+                  // load template from url/cache
+                  template: 'dialog-template.html',
+
+                  // direct template
+                  template: \`
+                    <mdw-header>
+                      <div class="mdw-title">Template file</div>
+                    </mdw-header>
+
+                    <mdw-content>
+                      This is some content from a template
+                    </mdw-content>
+
+                    <mdw-footer>
+                      <mdw-button onclick="MDWDialog.close()">cancel</mdw-button>
+                      <!--- MDWDialog.close(true) will reolve the dialgo promise with true -->
+                      <mdw-button onclick="MDWDialog.close(true)">ok</mdw-button>
+                    </mdw-footer>
+                  \`
+                });
+              </monaco-editor>
+
+              <monaco-editor language="html">
+                <!-- dialog-template.html -->
+                <mdw-header>
+                  <div class="mdw-title">Template file</div>
+                </mdw-header>
+
+                <mdw-content>
+                  This is some content from a template
+                </mdw-content>
+
+                <mdw-footer>
+                  <mdw-button onclick="MDWDialog.close()">cancel</mdw-button>
+                  <!--- MDWDialog.close(true) will reolve the dialgo promise with true -->
+                  <mdw-button onclick="MDWDialog.close(true)">ok</mdw-button>
+                </mdw-footer>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showScrollTemplateUrl()">open dialog</mdw-button>
+            </div>
+          </mdw-card>
+
 
           <!-- no click out sode to close -->
           <mdw-card id="with-click">
             <div class="mdw-card__content">
               <h6>Dialog with click outside to close</h6>
-              <div class="description">Use MDWDialog service to create promise based dialog</div>
+              <div class="description">Basic dialog confirmation with clickOutsideClose set to true</div>
             </div>
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="javascript">
                 MDWDialog.open({
                   title: 'Title',
-                  message: 'message message 123',
-                  okLabel: 'ok',
-                  cancelLabel: 'cancel',
+                  message: 'Do you like this message? click outside and close',
+                  okLabel: 'yes',
+                  cancelLabel: 'no',
                   clickOutsideClose: true
-                }).then(function (data) {
-                  console.log(data);
+                }).then(function (isYes) {
+                  // If the use presses yes then the dialog promise is resolved with true
+                  // If the use presses yes then the dialog promise is resolved with false
+                  // Clicking outside to close will resolve the promise with false
+                  console.log(isYes);
                 });
               </monaco-editor>
             </div>
@@ -191,64 +260,17 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             </div>
           </mdw-card>
 
-
-          <mdw-card id="template">
-            <div class="mdw-card__content">
-              <h6>Dialog from template</h6>
-              <div class="description">Place html dialog in page</div>
-            </div>
-
-            <div class="mdw-card__content--no-padding">
-              <monaco-editor language="html">
-                <mdw-dialog>
-                  <mdw-panel>
-                    <mdw-dialog-container>
-                      <mdw-dialog-title>Title</mdw-dialog-title>
-                      <mdw-dialog-content>
-                        This is some content
-                      </mdw-dialog-content>
-                      <mdw-dialog-actions>
-                        <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
-                        <mdw-button onclick="d1.close(true)">ok</mdw-button>
-                      </mdw-dialog-actions>
-                    </mdw-dialog-container>
-                  </mdw-panel>
-                </mdw-dialog>
-
-                <!--
-                  document.querySelector('#d1').hoistToBody();
-                  document.querySelector('#d1').open();
-                -->
-              </monaco-editor>
-            </div>
-
-            <div class="mdw-card__content" style="display: block;">
-              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showDialog()">open dialog</mdw-button>
-            </div>
-          </mdw-card>
-
-
           <mdw-card id="scrollable">
             <div class="mdw-card__content">
               <h6>Scrolling dialog</h6>
+              <div class="description">Dialog that is taller than screen.</div>
             </div>
 
             <div class="mdw-card__content--no-padding">
-              <monaco-editor language="html">
-                <mdw-dialog>
-                  <mdw-panel>
-                    <mdw-dialog-container>
-                      <mdw-dialog-title>Title</mdw-dialog-title>
-                      <mdw-dialog-content>
-                        tall text ...
-                      </mdw-dialog-content>
-                      <mdw-dialog-actions>
-                        <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
-                        <mdw-button onclick="d1.close(true)">ok</mdw-button>
-                      </mdw-dialog-actions>
-                    </mdw-dialog-container>
-                  </mdw-panel>
-                </mdw-dialog>
+              <monaco-editor language="javascript">
+                MDWDialog.open({
+                  template: 'dialog-template-taller-than-screen.html',
+                });
               </monaco-editor>
             </div>
 
@@ -256,26 +278,6 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
               <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showScrollDialog()">open dialog</mdw-button>
             </div>
           </mdw-card>
-
-
-        <mdw-dialog id="d1">
-          <mdw-panel mdw-position="center center">
-            <mdw-dialog-container>
-
-              <mdw-dialog-title>Title</mdw-dialog-title>
-
-              <mdw-dialog-content>
-                This is some content
-              </mdw-dialog-content>
-
-              <mdw-dialog-actions>
-                <mdw-button class="mdw-error" onclick="d1.close()">cancel</mdw-button>
-                <mdw-button onclick="activePage.ok()">ok</mdw-button>
-              </mdw-dialog-actions>
-
-            </mdw-dialog-container>
-          </mdw-panel>
-        </mdw-dialog>
 
       </article>
     `;

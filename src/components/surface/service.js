@@ -2,6 +2,7 @@ import MDWUtils from '../../core/Utils.js';
 import MDWTemplate from '../templates/service.js';
 
 const templateTypes = [
+  'dialog',
   'panel',
   'sheetBottom',
   'sheetSide'
@@ -27,6 +28,7 @@ class MDWSurfaceInstance {
 
     this.bound_onPanelClose = this._onPanelClose.bind(this);
     this.bound_onSheetClose = this._onSheetClose.bind(this);
+    this.bound_onDialogClose = this._onDialogClose.bind(this);
   }
 
   get id() {
@@ -50,6 +52,11 @@ class MDWSurfaceInstance {
     this._element = document.querySelector(`#${this.id}`);
 
     switch (this.component) {
+      case 'dialog':
+        this.element.open();
+        this.element.addEventListener('close', this.bound_onDialogClose);
+        break;
+
       case 'panel':
         // prep animation
         if (this._animation) {
@@ -84,6 +91,11 @@ class MDWSurfaceInstance {
 
   async close() {
     switch (this.component) {
+      case 'dialog':
+        await this.element.close();
+        if (this.element) this.element.removeEventListener('close', this.bound_onDialogClose);
+        break;
+
       case 'panel':
         await this.element.close();
         if (this.element) this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
@@ -116,6 +128,13 @@ class MDWSurfaceInstance {
 
   _onSheetClose() {
     this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
+    this.element.remove();
+    window._activeSurface = undefined;
+    this._element = undefined;
+  }
+
+  _onDialogClose() {
+    this.element.removeEventListener('close', this.bound_onDialogClose);
     this.element.remove();
     window._activeSurface = undefined;
     this._element = undefined;
@@ -159,6 +178,10 @@ const MDWSurface = new class {
 
     let surfaceTemplate;
     switch (component) {
+      case 'dialog':
+        surfaceTemplate = this._buildDialog({ id, templateString });
+        break;
+
       case 'panel':
         surfaceTemplate = this._buildPanel({ id, position, animation, templateString });
         break;
@@ -208,6 +231,16 @@ const MDWSurface = new class {
   _validateAnimation(animation) {
     if (!animationTypes.includes(animation.type)) throw Error(`animation.type must be one of these: ${animationTypes.join(', ')}`);
     if (animation.origin && !animationOrigin.includes(animation.origin)) throw Error(`animation.type must be one of these: ${animationOrigin.join(', ')} or not defined`);
+  }
+
+  _buildDialog({ id, templateString }) {
+    return /* html */`
+      <mdw-dialog id="${id}">
+        <mdw-panel position="center center">
+          ${templateString}
+        </mdw-panel>
+      </mdw-dialog>
+    `;
   }
 
   _buildPanel({ id, templateString, position }) {

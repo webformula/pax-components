@@ -1,5 +1,10 @@
 {
-  "watch": ["src/", "src-docs/"],
-  "ext": "js, css, scss, html",
-  "ignore": ["src-docs/pax-entry.js"]
+  "watch": [
+    "src-docs"
+  ],
+  "ignore": [
+    "pax-entry.js",
+    "pax-templates.js"
+  ],
+  "ext": "js, html, css"
 }

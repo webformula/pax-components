@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" style="height: 100%">
+<html lang="en">
 
 <head>
   <meta http-equiv="Cache-Control" content="no-store" />
@@ -8,7 +8,6 @@
   <link href="/pax-components/theme.css" rel="stylesheet">
   <link href="/pax-components/entry.css" rel="stylesheet">
   <script src="/pax-components/entry.js"></script>
-  <link rel="stylesheet" href="style.css">
 </head>
 
 
@@ -62,25 +61,25 @@
 
   <mdw-column>
     <!-- page header -->
-    <mdw-top-app-bar>
-      <section>
-        <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
-      </section>
+    <mdw-top-app-bar mdw-fixed>
+      <mdw-content>
+        <section>
+          <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
+        </section>
     
-      <section class="mdw-flex">
-        <span class="mdw-title">Example</span>
-      </section>
+        <section class="mdw-flex">
+          <span class="mdw-title">Example</span>
+        </section>
     
-      <section>
-        <mdw-icon onclick="document.querySelector('#sideSheet').toggle()">menu</mdw-icon>
-      </section>
+        <section>
+          <mdw-button class="mdw-on-primary" onclick="document.querySelector('#sideSheet').toggle()">toggle side sheet</mdw-button>
+        </section>
+      </mdw-content>
     </mdw-top-app-bar>
 
-    <!--- page-body -->
-    <mdw-scroll-container>
-
+    <mdw-row>
       <!-- page content -->
-      <mdw-scroll-content>
+      <mdw-scroll-container class="mdw-padding">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit,
           sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -108,10 +107,10 @@
           occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
           anim id est laborum.
         </p>
-      </mdw-scroll-content>
+      </mdw-scroll-container>
 
       <!-- side sheet -->
-      <mdw-sheet-side id="sideSheet" style="--mdw-theme-sheet-width: 200px">
+      <mdw-sheet-side id="sideSheet" style="--mdw-theme-sheet-width: 200px" class="mdw-hide">
         <mdw-header>
           <div class="mdw-title mdw-flex">Title</div>
           <mdw-button class="mdw-icon" onclick="sideSheet.close()">
@@ -142,8 +141,7 @@
           anim id est laborum.
         </mdw-content>
       </mdw-sheet-side>
-    </mdw-scroll-container>
+    </mdw-row>
   </mdw-column>
-</body>
 
 </html>

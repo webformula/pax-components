@@ -11,24 +11,24 @@
 </head>
 
 <body>
-  <mdw-page>
-    <header>
-      <mdw-top-app-bar>
+  <mdw-scroll-container>
+    <mdw-top-app-bar mdw-fixed>
+      <mdw-content>
         <section>
           <mdw-icon>menu</mdw-icon>
         </section>
 
-        <section mdw-flex>
-          <span class="mdw-title">Standard</span>
+        <section class="mdw-flex">
+          <span class="mdw-title">Fixed</span>
         </section>
 
         <section>
           <mdw-icon>bookmark</mdw-icon>
         </section>
-      </mdw-top-app-bar>
-    </header>
+      </mdw-content>
+    </mdw-top-app-bar>
 
-    <mdw-page-content>
+    <div>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -56,8 +56,8 @@
         occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
         anim id est laborum.
       </p>
-    </mdw-page-content>
-  </mdw-page>
+    </div>
+  </mdw-scroll-container>
 </body>
 
 </html>
