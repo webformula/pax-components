@@ -27,7 +27,7 @@ mdw-select.mdw-padding {
 
 /* TODO figure out what color var to use */
 mdw-select:not(.mdw-select--disabled) {
-  background-color: var(--mdw-theme-text-disabled-on-background);
+  background-color: rgba(var(--mdw-theme-text-disabled-on-background--rgb), 0.025);
 }
 
 mdw-select:after,
@@ -41,7 +41,7 @@ mdw-select:before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background-color: var(--mdw-theme-text-disabled-on-background);
+  background-color: rgba(var(--mdw-theme-text-disabled-on-background--rgb), 0.025);
 }
 
 mdw-select:before {

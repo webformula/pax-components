@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <meta http-equiv="Cache-Control" content="no-store" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -9,8 +10,81 @@
   <link rel="stylesheet" href="main.css">
 </head>
 
-<body>
+<body class="mdw-row">
+  <mdw-sheet-side class="mdw-navigation-drawer">
+    <mdw-header>
+      <section>
+        <div class="mdw-title">Nav title</div>
+        <div class="mdw-subtitle">Pages</div>
+      </section>
+    </mdw-header>
+  
+    <mdw-content>
+      <mdw-list>
+        <mdw-list-item class="mdw-current-link">
+          <mdw-icon>inbox</mdw-icon>
+          Inbox
+        </mdw-list-item>
+  
+        <mdw-list-item>
+          <mdw-icon>star</mdw-icon>
+          Two
+        </mdw-list-item>
+  
+        <mdw-list-item>
+          <mdw-icon>star</mdw-icon>
+          Three
+        </mdw-list-item>
+  
+        <mdw-divider></mdw-divider>
+  
+        <mdw-list-item>
+          <mdw-icon>star</mdw-icon>
+          Four
+        </mdw-list-item>
+  
+        <mdw-list-item>
+          <mdw-icon>star</mdw-icon>
+          Five
+        </mdw-list-item>
+  
+        <mdw-list-item>
+          <mdw-icon>star</mdw-icon>
+          Six
+        </mdw-list-item>
+      </mdw-list>
+    </mdw-content>
+  </mdw-sheet-side>
+  
+  <mdw-navigation-rail>
+    <mdw-button class="mdw-icon" href="#/">
+      <mdw-icon>home</mdw-icon>
+    </mdw-button>
+
+    <mdw-button class="mdw-icon">
+      <mdw-icon>star</mdw-icon>
+      star
+    </mdw-button>
+
+    <mdw-button class="mdw-icon">
+      <mdw-icon>inbox</mdw-icon>
+      inbox
+    </mdw-button>
+  </mdw-navigation-rail>
+
   <mdw-scroll-container>
+    <mdw-top-app-bar mdw-fixed>
+      <mdw-content>
+        <section>
+          <mdw-icon onclick="document.querySelector('.mdw-navigation-drawer').toggle()">menu</mdw-icon>
+        </section>
+        
+        <section class="mdw-flex">
+          <span class="mdw-title">Example</span>
+        </section>
+      </mdw-content>
+    </mdw-top-app-bar>
+
     <div>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -41,22 +115,6 @@
       </p>
     </div>
   </mdw-scroll-container>
-
-  <mdw-bottom-navigation>
-    <mdw-button class="mdw-icon" href="#/">
-      <mdw-icon>home</mdw-icon>
-      home
-    </mdw-button>
-
-    <mdw-button class="mdw-icon" href="#/a">
-      <mdw-icon>start</mdw-icon>
-      start
-    </mdw-button>
-
-    <mdw-button class="mdw-icon" href="#/b">
-      <mdw-icon>note</mdw-icon>
-      note
-    </mdw-button>
-  </mdw-bottom-navigation>
 </body>
+
 </html>

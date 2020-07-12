@@ -15,7 +15,7 @@ import FAB from './pages/components/fab.js';
 import List from './pages/components/lists.js';
 import Menu from './pages/components/menu.js';
 import Drawers from './pages/components/navigation-drawers.js';
-import NavigationRail from './pages/components/navigation-rail.js';
+import NavigationRail from './pages/components/navigation-rail/page.js';
 import Panel from './pages/components/panel.js';
 import CircularProgress from './pages/components/progress-circular.js';
 import LinearProgress from './pages/components/progress-linear.js';

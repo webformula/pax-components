@@ -10,31 +10,33 @@
   <link rel="stylesheet" href="main.css">
 </head>
 
-<body style="height: 100%">
+<body class="mdw-row">
   <mdw-navigation-rail>
     <mdw-button class="mdw-icon" href="#/">
       <mdw-icon>home</mdw-icon>
     </mdw-button>
-
+  
     <mdw-button class="mdw-icon">
       <mdw-icon>star</mdw-icon>
       star
     </mdw-button>
-
+  
     <mdw-button class="mdw-icon">
       <mdw-icon>inbox</mdw-icon>
       inbox
     </mdw-button>
   </mdw-navigation-rail>
 
-  <mdw-page>
-    <mdw-top-app-bar>
-      <section>
-        <span class="title">Example</span>
-      </section>
+  <mdw-scroll-container>
+    <mdw-top-app-bar mdw-fixed>
+      <mdw-content>
+        <section class="mdw-flex">
+          <span class="mdw-title">Example</span>
+        </section>
+      </mdw-content>
     </mdw-top-app-bar>
 
-    <mdw-page-content mdw-row>
+    <div>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -62,8 +64,8 @@
         occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
         anim id est laborum.
       </p>
-    </mdw-page-content>
-  </mdw-page>
+    </div>
+  </mdw-scroll-container>
 </body>
 
 </html>
