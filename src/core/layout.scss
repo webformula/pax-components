@@ -11,6 +11,20 @@ mdw-scroll-container {
   }
 }
 
+mdw-header {
+  min-height: 64px;
+}
+
+body.mdw-is-mobile mdw-header {
+  min-height: 56px;
+}
+
+body:not(.mdw-is-mobile) mdw-header {
+  &.mdw-dense {
+    height: 48px;
+  }
+}
+
 //--- flex proxy elements and attributes. This is for convenience ---
 
 // flex containers

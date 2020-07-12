@@ -25,7 +25,7 @@ import SheetsBottom from './pages/components/sheet-bottom.js';
 import SheetsSide from './pages/components/sheet-side/page.js';
 import Slider from './pages/components/slider.js';
 import Snackbar from './pages/components/snackbar.js';
-import Surface from './pages/components/surface.js';
+import Surface from './pages/components/surface/page.js';
 import Switch from './pages/components/switch.js';
 import Tabs from './pages/components/tabs.js';
 import Templates from './pages/components/templates.js';

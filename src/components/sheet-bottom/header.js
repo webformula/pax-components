@@ -75,7 +75,8 @@ customElements.define('mdw-sheet-bottom-header', class extends HTMLElementExtend
     const doc = new DOMParser().parseFromString(headerInnerHTML, 'text/html');
     const topBar = doc.querySelector('mdw-sheet-top-bar');
     if (topBar) headerInnerHTML = headerInnerHTML.replace(topBar.outerHTML, '');
-    if (headerInnerHTML) this._hasMdwHeader = true;
+    this._hasMdwHeader = !!(headerInnerHTML && headerInnerHTML !== '');
+    console.log(this._hasMdwHeader);
     
     return `
       ${topBar ? topBar.outerHTML : `
@@ -86,8 +87,8 @@ customElements.define('mdw-sheet-bottom-header', class extends HTMLElementExtend
           ${title}
         </mdw-sheet-top-bar>
       `}
-
-      ${headerInnerHTML &&
+      
+      ${this._hasMdwHeader === true &&
         `<mdw-header>
 
           ${headerInnerHTML}

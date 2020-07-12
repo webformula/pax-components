@@ -55,7 +55,7 @@ const MDWDialog = new class {
           </mdw-content>
 
           <mdw-footer>
-            ${!!cancelLabel ? `<mdw-button class="mdw-error" onclick="${id}.close(false)">${cancelLabel}</mdw-button>` : ''}
+            ${!!cancelLabel ? `<mdw-button onclick="${id}.close(false)">${cancelLabel}</mdw-button>` : ''}
             ${!!okLabel ? `<mdw-button onclick="${id}.close(true)">${okLabel}</mdw-button>` : ''}
           </mdw-footer>
         </mdw-panel>

@@ -199,7 +199,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
                     </mdw-content>
 
                     <mdw-footer>
-                      <mdw-button class="mdw-error" onclick="MDWDialog.close()">cancel</mdw-button>
+                      <mdw-button onclick="MDWDialog.close()">cancel</mdw-button>
                       <!--- MDWDialog.close(true) will reolve the dialgo promise with true -->
                       <mdw-button onclick="MDWDialog.close(true)">ok</mdw-button>
                     </mdw-footer>
@@ -218,7 +218,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
                 </mdw-content>
 
                 <mdw-footer>
-                  <mdw-button class="mdw-error" onclick="MDWDialog.close()">cancel</mdw-button>
+                  <mdw-button onclick="MDWDialog.close()">cancel</mdw-button>
                   <!--- MDWDialog.close(true) will reolve the dialgo promise with true -->
                   <mdw-button onclick="MDWDialog.close(true)">ok</mdw-button>
                 </mdw-footer>

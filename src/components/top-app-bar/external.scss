@@ -6,6 +6,27 @@ body.mdw-has-top-app-bar > mdw-column > mdw-row {
   height: calc(100% - 64px);
 }
 
+body.mdw-is-mobile mdw-top-app-bar {
+  height: 56px;
+
+  &> mdw-content {
+    height: 56px;
+  }
+}
+
+body:not(.mdw-is-mobile) mdw-top-app-bar {
+  height: 56px;
+
+  &.mdw-dense:not([mdw-prominent]) {
+    height: 48px;
+
+    &> mdw-content {
+      height: 48px;
+    }
+  }
+}
+
+
 mdw-top-app-bar {
   display: flex;
   box-sizing: border-box;
