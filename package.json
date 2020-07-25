@@ -39,6 +39,6 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@webformula/pax-core": "file:../pax-core"
+    "@webformula/pax-core": "^0.11.0"
   }
 }
