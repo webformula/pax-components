@@ -37,10 +37,6 @@ export default class Mobile extends Page {
           </li>
         </ul>
       </section>
-
-      <section>
-        <a href="#/components/buttons">components: Buttons</a>
-      </section>
     </article>
     `;
   }

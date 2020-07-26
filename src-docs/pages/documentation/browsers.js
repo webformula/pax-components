@@ -111,12 +111,6 @@ export default class Browsers extends Page {
         </mdw-list>
         </section>
       </mdw-row>
-
-      <section mdw-row>
-        <mdw-button class="mdw-secondary" href="#/documentation/app-index">< app index.html</mdw-button>
-        <span mdw-flex></span>
-        <mdw-button class="mdw-secondary" href="#/documentation/theme">theme ></mdw-button>
-      </section>
     </article>
     `;
   }

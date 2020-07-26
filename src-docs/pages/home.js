@@ -111,11 +111,6 @@ export default class Home extends Page {
           <monaco-editor id="editor-2" language="html"></monaco-editor>
         </div>
       </mdw-card>
-
-      <section mdw-row>
-        <span mdw-flex></span>
-        <mdw-button class="mdw-secondary" href="#/documentation/install">install ></mdw-button>
-      </section>
     </article>
     `;
   }

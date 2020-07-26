@@ -75,12 +75,6 @@ export default class Install extends Page {
           <monaco-editor id="editor-2" language="html"></monaco-editor>
         </div>
       </mdw-card>
-
-      <section mdw-row>
-        <mdw-button class="mdw-secondary" href="#/home">< welcome</mdw-button>
-        <span mdw-flex></span>
-        <mdw-button class="mdw-secondary" href="#/documentation/app-index">app index.html ></mdw-button>
-      </section>
     </article>
     `;
   }
