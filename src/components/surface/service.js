@@ -39,9 +39,9 @@ class MDWSurfaceInstance {
     return this._component;
   }
 
-  set element(value) {
-    this._element = value;
-  }
+  // set element(value) {
+  //   this._element = value;
+  // }
   get element() {
     return this._element;
   }
@@ -93,26 +93,38 @@ class MDWSurfaceInstance {
     switch (this.component) {
       case 'dialog':
         await this.element.close();
-        if (this.element) this.element.removeEventListener('close', this.bound_onDialogClose);
         break;
-
       case 'panel':
         await this.element.close();
-        if (this.element) this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
         break;
-
       case 'sheetBottom':
         await this.element.close();
-        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
-
       case 'sheetSide':
         await this.element.close();
+        break;
+    }
+
+    this.destroy();
+  }
+
+  // remove the panel and disconnect its listeners with a closing animation
+  destroy() {
+    switch (this.component) {
+      case 'dialog':
+        if (this.element) this.element.removeEventListener('close', this.bound_onDialogClose);
+        break;
+      case 'panel':
+        if (this.element) this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+        break;
+      case 'sheetBottom':
+        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
+        break;
+      case 'sheetSide':
         if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
     }
 
-    // this may be removed via panel click outside to close
     if (this._element) {
       this.element.remove();
       window._activeSurface = undefined;
@@ -142,6 +154,8 @@ class MDWSurfaceInstance {
 }
 
 
+
+// Instance that generates MDWSurfaceInstance instances
 const MDWSurface = new class {
   constructor() {
     this._defaultMobileComponent = 'panel';
@@ -159,13 +173,13 @@ const MDWSurface = new class {
   }
 
 
-  async open({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent }) {
-    const instance = await this.create({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent });
+  async open({ template, templateData, position, animation, animationTarget, component, classes, mobileComponent, desktopComponent }) {
+    const instance = await this.create({ template, templateData, position, animation, animationTarget, component, classes, mobileComponent, desktopComponent });
     instance.open();
     return instance;
   }
 
-  async create({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent }) {
+  async create({ template, templateData, position, animation, animationTarget, component, classes, mobileComponent, desktopComponent }) {
     if (!component) component = this._autoSelectComponent(mobileComponent, desktopComponent);
     this._validateComponent(component);
     if (component === 'panel') {
@@ -179,19 +193,19 @@ const MDWSurface = new class {
     let surfaceTemplate;
     switch (component) {
       case 'dialog':
-        surfaceTemplate = this._buildDialog({ id, templateString });
+        surfaceTemplate = this._buildDialog({ id, templateString, classes });
         break;
 
       case 'panel':
-        surfaceTemplate = this._buildPanel({ id, position, animation, templateString });
+        surfaceTemplate = this._buildPanel({ id, position, animation, templateString, classes });
         break;
 
       case 'sheetBottom':
-        surfaceTemplate = this._buildSheetBottom({ id, templateString });
+        surfaceTemplate = this._buildSheetBottom({ id, templateString, classes });
         break;
 
       case 'sheetSide':
-        surfaceTemplate = this._buildSheetSide({ id, templateString });
+        surfaceTemplate = this._buildSheetSide({ id, templateString, classes });
         break;
     }
 
@@ -233,36 +247,36 @@ const MDWSurface = new class {
     if (animation.origin && !animationOrigin.includes(animation.origin)) throw Error(`animation.type must be one of these: ${animationOrigin.join(', ')} or not defined`);
   }
 
-  _buildDialog({ id, templateString }) {
+  _buildDialog({ id, templateString, classes }) {
     return /* html */`
       <mdw-dialog id="${id}">
-        <mdw-panel position="center center">
+        <mdw-panel position="center center" class="${classes || ''}">
           ${templateString}
         </mdw-panel>
       </mdw-dialog>
     `;
   }
 
-  _buildPanel({ id, templateString, position }) {
+  _buildPanel({ id, templateString, position, classes }) {
     return /* html */`
-      <mdw-panel id="${id}" ${position ? `mdw-position="${position}"` : ''}>
+      <mdw-panel id="${id}" ${position ? `mdw-position="${position}"` : ''} class="${classes || ''}">
         ${templateString}
       </mdw-panel>
     `
   }
 
-  _buildSheetBottom({ id, templateString }) {
+  _buildSheetBottom({ id, templateString, classes }) {
     return /* html */`
-      <mdw-sheet-bottom id="${id}" mdw-modal>
+      <mdw-sheet-bottom id="${id}" mdw-modal class="${classes || ''}">
         ${!templateString.includes('<mdw-header>') ? '<mdw-header></mdw-header>' : ''}
         ${templateString}
       </mdw-sheet-bottom>
     `;
   }
 
-  _buildSheetSide({ id, templateString }) {
+  _buildSheetSide({ id, templateString, classes }) {
     return /* html */`
-      <mdw-sheet-side id="${id}" class="mdw-hide" mdw-modal mdw-no-backdrop>
+      <mdw-sheet-side id="${id}" class="mdw-hide ${classes || ''}" mdw-modal mdw-no-backdrop>
         ${templateString}
       </mdw-sheet-side>
     `;

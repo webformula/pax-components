@@ -20,6 +20,7 @@
     "@webformula/pax-core"
   ],
   "buildOptions": {
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "sourceMaps": true
   }
 }

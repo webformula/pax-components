@@ -11,6 +11,7 @@ import './components/button/index.js';
 import './components/card/index.js';
 import './components/checkbox/index.js';
 import './components/circular-progress/index.js';
+import './components/date-picker/index.js';
 import './components/dialog/index.js';
 // // import './components/expander/index.js';
 import './components/fab/index.js';

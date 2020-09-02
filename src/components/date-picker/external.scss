@@ -1,0 +1,26 @@
+mdw-date-picker {
+  position: relative;
+}
+
+.mdw-date-picker-backdrop:not(.mdw-hide) {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 7;
+  background-color: rgba(0,0,0,0.36);
+}
+
+.mdw-date-picker-panel {
+  display: flex;
+}
+
+.mdw-date-picker--container {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+}
