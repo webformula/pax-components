@@ -30,7 +30,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
       component: 'panel',
       classes: 'mdw-date-picker-panel',
       template: MDWUtils.isMobile ? this._mobileTemplate() : this._desktopTemplate(),
-      position: MDWUtils.isMobile ? 'center center' : undefined,
+      position: MDWUtils.isMobile ? 'center center' : 'bottom inner-left',
       scrollPanelWidthPage: true,
       anchorElement: this,
       animation: {

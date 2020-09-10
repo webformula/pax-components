@@ -71,6 +71,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     return this.hasAttribute('mdw-scroll-with-page');
   }
 
+  anchored() {
+    this._anchored = true;
+  }
+
   fullscreen() {
     this.classList.add('mdw-fullscreen');
   }
@@ -350,6 +354,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   hoistToBody(target) {
     if (this._isHoisted) return;
     this._container = target || this.parentNode;
+
+    if (this._container.nodeName === 'MDW-DATE-PICKER') {
+      this._container = this._container.parentNode;
+    }
+    
     document.body.appendChild(this);
     this.classList.add('mdw-panel-hoisted');
     this._isHoisted = true;
@@ -380,7 +389,61 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.top = `${panelY}px`;
   }
 
+
+  setHoistedAnchoredPosition() {
+    const bounds = this._container.getBoundingClientRect();
+    const height = this.offsetHeight;
+    const width = this.offsetWidth;
+    const split = (this.position || ' ').split(' ');
+    const aValue = split[0];
+    const bValue = split[1];
+    let top = 0;
+    let left = 0;
+
+    switch (aValue) {
+      case 'top':
+        top = bounds.y - height;
+        break;
+      case 'inner-top':
+        top = bounds.y;
+        break;
+      case 'bottom':
+        top = bounds.y + bounds.height;
+        break;
+      case 'center':
+        top = (bounds.y + (bounds.height / 2)) - (height / 2);
+        break;
+      case 'inner-bottom':
+        top = bounds.y + bounds.height - height;
+        break;
+    }
+
+    switch (bValue) {
+      case 'left':
+        left = bounds.x - width;
+        break;
+      case 'inner-left':
+        left = bounds.x;
+        break;
+      case 'right':
+        left = bounds.x + bounds.width;
+        break;
+      case 'inner-right':
+        left = bounds.x + bounds.width - width;
+        break;
+      case 'center':
+        left = (bounds.x + (bounds.width / 2)) - (width / 2);
+        break;
+    }
+
+    this.style.width = `${this.width}px`;
+    this.style.top = `${top}px`;
+    this.style.left = `${left}px`;
+  }
+
   setHoistedPosition() {
+    if (this._anchored) return this.setHoistedAnchoredPosition();
+
     const bounds = this._container.getBoundingClientRect();
     this.style.top = `${bounds.top}px`;
     this.style.left = `${bounds.left}px`;
@@ -394,7 +457,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
       this.style.top = `${top}px`;
       this.style.left = `${left}px`;
-
+      
       setTimeout(() => {
         const { clientWidth, clientHeight } = document.documentElement;
         const height = this.offsetHeight;
@@ -403,7 +466,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         const split = (this.position || ' ').split(' ');
         const aValue = split[0];
         const bValue = split[1];
-
+        
         switch(aValue) {
           case 'top':
             top = 0;

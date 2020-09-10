@@ -84,6 +84,11 @@ class MDWSurfaceInstance {
           this.element.hoistToBody(this._anchorElement);
         }
 
+        // anchor element for positioning
+        if (this._anchorElement) {
+          this.element.anchored();
+        }
+
         if (this._position) this.element.setPosition(this._position);
         this.element.open();
         this.element.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
