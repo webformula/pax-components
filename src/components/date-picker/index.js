@@ -32,11 +32,11 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
       template: MDWUtils.isMobile ? this._mobileTemplate() : this._desktopTemplate(),
       position: MDWUtils.isMobile ? 'center center' : undefined,
       scrollPanelWidthPage: true,
+      anchorElement: this,
       animation: {
         type: 'scale',
-        origin: 'top',
-        opacity: true,
-        target: this
+        origin: 'top left',
+        opacity: true
       }
     }).then(element => {
       this._panelSurface = element;

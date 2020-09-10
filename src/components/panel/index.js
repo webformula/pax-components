@@ -59,7 +59,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._clickOutsideClose = value;
   }
 
-  set setQuickOpen(value) {
+  set quickOpen(value) {
     this._isQuickOpen = value;
   }
 
@@ -106,7 +106,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   onOpenAnimationEnd() {
     this.style.transition = '';
-    this.style.transformOrigin = '';
+    // this.style.transformOrigin = '';
     this.style.overflow = '';
     this.style.maxHeight = '';
     this.classList.remove('mdw-panel--animating-open');
@@ -132,21 +132,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
       this._animationRequestId = this._runNextAnimationFrame(() => {
         if (this._animationConfig.fullscreen) this.classList.add('mdw-fullscreen');
-
-        switch (this._animationConfig.type) {
-          case 'height':
-            this.style.transition = 'max-height .22s cubic-bezier(0,0,.2,1), transform .22s cubic-bezier(0,0,.2,1), opacity .22s linear';
-            this.style.maxHeight = this.classList.contains('mdw-fullscreen') ? '100%' : `${this.scrollHeight}px`;
-            this.style.transform = '';
-            break;
-
-          case 'scale':
-          default:
-            this.style.transition = 'transform .1s cubic-bezier(0,0,.2,1), opacity 0.1s linear';
-            this.style.transform = '';
-            break;
-        }
-
+        this.prepareTransition();
         this.style.opacity = 1;
         this.addEventListener('transitionend', this.bound_onOpenTransitionEnd);
       });
@@ -163,7 +149,60 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._isOpen = true;
   }
 
+  async close(event) {
+    if (this.scrollWidthPage) this.teardownScrollWithPage();
 
+    return new Promise(resolve => {
+      if (event) event.stopPropagation();
+
+      this.removeEventListener('MDWPanel:close', this.bound_close);
+
+      if (!this._isQuickOpen) {
+        this.prepareTransition();
+        this._animationRequestId = this._runNextAnimationFrame(() => {
+          this.prepareAnimation();
+          this.style.opacity = '0';
+          this._closeAnimationEndTimerId = setTimeout(() => {
+            this.classList.remove('mdw-open');
+            this.resetPosition();
+            this.notifyClose();
+            resolve();
+          }, 75);
+        });
+      } else {
+        this.classList.remove('mdw-open');
+        this.resetPosition();
+        this.notifyClose();
+        resolve();
+      }
+
+      this._removeKeydownEvent();
+      this._isOpen = false;
+      const isRootFocused = this.isFocused();
+      const childHasFocus = document.activeElement && this.contains(document.activeElement);
+      if (isRootFocused || childHasFocus) this.restoreFocus();
+    });
+  }
+
+
+  // this is used for open and close
+  prepareTransition() {
+    switch (this._animationConfig.type) {
+      case 'height':
+        this.style.transition = 'max-height .22s cubic-bezier(0,0,.2,1), transform .22s cubic-bezier(0,0,.2,1), opacity .22s linear';
+        this.style.maxHeight = this.classList.contains('mdw-fullscreen') ? '100%' : `${this.scrollHeight}px`;
+        this.style.transform = '';
+        break;
+
+      case 'scale':
+      default:
+        this.style.transition = 'transform .1s cubic-bezier(0,0,.2,1), opacity 0.1s linear';
+        this.style.transform = '';
+        break;
+    }
+  }
+  
+  // this is used for open and close
   prepareAnimation() {
     // default animation
     this.classList.add('mdw-open');
@@ -185,6 +224,12 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
             this.style.transform = `translateY(${transformValue}px)`;
             break;
 
+          case 'top left':
+            if (this._animationConfig.target) {
+              this.style.transform = `translate(${this._animationConfig.target.offsetTop}px, ${this._animationConfig.target.offsetLeft}px)`;
+            }
+            break;
+
           case 'top':
           default:
             if (this._animationConfig.target) {
@@ -196,51 +241,13 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         break;
 
       case 'scale':
-      default:
         this.style.transform = 'scale(0.9)';
         this.style.transformOrigin = this._animationConfig.origin || 'center';
-        break;
     }
 
     if (this._animationConfig.opacity) {
       this.style.opacity = 0;
     }
-  }
-
-
-  // TODO FIX THE CLOSING ANIMATION
-  async close(event) {
-    if (this.scrollWidthPage) this.teardownScrollWithPage();
-
-    return new Promise(resolve => {
-      if (event) event.stopPropagation();
-
-      this.removeEventListener('MDWPanel:close', this.bound_close);
-      if (!this._isQuickOpen) {
-        this.classList.add('mdw-panel--animating-closed');
-        this._removeBodyClickEvent();
-        this._animationRequestId = this._runNextAnimationFrame(() => {
-          this.classList.remove('mdw-open');
-          this._closeAnimationEndTimerId = setTimeout(() => {
-            this._closeAnimationEndTimerId = 0;
-            this.classList.remove('mdw-panel--animating-closed');
-            this.resetPosition();
-            this.notifyClose();
-            resolve();
-          }, 75);
-        });
-      } else {
-        this.classList.remove('mdw-open');
-        this.resetPosition();
-        resolve();
-      }
-
-      this._removeKeydownEvent();
-      this._isOpen = false;
-      const isRootFocused = this.isFocused();
-      const childHasFocus = document.activeElement && this.contains(document.activeElement);
-      if (isRootFocused || childHasFocus) this.restoreFocus();
-    });
   }
 
   _runNextAnimationFrame(callback) {
