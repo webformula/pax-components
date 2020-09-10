@@ -158,7 +158,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     this._addBodyClickEvent();
     this._addKeydownEvent();
-    if (this.scrollWidthPage) this.setupScrollWithPage();
+    if (this.scrollWidthPage && !MDWUtils.isMobile) this.setupScrollWithPage();
     this.addEventListener('MDWPanel:close', this.bound_close);
     this._isOpen = true;
   }
@@ -520,13 +520,17 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
 
   setupScrollWithPage() {
+    if (this._scrollingSetup) return;
     this._scrollContainer = document.querySelector('mdw-scroll-container') || document.body;
     this._scrollContainer.addEventListener('scroll', this.bound_onScroll);
     this._initialScrollPosition = this._scrollContainer.scrollTop + parseInt(`${this.style.top || '0'}`.replace('px', ''));
+    this._scrollingSetup = true;
   }
 
   teardownScrollWithPage() {
+    if (!this._scrollingSetup) return;
     this._scrollContainer.removeEventListener('scroll', this.bound_onScroll);
+    this._scrollingSetup = false;
   }
 
   onScroll(event) {

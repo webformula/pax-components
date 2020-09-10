@@ -85,7 +85,6 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
 
     const selectedElement = this.shadowRoot.querySelector(`[mdw-date="${MDWDateUtil.format(date, 'YYYY-MM-dd')}"]`);
     if (selectedElement) selectedElement.classList.add('mdw-selected');
-    console.log(selectedElement);
   }
 
   deselect() {
@@ -118,7 +117,6 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
             if (beforeMinDate || afterMaxDate) classes += ' mdw-out-of-range';
             if (isToday && display !== '') classes += ' mdw-today';
             if (!currentMonth) classes += ' mdw-next-month';
-            if (selectedDateParts) console.log(new Date(this.selectedDate).getDay());
             if (selectedDateParts && selectedDateParts.year === year && selectedDateParts.month === month && selectedDateParts.day === day) classes += ' mdw-selected';
             return /* html */`<div class="${classes}" mdw-date="${MDWDateUtil.format(date, 'YYYY-MM-dd')}">${display}</div>`;
           }).join('\n')}

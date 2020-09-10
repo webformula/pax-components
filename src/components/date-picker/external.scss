@@ -34,3 +34,13 @@ mdw-textfield.mdw-has-date-picker {
     display: none;
   }
 }
+
+.mdw-date-picker-input {
+  display: none;
+}
+
+.mw-show-input {
+  .mdw-date-picker-input {
+    display: unset;
+  }
+}
