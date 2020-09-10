@@ -17,7 +17,7 @@ export default class Surface extends Page {
       //   origin: 'center',
       //   fullscreen: true
       // },
-      animationTarget: target,
+      anchorElement: target,
       template: 'surfaces/one.html'
     });
   }
@@ -38,7 +38,7 @@ export default class Surface extends Page {
 
   openUsingDefaults(target) {
     MDWSurface.open({
-      animationTarget: target,
+      anchorElement: target,
       template: 'surfaces/one.html'
     });
   }
@@ -47,7 +47,7 @@ export default class Surface extends Page {
     MDWSurface.open({
       mobileComponent: 'sheetBottom',
       desktopComponent: 'sheetSide',
-      animationTarget: target,
+      anchorElement: target,
       template: 'surfaces/one.html'
     });
   }

@@ -233,7 +233,7 @@ const MDWSurface = new class {
     if (!component) component = this._autoSelectComponent(mobileComponent, desktopComponent);
     this._validateComponent(component);
     if (component === 'panel') {
-      // if (!animation) animation = this._autoSelectAnimation(anchorElement);
+      if (!animation) animation = this._autoSelectAnimation();
       if (animation) this._validateAnimation(animation);
     }
 
@@ -297,12 +297,11 @@ const MDWSurface = new class {
     if (!templateTypes.includes(type)) throw Error(`type must be one of these: ${templateTypes.join(', ')}`);
   }
 
-  _autoSelectAnimation(target) {
+  _autoSelectAnimation() {
     return {
       type: 'height',
       origin: 'center',
       fullscreen: true,
-      target,
       hoistToBody: false
     };
   }
