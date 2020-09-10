@@ -173,13 +173,35 @@ const MDWSurface = new class {
   }
 
 
-  async open({ template, templateData, position, animation, animationTarget, component, classes, mobileComponent, desktopComponent }) {
-    const instance = await this.create({ template, templateData, position, animation, animationTarget, component, classes, mobileComponent, desktopComponent });
+  async open({
+    template,
+    templateData,
+    position,
+    animation,
+    animationTarget,
+    component,
+    classes,
+    mobileComponent,
+    desktopComponent,
+    scrollPanelWidthPage = false
+  }) {
+    const instance = await this.create({ template, templateData, position, animation, animationTarget, component, classes, mobileComponent, desktopComponent, scrollPanelWidthPage });
     instance.open();
     return instance;
   }
 
-  async create({ template, templateData, position, animation, animationTarget, component, classes, mobileComponent, desktopComponent }) {
+  async create({
+    template,
+    templateData,
+    position,
+    animation,
+    animationTarget,
+    component,
+    classes,
+    mobileComponent,
+    desktopComponent,
+    scrollPanelWidthPage = false
+  }) {
     if (!component) component = this._autoSelectComponent(mobileComponent, desktopComponent);
     this._validateComponent(component);
     if (component === 'panel') {
@@ -197,7 +219,7 @@ const MDWSurface = new class {
         break;
 
       case 'panel':
-        surfaceTemplate = this._buildPanel({ id, position, animation, templateString, classes });
+        surfaceTemplate = this._buildPanel({ id, position, animation, templateString, classes, scrollPanelWidthPage });
         break;
 
       case 'sheetBottom':
@@ -257,9 +279,14 @@ const MDWSurface = new class {
     `;
   }
 
-  _buildPanel({ id, templateString, position, classes }) {
+  _buildPanel({ id, templateString, position, classes, scrollPanelWidthPage }) {
     return /* html */`
-      <mdw-panel id="${id}" ${position ? `mdw-position="${position}"` : ''} class="${classes || ''}">
+      <mdw-panel
+        id="${id}"
+        ${position ? `mdw-position="${position}"` : ''}
+        ${scrollPanelWidthPage ? `mdw-scroll-with-page` : ''}
+        class="${classes || ''}"
+      >
         ${templateString}
       </mdw-panel>
     `

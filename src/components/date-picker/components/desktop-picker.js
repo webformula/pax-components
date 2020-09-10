@@ -10,7 +10,6 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
 
     // this.today = MDWDateUtil.today();
     this.dayOfWeekNames = MDWDateUtil.getDayOfWeekNames('narrow');
-    // this.yearList = MDWDateUtil.defaultYearRange();
     this._currentView = 'month';
     this.cloneTemplate(true);
   }
@@ -175,6 +174,7 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
   }
 
   toggleYearView() {
+    console.log(this._currentView);
     switch (this._currentView) {
       case 'month':
         this.showYearView();
@@ -213,6 +213,8 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
 
 
   _monthTemplate() {
+    this._currentView = 'month';
+
     return /* html */`
       <div class="mdw-date-picker--month-day-header">
         ${this.dayOfWeekNames.map(n => `<span>${n}</span>`).join('\n')}

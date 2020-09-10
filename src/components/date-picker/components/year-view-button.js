@@ -89,7 +89,7 @@ customElements.define('mdw-date-picker--year-view-button', class extends HTMLEle
       :host {
         margin-left: 24px;
         position: relative;
-        padding-right: 28px;
+        padding-right: 23px;
         cursor: pointer;
         color: var(--mdw-theme-text--body);
         display: flex;

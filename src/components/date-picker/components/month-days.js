@@ -10,19 +10,19 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     super();
 
     if (MDWUtils.isMobile) this.classList.add('mdw-mobile');
-    // this.bound_onClick = this.onClick.bind(this);
+    this.bound_onClick = this.onClick.bind(this);
     this.today = MDWDateUtil.today();
     this._setupDate();
     this.cloneTemplate(true);
   }
 
-  // addEvents() {
-  //   this.shadowRoot.addEventListener('click', this.bound_onClick);
-  // }
+  addEvents() {
+    this.shadowRoot.addEventListener('click', this.bound_onClick);
+  }
 
-  // removeEvents() {
-  //   this.shadowRoot.removeEventListener('click', this.bound_onClick);
-  // }
+  removeEvents() {
+    this.shadowRoot.removeEventListener('click', this.bound_onClick);
+  }
 
   static get observedAttributes() {
     return ['mdw-display-date', 'mdw-selected-date', 'mdw-min-date', 'mdw-max-date'];
@@ -49,9 +49,9 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     return this.getAttribute('mdw-display-date');
   }
 
-  // get selectedDate() {
-  //   return this.getAttribute('mdw-selected-date');
-  // }
+  get selectedDate() {
+    return this.getAttribute('mdw-selected-date');
+  }
 
   get minDate() {
     return this.getAttribute('mdw-min-date');
@@ -85,6 +85,7 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
 
     const selectedElement = this.shadowRoot.querySelector(`[mdw-date="${MDWDateUtil.format(date, 'YYYY-MM-dd')}"]`);
     if (selectedElement) selectedElement.classList.add('mdw-selected');
+    console.log(selectedElement);
   }
 
   deselect() {
@@ -92,29 +93,33 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     if (selected) selected.classList.remove('mdw-selected');
   }
 
-  // onClick(event) {
-  //   if (!event.target.classList.contains('mdw-date-picker--day') || !event.target.classList.contains('mdw-interactable') || event.target.classList.contains('mdw-out-of-range')) return;
+  onClick(event) {
+    if (!event.target.classList.contains('mdw-date-picker--day') || !event.target.classList.contains('mdw-interactable') || event.target.classList.contains('mdw-out-of-range')) return;
 
-  //   this.deselect();
-  //   const { year, month, day } = MDWDateUtil.getParts(MDWDateUtil.parse(event.target.getAttribute('mdw-date')));
-  //   this.dispatchEvent(new CustomEvent('MDWDatePicker:dayChange', {
-  //     composed: true,
-  //     detail: { year, month, day }
-  //   }));
-  // }
+    this.deselect();
+    const { year, month, day } = MDWDateUtil.getParts(MDWDateUtil.parse(event.target.getAttribute('mdw-date')));
+    this.dispatchEvent(new CustomEvent('MDWDatePicker:dayChange', {
+      composed: true,
+      detail: { year, month, day }
+    }));
+  }
 
   template() {
+    const selectedDateParts = this.selectedDate && MDWDateUtil.getParts(new Date(this.selectedDate));
     return /* html */`
       <div class="container">
         ${this.monthDays.map(week => `
           ${week.map(({ display, date, currentMonth, interactable, beforeMinDate, afterMaxDate, isToday }) => {
             let classes = 'mdw-date-picker--day';
+            let { year, month, day} = MDWDateUtil.getParts(new Date(date));
             if (beforeMinDate) classes += ' mdw-before-min-date';
             if (afterMaxDate) classes += ' mdw-after-max-date';
             if (interactable) classes += ' mdw-interactable';
             if (beforeMinDate || afterMaxDate) classes += ' mdw-out-of-range';
             if (isToday && display !== '') classes += ' mdw-today';
             if (!currentMonth) classes += ' mdw-next-month';
+            if (selectedDateParts) console.log(new Date(this.selectedDate).getDay());
+            if (selectedDateParts && selectedDateParts.year === year && selectedDateParts.month === month && selectedDateParts.day === day) classes += ' mdw-selected';
             return /* html */`<div class="${classes}" mdw-date="${MDWDateUtil.format(date, 'YYYY-MM-dd')}">${display}</div>`;
           }).join('\n')}
         `).join('')}
@@ -153,7 +158,7 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
       }
       .mdw-date-picker--day {
         font-size: 13px;
-        color: var(--mdw-theme-text--heading);
+        color: var(--mdw-theme-on-primary);
         user-select: none;
         box-sizing: border-box;
         cursor: pointer;
@@ -162,7 +167,7 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
         text-align: center;
         padding: 6px;
       }
-      .mdw-date-picker--day::before {
+      .mdw-date-picker--day:before {
         content: "";
         width: 28px;
         height: 28px;
@@ -188,13 +193,13 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
         color: rgb(140,120,120);
       }
       .mdw-date-picker--day.mdw-selected {
-        color: var(--mdw-theme-text--on-primary);
+        color: var(--mdw-theme-text-primary-on-background);
       }
-      .mdw-date-picker--day.mdw-selected::before {
+      .mdw-date-picker--day.mdw-selected:before {
         background-color: var(--mdw-theme-primary);
       }
-      .mdw-date-picker--day.mdw-today::before {
-        border: 1px solid var(--mdw-theme-foreground);
+      .mdw-date-picker--day.mdw-today:before {
+        border: 1px solid rgb(var(--mdw-theme-on-background--rgb), 0.3);
       }
     `;
   }

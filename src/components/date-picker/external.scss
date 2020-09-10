@@ -24,3 +24,13 @@ mdw-date-picker {
   box-sizing: border-box;
   flex-direction: column;
 }
+
+
+mdw-textfield.mdw-has-date-picker {
+  ::-webkit-inner-spin-button {
+    display: none;
+  }
+  ::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}

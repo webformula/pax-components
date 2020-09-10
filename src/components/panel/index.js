@@ -27,6 +27,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     };
 
     this.bound_onOpenTransitionEnd = this.onOpenAnimationEnd.bind(this);
+    this.bound_onScroll = this.onScroll.bind(this);
   }
 
   connectedCallback() {
@@ -35,8 +36,8 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    this.removeBodyClickEvent_();
-    this.removeKeydownEvent_();
+    this._removeBodyClickEvent();
+    this._removeKeydownEvent();
     clearTimeout(this._openAnimationEndTimerId);
     clearTimeout(this._closeAnimationEndTimerId);
     cancelAnimationFrame(this._animationRequestId);
@@ -66,6 +67,10 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     return this._position;
   }
 
+  get scrollWidthPage() {
+    return this.hasAttribute('mdw-scroll-with-page');
+  }
+
   fullscreen() {
     this.classList.add('mdw-fullscreen');
   }
@@ -90,6 +95,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     if (this._isOpen) this._addBodyClickEvent();
   }
 
+  scrollWithPage() {
+    this._scrollWidthPage = true;
+    this.setAttribute('mdw-scroll-with-page', 'true');
+  }
+
   isOpen() {
     return this._isOpen;
   }
@@ -106,6 +116,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   open(clickBodyToClose) {
     if (clickBodyToClose !== undefined) this._clickOutsideClose = clickBodyToClose;
+
     // handle focused element
     const focusableElements = this.querySelectorAll(this.FOCUSABLE_ELEMENTS);
     this._firstFocusableElement = focusableElements[0];
@@ -147,6 +158,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     this._addBodyClickEvent();
     this._addKeydownEvent();
+    if (this.scrollWidthPage) this.setupScrollWithPage();
     this.addEventListener('MDWPanel:close', this.bound_close);
     this._isOpen = true;
   }
@@ -198,13 +210,15 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   // TODO FIX THE CLOSING ANIMATION
   async close(event) {
+    if (this.scrollWidthPage) this.teardownScrollWithPage();
+
     return new Promise(resolve => {
       if (event) event.stopPropagation();
 
       this.removeEventListener('MDWPanel:close', this.bound_close);
       if (!this._isQuickOpen) {
         this.classList.add('mdw-panel--animating-closed');
-        this.removeBodyClickEvent_();
+        this._removeBodyClickEvent();
         this._animationRequestId = this._runNextAnimationFrame(() => {
           this.classList.remove('mdw-open');
           this._closeAnimationEndTimerId = setTimeout(() => {
@@ -221,7 +235,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         resolve();
       }
 
-      this.removeKeydownEvent_();
+      this._removeKeydownEvent();
       this._isOpen = false;
       const isRootFocused = this.isFocused();
       const childHasFocus = document.activeElement && this.contains(document.activeElement);
@@ -274,7 +288,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     }, 0);
   }
 
-  removeBodyClickEvent_() {
+  _removeBodyClickEvent() {
     if (this.hasBodyEvent) document.body.removeEventListener('click', this._boundHandleBodyClick);
     this.hasBodyEvent = false;
   }
@@ -284,7 +298,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     document.body.addEventListener('keydown', this._boundHandleKeydown);
   }
 
-  removeKeydownEvent_() {
+  _removeKeydownEvent() {
     if (this.hasKeydownEvent) document.body.removeEventListener('keydown', this._boundHandleKeydown);
     this.hasKeydownEvent = false;
   }
@@ -297,7 +311,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const el = event.target;
     if (this._clickOutsideCloseIgnorElement.includes(el)) return;
     if (this.contains(el)) return;
-    this.removeBodyClickEvent_();
+    this._removeBodyClickEvent();
     this.close();
   }
 
@@ -502,5 +516,20 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.top = '';
     this.style.left = '';
     // this.style[this.transformPropertyName] = '';
+  }
+
+
+  setupScrollWithPage() {
+    this._scrollContainer = document.querySelector('mdw-scroll-container') || document.body;
+    this._scrollContainer.addEventListener('scroll', this.bound_onScroll);
+    this._initialScrollPosition = this._scrollContainer.scrollTop + parseInt(`${this.style.top || '0'}`.replace('px', ''));
+  }
+
+  teardownScrollWithPage() {
+    this._scrollContainer.removeEventListener('scroll', this.bound_onScroll);
+  }
+
+  onScroll(event) {
+    this.style.top = `${this._initialScrollPosition - this._scrollContainer.scrollTop}px`;
   }
 });

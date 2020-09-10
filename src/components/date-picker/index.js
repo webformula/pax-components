@@ -6,6 +6,7 @@ import './components/desktop-picker.js';
 import './components/month-days.js';
 import './components/year-view-button.js';
 import './components/month-navigation-buttons.js';
+import './components/years.js';
 
 // TODO update change (month, day year) events to be updateDate and selectDate
 
@@ -14,8 +15,11 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     super();
 
     this.bound_open = this.open.bind(this);
+    this.bound_close = this.close.bind(this);
     this.bound_onInputChange = this._onInputChange.bind(this);
     this.bound_onMonthChange = this.onMonthChange.bind(this);
+    this.bound_onYearChange = this.onYearChange.bind(this);
+    this.bound_onDayChange = this.onDayChange.bind(this);
 
     this.displayDate = MDWDateUtil.parse(this.getAttribute('mdw-date') || MDWDateUtil.today());
     this.selectedDate = this.getAttribute('mdw-selected-date') || '';
@@ -32,6 +36,7 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
       template: MDWUtils.isMobile ? this._mobileTemplate() : this._desktopTemplate(),
       // TODO fix position setting
       // position: MDWUtils.isMobile ? 'center center' : 'inner-left bottom',
+      scrollPanelWidthPage: true,
       animation: {
         type: 'scale',
         origin: 'top',
@@ -42,6 +47,11 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
+    if (this._isTextField) {
+      this._triggerElement.removeEventListener('click', this.bound_open);
+      this._triggerElement.removeEventListener('input', this.bound_onInputChange);
+    }
+
     if (this._panelSurface.element) {
       this._panelSurface.destroy();
     }
@@ -51,20 +61,20 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     const pickerElement = this.pickerElement;
     if (!pickerElement) return;
 
-    // this.pickerElement.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+    this.pickerElement.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
     pickerElement.addEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
-    // this.pickerElement.addEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
-    // this.pickerElement.addEventListener('MDWDatePicker:close', this.bound_close);
+    this.pickerElement.addEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+    this.pickerElement.addEventListener('MDWDatePicker:close', this.bound_close);
   }
 
   removeEvents() {
     const pickerElement = this.pickerElement;
     if (!pickerElement) return;
 
-    // this.pickerElement.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+    this.pickerElement.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
     pickerElement.removeEventListener('MDWDatePicker:monthChange', this.bound_onMonthChange);
-    // this.pickerElement.removeEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
-    // this.pickerElement.removeEventListener('MDWDatePicker:close', this.bound_close);
+    this.pickerElement.removeEventListener('MDWDatePicker:dayChange', this.bound_onDayChange);
+    this.pickerElement.removeEventListener('MDWDatePicker:close', this.bound_close);
   }
 
   get pickerElement() {
@@ -82,21 +92,54 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     if (this._panelSurface.element && this._panelSurface.element.isOpen()) return;
 
     await this._panelSurface.open();
-    // this._panelSurface.element.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
+    this._panelSurface.element.clickBodyToClose();
     if (MDWUtils.isMobile) this._backdrop = MDWUtils.addBackdrop(this._panelSurface.element);
-    MDWUtils.lockPageScroll();
 
     // add events after open because hte element does not exist until then
     this.addEvents();
+
+    // set date from textfield
+    if (this._isTextField) {
+      const value = this._triggerElement.input.value;
+      if (MDWDateUtil.isValid(new Date(value))) {
+        this.updateDisplayDate(MDWDateUtil.getParts(MDWDateUtil.parse(value)));
+        this.setDate(true);
+      }
+    }
   }
+
+  close() {
+    if (this._panelSurface.element) this._panelSurface.element.close();
+  }
+
 
   updateDisplayDate({ year, month, day }) {
     this.displayDate = MDWDateUtil.buildFromParts({ year, month, day });
     this.pickerElement.setAttribute('mdw-display-date', this.displayDate);
   }
 
+  setDate(preventInputUpdate = false) {
+    this.selectedDate = this.displayDate;
+    this.pickerElement.setAttribute('mdw-selected-date', this.selectedDate);
+
+    if (!preventInputUpdate && this._isTextField) {
+      this._triggerElement.input.value = MDWDateUtil.format(this.selectedDate, 'YYYY-MM-dd');
+    }
+  }
+
   onMonthChange({ detail }) {
     this.updateDisplayDate(detail);
+  }
+
+  onYearChange({ detail }) {
+    const dateParts = MDWDateUtil.getParts(MDWDateUtil.adjustDate(MDWDateUtil.parse(this.displayDate), { set: { year: detail.year } }));
+    this.updateDisplayDate(dateParts);
+  }
+
+  onDayChange({ detail }) {
+    this.updateDisplayDate(detail);
+    this.setDate();
+    if (!MDWUtils.isMobile) this.close();
   }
 
 
@@ -106,19 +149,19 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     const parent = this.parentNode;
     if (!parent) return;
 
-    const isButton = parent.nodeName === 'MDW-BUTTON';
-    if (isButton) {
+    this._isButton = parent.nodeName === 'MDW-BUTTON';
+    if (this._isButton) {
       this._triggerElement = parent;
       this._triggerElement.addEventListener('click', this.bound_open);
       return;
     }
 
-    const isTextField = parent.nodeName === 'MDW-TEXTFIELD';
-    if (isTextField) {
+    this._isTextField = parent.nodeName === 'MDW-TEXTFIELD';
+    if (this._isTextField) {
       this._triggerElement = parent;
+      this._triggerElement.classList.add('mdw-has-date-picker');
       this._triggerElement.addEventListener('click', this.bound_open);
       this._triggerElement.addEventListener('input', this.bound_onInputChange);
-      // this._triggerElement.classList.add('mdw-hide-date-prompt');
 
       if (this._triggerElement.hasAttribute('min')) this.setAttribute('mdw-min-date', this._triggerElement.getAttribute('min'));
       if (this._triggerElement.hasAttribute('max')) this.setAttribute('mdw-max-date', this._triggerElement.getAttribute('max'));
@@ -148,7 +191,11 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
 
-  _onInputChange() {
+  _onInputChange(event) {
+    const date = MDWDateUtil.parse(event.target.value);
+    if (!MDWDateUtil.isValid(date)) return;
 
+    this.updateDisplayDate(MDWDateUtil.getParts(date));
+    this.setDate(true);
   }
 });

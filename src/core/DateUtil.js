@@ -204,7 +204,7 @@ class MDWDateUtil {
   }
 
   // used for generating a array of years for a calendar
-  defaultYearRange(startYear = MDWDateUtil.getYear(new Date()) - 50, range = 100) {
+  defaultYearRange(startYear = this.getYear(new Date()) - 50, range = 100) {
     return [...new Array(range)].map((_, i) => startYear + i);
   }
 
