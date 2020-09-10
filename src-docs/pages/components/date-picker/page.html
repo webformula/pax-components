@@ -6,20 +6,65 @@
       <mdw-icon>events</mdw-icon>
       <input type="date">
       <label>Date</label>
-      <!-- <mdw-date-picker mdw-min-date="2019-12-10" mdw-max-date="2020-2-2"></mdw-date-picker> -->
       <mdw-date-picker></mdw-date-picker>
     </mdw-textfield>
   </div>
 
-  <div class="showcase mdw-elevation-1">
-    <mdw-textfield>
-      <mdw-icon>events</mdw-icon>
-      <input type="date">
-      <label>Date</label>
-      <!-- <mdw-date-picker mdw-min-date="2019-12-10" mdw-max-date="2020-2-2"></mdw-date-picker> -->
-      <mdw-date-picker></mdw-date-picker>
-    </mdw-textfield>
-  </div>
   <a href="https://material.io/components/pickers/" target="_new">Material Design Guidelines: pickers</a>
   <p>Date pickers let users select a date, or a range of dates</p>
+
+
+  <section>
+    <h4>Example</h4>
+
+    <mdw-card id="contained">
+      <div class="mdw-card__content">
+        <h6>Date input</h6>
+      </div>
+      <div class="mdw-card__content--no-padding">
+        <monaco-editor language="html">
+          <mdw-textfield>
+            <mdw-icon>events</mdw-icon>
+            <input type="date">
+            <mdw-date-picker></mdw-date-picker>
+          </mdw-textfield>
+        </monaco-editor>
+      </div>
+
+      <div class="mdw-card__content" style="display: block;">
+        <mdw-textfield>
+          <mdw-icon>events</mdw-icon>
+          <input type="date">
+          <label>Date</label>
+          <mdw-date-picker></mdw-date-picker>
+        </mdw-textfield>
+      </div>
+    </mdw-card>
+  </section>
+
+  <section style="height: 500px;">
+    <mdw-card id="contained">
+      <div class="mdw-card__content">
+        <h6>Date input</h6>
+        <p>Browser default date picker. (click on secondary icon)</p>
+      </div>
+      <div class="mdw-card__content--no-padding">
+        <monaco-editor language="html">
+          <mdw-textfield>
+            <mdw-icon>events</mdw-icon>
+            <input type="date">
+          </mdw-textfield>
+        </monaco-editor>
+      </div>
+    
+      <div class="mdw-card__content" style="display: block;">
+        <mdw-textfield>
+          <mdw-icon>events</mdw-icon>
+          <input type="date">
+          <label>Date</label>
+        </mdw-textfield>
+      </div>
+    </mdw-card>
+  </section>
+
 </article>
