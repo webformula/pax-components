@@ -389,14 +389,71 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.top = `${panelY}px`;
   }
 
+  setHoistedPosition() {
+    if (this._anchored) return this.setAnchoredPosition();
 
-  setHoistedAnchoredPosition() {
-    const bounds = this._container.getBoundingClientRect();
-    const height = this.offsetHeight;
-    const width = this.offsetWidth;
     const split = (this.position || ' ').split(' ');
     const aValue = split[0];
     const bValue = split[1];
+    let { top, left } = this._calculateHoistedPosition(aValue, bValue);
+    let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, top, left);
+    let { top: t, left: l } = this._calculateHoistedPosition(a, b);
+  }
+
+  setAnchoredPosition() {
+    const split = (this.position || ' ').split(' ');
+    let aValue = split[0];
+    let bValue = split[1];
+    let { top, left } = this._calculateAnchoredPosition(aValue, bValue);
+    let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, top, left);
+    let { top: t, left: l } = this._calculateAnchoredPosition(a, b);
+    this.style.width = `${this.width}px`;
+    this.style.top = `${t}px`;
+    this.style.left = `${l}px`;
+  }
+
+  _adjustAnchoredPositions(aValue, bValue, top, left) {
+    const { clientWidth, clientHeight } = document.documentElement;
+    const height = this.offsetHeight;
+    const width = this.offsetWidth;
+
+    switch (aValue) {
+      case 'top':
+        if (top < 0) aValue = 'bottom';
+        break;
+      case 'inner-top':
+        if (top < 0) aValue = 'inner-bottom';
+        break;
+      case 'bottom':
+        if (((top + height) - clientHeight) > 0) aValue = 'top';
+        break;
+      case 'inner-bottom':
+        if (((top + height) - clientHeight) > 0) aValue = 'inner-top';
+        break;
+    }
+
+    switch (bValue) {
+      case 'left':
+        if ((left + width) > clientWidth) bValue = 'right';
+        break;
+      case 'inner-left':
+        if ((left + width) > clientWidth) bValue = 'inner-right';
+        break;
+      case 'right':
+        if (left < 0) bValue = 'left';
+        break;
+      case 'inner-right':
+        if (left < 0) bValue = 'inner-left';
+        break;
+    }
+
+    return { aValue, bValue };
+  }
+
+  _calculateAnchoredPosition(aValue, bValue) {
+    const bounds = this._container.getBoundingClientRect();
+    const height = this.offsetHeight;
+    const width = this.offsetWidth;
     let top = 0;
     let left = 0;
 
@@ -436,80 +493,55 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         break;
     }
 
-    this.style.width = `${this.width}px`;
-    this.style.top = `${top}px`;
-    this.style.left = `${left}px`;
+    return { top, left };
   }
 
-  setHoistedPosition() {
-    if (this._anchored) return this.setHoistedAnchoredPosition();
-
+  _calculateHoistedPosition(aValue, bValue) {
     const bounds = this._container.getBoundingClientRect();
-    this.style.top = `${bounds.top}px`;
-    this.style.left = `${bounds.left}px`;
-    // this.style[this.transformPropertyName] = 'scale(1)';
-    
-    if (!this._positionSet) {
-      this._autoPositionHoisted();
-    } else {
-      let top = 0;
-      let left = 0;
+    const { clientWidth, clientHeight } = document.documentElement;
+    const height = this.offsetHeight;
+    const width = this.offsetWidth;
+    let top = 0;
+    let left = 0;
 
-      this.style.top = `${top}px`;
-      this.style.left = `${left}px`;
-      
-      setTimeout(() => {
-        const { clientWidth, clientHeight } = document.documentElement;
-        const height = this.offsetHeight;
-        const width = this.offsetWidth;
-        // no defaults
-        const split = (this.position || ' ').split(' ');
-        const aValue = split[0];
-        const bValue = split[1];
-        
-        switch(aValue) {
-          case 'top':
-            top = 0;
-            break;
-          case 'inner-top':
-            top = bounds.y + 12;
-            break;
-          case 'bottom':
-            top = clientHeight;
-            break;
-          case 'center':
-            top = (clientHeight / 2) - (height / 2);
-            break;
-          case 'inner-bottom':
-            top = clientHeight - height - 12;
-            break;
-        }
-
-        switch(bValue) {
-          case 'left':
-            left = 0;
-            break;
-          case 'inner-left':
-            left = bounds.x + 12;
-            break;
-          case 'right':
-            left = clientWidth;
-            break;
-          case 'inner-right':
-            left = clientWidth - width - 12;
-            break;
-          case 'center':
-            left = (clientWidth / 2) - (width / 2);
-            break;
-        }
-
-        this.style.width = `${this.width}px`;
-        this.style.top = `${top}px`;
-        this.style.left = `${left}px`;
-      }, 0);
+    switch (aValue) {
+      case 'top':
+        top = 0;
+        break;
+      case 'inner-top':
+        top = bounds.y + 12;
+        break;
+      case 'bottom':
+        top = clientHeight;
+        break;
+      case 'center':
+        top = (clientHeight / 2) - (height / 2);
+        break;
+      case 'inner-bottom':
+        top = clientHeight - height - 12;
+        break;
     }
-  }
 
+    switch (bValue) {
+      case 'left':
+        left = 0;
+        break;
+      case 'inner-left':
+        left = bounds.x + 12;
+        break;
+      case 'right':
+        left = clientWidth;
+        break;
+      case 'inner-right':
+        left = clientWidth - width - 12;
+        break;
+      case 'center':
+        left = (clientWidth / 2) - (width / 2);
+        break;
+    }
+
+    return { top, left };
+  }
 
   setPositionStyle(parentOverride) {
     if (parentOverride) this._parentOverride = parentOverride;
