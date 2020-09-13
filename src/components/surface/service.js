@@ -133,25 +133,25 @@ class MDWSurfaceInstance {
 
   // remove the panel and disconnect its listeners with a closing animation
   destroy() {
+    if (this.element) return;
+
     switch (this.component) {
       case 'dialog':
-        if (this.element) this.element.removeEventListener('close', this.bound_onDialogClose);
+        this.element.removeEventListener('close', this.bound_onDialogClose);
         break;
       case 'panel':
-        if (this.element) this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+        this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
         break;
       case 'sheetBottom':
-        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
+        this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
       case 'sheetSide':
-        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
+        this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
     }
 
-    if (this._element) {
-      this.element.remove();
-      window._activeSurface = undefined;
-    }
+    this.element.remove();
+    window._activeSurface = undefined;
   }
 
   _onPanelClose() {
