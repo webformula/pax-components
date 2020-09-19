@@ -53,6 +53,6 @@ export default class Layout extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/documentation/layout/page.html';
   }
 }

@@ -167,6 +167,6 @@ export default class ThemePage extends Page {
 
 
   template() {
-    return './page.html';
+    return 'pages/documentation/theming/page.html';
   }
 }

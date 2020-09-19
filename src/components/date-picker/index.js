@@ -15,6 +15,9 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   constructor() {
     super();
 
+    // having to many problems with the mobile version of the date picker. For now we will forgo it and use native controls
+    if (MDWUtils.isMobile) return;
+
     this.bound_open = this.open.bind(this);
     this.bound_close = this.close.bind(this);
     this.bound_onInputChange = this._onInputChange.bind(this);
@@ -44,6 +47,9 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
   }
 
   async connectedCallback() {
+    // having to many problems with the mobile version of the date picker. For now we will forgo it and use native controls
+    if (MDWUtils.isMobile) return;
+    
     super.connectedCallback();
     this._attachToTriggerElement();
   }
@@ -185,8 +191,13 @@ customElements.define('mdw-date-picker', class extends HTMLElementExtended {
     if (this._isTextField) {
       this._triggerElement = parent;
       this._triggerElement.classList.add('mdw-has-date-picker');
-      this._triggerElement.addEventListener('click', this.bound_open);
-      this._triggerElement.addEventListener('input', this.bound_onInputChange);
+      if (!MDWUtils.isMobile) {
+        this._triggerElement.addEventListener('click', this.bound_open);
+        this._triggerElement.addEventListener('input', this.bound_onInputChange);
+      } else {
+        this._triggerElement.addEventListener('click', this.bound_open);
+        this._triggerElement.addEventListener('input', this.bound_onInputChange);
+      }
 
       if (this._triggerElement.hasAttribute('min')) this.setAttribute('mdw-min-date', this._triggerElement.getAttribute('min'));
       if (this._triggerElement.hasAttribute('max')) this.setAttribute('mdw-max-date', this._triggerElement.getAttribute('max'));

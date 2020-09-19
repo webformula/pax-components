@@ -128,6 +128,6 @@ export default class TopAppBar extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/components/app-bar-top/page.html';
   }
 }

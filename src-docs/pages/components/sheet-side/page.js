@@ -81,6 +81,6 @@ export default class SheetsSide extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/components/sheet-side/page.html';
   }
 }

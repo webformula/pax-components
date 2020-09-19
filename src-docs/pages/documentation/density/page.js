@@ -21,6 +21,6 @@ export default class Density extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/documentation/density/page.html';
   }
 }

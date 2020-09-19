@@ -122,6 +122,6 @@ export default class PageLayout extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/documentation/page-layout/page.html';
   }
 }

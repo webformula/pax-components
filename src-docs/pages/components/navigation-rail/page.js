@@ -86,6 +86,6 @@ export default class NavigationRail extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/components/navigation-rail/page.html';
   }
 }

@@ -53,6 +53,6 @@ export default class Surface extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/components/surface/page.html';
   }
 }
