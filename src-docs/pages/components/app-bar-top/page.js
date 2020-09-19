@@ -1,4 +1,4 @@
-import { Page } from '/web_modules/@webformula/pax-core/index.js';
+import { Page } from '/web_modules/@webformula/pax-core';
 
 export default class TopAppBar extends Page {
   constructor() {
@@ -128,6 +128,6 @@ export default class TopAppBar extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/components/app-bar-top/page.html';
   }
 }

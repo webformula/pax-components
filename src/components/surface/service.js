@@ -15,15 +15,26 @@ const animationTypes = [
 
 const animationOrigin = [
   'top',
-  'center'
+  'top left',
+  'top right',
+  'top center',
+  'bottom',
+  'bottom left',
+  'bottom right',
+  'bottom center',
+  'right',
+  'left',
+  'center',
+  'center center'
 ];
 
 class MDWSurfaceInstance {
-  constructor({ id, component, template, position, animation }) {
+  constructor({ id, component, template, position, animation, anchorElement }) {
     this._id = id;
     this._component = component;
     this._template = template;
     this._animation = animation;
+    this._anchorElement = anchorElement;
     this._position = position;
 
     this.bound_onPanelClose = this._onPanelClose.bind(this);
@@ -39,9 +50,9 @@ class MDWSurfaceInstance {
     return this._component;
   }
 
-  set element(value) {
-    this._element = value;
-  }
+  // set element(value) {
+  //   this._element = value;
+  // }
   get element() {
     return this._element;
   }
@@ -59,13 +70,25 @@ class MDWSurfaceInstance {
 
       case 'panel':
         // prep animation
-        if (this._animation) {
-          this.element.setAnimation(this._animation);
+        if (this._animation) this.element.setAnimation(this._animation);
 
-          // hoist to body if target is set. This is confusing and needs to be addressed.
-          //   If not hoisted then the positioning is incorrect.
-          if (this._animation.hoistToBody !== false && this._animation.target instanceof HTMLElement) this.element.hoistToBody(this._animation.target);
+        // quick open only if specifically false
+        // if left undefined the animation will be defaulted
+        if (this._animation === false) {
+          this.element.quickOpen = true;
         }
+
+        // anchor to element
+        if (this._anchorElement && this._anchorElement instanceof HTMLElement) {
+          if (this._animation && this._animation.hoistToBody === false) return;
+          this.element.hoistToBody(this._anchorElement);
+        }
+
+        // anchor element for positioning
+        if (this._anchorElement) {
+          this.element.anchored();
+        }
+
         if (this._position) this.element.setPosition(this._position);
         this.element.open();
         this.element.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
@@ -93,30 +116,42 @@ class MDWSurfaceInstance {
     switch (this.component) {
       case 'dialog':
         await this.element.close();
-        if (this.element) this.element.removeEventListener('close', this.bound_onDialogClose);
         break;
-
       case 'panel':
         await this.element.close();
-        if (this.element) this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
         break;
-
       case 'sheetBottom':
         await this.element.close();
-        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
-
       case 'sheetSide':
         await this.element.close();
-        if (this.element) this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
         break;
     }
 
-    // this may be removed via panel click outside to close
-    if (this._element) {
-      this.element.remove();
-      window._activeSurface = undefined;
+    this.destroy();
+  }
+
+  // remove the panel and disconnect its listeners with a closing animation
+  destroy() {
+    if (this.element) return;
+
+    switch (this.component) {
+      case 'dialog':
+        this.element.removeEventListener('close', this.bound_onDialogClose);
+        break;
+      case 'panel':
+        this.element.removeEventListener('MDWPanel:closed', this.bound_onPanelClose);
+        break;
+      case 'sheetBottom':
+        this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
+        break;
+      case 'sheetSide':
+        this.element.removeEventListener('MDWSheet:closed', this.bound_onSheetClose);
+        break;
     }
+
+    this.element.remove();
+    window._activeSurface = undefined;
   }
 
   _onPanelClose() {
@@ -142,6 +177,8 @@ class MDWSurfaceInstance {
 }
 
 
+
+// Instance that generates MDWSurfaceInstance instances
 const MDWSurface = new class {
   constructor() {
     this._defaultMobileComponent = 'panel';
@@ -159,18 +196,50 @@ const MDWSurface = new class {
   }
 
 
-  async open({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent }) {
-    const instance = await this.create({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent });
+  async open({
+    template,
+    templateData,
+    position,
+    animation,
+    anchorElement,
+    component,
+    classes,
+    mobileComponent,
+    desktopComponent,
+    scrollPanelWidthPage = false
+  }) {
+    const instance = await this.create({
+      template,
+      templateData,
+      position,
+      animation,
+      component,
+      classes,
+      mobileComponent,
+      desktopComponent,
+      scrollPanelWidthPage
+    });
     instance.open();
     return instance;
   }
 
-  async create({ template, templateData, position, animation, animationTarget, component, mobileComponent, desktopComponent }) {
+  async create({
+    template,
+    templateData,
+    position,
+    animation,
+    anchorElement,
+    component,
+    classes,
+    mobileComponent,
+    desktopComponent,
+    scrollPanelWidthPage = false
+  }) {
     if (!component) component = this._autoSelectComponent(mobileComponent, desktopComponent);
     this._validateComponent(component);
     if (component === 'panel') {
-      if (!animation) animation = this._autoSelectAnimation(animationTarget);
-      this._validateAnimation(animation);
+      if (!animation) animation = this._autoSelectAnimation();
+      if (animation) this._validateAnimation(animation);
     }
 
     const id = MDWUtils.uid('surface');
@@ -179,28 +248,43 @@ const MDWSurface = new class {
     let surfaceTemplate;
     switch (component) {
       case 'dialog':
-        surfaceTemplate = this._buildDialog({ id, templateString });
+        surfaceTemplate = this._buildDialog({
+          id,
+          templateString,
+          classes
+        });
         break;
 
       case 'panel':
-        surfaceTemplate = this._buildPanel({ id, position, animation, templateString });
+        surfaceTemplate = this._buildPanel({
+          id,
+          position,
+          templateString,
+          classes,
+          scrollPanelWidthPage
+        });
         break;
 
       case 'sheetBottom':
-        surfaceTemplate = this._buildSheetBottom({ id, templateString });
+        surfaceTemplate = this._buildSheetBottom({
+          id,
+          templateString,
+          classes
+        });
         break;
 
       case 'sheetSide':
-        surfaceTemplate = this._buildSheetSide({ id, templateString });
+        surfaceTemplate = this._buildSheetSide({ id, templateString, classes });
         break;
     }
 
     return new MDWSurfaceInstance({
       id,
       component,
-      template: surfaceTemplate,
       animation,
-      position
+      anchorElement,
+      position,
+      template: surfaceTemplate
     });
   }
 
@@ -218,12 +302,11 @@ const MDWSurface = new class {
     if (!templateTypes.includes(type)) throw Error(`type must be one of these: ${templateTypes.join(', ')}`);
   }
 
-  _autoSelectAnimation(target) {
+  _autoSelectAnimation() {
     return {
       type: 'height',
       origin: 'center',
       fullscreen: true,
-      target,
       hoistToBody: false
     };
   }
@@ -233,36 +316,41 @@ const MDWSurface = new class {
     if (animation.origin && !animationOrigin.includes(animation.origin)) throw Error(`animation.type must be one of these: ${animationOrigin.join(', ')} or not defined`);
   }
 
-  _buildDialog({ id, templateString }) {
+  _buildDialog({ id, templateString, classes }) {
     return /* html */`
       <mdw-dialog id="${id}">
-        <mdw-panel position="center center">
+        <mdw-panel position="center center" class="${classes || ''}">
           ${templateString}
         </mdw-panel>
       </mdw-dialog>
     `;
   }
 
-  _buildPanel({ id, templateString, position }) {
+  _buildPanel({ id, position, templateString, classes, scrollPanelWidthPage }) {
     return /* html */`
-      <mdw-panel id="${id}" ${position ? `mdw-position="${position}"` : ''}>
+      <mdw-panel
+        id="${id}"
+        ${position ? `mdw-position="${position}"` : ''}
+        ${scrollPanelWidthPage ? `mdw-scroll-with-page` : ''}
+        class="${classes || ''}"
+      >
         ${templateString}
       </mdw-panel>
     `
   }
 
-  _buildSheetBottom({ id, templateString }) {
+  _buildSheetBottom({ id, templateString, classes }) {
     return /* html */`
-      <mdw-sheet-bottom id="${id}" mdw-modal>
+      <mdw-sheet-bottom id="${id}" mdw-modal class="${classes || ''}">
         ${!templateString.includes('<mdw-header>') ? '<mdw-header></mdw-header>' : ''}
         ${templateString}
       </mdw-sheet-bottom>
     `;
   }
 
-  _buildSheetSide({ id, templateString }) {
+  _buildSheetSide({ id, templateString, classes }) {
     return /* html */`
-      <mdw-sheet-side id="${id}" class="mdw-hide" mdw-modal mdw-no-backdrop>
+      <mdw-sheet-side id="${id}" class="mdw-hide ${classes || ''}" mdw-modal mdw-no-backdrop>
         ${templateString}
       </mdw-sheet-side>
     `;

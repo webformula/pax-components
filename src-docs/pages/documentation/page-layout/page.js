@@ -1,4 +1,4 @@
-import { Page } from '/web_modules/@webformula/pax-core/index.js';
+import { Page } from '/web_modules/@webformula/pax-core';
 
 export default class PageLayout extends Page {
   constructor() {
@@ -122,6 +122,6 @@ export default class PageLayout extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/documentation/page-layout/page.html';
   }
 }

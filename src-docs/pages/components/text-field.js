@@ -1,4 +1,4 @@
-import { Page } from '/web_modules/@webformula/pax-core/index.js';
+import { Page } from '/web_modules/@webformula/pax-core';
 
 export default class Textfield extends Page {
   constructor() {

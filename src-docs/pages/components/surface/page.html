@@ -27,13 +27,12 @@
           MDWSurface.open({
             component: 'panel',
             template: 'surface-template.html',
-            
+            anchorElement: target,
             // default animation config for panel
             animation: {
               type: 'height',
               origin: 'center',
-              fullscreen: true,
-              target
+              fullscreen: true
             },
           });
         }
@@ -129,7 +128,7 @@
 
         function openUsingDefaults(target) {
           MDWSurface.open({
-            animationTarget: target,
+            anchorElement: target,
             template: 'surface-template.html'
           });
         }
@@ -157,7 +156,7 @@
           MDWSurface.open({
             mobileComponent: 'sheetBottom',
             desktopComponent: 'sheetSide',
-            animationTarget: target,
+            anchorElement: target,
             template: 'surface-template.html'
           });
         }

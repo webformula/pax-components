@@ -17,6 +17,7 @@
 
   <link href="./main.css" rel="stylesheet">
   <script src="./pax-entry.js" type="module"></script>
+  <script src="./pax-templates.js" type="module"></script>
   <script src="./monaco-dist/app.js" async></script>
 
   <script type="module">
@@ -60,6 +61,7 @@
         <a href="#/components/fab">Buttons: FAB</a>
         <a href="#/components/cards">Cards</a>
         <a href="#/components/checkboxes">Checkboxes</a>
+        <a href="#/components/date-picker">Date picker</a>
         <a href="#/components/dialog">Dialog</a>
         <a href="#/components/lists">lists</a>
         <a href="#/components/menu">Menu</a>
@@ -101,7 +103,8 @@
           </section>
       
           <section class="mdw-flex">
-            <span class="mdw-title">PAX web components _VERSION_</span>
+            <span class="mdw-title" mdw-desktop-only>PAX web components _VERSION_</span>
+            <span class="mdw-title" mdw-mobile-only>_VERSION_</span>
           </section>
       
           <section>

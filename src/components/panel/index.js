@@ -27,6 +27,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     };
 
     this.bound_onOpenTransitionEnd = this.onOpenAnimationEnd.bind(this);
+    this.bound_onScroll = this.onScroll.bind(this);
   }
 
   connectedCallback() {
@@ -35,8 +36,8 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    this.removeBodyClickEvent_();
-    this.removeKeydownEvent_();
+    this._removeBodyClickEvent();
+    this._removeKeydownEvent();
     clearTimeout(this._openAnimationEndTimerId);
     clearTimeout(this._closeAnimationEndTimerId);
     cancelAnimationFrame(this._animationRequestId);
@@ -58,12 +59,20 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._clickOutsideClose = value;
   }
 
-  set setQuickOpen(value) {
+  set quickOpen(value) {
     this._isQuickOpen = value;
   }
 
   get position() {
     return this._position;
+  }
+
+  get scrollWidthPage() {
+    return this.hasAttribute('mdw-scroll-with-page');
+  }
+
+  anchored() {
+    this._anchored = true;
   }
 
   fullscreen() {
@@ -90,13 +99,18 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     if (this._isOpen) this._addBodyClickEvent();
   }
 
+  scrollWithPage() {
+    this._scrollWidthPage = true;
+    this.setAttribute('mdw-scroll-with-page', 'true');
+  }
+
   isOpen() {
     return this._isOpen;
   }
 
   onOpenAnimationEnd() {
     this.style.transition = '';
-    this.style.transformOrigin = '';
+    // this.style.transformOrigin = '';
     this.style.overflow = '';
     this.style.maxHeight = '';
     this.classList.remove('mdw-panel--animating-open');
@@ -106,6 +120,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   open(clickBodyToClose) {
     if (clickBodyToClose !== undefined) this._clickOutsideClose = clickBodyToClose;
+
     // handle focused element
     const focusableElements = this.querySelectorAll(this.FOCUSABLE_ELEMENTS);
     this._firstFocusableElement = focusableElements[0];
@@ -121,21 +136,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
       this._animationRequestId = this._runNextAnimationFrame(() => {
         if (this._animationConfig.fullscreen) this.classList.add('mdw-fullscreen');
-
-        switch (this._animationConfig.type) {
-          case 'height':
-            this.style.transition = 'max-height .22s cubic-bezier(0,0,.2,1), transform .22s cubic-bezier(0,0,.2,1), opacity .22s linear';
-            this.style.maxHeight = this.classList.contains('mdw-fullscreen') ? '100%' : `${this.scrollHeight}px`;
-            this.style.transform = '';
-            break;
-
-          case 'scale':
-          default:
-            this.style.transition = 'transform .1s cubic-bezier(0,0,.2,1), opacity 0.1s linear';
-            this.style.transform = '';
-            break;
-        }
-
+        this.prepareTransition();
         this.style.opacity = 1;
         this.addEventListener('transitionend', this.bound_onOpenTransitionEnd);
       });
@@ -147,11 +148,65 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
     this._addBodyClickEvent();
     this._addKeydownEvent();
+    if (this.scrollWidthPage && !MDWUtils.isMobile) this.setupScrollWithPage();
     this.addEventListener('MDWPanel:close', this.bound_close);
     this._isOpen = true;
   }
 
+  async close(event) {
+    if (this.scrollWidthPage) this.teardownScrollWithPage();
 
+    return new Promise(resolve => {
+      if (event) event.stopPropagation();
+
+      this.removeEventListener('MDWPanel:close', this.bound_close);
+
+      if (!this._isQuickOpen) {
+        this.prepareTransition();
+        this._animationRequestId = this._runNextAnimationFrame(() => {
+          this.prepareAnimation();
+          this.style.opacity = '0';
+          this._closeAnimationEndTimerId = setTimeout(() => {
+            this.classList.remove('mdw-open');
+            this.resetPosition();
+            this.notifyClose();
+            resolve();
+          }, 75);
+        });
+      } else {
+        this.classList.remove('mdw-open');
+        this.resetPosition();
+        this.notifyClose();
+        resolve();
+      }
+
+      this._removeKeydownEvent();
+      this._isOpen = false;
+      const isRootFocused = this.isFocused();
+      const childHasFocus = document.activeElement && this.contains(document.activeElement);
+      if (isRootFocused || childHasFocus) this.restoreFocus();
+    });
+  }
+
+
+  // this is used for open and close
+  prepareTransition() {
+    switch (this._animationConfig.type) {
+      case 'height':
+        this.style.transition = 'max-height .22s cubic-bezier(0,0,.2,1), transform .22s cubic-bezier(0,0,.2,1), opacity .22s linear';
+        this.style.maxHeight = this.classList.contains('mdw-fullscreen') ? '100%' : `${this.scrollHeight}px`;
+        this.style.transform = '';
+        break;
+
+      case 'scale':
+      default:
+        this.style.transition = 'transform .1s cubic-bezier(0,0,.2,1), opacity 0.1s linear';
+        this.style.transform = '';
+        break;
+    }
+  }
+  
+  // this is used for open and close
   prepareAnimation() {
     // default animation
     this.classList.add('mdw-open');
@@ -173,6 +228,12 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
             this.style.transform = `translateY(${transformValue}px)`;
             break;
 
+          case 'top left':
+            if (this._animationConfig.target) {
+              this.style.transform = `translate(${this._animationConfig.target.offsetTop}px, ${this._animationConfig.target.offsetLeft}px)`;
+            }
+            break;
+
           case 'top':
           default:
             if (this._animationConfig.target) {
@@ -184,49 +245,13 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         break;
 
       case 'scale':
-      default:
         this.style.transform = 'scale(0.9)';
         this.style.transformOrigin = this._animationConfig.origin || 'center';
-        break;
     }
 
     if (this._animationConfig.opacity) {
       this.style.opacity = 0;
     }
-  }
-
-
-  // TODO FIX THE CLOSING ANIMATION
-  async close(event) {
-    return new Promise(resolve => {
-      if (event) event.stopPropagation();
-
-      this.removeEventListener('MDWPanel:close', this.bound_close);
-      if (!this._isQuickOpen) {
-        this.classList.add('mdw-panel--animating-closed');
-        this.removeBodyClickEvent_();
-        this._animationRequestId = this._runNextAnimationFrame(() => {
-          this.classList.remove('mdw-open');
-          this._closeAnimationEndTimerId = setTimeout(() => {
-            this._closeAnimationEndTimerId = 0;
-            this.classList.remove('mdw-panel--animating-closed');
-            this.resetPosition();
-            this.notifyClose();
-            resolve();
-          }, 75);
-        });
-      } else {
-        this.classList.remove('mdw-open');
-        this.resetPosition();
-        resolve();
-      }
-
-      this.removeKeydownEvent_();
-      this._isOpen = false;
-      const isRootFocused = this.isFocused();
-      const childHasFocus = document.activeElement && this.contains(document.activeElement);
-      if (isRootFocused || childHasFocus) this.restoreFocus();
-    });
   }
 
   _runNextAnimationFrame(callback) {
@@ -274,7 +299,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     }, 0);
   }
 
-  removeBodyClickEvent_() {
+  _removeBodyClickEvent() {
     if (this.hasBodyEvent) document.body.removeEventListener('click', this._boundHandleBodyClick);
     this.hasBodyEvent = false;
   }
@@ -284,7 +309,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     document.body.addEventListener('keydown', this._boundHandleKeydown);
   }
 
-  removeKeydownEvent_() {
+  _removeKeydownEvent() {
     if (this.hasKeydownEvent) document.body.removeEventListener('keydown', this._boundHandleKeydown);
     this.hasKeydownEvent = false;
   }
@@ -297,7 +322,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const el = event.target;
     if (this._clickOutsideCloseIgnorElement.includes(el)) return;
     if (this.contains(el)) return;
-    this.removeBodyClickEvent_();
+    this._removeBodyClickEvent();
     this.close();
   }
 
@@ -329,6 +354,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   hoistToBody(target) {
     if (this._isHoisted) return;
     this._container = target || this.parentNode;
+
+    if (this._container.nodeName === 'MDW-DATE-PICKER') {
+      this._container = this._container.parentNode;
+    }
+    
     document.body.appendChild(this);
     this.classList.add('mdw-panel-hoisted');
     this._isHoisted = true;
@@ -360,72 +390,158 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   setHoistedPosition() {
-    const bounds = this._container.getBoundingClientRect();
-    this.style.top = `${bounds.top}px`;
-    this.style.left = `${bounds.left}px`;
-    // this.style[this.transformPropertyName] = 'scale(1)';
-    
-    if (!this._positionSet) {
-      this._autoPositionHoisted();
-    } else {
-      let top = 0;
-      let left = 0;
+    if (this._anchored) return this.setAnchoredPosition();
 
-      this.style.top = `${top}px`;
-      this.style.left = `${left}px`;
-
-      setTimeout(() => {
-        const { clientWidth, clientHeight } = document.documentElement;
-        const height = this.offsetHeight;
-        const width = this.offsetWidth;
-        // no defaults
-        const split = (this.position || ' ').split(' ');
-        const aValue = split[0];
-        const bValue = split[1];
-
-        switch(aValue) {
-          case 'top':
-            top = 0;
-            break;
-          case 'inner-top':
-            top = bounds.y + 12;
-            break;
-          case 'bottom':
-            top = clientHeight;
-            break;
-          case 'center':
-            top = (clientHeight / 2) - (height / 2);
-            break;
-          case 'inner-bottom':
-            top = clientHeight - height - 12;
-            break;
-        }
-
-        switch(bValue) {
-          case 'left':
-            left = 0;
-            break;
-          case 'inner-left':
-            left = bounds.x + 12;
-            break;
-          case 'right':
-            left = clientWidth;
-            break;
-          case 'inner-right':
-            left = clientWidth - width - 12;
-            break;
-          case 'center':
-            left = (clientWidth / 2) - (width / 2);
-            break;
-        }
-
-        this.style.width = `${this.width}px`;
-        this.style.top = `${top}px`;
-        this.style.left = `${left}px`;
-      }, 0);
-    }
+    const split = (this.position || ' ').split(' ');
+    const aValue = split[0];
+    const bValue = split[1];
+    let { top, left } = this._calculateHoistedPosition(aValue, bValue);
+    let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, top, left);
+    let { top: t, left: l } = this._calculateHoistedPosition(a, b);
   }
 
+  setAnchoredPosition() {
+    const split = (this.position || ' ').split(' ');
+    let aValue = split[0];
+    let bValue = split[1];
+    let { top, left } = this._calculateAnchoredPosition(aValue, bValue);
+    let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, top, left);
+    let { top: t, left: l } = this._calculateAnchoredPosition(a, b);
+    this.style.width = `${this.width}px`;
+    this.style.top = `${t}px`;
+    this.style.left = `${l}px`;
+  }
+
+  _adjustAnchoredPositions(aValue, bValue, top, left) {
+    const { clientWidth, clientHeight } = document.documentElement;
+    const height = this.offsetHeight;
+    const width = this.offsetWidth;
+
+    switch (aValue) {
+      case 'top':
+        if (top < 0) aValue = 'bottom';
+        break;
+      case 'inner-top':
+        if (top < 0) aValue = 'inner-bottom';
+        break;
+      case 'bottom':
+        if (((top + height) - clientHeight) > 0) aValue = 'top';
+        break;
+      case 'inner-bottom':
+        if (((top + height) - clientHeight) > 0) aValue = 'inner-top';
+        break;
+    }
+
+    switch (bValue) {
+      case 'left':
+        if ((left + width) > clientWidth) bValue = 'right';
+        break;
+      case 'inner-left':
+        if ((left + width) > clientWidth) bValue = 'inner-right';
+        break;
+      case 'right':
+        if (left < 0) bValue = 'left';
+        break;
+      case 'inner-right':
+        if (left < 0) bValue = 'inner-left';
+        break;
+    }
+
+    return { aValue, bValue };
+  }
+
+  _calculateAnchoredPosition(aValue, bValue) {
+    const bounds = this._container.getBoundingClientRect();
+    const height = this.offsetHeight;
+    const width = this.offsetWidth;
+    let top = 0;
+    let left = 0;
+
+    switch (aValue) {
+      case 'top':
+        top = bounds.y - height;
+        break;
+      case 'inner-top':
+        top = bounds.y;
+        break;
+      case 'bottom':
+        top = bounds.y + bounds.height;
+        break;
+      case 'center':
+        top = (bounds.y + (bounds.height / 2)) - (height / 2);
+        break;
+      case 'inner-bottom':
+        top = bounds.y + bounds.height - height;
+        break;
+    }
+
+    switch (bValue) {
+      case 'left':
+        left = bounds.x - width;
+        break;
+      case 'inner-left':
+        left = bounds.x;
+        break;
+      case 'right':
+        left = bounds.x + bounds.width;
+        break;
+      case 'inner-right':
+        left = bounds.x + bounds.width - width;
+        break;
+      case 'center':
+        left = (bounds.x + (bounds.width / 2)) - (width / 2);
+        break;
+    }
+
+    return { top, left };
+  }
+
+  _calculateHoistedPosition(aValue, bValue) {
+    const bounds = this._container.getBoundingClientRect();
+    const { clientWidth, clientHeight } = document.documentElement;
+    const height = this.offsetHeight;
+    const width = this.offsetWidth;
+    let top = 0;
+    let left = 0;
+
+    switch (aValue) {
+      case 'top':
+        top = 0;
+        break;
+      case 'inner-top':
+        top = bounds.y + 12;
+        break;
+      case 'bottom':
+        top = clientHeight;
+        break;
+      case 'center':
+        top = (clientHeight / 2) - (height / 2);
+        break;
+      case 'inner-bottom':
+        top = clientHeight - height - 12;
+        break;
+    }
+
+    switch (bValue) {
+      case 'left':
+        left = 0;
+        break;
+      case 'inner-left':
+        left = bounds.x + 12;
+        break;
+      case 'right':
+        left = clientWidth;
+        break;
+      case 'inner-right':
+        left = clientWidth - width - 12;
+        break;
+      case 'center':
+        left = (clientWidth / 2) - (width / 2);
+        break;
+    }
+
+    return { top, left };
+  }
 
   setPositionStyle(parentOverride) {
     if (parentOverride) this._parentOverride = parentOverride;
@@ -502,5 +618,24 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.top = '';
     this.style.left = '';
     // this.style[this.transformPropertyName] = '';
+  }
+
+
+  setupScrollWithPage() {
+    if (this._scrollingSetup) return;
+    this._scrollContainer = document.querySelector('mdw-scroll-container') || document.body;
+    this._scrollContainer.addEventListener('scroll', this.bound_onScroll);
+    this._initialScrollPosition = this._scrollContainer.scrollTop + parseInt(`${this.style.top || '0'}`.replace('px', ''));
+    this._scrollingSetup = true;
+  }
+
+  teardownScrollWithPage() {
+    if (!this._scrollingSetup) return;
+    this._scrollContainer.removeEventListener('scroll', this.bound_onScroll);
+    this._scrollingSetup = false;
+  }
+
+  onScroll(event) {
+    this.style.top = `${this._initialScrollPosition - this._scrollContainer.scrollTop}px`;
   }
 });

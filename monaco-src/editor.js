@@ -17,5 +17,3 @@ self.MonacoEnvironment = {
     return '/monaco-dist/editor.worker.js';
   }
 };
-
-console.log(monaco)

@@ -84,6 +84,30 @@ a.mdw-error {
 }
 
 
+
+/* --- mobile / desktop --- */
+
+body:not(.mdw-is-mobile) {
+  [mdw-desktop-only] {
+    display: unset;
+  }
+
+  [mdw-mobile-only] {
+    display: none;
+  }
+}
+
+body.mdw-is-mobile {
+  [mdw-desktop-only] {
+    display: none;
+  }
+
+  [mdw-mobile-only] {
+    display: unset;
+  }
+}
+
+
 /* --- scroll bar --- */
 
 ::-webkit-scrollbar {

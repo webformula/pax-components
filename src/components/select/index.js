@@ -164,6 +164,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this._surfaceElement = await MDWSurface.open({
       mobileComponent: 'sheetBottom',
       desktopComponent: 'panel',
+      scrollPanelWidthPage: true,
       animation: {
         type: 'scale',
         origin: 'top',

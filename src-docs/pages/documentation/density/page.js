@@ -1,4 +1,4 @@
-import { Page } from '/web_modules/@webformula/pax-core/index.js';
+import { Page } from '/web_modules/@webformula/pax-core';
 
 export default class Density extends Page {
   constructor() {
@@ -21,6 +21,6 @@ export default class Density extends Page {
   }
 
   template() {
-    return './page.html';
+    return 'pages/documentation/density/page.html';
   }
 }
