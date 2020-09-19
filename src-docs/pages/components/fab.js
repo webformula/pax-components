@@ -1,4 +1,4 @@
-import { Page} from '/web_modules/@webformula/pax-core/index.js';
+import { Page} from '/web_modules/@webformula/pax-core';
 //TODO fix position x
 export default class FAB extends Page {
   constructor() {
