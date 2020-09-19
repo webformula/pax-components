@@ -190,12 +190,14 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
     this.yearButton.classList.add('mdw-open');
     this.viewContainer.innerHTML = this._yearTemplate();
     this.yearView.addEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
+    this.classList.add('mdw-date-picker-year-view');
   }
 
   showMonthView() {
     this.yearButton.classList.remove('mdw-open');
     this.yearView && this.yearView.removeEventListener('MDWDatePicker:yearChange', this.bound_onYearChange);
     this.viewContainer.innerHTML = this._monthTemplate();
+    this.classList.remove('mdw-date-picker-year-view');
   }
 
   template() {
@@ -283,6 +285,10 @@ customElements.define('mdw-date-picker--desktop', class extends HTMLElementExten
       }
       .mdw-active-month {
         opacity: 1;
+      }
+
+      :host-context(.mdw-date-picker-year-view) mdw-date-picker--month-navigation-buttons {
+        opacity: 0;
       }
     `;
   }

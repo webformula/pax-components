@@ -133,7 +133,7 @@ customElements.define('mdw-date-picker--year', class extends HTMLElementExtended
       }
       .mdw-date-picker--year-item.mdw-selected {
         background-color: var(--mdw-theme-primary);
-        color: var(--mdw-theme-text--on-primary);
+        color: var(--mdw-theme-text-primary-on-background);
       }
     `;
   }

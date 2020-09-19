@@ -58,6 +58,8 @@ customElements.define('mdw-date-picker--month-navigation-buttons', class extends
         flex-direction: row;
         padding-right: 12px;
         height: 48px;
+        transition: opacity 0.1s linear;
+        opacity: 1;
       }
       mdw-button {
         color: var(--mdw-theme-text--body);
