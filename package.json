@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node-sass src/entry.scss local/entry.css && snowpack dev --config snowpack.config.json",
-    "release": "node-sass src/entry.scss local/entry.css && snowpack build --config snowpack.release.config.json",
+    "release": "node-sass src/entry.scss local/entry.css && snowpack build --config snowpack.release.config.json && node release.js",
     "build:editor": "webpack --progress --config webpack.monaco.editor.cjs",
     "build:release": "webpack --config webpack.prod.config.cjs"
   },

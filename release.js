@@ -9,7 +9,7 @@ const { version } = JSON.parse(fs.readFileSync('./package.json'));
 replace({
   regex: "_VERSION_",
   replacement: version,
-  paths: ['src-docs/'],
+  paths: ['build/'],
   recursive: true,
   silent: false,
 });
