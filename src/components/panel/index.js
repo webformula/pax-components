@@ -398,6 +398,9 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     let { top, left } = this._calculateHoistedPosition(aValue, bValue);
     let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, top, left);
     let { top: t, left: l } = this._calculateHoistedPosition(a, b);
+    this.style.width = `${this.width}px`;
+    this.style.top = `${t}px`;
+    this.style.left = `${l}px`;
   }
 
   setAnchoredPosition() {
