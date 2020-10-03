@@ -165,11 +165,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       mobileComponent: 'sheetBottom',
       desktopComponent: 'panel',
       scrollPanelWidthPage: true,
+      anchorElement: this,
       animation: {
         type: 'scale',
         origin: 'top',
-        opacity: true,
-        target: this,
+        opacity: true
       },
       template: `
         <mdw-content style="min-width: ${this.offsetWidth}px" class="mdw-no-padding">

@@ -212,6 +212,7 @@ const MDWSurface = new class {
       template,
       templateData,
       position,
+      anchorElement,
       animation,
       component,
       classes,

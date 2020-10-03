@@ -392,7 +392,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   setHoistedPosition() {
     if (this._anchored) return this.setAnchoredPosition();
 
-    const split = (this.position || ' ').split(' ');
+    const split = (this.position || 'inner-top inner-left').split(' ');
     const aValue = split[0];
     const bValue = split[1];
     let { top, left } = this._calculateHoistedPosition(aValue, bValue);
@@ -401,7 +401,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   setAnchoredPosition() {
-    const split = (this.position || ' ').split(' ');
+    const split = (this.position || 'inner-top inner-left').split(' ');
     let aValue = split[0];
     let bValue = split[1];
     let { top, left } = this._calculateAnchoredPosition(aValue, bValue);
