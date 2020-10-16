@@ -77,7 +77,6 @@ mdw-textfield.mdw-invalid {
   border-bottom-color: var(--mdw-theme-error);
 }
 
-
 mdw-textfield.mdw-textarea {
   padding-top: 18px;
 }
@@ -513,22 +512,22 @@ mdw-helper-text[persistent] {
   will-change: auto;
 }
 
-mdw-helper-text[validation] {
+.mdw-invalid mdw-helper-text[validation] {
   transition: none;
-  transform: translateY(-50%);
   opacity: 0;
+  transform: translateY(-50%);
   color: var(--mdw-theme-error);
 }
 
-mdw-textfield textarea:invalid ~ mdw-textfield-helper mdw-helper-text:not([validation]),
-mdw-textfield input:invalid ~ mdw-textfield-helper mdw-helper-text:not([validation]) {
+mdw-textfield.mdw-invalid textarea:invalid ~ mdw-textfield-helper mdw-helper-text:not([validation]),
+mdw-textfield.mdw-invalid input:invalid ~ mdw-textfield-helper mdw-helper-text:not([validation]) {
   transition: none;
   transform: translateY(-50%);
   opacity: 0;
 }
 
-mdw-textfield textarea:invalid ~ mdw-textfield-helper mdw-helper-text[validation],
-mdw-textfield input:invalid ~ mdw-textfield-helper mdw-helper-text[validation] {
+mdw-textfield.mdw-invalid textarea:invalid ~ mdw-textfield-helper mdw-helper-text[validation],
+mdw-textfield.mdw-invalid input:invalid ~ mdw-textfield-helper mdw-helper-text[validation] {
   transition: transform .24s cubic-bezier(.4,0,.2,1),
               opacity .18s cubic-bezier(.4,0,.2,1);
   transform: translateY(0);
