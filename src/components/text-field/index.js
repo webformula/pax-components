@@ -21,8 +21,6 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     this.input.addEventListener('focus', this.bound_onFocus);
     this.input.addEventListener('blur', this.bound_onBlur);
     this.input.addEventListener('input', this.bound_onInput);
-
-    this.classList.toggle('mdw-invalid', !this.valid);
   }
 
   disconnectedCallback() {
