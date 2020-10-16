@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "run:theme": "cp src/theme.css local/theme.css",
-    "run:sass": "node-sass src/entry.scss local/entry.css",
+    "run:theme": "cp src/theme.css local/theme.css && cp src/theme.css release/theme.css",
+    "run:sass": "node-sass src/entry.scss local/entry.css && node-sass src/entry.scss release/entry.css --output-style compressed",
     "run:js": "webpack --config webpack.prod.config.cjs",
     "run:js,html": "node --experimental-modules buildDocsEntry.mjs",
     "mount:paxcomponents": "mount local --to /pax-components",
