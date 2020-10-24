@@ -48,7 +48,7 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   }
 
   itemSelected(listItem) {
-    const index = Array.prototype.indexOf.call(this.children, listItem) - 1;
+    const index = Array.prototype.indexOf.call(this.children, listItem);
     if (this.selectType_ === 'single') {
       const children = [...this.children];
       this.selectedIndexes_.forEach(i => children[i].deselect());
@@ -59,7 +59,7 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   }
 
   itemDeselected(listItem) {
-    const index = Array.prototype.indexOf.call(this.children, listItem) - 1;
+    const index = Array.prototype.indexOf.call(this.children, listItem);
     this.selectedIndexes_.splice(this.selectedIndexes_.indexOf(index), 1);
     this.handleChange();
   }
