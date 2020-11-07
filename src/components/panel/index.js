@@ -365,7 +365,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   _autoPositionHoisted() {
-    console.log(this._autoPosition);
     if (!this._autoPosition) return;
 
     const pageHeight = window.innerHeight;
