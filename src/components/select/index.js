@@ -417,7 +417,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         position: absolute;
         bottom: 23px;
         left: auto;
-        right: 8px;
+        right: 16px;
         width: 0;
         height: 0;
         border-left: 5px solid transparent;
@@ -449,6 +449,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       :host(.mdw-outlined) ::slotted(select),
       :host(.mdw-outlined) .mdw-select__selected-text {
         border: none;
+      }
+
+      :host(.mdw-outlined.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
+      :host(.mdw-outlined.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,
+      :host(.mdw-outlined:not(.mdw-select--disabled)) ::slotted(select:focus),
+      :host(.mdw-outlined.mdw-focused:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {
+        border: none;
+        height: 100%;
       }
 
       ::slotted(select),
@@ -624,7 +632,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         border-color: rgba(var(--mdw-theme-on-background--rgb), 0.54);
       }
 
-      .mdw-outlined-notch {
+      :host(.mdw-focused:not([mdw-no-float])) .mdw-outlined-notch,
+      :host(.mdw-not-empty:not([mdw-no-float])) .mdw-outlined-notch {
         border-top: none;
       }
 
@@ -642,6 +651,67 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       :host(.invalid) .mdw-outlined-notch,
       :host(.invalid) .mdw-outlined-trailing {
         border-color: var(--mdw-theme-error);
+      }
+
+      /* shaped */
+      :host(.mdw-shaped) {
+        border-radius: var(--mdw-theme--button-shape-radius, 18px);
+        /* border: none; */
+      }
+
+      :host(.mdw-shaped) .mdw-outlined-leading {
+        border-radius: var(--mdw-theme--button-shape-radius, 18px) 0 0 var(--mdw-theme--button-shape-radius, 18px);
+        border-left: 1px solid;
+        border-right: none;
+        width: 24px;
+      }
+
+      :host(.mdw-shaped) .mdw-outlined-trailing {
+        border-radius: 0 var(--mdw-theme--button-shape-radius, 18px) var(--mdw-theme--button-shape-radius, 18px) 0;
+      }
+
+      :host(.mdw-shaped:not(.mdw-outlined)):after,
+      :host(.mdw-shaped:not(.mdw-outlined)):before  {
+        border-radius: var(--mdw-theme--button-shape-radius, 18px);
+        /* border: none; */
+      }
+
+
+      /* no float label */
+      :host([mdw-no-float]) label.mdw-select--float-above {
+        opacity: 0;
+      }
+
+      :host([mdw-no-float]) label {
+        transform: none !important;
+      }
+
+      
+      /* density */
+      :host(.mdw-density-comfortable) {
+        height: 48px !important;
+      }
+
+      :host(.mdw-density-comfortable) label {
+        top: 16px;
+      }
+
+      :host(.mdw-density-comfortable) ::slotted(select:focus) + label,
+      :host(.mdw-density-comfortable) label.mdw-select--float-above {
+        transform: translateY(-120%) scale(.75);
+      }
+
+     :host(.mdw-density-compact) {
+        height: 40px !important;
+      }
+
+      :host(.mdw-density-compact) label {
+        top: 12px;
+      }
+
+      :host(.mdw-density-compact) ::slotted(select:focus) + label,
+      :host(.mdw-density-compact) label.mdw-select--float-above {
+        transform: translateY(-100%) scale(.75);
       }
     `;
   }

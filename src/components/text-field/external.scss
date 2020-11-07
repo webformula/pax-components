@@ -405,7 +405,7 @@ mdw-textfield.mdw-shaped .mdw-outlined-leading {
   border-radius: var(--mdw-theme--button-shape-radius, 18px) 0 0 var(--mdw-theme--button-shape-radius, 18px);
   border-left: 1px solid;
   border-right: none;
-  width: 12px;
+  width: 24px;
 }
 
 mdw-textfield:not(.mdw-trailing-icon) mdw-icon ~ .mdw-outlined-border-container .mdw-outlined-leading {

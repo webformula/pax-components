@@ -27,8 +27,8 @@ export default class Select extends Page {
           </mdw-select>
         </div>
 
-        <a href="https://material.io/components/text-fields/" target="_new">Material Design Guidelines: Text fields</a>
-        <p>Provide selection that can be used for smaller selection sets</p>
+        <a href="https://material.io/components/menus" target="_new">Material Design Guidelines: Input dropdown Menus</a>
+        <p>Menus display a list of choices on temporary surfaces</p>
 
         <div style="display: inline-block">
           <div class="eyebrow">contents</div>
@@ -136,6 +136,52 @@ export default class Select extends Page {
 
             <div class="mdw-card__content mdw-row">
               <mdw-select class="mdw-padding mdw-outlined mdw-flex" mdw-enhanced>
+                <select>
+                  <option value="1">item one</option>
+                  <option value="2">item two</option>
+                  <option value="3">item three</option>
+                  <option value="4">item four</option>
+                  <option value="5">item five</option>
+                </select>
+                <label>Floating label</label>
+              </mdw-select>
+              <span class="mdw-flex"></span>
+            </div>
+          </mdw-card>
+
+          <!-- search -->
+          <mdw-card id="search">
+            <div class="mdw-card__content">
+              <h6>Searchable</h6>
+              <div class="description">Make select searchable</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced mdw-searchable>
+                  <select>
+                    <option value="1">item one</option>
+                    <option value="2">item two</option>
+                    <option value="3">item three</option>
+                    <option value="4">item four</option>
+                    <option value="5">item five</option>
+                    <option value="3">item six</option>
+                    <option value="4">item seven</option>
+                    <option value="5">item eight</option>
+                    <option value="3">item nine</option>
+                    <option value="4">item ten</option>
+                    <option value="5">item eleven</option>
+                  </select>
+                </mdw-select>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content mdw-row">
+              <mdw-select
+                class="mdw-padding mdw-outlined mdw-flex mdw-no-float mdw-shaped mdw-density-compact"
+                mdw-enhanced
+                mdw-no-float
+              >
                 <select>
                   <option value="1">item one</option>
                   <option value="2">item two</option>
