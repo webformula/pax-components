@@ -32,7 +32,7 @@ export default class FAB extends Page {
   }
 
   setDemoPanelPosition() {
-    this.demoFAB.setAttribute('mdw-position', `${this.posY || ''} ${this.posX || ''}`.trim());
+    this.demoFAB.setAttribute('mdw-position', `${this.posX || ''} ${this.posY || ''}`.trim());
   }
 
   template() {

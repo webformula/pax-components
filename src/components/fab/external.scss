@@ -21,7 +21,7 @@ mdw-fab {
   overflow: hidden;
   color: var(--mdw-theme-on-secondary);
   background-color: var(--mdw-theme-secondary);
-  z-index: 4;
+  z-index: 9;
 }
 
 .mdw-density-comfortable mdw-fab:not(.mdw-extended) {
@@ -161,9 +161,6 @@ mdw-fab[mdw-position="right"] {
   left: auto;
   position: absolute;
 }
-mdw-fab[mdw-position="right"].mdw-no-margin {
-  right: 0;
-}
 
 mdw-fab[mdw-position="left top"] {
   top: 20px;
@@ -172,10 +169,6 @@ mdw-fab[mdw-position="left top"] {
   left: 20px;
   position: absolute;
 }
-mdw-fab[mdw-position="left top"].mdw-no-margin {
-  top: 0;
-  left: 0;
-}
 
 mdw-fab[mdw-position="right top"] {
   top: 20px;
@@ -183,10 +176,6 @@ mdw-fab[mdw-position="right top"] {
   bottom: auto;
   left: auto;
   position: absolute;
-}
-mdw-fab[mdw-position="right top"].mdw-no-margin {
-  top: 0;
-  right: 0;
 }
 
 mdw-fab[mdw-position="left bottom"] {
@@ -208,10 +197,6 @@ mdw-fab[mdw-position="right bottom"] {
   left: auto;
   position: absolute;
 }
-mdw-fab[mdw-position="right bottom"].mdw-no-margin {
-  right: 0;
-  bottom: 0;
-}
 
 mdw-fab[mdw-position="center top"] {
   top: 20px;
@@ -221,10 +206,6 @@ mdw-fab[mdw-position="center top"] {
   position: absolute;
   transform: translateX(-50%);
 }
-mdw-fab[mdw-position="center top"].mdw-no-margin {
-  top: 0;
-}
-
 
 mdw-fab[mdw-position="center bottom"] {
   top: auto;
@@ -234,10 +215,6 @@ mdw-fab[mdw-position="center bottom"] {
   position: absolute;
   transform: translateX(-50%);
 }
-mdw-fab[mdw-position="center bottom"].mdw-no-margin {
-  bottom: 0;
-}
-
 
 mdw-fab[mdw-position="left center"] {
   top: 50%;
@@ -246,9 +223,6 @@ mdw-fab[mdw-position="left center"] {
   left: 20px;
   position: absolute;
   transform: translateY(-50%);
-}
-mdw-fab[mdw-position="eft center"].mdw-no-margin {
-  left: 0;
 }
 
 mdw-fab[mdw-position="right center"] {
@@ -259,6 +233,20 @@ mdw-fab[mdw-position="right center"] {
   position: absolute;
   transform: translateY(-50%);
 }
-mdw-fab[mdw-position="right center"].mdw-no-margin {
-  right: 0;
+
+body.mdw-has-top-app-bar mdw-fab[mdw-position*="top"] {
+  top: 76px;
+}
+
+mdw-fab[mdw-position*="top"].mdw-no-margin {
+  top: 0 !important;
+}
+mdw-fab[mdw-position*="bottom"].mdw-no-margin {
+  bottom: 0 !important;
+}
+mdw-fab[mdw-position*="left"].mdw-no-margin {
+  left: 0 !important;
+}
+mdw-fab[mdw-position*="right"].mdw-no-margin {
+  right: 0 !important;
 }
