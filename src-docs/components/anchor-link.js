@@ -1,4 +1,4 @@
-import { HTMLElementExtended, router } from '/web_modules/@webformula/pax-core';
+import { HTMLElementExtended, router } from '@webformula/pax-core';
 
 // this is called twice because the docs loads multiple versions of the code. To prevent an error we are double checking for the existence
 if (!customElements.get('anchor-link')) {

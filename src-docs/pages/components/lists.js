@@ -1,5 +1,5 @@
 // TODO fix toggle mdw-select-onclick AND Toggle Select single/multiple
-import { Page} from '/web_modules/@webformula/pax-core';
+import { Page} from '@webformula/pax-core';
 
 export default class List extends Page {
   constructor() {

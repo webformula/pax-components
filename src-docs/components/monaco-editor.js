@@ -1,4 +1,4 @@
-import { HTMLElementExtended } from '/web_modules/@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core';
 
 let themeFile;
 
