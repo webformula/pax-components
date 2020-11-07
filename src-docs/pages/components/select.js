@@ -164,19 +164,19 @@ export default class Select extends Page {
                 mdw-no-float
               >
                 <select>
-                  <option value="1">item one</option>
-                    <option value="2">item two</option>
-                    <option value="3">item three</option>
-                    <option value="4">item four</option>
-                    <option value="5">item five</option>
-                    <option value="3">item six</option>
-                    <option value="4">item seven</option>
-                    <option value="5">item eight</option>
-                    <option value="3">item nine</option>
-                    <option value="4">item ten</option>
-                    <option value="5">item eleven</option>
+                  <option value="1">one</option>
+                  <option value="2">two</option>
+                  <option value="3">three</option>
+                  <option value="4">four</option>
+                  <option value="5">five</option>
+                  <option value="3">six</option>
+                  <option value="4">seven</option>
+                  <option value="5">eight</option>
+                  <option value="3">nine</option>
+                  <option value="4">ten</option>
+                  <option value="5">eleven</option>
                 </select>
-                <label>Floating label</label>
+                <label>Search...</label>
               </mdw-select>
               </monaco-editor>
             </div>
@@ -188,19 +188,19 @@ export default class Select extends Page {
                 mdw-no-float
               >
                 <select>
-                  <option value="1">item one</option>
-                    <option value="2">item two</option>
-                    <option value="3">item three</option>
-                    <option value="4">item four</option>
-                    <option value="5">item five</option>
-                    <option value="3">item six</option>
-                    <option value="4">item seven</option>
-                    <option value="5">item eight</option>
-                    <option value="3">item nine</option>
-                    <option value="4">item ten</option>
-                    <option value="5">item eleven</option>
+                  <option value="1">one</option>
+                  <option value="2">two</option>
+                  <option value="3">three</option>
+                  <option value="4">four</option>
+                  <option value="5">five</option>
+                  <option value="3">six</option>
+                  <option value="4">seven</option>
+                  <option value="5">eight</option>
+                  <option value="3">nine</option>
+                  <option value="4">ten</option>
+                  <option value="5">eleven</option>
                 </select>
-                <label>Floating label</label>
+                <label>Search...</label>
               </mdw-select>
               <span class="mdw-flex"></span>
             </div>
