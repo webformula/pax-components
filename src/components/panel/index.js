@@ -20,7 +20,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._boundHandleKeydown = this._handleKeydown.bind(this);
     this.bound_close = this.close.bind(this);
     this._clickOutsideCloseIgnorElement = [];
-    this._autoPosition = false;
+    this._autoPosition = true;
     this._animationConfig = {
       type: 'scale',
       opacity: true
@@ -365,6 +365,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   _autoPositionHoisted() {
+    console.log(this._autoPosition);
     if (!this._autoPosition) return;
 
     const pageHeight = window.innerHeight;
@@ -390,7 +391,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   }
 
   setHoistedPosition() {
-    if (this._anchored) return this.setAnchoredPosition();
+    if (this._anchored) {
+      this.setAnchoredPosition();
+      this._autoPositionHoisted();
+      return;
+    }
 
     const split = (this.position || 'inner-top inner-left').split(' ');
     const aValue = split[0];
@@ -401,6 +406,8 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this.style.width = `${this.width}px`;
     this.style.top = `${t}px`;
     this.style.left = `${l}px`;
+
+    this._autoPositionHoisted();
   }
 
   setAnchoredPosition() {
