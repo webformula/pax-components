@@ -1,6 +1,6 @@
 {
   "name": "@webformula/pax-components",
-  "version": "0.14.3-beta",
+  "version": "0.14.4-beta",
   "description": "Web components using material design language",
   "type": "module",
   "scripts": {
