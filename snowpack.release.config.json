@@ -1,15 +1,35 @@
 {
-  "scripts": {
-    "run:theme": "cp src/theme.css local/theme.css && cp src/theme.css release/theme.css",
-    "run:sass": "node-sass src/entry.scss local/entry.css && node-sass src/entry.scss release/entry.css --output-style compressed",
-    "run:js": "webpack --config webpack.prod.config.cjs",
-    "run:js,html": "node --experimental-modules buildDocsEntry.mjs",
-    "mount:paxcomponents": "mount local --to /pax-components",
-    "mount:src": "mount src-docs --to /",
-    "mount:public": "mount src-docs/public --to /",
-    "mount:web_modules": "mount $WEB_MODULES --to /web_modules"
+  "mount": {
+    "src-docs": "/",
+    "src-docs/public": "/",
+    "local": "/pax-components"
   },
   "plugins": [
+    [
+      "@snowpack/plugin-run-script",
+      {
+        "cmd": "cp src/theme.css local/theme.css && cp src/theme.css release/theme.css"
+      }
+    ],
+    [
+      "@snowpack/plugin-run-script",
+      {
+        "cmd": "node-sass src/entry.scss local/entry.css && node-sass src/entry.scss release/entry.css --output-style compressed"
+      }
+    ],
+    [
+      "@snowpack/plugin-run-script",
+      {
+        "cmd": "webpack --config webpack.prod.config.cjs"
+      }
+    ],
+    [
+      "@snowpack/plugin-run-script",
+      {
+        "cmd": "node --experimental-modules buildDocsEntry.mjs"
+      }
+    ],
+    
     [
       "@snowpack/plugin-optimize",
       {
@@ -17,9 +37,6 @@
         "minifyHTML": false
       }
     ]
-  ],
-  "install": [
-    "@webformula/pax-core"
   ],
   "installOptions": {
     "treeshake": false

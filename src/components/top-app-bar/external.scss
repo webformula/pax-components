@@ -15,8 +15,6 @@ body.mdw-is-mobile mdw-top-app-bar {
 }
 
 body:not(.mdw-is-mobile) mdw-top-app-bar {
-  height: 56px;
-
   &.mdw-dense:not([mdw-prominent]) {
     height: 48px;
 

@@ -1,31 +1,43 @@
 {
-  "scripts": {
-    "run:theme": "cp src/theme.css local/theme.css",
-    "run:sass": "node-sass src/entry.scss local/entry.css",
-    "run:sass::watch": "$1 --watch",
-    "run:js": "webpack --config webpack.dev.config.cjs",
-    "run:js::watch": "$1 --watch",
-    "run:js,html": "node --experimental-modules buildDocsEntry.mjs",
-    "run:js,html::watch": "nodemon -x $1",
-    "mount:public": "mount src-docs/public --to /",
-    "mount:paxcomponents": "mount local --to /pax-components",
-    "mount:monaco": "mount monaco-dist",
-    "mount:src": "mount src-docs --to /",
-    "mount:web_modules": "mount $WEB_MODULES --to /web_modules",
-    "build:index.html": "replace '_VERSION_' '_V_' build/index.html"
+  "mount": {
+    "src-docs": "/",
+    "src-docs/public": "/",
+    "monaco-dist": "/monaco-dist",
+    "local": "/pax-components"
   },
   "plugins": [
     [
-      "@snowpack/plugin-optimize",
+      "@snowpack/plugin-run-script",
       {
-        "minifyJS": false,
-        "minifyHTML": false
+        "cmd": "cp src/theme.css local/theme.css"
+      }
+    ],
+
+    [
+      "@snowpack/plugin-run-script",
+      {
+        "cmd": "node-sass src/entry.scss local/entry.css",
+        "watch": "node-sass --watch src/entry.scss local/entry.css"
+      }
+    ],
+
+    [
+      "@snowpack/plugin-run-script",
+      {
+        "cmd": "webpack --config webpack.dev.config.cjs",
+        "watch": "webpack --config webpack.dev.config.cjs --watch"
+      }
+    ],
+
+    [
+      "@snowpack/plugin-run-script",
+      {
+        "cmd": "node --experimental-modules buildDocsEntry.mjs",
+        "watch": "nodemon -x $1"
       }
     ]
   ],
-  "install": [
-    "@webformula/pax-core"
-  ],
+  
   "buildOptions": {
     "baseUrl": "./",
     "sourceMaps": true
