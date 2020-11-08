@@ -169,12 +169,12 @@ export default class Select extends Page {
                   <option value="3">three</option>
                   <option value="4">four</option>
                   <option value="5">five</option>
-                  <option value="3">six</option>
-                  <option value="4">seven</option>
-                  <option value="5">eight</option>
-                  <option value="3">nine</option>
-                  <option value="4">ten</option>
-                  <option value="5">eleven</option>
+                  <option value="6">six</option>
+                  <option value="7">seven</option>
+                  <option value="8">eight</option>
+                  <option value="9">nine</option>
+                  <option value="10">ten</option>
+                  <option value="11">eleven</option>
                 </select>
                 <label>Search...</label>
               </mdw-select>
@@ -193,12 +193,12 @@ export default class Select extends Page {
                   <option value="3">three</option>
                   <option value="4">four</option>
                   <option value="5">five</option>
-                  <option value="3">six</option>
-                  <option value="4">seven</option>
-                  <option value="5">eight</option>
-                  <option value="3">nine</option>
-                  <option value="4">ten</option>
-                  <option value="5">eleven</option>
+                  <option value="6">six</option>
+                  <option value="7">seven</option>
+                  <option value="8">eight</option>
+                  <option value="9">nine</option>
+                  <option value="10">ten</option>
+                  <option value="11">eleven</option>
                 </select>
                 <label>Search...</label>
               </mdw-select>

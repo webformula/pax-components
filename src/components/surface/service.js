@@ -59,6 +59,11 @@ class MDWSurfaceInstance {
 
   // TODO figure out open.close - open/close - add/remove
   async open() {
+    if (this.element) {
+      this.element.open();
+      return;
+    }
+    
     document.body.insertAdjacentHTML('beforeend', this._template);
     this._element = document.querySelector(`#${this.id}`);
 
@@ -127,8 +132,6 @@ class MDWSurfaceInstance {
         await this.element.close();
         break;
     }
-
-    this.destroy();
   }
 
   // remove the panel and disconnect its listeners with a closing animation
