@@ -4,6 +4,7 @@ mdw-scroll-container {
   display: block;
   box-sizing: border-box;
   height: 100%;
+  width: 100%;
   overflow: auto;
 
   &.mdw-padding {
