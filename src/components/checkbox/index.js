@@ -168,6 +168,10 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
         --mdw-checkbox-size: 48px;
       }
 
+      :host(.mdw-medium) {
+        --mdw-checkbox-size: 36px;
+      }
+
       :host(.mdw-primary) ::slotted(mdw-icon) {
         color: var(--mdw-theme-primary);
       }
