@@ -42,6 +42,11 @@ mdw-textfield.mdw-density-compact input[placeholder] {
   padding-top: 4px;
 }
 
+.mdw-density-compact mdw-textfield.mdw-shaped input[placeholder],
+mdw-textfield.mdw-shaped.mdw-density-compact input[placeholder] {
+  padding-top: 7px;
+}
+
 .mdw-density-comfortable mdw-textfield.mdw-outlined input[placeholder],
 mdw-textfield.mdw-density-comfortable.mdw-outlined input[placeholder] {
   padding-top: 12px;
@@ -567,6 +572,20 @@ mdw-textfield.mdw-density-comfortable mdw-icon {
 .mdw-density-compact mdw-textfield mdw-icon,
 mdw-textfield.mdw-density-compact mdw-icon {
   bottom: 8px;
+}
+
+mdw-textfield.mdw-shaped mdw-icon {
+  bottom: 12px;
+}
+
+.mdw-density-comfortable mdw-textfield.mdw-shaped mdw-icon,
+mdw-textfield.mdw-shaped.mdw-density-comfortable mdw-icon {
+  bottom: 10px;
+}
+
+.mdw-density-compact mdw-textfield.mdw-shaped mdw-icon,
+mdw-textfield.mdw-shaped.mdw-density-compact mdw-icon {
+  bottom: 7px;
 }
 
 mdw-textfield:not(:disabled) mdw-icon {
