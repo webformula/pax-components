@@ -82,6 +82,8 @@ mdw-list-item,
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    display: flex;
+    flex-direction: row;
   }
 
   .mdw-list-item__primary-text {
@@ -104,6 +106,10 @@ mdw-list-item,
     line-height: normal;
     display: block;
     /* color: var(--mdw-theme-text--secondary--on-background); */
+  }
+
+  > mdw-checkbox {
+    margin-right: 32px;
   }
 
   > mdw-icon:not(.mdw-list-item__meta),
