@@ -63,7 +63,7 @@ class MDWSurfaceInstance {
       this.element.open();
       return;
     }
-    
+
     document.body.insertAdjacentHTML('beforeend', this._template);
     this._element = document.querySelector(`#${this.id}`);
 
@@ -154,6 +154,7 @@ class MDWSurfaceInstance {
     }
 
     this.element.remove();
+    this.element = undefined;
     window._activeSurface = undefined;
   }
 

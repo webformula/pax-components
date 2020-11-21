@@ -161,6 +161,7 @@ export default class Select extends Page {
                 <mdw-select
                 class="mdw-padding mdw-outlined mdw-flex mdw-shaped mdw-no-float mdw-density-compact"
                 mdw-enhanced
+                mdw-search
                 mdw-no-float
               >
                 <select>
@@ -185,6 +186,7 @@ export default class Select extends Page {
               <mdw-select
                 class="mdw-padding mdw-outlined mdw-flex mdw-shaped mdw-no-float mdw-density-compact"
                 mdw-enhanced
+                mdw-search
                 mdw-no-float
               >
                 <select>

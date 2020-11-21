@@ -47,6 +47,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
   }
 
+  get isSearchable() {
+    return this.hasAttribute('mdw-search');
+  }
+
   get value() {
     if (this.isEnhanced) return this._value;
     return this.selectElement.value || this._value;
@@ -161,6 +165,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.onFocus();
     MDWUtils.lockPageScroll();
 
+    if (this.isSearchable) return this.createSearchable();
+
     this._surfaceElement = await MDWSurface.open({
       mobileComponent: 'sheetBottom',
       desktopComponent: 'panel',
@@ -201,6 +207,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
   }
 
+  async createSearchable() {
+
+  }
+
   onPanelClick(event) {
     if (!event.target.hasAttribute('value')) return;
     this.value = event.target.getAttribute('value');
@@ -219,7 +229,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     const newMatch = this._optionsMap.find(({ value }) => value === event.target.getAttribute('value'));
     if (newMatch) newMatch.selected = true;
     console.log(this._optionsMap);
-    
+
     this._surfaceElement.close();
     this._surfaceElement = undefined;
     this.onBlur();
