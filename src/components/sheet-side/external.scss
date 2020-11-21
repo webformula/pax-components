@@ -83,6 +83,20 @@ mdw-sheet-side {
 
     mdw-content {
       padding: 0;
+      min-height: 100%;
+    }
+
+    &.mdw-no-border {
+      border-right: none !important;
+      border-left: none !important;
+    }
+
+    &.mdw-primary {
+      mdw-header,
+      mdw-content {
+        background-color: var(--mdw-theme-primary);
+        color: var(--mdw-theme-text-primary-on-background);
+      }
     }
   }
   
