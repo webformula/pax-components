@@ -141,6 +141,7 @@ export default class Textfield extends Page {
           <anchor-link selector="#helper-text" offset="64">Helper text</anchor-link>
           <anchor-link selector="#validation" offset="64">Validation</anchor-link>
           <anchor-link selector="#icons" offset="64">Icons</anchor-link>
+          <anchor-link selector="#primary" offset="64">On primary</anchor-link>
           <anchor-link selector="#textarea" offset="64">Textarea</anchor-link>
         </div>
 
@@ -328,6 +329,31 @@ export default class Textfield extends Page {
                   <mdw-icon>delete</mdw-icon>
                 </mdw-textfield>
               </div>
+            </div>
+          </mdw-card>
+
+          <!-- on primary -->
+          <mdw-card id="primary">
+            <div class="mdw-card__content">
+              <h6>On primary</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-textfield class="mdw-on-primary">
+                  <mdw-icon>calendar</mdw-icon>
+                  <input required>
+                  <label>With validation text</label>
+                </mdw-textfield>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content" style="background-color: var(--mdw-theme-primary);">
+              <mdw-textfield class="mdw-on-primary" style="max-width: 260px;">
+                <input>
+                <label>End icon</label>
+                <mdw-icon>delete</mdw-icon>
+              </mdw-textfield>
             </div>
           </mdw-card>
 
