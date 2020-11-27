@@ -100,7 +100,15 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   }
 
   onclickSelect(e) {
-    if (!this.selectOnclick()) return;
+    if (!this.selectOnclick()) {
+      // prevent the list item onclick from firing
+      if (e.target.parentNode.nodeName === 'MDW-CHECKBOX' && e.target.parentNode.parentNode.nodeName === 'MDW-LIST-ITEM') {
+        e.target.parentNode.checked = !e.target.parentNode.checked;
+        e.stopPropagation();
+      }
+      
+      return;
+    }
     if (e.target === this._selectEl) return;
     this._selectEl.checked = !this._selectEl.checked;
   }
@@ -109,7 +117,7 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     if (this.isSelect()) {
       this._selectEl = this.querySelector('mdw-checkbox');
       if (this._selectEl) this._selectEl.addEventListener('change', this.bound_onSelect);
-      if (this.selectOnclick()) this.addEventListener('click', this.bound_onclickSelect);
+      if (this.selectOnclick()) this.addEventListener('click', this.bound_onclickSelect, true);
     }
   }
 
