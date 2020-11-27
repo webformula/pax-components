@@ -110,12 +110,12 @@ export default class List extends Page {
 
             <div class="mdw-card__content">
               <div class="row" style="align-items: center;">
-                <div>
+                <div style="margin-right: 24px">
                   <label>Toggle Select single/multiple</label>
                   <mdw-switch onchange="activePage.toggleListSelect(this.checked)"></mdw-switch>
                 </div>
 
-                <div>
+                <div style="margin-right: 24px">
                   <label>Toggle mdw-select-onclick</label>
                   <mdw-switch onchange="activePage.toggleListOnclickSelect(this.checked)" checked></mdw-switch>
                 </div>
