@@ -4,6 +4,7 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   constructor() {
     super();
     this.selectedIndexes_ = [];
+    this.selectType = this.getAttribute('mdw-select');
   }
 
   static get observedAttributes() {
@@ -30,6 +31,7 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   }
 
   set selectType(value) {
+    if (value === null) return;
     if (!['single', 'multiple'].includes(value)) console.warn('mdw-list[mdw-select] attribute - only accepts "single" or "multiple"');
     this.selectType_ = value;
   }

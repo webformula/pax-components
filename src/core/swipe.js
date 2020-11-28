@@ -53,3 +53,8 @@ window.MDWSwipe = {
   addSwipeListener,
   removeSwipeListener
 };
+
+export default {
+  addSwipeListener,
+  removeSwipeListener
+};
