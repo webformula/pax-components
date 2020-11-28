@@ -205,3 +205,11 @@ window.MDWDrag = {
   enableDragListenerForElement,
   disableDragListenerForElement
 };
+
+export default {
+  states,
+  addDragListener,
+  removeDragListener,
+  enableDragListenerForElement,
+  disableDragListenerForElement
+};

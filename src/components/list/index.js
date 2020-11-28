@@ -4,6 +4,7 @@ customElements.define('mdw-list', class extends HTMLElementExtended {
   constructor() {
     super();
     this.selectedIndexes_ = [];
+    this.selectType = this.getAttribute('mdw-select');
   }
 
   static get observedAttributes() {
