@@ -5,8 +5,8 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   constructor() {
     super();
     this.bound_hrefClick = this.hrefClick.bind(this);
-    this.bound_onSelect = this.onSelect.bind(this);
-    this.bound_onclickSelect = this.onclickSelect.bind(this);
+    this.bound_onSelectChange = this.onSelectChange.bind(this);
+    this.bound_onSelectClick = this.onSelectClick.bind(this);
     this.bound_checkHREFCurrent = this.checkHREFCurrent.bind(this);
   }
 
@@ -22,6 +22,10 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     return this.getAttribute('mdw-key');
   }
 
+  get selectCheckbox() {
+    return this.querySelector(':scope > mdw-checkbox')
+  }
+
   isSelect() {
     return ['single', 'multiple'].includes(this.list.selectType);
   }
@@ -33,7 +37,8 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   connectedCallback() {
     this.connectRipple();
     this.connectHREF();
-    this.connectSelect();
+    this.selectCheckbox && this.selectCheckbox.addEventListener('change', this.bound_onSelectChange);
+    this.addEventListener('click', this.bound_onSelectClick, true);
 
     const expanded = this.expanded;
     if (expanded) {
@@ -46,8 +51,8 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
   disconnectedCallback() {
     if (this.ripple) this.ripple.destroy();
     this.removeEventListener('click', this.bound_hrefClick);
-    if (this._selectEl) this._selectEl.removeEventListener('change', this.bound_onSelect);
-    this.removeEventListener('click', this.bound_onclickSelect);
+    this.selectCheckbox && this.selectCheckbox.removeEventListener('change', this.bound_onSelectChange);
+    this.removeEventListener('click', this.bound_onSelectClick, true);
     window.removeEventListener('hashchange', this.bound_checkHREFCurrent);
   }
 
@@ -94,34 +99,27 @@ customElements.define('mdw-list-item', class extends HTMLElementExtended {
     document.location.href = this.getAttribute('href');
   }
 
-  onSelect(e) {
+  onSelectChange(e) {
     if (e.target.checked) this.list.itemSelected(this);
     else this.list.itemDeselected(this);
   }
 
-  onclickSelect(e) {
+  onSelectClick(e) {
+    if (e.target.parentNode.nodeName === 'MDW-CHECKBOX' && e.target.parentNode.parentNode.nodeName === 'MDW-LIST-ITEM') {
+      e.target.parentNode.checked = !e.target.parentNode.checked;
+      e.stopPropagation();
+    }
+
+    // prevent select change
     if (!this.selectOnclick()) {
-      // prevent the list item onclick from firing
-      if (e.target.parentNode.nodeName === 'MDW-CHECKBOX' && e.target.parentNode.parentNode.nodeName === 'MDW-LIST-ITEM') {
-        e.target.parentNode.checked = !e.target.parentNode.checked;
-        e.stopPropagation();
-      }
-      
       return;
     }
-    if (e.target === this._selectEl) return;
-    this._selectEl.checked = !this._selectEl.checked;
-  }
 
-  connectSelect() {
-    if (this.isSelect()) {
-      this._selectEl = this.querySelector('mdw-checkbox');
-      if (this._selectEl) this._selectEl.addEventListener('change', this.bound_onSelect);
-      if (this.selectOnclick()) this.addEventListener('click', this.bound_onclickSelect, true);
-    }
+    if (e.target === this.selectCheckbox) return;
+    this.selectCheckbox.checked = !this.selectCheckbox.checked;
   }
 
   deselect() {
-    this._selectEl.checked = false;
+    this.selectCheckbox.checked = false;
   }
 });

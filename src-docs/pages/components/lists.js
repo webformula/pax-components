@@ -125,7 +125,7 @@ export default class List extends Page {
               </div>
               <mdw-list id="select-list" mdw-select="single" mdw-select-onclick onchange="document.querySelector('#show-selected').innerText = this.selected.join(', ')" class="mdw-two-line">
                 ${this.selectListData.map(t => `
-                  <mdw-list-item>
+                  <mdw-list-item onclick="console.log('test')">
                     <mdw-icon>inbox</mdw-icon>
                     <div class="mdw-list-item__text">
                       <div class="mdw-list-item__primary-text">
