@@ -1,5 +1,4 @@
 import { HTMLElementExtended } from '@webformula/pax-core/index.js';
-import MDWUtils from '../../core/Utils.js';
 
 customElements.define('mdw-menu', class extends HTMLElementExtended {
   constructor() {
@@ -8,29 +7,21 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
     this.bound_onClick = this.onClick.bind(this);
     this.bound_onPanelClick = this.onPanelClick.bind(this);
 
-    if (MDWUtils.isMobile === true) this.createSheet();
-    else this.createPanel();
+    this.createPanel();
   }
 
   connectedCallback() {
     this.button.addEventListener('click', this.bound_onClick);
-
-    if (MDWUtils.isMobile !== true) {
-      this.classList.add('mdw-panel--container');
-      this.panel.classList.add('mdw-menu');
-    }
+    this.classList.add('mdw-panel--container');
+    this.panel.classList.add('mdw-menu');
   }
 
   onClick() {
-    if (MDWUtils.isMobile !== true) {
-      this.panel.setPosition(this.panelPosition);
-      this.panel.autoPosition();
-      this.panel.clickBodyToClose();
-      this.panel.open(true);
-      this.panel.addEventListener('click', this.bound_onPanelClick);
-    } else {
-      this.sheet.open();
-    }
+    this.panel.setPosition(this.panelPosition);
+    this.panel.autoPosition();
+    this.panel.clickBodyToClose();
+    this.panel.open(true);
+    this.panel.addEventListener('click', this.bound_onPanelClick);
   }
 
   onPanelClick() {
@@ -60,17 +51,6 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
 
   get sheet() {
     return this.querySelector('mdw-sheet');
-  }
-
-  createSheet() {
-    this.insertAdjacentHTML('beforeend', `
-      <mdw-sheet mdw-modal>
-        <mdw-sheet-content>
-          ${this.contentElement.innerHTML}
-        </mdw-sheet-content>
-      </mdw-sheet>
-    `);
-    this.contentElement.remove();
   }
 
   createPanel() {
