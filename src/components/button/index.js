@@ -88,6 +88,9 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     const form = this._getParentFormElement(event.target);
     if (!form) return;
     if (form.checkValidity()) return;
+    [...form.querySelectorAll('input')].forEach(element => {
+      element.reportValidity();
+    });
     event.preventDefault();
     event.stopImmediatePropagation();
     event.stopPropagation();
