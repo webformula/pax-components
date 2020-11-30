@@ -49,6 +49,7 @@ export default class Buttons extends Page {
           <anchor-link selector="#async" offset="64">Async with spinner</anchor-link>
           <anchor-link selector="#icons" offset="64">Buttons with icons</anchor-link>
           <anchor-link selector="#theming" offset="64">Theming</anchor-link>
+          <anchor-link selector="#submit" offset="64">Submit</anchor-link>
         </div>
 
         <section id="types">
@@ -281,6 +282,38 @@ export default class Buttons extends Page {
               <mdw-button class="mdw-contained mdw-secondary mdw-shaped">base</mdw-button>
             </div>
           </mdw-card>
+        </section>
+
+        <!-- submit -->
+        <section>
+          <mdw-card id="submit">
+            <div class="mdw-card__content">
+              <h6>Buttons for form submit</h6>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <form>
+                  <mdw-textfield>
+                    <input required />
+                  </mdw-textfield>
+
+                  <mdw-button type="submit">submit</mdw-button>
+                </form>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <form>
+                  <mdw-textfield>
+                    <input required />
+                  </mdw-textfield>
+
+                  <mdw-button type="submit" onclick="alert('Valid')">submit</mdw-button>
+                </form>
+            </div>
+          </mdw-card>
+
         </section>
 
       </article>
