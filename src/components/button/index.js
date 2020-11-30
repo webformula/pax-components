@@ -7,9 +7,11 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this.bound_asyncClick = this.asyncClick.bind(this);
     this.bound_hrefClick = this.hrefClick.bind(this);
     this.bound_checkHREFActive = this.checkHREFActive.bind(this);
+    this.bound_formValidationClickEvent = this._formValidationClickEvent.bind(this);
     this.cloneTemplate();
     this.setupAsync();
     this.connectHREF();
+    this.connectFormSubmit();
   }
 
   connectedCallback() {
@@ -25,6 +27,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this.ripple.destroy();
     this.removeEventListener('click', this.bound_asyncClick);
     this.removeEventListener('click', this.bound_hrefClick);
+    this.removeEventListener('click', this.bound_formValidationClickEvent, true);
     window.removeEventListener('hashchange', this.bound_checkHREFActive);
 
     if (this._formValidityInterval) clearInterval(this._formValidityInterval);
@@ -74,6 +77,29 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this.checkHREFActive();
     window.addEventListener('hashchange', this.bound_checkHREFActive);
     this.addEventListener('click', this.bound_hrefClick);
+  }
+
+  connectFormSubmit() {
+    if (this.getAttribute('type') !== 'submit') return;
+    this.addEventListener('click', this.bound_formValidationClickEvent, true);
+  }
+
+  _formValidationClickEvent(event) {
+    const form = this._getParentFormElement(event.target);
+    if (!form) return;
+    if (form.checkValidity()) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+  }
+
+  _getParentFormElement(child) {
+    let node = child.parentNode;
+    while (node != null) {
+      if (node.nodeName === 'BODY') return;
+      if (node.nodeName === 'FORM') return node;
+      node = node.parentNode;
+    }
   }
 
   checkHREFActive() {
