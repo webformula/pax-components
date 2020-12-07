@@ -1,4 +1,4 @@
-import { HTMLElementExtended, html, css } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core';
 import MDWDateUtil from '../../../core/DateUtil.js';
 
 customElements.define('mdw-date-picker--year', class extends HTMLElementExtended {

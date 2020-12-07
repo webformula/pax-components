@@ -1,4 +1,4 @@
-import { HTMLElementExtended, html, css } from '@webformula/pax-core';
+import { HTMLElementExtended } from '@webformula/pax-core';
 
 customElements.define('mdw-date-picker--month-navigation-buttons', class extends HTMLElementExtended {
   constructor() {
