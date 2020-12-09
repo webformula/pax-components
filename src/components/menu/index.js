@@ -11,7 +11,12 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    this.button.addEventListener('click', this.bound_onClick);
+    if (this.button) this.button.addEventListener('click', this.bound_onClick);
+    else {
+      setTimeout(() => {
+        if (this.button) this.button.addEventListener('click', this.bound_onClick);
+      }, 0);
+    }
     this.classList.add('mdw-panel--container');
     this.panel.classList.add('mdw-menu');
   }

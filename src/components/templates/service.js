@@ -15,6 +15,7 @@ const MDWTemplate = new class {
   }
 
   async loadHtml(url) {
+    if (window._templates && window._templates[url]) return window._templates[url];
     if (this._loadedTemplates[url]) return this._loadedTemplates[url];
 
     const response = await fetch(url);
