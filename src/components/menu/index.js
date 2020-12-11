@@ -6,8 +6,13 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
 
     this.bound_onClick = this.onClick.bind(this);
     this.bound_onPanelClick = this.onPanelClick.bind(this);
-
-    this.createPanel();
+    
+    if (this.contentElement) this.createPanel();
+    else {
+      setTimeout(() => {
+        if (this.contentElement) this.createPanel();
+      }, 0);
+    }
   }
 
   connectedCallback() {
@@ -65,6 +70,7 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
 
   createPanel() {
     if (!this.contentElement) return;
+    this._panelCreated = true;
     this.insertAdjacentHTML('beforeend', `
       <mdw-panel>
         ${this.contentElement.innerHTML}
