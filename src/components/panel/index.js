@@ -364,30 +364,30 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     this._isHoisted = true;
   }
 
-  _autoPositionHoisted() {
-    if (!this._autoPosition) return;
+  // _autoPositionHoisted() {
+  //   // if (!this._autoPosition) return;
+  //   console.log('_autoPositionHoisted')
+  //   const pageHeight = window.innerHeight;
+  //   const panelRect = this.getBoundingClientRect();
+  //   const panelHeight = this.offsetHeight;
+  //   let panelY = this.offsetTop;
 
-    const pageHeight = window.innerHeight;
-    const panelRect = this.getBoundingClientRect();
-    const panelHeight = this.offsetHeight;
-    let panelY = this.offsetTop;
+  //   // if panel is out of window y bounds
+  //   if (panelY + panelHeight > pageHeight) {
+  //     if (panelHeight <= pageHeight) {
+  //       const maxTop = pageHeight - panelHeight;
+  //       let offset = panelY - maxTop;
 
-    // if panel is out of window y bounds
-    if (panelY + panelHeight > pageHeight) {
-      if (panelHeight <= pageHeight) {
-        const maxTop = pageHeight - panelHeight;
-        let offset = panelY - maxTop;
+  //       // add padding to offset, this will prevent panel from butting up against bottom
+  //       if (offset > 20) offset += 10;
+  //       else offset /= 2;
 
-        // add padding to offset, this will prevent panel from butting up against bottom
-        if (offset > 20) offset += 10;
-        else offset /= 2;
+  //       panelY -= offset;
+  //     }
+  //   }
 
-        panelY -= offset;
-      }
-    }
-
-    this.style.top = `${panelY}px`;
-  }
+  //   this.style.top = `${panelY}px`;
+  // }
 
   setHoistedPosition() {
     if (this._anchored) return this.setAnchoredPosition();
@@ -455,10 +455,17 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   _calculateAnchoredPosition(aValue, bValue) {
     const bounds = this._container.getBoundingClientRect();
-    const height = this.offsetHeight;
-    const width = this.offsetWidth;
+    const { clientWidth, clientHeight } = document.documentElement;
     let top = 0;
     let left = 0;
+    const width = this.offsetWidth;
+    let height = this.offsetHeight;
+
+    // make sure panel is not taller than screen
+    if (this._autoPosition && (clientHeight - 24) < height) {
+      height = (clientHeight - 24);
+      this.style.height = `${height}px`;
+    }
 
     switch (aValue) {
       case 'top':
@@ -494,6 +501,11 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
       case 'center':
         left = (bounds.x + (bounds.width / 2)) - (width / 2);
         break;
+    }
+
+    if (this._autoPosition) {
+      if ((top + height) > clientHeight) top = clientHeight - height - 12;
+      if ((left + width) > clientWidth) left = clientWidth - width - 12;
     }
 
     return { top, left };

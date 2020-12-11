@@ -11,14 +11,16 @@ customElements.define('mdw-menu', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    if (this.button) this.button.addEventListener('click', this.bound_onClick);
-    else {
-      setTimeout(() => {
-        if (this.button) this.button.addEventListener('click', this.bound_onClick);
-      }, 0);
-    }
+    this.button.addEventListener('click', this.bound_onClick);
     this.classList.add('mdw-panel--container');
     this.panel.classList.add('mdw-menu');
+
+    if (this.panel) this.panel.classList.add('mdw-menu');
+    else {
+      setTimeout(() => {
+        if (this.panel) this.panel.classList.add('mdw-menu');
+      }, 0);
+    }
   }
 
   onClick() {

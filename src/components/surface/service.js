@@ -29,11 +29,12 @@ const animationOrigin = [
 ];
 
 class MDWSurfaceInstance {
-  constructor({ id, component, template, position, animation, anchorElement }) {
+  constructor({ id, component, template, position, animation, anchorElement, autoPosition }) {
     this._id = id;
     this._component = component;
     this._template = template;
     this._animation = animation;
+    this._autoPosition = autoPosition;
     this._anchorElement = anchorElement;
     this._position = position;
 
@@ -76,6 +77,11 @@ class MDWSurfaceInstance {
         // if left undefined the animation will be defaulted
         if (this._animation === false) {
           this.element.quickOpen = true;
+        }
+
+        // anchor to element
+        if (this._autoPosition === true) {
+          this.element.autoPosition();
         }
 
         // anchor to element
@@ -201,6 +207,7 @@ const MDWSurface = new class {
     templateData,
     position,
     animation,
+    autoPosition,
     anchorElement,
     component,
     classes,
@@ -212,8 +219,9 @@ const MDWSurface = new class {
       template,
       templateData,
       position,
-      anchorElement,
       animation,
+      autoPosition,
+      anchorElement,
       component,
       classes,
       mobileComponent,
@@ -229,6 +237,7 @@ const MDWSurface = new class {
     templateData,
     position,
     animation,
+    autoPosition,
     anchorElement,
     component,
     classes,
@@ -283,6 +292,7 @@ const MDWSurface = new class {
       id,
       component,
       animation,
+      autoPosition,
       anchorElement,
       position,
       template: surfaceTemplate

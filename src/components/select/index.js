@@ -166,6 +166,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       desktopComponent: 'panel',
       scrollPanelWidthPage: true,
       anchorElement: this,
+      autoPosition: true,
+      position: 'bottom inner-left',
       animation: {
         type: 'scale',
         origin: 'top',
