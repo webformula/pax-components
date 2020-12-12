@@ -139,7 +139,7 @@ class MDWSurfaceInstance {
 
   // remove the panel and disconnect its listeners with a closing animation
   destroy() {
-    if (this.element) return;
+    if (!this.element) return;
 
     switch (this.component) {
       case 'dialog':

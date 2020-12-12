@@ -96,6 +96,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this._notch;
   }
 
+  set enhancedOptions(values) {
+    this._optionsMap = values;
+  }
+
 
 
 
