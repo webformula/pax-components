@@ -101,8 +101,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
 
-
-
   _handleLabel() {
     const label = this.querySelector('label');
     if (label) {
@@ -165,6 +163,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.onFocus();
     MDWUtils.lockPageScroll();
 
+    const hasSearch = this.hasAttribute('mdw-search');
+
     this._surfaceElement = await MDWSurface.open({
       mobileComponent: 'sheetBottom',
       desktopComponent: 'panel',
@@ -177,8 +177,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         origin: 'top',
         opacity: true
       },
+      classes: 'mdw-search',
       template: `
         <mdw-content style="min-width: ${this.offsetWidth}px" class="mdw-no-padding">
+          ${!hasSearch ? '' : `
+            <mdw-textfield class="mdw-shaped mdw-density-comfortable">
+              <mdw-icon>search</mdw-icon>
+              <input placeholder="Search">
+            </mdw-textfield>
+          `}
           <mdw-list>
             ${this._optionsMap.map(({ text, value, selected }) => `
               <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
@@ -204,6 +211,12 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         this._surfaceElement = undefined;
         this.onBlur();
       });
+    }
+
+    // FOCUS ON SEARCH INPUT
+    if (this.hasAttribute('mdw-search')) {
+      const input = this._surfaceElement.element.querySelector('input');
+      if (input) input.focus();
     }
   }
 
@@ -235,9 +248,24 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
 
+  textSearch(input) {
+    setTimeout(() => {
+      const searchValue = input.value;
+      const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(searchValue)).map(({ text }) => text);
+      if (this._surfaceElement && this._surfaceElement.element) {
+        (this._surfaceElement.element.querySelectorAll('mdw-list-item') || []).forEach(el => {
+          el.style.display = matches.includes(el.innerText) ? '' : 'none';
+        });
+      }
+      this._focusIndex = undefined;
+    }, 0);
+  }
+
   // --- key controls ---
 
   onKeyDown(event) {
+    if (event.target.nodeName === 'INPUT' && ![38, 40].includes(event.keyCode)) return this.textSearch(event.target);
+
     // open if focused
     if (!this._surfaceElement && this.classList.contains('mdw-focused')) {
       this.onClick();
@@ -310,20 +338,17 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   focusNext() {
-    const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')];
-    if (this._focusIndex === undefined) {
-      const index = optionElements.findIndex(el => el.classList.contains('mdw-focused'));
-      if (index >= 0) this._focusedOption = optionElements[index];
-      this._focusIndex = index <= 0 ? 1 : index + 1;
-    } else this._focusIndex += 1;
-    if (this._focusIndex > optionElements.length - 1) this._focusIndex = optionElements.length - 1;
+    let currentIndex = this._focusIndex === undefined ? 0 : this._focusIndex + 1;
+    const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')].filter(el => el.style.display !== 'none');
+    if (currentIndex > optionElements.length - 1) currentIndex = optionElements.length - 1;
+    this._focusIndex = currentIndex;
     if (this._focusedOption) this._focusedOption.classList.remove('mdw-focused');
     this._focusedOption = optionElements[this._focusIndex];
     this._focusedOption.classList.add('mdw-focused');
   }
 
   focusPrevious() {
-    const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')];
+    const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')].filter(el => el.style.display !== 'none');
     if (this._focusIndex === undefined) this._focusIndex = 0;
     else this._focusIndex -= 1;
     if (this._focusIndex <= 0) this._focusIndex = 0;
