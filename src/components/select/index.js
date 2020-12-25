@@ -391,11 +391,13 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       }
 
       /* density */
-      :host-context(.mdw-density-comfortable) {
+      :host-context(.mdw-density-comfortable),
+      :host(.mdw-density-comfortable) {
         height: 48px
       }
 
-      :host-context(.mdw-density-compact) {
+      :host-context(.mdw-density-compact),
+      :host(.mdw-density-compact) {
         height: 40px
       }
 
@@ -449,11 +451,12 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         top: 13px;
       }
 
-      :host(.mdw-shaped.mdw-focused):host-context(.mdw-density-compact) label,
-      :host(.mdw-shaped):host-context(.mdw-density-compact) label.mdw-select--float-above,
-      :host(.mdw-outlined.mdw-focused):host-context(.mdw-density-compact) label,
-      :host(.mdw-outlined):host-context(.mdw-density-compact) label.mdw-select--float-above {
-        transform: translateY(-100%) scale(0.75);
+      :host-context(.mdw-density-comfortable) label:not(.mdw-empty-no-float) {
+        transform: translateY(-60%) scale(0.75);
+      }
+
+      :host-context(.mdw-density-compact) label:not(.mdw-empty-no-float) {
+        transform: translateY(-50%) scale(0.75);
       }
 
 

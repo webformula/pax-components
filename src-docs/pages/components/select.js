@@ -293,16 +293,18 @@ export default class Select extends Page {
                 <label>Floating label</label>
               </mdw-select>
 
-              <mdw-select class="mdw-padding mdw-density-compact" mdw-enhanced>
-                <select>
-                  <option value="1">item one</option>
-                  <option value="2">item two</option>
-                  <option value="3">item three</option>
-                  <option value="4">item four</option>
-                  <option value="5">item five</option>
-                </select>
-                <label>Floating label</label>
-              </mdw-select>
+              <div class="mdw-density-compact mdw-row" style="width: 100%;">
+                <mdw-select class="mdw-padding mdw-flex" mdw-enhanced>
+                  <select>
+                    <option value="1">item one</option>
+                    <option value="2">item two</option>
+                    <option value="3">item three</option>
+                    <option value="4">item four</option>
+                    <option value="5">item five</option>
+                  </select>
+                  <label>Floating label</label>
+                </mdw-select>
+              </div>
               <span class="mdw-flex"></span>
             </div>
           </mdw-card>
