@@ -46,15 +46,6 @@ mdw-panel.mdw-open {
   transform: scale(1);
 }
 
-mdw-panel.mdw-search {
-  border-radius: var(--mdw-theme--button-shape-radius, 18px);
-  mdw-content {
-    mdw-textfield {
-      width: calc(100% - 2px);
-    }
-  }
-}
-
 
 
 

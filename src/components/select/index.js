@@ -164,6 +164,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     MDWUtils.lockPageScroll();
 
     const hasSearch = this.hasAttribute('mdw-search');
+    const hasShaped = this.classList.contains('mdw-shaped');
 
     this._surfaceElement = await MDWSurface.open({
       mobileComponent: 'sheetBottom',
@@ -177,7 +178,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         origin: 'top',
         opacity: true
       },
-      classes: 'mdw-search',
+      classes: `mdw-select-panel ${hasSearch ? 'mdw-search' : ''} ${hasShaped ? 'mdw-shaped' : ''}`,
       template: `
         <mdw-content style="min-width: ${this.offsetWidth}px" class="mdw-no-padding">
           ${!hasSearch ? '' : `
@@ -385,8 +386,21 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   styles() {
     return /* css */`
+      :host {
+        height: 56px;
+      }
+
+      /* density */
+      :host-context(.mdw-density-comfortable) {
+        height: 48px
+      }
+
+      :host-context(.mdw-density-compact) {
+        height: 40px
+      }
+
       :host-context(.mdw-density-comfortable) .mdw-select__icon {
-        bottom: 15px;
+        bottom: 19px;
       }
 
       :host-context(.mdw-density-comfortable) .mdw-select__selected-text {
@@ -394,24 +408,31 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         padding-top: 16px;
       }
 
+      :host-context(.mdw-density-comfortable) label {
+        top: 17px;
+      }
+
+      :host(.mdw-shaped):host-context(.mdw-density-comfortable) .mdw-select__icon,
       :host(.mdw-outlined):host-context(.mdw-density-comfortable) .mdw-select__icon {
         bottom: 20px;
       }
-      
+      :host(.mdw-shaped):host-context(.mdw-density-comfortable) label,
       :host(.mdw-outlined):host-context(.mdw-density-comfortable) label {
         top: 18px;
       }
 
       :host-context(.mdw-density-compact) .mdw-select__icon {
-        bottom: 12px;
+        bottom: 16px;
       }
 
+      :host(.mdw-shaped):host-context(.mdw-density-compact) .mdw-select__icon,
       :host(.mdw-outlined):host-context(.mdw-density-compact) .mdw-select__icon {
         top: 18px;
       }
 
+      :host(.mdw-shaped):host-context(.mdw-density-compact) label,
       :host(.mdw-outlined):host-context(.mdw-density-compact) label {
-        top: 12px;
+        top: 13px;
       }
 
       :host-context(.mdw-density-compact) .mdw-select__selected-text {
@@ -425,13 +446,17 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       }
 
       :host-context(.mdw-density-compact) label {
-        top: 16px;
+        top: 13px;
       }
 
+      :host(.mdw-shaped.mdw-focused):host-context(.mdw-density-compact) label,
+      :host(.mdw-shaped):host-context(.mdw-density-compact) label.mdw-select--float-above,
       :host(.mdw-outlined.mdw-focused):host-context(.mdw-density-compact) label,
       :host(.mdw-outlined):host-context(.mdw-density-compact) label.mdw-select--float-above {
         transform: translateY(-100%) scale(0.75);
       }
+
+
 
       ::slotted(label.mdw-empty-no-float) {
         transform: none;
@@ -464,10 +489,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
       :host(:not(.mdw-select--disabled)) ::slotted(select),
       :host(:not(.mdw-select--disabled)) .mdw-select__selected-text {
-        border-bottom-color: rgba(var(--mdw-theme-on-background--rgb), 0.54);
-        color: var(--mdw-theme-on-primary);
+        border-bottom-color: var(--mdw-theme-textfield-underline-color);
+        color:  var(--mdw-theme-textfield-on-background);
       }
 
+      /*
       :host(.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
       :host(.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,
       :host(:not(.mdw-select--disabled)) ::slotted(select:focus),
@@ -475,6 +501,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         border-bottom: 2px solid;
         border-bottom-color: var(--mdw-theme-primary);
         height: calc(100% + 1px); /* add 1px to height so the text does not get pushed up by border size change */
+      }
+      */
+
+      :host(.mdw-no-underline) ::slotted(select),
+      :host(.mdw-no-underline.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
+      :host(.mdw-no-underline.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,
+      :host(.mdw-no-underline:not(.mdw-select--disabled)) ::slotted(select:focus),
+      :host(.mdw-no-underline.mdw-focused:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {
+        border-bottom: none;
       }
 
       :host(.mdw-outlined) ::slotted(select),
@@ -519,6 +554,19 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       }
       :host(.mdw-outlined) ::slotted(select) {
         border-radius: 4px;
+      }
+
+      /* Shaped */
+      :host(.mdw-shaped) ::slotted(select),
+      :host(.mdw-shaped) .mdw-select__selected-text {
+        border-bottom: none;
+      }
+
+      :host(.mdw-shaped.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
+      :host(.mdw-shaped.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,
+      :host(.mdw-shaped:not(.mdw-select--disabled)) ::slotted(select:focus),
+      :host(.mdw-shaped.mdw-focused:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {
+        border-bottom: none;
       }
 
       ::slotted(select) {

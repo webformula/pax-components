@@ -1,11 +1,43 @@
 mdw-select {
+  &.mdw-on-primary {
+    --mdw-theme-textfield-background-color: var(--mdw-theme-textfield-on-primary-background-color);
+    --mdw-theme-textfield-background-color--rgb: var(--mdw-theme-textfield-on-primary-background-color--rgb);
+    --mdw-theme-textfield-primary-on-background: var(--mdw-theme-textfield-on-primary-primary-on-background);
+    --mdw-theme-textfield-primary-on-background--rgb: var(--mdw-theme-textfield-on-primary-primary-on-background--rgb);
+    --mdw-theme-textfield-on-background: var(--mdw-theme-textfield-on-primary-on-background);
+    --mdw-theme-textfield-on-background--rgb: var(--mdw-theme-textfield-on-primary-on-background--rgb);
+    --mdw-theme-textfield-primary: var(--mdw-theme-textfield-on-primary-primary);
+    --mdw-theme-textfield-primary--rgb: var(--mdw-theme-textfield-on-primary-primary--rgb);
+    --mdw-theme-textfield-on-secondary: var(--mdw-theme-textfield-on-primary-on-secondary);
+    --mdw-theme-textfield-on-secondary--rgb: var(--mdw-theme-textfield-on-primary-on-secondary--rgb);
+    --mdw-theme-textfield-text--body: var(--mdw-theme-textfield-on-primary-text--body);
+    --mdw-theme-textfield-underline-color: var(--mdw-theme-textfield-on-primary-underline-color);
+    --mdw-theme-textfield-background-fill-color: var(--mdw-theme-textfield-on-primary-background-fill-color);
+  }
+
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   will-change: transform,opacity,color;
   display: inline-flex;
   position: relative;
   box-sizing: border-box;
-  height: 56px;
   border-radius: 4px 4px 0 0;
+
+
+  &.mdw-outlined {
+    border: none;
+    overflow: visible;
+    
+    &:not(.mdw-select--disabled) {
+      background-color: transparent;
+    }
+  }
+
+
+  &.mdw-shaped {
+    border: none;
+    overflow: visible;
+    border-radius: var(--mdw-theme--button-shape-radius, 18px);
+  }
 }
 
 .mdw-density-comfortable mdw-select {
@@ -27,7 +59,7 @@ mdw-select.mdw-padding {
 
 /* TODO figure out what color var to use */
 mdw-select:not(.mdw-select--disabled) {
-  background-color: rgba(var(--mdw-theme-text-disabled-on-background--rgb), 0.025);
+  background-color: var(--mdw-theme-textfield-background-fill-color);
 }
 
 mdw-select:after,
@@ -41,7 +73,7 @@ mdw-select:before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background-color: rgba(var(--mdw-theme-text-disabled-on-background--rgb), 0.025);
+  background-color: var(--mdw-theme-textfield-background-fill-color);
 }
 
 mdw-select:before {
@@ -50,12 +82,18 @@ mdw-select:before {
   z-index: 1;
 }
 
-/* outlined */
-mdw-select.mdw-outlined:not(.mdw-select--disabled) {
-  background-color: transparent;
-}
+mdw-panel.mdw-select-panel {
+  &.mdw-shaped {
+    border-radius: var(--mdw-theme--button-shape-radius, 18px);
+  }
 
-mdw-select.mdw-outlined {
-  border: none;
-  overflow: visible;
+  &.mdw-search {
+    border-radius: var(--mdw-theme--button-shape-radius, 18px);
+
+    mdw-content {
+      mdw-textfield {
+        width: calc(100% - 2px);
+      }
+    }
+  }
 }

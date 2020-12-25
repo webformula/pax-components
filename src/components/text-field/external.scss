@@ -1,45 +1,19 @@
 mdw-textfield {
-  --textfield-background-color--rgb: var(--mdw-theme-on-background--rgb);
-  --textfield-primary-on-background: var(--mdw-theme-text-primary-on-background);
-  --textfield-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --textfield-mdw-theme-error: var(--mdw-theme-error);
-  --textfield-mdw-theme-error--rgb: var(--mdw-theme-error--rgb);
-  --textfield-mdw-theme-background: var(--mdw-theme-background);
-  --textfield-mdw-theme-background--rgb: var(--mdw-theme-background--rgb);
-  --textfield-mdw-theme-on-background: var(--mdw-theme-on-background);
-  --textfield-mdw-theme-on-background--rgb: var(--mdw-theme-on-background--rgb);
-  --textfield-mdw-theme-primary: var(--mdw-theme-primary);
-  --textfield-mdw-theme-primary--rgb: var(--mdw-theme-primary--rgb);
-  --textfield-mdw-theme-on-secondary: var(--mdw-theme-on-secondary);
-  --textfield-mdw-theme-text--body: var(--mdw-theme-text--body);
-
   &.mdw-on-primary {
-    // changed
-    --textfield-background-color--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-    --textfield-background-color: var(--mdw-theme-text-primary-on-background);
-    --textfield-primary-on-background: var(--mdw-theme-text-primary-on-background);
-    --textfield-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-
-
-    --textfield-mdw-theme-error: var(--mdw-theme-error);
-    --textfield-mdw-theme-error--rgb: var(--mdw-theme-error--rgb);
-    --textfield-mdw-theme-background: var(--mdw-theme-background);
-    --textfield-mdw-theme-background--rgb: var(--mdw-theme-background--rgb);
-
-    // changed
-    --textfield-mdw-theme-on-background: var(--mdw-theme-text-primary-on-background);
-    --textfield-mdw-theme-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-
-    // changed
-    --textfield-mdw-theme-primary: var(--mdw-theme-text-primary-on-background);
-    --textfield-mdw-theme-primary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-    
-    --textfield-mdw-theme-on-secondary: var(--mdw-theme-on-secondary);
-
-    // changed
-    --textfield-mdw-theme-text--body: var(--mdw-theme-text-primary-on-background);
+    --mdw-theme-textfield-background-color: var(--mdw-theme-textfield-on-primary-background-color);
+    --mdw-theme-textfield-background-color--rgb: var(--mdw-theme-textfield-on-primary-background-color--rgb);
+    --mdw-theme-textfield-primary-on-background: var(--mdw-theme-textfield-on-primary-primary-on-background);
+    --mdw-theme-textfield-primary-on-background--rgb: var(--mdw-theme-textfield-on-primary-primary-on-background--rgb);
+    --mdw-theme-textfield-on-background: var(--mdw-theme-textfield-on-primary-on-background);
+    --mdw-theme-textfield-on-background--rgb: var(--mdw-theme-textfield-on-primary-on-background--rgb);
+    --mdw-theme-textfield-primary: var(--mdw-theme-textfield-on-primary-primary);
+    --mdw-theme-textfield-primary--rgb: var(--mdw-theme-textfield-on-primary-primary--rgb);
+    --mdw-theme-textfield-on-secondary: var(--mdw-theme-textfield-on-primary-on-secondary);
+    --mdw-theme-textfield-on-secondary--rgb: var(--mdw-theme-textfield-on-primary-on-secondary--rgb);
+    --mdw-theme-textfield-text--body: var(--mdw-theme-textfield-on-primary-text--body);
+    --mdw-theme-textfield-underline-color: var(--mdw-theme-textfield-on-primary-underline-color);
+    --mdw-theme-textfield-background-fill-color: var(--mdw-theme-textfield-on-primary-background-fill-color);
   }
-
 
   border-radius: 4px 4px 0 0;
   display: inline-flex;
@@ -53,8 +27,8 @@ mdw-textfield {
 
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 
-  border-bottom-color: rgba(var(--textfield-background-color--rgb), 0.42);
-  background-color: rgba(var(--textfield-background-color--rgb), 0.024);
+  border-bottom-color: var(--mdw-theme-textfield-underline-color);
+  background-color: var(--mdw-theme-textfield-background-fill-color);
 
   &.block {
     display: block;
@@ -90,9 +64,9 @@ mdw-textfield {
     -moz-appearance: none;
     appearance: none;
 
-    border-bottom-color: rgba(var(--textfield-background-color--rgb), 0.42);
-    color: var(--textfield-mdw-theme-on-background);
-    caret-color: var(--textfield-mdw-theme-on-background);
+    border-bottom-color: var(--mdw-theme-textfield-underline-color);
+    color: var(--mdw-theme-textfield-on-background);
+    caret-color: var(--mdw-theme-textfield-on-background);
 
     &:focus {
       outline: none;
@@ -130,18 +104,18 @@ mdw-textfield {
 
   &:not(:disabled) {
     mdw-icon {
-      color: var(--textfield-mdw-theme-text--body);
+      color: var(--mdw-theme-textfield-text--body);
 
       &.mdw-primary {
-        color: var(--textfield-mdw-theme-primary);
+        color: var(--mdw-theme-textfield-primary);
       }
 
       &.mdw-secondary {
-        color: var(--textfield-mdw-theme-secondary);
+        color: var(--mdw-theme-textfield-secondary);
       }
 
       &.mdw-error {
-        color: var(--textfield-mdw-theme-error);
+        color: var(--mdw-theme-textfield-error);
       }
     }
   }
@@ -153,25 +127,25 @@ mdw-textfield {
   }
 
   &.mdw-invalid {
-    border-bottom-color: var(--textfield-mdw-theme-error);
+    border-bottom-color: var(--mdw-theme-textfield-error);
 
     textarea,
     input {
-      border-bottom-color: var(--textfield-mdw-theme-error);
-      caret-color: var(--textfield-mdw-theme-error);
+      border-bottom-color: var(--mdw-theme-textfield-error);
+      caret-color: var(--mdw-theme-textfield-error);
     }
 
     label {
-      color: var(--textfield-mdw-theme-error);
+      color: var(--mdw-theme-textfield-error);
     }
 
     input + label,
     textarea + label {
-      color: var(--textfield-mdw-theme-error);
+      color: var(--mdw-theme-textfield-error);
     }
 
     .mdw-line-ripple {
-      background-color: var(--textfield-mdw-theme-error);
+      background-color: var(--mdw-theme-textfield-error);
     }
   }
 
@@ -263,7 +237,7 @@ mdw-textfield {
     top: 18px;
     pointer-events: none;
 
-    color: rgba(var(--textfield-background-color--rgb), .87);
+    color: rgba(var(--mdw-theme-textfield-background-color--rgb), .87);
   }
 
   &.mdw-upgraded {
@@ -278,12 +252,12 @@ mdw-textfield {
       label {
         cursor: auto;
         transform: translateY(-50%) scale(.75);
-        color: rgba(var(--textfield-mdw-theme-primary--rgb), .7);
+        color: rgba(var(--mdw-theme-textfield-primary--rgb), .7);
       }
     }
 
     &.mdw-invalid:focus-within label {
-      color: var(--textfield-mdw-theme-error);
+      color: var(--mdw-theme-textfield-error);
     }
   }
 
@@ -300,10 +274,10 @@ mdw-textfield {
 
   &.mdw-on-background {
 		input {
-			color: var(--textfield-primary-on-background);
-			caret-color: var(--textfield-primary-on-background);
+			color: var(--mdw-theme-textfield-primary-on-background);
+			caret-color: var(--mdw-theme-textfield-primary-on-background);
 			&::placeholder {
-				color: rgba(var(--textfield-primary-on-background--rgb), 0.7);
+				color: rgba(var(--mdw-theme-textfield-primary-on-background--rgb), 0.7);
 			}
 		}
   }
@@ -324,7 +298,7 @@ mdw-textfield {
       opacity: 0;
       pointer-events: none;
       content: "";
-      background-color: var(--textfield-mdw-theme-background);
+      background-color: var(--mdw-theme-textfield-background);
     }
 
     &.mdw-shaped {
@@ -350,12 +324,12 @@ mdw-textfield {
     &:not(.mdw-upgraded) {
       input:focus:nth-last-child(2) {
         border-bottom: 2px solid;
-        border-bottom-color: rgba(var(--textfield-mdw-theme-background--rgb), .42);
+        border-bottom-color: rgba(var(--mdw-theme-textfield-background--rgb), .42);
       }
 
       &.mdw-invalid {
         input:focus:nth-last-child(2) {
-          border-bottom-color: var(--textfield-mdw-theme-error);
+          border-bottom-color: var(--mdw-theme-textfield-error);
         }
       }
     }
@@ -377,20 +351,20 @@ mdw-textfield {
 
     &:not(.mdw-upgraded) {
       border: 1px solid;
-      border-color: rgba(var(--textfield-background-color--rgb), 0.42);
+      border-color: var(--mdw-theme-textfield-underline-color);
       border-radius: 4px;
 
       &.mdw-invalid {
-        border-color: var(--textfield-mdw-theme-error);
+        border-color: var(--mdw-theme-textfield-error);
 
         &:focus-within {
-          border-color: var(--textfield-mdw-theme-error);
+          border-color: var(--mdw-theme-textfield-error);
         }
       }
 
       &:focus-within {
         border: 2px solid;
-        border-color: rgba(var(--textfield-mdw-theme-background--rgb), .42);
+        border-color: rgba(var(--mdw-theme-textfield-background--rgb), .42);
       }
     }
   }
@@ -471,14 +445,14 @@ mdw-textfield {
     border-bottom: 1px solid;
     pointer-events: none;
 
-    border-color: rgba(var(--textfield-background-color--rgb), 0.54);
+    border-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.54);
   }
 
   &.mdw-invalid {
     .mdw-outlined-leading,
     .mdw-outlined-notch,
     .mdw-outlined-trailing {
-      color: var(--textfield-mdw-theme-error);
+      color: var(--mdw-theme-textfield-error);
     }
   }
 
@@ -487,14 +461,14 @@ mdw-textfield {
     .mdw-outlined-notch,
     .mdw-outlined-trailing {
       border-width: 2px;
-      border-color: rgba(var(--textfield-mdw-theme-primary--rgb), .7);
+      border-color: rgba(var(--mdw-theme-textfield-primary--rgb), .7);
     }
 
     &.mdw-invalid {
       .mdw-outlined-leading,
       .mdw-outlined-notch,
       .mdw-outlined-trailing {
-        border-color: var(--textfield-mdw-theme-error);
+        border-color: var(--mdw-theme-textfield-error);
       }
     }
 
@@ -513,7 +487,7 @@ mdw-textfield {
     ~ .mdw-outlined-leading,
     ~ .mdw-outlined-notch,
     ~ .mdw-outlined-trailing {
-      border-color: var(--textfield-mdw-theme-error);
+      border-color: var(--mdw-theme-textfield-error);
     }
   }
 
@@ -521,7 +495,7 @@ mdw-textfield {
     ~ .mdw-outlined-leading,
     ~ .mdw-outlined-notch,
     ~ .mdw-outlined-trailing {
-      border-color: var(--textfield-mdw-theme-error);
+      border-color: var(--mdw-theme-textfield-error);
     }
   }
 
@@ -552,7 +526,7 @@ mdw-textfield {
     transition: opacity .15s cubic-bezier(.4,0,.2,1);
     opacity: 0;
     will-change: opacity;
-    color: var(-textfield-mdw-theme-on-secondary);
+    color: var(-textfield-on-secondary);
 
     &[persistent] {
       transition: none;
@@ -584,7 +558,7 @@ mdw-textfield {
       transition: none;
       opacity: 0;
       transform: translateY(-50%);
-      color: var(--textfield-mdw-theme-error);
+      color: var(--mdw-theme-textfield-error);
     }
 
     textarea:invalid,
@@ -767,5 +741,5 @@ mdw-textfield {
               opacity .18s cubic-bezier(.4,0,.2,1);
   opacity: 0;
   z-index: 2;
-  background-color: rgba(var(--textfield-mdw-theme-primary--rgb), .7);
+  background-color: rgba(var(--mdw-theme-textfield-primary--rgb), .7);
 }
