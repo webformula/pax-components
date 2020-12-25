@@ -15,7 +15,7 @@
   /* --- on variables --- */
   --mdw-theme-on-primary: #000000;
   --mdw-theme-on-primary--rgb: 0, 0, 0;
-  --mdw-theme-on-secondary: #000000;
+  --mdw-theme-on-secondary: #050303;
   --mdw-theme-on-secondary--rgb: 0, 0, 0;
   --mdw-theme-on-error: #000000;
   --mdw-theme-on-error--rgb: 0, 0, 0;
@@ -42,8 +42,39 @@
   --mdw-theme-list_item_focus--rgb: 0, 0, 0;
 
 
-  /* --- other variablers --- */
+  /* --- text fields and selects --- */
+  --mdw-theme-textfield-background-color: var(--mdw-theme-on-background);
+  --mdw-theme-textfield-background-color--rgb: var(--mdw-theme-on-background--rgb);
+  --mdw-theme-textfield-primary-on-background: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-error: var(--mdw-theme-error);
+  --mdw-theme-textfield-error--rgb: var(--mdw-theme-error--rgb);
+  --mdw-theme-textfield-background: var(--mdw-theme-background);
+  --mdw-theme-textfield-background--rgb: var(--mdw-theme-background--rgb);
+  --mdw-theme-textfield-on-background: var(--mdw-theme-on-background);
+  --mdw-theme-textfield-on-background--rgb: var(--mdw-theme-on-background--rgb);
+  --mdw-theme-textfield-primary: var(--mdw-theme-primary);
+  --mdw-theme-textfield-primary--rgb: var(--mdw-theme-primary--rgb);
+  --mdw-theme-textfield-on-secondary: var(--mdw-theme-on-secondary);
+  --mdw-theme-textfield-on-secondary--rgb: var(--mdw-theme-on-secondary--rgb);
+  --mdw-theme-textfield-text--body: var(--mdw-theme-text--body);
+  --mdw-theme-textfield-underline-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.24);
+  --mdw-theme-textfield-background-fill-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.036);
 
+  /* --- text fields and selects - on primary --- */
+  --mdw-theme-textfield-on-primary-background-color: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-background-color--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-primary-on-background: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-on-background: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-primary: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-primary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-on-secondary: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-on-secondary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-text--body: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-underline-color: rgba(var(--mdw-theme-background--rgb), 0.24);
+  --mdw-theme-textfield-on-primary-background-fill-color: rgba(var(--mdw-theme-background--rgb), 0.06);
 }
 
 :root.mdw-theme-dark {
@@ -90,6 +121,37 @@
   --mdw-theme-list_item_focus--rgb: 100, 100, 100;
 
 
-  /* --- other variablers --- */
+  /* --- text fields and selects --- */
+  --mdw-theme-textfield-background-color: var(--mdw-theme-on-background);
+  --mdw-theme-textfield-background-color--rgb: var(--mdw-theme-on-background--rgb);
+  --mdw-theme-textfield-primary-on-background: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-error: var(--mdw-theme-error);
+  --mdw-theme-textfield-error--rgb: var(--mdw-theme-error--rgb);
+  --mdw-theme-textfield-background: var(--mdw-theme-background);
+  --mdw-theme-textfield-background--rgb: var(--mdw-theme-background--rgb);
+  --mdw-theme-textfield-on-background: var(--mdw-theme-on-background);
+  --mdw-theme-textfield-on-background--rgb: var(--mdw-theme-on-background--rgb);
+  --mdw-theme-textfield-primary: var(--mdw-theme-primary);
+  --mdw-theme-textfield-primary--rgb: var(--mdw-theme-primary--rgb);
+  --mdw-theme-textfield-on-secondary: var(--mdw-theme-on-secondary);
+  --mdw-theme-textfield-on-secondary--rgb: var(--mdw-theme-on-secondary--rgb);
+  --mdw-theme-textfield-text--body: var(--mdw-theme-text--body);
+  --mdw-theme-textfield-underline-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.24);
+  --mdw-theme-textfield-background-fill-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.036);
 
+  /* --- text fields and selects - on primary --- */
+  --mdw-theme-textfield-on-primary-background-color: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-background-color--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-primary-on-background: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-on-background: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-primary: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-primary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-on-secondary: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-on-secondary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
+  --mdw-theme-textfield-on-primary-text--body: var(--mdw-theme-text-primary-on-background);
+  --mdw-theme-textfield-on-primary-underline-color: rgba(var(--mdw-theme-background--rgb), 0.24);
+  --mdw-theme-textfield-on-primary-background-fill-color: rgba(var(--mdw-theme-background--rgb), 0.06);
 }
