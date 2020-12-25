@@ -60,6 +60,7 @@
   --mdw-theme-textfield-text--body: var(--mdw-theme-text--body);
   --mdw-theme-textfield-underline-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.24);
   --mdw-theme-textfield-background-fill-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.036);
+  --mdw-theme-textfield-label-color: rgba(var(--mdw-theme-textfield-background-color--rgb), .9);
 
   /* --- text fields and selects - on primary --- */
   --mdw-theme-textfield-on-primary-background-color: var(--mdw-theme-text-primary-on-background);
@@ -75,6 +76,7 @@
   --mdw-theme-textfield-on-primary-text--body: var(--mdw-theme-text-primary-on-background);
   --mdw-theme-textfield-on-primary-underline-color: rgba(var(--mdw-theme-background--rgb), 0.24);
   --mdw-theme-textfield-on-primary-background-fill-color: rgba(var(--mdw-theme-background--rgb), 0.06);
+  --mdw-theme-textfield-on-primary-label-color: rgba(var(--mdw-theme-textfield-background-color--rgb), .9);
 }
 
 :root.mdw-theme-dark {

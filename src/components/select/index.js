@@ -602,7 +602,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         will-change: transform;
         transform: none;
         pointer-events: none;
-        color: rgba(var(--mdw-theme-on-background--rgb), .6);
+        color: var(--mdw-theme-textfield-label-color);
         z-index: 1;
 
         left: 16px;

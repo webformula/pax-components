@@ -61,6 +61,11 @@ mdw-sheet-side {
     color: rgba(0, 0, 0, 0.12);
   }
 
+  &.mdw-no-border {
+    border-right: none !important;
+    border-left: none !important;
+  }
+
 
   // --- navigation-drawer and left
   &.mdw-left,

@@ -13,6 +13,7 @@ mdw-textfield {
     --mdw-theme-textfield-text--body: var(--mdw-theme-textfield-on-primary-text--body);
     --mdw-theme-textfield-underline-color: var(--mdw-theme-textfield-on-primary-underline-color);
     --mdw-theme-textfield-background-fill-color: var(--mdw-theme-textfield-on-primary-background-fill-color);
+    --mdw-theme-textfield-label-color: var(--mdw-theme-textfield-on-primary-label-color);
   }
 
   border-radius: 4px 4px 0 0;
@@ -237,7 +238,7 @@ mdw-textfield {
     top: 18px;
     pointer-events: none;
 
-    color: rgba(var(--mdw-theme-textfield-background-color--rgb), .87);
+    color: var(--mdw-theme-textfield-label-color);
   }
 
   &.mdw-upgraded {
