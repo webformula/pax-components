@@ -9,6 +9,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
 
+    if (document.body.classList.contains('mdw-shaped')) this.classList.add('mdw-shaped');
+    
     this._handleLabel();
     this._handleEnhanced();
     this.cloneTemplate(true);

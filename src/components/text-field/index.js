@@ -3,10 +3,13 @@ import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 customElements.define('mdw-textfield', class extends HTMLElementExtended {
   constructor() {
     super();
+    
     this.classList.add('mdw-no-animation');
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);
     this.bound_onInput = this.onInput.bind(this);
+    
+    if (document.body.classList.contains('mdw-shaped')) this.classList.add('mdw-shaped');
   }
 
   connectedCallback() {
