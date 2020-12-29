@@ -3,6 +3,10 @@ import { Page } from '@webformula/pax-core';
 export default class Textfield extends Page {
   constructor() {
     super();
+
+    setTimeout(() => {
+      document.querySelector('#one input').value = 'tst';
+    }, 1000);
   }
 
   get title() {

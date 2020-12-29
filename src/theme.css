@@ -77,6 +77,8 @@
   --mdw-theme-textfield-on-primary-underline-color: rgba(var(--mdw-theme-background--rgb), 0.24);
   --mdw-theme-textfield-on-primary-background-fill-color: rgba(var(--mdw-theme-background--rgb), 0.06);
   --mdw-theme-textfield-on-primary-label-color: rgba(var(--mdw-theme-textfield-background-color--rgb), .9);
+
+  --mdw-theme--button-shape-radius: 18px;
 }
 
 :root.mdw-theme-dark {
