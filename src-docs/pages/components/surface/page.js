@@ -9,16 +9,28 @@ export default class Surface extends Page {
     return 'Surfaces';
   }
 
-  openPanel(target) {
+  openPanel() {
     MDWSurface.open({
       component: 'panel',
-      // animation: {
-      //   type: 'height',
-      //   origin: 'center',
-      //   fullscreen: true
-      // },
+      template: 'surfaces/one.html',
+      animation: {
+        type: 'height',
+        origin: 'center',
+        fullscreen: true
+      }
+    });
+  }
+
+  openPanelAnchor(target) {
+    MDWSurface.open({
+      component: 'panel',
+      template: 'surfaces/one.html',
       anchorElement: target,
-      template: 'surfaces/one.html'
+      position: 'center center',
+      animation: {
+        type: 'scale',
+        origin: 'top'
+      }
     });
   }
 

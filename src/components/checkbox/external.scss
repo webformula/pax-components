@@ -24,6 +24,12 @@ mdw-checkbox.mdw-density-comfortable + label,
   line-height: 32px;
 }
 
+.mdw-density-compact mdw-checkbox+label,
+mdw-checkbox.mdw-density-compact+label,
+.mdw-density-compact label.mdw-checkbox-label {
+    line-height: 34px;
+}
+
 .mdw-density-compact mdw-checkbox,
 mdw-checkbox.mdw-density-compact {
   padding: 5px;

@@ -86,8 +86,7 @@ class MDWSurfaceInstance {
 
         // anchor to element
         if (this._anchorElement && this._anchorElement instanceof HTMLElement) {
-          if (this._animation && this._animation.hoistToBody === false) return;
-          this.element.hoistToBody(this._anchorElement);
+          if (this._animation && this._animation.hoistToBody !== false) this.element.hoistToBody(this._anchorElement);
         }
 
         // anchor element for positioning
@@ -96,6 +95,7 @@ class MDWSurfaceInstance {
         }
 
         if (this._position) this.element.setPosition(this._position);
+
         this.element.open();
         this.element.addEventListener('MDWPanel:closed', this.bound_onPanelClose);
         break;
