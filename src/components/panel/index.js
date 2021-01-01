@@ -81,7 +81,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   setPosition(value) {
     const split = value.split(' ');
-    this._position = `${split[0] || 'top'} ${split[1] || 'left'}`;
+    this._position = `${split[0] || 'left'} ${split[1] || 'top'}`;
     this.setAttribute('mdw-position', this._position);
     this._positionSet = true;
   }
@@ -392,61 +392,62 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
   setHoistedPosition() {
     if (this._anchored) return this.setAnchoredPosition();
 
-    const split = (this.position || 'inner-top inner-left').split(' ');
+    const split = (this.position || 'inner-left inner-top').split(' ');
     const aValue = split[0];
     const bValue = split[1];
-    let { top, left } = this._calculateHoistedPosition(aValue, bValue);
-    let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, top, left);
-    let { top: t, left: l } = this._calculateHoistedPosition(a, b);
+    let { left, top } = this._calculateHoistedPosition(aValue, bValue);
+    let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, left, top);
+    let { left: l, top: t } = this._calculateHoistedPosition(a, b);
     this.style.width = `${this.width}px`;
-    this.style.top = `${t}px`;
     this.style.left = `${l}px`;
+    this.style.top = `${t}px`;
   }
 
   setAnchoredPosition() {
-    const split = (this.position || 'inner-top inner-left').split(' ');
+    const split = (this.position || 'inner-left inner-top').split(' ');
+    console.log(split);
     let aValue = split[0];
     let bValue = split[1];
-    let { top, left } = this._calculateAnchoredPosition(aValue, bValue);
-    let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, top, left);
-    let { top: t, left: l } = this._calculateAnchoredPosition(a, b);
+    let { left, top } = this._calculateAnchoredPosition(aValue, bValue);
+    let { aValue: a, bValue: b } = this._adjustAnchoredPositions(aValue, bValue, left, top);
+    let { left: l, top: t } = this._calculateAnchoredPosition(a, b);
     this.style.width = `${this.width}px`;
-    this.style.top = `${t}px`;
     this.style.left = `${l}px`;
+    this.style.top = `${t}px`;
   }
 
-  _adjustAnchoredPositions(aValue, bValue, top, left) {
+  _adjustAnchoredPositions(aValue, bValue, left, top) {
     const { clientWidth, clientHeight } = document.documentElement;
     const height = this.offsetHeight;
     const width = this.offsetWidth;
 
     switch (aValue) {
-      case 'top':
-        if (top < 0) aValue = 'bottom';
+      case 'left':
+        if ((left + width) > clientWidth) aValue = 'right';
         break;
-      case 'inner-top':
-        if (top < 0) aValue = 'inner-bottom';
+      case 'inner-left':
+        if ((left + width) > clientWidth) aValue = 'inner-right';
         break;
-      case 'bottom':
-        if (((top + height) - clientHeight) > 0) aValue = 'top';
+      case 'right':
+        if (left < 0) aValue = 'left';
         break;
-      case 'inner-bottom':
-        if (((top + height) - clientHeight) > 0) aValue = 'inner-top';
+      case 'inner-right':
+        if (left < 0) aValue = 'inner-left';
         break;
     }
 
     switch (bValue) {
-      case 'left':
-        if ((left + width) > clientWidth) bValue = 'right';
+      case 'top':
+        if (top < 0) bValue = 'bottom';
         break;
-      case 'inner-left':
-        if ((left + width) > clientWidth) bValue = 'inner-right';
+      case 'inner-top':
+        if (top < 0) bValue = 'inner-bottom';
         break;
-      case 'right':
-        if (left < 0) bValue = 'left';
+      case 'bottom':
+        if (((top + height) - clientHeight) > 0) bValue = 'top';
         break;
-      case 'inner-right':
-        if (left < 0) bValue = 'inner-left';
+      case 'inner-bottom':
+        if (((top + height) - clientHeight) > 0) bValue = 'inner-top';
         break;
     }
 
@@ -468,24 +469,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     }
 
     switch (aValue) {
-      case 'top':
-        top = bounds.y - height;
-        break;
-      case 'inner-top':
-        top = bounds.y;
-        break;
-      case 'bottom':
-        top = bounds.y + bounds.height;
-        break;
-      case 'center':
-        top = (bounds.y + (bounds.height / 2)) - (height / 2);
-        break;
-      case 'inner-bottom':
-        top = bounds.y + bounds.height - height;
-        break;
-    }
-
-    switch (bValue) {
       case 'left':
         left = bounds.x - width;
         break;
@@ -500,6 +483,24 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         break;
       case 'center':
         left = (bounds.x + (bounds.width / 2)) - (width / 2);
+        break;
+    }
+
+    switch (bValue) {
+      case 'top':
+        top = bounds.y - height;
+        break;
+      case 'inner-top':
+        top = bounds.y;
+        break;
+      case 'bottom':
+        top = bounds.y + bounds.height;
+        break;
+      case 'center':
+        top = (bounds.y + (bounds.height / 2)) - (height / 2);
+        break;
+      case 'inner-bottom':
+        top = bounds.y + bounds.height - height;
         break;
     }
 
@@ -520,24 +521,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     let left = 0;
 
     switch (aValue) {
-      case 'top':
-        top = 0;
-        break;
-      case 'inner-top':
-        top = bounds.y + 12;
-        break;
-      case 'bottom':
-        top = clientHeight;
-        break;
-      case 'center':
-        top = (clientHeight / 2) - (height / 2);
-        break;
-      case 'inner-bottom':
-        top = clientHeight - height - 12;
-        break;
-    }
-
-    switch (bValue) {
       case 'left':
         left = 0;
         break;
@@ -552,6 +535,24 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         break;
       case 'center':
         left = (clientWidth / 2) - (width / 2);
+        break;
+    }
+
+    switch (bValue) {
+      case 'top':
+        top = 0;
+        break;
+      case 'inner-top':
+        top = bounds.y + 12;
+        break;
+      case 'bottom':
+        top = clientHeight;
+        break;
+      case 'center':
+        top = (clientHeight / 2) - (height / 2);
+        break;
+      case 'inner-bottom':
+        top = clientHeight - height - 12;
         break;
     }
 
@@ -588,21 +589,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     let left = 0;
 
     switch(aValue) {
-      case 'top':
-        top = -height;
-        break;
-      case 'bottom':
-        top = parentHeight;
-        break;
-      case 'center':
-        top = (parentHeight / 2) - (height / 2);
-        break;
-      case 'inner-bottom':
-        top = parentHeight - height;
-        break;
-    }
-
-    switch(bValue) {
       case 'left':
         left = -width;
         break;
@@ -614,6 +600,21 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
         break;
       case 'center':
         left = (parentWidth / 2) - (width / 2);
+        break;
+    }
+
+    switch (bValue) {
+      case 'top':
+        top = -height;
+        break;
+      case 'bottom':
+        top = parentHeight;
+        break;
+      case 'center':
+        top = (parentHeight / 2) - (height / 2);
+        break;
+      case 'inner-bottom':
+        top = parentHeight - height;
         break;
     }
 

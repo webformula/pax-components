@@ -128,6 +128,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     // transfer onchange event
     const selectElement = this.querySelector('select'); // <select> is the parent element for options. This is not the selected option
     if (selectElement) {
+      if (selectElement.hasAttribute('id')) this.setAttribute('id', selectElement.getAttribute('id'));
       const selectOnchange = selectElement.getAttribute('onchange');
       if (selectOnchange) this.setAttribute('onchange', selectOnchange);
       selectElement.remove();

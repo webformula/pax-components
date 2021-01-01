@@ -10,6 +10,7 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
 
     this.bound_onSwipe = this.onSwipe.bind(this);
     this.bound_routeChange = this.routeChange.bind(this);
+    this.bound_onNavigate = this.onNavigate.bind(this);
   }
 
   connectedCallback() {
@@ -17,7 +18,10 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     if (this._isNavigationDrawer) document.body.classList.add('mdw-has-navigation-drawer');
 
     // auto add modal for mobile
-    if (MDWUtils.isMobile) this.setAttribute('mdw-modal', '');
+    if (MDWUtils.isMobile) {
+      this.setAttribute('mdw-modal', '');
+      this.addEventListener('click', this.bound_onNavigate);
+    }
 
     // the use can add the modal class manually so we don't want to use the same isMobile check
     if (this._isNavigationDrawer && this.isModal) {
@@ -125,6 +129,10 @@ customElements.define('mdw-sheet-side', class extends HTMLElementExtended {
     } else {
       if (event.direction.x === 1 && event.velocity.x > 0.8) this.close();
     }
+  }
+
+  onNavigate({ target }) {
+    if (target.hasAttribute('href')) setTimeout(() => this.close(), 100);
   }
 
   _notifyClose() {

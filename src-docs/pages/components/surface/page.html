@@ -5,9 +5,9 @@
   <div class="links">
     <div class="eyebrow">contents</div>
     <anchor-link selector="#one" offset="64">Panel Surface</anchor-link>
+    <anchor-link selector="#one-anchored" offset="64">Panel Surface anchored</anchor-link>
     <anchor-link selector="#two" offset="64">Sheet bottom surface</anchor-link>
     <anchor-link selector="#three" offset="64">Sheet side surface</anchor-link>
-    <anchor-link selector="#four" offset="64">Defaults surface</anchor-link>
     <anchor-link selector="#five" offset="64">Mobile/Desktop configured surface</anchor-link>
   </div>
 
@@ -21,19 +21,19 @@
 
     <div class="mdw-card__content--no-padding">
       <monaco-editor language="javascript" id="vs-one">
-        <mdw-button onclick="activePage.openPanel(this)">open</mdw-button>
+        <mdw-button onclick="activePage.openPanel()">open</mdw-button>
 
-        function openPanel(target) {
+        function openPanel() {
           MDWSurface.open({
             component: 'panel',
             template: 'surface-template.html',
-            anchorElement: target,
+
             // default animation config for panel
             animation: {
               type: 'height',
               origin: 'center',
               fullscreen: true
-            },
+            }
           });
         }
       </monaco-editor>
@@ -61,7 +61,59 @@
     </div>
 
     <div class="mdw-card__content" style="display: block; overflow: visible;">
-      <mdw-button onclick="activePage.openPanel(this)">open</mdw-button>
+      <mdw-button onclick="activePage.openPanel()">open</mdw-button>
+    </div>
+  </mdw-card>
+
+  <!-- panel anchor -->
+  <mdw-card id="one-anchored">
+    <div class="mdw-card__content">
+      <h6>Panel surface Anchored</h6>
+      <div class="description">Surface using panel component</div>
+    </div>
+  
+    <div class="mdw-card__content--no-padding">
+      <monaco-editor language="javascript" id="vs-one">
+        <mdw-button onclick="activePage.openPanel(this)">open</mdw-button>
+  
+        function openPanel(target) {
+          MDWSurface.open({
+            component: 'panel',
+            template: 'surface-template.html',
+            anchorElement: target,
+            position: 'center center',
+            animation: {
+              type: 'scale',
+              origin: 'top'
+            }
+          });
+        }
+      </monaco-editor>
+      <monaco-editor language="html" class="editor-templates">
+        <!-- template -->
+        <mdw-header>
+          <section class="mdw-flex">
+            <div class="mdw-title">Main title</div>
+            <div class="mdw-subtitle">Sub title</div>
+          </section>
+  
+          <section>
+            <mdw-button onclick="MDWSurface.close(); event.stopPropagation()" class="mdw-icon">
+              <mdw-icon>close</mdw-icon>
+            </mdw-button>
+          </section>
+        </mdw-header>
+  
+        <mdw-content>
+          <mdw-list>
+            <mdw-list-item>One</mdw-list-item>
+          </mdw-list>
+        </mdw-content>
+      </monaco-editor>
+    </div>
+  
+    <div class="mdw-card__content" style="display: block; overflow: visible;">
+      <mdw-button onclick="activePage.openPanelAnchor(this)">open</mdw-button>
     </div>
   </mdw-card>
 
@@ -112,31 +164,6 @@
 
     <div class="mdw-card__content" style="display: block; overflow: visible;">
       <mdw-button onclick="activePage.openSheetSide()">open</mdw-button>
-    </div>
-  </mdw-card>
-
-  <!-- defaults -->
-  <mdw-card id="four">
-    <div class="mdw-card__content">
-      <h6>Defaults surface</h6>
-      <div class="description">On desktop this will show a side sheet, on mobile it will show a panel</div>
-    </div>
-
-    <div class="mdw-card__content--no-padding">
-      <monaco-editor language="javascript" id="vs-one">
-        <mdw-button onclick="activePage.openUsingDefaults(this)">open</mdw-button>
-
-        function openUsingDefaults(target) {
-          MDWSurface.open({
-            anchorElement: target,
-            template: 'surface-template.html'
-          });
-        }
-      </monaco-editor>
-    </div>
-
-    <div class="mdw-card__content" style="display: block; overflow: visible;">
-      <mdw-button onclick="activePage.openUsingDefaults(this)">open</mdw-button>
     </div>
   </mdw-card>
 
