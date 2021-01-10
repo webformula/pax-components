@@ -240,7 +240,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       template: `
         <mdw-content style="min-width: ${this.offsetWidth}px" class="mdw-no-padding">
           ${!hasSearch ? '' : `
-            <mdw-textfield class="mdw-shaped mdw-density-comfortable" style="width: 100%;">
+            <mdw-textfield class="mdw-shaped mdw-density-comfortable" style="width: calc(100% - 2px);">
               <mdw-icon>search</mdw-icon>
               <input placeholder="Search">
             </mdw-textfield>

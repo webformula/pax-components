@@ -26,9 +26,6 @@ export default class Select extends Page {
         <h3>Selects</h3>
 
         <div class="showcase mdw-elevation-1">
-          <mdw-select id="reload" value="1" mdw-enhanced style="width: 200px">
-            <label>Floating label</label>
-          </mdw-select>
           <mdw-select mdw-enhanced style="width: 200px" mdw-value="1">
             <select>
               <option value="1">item one</option>
