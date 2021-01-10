@@ -36,6 +36,7 @@ mdw-panel.mdw-dialog {
     margin: 0;
     padding: 20px 24px;
     overflow: auto;
+    overflow-x: hidden;
     color: var(--mdw-theme-on-primary);
   }
 

@@ -101,7 +101,7 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     if (this._isAnchored) this._transitionToPosition(this._minimizedPosition);
     else this._transitionToPosition(this._initialPosition);
     this._helpers.addBackdrop();
-
+    
     if (this._isDraggable) {
       addDragListener(this.contentElement, this.bound_onDrag);
       if (this._helpers.headerElement) addDragListener(this._helpers.headerElement, this.bound_onDrag);
@@ -175,7 +175,7 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     this._setPosition(this._minimizedPosition);
   }
 
-  // TODO fix whater is continuasly calling this
+  // TODO fix whatever is continually calling this
   _setPosition(y) {
     const maxScroll = this._maxScroll;
     let overScroll = 0;
@@ -280,7 +280,7 @@ customElements.define('mdw-sheet-bottom', class extends HTMLElementExtended {
     if (!this._isAtOrAboveTop && velocity < -1.1) this._positionTop();
 
     // close when swipe down from initial position
-    else if (!this._isAtOrAboveTop && velocity > 0.7) {
+    else if (!this._isAtOrAboveTop && velocity > 1.6) {
       if (this.type === 'modal') return this.close();
       return this.minimize();
     }

@@ -405,7 +405,6 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
 
   setAnchoredPosition() {
     const split = (this.position || 'inner-left inner-top').split(' ');
-    console.log(split);
     let aValue = split[0];
     let bValue = split[1];
     let { left, top } = this._calculateAnchoredPosition(aValue, bValue);

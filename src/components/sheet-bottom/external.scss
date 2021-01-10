@@ -63,7 +63,7 @@ mdw-sheet-bottom {
   mdw-content {
     display: block;
     background-color: var(--mdw-theme-surface);
-    overflow-y: scroll;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: none;
     padding: unset;

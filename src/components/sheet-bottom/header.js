@@ -76,7 +76,7 @@ customElements.define('mdw-sheet-bottom-header', class extends HTMLElementExtend
     const topBar = doc.querySelector('mdw-sheet-top-bar');
     if (topBar) headerInnerHTML = headerInnerHTML.replace(topBar.outerHTML, '');
     this._hasMdwHeader = !!(headerInnerHTML && headerInnerHTML !== '');
-    console.log(this._hasMdwHeader);
+    if (title === 'null') title = '';
     
     return `
       ${topBar ? topBar.outerHTML : `
@@ -88,9 +88,8 @@ customElements.define('mdw-sheet-bottom-header', class extends HTMLElementExtend
         </mdw-sheet-top-bar>
       `}
       
-      ${this._hasMdwHeader === true &&
+      ${this._hasMdwHeader === false ? '' :
         `<mdw-header>
-
           ${headerInnerHTML}
         </mdw-header>`
       }

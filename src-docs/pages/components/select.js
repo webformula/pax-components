@@ -3,6 +3,17 @@ import { Page } from '@webformula/pax-core';
 export default class Select extends Page {
   constructor() {
     super();
+
+    this.values = [
+      {
+        text: 'one',
+        value: "1"
+      },
+      {
+        text: 'Two',
+        value: "2"
+      }
+    ];
   }
 
   get title() {
@@ -15,6 +26,9 @@ export default class Select extends Page {
         <h3>Selects</h3>
 
         <div class="showcase mdw-elevation-1">
+          <mdw-select id="reload" value="1" mdw-enhanced style="width: 200px">
+            <label>Floating label</label>
+          </mdw-select>
           <mdw-select mdw-enhanced style="width: 200px" mdw-value="1">
             <select>
               <option value="1">item one</option>
@@ -37,6 +51,7 @@ export default class Select extends Page {
           <anchor-link selector="#outlined">Outlined</anchor-link>
           <anchor-link selector="#shaped">Shaped</anchor-link>
           <anchor-link selector="#search">Search</anchor-link>
+          <anchor-link selector="#prog">Set options programmatically</anchor-link>
           <anchor-link selector="#density">Density</anchor-link>
         </div>
 
@@ -226,11 +241,47 @@ export default class Select extends Page {
             </div>
           </mdw-card>
 
+
+          <!-- prog -->
+          <mdw-card id="prog">
+            <div class="mdw-card__content">
+              <h6>Set options programmatically</h6>
+              <p style="margin-bottom: 4px">Set the <b>mdw-options</b> attribute</p>
+              <p>Or set the property <b>document.querySelector('mdw-select').options = []</b></p>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="javascript">
+                document.querySelector('mdw-select').options = [
+                  {
+                    text: 'One',
+                    value: "1"
+                  },
+                  {
+                    text: 'Two',
+                    value: "2"
+                  }
+                ]
+              </monaco-editor>
+
+              <monaco-editor language="html">
+                <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced mdw-options="activePage.values">
+                  <label>label</label>
+                </mdw-select>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content mdw-row">
+              <mdw-select style="width: 200px;" class="mdw-padding mdw-outlined" mdw-enhanced mdw-options="activePage.values">
+                <label>label</label>
+              </mdw-select>
+            </div>
+          </mdw-card>
+
           <!-- density -->
           <mdw-card id="density">
             <div class="mdw-card__content">
               <h6>Density</h6>
-              <p>add <b>mdw-search</b> attribute</p>
             </div>
 
             <div class="mdw-card__content--no-padding">

@@ -353,7 +353,6 @@ const MDWSurface = new class {
   _buildSheetBottom({ id, templateString, classes }) {
     return /* html */`
       <mdw-sheet-bottom id="${id}" mdw-modal class="${classes || ''}">
-        ${!templateString.includes('<mdw-header>') ? '<mdw-header></mdw-header>' : ''}
         ${templateString}
       </mdw-sheet-bottom>
     `;

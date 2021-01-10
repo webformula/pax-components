@@ -10,7 +10,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     super();
 
     if (document.body.classList.contains('mdw-shaped')) this.classList.add('mdw-shaped');
-    
+
     this._handleLabel();
     this._handleEnhanced();
     this.cloneTemplate(true);
@@ -28,12 +28,18 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (this._selected) this.value = this._selected.value;
       this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
       document.body.addEventListener('keydown', this.bound_onKeyDown);
+
+      if (this.hasAttribute('mdw-options')) {
+        setTimeout(() => {
+          this.options = eval(this.getAttribute('mdw-options'));
+        }, 1000);
+      }
     } else {
       this.selectElement.addEventListener('focus', this.bound_onFocus);
       this.selectElement.addEventListener('blur', this.bound_onBlur);
       this.selectElement.addEventListener('change', this.bound_onChange);
     }
-
+    
     // capture option selected attribute and float the label
     this.onChange();
   }
@@ -50,7 +56,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   get value() {
-    if (this.isEnhanced) return this._value;
+    if (this.isEnhanced) {
+      if (!this._value) this._value = this.getAttribute('value') || '';
+      return this._value;
+    }
     return this.selectElement.value || this._value;
   }
 
@@ -98,8 +107,38 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this._notch;
   }
 
-  set enhancedOptions(values) {
-    this._optionsMap = values;
+  get options() {
+    return this._optionsMap || [];
+  }
+
+  set options(value) {
+    if (!Array.isArray(value)) console.error('mdw-select.options must br an array');
+    this._optionsMap = value;
+
+    this._selected = this._optionsMap.filter(({ selected }) => selected === true)[0];
+    if (!this._selected) {
+      this._selected = this._optionsMap.find(({ value }) => value === this.value) || { text: '', value: '' };
+    }
+
+    // SET VALUE
+    if (this._selected.text) {
+      this.classList.add('mdw-no-animation');
+      this.value = this._selected.value;
+      this.setSelectedText(this._selected.text);
+      window.requestAnimationFrame(() => {
+        this.classList.remove('mdw-no-animation');
+      });
+    } else {
+      // unset value if options no longer exists
+      this.setAttribute('value', '');
+      this.value = undefined;
+      this.setSelectedText('');
+      this.label.classList.add('mdw-empty-no-float');
+    }
+
+    if (this._surfaceElement) {
+      // TODO handle re-render when options are open
+    }
   }
 
 
@@ -113,6 +152,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   _handleEnhanced() {
     if (!this.isEnhanced) return;
+    if (this.hasAttribute('mdw-options-callback')) return this._handleOptionsCallback();
 
     // setup options for generating a list
     this._optionsMap = [...this.querySelectorAll('option')].map(el => {
@@ -133,6 +173,20 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (selectOnchange) this.setAttribute('onchange', selectOnchange);
       selectElement.remove();
     }
+  }
+
+  _handleOptionsCallback() {
+    this._optionsCallback = eval(this.getAttribute('mdw-options-callback'));
+    if (typeof this._optionsCallback !== 'function') throw Error('mdw-select[mdw-options-callback] must be a function');
+    // bind to active page if it exists
+    if (activePage) this._optionsCallback = this._optionsCallback.bind(activePage);
+    this._optionsMap = [];
+    this._selected = { text: '', value: '' };
+    this.updateOptions();
+  }
+
+  async updateOptions() {
+    this.options = await this._optionsCallback();
   }
 
   onFocus() {
@@ -168,24 +222,25 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     const hasSearch = this.hasAttribute('mdw-search');
     const hasShaped = this.classList.contains('mdw-shaped');
-
+    const noMobile = this.hasAttribute('mdw-no-mobile');
+    
     this._surfaceElement = await MDWSurface.open({
-      mobileComponent: 'sheetBottom',
+      mobileComponent: noMobile ? 'panel' : 'sheetBottom',
       desktopComponent: 'panel',
       scrollPanelWidthPage: true,
       anchorElement: this,
       autoPosition: true,
-      position: 'bottom inner-left',
+      position: 'inner-left bottom',
       animation: {
         type: 'scale',
         origin: 'top',
         opacity: true
       },
-      classes: `mdw-select-panel ${hasSearch ? 'mdw-search' : ''} ${hasShaped ? 'mdw-shaped' : ''}`,
+      classes: `mdw-select-panel ${hasSearch ? 'mdw-search' : ''} ${hasShaped || hasSearch ? 'mdw-shaped' : ''}`,
       template: `
         <mdw-content style="min-width: ${this.offsetWidth}px" class="mdw-no-padding">
           ${!hasSearch ? '' : `
-            <mdw-textfield class="mdw-shaped mdw-density-comfortable">
+            <mdw-textfield class="mdw-shaped mdw-density-comfortable" style="width: 100%;">
               <mdw-icon>search</mdw-icon>
               <input placeholder="Search">
             </mdw-textfield>
@@ -254,7 +309,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   textSearch(input) {
     setTimeout(() => {
-      const searchValue = input.value;
+      const searchValue = (input.value || '').toLowerCase();
       const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(searchValue)).map(({ text }) => text);
       if (this._surfaceElement && this._surfaceElement.element) {
         (this._surfaceElement.element.querySelectorAll('mdw-list-item') || []).forEach(el => {
@@ -526,7 +581,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       ::slotted(select),
       .mdw-select__selected-text {
         position: absolute;
-        padding: 20px 52px 4px 16px;
+        padding: 20px 24px 4px 16px;
         font-family: Roboto,sans-serif;
         font-size: 1rem;
         line-height: 1.75rem;
