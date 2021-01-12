@@ -13,7 +13,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     this._handleLabel();
     this._handleEnhanced();
-    this.cloneTemplate(true);
+    this.cloneTemplate({ rerender: true });
 
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);

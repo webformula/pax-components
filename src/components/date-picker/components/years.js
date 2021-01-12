@@ -9,7 +9,7 @@ customElements.define('mdw-date-picker--year', class extends HTMLElementExtended
 
     // TODO allow range to be set
     this.yearList = MDWDateUtil.defaultYearRange();
-    this.cloneTemplate(true);
+    this.cloneTemplate({ rerender: true });
   }
 
   addEvents() {

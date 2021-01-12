@@ -6,7 +6,7 @@ customElements.define('mdw-date-picker--year-view-button', class extends HTMLEle
     super();
     this.dateObj = MDWDateUtil.today(MDWDateUtil.parse(this.displayDate || MDWDateUtil.today()));
 
-    this.cloneTemplate(true);
+    this.cloneTemplate({ rerender: true });
   }
 
   get displayDate() {
