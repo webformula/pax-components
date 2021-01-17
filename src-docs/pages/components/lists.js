@@ -124,8 +124,8 @@ export default class List extends Page {
                 <span id="show-selected" class="flex-1" style="padding-left: 24px; font-weight: 500"></span>
               </div>
               <mdw-list id="select-list" mdw-select="single" mdw-select-onclick onchange="document.querySelector('#show-selected').innerText = this.selected.join(', ')" class="mdw-two-line">
-                ${this.selectListData.map(t => `
-                  <mdw-list-item onclick="console.log('test')">
+                ${this.selectListData.map((t, i) => `
+                  <mdw-list-item onclick="console.log('test')" mdw-key="key">
                     <mdw-icon>inbox</mdw-icon>
                     <div class="mdw-list-item__text">
                       <div class="mdw-list-item__primary-text">

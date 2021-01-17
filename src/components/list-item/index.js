@@ -4,6 +4,7 @@ import MDWRipple from '../../core/Ripple.js';
 customElements.define('mdw-list-item', class extends HTMLElementExtended {
   constructor() {
     super();
+
     this.bound_hrefClick = this.hrefClick.bind(this);
     this.bound_onSelectChange = this.onSelectChange.bind(this);
     this.bound_onSelectClick = this.onSelectClick.bind(this);
