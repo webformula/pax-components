@@ -48,9 +48,11 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   }
 
   resolve() {
-    if (this._pending === false) return;
-    this._pending = false;
-    this.hideSpinner();
+    setTimeout(() => {
+      if (this._pending === false) return;
+      this._pending = false;
+      this.hideSpinner();
+    }, 0);
   }
 
   asyncClick(e) {

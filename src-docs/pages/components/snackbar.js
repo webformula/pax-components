@@ -25,7 +25,7 @@ export default class Snackbar extends Page {
   }
 
   setSnackbarPosition() {
-    this.position_ = `${this.posY || 'inner-bottom'} ${this.posX || 'inner-left'}`;
+    this.position_ = `${this.posX || 'inner-left'} ${this.posY || 'inner-bottom'}`;
   }
 
   showSnackbar() {
@@ -46,17 +46,6 @@ export default class Snackbar extends Page {
         <mdw-row>
           <mdw-column class="mdw-flex-033">
             <mdw-select class="mdw-padding" mdw-enhanced>
-              <select onchange="activePage.setSnackbarPositionY(this.value)">
-                <option value="top">top</option>
-                <option value="inner-top">inner-top</option>
-                <option value="bottom">bottom</option>
-                <option value="inner-bottom" selected>inner-bottom</option>
-                <option value="center">center</option>
-              </select>
-              <label>Positon Y</label>
-            </mdw-select>
-
-            <mdw-select class="mdw-padding" mdw-enhanced>
               <select onchange="activePage.setSnackbarPositionX(this.value)">
                 <option value="left">left</option>
                 <option value="inner-left" selected>inner-left</option>
@@ -65,6 +54,17 @@ export default class Snackbar extends Page {
                 <option value="center">center</option>
               </select>
               <label>Positon X</label>
+            </mdw-select>
+
+            <mdw-select class="mdw-padding" mdw-enhanced>
+              <select onchange="activePage.setSnackbarPositionY(this.value)">
+                <option value="top">top</option>
+                <option value="inner-top">inner-top</option>
+                <option value="bottom">bottom</option>
+                <option value="inner-bottom" selected>inner-bottom</option>
+                <option value="center">center</option>
+              </select>
+              <label>Positon Y</label>
             </mdw-select>
           </mdw-column>
 

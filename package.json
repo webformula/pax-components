@@ -1,8 +1,9 @@
 {
   "name": "@webformula/pax-components",
-  "version": "0.18.1",
+  "version": "0.19.0",
   "description": "Web components using material design language",
   "type": "module",
+  "main": "src/entry.js",
   "scripts": {
     "start": "snowpack dev --config snowpack.config.json",
     "release": "snowpack build --config snowpack.release.config.json && node release.js",
@@ -27,7 +28,7 @@
     "glob": "^7.1.6",
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^5.0.0",
     "nodemon": "^2.0.4",
     "replace": "^1.2.0",
     "snowpack": "^2.17.0",

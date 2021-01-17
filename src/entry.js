@@ -1,5 +1,6 @@
 import MDWDrag from './core/drag.js';
 import MDWSwipe from './core/swipe.js';
+import MDWUtils from './core/Utils.js';
 
 // --- Components ---
 
@@ -52,5 +53,6 @@ export {
   MDWTemplate,
   MDWSurface,
   MDWDrag,
-  MDWSwipe
+  MDWSwipe,
+  MDWUtils
 }
