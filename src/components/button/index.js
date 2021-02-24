@@ -90,7 +90,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     const form = this._getParentFormElement(event.target);
     if (!form) return;
     if (form.checkValidity()) return;
-    const isValid = true;
+    let isValid = true;
     [...form.querySelectorAll('input')].forEach(element => {
       // only check visible elements
       if (element.offsetParent !== null) {
