@@ -70,7 +70,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   connectedCallback() {
     if (this.isEnhanced) {
-      if (this._selected) this.value = this._selected.value;
       this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
       document.body.addEventListener('keydown', this.bound_onKeyDown);
 
@@ -107,6 +106,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   get value() {
     if (this.isEnhanced) {
       if (!this._value) this._value = this.getAttribute('value') || '';
+
+      // set selected item and display text
+      if (this._value && !this._selected) {
+        this._selected = this.options.find(v => v.value === this._value);
+        if (!this._selected) return undefined;
+        this.setSelectedText(this._selected.text);
+      }
+      
       return this._value;
     }
     return this.selectElement.value || this._value;
@@ -168,15 +175,13 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this._optionsMap = value;
 
     this._selected = this._optionsMap.filter(({ selected }) => selected === true)[0];
-    if (!this._selected) {
-      this._selected = this._optionsMap.find(({ value }) => value === this.value) || { text: '', value: '' };
-    }
+    if (!this._selected) this._selected = this._optionsMap.find(({ value }) => value === this.value);
 
     // SET VALUE
-    if (this._selected.text) {
+    if (this._selected && this._selected.text) {
       this.classList.add('mdw-no-animation');
       this.value = this._selected.value;
-      this.setSelectedText(this._selected.text);
+      this.setSelectedText(this.selected.text);
       window.requestAnimationFrame(() => {
         this.classList.remove('mdw-no-animation');
       });
@@ -223,7 +228,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       };
     });
 
-    this._selected = (this._optionsMap.filter(({ selected }) => selected === true)[0] || { text: '', value: '' });
+    this._selected = this._optionsMap.filter(({ selected }) => selected === true)[0];
 
     // transfer onchange event
     const selectElement = this.querySelector('select'); // <select> is the parent element for options. This is not the selected option
@@ -241,7 +246,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     // bind to active page if it exists
     if (activePage) this._optionsCallback = this._optionsCallback.bind(activePage);
     this._optionsMap = [];
-    this._selected = { text: '', value: '' };
     this.updateOptions();
   }
 
@@ -498,7 +502,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return `
       <i class="mdw-select__icon"></i>
       ${!this.isEnhanced ? '<slot></slot>' : `
-        <div class="mdw-select__selected-text">${this._selected.text}</div>
+        <div class="mdw-select__selected-text">${this._selected ? this._selected.text : ''}</div>
       `}
       <label>${this._labelText}</label>
       ${this._helperText || ''}
@@ -578,20 +582,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
       :host-context(.mdw-density-compact) label {
         top: 13px;
-      }
-
-      :host-context(.mdw-density-comfortable) label:not(.mdw-empty-no-float) {
-        transform: translateY(-60%) scale(0.75);
-      }
-
-      :host-context(.mdw-density-compact) label:not(.mdw-empty-no-float) {
-        transform: translateY(-50%) scale(0.75);
-      }
-
-
-
-      ::slotted(label.mdw-empty-no-float) {
-        transform: none;
       }
 
       :host(.mdw-focused) .mdw-select__icon {
@@ -772,6 +762,23 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         transform: translateY(-132%) scale(0.75);
       }
 
+      :host-context(.mdw-density-comfortable) label:not(.mdw-empty-no-float) {
+        transform: translateY(-60%) scale(0.75);
+      }
+
+      :host-context(.mdw-density-compact) label:not(.mdw-empty-no-float) {
+        transform: translateY(-50%) scale(0.75);
+      }
+
+      :host(.mdw-outlined.mdw-select--with-leading-icon) label.mdw-select--float-above {
+        left: 36px;
+        right: initial;
+      }
+
+      ::slotted(label.mdw-empty-no-float) {
+        transform: none;
+      }
+
       :host(.mdw-select--with-leading-icon) label {
         left: 48px;
         right: initial;
@@ -784,11 +791,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       }
 
       :host(.mdw-outlined.mdw-select--with-leading-icon) label {
-        left: 36px;
-        right: initial;
-      }
-
-      :host(.mdw-outlined.mdw-select--with-leading-icon) label.mdw-select--float-above {
         left: 36px;
         right: initial;
       }

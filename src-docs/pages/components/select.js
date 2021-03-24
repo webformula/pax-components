@@ -26,21 +26,16 @@ export default class Select extends Page {
         <h3>Selects</h3>
 
         <div class="showcase mdw-elevation-1">
-        <form id="form">
-          <mdw-select mdw-enhanced style="width: 200px" mdw-value="1" required>
-            <select>
-              <option value="1">item one</option>
-              <option value="2">item two</option>
-              <option value="3">item three</option>
-              <option value="4">item four</option>
-              <option value="5">item five</option>
-            </select>
-            <label>Floating label</label>
-            <mdw-textfield-helper>
-              <mdw-helper-text validation>Required</mdw-helper-text>
-            </mdw-textfield-helper>
-          </mdw-select>
-          </form>
+        <mdw-select mdw-enhanced style="width: 200px" required>
+          <select>
+            <option value="1">item one</option>
+            <option value="2">item two</option>
+            <option value="3">item three</option>
+            <option value="4">item four</option>
+            <option value="5">item five</option>
+          </select>
+          <label>Floating label</label>
+        </mdw-select>
         </div>
 
         <a href="https://material.io/components/text-fields/" target="_new">Material Design Guidelines: Text fields</a>
@@ -53,6 +48,8 @@ export default class Select extends Page {
           <anchor-link selector="#outlined">Outlined</anchor-link>
           <anchor-link selector="#shaped">Shaped</anchor-link>
           <anchor-link selector="#search">Search</anchor-link>
+          <anchor-link selector="#define-value">Define value</anchor-link>
+          <anchor-link selector="#helper-text">Helper text</anchor-link>
           <anchor-link selector="#prog">Set options programmatically</anchor-link>
           <anchor-link selector="#density">Density</anchor-link>
         </div>
@@ -103,7 +100,7 @@ export default class Select extends Page {
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-select class="mdw-padding" mdw-enhanced>
+                <mdw-select mdw-enhanced>
                   <select>
                     <option value="1" selected>item one</option>
                     <option value="2">item two</option>
@@ -244,6 +241,89 @@ export default class Select extends Page {
           </mdw-card>
 
 
+          <!-- define value -->
+          <mdw-card id="define-value">
+            <div class="mdw-card__content">
+              <h6>Define value</h6>
+              <p>add <b>value</b> attribute</p>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced value="1">
+                  <select>
+                    <option value="1">item one</option>
+                    <option value="2">item two</option>
+                    <option value="3">item three</option>
+                    <option value="4">item four</option>
+                    <option value="5">item five</option>
+                  </select>
+                  <label>Floating label</label>
+                </mdw-select>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content mdw-row">
+              <mdw-select class="mdw-padding mdw-outlined mdw-flex" mdw-enhanced value="1">
+                <select>
+                  <option value="1">item one</option>
+                  <option value="2">item two</option>
+                  <option value="3">item three</option>
+                  <option value="4">item four</option>
+                  <option value="5">item five</option>
+                </select>
+                <label>Floating label</label>
+              </mdw-select>
+              <span class="mdw-flex"></span>
+            </div>
+          </mdw-card>
+
+          <!-- helper text -->
+          <mdw-card id="helper-text">
+            <div class="mdw-card__content">
+              <h6>Helper text</h6>
+              <p>this works the same as <b>mdw-textfield</b></p>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="html">
+                <mdw-select mdw-enhanced required>
+                  <select>
+                    <option value="1">item one</option>
+                    <option value="2">item two</option>
+                    <option value="3">item three</option>
+                    <option value="4">item four</option>
+                    <option value="5">item five</option>
+                  </select>
+                  <label>Floating label</label>
+                  <mdw-textfield-helper>
+                    <mdw-helper-text persistent>Helper</mdw-helper-text>
+                    <mdw-helper-text validation>Required</mdw-helper-text>
+                  </mdw-textfield-helper>
+                </mdw-select>
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content mdw-row">
+              <mdw-select class="mdw-padding mdw-flex" mdw-enhanced required>
+                <select>
+                  <option value="1">item one</option>
+                  <option value="2">item two</option>
+                  <option value="3">item three</option>
+                  <option value="4">item four</option>
+                  <option value="5">item five</option>
+                </select>
+                <label>Floating label</label>
+                <mdw-textfield-helper>
+                  <mdw-helper-text persistent>Helper</mdw-helper-text>
+                  <mdw-helper-text validation>Required</mdw-helper-text>
+                </mdw-textfield-helper>
+              </mdw-select>
+              <span class="mdw-flex"></span>
+            </div>
+          </mdw-card>
+
+
           <!-- prog -->
           <mdw-card id="prog">
             <div class="mdw-card__content">
@@ -288,7 +368,7 @@ export default class Select extends Page {
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="html">
-                <mdw-select class="mdw-padding" mdw-enhanced>
+                <mdw-select mdw-enhanced>
                   <select>
                     <option value="1">item one</option>
                     <option value="2">item two</option>
@@ -324,7 +404,7 @@ export default class Select extends Page {
             </div>
 
             <div class="mdw-card__content mdw-column" style="max-width: 280px">
-              <mdw-select class="mdw-padding" mdw-enhanced>
+              <mdw-select mdw-enhanced>
                 <select>
                   <option value="1">item one</option>
                   <option value="2">item two</option>
