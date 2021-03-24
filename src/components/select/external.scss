@@ -21,7 +21,7 @@ mdw-select {
   position: relative;
   box-sizing: border-box;
   border-radius: 4px 4px 0 0;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 
 
   &.mdw-outlined {
@@ -39,6 +39,10 @@ mdw-select {
     overflow: visible;
     border-radius: var(--mdw-theme--button-shape-radius, 18px);
   }
+}
+
+mdw-select.mdw-no-padding {
+  margin-bottom: 0px;;
 }
 
 .mdw-density-comfortable mdw-select {

@@ -954,6 +954,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         transform: scaleX(1);
         opacity: 1;
       }
+
+      :host(.mdw-shaped) .mdw-line-ripple {
+        display: none;
+      }
     `;
   }
 });
