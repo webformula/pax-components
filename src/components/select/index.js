@@ -2,9 +2,6 @@ import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWUtils from '../../core/Utils.js';
 import MDWSurface from '../surface/service.js';
 
-
-// TODO implement validity
-
 customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
@@ -12,6 +9,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     if (document.body.classList.contains('mdw-shaped')) this.classList.add('mdw-shaped');
 
     this._handleLabel();
+    this._handleHelperText();
     this._handleEnhanced();
     this.cloneTemplate({ rerender: true });
 
@@ -21,6 +19,53 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.bound_onChange = this.onChange.bind(this);
     this.bound_onPanelClick = this.onPanelClick.bind(this);
     this.bound_onKeyDown = this.onKeyDown.bind(this);
+    const that = this;
+    this.validity = new class ValidityState {
+      get badInput() {
+        return false;
+      }
+
+      // boolean based on setCustomValidity
+      get customError() {
+        return false;
+      }
+
+      get patternMismatch() {
+        return false;
+      }
+
+      get rangeOverflow() {
+        return false;
+      }
+
+      get rangeUnderflow() {
+        return false;
+      }
+
+      get stepMismatch() {
+        return false;
+      }
+
+      get tooLong() {
+        return false;
+      }
+
+      get tooShort() {
+        return false;
+      }
+
+      get typeMismatch() {
+        return false;
+      }
+
+      get valid() {
+        return that.checkValidity();
+      }
+
+      get valueMissing() {
+        return !that.value;
+      }
+    };
   }
 
   connectedCallback() {
@@ -55,6 +100,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
   }
 
+  get willValidate() {
+    return true;
+  }
+
   get value() {
     if (this.isEnhanced) {
       if (!this._value) this._value = this.getAttribute('value') || '';
@@ -66,7 +115,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   set value(value) {
     this._value = value;
     this.onChange();
-    this.dispatchEvent(new Event('change'));
+    if (this._touched) this.checkValidity();
+    this.dispatchEvent(new Event('change', {
+      composed: true
+    }));
   }
 
   get selectElement() {
@@ -150,6 +202,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
   }
 
+  _handleHelperText() {
+    const el = this.querySelector('mdw-textfield-helper');
+    if (el) {
+      this._helperText = el.outerHTML;
+      el.remove();
+    }
+  }
+
   _handleEnhanced() {
     if (!this.isEnhanced) return;
     if (this.hasAttribute('mdw-options-callback')) return this._handleOptionsCallback();
@@ -190,11 +250,13 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   onFocus() {
+    this._touched = true;
     this.classList.add('mdw-focused');
     if (this.outlined) this.notch.style.width = this.labelWidth + 'px';
   }
 
   onBlur() {
+    this.checkValidity();
     this.classList.remove('mdw-focused');
     this.classList.toggle('mdw-not-empty', this.value);
 
@@ -212,7 +274,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (this.outlined) this.notch.style.width = '0';
     }
   }
-
 
   async onClick(event) {
     // handle focus
@@ -423,6 +484,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
 
+  checkValidity() {
+    const valid = this.hasAttribute('required') ? !!this.value : true;
+    this.classList.toggle('mdw-invalid', !valid)
+    return valid;
+  }
+
+  reportValidity() {
+    return this.checkValidity();
+  }
 
   template() {
     return `
@@ -431,6 +501,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         <div class="mdw-select__selected-text">${this._selected.text}</div>
       `}
       <label>${this._labelText}</label>
+      ${this._helperText || ''}
       ${this.outlined ? '' : '<div class="mdw-line-ripple"></div>'}
       ${!this.outlined ? '' : `
         <div class="mdw-outlined-border-container">
@@ -554,6 +625,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         color:  var(--mdw-theme-textfield-on-background);
       }
 
+      :host(.mdw-invalid) .mdw-select__selected-text {
+        border-bottom-color: var(--mdw-theme-error);
+      }
+
       /*
       :host(.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
       :host(.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,
@@ -671,7 +746,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         top: 21px;
       }
 
-      :host(.mdw-focused) label {
+      :host(.mdw-invalid) label {
+        color: var(--mdw-theme-textfield-error);
+      }
+
+      :host(.mdw-focused:not(.mdw-invalid)) label {
         color: var(--mdw-theme-primary);
       }
 
@@ -778,10 +857,100 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         border-color: var(--mdw-theme-primary);
       }
 
-      :host(.invalid) .mdw-outlined-leading,
-      :host(.invalid) .mdw-outlined-notch,
-      :host(.invalid) .mdw-outlined-trailing {
+      :host(.mdw-invalid) .mdw-outlined-leading,
+      :host(.mdw-invalid) .mdw-outlined-notch,
+      :host(.mdw-invalid) .mdw-outlined-trailing {
         border-color: var(--mdw-theme-error);
+      }
+
+      mdw-textfield-helper {
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+      }
+
+      mdw-helper-text {
+        position: absolute;
+        left: 16px;
+        bottom: -20px;
+        font-size: .75rem;
+        line-height: 1.25rem;
+        font-weight: 400;
+        letter-spacing: .0333333333em;
+        display: block;
+        margin-top: 0;
+        line-height: normal;
+        margin: 0;
+        transition: opacity .15s cubic-bezier(.4,0,.2,1);
+        opacity: 0;
+        will-change: opacity;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 90%;
+        color: var(-textfield-on-secondary);
+      }
+
+      mdw-helper-text[persistent] {
+        transition: none;
+        opacity: 1;
+        will-change: auto;
+      }
+
+      :host(:not(.mdw-invalid)) mdw-textfield-helper mdw-helper-text:not([validation]) {
+        transition: transform .24s cubic-bezier(.4,0,.2,1),
+                    opacity .18s cubic-bezier(.4,0,.2,1);
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      :host(:not(.mdw-invalid)) mdw-textfield-helper mdw-helper-text[validation] {
+        transition: none;
+        transform: translateY(-50%);
+        opacity: 0;
+      }
+
+      :host(.mdw-invalid) mdw-textfield-helper mdw-helper-text[validation] {
+        transition: none;
+        opacity: 0;
+        transform: translateY(-50%);
+        color: var(--mdw-theme-textfield-error);
+      }
+
+      :host(.mdw-invalid) mdw-textfield-helper mdw-helper-text:not([validation]) {
+        transition: none;
+        transform: translateY(-50%);
+        opacity: 0;
+      }
+
+      :host(.mdw-invalid) mdw-textfield-helper mdw-helper-text[validation] {
+        transition: transform .24s cubic-bezier(.4,0,.2,1),
+                  opacity .18s cubic-bezier(.4,0,.2,1);
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .mdw-line-ripple {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        transform: scaleX(0);
+        transition: transform .18s cubic-bezier(.4,0,.2,1),
+                    opacity .18s cubic-bezier(.4,0,.2,1);
+        opacity: 0;
+        z-index: 2;
+        background-color: rgba(var(--mdw-theme-textfield-primary--rgb), .7);
+      }
+
+      :host(.mdw-invalid) .mdw-line-ripple {
+        background-color: var(--mdw-theme-textfield-error);
+      }
+
+      :host(.mdw-focused) div.mdw-line-ripple {
+        transform: scaleX(1);
+        opacity: 1;
       }
     `;
   }

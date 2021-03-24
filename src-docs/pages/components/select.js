@@ -26,7 +26,8 @@ export default class Select extends Page {
         <h3>Selects</h3>
 
         <div class="showcase mdw-elevation-1">
-          <mdw-select mdw-enhanced style="width: 200px" mdw-value="1">
+        <form id="form">
+          <mdw-select mdw-enhanced style="width: 200px" mdw-value="1" required>
             <select>
               <option value="1">item one</option>
               <option value="2">item two</option>
@@ -35,7 +36,11 @@ export default class Select extends Page {
               <option value="5">item five</option>
             </select>
             <label>Floating label</label>
+            <mdw-textfield-helper>
+              <mdw-helper-text validation>Required</mdw-helper-text>
+            </mdw-textfield-helper>
           </mdw-select>
+          </form>
         </div>
 
         <a href="https://material.io/components/text-fields/" target="_new">Material Design Guidelines: Text fields</a>

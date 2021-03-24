@@ -47,6 +47,15 @@ import MDWSnackbar from './components/snackbar/service.js';
 import MDWTemplate from './components/templates/service.js';
 import MDWSurface from './components/surface/service.js';
 
+// Override form validation to include custom select elements
+const oldCheckValidity = HTMLFormElement.prototype.checkValidity;
+HTMLFormElement.prototype.checkValidity = function (...args) {
+  const isValidOrig = oldCheckValidity.apply(this, args);
+  const isValidCustom = [...this.querySelectorAll('mdw-select[required]') || []].filter(el => el.checkValidity() === false).length === 0;
+  if (!isValidOrig || !isValidCustom) return false;
+  return true;
+};
+
 export {
   MDWDialog,
   MDWSnackbar,
