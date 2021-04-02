@@ -20,6 +20,19 @@ export default class Select extends Page {
     return 'Selects';
   }
 
+  async search(value) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([
+          {
+            text: value,
+            value: value
+          }
+        ]);
+      }, 2000);
+    });
+  }
+
   template() {
     return /* html */`
       <article class="page-article">
@@ -220,13 +233,25 @@ export default class Select extends Page {
                     <option value="4">item four</option>
                     <option value="5">item five</option>
                   </select>
-                  <label>Floating label</label>
+                  <label>Search</label>
+                </mdw-select>
+
+                <!-- Allow for a async function to return options -->
+                <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced mdw-search="activePage.search(this.searchValue)">
+                  <select>
+                    <option value="1">item one</option>
+                    <option value="2">item two</option>
+                    <option value="3">item three</option>
+                    <option value="4">item four</option>
+                    <option value="5">item five</option>
+                  </select>
+                  <label>Async Search</label>
                 </mdw-select>
               </monaco-editor>
             </div>
 
-            <div class="mdw-card__content mdw-row">
-              <mdw-select class="mdw-padding mdw-outlined mdw-flex" mdw-enhanced mdw-search>
+            <div class="mdw-card__content mdw-column">
+              <mdw-select class="mdw-padding mdw-outlined" style="width: 300px" mdw-enhanced mdw-search>
                 <select>
                   <option value="1"> ten item one</option>
                   <option value="2">item two</option>
@@ -234,10 +259,21 @@ export default class Select extends Page {
                   <option value="4">item four</option>
                   <option value="5">item five</option>
                 </select>
-                <label>Floating label</label>
+                <label>Search</label>
               </mdw-select>
               <span class="mdw-flex"></span>
             </div>
+
+            <mdw-select class="mdw-padding mdw-outlined" style="margin-left: 16px; width: 300px" mdw-search="activePage.search(this.searchValue)" mdw-enhanced>
+              <select>
+                <option value="1">item one</option>
+                <option value="2">item two</option>
+                <option value="3">item three</option>
+                <option value="4">item four</option>
+                <option value="5">item five</option>
+              </select>
+              <label>Async Search</label>
+            </mdw-select>
           </mdw-card>
 
 

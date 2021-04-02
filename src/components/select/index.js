@@ -13,6 +13,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this._handleEnhanced();
     this.cloneTemplate({ rerender: true });
 
+    this.textSearchAsyncDebounced = MDWUtils.debounce(this.textSearchAsync, 300);
+
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);
     this.bound_onClick = this.onClick.bind(this);
@@ -160,14 +162,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this.label.offsetWidth * 0.9;
   }
 
-  get enhancedElementId() {
-    if (!this._enhancedElementId) this._enhancedElementId = `select-enhanced-${MDWUtils.uid()}`;
-    return this._enhancedElementId;
-  }
+  // get enhancedElementId() {
+  //   if (!this._enhancedElementId) this._enhancedElementId = `select-enhanced-${MDWUtils.uid()}`;
+  //   return this._enhancedElementId;
+  // }
 
-  get panel() {
-    return document.querySelector(`#${this.enhancedElementId}`);
-  }
+  // get panel() {
+  //   return document.querySelector(`#${this.enhancedElementId}`);
+  // }
 
   get sheet() {
     return document.querySelector(`#${this.enhancedElementId}`);
@@ -188,6 +190,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   get options() {
     return this._optionsMap || [];
+  }
+
+  get searchValue() {
+    return this._surfaceElement.element.querySelector('input').value || '';
   }
 
   set options(value) {
@@ -214,7 +220,9 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
 
     if (this._surfaceElement) {
-      // TODO handle re-render when options are open
+      this._surfaceElement.element.querySelector('mdw-list').innerHTML = this._optionsMap.map(({ text, value, selected }) => `
+        <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
+      `).join('\n');
     }
   }
 
@@ -270,6 +278,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   async updateOptions() {
+    this._originalOptions = undefined;
     this.options = await this._optionsCallback();
   }
 
@@ -322,6 +331,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     MDWUtils.lockPageScroll();
 
     const hasSearch = this.hasAttribute('mdw-search');
+    this._searchFunction = this.getAttribute('mdw-search');
     const hasShaped = this.classList.contains('mdw-shaped');
     const noMobile = this.hasAttribute('mdw-no-mobile');
     
@@ -344,6 +354,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
             <mdw-textfield class="mdw-shaped mdw-density-comfortable" style="width: calc(100% - 2px);">
               <mdw-icon>search</mdw-icon>
               <input placeholder="Search">
+              <mdw-circular-progress id="mdw-select-search-progress" mdw-mode="indeterminate" mdw-diameter="24" style="position: absolute; right: 12px; top: calc(50% - 12px); display: none"></mdw-circular-progress>
             </mdw-textfield>
           `}
           <mdw-list>
@@ -360,6 +371,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       this._surfaceElement.element.clickBodyToClose();
       this._surfaceElement.element.addEventListener('click', this.bound_onPanelClick);
       this._surfaceElement.element.addEventListener('MDWPanel:closed', () => {
+        this._resetAsyncSearchOptions();
         this._surfaceElement = undefined;
         this.onBlur();
       });
@@ -368,6 +380,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     if (this._surfaceElement && this._surfaceElement.element.nodeName === 'MDW-SHEET-BOTTOM') {
       this._surfaceElement.element.addEventListener('click', this.bound_onPanelClick);
       this._surfaceElement.element.addEventListener('MDWSheet:closed', () => {
+        this._resetAsyncSearchOptions();
         this._surfaceElement = undefined;
         this.onBlur();
       });
@@ -409,6 +422,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
 
   textSearch(input) {
+    if (this._searchFunction) {
+      this.textSearchAsyncDebounced();
+      return;
+    }
+
     setTimeout(() => {
       const searchValue = (input.value || '').toLowerCase();
       const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(searchValue)).map(({ text }) => text.trim().toLowerCase());
@@ -421,9 +439,30 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }, 0);
   }
 
+  async textSearchAsync() {
+    this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = '';
+    if (!this._originalOptions) this._originalOptions = this._optionsMap;
+    const searchOptions = await eval(this._searchFunction);
+    if (!this._surfaceElement) return;
+
+    if (!Array.isArray(searchOptions) || searchOptions.length === 0 || !this.searchValue) this.options = this._originalOptions || [];
+    else this.options = searchOptions || [];
+    this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = 'none';
+  }
+
+  _resetAsyncSearchOptions() {
+    if (this._originalOptions) {
+      this._optionsMap = this._originalOptions;
+      this._originalOptions = undefined;
+    }
+  }
+
   // --- key controls ---
 
   onKeyDown(event) {
+    // escape
+    if (event.keyCode === 27) return;
+
     if (event.target.nodeName === 'INPUT' && ![38, 40, 13].includes(event.keyCode)) return this.textSearch(event.target);
 
     // open if focused
