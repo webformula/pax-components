@@ -29,7 +29,7 @@ export default class Select extends Page {
             value: value
           }
         ]);
-      }, 2000);
+      }, 1000);
     });
   }
 
@@ -247,6 +247,21 @@ export default class Select extends Page {
                   </select>
                   <label>Async Search</label>
                 </mdw-select>
+              </monaco-editor>
+
+              <monaco-editor language="javascript">
+                // a spinner will appear while the promise is running
+                // The select options will revert back to what they opened with if the search is cleared
+                // The select options will revert back to what they opened after closing the select
+                async search(searchValue) {
+                  // do async work
+                  return [
+                    {
+                      text: 'one',
+                      value: 'one'
+                    }
+                  ];
+                }
               </monaco-editor>
             </div>
 

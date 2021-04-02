@@ -202,12 +202,12 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     this._selected = this._optionsMap.filter(({ selected }) => selected === true)[0];
     if (!this._selected) this._selected = this._optionsMap.find(({ value }) => value === this.value);
-
+    
     // SET VALUE
     if (this._selected && this._selected.text) {
       this.classList.add('mdw-no-animation');
       this.value = this._selected.value;
-      this.setSelectedText(this.selected.text);
+      this.setSelectedText(this._selected.text);
       window.requestAnimationFrame(() => {
         this.classList.remove('mdw-no-animation');
       });
