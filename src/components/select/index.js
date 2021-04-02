@@ -70,8 +70,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   connectedCallback() {
     if (this.isEnhanced) {
-      this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
-      document.body.addEventListener('keydown', this.bound_onKeyDown);
+      if (!this.disabled) {
+        this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
+        document.body.addEventListener('keydown', this.bound_onKeyDown);
+      }
 
       if (this.hasAttribute('mdw-options')) {
         setTimeout(() => {
@@ -86,6 +88,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     
     // capture option selected attribute and float the label
     this.onChange();
+
+    if (this._selected && this.label) this.label.classList.remove('mdw-empty-no-float');
   }
 
   disconnectedCallback() {
@@ -96,6 +100,18 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       this.selectElement.removeEventListener('focus', this.bound_onFocus);
       this.selectElement.removeEventListener('blur', this.bound_onBlur);
       this.selectElement.removeEventListener('change', this.bound_onChange);
+    }
+  }
+
+  static get observedAttributes() {
+    return ['disabled'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case 'disabled':
+        this.setDisabled(newValue !== null);
+        break;
     }
   }
 
@@ -134,6 +150,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   get label() {
     return this.shadowRoot.querySelector('label');
+  }
+
+  get disabled() {
+    return this.hasAttribute('disabled');
   }
 
   get labelWidth() {
@@ -251,6 +271,22 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   async updateOptions() {
     this.options = await this._optionsCallback();
+  }
+
+  setDisabled(isDisabled = false) {
+    // update style
+
+    if (!this.isEnhanced) {
+      this.selectElement.setAttribute('disabled', isDisabled ? 'disabled' : '');
+    } else {
+      if (isDisabled) {
+        this.shadowRoot.querySelector('render-block').removeEventListener('click', this.bound_onClick);
+        document.body.removeEventListener('keydown', this.bound_onKeyDown);
+      } else {
+        this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
+        document.body.addEventListener('keydown', this.bound_onKeyDown);
+      }
+    }
   }
 
   onFocus() {
@@ -388,7 +424,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   // --- key controls ---
 
   onKeyDown(event) {
-    if (event.target.nodeName === 'INPUT' && ![38, 40].includes(event.keyCode)) return this.textSearch(event.target);
+    if (event.target.nodeName === 'INPUT' && ![38, 40, 13].includes(event.keyCode)) return this.textSearch(event.target);
 
     // open if focused
     if (!this._surfaceElement && this.classList.contains('mdw-focused')) {
@@ -490,12 +526,13 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   checkValidity() {
     const valid = this.hasAttribute('required') ? !!this.value : true;
-    this.classList.toggle('mdw-invalid', !valid)
     return valid;
   }
 
   reportValidity() {
-    return this.checkValidity();
+    const valid = this.hasAttribute('required') ? !!this.value : true;
+    this.classList.toggle('mdw-invalid', !valid)
+    return valid;
   }
 
   template() {
@@ -521,6 +558,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return /* css */`
       :host {
         height: 56px;
+      }
+
+      :host([disabled]) {
+        pointer-events: none;
       }
 
       /* density */

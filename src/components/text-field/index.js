@@ -125,7 +125,7 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   // figure out a more acurate way or getting the width
   get labelWidth() {
-    return this.label.offsetWidth * 0.95;
+    return this.label ? this.label.offsetWidth * 0.95 : 0;
   }
 
   get helperTextElement() {

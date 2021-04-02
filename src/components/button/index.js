@@ -47,12 +47,15 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this.addEventListener('click', this.bound_asyncClick);
   }
 
-  resolve() {
-    setTimeout(() => {
-      if (this._pending === false) return;
-      this._pending = false;
-      this.hideSpinner();
-    }, 0);
+  async resolve() {
+    return Promise(resolve => {
+      setTimeout(() => {
+        if (this._pending === false) return;
+        this._pending = false;
+        this.hideSpinner();
+        resolve();
+      }, 0);
+    });
   }
 
   asyncClick(e) {

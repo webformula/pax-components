@@ -26,7 +26,7 @@ export default class Select extends Page {
         <h3>Selects</h3>
 
         <div class="showcase mdw-elevation-1">
-        <mdw-select mdw-enhanced style="width: 200px" required>
+        <mdw-select mdw-enhanced style="width: 200px">
           <select>
             <option value="1">item one</option>
             <option value="2">item two</option>
@@ -78,7 +78,7 @@ export default class Select extends Page {
             </div>
 
             <div class="mdw-card__content mdw-row">
-              <mdw-select class="mdw-flex">
+              <mdw-select class="mdw-flex" disabled>
                 <select>
                   <!-- empty select to start -->
                   <option disabled selected></option>
