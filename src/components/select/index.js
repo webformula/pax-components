@@ -411,10 +411,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   textSearch(input) {
     setTimeout(() => {
       const searchValue = (input.value || '').toLowerCase();
-      const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(searchValue)).map(({ text }) => text);
+      const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(searchValue)).map(({ text }) => text.trim().toLowerCase());
       if (this._surfaceElement && this._surfaceElement.element) {
         (this._surfaceElement.element.querySelectorAll('mdw-list-item') || []).forEach(el => {
-          el.style.display = matches.includes(el.innerText) ? '' : 'none';
+          el.style.display = matches.includes(el.innerText.trim().toLowerCase()) ? '' : 'none';
         });
       }
       this._focusIndex = undefined;

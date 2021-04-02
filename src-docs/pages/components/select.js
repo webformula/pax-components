@@ -228,7 +228,7 @@ export default class Select extends Page {
             <div class="mdw-card__content mdw-row">
               <mdw-select class="mdw-padding mdw-outlined mdw-flex" mdw-enhanced mdw-search>
                 <select>
-                  <option value="1">item one</option>
+                  <option value="1"> ten item one</option>
                   <option value="2">item two</option>
                   <option value="3">item three</option>
                   <option value="4">item four</option>
