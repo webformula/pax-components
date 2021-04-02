@@ -48,7 +48,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   }
 
   async resolve() {
-    return Promise(resolve => {
+    return new Promise(resolve => {
       setTimeout(() => {
         if (this._pending === false) return;
         this._pending = false;
