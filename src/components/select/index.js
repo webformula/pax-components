@@ -19,53 +19,53 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.bound_onChange = this.onChange.bind(this);
     this.bound_onPanelClick = this.onPanelClick.bind(this);
     this.bound_onKeyDown = this.onKeyDown.bind(this);
-    const that = this;
-    this.validity = new class ValidityState {
-      get badInput() {
-        return false;
-      }
+    // const that = this;
+    // this.validity = new class ValidityState {
+    //   get badInput() {
+    //     return false;
+    //   }
 
-      // boolean based on setCustomValidity
-      get customError() {
-        return false;
-      }
+    //   // boolean based on setCustomValidity
+    //   get customError() {
+    //     return false;
+    //   }
 
-      get patternMismatch() {
-        return false;
-      }
+    //   get patternMismatch() {
+    //     return false;
+    //   }
 
-      get rangeOverflow() {
-        return false;
-      }
+    //   get rangeOverflow() {
+    //     return false;
+    //   }
 
-      get rangeUnderflow() {
-        return false;
-      }
+    //   get rangeUnderflow() {
+    //     return false;
+    //   }
 
-      get stepMismatch() {
-        return false;
-      }
+    //   get stepMismatch() {
+    //     return false;
+    //   }
 
-      get tooLong() {
-        return false;
-      }
+    //   get tooLong() {
+    //     return false;
+    //   }
 
-      get tooShort() {
-        return false;
-      }
+    //   get tooShort() {
+    //     return false;
+    //   }
 
-      get typeMismatch() {
-        return false;
-      }
+    //   get typeMismatch() {
+    //     return false;
+    //   }
 
-      get valid() {
-        return that.checkValidity();
-      }
+    //   get valid() {
+    //     return that.checkValidity();
+    //   }
 
-      get valueMissing() {
-        return !that.value;
-      }
-    };
+    //   get valueMissing() {
+    //     return !that.value;
+    //   }
+    // };
   }
 
   connectedCallback() {
@@ -524,11 +524,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
 
+  // this seems to called correctly by form.checkValidity
   checkValidity() {
     const valid = this.hasAttribute('required') ? !!this.value : true;
+    this.classList.toggle('mdw-invalid', !valid)
     return valid;
   }
 
+  // this seems to not be invoked when calling form.reportValidity
   reportValidity() {
     const valid = this.hasAttribute('required') ? !!this.value : true;
     this.classList.toggle('mdw-invalid', !valid)
