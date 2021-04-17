@@ -13,7 +13,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this._handleEnhanced();
     this.cloneTemplate({ rerender: true });
 
-    this.textSearchAsyncDebounced = MDWUtils.debounce(this.textSearchAsync, 300);
+    this.textSearchAsyncDebounced = MDWUtils.debounce(this.textSearchAsync, 240);
 
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);

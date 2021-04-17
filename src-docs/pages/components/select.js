@@ -236,7 +236,7 @@ export default class Select extends Page {
                   <label>Search</label>
                 </mdw-select>
 
-                <!-- Allow for a async function to return options -->
+                <!-- dispatches a debounced "search" event -->
                 <mdw-select id="searcher" class="mdw-padding mdw-outlined" mdw-enhanced mdw-search-async>
                   <select>
                     <option value="1">item one</option>
