@@ -9,12 +9,13 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
     this.bound_checkHREFActive = this.checkHREFActive.bind(this);
     this.bound_formValidationClickEvent = this._formValidationClickEvent.bind(this);
     this.cloneTemplate();
-    this.setupAsync();
-    this.connectHREF();
-    this.connectFormSubmit();
   }
 
   connectedCallback() {
+    this.setupAsync();
+    this.connectHREF();
+    this.connectFormSubmit();
+    
     this.ripple = new MDWRipple({
       element: this.shadowRoot.querySelector('.mdw-ripple'),
       triggerElement: this
@@ -48,7 +49,7 @@ customElements.define('mdw-button', class extends HTMLElementExtended {
   }
 
   async resolve() {
-    return Promise(resolve => {
+    return new Promise(resolve => {
       setTimeout(() => {
         if (this._pending === false) return;
         this._pending = false;
