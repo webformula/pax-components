@@ -324,6 +324,13 @@ mdw-textfield {
       }
     }
 
+    &.mdw-shaped-top-only {
+      &:after,
+      &:before {
+        border-radius: 0 var(--mdw-theme--button-shape-radius, 18px);
+      }
+    }
+
     &:not(.mdw-no-animation) {
       &:after,
       &:before {
@@ -762,4 +769,8 @@ mdw-textfield {
   opacity: 0;
   z-index: 2;
   background-color: rgba(var(--mdw-theme-textfield-primary--rgb), .7);
+}
+
+.mdw-no-line-ripple .mdw-line-ripple {
+  display: none;
 }

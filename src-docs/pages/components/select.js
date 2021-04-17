@@ -20,15 +20,15 @@ export default class Select extends Page {
     return 'Selects';
   }
 
-  async search(value) {
-    return new Promise((resolve, reject) => {
+  connectedCallback() {
+    document.querySelector('#searcher').addEventListener('search', event => {
       setTimeout(() => {
-        resolve([
+        event.target.options = [
           {
-            text: value,
-            value: value
+            text: event.detail,
+            value: "1"
           }
-        ]);
+        ];
       }, 1000);
     });
   }
@@ -237,7 +237,7 @@ export default class Select extends Page {
                 </mdw-select>
 
                 <!-- Allow for a async function to return options -->
-                <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced mdw-search="activePage.search(this.searchValue)">
+                <mdw-select id="searcher" class="mdw-padding mdw-outlined" mdw-enhanced mdw-search-async>
                   <select>
                     <option value="1">item one</option>
                     <option value="2">item two</option>
@@ -253,15 +253,9 @@ export default class Select extends Page {
                 // a spinner will appear while the promise is running
                 // The select options will revert back to what they opened with if the search is cleared
                 // The select options will revert back to what they opened after closing the select
-                async search(searchValue) {
-                  // do async work
-                  return [
-                    {
-                      text: 'one',
-                      value: 'one'
-                    }
-                  ];
-                }
+                document.querySelector('#searcher').addEventListener('search', async function (event) {
+                  event.target.options = await getOptions(event.detail);
+                })
               </monaco-editor>
             </div>
 
@@ -279,7 +273,7 @@ export default class Select extends Page {
               <span class="mdw-flex"></span>
             </div>
 
-            <mdw-select class="mdw-padding mdw-outlined" style="margin-left: 16px; width: 300px" mdw-search="activePage.search(this.searchValue)" mdw-enhanced>
+            <mdw-select id="searcher" class="mdw-padding mdw-outlined" style="margin-left: 16px; width: 300px" mdw-enhanced mdw-search-async>
               <select>
                 <option value="1">item one</option>
                 <option value="2">item two</option>

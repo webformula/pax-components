@@ -162,15 +162,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this.label.offsetWidth * 0.9;
   }
 
-  // get enhancedElementId() {
-  //   if (!this._enhancedElementId) this._enhancedElementId = `select-enhanced-${MDWUtils.uid()}`;
-  //   return this._enhancedElementId;
-  // }
-
-  // get panel() {
-  //   return document.querySelector(`#${this.enhancedElementId}`);
-  // }
-
   get sheet() {
     return document.querySelector(`#${this.enhancedElementId}`);
   }
@@ -224,6 +215,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
       `).join('\n');
     }
+
+    if (this._hasSearchAsync) this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = 'none';
   }
 
 
@@ -330,8 +323,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.onFocus();
     MDWUtils.lockPageScroll();
 
-    const hasSearch = this.hasAttribute('mdw-search');
-    this._searchFunction = this.getAttribute('mdw-search');
+    this._hasSearchAsync = this.hasAttribute('mdw-search-async');
+    const hasSearch = this.hasAttribute('mdw-search') || this._hasSearchAsync;
     const hasShaped = this.classList.contains('mdw-shaped');
     const noMobile = this.hasAttribute('mdw-no-mobile');
     
@@ -347,11 +340,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         origin: 'top',
         opacity: true
       },
-      classes: `mdw-select-panel ${hasSearch ? 'mdw-search' : ''} ${hasShaped || hasSearch ? 'mdw-shaped' : ''}`,
+      classes: `mdw-select-panel ${hasShaped ? 'mdw-shaped' : ''}`,
       template: `
         <mdw-content style="min-width: ${this.offsetWidth}px" class="mdw-no-padding">
           ${!hasSearch ? '' : `
-            <mdw-textfield class="mdw-shaped mdw-density-comfortable" style="width: calc(100% - 2px);">
+            <mdw-textfield class="mdw-no-line-ripple mdw-density-comfortable ${hasShaped ? 'mdw-shaped-top-only' : ''}" style="width: calc(100% - 2px);">
               <mdw-icon>search</mdw-icon>
               <input placeholder="Search">
               <mdw-circular-progress id="mdw-select-search-progress" mdw-mode="indeterminate" mdw-diameter="24" style="position: absolute; right: 12px; top: calc(50% - 12px); display: none"></mdw-circular-progress>
@@ -387,7 +380,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
 
     // FOCUS ON SEARCH INPUT
-    if (this.hasAttribute('mdw-search')) {
+    if (hasSearch) {
       const input = this._surfaceElement.element.querySelector('input');
       if (input) input.focus();
     }
@@ -422,14 +415,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
 
   textSearch(input) {
-    if (this._searchFunction) {
-      this.textSearchAsyncDebounced();
-      return;
-    }
-
     setTimeout(() => {
-      const searchValue = (input.value || '').toLowerCase();
-      const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(searchValue)).map(({ text }) => text.trim().toLowerCase());
+      this._searchValue = (input.value || '').toLowerCase();
+      if (this._hasSearchAsync) {
+        this.textSearchAsyncDebounced();
+        return;
+      }
+
+      const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(this._searchValue)).map(({ text }) => text.trim().toLowerCase());
       if (this._surfaceElement && this._surfaceElement.element) {
         (this._surfaceElement.element.querySelectorAll('mdw-list-item') || []).forEach(el => {
           el.style.display = matches.includes(el.innerText.trim().toLowerCase()) ? '' : 'none';
@@ -440,14 +433,15 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   async textSearchAsync() {
+    if (!this._surfaceElement) return;
     this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = '';
     if (!this._originalOptions) this._originalOptions = this._optionsMap;
-    const searchOptions = await eval(this._searchFunction);
-    if (!this._surfaceElement) return;
 
-    if (!Array.isArray(searchOptions) || searchOptions.length === 0 || !this.searchValue) this.options = this._originalOptions || [];
-    else this.options = searchOptions || [];
-    this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = 'none';
+    if (!this._searchValue) {
+      this.options = this._originalOptions || [];
+    } else {
+      this.dispatchEvent(new CustomEvent('search', { detail: this._searchValue }));
+    }
   }
 
   _resetAsyncSearchOptions() {
