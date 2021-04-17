@@ -31,6 +31,17 @@ export default class Select extends Page {
         ];
       }, 1000);
     });
+
+    document.querySelector('#set-options').options = [
+      {
+        text: 'One',
+        value: "1"
+      },
+      {
+        text: 'Two',
+        value: "2"
+      }
+    ]
   }
 
   template() {
@@ -373,13 +384,12 @@ export default class Select extends Page {
           <mdw-card id="prog">
             <div class="mdw-card__content">
               <h6>Set options programmatically</h6>
-              <p style="margin-bottom: 4px">Set the <b>mdw-options</b> attribute</p>
               <p>Or set the property <b>document.querySelector('mdw-select').options = []</b></p>
             </div>
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="javascript">
-                document.querySelector('mdw-select').options = [
+                document.querySelector('#set-options').options = [
                   {
                     text: 'One',
                     value: "1"
@@ -392,14 +402,14 @@ export default class Select extends Page {
               </monaco-editor>
 
               <monaco-editor language="html">
-                <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced mdw-options="activePage.values">
+                <mdw-select id="set-options" class="mdw-padding mdw-outlined" mdw-enhanced>
                   <label>label</label>
                 </mdw-select>
               </monaco-editor>
             </div>
 
             <div class="mdw-card__content mdw-row">
-              <mdw-select style="width: 200px;" class="mdw-padding mdw-outlined" mdw-enhanced mdw-options="activePage.values">
+              <mdw-select id="set-options" style="width: 200px;" class="mdw-padding mdw-outlined" mdw-enhanced>
                 <label>label</label>
               </mdw-select>
             </div>

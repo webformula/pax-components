@@ -76,12 +76,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
         document.body.addEventListener('keydown', this.bound_onKeyDown);
       }
-
-      if (this.hasAttribute('mdw-options')) {
-        setTimeout(() => {
-          this.options = eval(this.getAttribute('mdw-options'));
-        }, 1000);
-      }
     } else {
       this.selectElement.addEventListener('focus', this.bound_onFocus);
       this.selectElement.addEventListener('blur', this.bound_onBlur);
@@ -238,7 +232,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   _handleEnhanced() {
     if (!this.isEnhanced) return;
-    if (this.hasAttribute('mdw-options-callback')) return this._handleOptionsCallback();
 
     // setup options for generating a list
     this._optionsMap = [...this.querySelectorAll('option')].map(el => {
@@ -259,20 +252,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (selectOnchange) this.setAttribute('onchange', selectOnchange);
       selectElement.remove();
     }
-  }
-
-  _handleOptionsCallback() {
-    this._optionsCallback = eval(this.getAttribute('mdw-options-callback'));
-    if (typeof this._optionsCallback !== 'function') throw Error('mdw-select[mdw-options-callback] must be a function');
-    // bind to active page if it exists
-    if (activePage) this._optionsCallback = this._optionsCallback.bind(activePage);
-    this._optionsMap = [];
-    this.updateOptions();
-  }
-
-  async updateOptions() {
-    this._originalOptions = undefined;
-    this.options = await this._optionsCallback();
   }
 
   setDisabled(isDisabled = false) {
