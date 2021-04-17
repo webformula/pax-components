@@ -13,6 +13,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this._handleEnhanced();
     this.cloneTemplate({ rerender: true });
 
+    this.textSearchAsyncDebounced = MDWUtils.debounce(this.textSearchAsync, 240);
+
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);
     this.bound_onClick = this.onClick.bind(this);
@@ -73,12 +75,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (!this.disabled) {
         this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
         document.body.addEventListener('keydown', this.bound_onKeyDown);
-      }
-
-      if (this.hasAttribute('mdw-options')) {
-        setTimeout(() => {
-          this.options = eval(this.getAttribute('mdw-options'));
-        }, 1000);
       }
     } else {
       this.selectElement.addEventListener('focus', this.bound_onFocus);
@@ -160,15 +156,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this.label.offsetWidth * 0.9;
   }
 
-  get enhancedElementId() {
-    if (!this._enhancedElementId) this._enhancedElementId = `select-enhanced-${MDWUtils.uid()}`;
-    return this._enhancedElementId;
-  }
-
-  get panel() {
-    return document.querySelector(`#${this.enhancedElementId}`);
-  }
-
   get sheet() {
     return document.querySelector(`#${this.enhancedElementId}`);
   }
@@ -190,18 +177,22 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     return this._optionsMap || [];
   }
 
+  get searchValue() {
+    return this._surfaceElement.element.querySelector('input').value || '';
+  }
+
   set options(value) {
     if (!Array.isArray(value)) console.error('mdw-select.options must br an array');
     this._optionsMap = value;
 
     this._selected = this._optionsMap.filter(({ selected }) => selected === true)[0];
     if (!this._selected) this._selected = this._optionsMap.find(({ value }) => value === this.value);
-
+    
     // SET VALUE
     if (this._selected && this._selected.text) {
       this.classList.add('mdw-no-animation');
       this.value = this._selected.value;
-      this.setSelectedText(this.selected.text);
+      this.setSelectedText(this._selected.text);
       window.requestAnimationFrame(() => {
         this.classList.remove('mdw-no-animation');
       });
@@ -214,8 +205,12 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
 
     if (this._surfaceElement) {
-      // TODO handle re-render when options are open
+      this._surfaceElement.element.querySelector('mdw-list').innerHTML = this._optionsMap.map(({ text, value, selected }) => `
+        <mdw-list-item value="${value}"${selected ? ' selected' : ''}>${text}</mdw-list-item>
+      `).join('\n');
     }
+
+    if (this._hasSearchAsync) this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = 'none';
   }
 
 
@@ -237,7 +232,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   _handleEnhanced() {
     if (!this.isEnhanced) return;
-    if (this.hasAttribute('mdw-options-callback')) return this._handleOptionsCallback();
 
     // setup options for generating a list
     this._optionsMap = [...this.querySelectorAll('option')].map(el => {
@@ -258,19 +252,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (selectOnchange) this.setAttribute('onchange', selectOnchange);
       selectElement.remove();
     }
-  }
-
-  _handleOptionsCallback() {
-    this._optionsCallback = eval(this.getAttribute('mdw-options-callback'));
-    if (typeof this._optionsCallback !== 'function') throw Error('mdw-select[mdw-options-callback] must be a function');
-    // bind to active page if it exists
-    if (activePage) this._optionsCallback = this._optionsCallback.bind(activePage);
-    this._optionsMap = [];
-    this.updateOptions();
-  }
-
-  async updateOptions() {
-    this.options = await this._optionsCallback();
   }
 
   setDisabled(isDisabled = false) {
@@ -321,7 +302,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.onFocus();
     MDWUtils.lockPageScroll();
 
-    const hasSearch = this.hasAttribute('mdw-search');
+    this._hasSearchAsync = this.hasAttribute('mdw-search-async');
+    const hasSearch = this.hasAttribute('mdw-search') || this._hasSearchAsync;
     const hasShaped = this.classList.contains('mdw-shaped');
     const noMobile = this.hasAttribute('mdw-no-mobile');
     
@@ -337,13 +319,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         origin: 'top',
         opacity: true
       },
-      classes: `mdw-select-panel ${hasSearch ? 'mdw-search' : ''} ${hasShaped || hasSearch ? 'mdw-shaped' : ''}`,
+      classes: `mdw-select-panel ${hasShaped ? 'mdw-shaped' : ''}`,
       template: `
         <mdw-content style="min-width: ${this.offsetWidth}px" class="mdw-no-padding">
           ${!hasSearch ? '' : `
-            <mdw-textfield class="mdw-shaped mdw-density-comfortable" style="width: calc(100% - 2px);">
+            <mdw-textfield class="mdw-no-line-ripple mdw-density-comfortable ${hasShaped ? 'mdw-shaped-top-only' : ''}" style="width: calc(100% - 2px);">
               <mdw-icon>search</mdw-icon>
               <input placeholder="Search">
+              <mdw-circular-progress id="mdw-select-search-progress" mdw-mode="indeterminate" mdw-diameter="24" style="position: absolute; right: 12px; top: calc(50% - 12px); display: none"></mdw-circular-progress>
             </mdw-textfield>
           `}
           <mdw-list>
@@ -360,6 +343,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       this._surfaceElement.element.clickBodyToClose();
       this._surfaceElement.element.addEventListener('click', this.bound_onPanelClick);
       this._surfaceElement.element.addEventListener('MDWPanel:closed', () => {
+        this._resetAsyncSearchOptions();
         this._surfaceElement = undefined;
         this.onBlur();
       });
@@ -368,13 +352,14 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     if (this._surfaceElement && this._surfaceElement.element.nodeName === 'MDW-SHEET-BOTTOM') {
       this._surfaceElement.element.addEventListener('click', this.bound_onPanelClick);
       this._surfaceElement.element.addEventListener('MDWSheet:closed', () => {
+        this._resetAsyncSearchOptions();
         this._surfaceElement = undefined;
         this.onBlur();
       });
     }
 
     // FOCUS ON SEARCH INPUT
-    if (this.hasAttribute('mdw-search')) {
+    if (hasSearch) {
       const input = this._surfaceElement.element.querySelector('input');
       if (input) input.focus();
     }
@@ -410,8 +395,13 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   textSearch(input) {
     setTimeout(() => {
-      const searchValue = (input.value || '').toLowerCase();
-      const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(searchValue)).map(({ text }) => text.trim().toLowerCase());
+      this._searchValue = (input.value || '').toLowerCase();
+      if (this._hasSearchAsync) {
+        this.textSearchAsyncDebounced();
+        return;
+      }
+
+      const matches = this._optionsMap.filter(({ text }) => text.toLowerCase().includes(this._searchValue)).map(({ text }) => text.trim().toLowerCase());
       if (this._surfaceElement && this._surfaceElement.element) {
         (this._surfaceElement.element.querySelectorAll('mdw-list-item') || []).forEach(el => {
           el.style.display = matches.includes(el.innerText.trim().toLowerCase()) ? '' : 'none';
@@ -421,9 +411,31 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }, 0);
   }
 
+  async textSearchAsync() {
+    if (!this._surfaceElement) return;
+    this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = '';
+    if (!this._originalOptions) this._originalOptions = this._optionsMap;
+
+    if (!this._searchValue) {
+      this.options = this._originalOptions || [];
+    } else {
+      this.dispatchEvent(new CustomEvent('search', { detail: this._searchValue }));
+    }
+  }
+
+  _resetAsyncSearchOptions() {
+    if (this._originalOptions) {
+      this._optionsMap = this._originalOptions;
+      this._originalOptions = undefined;
+    }
+  }
+
   // --- key controls ---
 
   onKeyDown(event) {
+    // escape
+    if (event.keyCode === 27) return;
+
     if (event.target.nodeName === 'INPUT' && ![38, 40, 13].includes(event.keyCode)) return this.textSearch(event.target);
 
     // open if focused

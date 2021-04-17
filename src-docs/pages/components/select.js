@@ -20,6 +20,30 @@ export default class Select extends Page {
     return 'Selects';
   }
 
+  connectedCallback() {
+    document.querySelector('#searcher').addEventListener('search', event => {
+      setTimeout(() => {
+        event.target.options = [
+          {
+            text: event.detail,
+            value: "1"
+          }
+        ];
+      }, 1000);
+    });
+
+    document.querySelector('#set-options').options = [
+      {
+        text: 'One',
+        value: "1"
+      },
+      {
+        text: 'Two',
+        value: "2"
+      }
+    ]
+  }
+
   template() {
     return /* html */`
       <article class="page-article">
@@ -220,13 +244,34 @@ export default class Select extends Page {
                     <option value="4">item four</option>
                     <option value="5">item five</option>
                   </select>
-                  <label>Floating label</label>
+                  <label>Search</label>
                 </mdw-select>
+
+                <!-- dispatches a debounced "search" event -->
+                <mdw-select id="searcher" class="mdw-padding mdw-outlined" mdw-enhanced mdw-search-async>
+                  <select>
+                    <option value="1">item one</option>
+                    <option value="2">item two</option>
+                    <option value="3">item three</option>
+                    <option value="4">item four</option>
+                    <option value="5">item five</option>
+                  </select>
+                  <label>Async Search</label>
+                </mdw-select>
+              </monaco-editor>
+
+              <monaco-editor language="javascript">
+                // a spinner will appear while the promise is running
+                // The select options will revert back to what they opened with if the search is cleared
+                // The select options will revert back to what they opened after closing the select
+                document.querySelector('#searcher').addEventListener('search', async function (event) {
+                  event.target.options = await getOptions(event.detail);
+                })
               </monaco-editor>
             </div>
 
-            <div class="mdw-card__content mdw-row">
-              <mdw-select class="mdw-padding mdw-outlined mdw-flex" mdw-enhanced mdw-search>
+            <div class="mdw-card__content mdw-column">
+              <mdw-select class="mdw-padding mdw-outlined" style="width: 300px" mdw-enhanced mdw-search>
                 <select>
                   <option value="1"> ten item one</option>
                   <option value="2">item two</option>
@@ -234,10 +279,21 @@ export default class Select extends Page {
                   <option value="4">item four</option>
                   <option value="5">item five</option>
                 </select>
-                <label>Floating label</label>
+                <label>Search</label>
               </mdw-select>
               <span class="mdw-flex"></span>
             </div>
+
+            <mdw-select id="searcher" class="mdw-padding mdw-outlined" style="margin-left: 16px; width: 300px" mdw-enhanced mdw-search-async>
+              <select>
+                <option value="1">item one</option>
+                <option value="2">item two</option>
+                <option value="3">item three</option>
+                <option value="4">item four</option>
+                <option value="5">item five</option>
+              </select>
+              <label>Async Search</label>
+            </mdw-select>
           </mdw-card>
 
 
@@ -328,13 +384,12 @@ export default class Select extends Page {
           <mdw-card id="prog">
             <div class="mdw-card__content">
               <h6>Set options programmatically</h6>
-              <p style="margin-bottom: 4px">Set the <b>mdw-options</b> attribute</p>
               <p>Or set the property <b>document.querySelector('mdw-select').options = []</b></p>
             </div>
 
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="javascript">
-                document.querySelector('mdw-select').options = [
+                document.querySelector('#set-options').options = [
                   {
                     text: 'One',
                     value: "1"
@@ -347,14 +402,14 @@ export default class Select extends Page {
               </monaco-editor>
 
               <monaco-editor language="html">
-                <mdw-select class="mdw-padding mdw-outlined" mdw-enhanced mdw-options="activePage.values">
+                <mdw-select id="set-options" class="mdw-padding mdw-outlined" mdw-enhanced>
                   <label>label</label>
                 </mdw-select>
               </monaco-editor>
             </div>
 
             <div class="mdw-card__content mdw-row">
-              <mdw-select style="width: 200px;" class="mdw-padding mdw-outlined" mdw-enhanced mdw-options="activePage.values">
+              <mdw-select id="set-options" style="width: 200px;" class="mdw-padding mdw-outlined" mdw-enhanced>
                 <label>label</label>
               </mdw-select>
             </div>

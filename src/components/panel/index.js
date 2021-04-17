@@ -331,7 +331,7 @@ customElements.define('mdw-panel', class extends HTMLElementExtended {
     const isEscape = key === 'Escape' || keyCode === 27;
     const isTab = key === 'Tab' || keyCode === 9;
 
-    if (isEscape) this.close();
+    if (isEscape && this._clickOutsideClose === true) this.close();
     else if (isTab) {
       if (this.isLastElementFocused() && !shiftKey) {
         this.focusFirstElement();
