@@ -297,6 +297,8 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   async onClick(event) {
+    if (this._surfaceElement) return;
+    
     // handle focus
     this._focusIndex === undefined;
     this.onFocus();
