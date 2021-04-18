@@ -75,6 +75,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       if (!this.disabled) {
         this.shadowRoot.querySelector('render-block').addEventListener('click', this.bound_onClick);
         document.body.addEventListener('keydown', this.bound_onKeyDown);
+
+        if (!this.hasAttribute('tabindex')) {
+          this.setAttribute('tabindex', 0);
+          this.tabIndex = 0;
+        }
       }
     } else {
       this.selectElement.addEventListener('focus', this.bound_onFocus);
@@ -435,17 +440,18 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   // --- key controls ---
 
   onKeyDown(event) {
-    // escape
-    if (event.keyCode === 27) return;
-
-    if (event.target.nodeName === 'INPUT' && ![38, 40, 13].includes(event.keyCode)) return this.textSearch(event.target);
-
-    // open if focused
-    if (!this._surfaceElement && this.classList.contains('mdw-focused')) {
-      this.onClick();
-      event.preventDefault();
+    if (!this._surfaceElement) {
+      if (document.activeElement === this && [40, 38].includes(event.keyCode)) {
+        this.onClick();
+        event.preventDefault();
+        return;
+      }
       return;
     }
+    
+    // escape
+    if (event.keyCode === 27) return;
+    if (event.target.nodeName === 'INPUT' && ![38, 40, 13].includes(event.keyCode)) return this.textSearch(event.target);
 
     if (!this._surfaceElement || this._surfaceElement.element.nodeName !== 'MDW-PANEL' || !this._surfaceElement.element.isOpen()) return;
 

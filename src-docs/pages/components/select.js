@@ -92,7 +92,7 @@ export default class Select extends Page {
               <monaco-editor language="html">
                 <mdw-select>
                   <select>
-                    <option disabled selected></option>
+                    <option selected></option>
                     <option value="a">a</option>
                     <option value="b">b</option>
                   </select>
@@ -102,7 +102,7 @@ export default class Select extends Page {
             </div>
 
             <div class="mdw-card__content mdw-row">
-              <mdw-select class="mdw-flex" disabled>
+              <mdw-select class="mdw-flex">
                 <select>
                   <!-- empty select to start -->
                   <option disabled selected></option>
