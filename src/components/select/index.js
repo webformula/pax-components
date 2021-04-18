@@ -648,10 +648,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         top: 13px;
       }
 
-      :host(.mdw-focused) .mdw-select__icon {
-        transform: rotate(180deg) translateY(-5px);
-        transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-      }
 
       .mdw-select__icon {
         transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -667,8 +663,9 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         border-top: 5px solid var(--mdw-theme-on-secondary);
       }
 
-      ::slotted(select:focus) .mdw-select__icon,
-      :host(.mdw-focused:focus) .mdw-select__icon {
+      ::slotted(select:focus) .mdw-select__icon,,
+      :host(:focus) .mdw-select__icon,
+      :host(.mdw-focused) .mdw-select__icon {
         transform: rotate(180deg) translateY(-5px);
         transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
       }
@@ -695,10 +692,11 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       */
 
       :host(.mdw-no-underline) ::slotted(select),
+      :host(.mdw-no-underline:not(.mdw-select--disabled)) ::slotted(select:focus),
+      :host(.mdw-no-underline:focus:not(.mdw-select--disabled)) ::slotted(select),
       :host(.mdw-no-underline.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
       :host(.mdw-no-underline.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,
-      :host(.mdw-no-underline:not(.mdw-select--disabled)) ::slotted(select:focus),
-      :host(.mdw-no-underline.mdw-focused:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {
+      :host(.mdw-no-underline:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {
         border-bottom: none;
       }
 
@@ -755,7 +753,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       :host(.mdw-shaped.mdw-focused:not(.mdw-select--disabled)) ::slotted(select),
       :host(.mdw-shaped.mdw-focused:not(.mdw-select--disabled)) .mdw-select__selected-text,
       :host(.mdw-shaped:not(.mdw-select--disabled)) ::slotted(select:focus),
-      :host(.mdw-shaped.mdw-focused:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {
+      :host(.mdw-shaped:focus:not(.mdw-select--disabled)) .mdw-select__selected-text {
         border-bottom: none;
       }
 
@@ -804,6 +802,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         color: var(--mdw-theme-textfield-error);
       }
 
+      :host(:focus:not(.mdw-invalid)) label,
       :host(.mdw-focused:not(.mdw-invalid)) label {
         color: var(--mdw-theme-primary);
       }
@@ -821,6 +820,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         transform: translateY(-70%) scale(0.75);
       }
 
+      :host(.mdw-outlined:focus) label,
       :host(.mdw-outlined.mdw-focused) label,
       :host(.mdw-outlined) label.mdw-select--float-above {
         transform: translateY(-132%) scale(0.75);
@@ -916,6 +916,9 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       :host(.mdw-focused) .mdw-outlined-leading,
       :host(.mdw-focused) .mdw-outlined-notch,
       :host(.mdw-focused) .mdw-outlined-trailing,
+      :host(:focus) .mdw-outlined-leading,
+      :host(:focus) .mdw-outlined-notch,
+      :host(:focus) .mdw-outlined-trailing,
       ::slotted(select:focus) .mdw-outlined-leading,
       ::slotted(select:focus) .mdw-outlined-notch,
       ::slotted(select:focus) .mdw-outlined-trailing {
@@ -1014,6 +1017,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         background-color: var(--mdw-theme-textfield-error);
       }
 
+      :host(:focus) div.mdw-line-ripple,
       :host(.mdw-focused) div.mdw-line-ripple {
         transform: scaleX(1);
         opacity: 1;
