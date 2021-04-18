@@ -39,6 +39,10 @@ mdw-select {
     overflow: visible;
     border-radius: var(--mdw-theme--button-shape-radius, 18px);
   }
+
+  &:focus {
+    outline: none;
+  }
 }
 
 mdw-select.mdw-no-padding {
