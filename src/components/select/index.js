@@ -215,7 +215,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
       `).join('\n');
     }
 
-    if (this._hasSearchAsync) this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = 'none';
+    if (this._hasSearchAsync && this._surfaceElement) this._surfaceElement.element.querySelector('#mdw-select-search-progress').style.display = 'none';
   }
 
 
