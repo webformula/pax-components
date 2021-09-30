@@ -6,8 +6,9 @@ const MDWDialog = new class {
     this.currentDialog = null;
   }
 
-  async open({ title, message, okLabel, cancelLabel, template, position = 'center center', clickOutsideClose = false }) {
+  async open({ title, message, okLabel, cancelLabel, template, controller, position = 'center center', clickOutsideClose = false }) {
     return new Promise(async resolve => {
+      this.controller = undefined;
       const id = MDWUtils.uid('dialog');
       
       let templateString;
@@ -23,7 +24,8 @@ const MDWDialog = new class {
       document.body.insertAdjacentHTML('beforeend', templateString);
       const el = document.querySelector(`#${id}`);
       const onclose = (e) => {
-        resolve(e.detail.ok);
+        this.controller = undefined;
+        resolve(e.detail);
         el.removeEventListener('close', onclose);
         el.remove();
         this.currentDialog = null;
@@ -31,6 +33,8 @@ const MDWDialog = new class {
       el.addEventListener('close', onclose);
       el.clickOutsideClose = clickOutsideClose;
       this.currentDialog = el;
+
+      if (controller) this.controller = controller;
 
       requestAnimationFrame(() => {
         el.open();
@@ -40,6 +44,10 @@ const MDWDialog = new class {
 
   close() {
     this.currentDialog.close();
+  }
+
+  resolve(value) {
+    this.currentDialog.resolve(value);
   }
 
   template({ id, title, message, okLabel, cancelLabel, position }) {

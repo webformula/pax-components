@@ -60,6 +60,11 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.dispatchClose(ok);
   }
 
+  resolve(value) {
+    this.panel.close();
+    this.dispatchClose(value);
+  }
+
   onPanelClose() {
     // don't remove if we are closing a template
     if (!this._fromService) {
@@ -73,11 +78,10 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.remove();
   }
 
-  dispatchClose(isOk = false) {
+  dispatchClose(value = { ok: false }) {
+    value = value || { ok: false };
     this.dispatchEvent(new CustomEvent('close', {
-      detail: {
-        ok: isOk
-      }
+      detail: value
     }));
   }
 });

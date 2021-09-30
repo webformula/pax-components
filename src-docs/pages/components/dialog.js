@@ -1,5 +1,4 @@
 import { Page } from '@webformula/pax-core';
-import MDWDialog from '../../../src/components/dialog/service.js';
 
 export default class Dialog extends Page {
   constructor() {
@@ -124,25 +123,20 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
   }
 
 
-  showControllerDialog() {
-    MDWDialog.open({
+  async showControllerDialog() {
+    const value = await MDWDialog.open({
       template: 'dialog-with-controller.html',
       controller: new class {
         save() {
-          console.log('save');
           MDWDialog.resolve('save');
         }
 
         close() {
-          console.log('close');
           MDWDialog.resolve('close');
         }
       }
     });
-
-    setTimeout(() => {
-      console.log(MDWDialog.controller);
-    }, 0);
+    console.log(value);
   }
 
   ok() {
