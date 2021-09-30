@@ -1,10 +1,19 @@
 import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWUtils from '../../core/Utils.js';
 import MDWSurface from '../surface/service.js';
+import Validity from '../../core/validate-polyfill.js';
 
 customElements.define('mdw-select', class extends HTMLElementExtended {
   constructor() {
     super();
+
+    this._validity = new Validity(this, {
+      valueParameter: 'value',
+      valueType: 'String',
+      // validationMethod() {
+
+      // }
+    });
 
     if (document.body.classList.contains('mdw-shaped')) this.classList.add('mdw-shaped');
 
@@ -21,53 +30,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     this.bound_onChange = this.onChange.bind(this);
     this.bound_onPanelClick = this.onPanelClick.bind(this);
     this.bound_onKeyDown = this.onKeyDown.bind(this);
-    // const that = this;
-    // this.validity = new class ValidityState {
-    //   get badInput() {
-    //     return false;
-    //   }
-
-    //   // boolean based on setCustomValidity
-    //   get customError() {
-    //     return false;
-    //   }
-
-    //   get patternMismatch() {
-    //     return false;
-    //   }
-
-    //   get rangeOverflow() {
-    //     return false;
-    //   }
-
-    //   get rangeUnderflow() {
-    //     return false;
-    //   }
-
-    //   get stepMismatch() {
-    //     return false;
-    //   }
-
-    //   get tooLong() {
-    //     return false;
-    //   }
-
-    //   get tooShort() {
-    //     return false;
-    //   }
-
-    //   get typeMismatch() {
-    //     return false;
-    //   }
-
-    //   get valid() {
-    //     return that.checkValidity();
-    //   }
-
-    //   get valueMissing() {
-    //     return !that.value;
-    //   }
-    // };
   }
 
   connectedCallback() {
@@ -82,6 +44,9 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
         }
       }
     } else {
+      if (this.selectElement.hasAttribute('required')) this.setAttribute('required', 'required');
+      else if (this.hasAttribute('required')) this.selectElement.setAttribute('required', 'required');
+      this._validity.addChildWithValidation(this.selectElement);
       this.selectElement.addEventListener('focus', this.bound_onFocus);
       this.selectElement.addEventListener('blur', this.bound_onBlur);
       this.selectElement.addEventListener('change', this.bound_onChange);
@@ -139,7 +104,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   set value(value) {
     this._value = value;
     this.onChange();
-    if (this._touched) this.checkValidity();
+    if (this._touched) this.reportValidity();
     this.dispatchEvent(new Event('change', {
       composed: true
     }));
@@ -282,7 +247,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   }
 
   onBlur() {
-    this.checkValidity();
+    this.reportValidity();
     this.classList.remove('mdw-focused');
     this.classList.toggle('mdw-not-empty', this.value);
 
@@ -541,21 +506,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     const optionElements = [...this._surfaceElement.element.querySelectorAll('mdw-list-item')];
     if (this._focusIndex == undefined || this._focusIndex > optionElements.length - 1) this._focusIndex = 0;
     this.onPanelClick({ target: optionElements[this._focusIndex] });
-  }
-
-
-  // this seems to called correctly by form.checkValidity
-  checkValidity() {
-    const valid = this.hasAttribute('required') ? !!this.value : true;
-    this.classList.toggle('mdw-invalid', !valid)
-    return valid;
-  }
-
-  // this seems to not be invoked when calling form.reportValidity
-  reportValidity() {
-    const valid = this.hasAttribute('required') ? !!this.value : true;
-    this.classList.toggle('mdw-invalid', !valid)
-    return valid;
   }
 
   template() {

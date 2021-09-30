@@ -41,7 +41,13 @@ export default class Select extends Page {
         text: 'Two',
         value: "2"
       }
-    ]
+    ];
+
+    // document.querySelector('mdw-select').setCustomValidity('test');
+    // document.querySelector('mdw-select').reportValidity();
+
+    // document.querySelector('#standard mdw-select').setCustomValidity('test');
+    // document.querySelector('#standard mdw-select').reportValidity();
   }
 
   template() {
@@ -50,7 +56,7 @@ export default class Select extends Page {
         <h3>Selects</h3>
 
         <div class="showcase mdw-elevation-1">
-        <mdw-select mdw-enhanced style="width: 200px">
+        <mdw-select mdw-enhanced style="width: 200px" required>
           <select>
             <option value="1">item one</option>
             <option value="2">item two</option>
@@ -59,6 +65,10 @@ export default class Select extends Page {
             <option value="5">item five</option>
           </select>
           <label>Floating label</label>
+
+          <mdw-textfield-helper>
+                    <mdw-helper-text validation>Required</mdw-helper-text>
+                  </mdw-textfield-helper>
         </mdw-select>
         </div>
 
@@ -102,7 +112,7 @@ export default class Select extends Page {
             </div>
 
             <div class="mdw-card__content mdw-row">
-              <mdw-select class="mdw-flex">
+              <mdw-select class="mdw-flex" required>
                 <select>
                   <!-- empty select to start -->
                   <option disabled selected></option>
@@ -110,6 +120,10 @@ export default class Select extends Page {
                   <option value="b">b</option>
                 </select>
                 <label>Select</label>
+
+                <mdw-textfield-helper>
+                    <mdw-helper-text validation>Required</mdw-helper-text>
+                  </mdw-textfield-helper>
               </mdw-select>
               <span class="mdw-flex"></span>
             </div>

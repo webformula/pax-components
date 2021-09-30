@@ -1,4 +1,5 @@
 import { Page } from '@webformula/pax-core';
+import MDWDialog from '../../../src/components/dialog/service.js';
 
 export default class Dialog extends Page {
   constructor() {
@@ -122,6 +123,28 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
     });
   }
 
+
+  showControllerDialog() {
+    MDWDialog.open({
+      template: 'dialog-with-controller.html',
+      controller: new class {
+        save() {
+          console.log('save');
+          MDWDialog.resolve('save');
+        }
+
+        close() {
+          console.log('close');
+          MDWDialog.resolve('close');
+        }
+      }
+    });
+
+    setTimeout(() => {
+      console.log(MDWDialog.controller);
+    }, 0);
+  }
+
   ok() {
     this.d1.close();
   }
@@ -144,6 +167,7 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
           <anchor-link selector="#service-template">Dialog using template</anchor-link>
           <anchor-link selector="#with-click">Click background to close</anchor-link>
           <anchor-link selector="#scrollable">Scrolling dialog</anchor-link>
+          <anchor-link selector="#controller">Dialog with controller</anchor-link>
         </div>
 
         <section id="types">
@@ -276,6 +300,60 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
 
             <div class="mdw-card__content" style="display: block;">
               <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showScrollDialog()">open dialog</mdw-button>
+            </div>
+          </mdw-card>
+
+
+          <mdw-card id="controller">
+            <div class="mdw-card__content">
+              <h6>Dialog with controller</h6>
+              <div class="description">Dialog that is taller than screen.</div>
+            </div>
+
+            <div class="mdw-card__content--no-padding">
+              <monaco-editor language="javascript">
+                import Controller from '../dialog-with-controller.js';
+                MDWDialog.open({
+                  template: 'dialog-with-controller.html',
+                  controller: new Controller()
+                });
+              </monaco-editor>
+              
+              <monaco-editor language="html">
+              // dialog-with-controller.html
+                <mdw-header>
+                  <div class="mdw-title">Template file</div>
+                </mdw-header>
+
+                <mdw-content>
+                  This is some content from a template
+                </mdw-content>
+
+                <mdw-footer>
+                  <mdw-button onclick="MDWDialog.controller.save()">cancel</mdw-button>
+                  <mdw-button onclick="MDWDialog.controller.close()">ok</mdw-button>
+                </mdw-footer>
+              </monaco-editor>
+
+              <monaco-editor language="javascript">
+              // dialog-with-controller.js
+                import { MDWDialog } from '@webformula/pax-components';
+                export class Controller {
+                  save() {
+                    console.log('save');
+                    MDWDialog.resolve('save');
+                  }
+
+                  close() {
+                    console.log('close');
+                    MDWDialog.resolve('close');
+                  }
+                }
+              </monaco-editor>
+            </div>
+
+            <div class="mdw-card__content" style="display: block;">
+              <mdw-button class="mdw-raised  mdw-primary" onclick="activePage.showControllerDialog()">open dialog</mdw-button>
             </div>
           </mdw-card>
 

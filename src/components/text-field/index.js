@@ -1,4 +1,5 @@
 import { HTMLElementExtended } from '@webformula/pax-core/index.js';
+import Validity from '../../core/validate-polyfill.js';
 
 customElements.define('mdw-textfield', class extends HTMLElementExtended {
   constructor() {
@@ -7,6 +8,14 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);
     this.bound_onInput = this.onInput.bind(this);
+
+    this._validity = new Validity(this, {
+      valueParameter: 'value',
+      valueType: 'String',
+      // validationMethod() {
+
+      // }
+    });
   }
 
   connectedCallback() {
@@ -16,6 +25,8 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     requestAnimationFrame(() => {
       this.classList.remove('mdw-no-animation');
     });
+
+    this._validity.setCustomValidity(this.input);
 
     // add listeners
     this.input.addEventListener('focus', this.bound_onFocus);

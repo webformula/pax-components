@@ -1,5 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import MDWRipple from '../../core/Ripple.js';
+import Validity from '../../core/validate-polyfill.js';
 
 customElements.define('mdw-checkbox', class extends HTMLElementExtended {
   constructor() {
@@ -10,6 +11,14 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
     this._defaultIcons();
 
     this.state = 'unchecked';
+
+    this._validity = new Validity(this, {
+      valueParameter: 'checked',
+      valueType: 'Boolean',
+      // validationMethod() {
+
+      // }
+    });
   }
 
   connectedCallback() {
@@ -43,7 +52,7 @@ customElements.define('mdw-checkbox', class extends HTMLElementExtended {
   }
 
   set state(value) {
-    if (!['checked', 'unchecked', 'indeterminate'].includes(value)) console.error(`ivalid state fro checkbox "${value}". Only excepts "checked", "unchecked", "indeterminate"`);
+    if (!['checked', 'unchecked', 'indeterminate'].includes(value)) console.error(`invalid state fro checkbox "${value}". Only excepts "checked", "unchecked", "indeterminate"`);
     this.setAttribute('mdw-state', value);
     const stateChange = this._state !== value;
     this._state = value;
