@@ -307,10 +307,11 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
             <div class="mdw-card__content--no-padding">
               <monaco-editor language="javascript">
                 import Controller from '../dialog-with-controller.js';
-                MDWDialog.open({
+                const value = await MDWDialog.open({
                   template: 'dialog-with-controller.html',
                   controller: new Controller()
                 });
+                console.log(value);
               </monaco-editor>
               
               <monaco-editor language="html">
