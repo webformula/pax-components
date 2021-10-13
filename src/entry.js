@@ -4,7 +4,7 @@ import MDWUtils from './core/Utils.js';
 
 // --- Components ---
 
-// import './components/autocomplete/index.js';
+import './components/autocomplete/index.js';
 // import './components/backdrop/index.js';
 import './components/banner/index.js';
 import './components/bottom-navigation/index.js';
