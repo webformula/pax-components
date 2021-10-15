@@ -14,3 +14,20 @@ mdw-autocomplete mdw-panel {
 .mdw-auto-complete mdw-list > mdw-list-item > * {
   pointer-events: none;
 }
+
+.mdw-autocomplete-suggestion {
+  position: absolute;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  letter-spacing: .00937em;
+  
+  top: 21px;
+  left: 15px;
+
+  color: #999;
+}
+
+.mdw-autocomplete-suggestion .mdw-suggestion-hide {
+  opacity: 0;
+}

@@ -6,14 +6,16 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
     super();
     
     this._rowTemplate = this._defaultTemplate.bind(this);
-
     this.bound_onBlur = this._onBlur.bind(this);
     this.bound_onFocus = this._onFocus.bind(this);
+    this.bound_onInput = this._onInput.bind(this);
     this.bound_onKeydown = this._onKeydown.bind(this);
     this.bound_onClick = this._onClick.bind(this);
     this.bound_mouseDown = this._mouseDown.bind(this);
     this.bound_mouseUp = this._mouseUp.bind(this);
     this.bound_showSpinner = this._showSpinner.bind(this);
+
+    this.input.setAttribute('autocomplete', 'off');
   }
 
   get input() {
@@ -37,6 +39,14 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
     this._rowTemplate = callback;
   }
 
+  get mdwSuggestions() {
+    return this.hasAttribute('mdw-suggestions') && this.getAttribute('mdw-suggestions') !== 'off';
+  }
+  set mdwSuggestions(value = false) {
+    if (value === true || value === 'on') this.setAttribute('mdw-suggestions', 'on');
+    else this.removeAttribute('mdw-suggestions');
+  }
+
   get _textfieldElement() {
     return this.parentNode;
   }
@@ -45,10 +55,30 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
     return this._textfieldElement.querySelector('.mdw-spinner-container');
   }
 
+  get _suggestionHideContainer() {
+    return this._textfieldElement.querySelector('.mdw-autocomplete-suggestion .mdw-suggestion-hide');
+  }
+
+  get _suggestionShowContainer() {
+    return this._textfieldElement.querySelector('.mdw-autocomplete-suggestion .mdw-suggestion-show');
+  }
+
+  static get observedAttributes() {
+    return ['mdw-suggestions'];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case 'mdw-suggestions':
+        this._isSuggestionsEnabled = this.mdwSuggestions;
+        break;
+    }
+  }
+
   connectedCallback() {
     this.input.addEventListener('focus', this.bound_onFocus);
     this.input.addEventListener('blur', this.bound_onBlur);
-
+    this._textfieldElement.insertAdjacentHTML('beforeend', '<div class="mdw-autocomplete-suggestion"><span class="mdw-suggestion-hide"></span><span class="mdw-suggestion-show"></span></div>');
     this._textfieldElement.insertAdjacentHTML('beforeend', '<span class="mdw-spinner-container"></span>');
   }
 
@@ -79,14 +109,19 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
       `
     });
 
+    this.input.addEventListener('input', this.bound_onInput);
     this._surfaceElement.element.addEventListener('click', this.bound_onClick);
     this._surfaceElement.element.addEventListener('mousedown', this.bound_mouseDown);
     this._surfaceElement.element.addEventListener('mouseup', this.bound_mouseUp);
+
+    this._showSuggestion();
   }
 
   close() {
     if (!this._isOpen) return;
+    this._removeSuggestion();
     document.body.removeEventListener('keydown', this.bound_onKeydown);
+    this.input.removeEventListener('input', this.bound_onInput);
     this._surfaceElement.element.removeEventListener('click', this.bound_onClick);
     this._surfaceElement.element.removeEventListener('mousedown', this.bound_mouseDown);
     this._surfaceElement.element.removeEventListener('mouseup', this.bound_mouseUp);
@@ -104,16 +139,16 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
   // --- private ---
 
   _updateData() {
-    this._focusIndex = 0;
-    if (this._data.length === 0) return this.close();
-
     this._resetFocus();
     this._hideSpinner();
+    if (this._data.length === 0) return this.close();
 
     // first render for data in open
     if (!this._isOpen) return this.open();
 
     this._surfaceElement.element.querySelector('mdw-list').innerHTML = this._data.map(d => this._rowTemplate(d)).join('\n');
+
+    this._showSuggestion();
   }
 
   _showSpinner() {
@@ -137,6 +172,30 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
 
     this._canOpen = false;
     this.close();
+  }
+
+  _onInput() {
+    this._showSuggestion();
+  }
+
+  _showSuggestion() {
+    if (this._isSuggestionsEnabled !== true) return;
+
+    const value = this.input.value;
+    if (!value) this._removeSuggestion();
+
+    const match = this._data.find(({ text }) => text.toLowerCase().indexOf(value.toLowerCase()) === 0);
+
+    if (!match) return this._removeSuggestion();
+    this._suggestionHideContainer.innerHTML = value;
+    this._suggestionShowContainer.innerHTML = match.text.replace(value, '');
+  }
+
+  _removeSuggestion() {
+    if (this._isSuggestionsEnabled !== true) return;
+
+    this._suggestionHideContainer.innerHTML = '';
+    this._suggestionShowContainer.innerHTML = '';
   }
 
   _mouseDown() {

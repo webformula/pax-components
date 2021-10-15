@@ -1,17 +1,20 @@
 <article class="page-article">
-  <h3>Auto complete</h3>
+  <h3>Autocomplete</h3>
 
   <div class="showcase mdw-elevation-1">
     <mdw-textfield id="show-textfield">
       <input />
       <label>Filled</label>
-      <mdw-autocomplete id="show-auto" onchange="activePage.onChange(event)"></mdw-autocomplete>
+      <mdw-autocomplete id="show-auto" mdw-suggestions onchange="activePage.onChange(event)"></mdw-autocomplete>
     </mdw-textfield>
   </div>
+
+  <p>auto-complete is a complimentary component to mdw-textfield that will enable suggestions and options</p>
 
   <div class="links">
     <div class="eyebrow">contents</div>
     <anchor-link selector="#basic" offset="64">Basic</anchor-link>
+    <anchor-link selector="#suggestions" offset="64">Suggestions</anchor-link>
     <anchor-link selector="#template" offset="64">Template</anchor-link>
   </div>
 
@@ -27,10 +30,10 @@
 
       <div class="mdw-card__content--no-padding">
         <monaco-editor language="html">
-          <mdw-textfield id="one">
+          <mdw-textfield id="basic-textfield">
             <input />
             <label>Basic</label>
-            <mdw-autocomplete id="auto" onchange="activePage.onChange(event)"></mdw-autocomplete>
+            <mdw-autocomplete id="basic-autocomplete" onchange="activePage.onChange(event)"></mdw-autocomplete>
           </mdw-textfield>
         </monaco-editor>
 
@@ -58,6 +61,49 @@
           <input />
           <label>Basic</label>
           <mdw-autocomplete id="basic-auto" onchange="activePage.onChange(event)"></mdw-autocomplete>
+        </mdw-textfield>
+      </div>
+    </mdw-card>
+
+    <mdw-card id="suggestions">
+      <div class="mdw-card__content">
+        <h6>Suggestions</h6>
+        <p>Enable autocomplete suggestions in the textfield</p>
+      </div>
+    
+      <div class="mdw-card__content--no-padding">
+        <monaco-editor language="html">
+          <mdw-textfield id="suggestion-textfield">
+            <input />
+            <label>Suggestions</label>
+            <mdw-autocomplete id="suggestion-autocomplete" mdw-suggestions onchange="activePage.onChange(event)"></mdw-autocomplete>
+          </mdw-textfield>
+        </monaco-editor>
+    
+        <monaco-editor language="javascript">
+          const values = [
+          { text: 'one' },
+          { text: 'two' },
+          { text: 'three' },
+          { text: 'four' },
+          { text: 'five' }
+          ];
+          const debounced_onInput = MDWUtils.debounce(onInput.bind(this), 300);
+          document.querySelector('#suggestion-textfield').addEventListener('input', debounced_onInput);
+    
+          async onInput(event) {
+          document.querySelector('#suggestion-autocomplete').loading(); // shows spinner. spinner auto hides
+          cont results = await getData();
+          document.querySelector('#suggestion-autocomplete').data = results.filter(v => v.text.includes(event.target.value));
+          }
+        </monaco-editor>
+      </div>
+    
+      <div class="mdw-card__content" style="display: block;">
+        <mdw-textfield id="suggestion-textfield">
+          <input />
+          <label>Basic</label>
+          <mdw-autocomplete id="suggestion-autocomplete" mdw-suggestions onchange="activePage.onChange(event)"></mdw-autocomplete>
         </mdw-textfield>
       </div>
     </mdw-card>

@@ -6,6 +6,7 @@ export default class AutoComplete extends Page {
 
     this.debounced_onInputShow = MDWUtils.debounce(this.onInputShow.bind(this), 300);
     this.debounced_onInputBasic = MDWUtils.debounce(this.onInputBasic.bind(this), 300);
+    this.debounced_onInputSuggestions = MDWUtils.debounce(this.onInputSuggestions.bind(this), 300);
     this.debounced_onInputTemplate = MDWUtils.debounce(this.onInputTemplate.bind(this), 300);
 
     this.values = [
@@ -51,6 +52,7 @@ export default class AutoComplete extends Page {
   connectedCallback() {
     document.querySelector('#show-textfield').addEventListener('input', this.debounced_onInputShow);
     document.querySelector('#basic-textfield').addEventListener('input', this.debounced_onInputBasic);
+    document.querySelector('#suggestion-textfield').addEventListener('input', this.debounced_onInputSuggestions);
     document.querySelector('#template-textfield').addEventListener('input', this.debounced_onInputTemplate);
 
     document.querySelector('#template-autocomplete').rowTemplate = data => /*html*/`
@@ -77,6 +79,12 @@ export default class AutoComplete extends Page {
     document.querySelector('#basic-auto').loading();
     await this.wait();
     document.querySelector('#basic-auto').data = this.values.filter(v => v.text.includes(event.target.value));
+  }
+
+  async onInputSuggestions(event) {
+    document.querySelector('#suggestion-autocomplete').loading();
+    await this.wait();
+    document.querySelector('#suggestion-autocomplete').data = this.values.filter(v => v.text.includes(event.target.value));
   }
 
   async onInputTemplate(event) {
