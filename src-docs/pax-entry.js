@@ -3,7 +3,7 @@ import './components/monaco-editor.js';
 
 import { router } from '@webformula/pax-core';
 import TopAppBar from './pages/components/app-bar-top/page.js';
-import Autocomplete from './pages/components/autocomplete.js';
+import AutoComplete from './pages/components/auto-complete/page.js';
 import Backdrop from './pages/components/backdrop.js';
 import Banners from './pages/components/banners.js';
 import BottomNavigation from './pages/components/bottom-navigation.js';
@@ -41,7 +41,7 @@ import ThemePage from './pages/documentation/theming/page.js';
 import Home from './pages/home.js';
 
 router.addPageClass(TopAppBar, 'components/app-bar-top');
-router.addPageClass(Autocomplete, 'components/autocomplete');
+router.addPageClass(AutoComplete, 'components/auto-complete');
 router.addPageClass(Backdrop, 'components/backdrop');
 router.addPageClass(Banners, 'components/banners');
 router.addPageClass(BottomNavigation, 'components/bottom-navigation');

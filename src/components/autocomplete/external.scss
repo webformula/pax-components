@@ -6,3 +6,11 @@ mdw-autocomplete mdw-panel {
   /* margin-bottom: -25%; */
   transform: translateY(56px) !important;
 }
+
+.mdw-auto-complete mdw-list > mdw-list-item {
+  cursor: pointer;
+}
+
+.mdw-auto-complete mdw-list > mdw-list-item > * {
+  pointer-events: none;
+}
