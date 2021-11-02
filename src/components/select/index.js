@@ -103,6 +103,23 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   set value(value) {
     this._value = value;
+
+    // handle changes directly to value property
+    const currentOption = this.options.find(o => o.selected === true);
+    const option = this.options.find(o => o.value === value);
+    if (option && option !== currentOption) {
+      currentOption.selected = false;
+      option.selected = true;
+      const currentSelectedDisplay = this.shadowRoot.querySelector('.mdw-select__selected-text');
+      currentSelectedDisplay.innerHTML = option.text;
+    }
+
+    if (!value) {
+      const currentSelectedDisplay = this.shadowRoot.querySelector('.mdw-select__selected-text');
+      currentSelectedDisplay.innerHTML = '';
+    }
+
+
     this.onChange();
     if (this._touched) this.reportValidity();
     this.dispatchEvent(new Event('change', {
@@ -266,7 +283,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     }
   }
 
-  async onClick(event) {
+  async onClick() {
     if (this._surfaceElement) return;
     
     // handle focus
@@ -339,8 +356,6 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
   onPanelClick(event) {
     if (!event.target.hasAttribute('value')) return;
-    this.value = event.target.getAttribute('value');
-    this.setSelectedText(event.target.innerText);
 
     // handle current selection
     const currentSelected = this._surfaceElement.element.querySelector('[selected]');
@@ -357,6 +372,10 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
 
     this._surfaceElement.close();
     this._surfaceElement = undefined;
+
+    this.value = event.target.getAttribute('value');
+    this.setSelectedText(event.target.innerText);
+
     this.onBlur();
   }
 
