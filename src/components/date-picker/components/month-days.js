@@ -108,12 +108,12 @@ customElements.define('mdw-date-picker--month-days', class extends HTMLElementEx
     return /* html */`
       <div class="container">
         ${this.monthDays.map(week => `
-          ${week.map(({ display, date, currentMonth, interactable, beforeMinDate, afterMaxDate, isToday }) => {
+          ${week.map(({ display, date, currentMonth, outOfRange, beforeMinDate, afterMaxDate, isToday }) => {
             let classes = 'mdw-date-picker--day';
             let { year, month, day} = MDWDateUtil.getParts(new Date(date));
             if (beforeMinDate) classes += ' mdw-before-min-date';
             if (afterMaxDate) classes += ' mdw-after-max-date';
-            if (interactable) classes += ' mdw-interactable';
+            if (outOfRange) classes += ' mdw-interactable';
             if (beforeMinDate || afterMaxDate) classes += ' mdw-out-of-range';
             if (isToday && display !== '') classes += ' mdw-today';
             if (!currentMonth) classes += ' mdw-next-month';

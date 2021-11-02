@@ -9,33 +9,13 @@ class MDWDateUtil {
     return new MDWDateUtil();
   }
 
-  // Sets the local (en-us).
-  // leaving this undefined will use the browser default
-  // get local() {
-  //   return this._locale;
-  // }
-
-  // set local(value) {
-  //   this._locale = value;
-  // }
-
-  // // Sets the timezone used.
-  // // leaving this undefined will use the browser default
-  // get timezone() {
-  //   return this._timezone;
-  // }
-
-  // set timezone(value) {
-  //   this._timezone = value;
-  // }
-
   parse(value) {
     // this will return an invalid date abject
     if (['null', 'undefined', 'Invalid Date'].includes(value)) return new Date('');
 
     if (typeof value === 'number') return new Date(value);
 
-    // format used for inputs yyyy-mm-dd
+    // format used for inputs YYYY-MM-DD
     if (typeof value === 'string') {
       const inputDateMatch = value.match(this.yearMonthDayRegex);
       if (inputDateMatch) {
@@ -79,6 +59,7 @@ class MDWDateUtil {
   }
 
   isValid(date) {
+    if (typeof date !== 'object') return false;
     return !isNaN(date.getTime());
   }
 
@@ -149,13 +130,30 @@ class MDWDateUtil {
     return this.getMonth(date1) === this.getMonth(date2);
   }
 
+  getYearMonthDays({
+    date,
+    minDate,
+    maxDate
+  }) {
+    date = this.adjustDate(new Date(date), { set: { month: 1 } });
+    const months = [...new Array(12)].map((_, index) => {
+      const adjustedDate = this.adjustDate(date, { add: { month: index } });
+      return this.getMonthDayArray({
+        date: adjustedDate,
+        minDate,
+        maxDate
+      });
+    });
+
+    return months;
+  }
+
   // used for generating a calendar month view
-  getMonthDayArray(date, { fillInMonth = false, minDate = undefined, maxDate = undefined }) {
+  getMonthDayArray({ date, showPreviousMonthDays = false, showNextMonthDays = false, minDate = undefined, maxDate = undefined }) {
     const firstDay = this.getWeekDay(this.getFirstDateOfMonth(date));
-    // const lastday = this.getWeekDay(this.getLastDateOfMonth(date));
     const targetYear = this.getYear(date);
     const targetMonth = this.getMonth(date);
-    const todayParts = this.getParts(this.today());
+    const today = new Date();
 
     // start on sunday
     let currentDate = this.adjustDate(date, {
@@ -168,30 +166,30 @@ class MDWDateUtil {
 
     // 6 rows of 7 days
     const monthDays = [...Array(6 * 7)].map((_, i) => {
-      const date = currentDate;
-      const year = this.getYear(date);
-      const month = this.getMonth(date);
-      const day = this.getMonthDay(date);
+      const year = this.getYear(currentDate);
+      const month = this.getMonth(currentDate);
+      const day = this.getMonthDay(currentDate);
       // -1, 0, 1
       const targetMonthOffset = year < targetYear ? -1 : year > targetYear ? 1 : month < targetMonth ? -1 : month === targetMonth ? 0 : 1;
-      const display = (fillInMonth && targetMonthOffset > 0) || targetMonthOffset === 0 ? day : '';
-
+      const display = (showPreviousMonthDays && targetMonthOffset === -1) || (showNextMonthDays && targetMonthOffset === 1) || targetMonthOffset === 0 ? day : '';
       const currentMonth = month === targetMonth;
       const beforeMinDate = minDate ? currentDate < minDate : false;
       const afterMaxDate = maxDate ? currentDate > maxDate : false;
-      const interactable = !beforeMinDate && !afterMaxDate && display !== '';
-      const isToday = todayParts.year === year && todayParts.month === month && todayParts.day === day
-      currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
+      const outOfRange = !beforeMinDate && !afterMaxDate && display !== '';
+      const isToday = this.match(currentDate, today);
 
-      return {
+      const data = {
         display,
-        date,
-        interactable,
-        currentMonth,
+        date: currentDate,
+        outOfRange,
         beforeMinDate,
         afterMaxDate,
+        currentMonth,
         isToday
       };
+
+      currentDate = this.adjustDate(currentDate, { add: { day: 1 } });
+      return data;
     });
 
     // split into week rows
@@ -204,8 +202,18 @@ class MDWDateUtil {
   }
 
   // used for generating a array of years for a calendar
-  defaultYearRange(startYear = this.getYear(new Date()) - 50, range = 100) {
-    return [...new Array(range)].map((_, i) => startYear + i);
+  yearRange({ startYear = this.getYear(new Date()) - 50, range = 100, selectedDate, minDate, maxDate }) {
+    startYear = startYear || this.getYear(new Date()) - 50;
+    const yearRange = [...new Array(range || 100)].map((_, i) => startYear + i);
+    const selectedYear = selectedDate && this.getYear(selectedDate);
+    const minYear = minDate && this.getYear(minDate);
+    const maxYear = maxDate && this.getYear(maxDate);
+    return yearRange.map(year => ({
+      year,
+      selected: selectedYear && selectedYear === year,
+      beforeMinDate: minYear && year < minYear,
+      beforeMaxDate: maxYear && year > maxYear
+    }));
   }
 
   // used for generating a months for a calendar display
@@ -214,6 +222,58 @@ class MDWDateUtil {
     const years = yearRange * 2;
     // add 12 dates for each month for each year
     return [...new Array(years)].flatMap((_, i) => [...new Array(12)].map((_, j) => new Date(firstYear + i, j, 1)));
+  }
+
+  match(dateA, dateB) {
+    const yearMatch = this.matchYear(dateA, dateB);
+    const monthMatch = this.matchMonth(dateA, dateB);
+    const monthDay = this.matchDay(dateA, dateB);
+    return yearMatch && monthMatch && monthDay;
+  }
+
+  matchYear(dateA, dateB) {
+    const yearA = this.getYear(dateA);
+    const yearB = this.getYear(dateB);
+    if (!yearA || !yearB) return false;
+    return yearA === yearB;
+  }
+
+  matchMonth(dateA, dateB) {
+    const monthA = this.getMonth(dateA);
+    const monthB = this.getMonth(dateB);
+    if (!monthA || !monthB) return false;
+    return monthA === monthB;
+  }
+
+  matchDay(dateA, dateB) {
+    const dayA = dateA.getDate();
+    const dayB = dateB.getDate();
+    return dayA === dayB;
+  }
+
+  matchYearAndMonth(dateA, dateB) {
+    const yearMatch = this.matchYear(dateA, dateB);
+    const monthMatch = this.matchMonth(dateA, dateB);
+    return yearMatch && monthMatch;
+  }
+
+  inRange(date, minDate, maxDate, includeDates = true) {
+    if (!this.isValid(date) || (!this.isValid(minDate) && !this.isValid(maxDate))) {
+      console.warn('MDWDateUtil.inRange was not given valid dates');
+      return false;
+    }
+
+    if (this.isValid(minDate)) {
+      if (includeDates && date < minDate) return false;
+      else if (date <= minDate) return false;
+    }
+
+    if (this.isValid(maxDate)) {
+      if (includeDates && date > maxDate) return false;
+      else if (date >= maxDate) return false;
+    }
+
+    return true;
   }
 
 
