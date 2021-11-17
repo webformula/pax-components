@@ -107,7 +107,7 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
     // handle changes directly to value property
     const currentOption = this.options.find(o => o.selected === true);
     const option = this.options.find(o => o.value === value);
-    if (option && option !== currentOption) {
+    if (currentOption && option && option !== currentOption) {
       currentOption.selected = false;
       option.selected = true;
       const currentSelectedDisplay = this.shadowRoot.querySelector('.mdw-select__selected-text');
