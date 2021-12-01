@@ -78,8 +78,7 @@ customElements.define('mdw-dialog', class extends HTMLElementExtended {
     this.remove();
   }
 
-  dispatchClose(value = { ok: false }) {
-    value = value || { ok: false };
+  dispatchClose(value = false) {
     this.dispatchEvent(new CustomEvent('close', {
       detail: value
     }));

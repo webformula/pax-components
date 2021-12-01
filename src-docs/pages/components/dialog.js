@@ -80,17 +80,14 @@ of a skyerscape of most eyeful hoyth entowerly, erigenating from</p>
     this.d1.open();
   }
 
-  showDialogWithService() {
-    MDWDialog.open({
+  async showDialogWithService() {
+    const value = await MDWDialog.open({
       title: 'Title',
       message: 'Do you like this message?',
       okLabel: 'yes',
       cancelLabel: 'no'
-    }).then(function (isYes) {
-      // If the use presses yes then the dialog promise is resolved with true
-      // If the use presses yes then the dialog promise is resolved with false
-      console.log(isYes);
     });
+    console.log('return value', value);
   }
 
   showDialogWithServiceClickoutside() {
