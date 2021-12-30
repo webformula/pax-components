@@ -207,7 +207,8 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
   }
 
   _onClick(event) {
-    if (!event.target.hasAttribute('mdw-index')) {
+    const parentElement = this._getParentFormElement(event.target);
+    if (!parentElement) {
       const elementText = event.target.outerHTML;
       const found = this._data.find(({ text }) => elementText.includes(text));
       if (!found) throw Error('mdw-autocomplete: could not match item clicked');
@@ -218,11 +219,20 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
       return;
     }
 
-    const index = event.target.getAttribute('mdw-index');
+    const index = parentElement.getAttribute('mdw-index');
     const item = this._data[index];
     this.input.value = item.text;
     this.close();
     this.dispatchEvent(new CustomEvent('change', { detail: item }));
+  }
+
+  _getParentFormElement(child) {
+    let node = child.parentNode;
+    while (node != null) {
+      if (node.nodeName === 'MDW-CONTENT') return;
+      if (node.hasAttribute('mdw-index')) return node;
+      node = node.parentNode;
+    }
   }
 
   _onKeydown(e) {
