@@ -1,5 +1,6 @@
 import { HTMLElementExtended } from '@webformula/pax-core/index.js';
 import Validity from '../../core/validate-polyfill.js';
+import MDWUtils from '../../core/Utils.js';
 
 customElements.define('mdw-textfield', class extends HTMLElementExtended {
   constructor() {
@@ -7,14 +8,12 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     this.classList.add('mdw-no-animation');
     this.bound_onFocus = this.onFocus.bind(this);
     this.bound_onBlur = this.onBlur.bind(this);
-    this.bound_onInput = this.onInput.bind(this);
+    this.debounced_onInput = MDWUtils.debounce(this.onInput.bind(this), 200);
+    this._isAutoValidationMessage = !!this.querySelector('mdw-helper-text[validation][auto]');
 
     this._validity = new Validity(this, {
       valueParameter: 'value',
-      valueType: 'String',
-      // validationMethod() {
-
-      // }
+      valueType: 'String'
     });
   }
 
@@ -31,14 +30,14 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
     // add listeners
     this.input.addEventListener('focus', this.bound_onFocus);
     this.input.addEventListener('blur', this.bound_onBlur);
-    this.input.addEventListener('input', this.bound_onInput);
+    this.input.addEventListener('input', this.debounced_onInput);
   }
 
   disconnectedCallback() {
     // remove listeners
     this.input.removeEventListener('focus', this.bound_onFocus);
     this.input.removeEventListener('blur', this.bound_onBlur);
-    this.input.removeEventListener('input', this.bound_onInput);
+    this.input.removeEventListener('input', this.debounced_onInput);
   }
 
   compose() {
@@ -86,6 +85,13 @@ customElements.define('mdw-textfield', class extends HTMLElementExtended {
 
   onInput() {
     this.classList.toggle('mdw-invalid', !this.valid);
+
+    if (this._isAutoValidationMessage) {
+      if (this._validationMessage !== this.input.validationMessage) {
+        this._validationMessage = this.input.validationMessage;
+        this.querySelector('mdw-helper-text[validation][auto]').innerHTML = this._validationMessage;
+      }
+    }
   }
 
   setNotchWidth() {

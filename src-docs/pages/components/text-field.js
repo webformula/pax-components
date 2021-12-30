@@ -286,7 +286,7 @@ export default class Textfield extends Page {
 
             <div class="mdw-card__content block">
               <mdw-textfield id="validation-input">
-                <input required>
+                <input required pattern="\\d{2}">
                 <label>With validation text</label>
 
                 <mdw-textfield-helper>
