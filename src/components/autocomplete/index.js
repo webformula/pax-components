@@ -146,7 +146,7 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
     // first render for data in open
     if (!this._isOpen) return this.open();
 
-    this._surfaceElement.element.querySelector('mdw-list').innerHTML = this._data.map(d => this._rowTemplate(d)).join('\n');
+    this._surfaceElement.element.querySelector('mdw-list').innerHTML = this._data.map(d => this._renderRow(d)).join('\n');
 
     this._showSuggestion();
   }
