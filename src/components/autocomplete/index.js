@@ -207,7 +207,7 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
   }
 
   _onClick(event) {
-    const parentElement = this._getParentFormElement(event.target);
+    const parentElement = this._getItemNode(event.target);
     if (!parentElement) {
       const elementText = event.target.outerHTML;
       const found = this._data.find(({ text }) => elementText.includes(text));
@@ -226,8 +226,8 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
     this.dispatchEvent(new CustomEvent('change', { detail: item }));
   }
 
-  _getParentFormElement(child) {
-    let node = child.parentNode;
+  _getItemNode(child) {
+    let node = child;
     while (node != null) {
       if (node.nodeName === 'MDW-CONTENT') return;
       if (node.hasAttribute('mdw-index')) return node;
