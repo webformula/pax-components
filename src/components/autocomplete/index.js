@@ -207,7 +207,7 @@ customElements.define('mdw-autocomplete', class extends HTMLElementExtended {
   }
 
   _onClick(event) {
-    if (!this.hasAttribute('mdw-index')) {
+    if (!event.target.hasAttribute('mdw-index')) {
       const elementText = event.target.outerHTML;
       const found = this._data.find(({ text }) => elementText.includes(text));
       if (!found) throw Error('mdw-autocomplete: could not match item clicked');
