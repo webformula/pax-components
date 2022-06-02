@@ -43,6 +43,11 @@ export default class Select extends Page {
       }
     ];
 
+    document.querySelector('#select-one').value = '1';
+    setTimeout(() => {
+      document.querySelector('#select-one').value = '2';
+      console.log('sdfs')
+    }, 4000);
     // document.querySelector('mdw-select').setCustomValidity('test');
     // document.querySelector('mdw-select').reportValidity();
 
@@ -56,7 +61,7 @@ export default class Select extends Page {
         <h3>Selects</h3>
 
         <div class="showcase mdw-elevation-1">
-        <mdw-select mdw-enhanced style="width: 200px" required>
+        <mdw-select id="select-one" mdw-enhanced style="width: 200px" required>
           <select>
             <option value="1">item one</option>
             <option value="2">item two</option>
