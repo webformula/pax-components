@@ -9,14 +9,14 @@ export default class Radio extends Page {
   get title() {
     return 'Radio';
   }
-
+  
   template() {
     return /* html */`
       <article class="page-article">
         <h3>Radio</h3>
 
         <div class="showcase mdw-elevation-1">
-          <mdw-radio-group mdw-column name="test" mdw-value="${this.initialValue}">
+          <mdw-radio-group id="radio-one" mdw-column name="test" mdw-value="${this.initialValue}">
             <mdw-radio>
               <label>On</label>
               <input value="on">

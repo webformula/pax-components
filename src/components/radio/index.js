@@ -10,7 +10,7 @@ customElements.define('mdw-radio', class extends HTMLElementExtended {
   }
 
   connectedCallback() {
-    if (this.parentNode.initialValue === this.value) this.input.checked = true;
+    if (this.parentNode._value === this.value) this.input.checked = true;
     if (!this.input.hasAttribute('type')) this.input.setAttribute('type', 'radio');
     if (!this.input.hasAttribute('name')) this.input.setAttribute('name', this.name);
     this.ripple = new MDWRipple({
@@ -19,6 +19,7 @@ customElements.define('mdw-radio', class extends HTMLElementExtended {
       radius: 20,
       centered: true
     });
+    this.parentNode.registerRadioButton(this);
   }
 
   disconnectedCallback() {
