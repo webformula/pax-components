@@ -104,25 +104,22 @@ customElements.define('mdw-select', class extends HTMLElementExtended {
   set value(value) {
     this._value = value;
 
+    const option = this.options.find(o => o.value === value);
+    const currentOption = this.options.find(o => o.selected === true);
+    if (currentOption) {
+      currentOption.selected = false;
+    }
+
+    if (option) {
+      option.selected = true;
+      const currentSelectedDisplay = this.shadowRoot.querySelector('.mdw-select__selected-text');
+      currentSelectedDisplay.innerHTML = option.text;
+    }
+
     if (!value) {
       const currentSelectedDisplay = this.shadowRoot.querySelector('.mdw-select__selected-text');
       currentSelectedDisplay.innerHTML = '';
     }
-
-    // handle changes directly to value property
-    const option = this.options.find(o => o.value === value);
-    if (!option) return console.warn('Could not find matching option for value:', value);
-
-    const currentOption = this.options.find(o => o.selected === true);
-    if (currentOption) {
-      if (currentOption === option) return;
-      currentOption.selected = false;
-    }
-
-    option.selected = true;
-    const currentSelectedDisplay = this.shadowRoot.querySelector('.mdw-select__selected-text');
-    currentSelectedDisplay.innerHTML = option.text;
-
 
     this.onChange();
     if (this._touched) this.reportValidity();
