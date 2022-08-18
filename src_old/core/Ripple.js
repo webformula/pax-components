@@ -87,11 +87,6 @@ export default class MDWRipple {
     ripple.style.top = `${offsetY - radius}px`;
     ripple.style.height = `${radius * 2}px`;
     ripple.style.width = `${radius * 2}px`;
-    ripple.style.position = 'absolute';
-    ripple.style.pointerEvents = 'none';
-    ripple.style.borderRadius = '50%';
-    ripple.style.transition = 'opacity, transform 0ms cubic-bezier(0, 0, 0.2, 1)';
-    ripple.style.transform = 'scale(0)';
 
     // If the color is not set, the default CSS color will be used.
     ripple.style.backgroundColor = this.color;
@@ -121,7 +116,7 @@ export default class MDWRipple {
       state: this.RIPPLE_STATE.FADING_IN
     };
     const fadeOut = () => {
-      this.fadeOutRipple(rippleRef);
+      this.fadeOutRipple(rippleRef)
     };
 
     // Add the ripple reference to the list of all active ripples.
@@ -170,7 +165,7 @@ export default class MDWRipple {
     const top = -documentRect.top || document.body.scrollTop || window.scrollY || document.documentElement.scrollTop || 0;
     const left = -documentRect.left || document.body.scrollLeft || window.scrollX || document.documentElement.scrollLeft || 0;
 
-    return { top, left };
+    return {top, left};
   }
 
   /** Enforces a style recalculation of a DOM element by computing its styles. */

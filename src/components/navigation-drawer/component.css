@@ -1,0 +1,120 @@
+mdw-navigation-drawer {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  z-index: 2;
+  white-space: nowrap;
+  user-select: none;
+  width: var(--mdw-navigation-drawer-width);
+}
+
+mdw-navigation-drawer>header {
+  padding: 0 28px;
+}
+
+mdw-navigation-drawer>nav {
+  display: block;
+  overflow-y: auto;
+  padding: 0 28px;
+}
+
+mdw-navigation-drawer .mdw-headline {
+  line-height: 56px;
+  font-size: var(--mdw-font-size-small-title);
+  font-weight: var(--mdw-font-weight-small-title);
+  letter-spacing: var(--mdw-font-tracking-small-title);
+}
+
+mdw-navigation-drawer>nav>a {
+  position: relative;
+  display: flex;
+  line-height: 56px;
+  text-decoration: none;
+  margin-left: -16px;
+  padding-left: 16px;
+  margin-right: -12px;
+  padding-right: 12px;
+  outline: none;
+
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  letter-spacing: var(--mdw-font-tracking-large-label);
+
+  border-radius: var(--mdw-navigation-link-radius);
+}
+
+mdw-navigation-drawer>nav>a::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  margin-left: -16px;
+  opacity: 0;
+  border-radius: var(--mdw-navigation-link-radius);
+}
+
+mdw-navigation-drawer>nav>a>mdw-icon {
+  margin-right: 12px;
+}
+
+mdw-navigation-drawer > nav > a > .mdw-label {
+  flex: 1;
+}
+
+mdw-navigation-drawer > nav > a > .mdw-badge-label-text {
+  margin-left: 8px;
+  margin-right: 12px;
+}
+
+
+/* --- Theme --- */
+mdw-navigation-drawer {
+  background-color: var(--mdw-surface);
+}
+mdw-navigation-drawer .mdw-headline {
+  color: var(--mdw-on-surface-variant);
+}
+mdw-navigation-drawer > nav > a {
+  color: var(--mdw-on-secondary-container);
+}
+mdw-navigation-drawer>nav>a.mdw-current-link {
+  background-color: var(--mdw-secondary-container);
+}
+mdw-navigation-drawer>nav>a:hover:not(:active)::after {
+  opacity: var(--mdw-state-layer-opacity-hover);
+  background-color: var(--mdw-on-surface);
+}
+mdw-navigation-drawer>nav>a:focus:not(:active)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-on-surface);
+}
+
+
+/* --- Ripple --- */
+
+.mdw-ripple {
+  overflow: hidden;
+  border-radius: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.mdw-ripple>.mdw-ripple-element {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-on-surface);
+}
+
+
+mdw-divider {
+  display: block;
+  height: 1px;
+  background-color: var(--mdw-outline-variant);
+  margin: 16px 0;
+}

@@ -1,0 +1,24 @@
+html {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+
+  background-color: var(--mdw-surface);
+}
+
+body>mdw-page-content,
+body>page-content {
+  display: block;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}

@@ -1,161 +1,72 @@
 :root {
-  /* --- text variables --- */
-  --mdw-theme-text-primary-on-background: #ffffff;
-  --mdw-theme-text-primary-on-background--rgb: 255, 255, 255;
-  --mdw-theme-text-secondary-on-background: rgba(255,255,255, .7);
-  --mdw-theme-text-secondary-on-background--rgb: 255, 255, 255;
-  --mdw-theme-text-hint-on-background: rgba(255,255,255, .5);
-  --mdw-theme-text-hint-on-background--rgb: 255, 255, 255;
-  --mdw-theme-text-disabled-on-background: rgba(0,0,0, .5);
-  --mdw-theme-text-disabled-on-background--rgb: 0, 0, 0;
-  --mdw-theme-text-icon-on-background: rgba(255,255,255, .5);
-  --mdw-theme-text-icon-on-background--rgb: 255, 255, 255;
+  --mdw-primary: #6750A4;
+  --mdw-primary-container: #EADDFF;
+  --mdw-on-primary: #FFFFFF;
+  --mdw-on-primary-container: #21005E;
+  --mdw-primary-inverse: #D0BCFF;
+
+  --mdw-secondary: #625B71;
+  --mdw-secondary-container: #E8DEF8;
+  --mdw-on-secondary: #FFFFFF;
+  --mdw-on-secondary-container: #1E192B;
+
+  --mdw-tertiary: #7D5260;
+  --mdw-tertiary-container: #FFD8E4;
+  --mdw-on-tertiary: #FFFFFF;
+  --mdw-on-tertiary-container: #370B1E;
+
+  --mdw-error: #B3261E;
+  --mdw-error-container: #F9DEDC;
+  --mdw-on-error: #FFFFFF;
+  --mdw-on-error-container: #370B1E;
+
+  --mdw-surface: #FFFBFE;
+  --mdw-surface-variant: #E7E0EC;
+  --mdw-on-surface: #1C1B1F;
+  --mdw-on-surface-variant: #49454E;
+  --mdw-surface-tint: #6750A4;
+  --mdw-surface-inverse: #313033;
+  --mdw-on-surface-inverse: #F4EFF4;
+
+  --mdw-background: #FFFBFE;
+  --mdw-on-background: #1C1B1F;
+
+  --mdw-outline: #79747E;
+  --mdw-outline-variant: #C4C7C5;
+
+  --mdw-shadow: #000000;
+  --mdw-scrim: #000000;
+
+  --mdw-state-layer-opacity-hover: 0.08;
+  --mdw-state-layer-opacity-focus: 0.12;
+  --mdw-state-layer-opacity-pressed: 0.12;
+  --mdw-state-layer-opacity-dragged: 0.16;
+
+  --mdw-navigation-drawer-width: 360px;
+  --mdw--button-shape-radius: 18px;
+  --mdw-navigation-link-radius: 28px;
 
 
-  /* --- on variables --- */
-  --mdw-theme-on-primary: #000000;
-  --mdw-theme-on-primary--rgb: 0, 0, 0;
-  --mdw-theme-on-secondary: #050303;
-  --mdw-theme-on-secondary--rgb: 0, 0, 0;
-  --mdw-theme-on-error: #000000;
-  --mdw-theme-on-error--rgb: 0, 0, 0;
-  --mdw-theme-on-background: #000000;
-  --mdw-theme-on-background--rgb: 0, 0, 0;
+  /* font sizes are represented in pixels but scale with html.style.fontSize. base is 16px */
+  --mdw-font-size-icon: 24px;
 
+  --mdw-font-size-large-label: 14px;
+  --mdw-font-line-height-large-label: 20px;
+  --mdw-font-weight-large-label: 500;
+  --mdw-font-tracking-large-label: 0.1px;
 
-  /* --- theme variables --- */
-  --mdw-theme-primary: #6200ee;
-  --mdw-theme-primary--rgb: 98, 0, 238;
-  --mdw-theme-secondary: #018786;
-  --mdw-theme-secondary--rgb: 1, 135, 134;
-  --mdw-theme-error: #b00020;
-  --mdw-theme-error--rgb: 176, 0, 32;
-  --mdw-theme-background: #ffffff;
-  --mdw-theme-background--rgb: 255, 255, 255;
-  --mdw-theme-surface: #ffffff;
-  --mdw-theme-surface--rgb: 255, 255, 255;
-  --mdw-theme-checkboxborder: rgba(0,0,0, .54);
-  --mdw-theme-checkboxborder--rgb: 0, 0, 0;
-  --mdw-theme-checkboxborderdisabled: rgba(0,0,0, .26);
-  --mdw-theme-checkboxborderdisabled--rgb: 0, 0, 0;
-  --mdw-theme-list_item_focus: rgba(0,0,0,.06);
-  --mdw-theme-list_item_focus--rgb: 0, 0, 0;
+  --mdw-font-size-large-title: 22px;
+  --mdw-font-line-height-large-title: 28px;
+  --mdw-font-weight-large-title: 400;
+  --mdw-font-tracking-large-title: 0;
 
+  --mdw-font-size-medium-title: 16px;
+  --mdw-font-line-height-medium-title: 22px;
+  --mdw-font-weight-medium-title: 500;
+  --mdw-font-tracking-medium-title: 0.15px;
 
-  /* --- text fields and selects --- */
-  --mdw-theme-textfield-background-color: var(--mdw-theme-on-background);
-  --mdw-theme-textfield-background-color--rgb: var(--mdw-theme-on-background--rgb);
-  --mdw-theme-textfield-primary-on-background: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-error: var(--mdw-theme-error);
-  --mdw-theme-textfield-error--rgb: var(--mdw-theme-error--rgb);
-  --mdw-theme-textfield-background: var(--mdw-theme-background);
-  --mdw-theme-textfield-background--rgb: var(--mdw-theme-background--rgb);
-  --mdw-theme-textfield-on-background: var(--mdw-theme-on-background);
-  --mdw-theme-textfield-on-background--rgb: var(--mdw-theme-on-background--rgb);
-  --mdw-theme-textfield-primary: var(--mdw-theme-primary);
-  --mdw-theme-textfield-primary--rgb: var(--mdw-theme-primary--rgb);
-  --mdw-theme-textfield-on-secondary: var(--mdw-theme-on-secondary);
-  --mdw-theme-textfield-on-secondary--rgb: var(--mdw-theme-on-secondary--rgb);
-  --mdw-theme-textfield-text--body: var(--mdw-theme-text--body);
-  --mdw-theme-textfield-underline-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.24);
-  --mdw-theme-textfield-background-fill-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.036);
-  --mdw-theme-textfield-label-color: rgba(var(--mdw-theme-textfield-background-color--rgb), .9);
-
-  /* --- text fields and selects - on primary --- */
-  --mdw-theme-textfield-on-primary-background-color: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-background-color--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-primary-on-background: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-on-background: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-primary: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-primary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-on-secondary: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-on-secondary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-text--body: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-underline-color: rgba(var(--mdw-theme-background--rgb), 0.24);
-  --mdw-theme-textfield-on-primary-background-fill-color: rgba(var(--mdw-theme-background--rgb), 0.06);
-  --mdw-theme-textfield-on-primary-label-color: rgba(var(--mdw-theme-textfield-background-color--rgb), .9);
-
-  --mdw-theme--button-shape-radius: 18px;
-}
-
-:root.mdw-theme-dark {
-  /* --- text variables --- */
-  --mdw-theme-text-primary-on-background: rgba(0,0,0, .87);
-  --mdw-theme-text-primary-on-background--rgb: 0, 0, 0;
-  --mdw-theme-text-secondary-on-background: rgba(0,0,0, .54);
-  --mdw-theme-text-secondary-on-background--rgb: 0, 0, 0;
-  --mdw-theme-text-hint-on-background: rgba(0,0,0, .38);
-  --mdw-theme-text-hint-on-background--rgb: 0, 0, 0;
-  --mdw-theme-text-disabled-on-background: rgba(255,255,255, .38);
-  --mdw-theme-text-disabled-on-background--rgb: 255, 255, 255;
-  --mdw-theme-text-icon-on-background: rgba(0,0,0, .38);
-  --mdw-theme-text-icon-on-background--rgb: 0, 0, 0;
-
-
-  /* --- on variables --- */
-  --mdw-theme-on-primary: #ffffff;
-  --mdw-theme-on-primary--rgb: 255, 255, 255;
-  --mdw-theme-on-secondary: #ffffff;
-  --mdw-theme-on-secondary--rgb: 255, 255, 255;
-  --mdw-theme-on-error: #ffffff;
-  --mdw-theme-on-error--rgb: 255, 255, 255;
-  --mdw-theme-on-background: #ffffff;
-  --mdw-theme-on-background--rgb: 255, 255, 255;
-
-
-  /* --- theme variables --- */
-  --mdw-theme-primary: #b39ddb;
-  --mdw-theme-primary--rgb: 179, 157, 219;
-  --mdw-theme-secondary: #80cbc4;
-  --mdw-theme-secondary--rgb: 128, 203, 196;
-  --mdw-theme-error: #ef9a9a;
-  --mdw-theme-error--rgb: 239, 154, 154;
-  --mdw-theme-background: #121212;
-  --mdw-theme-background--rgb: 18, 18, 18;
-  --mdw-theme-surface: #121212;
-  --mdw-theme-surface--rgb: 18, 18, 18;
-  --mdw-theme-checkboxborder: rgba(255,255,255, .5);
-  --mdw-theme-checkboxborder--rgb: 255, 255, 255;
-  --mdw-theme-checkboxborderdisabled: rgba(255,255,255, .24);
-  --mdw-theme-checkboxborderdisabled--rgb: 255, 255, 255;
-  --mdw-theme-list_item_focus: rgba(100,100,100,.16);
-  --mdw-theme-list_item_focus--rgb: 100, 100, 100;
-
-
-  /* --- text fields and selects --- */
-  --mdw-theme-textfield-background-color: var(--mdw-theme-on-background);
-  --mdw-theme-textfield-background-color--rgb: var(--mdw-theme-on-background--rgb);
-  --mdw-theme-textfield-primary-on-background: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-error: var(--mdw-theme-error);
-  --mdw-theme-textfield-error--rgb: var(--mdw-theme-error--rgb);
-  --mdw-theme-textfield-background: var(--mdw-theme-background);
-  --mdw-theme-textfield-background--rgb: var(--mdw-theme-background--rgb);
-  --mdw-theme-textfield-on-background: var(--mdw-theme-on-background);
-  --mdw-theme-textfield-on-background--rgb: var(--mdw-theme-on-background--rgb);
-  --mdw-theme-textfield-primary: var(--mdw-theme-primary);
-  --mdw-theme-textfield-primary--rgb: var(--mdw-theme-primary--rgb);
-  --mdw-theme-textfield-on-secondary: var(--mdw-theme-on-secondary);
-  --mdw-theme-textfield-on-secondary--rgb: var(--mdw-theme-on-secondary--rgb);
-  --mdw-theme-textfield-text--body: var(--mdw-theme-text--body);
-  --mdw-theme-textfield-underline-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.24);
-  --mdw-theme-textfield-background-fill-color: rgba(var(--mdw-theme-textfield-background-color--rgb), 0.036);
-
-  /* --- text fields and selects - on primary --- */
-  --mdw-theme-textfield-on-primary-background-color: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-background-color--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-primary-on-background: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-on-background: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-on-background--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-primary: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-primary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-on-secondary: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-on-secondary--rgb: var(--mdw-theme-text-primary-on-background--rgb);
-  --mdw-theme-textfield-on-primary-text--body: var(--mdw-theme-text-primary-on-background);
-  --mdw-theme-textfield-on-primary-underline-color: rgba(var(--mdw-theme-background--rgb), 0.24);
-  --mdw-theme-textfield-on-primary-background-fill-color: rgba(var(--mdw-theme-background--rgb), 0.06);
+  --mdw-font-size-small-title: 14px;
+  --mdw-font-line-height-small-title: 20px;
+  --mdw-font-weight-small-title: 500;
+  --mdw-font-tracking-small-title: 0.1px;
 }
