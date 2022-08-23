@@ -1,0 +1,110 @@
+<h3>Cards</h3>
+
+
+<mdw-card class="mdw-no-states">
+  <div class="mdw-container" style="padding: 18px; flex-direction: row; display: flex;">
+    <mdw-card style="flex: 1">
+      <div class="mdw-headline">Headline</div>
+      <div class="mdw-subhead">Subhead</div>
+      <div class="mdw-ripple"></div>
+    </mdw-card>
+
+    <mdw-card class="mdw-filled" style="flex: 1">
+      <div class="mdw-headline">Headline</div>
+      <div class="mdw-subhead">Subhead</div>
+      <div class="mdw-ripple"></div>
+    </mdw-card>
+
+    <mdw-card class="mdw-outlined" style="flex: 1">
+      <div class="mdw-headline">Headline</div>
+      <div class="mdw-subhead">Subhead</div>
+      <div class="mdw-ripple"></div>
+    </mdw-card>
+  </div>
+  <div class="mdw-headline-small">Types</div>
+  <!-- <div class="mdw-subhead">subhead</div> -->
+  <div class="mdw-supporting-text">elevated - filled - Outlined</div>
+</mdw-card>
+
+<a href="https://m3.material.io/components/cards/overview" target="_new">Material Design Guidelines: Buttons</a>
+<p>There are three types of cards: elevated, filled, and outlined.</p>
+
+
+<div class="links">
+  <a href="#elevated_card">Elevated card</a>
+  <a href="#filled_card">Filled card</a>
+  <a href="#outlined_card">outline_card card</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card class="mdw-filled mdw-no-states" id="elevated_card">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-card>
+    <div class="mdw-headline">Headline</div>
+    <div class="mdw-subhead">Subhead</div>
+    <div class="mdw-ripple"></div>
+  </mdw-card>`)}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Elevated card</div>
+  
+    <div class="example">
+      <mdw-card>
+        <div class="mdw-headline">Headline</div>
+        <div class="mdw-subhead">Subhead</div>
+        <div class="mdw-ripple"></div>
+      </mdw-card>
+    </div>
+  </mdw-card>
+
+
+  <mdw-card class="mdw-filled mdw-no-states" id="filled_card">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-card class="mdw-filled">
+    <div class="mdw-headline">Headline</div>
+    <div class="mdw-subhead">Subhead</div>
+    <div class="mdw-ripple"></div>
+  </mdw-card>`)}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Filled card</div>
+  
+    <div class="example">
+      <mdw-card class="mdw-filled">
+        <div class="mdw-headline">Headline</div>
+        <div class="mdw-subhead">Subhead</div>
+        <div class="mdw-ripple"></div>
+      </mdw-card>
+    </div>
+  </mdw-card>
+
+
+  <mdw-card class="mdw-filled mdw-no-states" id="outline_card">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-card class="mdw-outlined">
+    <div class="mdw-headline">Headline</div>
+    <div class="mdw-subhead">Subhead</div>
+    <div class="mdw-ripple"></div>
+  </mdw-card>`)}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Outlined card</div>
+  
+    <div class="example">
+      <mdw-card class="mdw-outlined">
+        <div class="mdw-headline">Headline</div>
+        <div class="mdw-subhead">Subhead</div>
+        <div class="mdw-ripple"></div>
+      </mdw-card>
+    </div>
+  </mdw-card>
+</section>

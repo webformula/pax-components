@@ -1,0 +1,28 @@
+pre {
+  display: contents;
+}
+
+pre > code {
+  width: calc(100% - 16px);
+  border-radius: var(--mdw-card-radius);
+}
+
+page-content {
+  --mdw-card-spacing: 36px;
+}
+
+section {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+
+mdw-card .example {
+  margin-top: 18px;
+  margin-left: 18px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}

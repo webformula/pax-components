@@ -32,10 +32,7 @@ export default {
       {
         test: /\.html$/,
         use: [
-          'html-loader',
-          {
-            loader: 'posthtml-loader'
-          }
+          'html-loader'
         ]
       }
     ],

@@ -8,3 +8,6 @@ customElements.define('mdw-icon', class MDWButton extends HTMLElementExtended {
     super();
   }
 });
+
+
+// https://fonts.google.com/icons?icon.style=Outlined&icon=

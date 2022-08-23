@@ -1,4 +1,238 @@
 :host {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  border: none;
+  cursor: pointer;
+  vertical-align: middle;
+  white-space: nowrap;
+  outline: none;
+
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+  
+  margin: 0 32px 0 0;
+  padding: 0 16px;
+  line-height: 40px;
+  border-radius: var(--mdw-button-radius);
+
+  color: var(--mdw-primary);
+}
+
+:host(.mdw-icon-toggle-button),
+:host(.mdw-icon-button) {
+  width: 42px;
+  height: 42px;
+  line-height: 42px;
+  padding: 0;
+  border-radius: 50%;
+  justify-content: center;
+  color: var(--mdw-on-surface-variant);
+}
+
+:host ::slotted(mdw-icon) {
+  vertical-align: middle;
+}
+
+:host(.mdw-icon-toggle-button:not([toggled])) ::slotted(mdw-icon) {
+  font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 48 !important
+}
+
+
+:host([disabled]) {
+  pointer-events: none;
+  cursor: unset;
+  color: var(--mdw-on-surface);
+  opacity: 0.38;
+}
+
+
+/* --- state layer --- */
+:host(.mdw-icon-toggle-button) {
+  color: var(--mdw-on-surface-variant);
+}
+:host(.mdw-icon-toggle-button[toggled]) {
+  color: var(--mdw-primary);
+}
+
+:host::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  margin-left: -16px;
+  opacity: 0;
+  border-radius: var(--mdw-button-radius);
+}
+:host(:hover)::after {
+  opacity: var(--mdw-state-layer-opacity-hover);
+  background-color: var(--mdw-on-surface);
+}
+:host(:active)::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-on-surface);
+}
+:host(:focus)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-on-surface);
+}
+:host(.mdw-icon-toggle-button)::after,
+:host(.mdw-icon-button)::after {
+  margin-left: 0;
+}
+
+
+
+/* --- types --- */
+
+:host(.mdw-elevated) {
+  background-color: var(--mdw-surface);
+  box-shadow: var(--mdw-elevation-1);
+}
+:host(:hover.mdw-elevated)::after {
+  opacity: var(--mdw-state-layer-opacity-hover);
+  background-color: var(--mdw-primary);
+}
+:host(:active.mdw-elevated)::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-primary);
+}
+:host(:focus.mdw-elevated)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-primary);
+}
+:host([disabled].mdw-elevated) {
+  pointer-events: none;
+  cursor: unset;
+  background-color: var(--mdw-on-surface--12);
+  color: var(--mdw-on-surface--38);
+  box-shadow: none;
+}
+
+:host(.mdw-filled) {
+  color: var(--mdw-on-primary);
+  background-color: var(--mdw-primary);
+}
+:host(:hover.mdw-filled) {
+  box-shadow: var(--mdw-elevation-1);
+}
+:host(:active.mdw-filled)::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-primary);
+}
+:host(:focus.mdw-filled)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-primary);
+}
+:host([disabled].mdw-filled) {
+  pointer-events: none;
+  cursor: unset;
+  background-color: var(--mdw-on-surface--12);
+  color: var(--mdw-on-surface--38);
+  box-shadow: none;
+}
+
+:host(.mdw-icon-toggle-button.mdw-filled) {
+  color: var(--mdw-primary);
+  background-color: var(--mdw-surface-variant);
+}
+:host(.mdw-icon-toggle-button.mdw-filled[toggled]) {
+  color: var(--mdw-on-primary);
+  background-color: var(--mdw-primary);
+}
+
+:host(.mdw-filled-tonal) {
+  color: var(--mdw-on-secondary-container);
+  background-color: var(--mdw-secondary-container);
+}
+:host(:hover.mdw-filled-tonal) {
+  box-shadow: var(--mdw-elevation-1);
+}
+:host(:active.mdw-filled-tonal)::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-primary);
+}
+:host(:focus.mdw-filled-tonal)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-primary);
+}
+:host([disabled].mdw-filled-tonal) {
+  pointer-events: none;
+  cursor: unset;
+  background-color: var(--mdw-on-surface--12);
+  color: var(--mdw-on-surface--38);
+  box-shadow: none;
+}
+
+:host(.mdw-icon-toggle-button.mdw-filled-tonal) {
+  color: var(--mdw-on-surface-variant);
+  background-color: var(--mdw-surface-variant);
+}
+:host(.mdw-icon-toggle-button.mdw-filled-tonal[toggled]) {
+  color: var(--mdw-on-secondary-container);
+  background-color: var(--mdw-secondary-container);
+}
+
+
+:host(.mdw-outlined) {
+  color: var(--mdw-primary);
+  background-color: var(--mdw-surface);
+  border: 1px solid var(--mdw-outline);
+}
+:host(:hover.mdw-outlined)::after {
+  opacity: var(--mdw-state-layer-opacity-hover);
+  background-color: var(--mdw-primary);
+}
+:host(:active.mdw-outlined)::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-primary);
+}
+:host(:focus.mdw-outlined)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-primary);
+}
+:host([disabled].mdw-outlined) {
+  pointer-events: none;
+  cursor: unset;
+  color: var(--mdw-on-surface--38);
+  border: 1px solid var(--mdw-on-surface--12);
+}
+
+:host(.mdw-icon-toggle-button.mdw-outlined) {
+  color: var(--mdw-on-surface-variant);
+}
+:host(.mdw-icon-toggle-button.mdw-outlined[toggled]) {
+  color: var(--mdw-on-surface-inverse);
+  background-color: var(--mdw-surface-inverse);
+}
+
+
+
+/* --- Ripple --- */
+
+.mdw-ripple {
+  overflow: hidden;
+  border-radius: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.mdw-ripple>.mdw-ripple-element {
+  background-color: var(--mdw-primary--16);
+}
+
+
+/* :host {
   user-select: none;
   align-items: center;
   border: none;
@@ -7,7 +241,6 @@
   font-size: 0.875rem;
   font-weight: 500;
   justify-content: center;
-  /* letter-spacing: 0.08929em; */
   outline: none;
   overflow: hidden;
   position: relative;
@@ -18,15 +251,12 @@
   margin: 0;
   background-color: transparent;
   white-space: nowrap;
-
   border-radius: 4px;
   line-height: 2.25rem;
   padding: 0 8px 0 8px;
   height: 36px;
   min-width: 64px;
-
-  color: var(--mdw-primary);
-}
+} */
 
 /* :host::before,
 :host::after {
@@ -41,24 +271,24 @@
   height: 200%;
 } */
 
-:host::before {
+/* :host::before {
   z-index: 1;
   transition: opacity 15ms linear,
     background-color 15ms linear;
-}
+} */
 
-:host(:hover) {
+/* :host(:hover) {
   cursor: pointer;
 }
 
 :host(:active) {
   outline: none;
-}
+} */
 
 
 
 /* --- Shapes --- */
-:host(.mdw-contained),
+/* :host(.mdw-contained),
 :host(.mdw-raised),
 :host(.mdw-unelevated) {
   background-color: var(--mdw-background);
@@ -104,32 +334,13 @@
 
 :host(.mdw-shaped) {
   border-radius: var(--mdw--button-shape-radius, 18px);
-}
-
-
-
-/* --- Ripple --- */
-
-.mdw-ripple {
-  overflow: hidden;
-  border-radius: inherit;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  pointer-events: none;
-}
-
-.mdw-ripple > .mdw-ripple-element {
-  background-color: var(--mdw-primary--16);
-}
+} */
 
 
 
 /* --- Theme --- */
 
-:host(.mdw-primary) {
+/* :host(.mdw-primary) {
   color: var(--mdw-primary);
 }
 :host(.mdw-primary.mdw-contained),
@@ -152,14 +363,14 @@
 :host(.mdw-primary.mdw-raised) .mdw-ripple-element,
 :host(.mdw-primary.mdw-unelevated) .mdw-ripple-element {
   background-color: var(--mdw-background--16);
-}
+} */
 
 /* :host(.mdw-on-primary) {
   color: var(--mdw-text-primary-on-background);
 } */
 
 
-:host(.mdw-secondary) {
+/* :host(.mdw-secondary) {
   color: var(--mdw-secondary);
 }
 :host(.mdw-secondary.mdw-contained),
@@ -208,5 +419,4 @@
 :host(.mdw-error.mdw-raised) .mdw-ripple-element,
 :host(.mdw-error.mdw-unelevated) .mdw-ripple-element {
   background-color: var(--mdw-background--16);
-}
-      
+} */

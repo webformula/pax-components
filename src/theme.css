@@ -42,31 +42,85 @@
   --mdw-state-layer-opacity-pressed: 0.12;
   --mdw-state-layer-opacity-dragged: 0.16;
 
-  --mdw-navigation-drawer-width: 360px;
-  --mdw--button-shape-radius: 18px;
-  --mdw-navigation-link-radius: 28px;
-
 
   /* font sizes are represented in pixels but scale with html.style.fontSize. base is 16px */
   --mdw-font-size-icon: 24px;
 
-  --mdw-font-size-large-label: 14px;
+
+  --mdw-font-size-large-display: 59px;
+  --mdw-font-line-height-large-display: 66px;
+  --mdw-font-weight-large-display: 400;
+  --mdw-font-letter-spacing-large-display: 0;
+
+  --mdw-font-size-medium-display: 47px;
+  --mdw-font-line-height-medium-display: 54px;
+  --mdw-font-weight-medium-display: 400;
+  --mdw-font-letter-spacing-medium-display: 0;
+
+  --mdw-font-size-small-display: 38px;
+  --mdw-font-line-height-small-display: 46px;
+  --mdw-font-weight-small-display: 400;
+  --mdw-font-letter-spacing-small-display: 0px;
+
+  --mdw-font-size-large-label: 16px;
+  --mdw-font-line-height-large-label: 22px;
+  --mdw-font-weight-large-label: 500;
+  --mdw-font-letter-spacing-large-label: 0.1px;
+
+  --mdw-font-size-large-title: 24px;
+  --mdw-font-line-height-large-title: 30px;
+  --mdw-font-weight-large-title: 400;
+  --mdw-font-letter-spacing-large-title: 0;
+
+  --mdw-font-size-medium-title: 18px;
+  --mdw-font-line-height-medium-title: 24px;
+  --mdw-font-weight-medium-title: 500;
+  --mdw-font-letter-spacing-medium-title: 0.15px;
+
+  --mdw-font-size-small-title: 16px;
+  --mdw-font-line-height-small-title: 22px;
+  --mdw-font-weight-small-title: 500;
+  --mdw-font-letter-spacing-small-title: 0.1px;
+
+  --mdw-font-size-large-body: 18px;
+  --mdw-font-line-height-large-body: 26px;
+  --mdw-font-weight-large-body: 400;
+  --mdw-font-letter-spacing-large-body: 0.5px;
+
+  --mdw-font-size-medium-body: 16px;
+  --mdw-font-line-height-medium-body: 22px;
+  --mdw-font-weight-medium-body: 400;
+  --mdw-font-letter-spacing-medium-body: 0.25px;
+
+  --mdw-font-size-small-body: 14px;
+  --mdw-font-line-height-small-body: 18px;
+  --mdw-font-weight-small-body: 400;
+  --mdw-font-letter-spacing-small-body: 0.4px;
+  
+  /* --mdw-font-size-large-label: 14px;
   --mdw-font-line-height-large-label: 20px;
   --mdw-font-weight-large-label: 500;
-  --mdw-font-tracking-large-label: 0.1px;
+  --mdw-font-letter-spacing-large-label: 0.1px;
 
   --mdw-font-size-large-title: 22px;
   --mdw-font-line-height-large-title: 28px;
   --mdw-font-weight-large-title: 400;
-  --mdw-font-tracking-large-title: 0;
+  --mdw-font-letter-spacing-large-title: 0;
 
   --mdw-font-size-medium-title: 16px;
   --mdw-font-line-height-medium-title: 22px;
   --mdw-font-weight-medium-title: 500;
-  --mdw-font-tracking-medium-title: 0.15px;
+  --mdw-font-letter-spacing-medium-title: 0.15px;
 
   --mdw-font-size-small-title: 14px;
   --mdw-font-line-height-small-title: 20px;
   --mdw-font-weight-small-title: 500;
-  --mdw-font-tracking-small-title: 0.1px;
+  --mdw-font-letter-spacing-small-title: 0.1px; */
+
+  
+  --mdw-button-radius: 20px;
+  --mdw-card-radius: 14px;
+  --mdw-card-spacing: 10px;
+  --mdw-navigation-drawer-width: 360px;
+  --mdw-navigation-link-radius: 28px;
 }

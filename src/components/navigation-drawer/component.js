@@ -45,7 +45,6 @@ customElements.define('mdw-navigation-drawer', class MDWButton extends HTMLEleme
     // try just pathname
     if (!match) match = this.querySelector(`a[href="${location.pathname}"]`);
 
-    console.log(match);
     if (match) match.classList.add('mdw-current-link');
   }
 });

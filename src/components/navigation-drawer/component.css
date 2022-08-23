@@ -25,7 +25,7 @@ mdw-navigation-drawer .mdw-headline {
   line-height: 56px;
   font-size: var(--mdw-font-size-small-title);
   font-weight: var(--mdw-font-weight-small-title);
-  letter-spacing: var(--mdw-font-tracking-small-title);
+  letter-spacing: var(--mdw-font-letter-spacing-small-title);
 }
 
 mdw-navigation-drawer>nav>a {
@@ -41,7 +41,7 @@ mdw-navigation-drawer>nav>a {
 
   font-size: var(--mdw-font-size-large-label);
   font-weight: var(--mdw-font-weight-large-label);
-  letter-spacing: var(--mdw-font-tracking-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
 
   border-radius: var(--mdw-navigation-link-radius);
 }
@@ -83,11 +83,11 @@ mdw-navigation-drawer > nav > a {
 mdw-navigation-drawer>nav>a.mdw-current-link {
   background-color: var(--mdw-secondary-container);
 }
-mdw-navigation-drawer>nav>a:hover:not(:active)::after {
+mdw-navigation-drawer>nav>a:hover::after {
   opacity: var(--mdw-state-layer-opacity-hover);
   background-color: var(--mdw-on-surface);
 }
-mdw-navigation-drawer>nav>a:focus:not(:active)::after {
+mdw-navigation-drawer>nav>a:focus::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-on-surface);
 }
