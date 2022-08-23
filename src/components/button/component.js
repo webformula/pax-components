@@ -34,7 +34,6 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'toggled') {
-      console.log('attributeChangedCallback')
       this.#toggled = newValue !== null;
     }
   }

@@ -25,7 +25,6 @@ registerPage(iconButtons, '/icon-buttons');
 
 
 window.addEventListener('locationchange', () => {
-  console.log('locationchange')
   setTimeout(() => {
     hljs.highlightAll();
   }, 0)
