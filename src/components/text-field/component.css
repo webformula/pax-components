@@ -256,7 +256,7 @@ mdw-text-field>.mdw-outlined-border-container {
 
 mdw-text-field>.mdw-outlined-border-container>.mdw-outlined-leading {
   box-sizing: border-box;
-  border-radius: 4px 0 0 4px;
+  border-radius: var(--mdw-shape-extra-small) 0 0 var(--mdw-shape-extra-small);
   border-left: 1px solid;
   border-right: none;
   width: 12px;
@@ -286,7 +286,7 @@ mdw-text-field>.mdw-outlined-border-container>.mdw-outlined-trailing {
   box-sizing: border-box;
   border-left: none;
   border-right: 1px solid;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--mdw-shape-extra-small) var(--mdw-shape-extra-small) 0;
   flex-grow: 1;
   height: 99.2%;
   border-top: 1px solid;
