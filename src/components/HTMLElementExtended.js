@@ -3,6 +3,7 @@ const componentIdReplaceRegex = /(?<![\w])(component)(?![\w])/g;
 
 export default class HTMLElementExtended extends HTMLElement {
   useShadowRoot = false;
+  rendered = false;
   // templateString = 'string or path of html';
 
   #templateId = `template${parseInt(Math.random() * 99999)}`;
@@ -47,6 +48,7 @@ export default class HTMLElementExtended extends HTMLElement {
     this.rootElement.innerHTML = renderedTemplate;
 
     await this.afterRender();
+    this.rendered = true;
   }
 
 

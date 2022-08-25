@@ -1,0 +1,52 @@
+<h3>Text fields</h3>
+
+<mdw-card class=" mdw-no-states">
+  <div class="mdw-container" style="padding: 18px;">
+    <form action="#">
+    <mdw-text-field>
+      <mdw-icon>search</mdw-icon>
+      <input required>
+      <label>Label</label>
+      <div class="mdw-supporting-text"></div>
+      <mdw-icon class="mdw-outlined">cancel</mdw-icon>
+    </mdw-text-field>
+
+    <mdw-text-field class="mdw-outlined">
+      <mdw-icon>search</mdw-icon>
+      <input required value="test">
+      <label>Label</label>
+      <div class="mdw-supporting-text"></div>
+      <mdw-icon class="mdw-outlined">cancel</mdw-icon>
+    </mdw-text-field>
+    </form>
+  </div>
+  <div class="mdw-headline-small">Types</div>
+  <div class="mdw-supporting-text">filled - outlined</div>
+</mdw-card>
+
+<a href="https://m3.material.io/components/text-fields/overview" target="_new">Material Design Guidelines:
+  Text fields</a>
+<p>There are two types of text fields: filled and outlined.</p>
+
+<div class="links">
+  <a href="#linear_determinate">Linear determinate</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card class="mdw-no-states" id="linear_determinate">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-progress-linear mdw-percent="40"></mdw-progress-linear>`)}
+      </code>
+    </pre>
+
+    <div class="mdw-headline-small">Linear determinate</div>
+
+    <div class="example">
+      <mdw-progress-linear mdw-percent="40"></mdw-progress-linear>
+    </div>
+  </mdw-card>
+</section>

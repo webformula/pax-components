@@ -1,0 +1,81 @@
+<h3>Progress indicators</h3>
+
+<mdw-card class=" mdw-no-states">
+  <div class="mdw-container" style="padding: 18px; display: flex; flex-direction: column; align-items: center;">
+    <mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>
+    <mdw-progress-circular class="mdw-indeterminate"></mdw-progress-circular>
+  </div>
+  <div class="mdw-headline-small">Types</div>
+  <div class="mdw-supporting-text">linear - circular</div>
+</mdw-card>
+
+<a href="https://m3.material.io/components/progress-indicators/overview" target="_new">Material Design Guidelines: Progress indicators</a>
+<p>There are two types of progress indicators: Linear and circular.</p>
+
+<div class="links">
+  <a href="#linear_determinate">Linear determinate</a>
+  <a href="#linear_indeterminate">Linear indeterminate</a>
+  <a href="#circular_determinate">Circular determinate</a>
+  <a href="#circular_indeterminate">Circular indeterminate</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card class="mdw-no-states" id="linear_determinate">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-progress-linear mdw-percent="40"></mdw-progress-linear>`)}
+      </code>
+    </pre>
+
+    <div class="mdw-headline-small">Linear determinate</div>
+
+    <div class="example">
+      <mdw-progress-linear mdw-percent="40"></mdw-progress-linear>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="linear_indeterminate">
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>`)}
+        </code>
+      </pre>
+  
+    <div class="mdw-headline-small">Linear indeterminate</div>
+  
+    <div class="example">
+      <mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="circular_determinate">
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-progress-circular mdw-percent="40"></mdw-progress-circular>`)}
+        </code>
+      </pre>
+  
+    <div class="mdw-headline-small">Circular determinate</div>
+  
+    <div class="example">
+      <mdw-progress-circular mdw-percent="40"></mdw-progress-circular>
+    </div>
+  </mdw-card>
+  
+  <mdw-card class="mdw-no-states" id="circular_indeterminate">
+    <pre>
+          <code class="language-html">
+      ${escapeHTML(`<mdw-progress-circular class="mdw-indeterminate"></mdw-progress-circular>`)}
+          </code>
+        </pre>
+  
+    <div class="mdw-headline-small">Circular indeterminate</div>
+  
+    <div class="example">
+      <mdw-progress-circular class="mdw-indeterminate"></mdw-progress-circular>
+    </div>
+  </mdw-card>
+</section>

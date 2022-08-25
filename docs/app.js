@@ -6,6 +6,8 @@ import home from './pages/home/page.js';
 import buttons from './pages/buttons/page.js';
 import cards from './pages/cards/page.js';
 import iconButtons from './pages/icon buttons/page.js';
+import progressIndicators from './pages/progress indicators/page.js';
+import textField from './pages/text field/page.js';
 
 
 window.escapeHTML = str => {
@@ -21,6 +23,8 @@ registerPage(home, '/');
 registerPage(buttons, '/buttons');
 registerPage(cards, '/cards');
 registerPage(iconButtons, '/icon-buttons');
+registerPage(progressIndicators, '/progress-indicators');
+registerPage(textField, '/text-field');
 
 
 

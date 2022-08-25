@@ -1,0 +1,45 @@
+mdw-progress-circular {
+  display: block;
+  position: relative;
+  margin: 4px;
+  width: 40px;
+  height: 40px;
+}
+
+mdw-progress-circular > svg {
+  position: absolute;
+  transform: rotate(-90deg);
+  top: 0;
+  left: 0;
+  transform-origin: center;
+  overflow: visible;
+}
+
+mdw-progress-circular>svg>circle {
+  fill: transparent;
+  transform-origin: center;
+  transition: stroke-dashoffset 225ms linear;
+  stroke: var(--mdw-primary);
+}
+
+mdw-progress-circular.mdw-indeterminate > svg {
+  animation: mdw-progress-circular-rotate 2000ms linear infinite;
+}
+
+mdw-progress-circular.mdw-indeterminate >svg > circle {
+  transition-property: stroke;
+  animation-duration: 4000ms;
+  animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
+  animation-iteration-count: infinite;
+}
+
+
+@keyframes mdw-progress-circular-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

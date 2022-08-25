@@ -43,7 +43,7 @@ mdw-navigation-drawer>nav>a {
   font-weight: var(--mdw-font-weight-large-label);
   letter-spacing: var(--mdw-font-letter-spacing-large-label);
 
-  border-radius: var(--mdw-navigation-link-radius);
+  border-radius: var(--mdw-shape-extra-large);
 }
 
 mdw-navigation-drawer>nav>a::after {
@@ -53,11 +53,12 @@ mdw-navigation-drawer>nav>a::after {
   height: 100%;
   margin-left: -16px;
   opacity: 0;
-  border-radius: var(--mdw-navigation-link-radius);
+  border-radius: var(--mdw-shape-extra-large);
 }
 
 mdw-navigation-drawer>nav>a>mdw-icon {
   margin-right: 12px;
+  align-self: center;
 }
 
 mdw-navigation-drawer > nav > a > .mdw-label {

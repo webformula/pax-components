@@ -118,9 +118,20 @@
   --mdw-font-letter-spacing-small-title: 0.1px; */
 
   
+  --mdw-shape-no-rounding: 0;
+  --mdw-shape-extra-small: 4px;
+  --mdw-shape-extra-small-top: 4px 4px 0 0;
+  --mdw-shape-small: 8px;
+  --mdw-shape-medium: 12px;
+  --mdw-shape-large: 16px;
+  --mdw-shape-large-end: 0 16px 16px 0;
+  --mdw-shape-large-top: 16px 16px 0 0;
+  --mdw-shape-extra-large: 28px;
+  --mdw-shape-extra-large-top: 28px 28px 0 0;
+  --mdw-shape-full: 50%;
+
+
   --mdw-button-radius: 20px;
-  --mdw-card-radius: 14px;
   --mdw-card-spacing: 10px;
   --mdw-navigation-drawer-width: 360px;
-  --mdw-navigation-link-radius: 28px;
 }

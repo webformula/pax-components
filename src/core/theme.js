@@ -3,7 +3,9 @@ export function generate() {
   const variables = [...document.styleSheets]
     .filter(sheet => sheet.href === null || sheet.href.startsWith(window.location.origin))
     .flatMap(sheet => (
-      [...sheet.cssRules].flatMap(rule => [...rule.style])
+      [...sheet.cssRules]
+        .filter(rule => !!rule.style)
+        .flatMap(rule => [...rule.style])
     ))
     .filter(style => style.startsWith('--'))
     .map(name => ({
@@ -18,7 +20,7 @@ export function generate() {
   colors.forEach(({name, value}) => {
     // document.body.style.setProperty(`${name}--2`, `${value}05`);
     // document.body.style.setProperty(`${name}--3`, `${value}08`);
-    // document.body.style.setProperty(`${name}--4`, `${value}0a`);
+    document.body.style.setProperty(`${name}--4`, `${value}0a`);
     document.body.style.setProperty(`${name}--6`, `${value}0f`);
     // document.body.style.setProperty(`${name}--8`, `${value}14`);
     document.body.style.setProperty(`${name}--10`, `${value}1a`);

@@ -2,7 +2,7 @@ mdw-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  border-radius: var(--mdw-card-radius);
+  border-radius: var(--mdw-shape-medium);
 
   box-shadow: var(--mdw-elevation-1);
   background-color: var(--mdw-surface);
@@ -33,10 +33,10 @@ mdw-card[disabled] {
 
 
 mdw-card>.mdw-container {
-  border-radius: var(--mdw-card-radius) var(--mdw-card-radius) 0 0;
+  border-radius: var(--mdw-shape-medium) var(--mdw-shape-medium) 0 0;
 }
 mdw-card>.mdw-container-rounded {
-  border-radius: var(--mdw-card-radius);
+  border-radius: var(--mdw-shape-medium);
 }
 
 mdw-card>.mdw-headline {
@@ -94,7 +94,7 @@ mdw-card::after {
   height: 100%;
   opacity: 0;
   pointer-events: none;
-  border-radius: var(--mdw-card-radius);
+  border-radius: var(--mdw-shape-medium);
 }
 mdw-card:not(.mdw-no-states):hover::after {
   opacity: var(--mdw-state-layer-opacity-hover);
