@@ -15,6 +15,9 @@ export default class HTMLElementExtended extends HTMLElement {
     this.id = this.id || this.#templateId;
   }
 
+  connectedCallback() {}
+  disconnectedCallback() {}
+
   async beforeRender() { }
   async afterRender() { }
 

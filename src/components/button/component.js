@@ -11,6 +11,7 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   useShadowRoot = true;
 
   #toggled = false;
+  #ripple;
 
   constructor() {
     super();
@@ -45,7 +46,7 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
       this.addEventListener('click', this.handleToggle_bound);
     }
     setTimeout(() => {
-      this.ripple = new Ripple({
+      this.#ripple = new Ripple({
         element: this.shadowRoot.querySelector('.mdw-ripple'),
         triggerElement: this
       });
@@ -53,7 +54,7 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   }
 
   disconnectedCallback() {
-    this?.ripple?.destroy();
+    if (this.#ripple) this.#ripple.destroy();
     this.removeEventListener('mouseup', this.mouseUp_bound);
     if (this.classList.contains('mdw-icon-toggle-button')) {
       this.removeEventListener('click', this.handleToggle_bound);

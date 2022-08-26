@@ -1,0 +1,53 @@
+<h3>Checkbox</h3>
+
+<mdw-card class=" mdw-no-states">
+  <div class="mdw-container" style="padding: 18px;">
+    <mdw-checkbox>Label</mdw-checkbox>
+  </div>
+  <div class="mdw-headline-small">Types</div>
+  <div class="mdw-supporting-text"></div>
+</mdw-card>
+
+<a href="https://material.io/components/checkboxes#usage" target="_new">Material Design Guidelines:
+  Checkbox <b>(still based on version 2)</b></a>
+<p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
+
+<div class="links">
+  <a href="#standard">Standard</a>
+  <a href="#left_label">Left label</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card class="mdw-no-states" id="standard">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-checkbox>unchecked</mdw-checkbox>
+  <mdw-checkbox checked>checked</mdw-checkbox>`)}
+      </code>
+    </pre>
+
+    <div class="mdw-headline-small">Checkboxes</div>
+
+    <div class="example" style="flex-direction: column; display: flex;">
+      <mdw-checkbox>unchecked</mdw-checkbox>
+      <mdw-checkbox checked>checked</mdw-checkbox>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="left_label">
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-checkbox class="mdw-label-left">left label</mdw-checkbox>`)}
+        </code>
+      </pre>
+  
+    <div class="mdw-headline-small">Left label</div>
+  
+    <div class="example" style="flex-direction: column; display: flex;">
+      <mdw-checkbox class="mdw-label-left">left label</mdw-checkbox>
+    </div>
+  </mdw-card>
+</section>

@@ -10,3 +10,4 @@ import './components/icon/component.js';
 import './components/progress-linear/component.js';
 import './components/progress-circular/component.js';
 import './components/text-field/component.js';
+import './components/checkbox/component.js';

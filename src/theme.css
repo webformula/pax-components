@@ -67,6 +67,16 @@
   --mdw-font-weight-large-label: 500;
   --mdw-font-letter-spacing-large-label: 0.1px;
 
+  --mdw-font-size-medium-label: 14px;
+  --mdw-font-line-height-medium-label: 18px;
+  --mdw-font-weight-medium-label: 500;
+  --mdw-font-letter-spacing-medium-label: 0.5px;
+
+  --mdw-font-size-small-label: 13px;
+  --mdw-font-line-height-small-label: 18px;
+  --mdw-font-weight-small-label: 500;
+  --mdw-font-letter-spacing-small-label: 0.1px;
+
   --mdw-font-size-large-title: 24px;
   --mdw-font-line-height-large-title: 30px;
   --mdw-font-weight-large-title: 400;
