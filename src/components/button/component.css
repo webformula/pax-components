@@ -13,7 +13,6 @@
   font-weight: var(--mdw-font-weight-large-label);
   letter-spacing: var(--mdw-font-letter-spacing-large-label);
   
-  margin: 0 32px 0 0;
   padding: 0 16px;
   line-height: 40px;
   border-radius: var(--mdw-button-radius);

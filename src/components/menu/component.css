@@ -1,0 +1,72 @@
+.mdw-menu-panel {
+  margin: 0;
+  min-width: 112px;
+  max-width: 280px;
+  max-height: 320px;
+  padding: 8px 0;
+  overflow-y: auto;
+  border-radius: var(--mdw-shape-extra-small);
+  background-color: var(--mdw-surface);
+}
+
+/* hide scroll bar */
+.mdw-panel.mdw-lock > .mdw-panel-content > .mdw-menu-panel,
+.mdw-panel.mdw-open-animation-target > .mdw-panel-content > .mdw-menu-panel,
+.mdw-panel.mdw-close-animation > .mdw-panel-content > .mdw-menu-panel {
+  overflow: hidden;
+}
+
+.mdw-panel > .mdw-panel-content {
+  box-shadow: var(--mdw-elevation-2);
+}
+
+.mdw-menu-panel > li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 12px;
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  line-height: var(--mdw-font-line-height-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+  color: var(--mdw-on-surface);
+}
+
+.mdw-menu-panel > li > mdw-icon {
+  margin-right: 12px;
+  color: var(--mdw-on-surface);
+}
+
+.mdw-menu-panel > li > .mdw-label + mdw-icon {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+
+.mdw-menu-panel > li::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+.mdw-menu-panel > li:hover::after {
+  opacity: var(--mdw-state-layer-opacity-hover);
+  background-color: var(--mdw-on-surface);
+}
+
+.mdw-menu-panel > li:active::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-on-surface);
+}
+
+.mdw-menu-panel > li:focus::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-on-surface);
+}

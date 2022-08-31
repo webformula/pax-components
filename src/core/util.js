@@ -12,6 +12,21 @@ const MDWUtil = new class MDWUtil {
     this.#uidCounter += 1;
     return this.#uidCounter;
   }
+
+  rafThrottle(fn) {
+    let alreadyQueued;
+    return function throttled() {
+      const args = arguments;
+      const context = this;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        fn.apply(context, args);
+        requestAnimationFrame(() => {
+          alreadyQueued = false;
+        });
+      }
+    };
+  }
 }
 
 window.MDWUtil = MDWUtil;

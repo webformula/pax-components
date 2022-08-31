@@ -4,7 +4,12 @@ pre {
 
 pre > code {
   width: calc(100% - 16px);
-  border-radius: var(--mdw-card-radius);
+  border-radius: var(--mdw-shape-medium) var(--mdw-shape-medium) 0 0;
+}
+
+pre + pre code {
+  width: calc(100% - 16px);
+  border-radius: 0;
 }
 
 page-content {

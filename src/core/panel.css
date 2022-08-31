@@ -1,0 +1,135 @@
+.mdw-panel {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+
+/* --- basic --- */
+
+.mdw-panel {
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.mdw-panel:not(.mdw-lock):not(.mdw-open-animation):not(.mdw-open-animation-target):not(.mdw-close-animation) > .mdw-panel-content {
+  pointer-events: all;
+}
+
+.mdw-panel.mdw-backdrop {
+  pointer-events: unset;
+  background-color: var(--mdw-scrim--16);
+}
+
+.mdw-panel > .mdw-panel-content.mdw-target-element {
+  position: fixed;
+}
+
+
+/* animate open */
+
+.mdw-panel.mdw-open-animation-target,
+.mdw-panel.mdw-open-animation {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms linear;
+}
+.mdw-panel.mdw-open-animation-target.mdw-run-animation,
+.mdw-panel.mdw-open-animation.mdw-run-animation {
+  opacity: 1;
+}
+
+.mdw-panel.mdw-open-animation > .mdw-panel-content {
+  transform: translateY(-120px);
+  transition: transform 320ms;
+  transition-timing-function: var(--mdw-transition-ease-out-expo);
+}
+.mdw-panel.mdw-open-animation.mdw-run-animation > .mdw-panel-content {
+  transform: translateY(0);
+}
+
+.mdw-panel.mdw-open-animation-target > .mdw-panel-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 220ms;
+  transition-timing-function: var(--mdw-transition-ease-out-expo);
+}
+
+
+/* animate close */
+
+.mdw-panel.mdw-close-animation {
+  pointer-events: none;
+  transition: opacity 120ms;
+  transition-timing-function: var(--mdw-transition-ease-in-quad);
+}
+.mdw-panel.mdw-close-animation.mdw-run-animation {
+  opacity: 0;
+}
+
+.mdw-panel.mdw-close-animation > .mdw-panel-content:not(.mdw-target-element) {
+  transform: translateY(0);
+  transition: transform 140ms;
+  transition-timing-function: var(--mdw-transition-ease-in-quad);
+}
+.mdw-panel.mdw-close-animation.mdw-run-animation > .mdw-panel-content:not(.mdw-target-element) {
+  transform: translateY(-60px);
+}
+
+.mdw-panel.mdw-close-animation > .mdw-panel-content.mdw-target-element {
+  overflow: hidden;
+  transition: max-height 140ms;
+  transition-timing-function: var(--mdw-transition-ease-in-quad);
+}
+
+
+
+
+/* --- fullscreen --- */
+
+@media only screen and (max-width: 600px) {
+  /* unset all above css for basic */
+  .mdw-panel.mdw-open-animation,
+  .mdw-panel.mdw-open-animation.mdw-run-animation,
+  .mdw-panel.mdw-open-animation > .mdw-panel-content,
+  .mdw-panel.mdw-open-animation.mdw-run-animation > .mdw-panel-content,
+  .mdw-panel.mdw-close-animation,
+  .mdw-panel.mdw-close-animation.mdw-run-animation,
+  .mdw-panel.mdw-close-animation > .mdw-panel-content,
+  .mdw-panel.mdw-close-animation.mdw-run-animation > .mdw-panel-content {
+    all: none;
+  }
+
+  .mdw-panel.mdw-fullscreen > .mdw-panel-content {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* animate open */
+
+  .mdw-panel.mdw-fullscreen.mdw-open-animation > .mdw-panel-content {
+    transform: translateY(100%);
+    transition: transform 320ms;
+    transition-timing-function: var(--mdw-transition-ease-out-expo);
+  }
+  .mdw-panel.mdw-fullscreen.mdw-open-animation.mdw-run-animation > .mdw-panel-content {
+    transform: translateY(0);
+  }
+
+
+  /* animate close */
+
+  .mdw-panel.mdw-fullscreen.mdw-close-animation > .mdw-panel-content {
+    transform: translateY(0);
+    transition: transform 180ms;
+    transition-timing-function: var(--mdw-transition-ease-in-quad);
+  }
+  .mdw-panel.mdw-fullscreen.mdw-close-animation.mdw-run-animation > .mdw-panel-content {
+    transform: translateY(100%);
+  }
+}

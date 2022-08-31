@@ -45,6 +45,7 @@
 
   /* font sizes are represented in pixels but scale with html.style.fontSize. base is 16px */
   --mdw-font-size-icon: 24px;
+  --mdw-font-size-icon-top-app-bar: 30px;
 
 
   --mdw-font-size-large-display: 59px;
@@ -106,26 +107,21 @@
   --mdw-font-line-height-small-body: 18px;
   --mdw-font-weight-small-body: 400;
   --mdw-font-letter-spacing-small-body: 0.4px;
-  
-  /* --mdw-font-size-large-label: 14px;
-  --mdw-font-line-height-large-label: 20px;
-  --mdw-font-weight-large-label: 500;
-  --mdw-font-letter-spacing-large-label: 0.1px;
 
-  --mdw-font-size-large-title: 22px;
-  --mdw-font-line-height-large-title: 28px;
-  --mdw-font-weight-large-title: 400;
-  --mdw-font-letter-spacing-large-title: 0;
+  --mdw-font-size-large-headline: 34px;
+  --mdw-font-line-height-large-headline: 40px;
+  --mdw-font-weight-large-headline: 400;
+  --mdw-font-letter-spacing-large-headline: 0;
 
-  --mdw-font-size-medium-title: 16px;
-  --mdw-font-line-height-medium-title: 22px;
-  --mdw-font-weight-medium-title: 500;
-  --mdw-font-letter-spacing-medium-title: 0.15px;
+  --mdw-font-size-medium-headline: 30px;
+  --mdw-font-line-height-medium-headline: 36px;
+  --mdw-font-weight-medium-headline: 400;
+  --mdw-font-letter-spacing-medium-headline: 0;
 
-  --mdw-font-size-small-title: 14px;
-  --mdw-font-line-height-small-title: 20px;
-  --mdw-font-weight-small-title: 500;
-  --mdw-font-letter-spacing-small-title: 0.1px; */
+  --mdw-font-size-small-headline: 26px;
+  --mdw-font-line-height-small-headline: 32px;
+  --mdw-font-weight-small-headline: 400;
+  --mdw-font-letter-spacing-small-headline: 0;
 
   
   --mdw-shape-no-rounding: 0;
@@ -144,4 +140,8 @@
   --mdw-button-radius: 20px;
   --mdw-card-spacing: 10px;
   --mdw-navigation-drawer-width: 360px;
+
+
+  --mdw-transition-ease-out-expo: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --mdw-transition-ease-in-quad: cubic-bezier(0.550, 0.085, 0.680, 0.530);
 }

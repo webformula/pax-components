@@ -1,0 +1,59 @@
+mdw-top-app-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 64px;
+  box-sizing: border-box;
+  padding: 0 16px;
+  z-index: 9;
+
+  background-color: var(--mdw-surface);
+}
+
+mdw-top-app-bar:before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-color: none;
+  transition: background-color 80ms linear;
+}
+
+mdw-top-app-bar:not(.mdw-no-states).mdw-scrolled:before {
+  background-color: var(--mdw-surface-tint--6);
+}
+
+
+/* offset height for scrolling */
+mdw-top-app-bar + page-content::after {
+  content: "";
+  padding-bottom: 64px;
+}
+
+
+mdw-top-app-bar > .mdw-headline {
+  flex: 1;
+  font-size: var(--mdw-font-size-large-title);
+  font-weight: var(--mdw-font-weight-large-title);
+  line-height: var(--mdw-font-line-height-large-title);
+  letter-spacing: var(--mdw-font-letter-spacing-large-title);
+  color: var(--mdw-on-surface);
+}
+
+mdw-top-app-bar.mdw-center-aligned > .mdw-headline {
+  text-align: center;
+}
+
+mdw-top-app-bar > mdw-icon {
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+mdw-top-app-bar:not(.mdw-center-aligned) > mdw-icon + .mdw-headline {
+  margin-left: 16px;
+}

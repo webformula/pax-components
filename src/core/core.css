@@ -14,8 +14,8 @@ body {
   background-color: var(--mdw-surface);
 }
 
-body>mdw-page-content,
-body>page-content {
+body mdw-page-content,
+body page-content {
   display: inline-flex;
   flex-direction: column;
   box-sizing: border-box;
