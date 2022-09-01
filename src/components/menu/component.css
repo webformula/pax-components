@@ -28,6 +28,7 @@
   padding: 0 12px;
   cursor: pointer;
   user-select: none;
+  outline: none;
   font-size: var(--mdw-font-size-large-label);
   font-weight: var(--mdw-font-weight-large-label);
   line-height: var(--mdw-font-line-height-large-label);
@@ -61,12 +62,13 @@
   background-color: var(--mdw-on-surface);
 }
 
+.mdw-menu-panel > li[selected]::after,
 .mdw-menu-panel > li:active::after {
   opacity: var(--mdw-state-layer-opacity-pressed);
-  background-color: var(--mdw-on-surface);
+  background-color: var(--mdw-primary);
 }
 
-.mdw-menu-panel > li:focus::after {
+.mdw-menu-panel > li:not([selected]):focus::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-on-surface);
 }

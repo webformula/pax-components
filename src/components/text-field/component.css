@@ -100,6 +100,8 @@ mdw-text-field label {
   transform-origin: left top;
   animation: mdw-text-field-label-reverse 150ms cubic-bezier(.4, 0, .2, 1);
 }
+
+mdw-text-field.mdw-raise-label label,
 mdw-text-field:focus-within label,
 mdw-text-field > input:not([placeholder=" "])+label,
 mdw-text-field > input:not(:placeholder-shown) + label {
@@ -112,6 +114,7 @@ mdw-text-field.mdw-outlined label {
   transform-origin: left top;
   animation: mdw-text-field-label-outlined-reverse 150ms cubic-bezier(.4, 0, .2, 1);
 }
+mdw-text-field.mdw-outlined.mdw-raise-label label,
 mdw-text-field.mdw-outlined:focus-within label,
 mdw-text-field.mdw-outlined>input:not([placeholder=" "])+label,
 mdw-text-field.mdw-outlined>input:not(:placeholder-shown)+label {

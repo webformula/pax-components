@@ -12,16 +12,22 @@ export default class Panel {
   clickOutsideToClose = false;
   escToClose = false;
 
+  #overflowScrollRegex = /(auto|scroll)/;
   #id = `panel${util.getUID()}`;
   #onTransitionend_bound = this.#onTransitionend.bind(this);
-  #callOnPanelClick_bound = this.#callOnPanelClick.bind(this);
+  #callOnClick_bound = this.#callOnClick.bind(this);
   #onClickOutside_bound = this.#onClickOutside.bind(this);
+  #onContainerScroll_bound = this.#onContainerScroll.bind(this);
+  #elementsToIgnore = [];
   #showing = false;
   #element;
   #contentElement;
   #animationFrame;
   #animationTimer;
   #transitionendPromiseResolve;
+  #contentPositionProperty;
+  #contentPosition;
+  #initialScrollPosition;
 
   constructor(params = {
     template: '',
@@ -45,9 +51,17 @@ export default class Panel {
     this.escToClose = params.escToClose;
   }
 
+  get element() {
+    return this.#getFirstChild(this.#contentElement);
+  }
 
+  get showing() {
+    return this.#showing;
+  }
 
   async show() {
+    if (this.#showing === true) return;
+
     // NOTE animation bug
     // transition end event was breaking and the fix was to use a second class for the open animation
     // we also need to set the max hight in javascript
@@ -71,6 +85,9 @@ export default class Panel {
       this.#setTargetElementPosition();
       this.#contentElement.classList.add('mdw-target-element');
       this.#contentElement.style.maxHeight = `${this.#getContentHeight() }px`;
+      const targetElementScrollContainer = this.#getScrollContainerForTargetElement();
+      this.#initialScrollPosition = targetElementScrollContainer.scrollTop;
+      targetElementScrollContainer.addEventListener('scroll', this.#onContainerScroll_bound);
     }
     this.#element.classList.add('mdw-run-animation');
 
@@ -79,13 +96,17 @@ export default class Panel {
     this.#element.classList.remove('mdw-open-animation-target');
     this.#element.classList.remove('mdw-run-animation');
 
-    this.#contentElement.addEventListener('click', this.#callOnPanelClick_bound);
+    this.#contentElement.addEventListener('click', this.#callOnClick_bound);
     if (this.clickOutsideToClose === true) document.body.addEventListener('click', this.#onClickOutside_bound);
 
     this.#showing = true;
+    this.#callOnRender();
+    this.#callOnShow();
   }
 
   async hide() {
+    if (this.#showing === false) return;
+
     this.#element.classList.add('mdw-close-animation');
     if (this.targetElement) this.#contentElement.style.maxHeight = `${this.#getContentHeight()}px`;
     
@@ -93,15 +114,24 @@ export default class Panel {
     await this.#nextAnimationFrameAsync();
     this.#element.classList.add('mdw-run-animation');
 
-    if (this.targetElement) this.#contentElement.style.maxHeight = '0';
+    if (this.targetElement) {
+      this.#getScrollContainerForTargetElement().removeEventListener('scroll', this.#onContainerScroll_bound);
+      this.#contentElement.style.maxHeight = '0';
+    }
 
     await this.#transitionendAsync();
 
-    this.#contentElement.removeEventListener('click', this.#callOnPanelClick_bound);
+    this.#contentElement.removeEventListener('click', this.#callOnClick_bound);
     if (this.clickOutsideToClose === true) document.body.removeEventListener('click', this.#onClickOutside_bound);
 
     this.#element.remove();
     this.#showing = false;
+    this.#callOnHide();
+  }
+
+  resetTemplate() {
+    this.#contentElement.innerHTML = this.template;
+    this.#callOnRender();
   }
 
   toggle() {
@@ -117,14 +147,35 @@ export default class Panel {
     this.#element.classList.remove('mdw-lock');
   }
 
-  onClick() {}
+  addIgnoreElement(element) {
+    this.#elementsToIgnore.push(element);
+  }
 
-  #callOnPanelClick(event) {
+  onClick() { }
+  onShow() { }
+  onHide() { }
+  onRender() { }
+
+  #callOnClick(event) {
     this.onClick(event);
+  }
+
+  #callOnShow() {
+    this.onShow();
+  }
+
+  #callOnHide() {
+    this.onHide();
+  }
+
+  #callOnRender() {
+    this.onRender();
   }
 
   #onClickOutside(event) {
     if (this.#contentElement.contains(event.target)) return;
+    const isIgnoreElement = this.#elementsToIgnore.find(v => v.contains(event.target));
+    if (isIgnoreElement) return;
     this.hide();
   }
 
@@ -190,10 +241,14 @@ export default class Panel {
     // TODO handle case whn neither positions is on screen
     if (bottom + contentHeight <= clientHeight) {
       this.#contentElement.style.top = `${top}px`;
+      this.#contentPositionProperty = 'top';
+      this.#contentPosition = top;
 
     // align bottom of content to top of control
     } else {
       this.#contentElement.style.bottom = `${clientHeight - bounds.y}px`;
+      this.#contentPositionProperty = 'bottom';
+      this.#contentPosition = clientHeight - bounds.y;
     }
 
     // TODO handle case whn neither positions is on screen
@@ -203,6 +258,22 @@ export default class Panel {
     // align right of content to right of control
     } else {
       this.#contentElement.style.right = `${clientWidth - bounds.x}px`;
+    }
+  }
+
+  // TODO handle horizontal scroll
+  #onContainerScroll(event) {
+    if (this.#contentPositionProperty === 'top') this.#contentElement.style.top = `${this.#contentPosition + this.#initialScrollPosition - event.target.scrollTop}px`;
+    else this.#contentElement.style.bottom = `${this.#contentPosition - this.#initialScrollPosition + event.target.scrollTop}px`;
+  }
+
+  #getScrollContainerForTargetElement() {
+    let parentNode = this.targetElement.parentNode;
+    while (parentNode !== null) {
+      const style = getComputedStyle(parentNode);
+      if (this.#overflowScrollRegex.test(style.overflow + style.overflowY)) return parentNode;
+      parentNode = parentNode.parentNode;
+      if (parentNode === document.body) return document.body;
     }
   }
 }

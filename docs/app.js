@@ -11,6 +11,7 @@ import textField from './pages/text field/page.js';
 import checkbox from './pages/checkbox/page.js';
 import topAppBar from './pages/top app bar/page.js';
 import dialog from './pages/dialog/page.js';
+import menu from './pages/menu/page.js';
 import select from './pages/select/page.js';
 
 
@@ -32,6 +33,7 @@ registerPage(textField, '/text-field');
 registerPage(checkbox, '/checkbox');
 registerPage(topAppBar, '/top-app-bar');
 registerPage(dialog, '/dialog');
+registerPage(menu, '/menu');
 registerPage(select, '/select');
 
 
