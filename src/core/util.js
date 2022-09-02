@@ -1,11 +1,23 @@
-import { isMobile } from "./device.js";
+import { isMobile, isSmallScreen, isMobileOrSmallScreen } from './device.js';
 
 const MDWUtil = new class MDWUtil {
   #uidCounter = 0;
   isMobile = isMobile;
+  isSmallScreen = isSmallScreen;
+  isMobileOrSmallScreen = isMobileOrSmallScreen;
 
   constructor() {
+    if (isMobile) document.body.classList.add('mdw-mobile');
+    if (isSmallScreen()) document.body.classList.add('mdw-small-screen');
 
+    window.addEventListener('resize', () => {
+      if (isSmallScreen()) document.body.classList.add('mdw-small-screen');
+      else document.body.classList.remove('mdw-small-screen');
+    });
+  }
+
+  get isSmallScreen() {
+    return isSmallScreen();
   }
 
   getUID() {
@@ -39,6 +51,24 @@ const MDWUtil = new class MDWUtil {
         fn.apply(context, args);
       }, wait || 10);
     };
+  }
+
+  async nextAnimationFrameAsync() {
+    return new Promise(resolve => {
+      requestAnimationFrame(() => {
+        setTimeout(resolve, 0);
+      });
+    });
+  }
+
+  async transitionendAsync(element) {
+    return new Promise(resolve => {
+      function onTransitionend() {
+        element.removeEventListener('transitionend', onTransitionend);
+        resolve();
+      }
+      element.addEventListener('transitionend', onTransitionend);
+    });
   }
 
   // can use array of strings ['one', 'two']

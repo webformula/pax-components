@@ -1,0 +1,7 @@
+mdw-navigation-button {
+  display: none;
+}
+
+mdw-navigation-button.mdw-show {
+  display: block;
+}

@@ -31,3 +31,17 @@ mdw-card .example {
   display: flex;
   flex-direction: column;
 }
+
+
+.dot-icon {
+  font-size: 18px;
+  margin-left: 3px;
+  margin-right: 7px;
+  padding-top: 5px;
+}
+
+mdw-navigation-rail > nav .dot-icon {
+  padding-top: unset;
+  margin-left: unset;
+  margin-right: unset;
+}

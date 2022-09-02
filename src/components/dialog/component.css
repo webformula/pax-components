@@ -42,7 +42,7 @@ mdw-dialog > .mdw-header {
 .mdw-panel.mdw-open-animation mdw-dialog > .mdw-actions {
   margin-top: -28px;
   transition: margin-top 280ms;
-  transition-timing-function: var(--mdw-transition-ease-out-expo);
+  transition-timing-function: var(--mdw-transition-expand-in);
 }
 .mdw-panel.mdw-open-animation.mdw-run-animation mdw-dialog > .mdw-actions {
   margin-top: 24px;
@@ -51,7 +51,7 @@ mdw-dialog > .mdw-header {
 .mdw-panel.mdw-close-animation mdw-dialog > .mdw-actions {
   margin-top: 24px;
   transition: margin-top 140ms;
-  transition-timing-function: var(--mdw-transition-ease-in-quad);
+  transition-timing-function: var(--mdw-transition-expand-out);
 }
 .mdw-panel.mdw-close-animation.mdw-run-animation mdw-dialog > .mdw-actions {
   margin-top: -18px;

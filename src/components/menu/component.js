@@ -93,6 +93,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     }
 
     this.#panel = new Panel();
+    this.#panel.classes = 'mdw-menu-panel-shadow';
     this.#panel.template = ul.outerHTML;
     this.#panel.backdrop = false;
     this.#panel.clickOutsideToClose = true;

@@ -11,10 +11,10 @@ export default class Panel {
   backdrop = true;
   clickOutsideToClose = false;
   escToClose = false;
+  classes = '';
 
   #overflowScrollRegex = /(auto|scroll)/;
   #id = `panel${util.getUID()}`;
-  #onTransitionend_bound = this.#onTransitionend.bind(this);
   #callOnClick_bound = this.#callOnClick.bind(this);
   #onClickOutside_bound = this.#onClickOutside.bind(this);
   #onContainerScroll_bound = this.#onContainerScroll.bind(this);
@@ -22,9 +22,6 @@ export default class Panel {
   #showing = false;
   #element;
   #contentElement;
-  #animationFrame;
-  #animationTimer;
-  #transitionendPromiseResolve;
   #contentPositionProperty;
   #contentPosition;
   #initialScrollPosition;
@@ -61,11 +58,13 @@ export default class Panel {
 
   async show() {
     if (this.#showing === true) return;
+    this.#showing = true;
 
     // NOTE animation bug
     // transition end event was breaking and the fix was to use a second class for the open animation
     // we also need to set the max hight in javascript
     let classes = !this.targetElement ? 'mdw-open-animation' : 'mdw-open-animation-target';
+    if (this.classes) classes += ` ${this.classes}`;
     if (this.fullScreen) classes += ' mdw-fullscreen';
     if (this.backdrop) classes += ' mdw-backdrop';
 
@@ -77,7 +76,7 @@ export default class Panel {
       </div>
     `);
 
-    await this.#nextAnimationFrameAsync();
+    await util.nextAnimationFrameAsync();
     this.#element = document.querySelector(`#${this.#id}`);
     this.#contentElement = this.#element.querySelector(':scope > .mdw-panel-content');
 
@@ -91,7 +90,7 @@ export default class Panel {
     }
     this.#element.classList.add('mdw-run-animation');
 
-    await this.#transitionendAsync();
+    await util.transitionendAsync(this.#contentElement);
     this.#element.classList.remove('mdw-open-animation');
     this.#element.classList.remove('mdw-open-animation-target');
     this.#element.classList.remove('mdw-run-animation');
@@ -99,19 +98,19 @@ export default class Panel {
     this.#contentElement.addEventListener('click', this.#callOnClick_bound);
     if (this.clickOutsideToClose === true) document.body.addEventListener('click', this.#onClickOutside_bound);
 
-    this.#showing = true;
     this.#callOnRender();
     this.#callOnShow();
   }
 
   async hide() {
     if (this.#showing === false) return;
+    this.#showing = false;
 
     this.#element.classList.add('mdw-close-animation');
     if (this.targetElement) this.#contentElement.style.maxHeight = `${this.#getContentHeight()}px`;
     
     
-    await this.#nextAnimationFrameAsync();
+    await util.nextAnimationFrameAsync();
     this.#element.classList.add('mdw-run-animation');
 
     if (this.targetElement) {
@@ -119,13 +118,11 @@ export default class Panel {
       this.#contentElement.style.maxHeight = '0';
     }
 
-    await this.#transitionendAsync();
-
+    await util.transitionendAsync(this.#contentElement);
     this.#contentElement.removeEventListener('click', this.#callOnClick_bound);
     if (this.clickOutsideToClose === true) document.body.removeEventListener('click', this.#onClickOutside_bound);
 
     this.#element.remove();
-    this.#showing = false;
     this.#callOnHide();
   }
 
@@ -179,30 +176,6 @@ export default class Panel {
     this.hide();
   }
 
-  async #nextAnimationFrameAsync() {
-    cancelAnimationFrame(this.#animationFrame);
-    return new Promise(resolve => {
-      this.#animationFrame = requestAnimationFrame(() => {
-        this.#animationFrame = 0;
-        clearTimeout(this.#animationTimer);
-        this.#animationTimer = setTimeout(resolve, 0);
-      });
-    });
-  }
-
-  async #transitionendAsync() {
-    return new Promise(resolve => {
-      this.#contentElement.addEventListener('transitionend', this.#onTransitionend_bound);
-      this.#transitionendPromiseResolve = resolve;
-    });
-  }
-
-  #onTransitionend() {
-    if (!this.#transitionendPromiseResolve) return console.error('No transitionendPromiseResolve');
-    this.#transitionendPromiseResolve();
-    this.#contentElement.removeEventListener('transitionend', this.#onTransitionend_bound);
-  }
-
   #getContentHeight() {
     const scrollHeight = this.#contentElement.scrollHeight;
     const firstChild = this.#getFirstChild(this.#contentElement);
@@ -237,9 +210,9 @@ export default class Panel {
     const contentHeight = this.#getContentHeight();
     let bottom = top + contentHeight;
     let right = left + contentWidth;
-    
+
     // TODO handle case whn neither positions is on screen
-    if (bottom + contentHeight <= clientHeight) {
+    if (bottom <= clientHeight) {
       this.#contentElement.style.top = `${top}px`;
       this.#contentPositionProperty = 'top';
       this.#contentPosition = top;
@@ -252,7 +225,7 @@ export default class Panel {
     }
 
     // TODO handle case whn neither positions is on screen
-    if (right + contentWidth <= clientWidth) {
+    if (right <= clientWidth) {
       this.#contentElement.style.left = `${left}px`;
 
     // align right of content to right of control

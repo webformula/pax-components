@@ -88,8 +88,8 @@
   --mdw-font-weight-medium-title: 500;
   --mdw-font-letter-spacing-medium-title: 0.15px;
 
-  --mdw-font-size-small-title: 16px;
-  --mdw-font-line-height-small-title: 22px;
+  --mdw-font-size-small-title: 14px;
+  --mdw-font-line-height-small-title: 20px;
   --mdw-font-weight-small-title: 500;
   --mdw-font-letter-spacing-small-title: 0.1px;
 
@@ -141,7 +141,6 @@
   --mdw-card-spacing: 10px;
   --mdw-navigation-drawer-width: 360px;
 
-
-  --mdw-transition-ease-out-expo: cubic-bezier(0.075, 0.82, 0.165, 1);
-  --mdw-transition-ease-in-quad: cubic-bezier(0.550, 0.085, 0.680, 0.530);
+  --mdw-transition-expand-in: cubic-bezier(.13, 1.02, .25, .95);
+  --mdw-transition-expand-out: cubic-bezier(0.550, 0.085, 0.680, 0.530);
 }

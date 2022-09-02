@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-.mdw-panel > .mdw-panel-content {
+.mdw-panel.mdw-menu-panel-shadow > .mdw-panel-content {
   box-shadow: var(--mdw-elevation-2);
 }
 

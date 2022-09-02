@@ -8,6 +8,7 @@
   vertical-align: middle;
   white-space: nowrap;
   outline: none;
+  -webkit-tap-highlight-color: transparent;
 
   font-size: var(--mdw-font-size-large-label);
   font-weight: var(--mdw-font-weight-large-label);
