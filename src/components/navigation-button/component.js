@@ -28,7 +28,7 @@ customElements.define('mdw-navigation-button', class MDWButton extends HTMLEleme
   }
 
   #onclick() {
-    document.querySelector('mdw-navigation-drawer').toggle();
+    document.querySelector('mdw-navigation').toggle();
   }
 
   // TODO

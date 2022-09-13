@@ -14,7 +14,38 @@
 </head>
 
 <body>
-  <mdw-navigation-rail> <!-- class="mdw-active-label-only" -->
+  <mdw-navigation class="mdw-rail-enabled  mdw-rail-label-only-active">
+  <!-- <mdw-navigation> -->
+    <div class="mdw-headline">Documentation</div>
+    <mdw-navigation-button></mdw-navigation-button>
+
+    <nav>
+      <a href="/">
+        <mdw-icon>home</mdw-icon>
+        <div class="mdw-label">Welcome</div>
+        <!-- <div class="mdw-badge-label-text">42</div> -->
+        <div class="mdw-ripple"></div>
+      </a>
+      <a href="/buttons">
+        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
+        <div class="mdw-label">Buttons</div>
+        <mdw-icon>home</mdw-icon>
+        <div class="mdw-ripple"></div>
+      </a>
+      <a href="/icon-buttons">
+        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
+        <div class="mdw-label">Icon buttons</div>
+        <div class="mdw-ripple"></div>
+      </a>
+      <a href="/cards">
+        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
+        <div class="mdw-label">Cards</div>
+        <div class="mdw-ripple"></div>
+      </a>
+    </nav>
+  </mdw-navigation>
+
+  <!-- <mdw-navigation-rail>
     <header>
       <mdw-navigation-button></mdw-navigation-button>
     </header>
@@ -80,7 +111,6 @@
       <a href="/">
         <mdw-icon>home</mdw-icon>
         <div class="mdw-label">Welcome</div>
-        <!-- <div class="mdw-badge-label-text">42</div> -->
         <div class="mdw-ripple"></div>
       </a>
       <a href="/buttons">
@@ -135,9 +165,9 @@
         <div class="mdw-ripple"></div>
       </a>
     </nav>
-  </mdw-navigation-drawer>
+  </mdw-navigation-drawer> -->
 
-  <div style="display: flex; flex-direction: column; flex: 1">
+  <div style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
     <!-- <mdw-top-app-bar>
       <mdw-navigation-button></mdw-navigation-button>
       <div class="mdw-headline">Header</div>

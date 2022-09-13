@@ -11,6 +11,7 @@ import './components/card/component.js';
 import './components/navigation-button/component.js';
 import './components/navigation-drawer/component.js';
 import './components/navigation-rail/component.js';
+import './components/navigation/component.js';
 import './components/icon/component.js';
 import './components/progress-linear/component.js';
 import './components/progress-circular/component.js';

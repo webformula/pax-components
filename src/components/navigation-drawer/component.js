@@ -63,6 +63,9 @@ customElements.define('mdw-navigation-drawer', class MDWButton extends HTMLEleme
     this.classList.remove('mdw-hide');
     this.classList.add('mdw-show');
 
+    const navigationRail = document.querySelector('mdw-navigation-rail');
+    if (navigationRail) navigationRail.classList.add('mdw-navigation-drawer-show');
+
     this.#combinedLinks.forEach(links => {
       links.drawerLinkIcon.style.transform = '';
     });
@@ -81,6 +84,9 @@ customElements.define('mdw-navigation-drawer', class MDWButton extends HTMLEleme
   async hide() {
     this.classList.remove('mdw-show');
     this.classList.add('mdw-hide');
+
+    const navigationRail = document.querySelector('mdw-navigation-rail');
+    if (navigationRail) navigationRail.classList.remove('mdw-navigation-drawer-show');
     
     this.#combinedLinks.forEach(links => {
       links.drawerLinkIcon.style.transform = `translateY(${links.distance}px)`;
