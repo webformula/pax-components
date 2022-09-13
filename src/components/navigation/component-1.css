@@ -1,0 +1,52 @@
+mdw-navigation {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+  z-index: 11;
+  padding-top: 18px;
+  box-sizing: border-box;
+  height: 100%;
+  background-color: var(--mdw-surface);
+}
+
+mdw-navigation > nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+mdw-navigation > nav > a {
+  position: relative;
+  height: 56px;
+  margin-left: 26px;
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface-variant);
+}
+
+
+mdw-navigation .mdw-headline {
+  padding-left: 16px;
+  line-height: 56px;
+  font-size: var(--mdw-font-size-small-title);
+  font-weight: var(--mdw-font-weight-small-title);
+  letter-spacing: var(--mdw-font-letter-spacing-small-title);
+  color: var(--mdw-on-surface-variant);
+}
+
+
+
+/* --- drawer --- */
+
+mdw-navigation:not(.mdw-state-rail),
+mdw-navigation.mdw-state-drawer {
+  width: var(--mdw-navigation-drawer-width);
+  max-width: var(--mdw-navigation-drawer-width);
+}
