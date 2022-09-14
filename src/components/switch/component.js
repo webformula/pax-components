@@ -1,15 +1,18 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import util from '../../core/util.js'
-import Ripple from '../../core/Ripple.js';
+import Drag from '../../core/drag.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
-
-customElements.define('mdw-checkbox', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-switch', class MDWButton extends HTMLElementExtended {
   useShadowRoot = true;
 
-  #inputId = `checkbox_${util.getUID()}`;
+  #dragStartChecked;
+  #inputId = `switch_${util.getUID()}`;
   #updateAttribute_bound = this.#updateAttribute.bind(this);
-  #ripple;
+  #drag = new Drag();
+  #dragHandler_bound = this.#dragHandler.bind(this);
+  #dragStartHandler_bound = this.#dragStartHandler.bind(this);
+
 
   constructor() {
     super();
@@ -35,7 +38,10 @@ customElements.define('mdw-checkbox', class MDWButton extends HTMLElementExtende
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'checked' && this.rendered) this.shadowRoot.querySelector('input').checked = newValue !== null;
+    if (name === 'checked' && this.rendered) {
+      // if (oldValue !== newValue) this.dispatchEvent(new Event('change', this));
+      this.shadowRoot.querySelector('input').checked = newValue !== null;
+    }
   }
 
   connectedCallback() {
@@ -43,37 +49,51 @@ customElements.define('mdw-checkbox', class MDWButton extends HTMLElementExtende
   }
 
   afterRender() {
-    this.#ripple = new Ripple({
-      element: this.shadowRoot.querySelector('.mdw-ripple'),
-      triggerElement: this,
-      centered: true
-    });
+    this.#drag.element = this.shadowRoot.querySelector('.mdw-thumb');
+    this.#drag.onDrag(this.#dragHandler_bound);
+    this.#drag.onStart(this.#dragStartHandler_bound);
+    this.#drag.enable();
     if (this.hasAttribute('checked')) this.shadowRoot.querySelector('input').checked = true;
     this.shadowRoot.querySelector('input').addEventListener('change', this.#updateAttribute_bound);
   }
 
   disconnectedCallback() {
-    this.#ripple.destroy();
+    this.#drag.destroy();
     this.shadowRoot.querySelector('input').removeEventListener('change', this.#updateAttribute_bound);
   }
 
-  #updateAttribute() {
+  #updateAttribute(event) {
     if (this.checked === true) this.setAttribute('checked', '');
     else this.removeAttribute('checked');
     this.dispatchEvent(new Event('change'));
+  }
+
+  #dragStartHandler() {
+    this.#dragStartChecked = this.checked;
+  }
+
+  #dragHandler({ distance }) {
+    if (!this.#dragStartChecked) {
+      if (distance.x > 16) this.checked = true;
+      else this.checked = false;
+    } else {
+      if (distance.x < -16) this.checked = false;
+      else this.checked = true;
+    }
   }
 
   template() {
     return /* html */`
       <label for="${this.#inputId}">
         <input type="checkbox" tabIndex="0" id="${this.#inputId}">
-        <div class="mdw-background">
-          <svg version="1.1" focusable="false" viewBox="0 0 24 24">
-            <path fill="none" stroke="white" d="M4.1,12.7 9,17.6 20.3,6.3" ></path>
-          </svg>
-          <div class="mdw-ripple"></div>
-        </div>
         <slot></slot>
+        <div class="mdw-track">
+          <div class="mdw-thumb">
+            <svg version="1.1" focusable="false" viewBox="0 0 16 16">
+              <path fill="none" stroke="white" d="M5,8 7.7,10 12,5.5" ></path>
+            </svg>
+          </div>
+        </div>
       </label>
 
       <style>

@@ -15,6 +15,7 @@ import menu from './pages/menu/page.js';
 import select from './pages/select/page.js';
 import bottomAppBar from './pages/bottom app bar/page.js';
 import fab from './pages/fab/page.js';
+import mdwSwitch from './pages/switch/page.js';
 
 
 window.escapeHTML = str => {
@@ -39,6 +40,7 @@ registerPage(menu, '/menu');
 registerPage(select, '/select');
 registerPage(bottomAppBar, '/bottom-app-bar');
 registerPage(fab, '/fab');
+registerPage(mdwSwitch, '/switch');
 
 
 

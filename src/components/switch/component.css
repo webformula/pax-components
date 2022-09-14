@@ -1,0 +1,129 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+  padding: 1px 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+:host > label {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  cursor: inherit;
+  white-space: nowrap;
+}
+
+:host > label > input {
+  margin: 0;
+  appearance: none;
+}
+
+:host > label > slot {
+  display: block;
+  flex: 1;
+}
+
+:host > label > .mdw-track {
+  position: relative;
+  width: 52px;
+  height: 32px;
+  border-radius: var(--mdw-shape-large);
+  box-sizing: border-box;
+  border: 2px solid;
+
+  background-color: var(--mdw-surface-variant);
+  border-color: var(--mdw-outline);
+}
+
+:host([checked]) > label > .mdw-track {
+  background-color: var(--mdw-primary);
+  border-color: var(--mdw-primary);
+}
+
+:host(.mdw-label-right) > label > slot {
+  order: 2;
+  flex: 1;
+  text-align: right;
+}
+
+:host > label > .mdw-track > .mdw-thumb {
+  position: relative;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  margin: 6px;
+  border-radius: 50%;
+  box-sizing: border-box;
+
+  background-color: var(--mdw-outline);
+
+  transition:
+    left 300ms,
+    width 200ms,
+    height 200ms,
+    margin 200ms,
+    background-color 200ms,
+    border-color 200ms;
+}
+
+:host > label > .mdw-track > .mdw-thumb:active,
+:host([checked]) > label > .mdw-track > .mdw-thumb:active {
+  width: 28px;
+  height: 28px;
+  margin: 0;
+}
+
+:host([checked]) > label > .mdw-track > .mdw-thumb {
+  left: 20px;
+  width: 24px;
+  height: 24px;
+  margin: 2px;
+  background-color: var(--mdw-on-primary);
+}
+
+
+:host > label > .mdw-track > .mdw-thumb > svg {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+:host(.mdw-icon[checked]) > label > .mdw-track > .mdw-thumb > svg {
+  opacity: 1;
+}
+
+:host > label > .mdw-track > .mdw-thumb > svg > path {
+  stroke-width: 1.1333333333px;
+  stroke: var(--mdw-on-primary-container);
+}
+
+
+
+/* --- disabled --- */
+
+:host([disabled]) {
+  pointer-events: none;
+  cursor: unset;
+}
+
+:host([disabled]) > label > .mdw-track {
+  background-color: var(--mdw-surface-variant--12);
+  border-color: var(--mdw-on-surface--12);
+}
+
+:host([disabled][checked]) > label > .mdw-track {
+  background-color: var(--mdw-on-surface--12);
+  border-color: var(--mdw-on-surface--0);
+}
+
+:host([disabled]) > label > .mdw-track > .mdw-thumb {
+  background-color: var(--mdw-on-surface--38);
+}
+
+:host([disabled][checked]) > label > .mdw-track > .mdw-thumb {
+  background-color: var(--mdw-surface);
+}
+
+:host(.mdw-icon[checked][disabled]) > label > .mdw-track > .mdw-thumb > svg {
+  opacity: .38;
+}

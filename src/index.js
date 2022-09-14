@@ -20,6 +20,7 @@ import './components/dialog/component.js';
 import './components/menu/component.js';
 import './components/bottom-app-bar/component.js';
 import './components/fab/component.js';
+import './components/switch/component.js';
 
 export {
   MDWDialog,
