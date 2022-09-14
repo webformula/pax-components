@@ -18,7 +18,7 @@ export function generate() {
   const colorRegex = /^\s?#/;
   const colors = variables.filter(({ value }) => value.match(colorRegex) !== null);
   colors.forEach(({name, value}) => {
-    document.body.style.setProperty(`${name}--40`, `${value}00`);
+    document.body.style.setProperty(`${name}--0`, `${value}00`);
     // document.body.style.setProperty(`${name}--2`, `${value}05`);
     // document.body.style.setProperty(`${name}--3`, `${value}08`);
     document.body.style.setProperty(`${name}--4`, `${value}0a`);

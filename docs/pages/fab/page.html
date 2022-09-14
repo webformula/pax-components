@@ -1,5 +1,10 @@
 <h3>FAB</h3>
 
+<mdw-fab class="mdw-auto-hide-label mdw-position-bottom-right">
+  <mdw-icon>edit</mdw-icon>
+  Example
+</mdw-fab>
+
 <mdw-card class="mdw-no-states" style="padding-top:16px; padding-left: 16px; display: block;">
   <mdw-fab class="mdw-large">
     <mdw-icon>edit</mdw-icon>
@@ -11,6 +16,11 @@
 
   <mdw-fab class="mdw-small mdw-tertiary">
     <mdw-icon>edit</mdw-icon>
+  </mdw-fab>
+
+  <mdw-fab>
+    <mdw-icon>edit</mdw-icon>
+    Edit
   </mdw-fab>
 </mdw-card>
 
@@ -24,6 +34,7 @@ design files and implementations.</p>
   <a href="#positioning">Positioning</a>
   <a href="#colors">Colors</a>
   <a href="#sizes">Sizes</a>
+  <a href="#label">Label</a>
 </div>
 
 
@@ -162,6 +173,36 @@ design files and implementations.</p>
       
       <mdw-fab class="mdw-large">
         <mdw-icon>edit</mdw-icon>
+      </mdw-fab>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="label">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-fab>
+    <mdw-icon>edit</mdw-icon>
+    Toggle
+  </mdw-fab>
+  
+  <mdw-fab class="mdw-hide-label">
+    <mdw-icon>edit</mdw-icon>
+    Toggle
+  </mdw-fab>`)}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">FAB label</div>
+  
+    <div class="example">
+      <mdw-fab id="hide-label" onclick="page.toggleLabel()">
+        <mdw-icon>edit</mdw-icon>
+        Toggle
+      </mdw-fab>
+
+      <mdw-fab class="mdw-hide-label">
+        <mdw-icon>edit</mdw-icon>
+        Toggle
       </mdw-fab>
     </div>
   </mdw-card>

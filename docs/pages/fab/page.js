@@ -7,4 +7,8 @@ export default new class extends Page {
   constructor() {
     super();
   }
+
+  toggleLabel() {
+    document.querySelector('#hide-label').classList.toggle('mdw-hide-label');
+  }
 }
