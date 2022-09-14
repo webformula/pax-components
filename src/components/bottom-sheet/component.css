@@ -1,0 +1,35 @@
+mdw-bottom-sheet {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: calc(100% - var(--mdw-bottom-sheet-initial-height));
+  max-width: 640px;
+  min-height: 100%;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  overflow-y: auto;
+  
+  z-index: 9;
+
+  background-color: var(--mdw-surface);
+  border-radius: var(--mdw-shape-extra-large-top);
+  box-shadow: var(--mdw-elevation-1);
+}
+
+
+mdw-bottom-sheet > .mdw-drag-handle {
+  align-self: center;
+  width: 36px;
+  height: 4px;
+  border-radius: 4px;
+  margin: 12px 0;
+
+  background-color: var(--mdw-on-surface-variant);
+}
+
+
+mdw-bottom-sheet > .mdw-content {
+  margin: 0 12px;
+}

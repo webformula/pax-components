@@ -21,6 +21,7 @@ import './components/menu/component.js';
 import './components/bottom-app-bar/component.js';
 import './components/fab/component.js';
 import './components/switch/component.js';
+import './components/bottom-sheet/component.js';
 
 export {
   MDWDialog,
