@@ -49,6 +49,7 @@ customElements.define('mdw-fab', class MDWButton extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
+    if (this.#autoHideLabel && this.#scrollTarget) this.#scrollTarget.removeEventListener('scroll', this.#scrollHandler_bound);
     this.#ripple.destroy();
   }
 
