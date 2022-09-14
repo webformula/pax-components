@@ -24,3 +24,7 @@ body page-content {
   overflow: auto;
   padding-left: 12px;
 }
+
+a:-webkit-any-link:active {
+  color: inherit;
+}

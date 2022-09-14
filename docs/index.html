@@ -28,7 +28,7 @@
       <a href="/buttons">
         <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Buttons</div>
-        <mdw-icon>home</mdw-icon>
+        <!-- <mdw-icon>home</mdw-icon> -->
         <div class="mdw-ripple"></div>
       </a>
       <a href="/icon-buttons">
@@ -40,30 +40,6 @@
         <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Cards</div>
         <div class="mdw-ripple"></div>
-      </a>
-    </nav>
-  </mdw-navigation>
-
-  <!-- <mdw-navigation-rail>
-    <header>
-      <mdw-navigation-button></mdw-navigation-button>
-    </header>
-    <nav>
-      <a href="/">
-        <mdw-icon>home</mdw-icon>
-        <div class="mdw-label">home</div>
-      </a>
-      <a href="/buttons">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Buttons</div>
-      </a>
-      <a href="/icon-buttons">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Icon button</div>
-      </a>
-      <a href="/cards">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Cards</div>
       </a>
       <a href="/progress-indicators">
         <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
@@ -100,71 +76,18 @@
         <div class="mdw-label">select</div>
         <div class="mdw-ripple"></div>
       </a>
-    </nav>
-  </mdw-navigation-rail>
-
-  <mdw-navigation-drawer>
-    <header></header>
-    <nav>
-      <div class="mdw-headline">Documentation</div>
-      <a href="/">
-        <mdw-icon>home</mdw-icon>
-        <div class="mdw-label">Welcome</div>
+      <a href="/bottom-app-bar">
+        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
+        <div class="mdw-label">Bottom app bar</div>
         <div class="mdw-ripple"></div>
       </a>
-      <a href="/buttons">
+      <a href="/fab">
         <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Buttons</div>
-        <mdw-icon class="mdw-trailing">home</mdw-icon>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/icon-buttons">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Icon buttons</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/cards">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Cards</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/progress-indicators">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Progress indicators</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/text-field">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Text field</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/checkbox">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">checkbox</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/top-app-bar">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Top app bar</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/dialog">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">Dialog</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/menu">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">menu</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/select">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
-        <div class="mdw-label">select</div>
+        <div class="mdw-label">FAB</div>
         <div class="mdw-ripple"></div>
       </a>
     </nav>
-  </mdw-navigation-drawer> -->
+  </mdw-navigation>
 
   <div style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
     <!-- <mdw-top-app-bar>
@@ -173,6 +96,23 @@
       <mdw-icon>account_circle</mdw-icon>
     </mdw-top-app-bar> -->
     <page-content></page-content>
+
+    <mdw-bottom-app-bar class="mdw-mobile-only">
+      <nav>
+        <a href="/">
+          <mdw-icon>home</mdw-icon>
+          <div class="mdw-ripple"></div>
+        </a>
+        <a href="/buttons">
+          <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
+          <div class="mdw-ripple"></div>
+        </a>
+        <a href="/icon-buttons">
+          <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
+          <div class="mdw-ripple"></div>
+        </a>
+      </nav>
+    </mdw-bottom-app-bar>
   </div>
 </body>
 

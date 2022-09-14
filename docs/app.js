@@ -13,6 +13,8 @@ import topAppBar from './pages/top app bar/page.js';
 import dialog from './pages/dialog/page.js';
 import menu from './pages/menu/page.js';
 import select from './pages/select/page.js';
+import bottomAppBar from './pages/bottom app bar/page.js';
+import fab from './pages/fab/page.js';
 
 
 window.escapeHTML = str => {
@@ -35,6 +37,8 @@ registerPage(topAppBar, '/top-app-bar');
 registerPage(dialog, '/dialog');
 registerPage(menu, '/menu');
 registerPage(select, '/select');
+registerPage(bottomAppBar, '/bottom-app-bar');
+registerPage(fab, '/fab');
 
 
 

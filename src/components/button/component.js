@@ -54,7 +54,7 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   }
 
   disconnectedCallback() {
-    if (this.#ripple) this.#ripple.destroy();
+    this.#ripple.destroy();
     this.removeEventListener('mouseup', this.mouseUp_bound);
     if (this.classList.contains('mdw-icon-toggle-button')) {
       this.removeEventListener('click', this.handleToggle_bound);
