@@ -4,6 +4,9 @@ export default class Drag {
   #element;
   #lastDistance;
   #initialTouchPos;
+  #lastTouchPos = { x: 0, y: 0 };
+  #currentTouchPosition;
+  #startTime;
 
   #onDragCallbacks = [];
   #onStartCallbacks = [];
@@ -51,20 +54,26 @@ export default class Drag {
     this.#element = undefined;
   }
 
+  resetDistance() {
+    this.#initialTouchPos = this.#currentTouchPosition;
+  }
+
   #initiate() {
     this.#element.addEventListener('touchstart', this.#touchstart_bound, false);
   }
 
   #touchstart(event) {
+    this.#startTime = Date.now();
     this.#initialTouchPos = this.#getClientXY(event);
     this.#lastDistance = this.#getDistance(event);
-
     this.#onStartCallbacks.forEach(callback => callback({
       event
     }));
 
     this.#element.addEventListener('touchend', this.#touchend_bound, false);
     this.#element.addEventListener('touchmove', this.#touchmove_throttled, false);
+
+    // event.preventDefault();
   }
 
   #touchend(event) {
@@ -74,28 +83,34 @@ export default class Drag {
     const distance = this.#getDistance(event);
     this.#onEndCallbacks.forEach(callback => callback({
       distance,
-      direction: this.#getDirection({ x: 0, y: 0 }, event),
-      velocity: this.#getVelocity(distance, event.runTime),
+      direction: this.#getDirection({ x: 0, y: 0 }, distance),
+      velocity: this.#getVelocity(distance, Date.now() - this.#startTime),
       event
     }));
+    // event.preventDefault();
   }
 
   #touchmove(event) {
+    this.#currentTouchPosition = this.#getClientXY(event);
     const distance = this.#getDistance(event);
     this.#onDragCallbacks.forEach(callback => callback({
       distance,
-      direction: this.#getDirection(this.#lastDistance, event),
-      velocity: this.#getVelocity(distance, event.runTime),
+      direction: this.#getDirection(this.#lastDistance, distance),
       event
     }));
     this.#lastDistance = distance;
+    // event.preventDefault();
   }
 
   #getDistance(event) {
     const xy = this.#getClientXY(event);
+    const last = this.#lastTouchPos;
+    this.#lastTouchPos = xy;
     return {
       x: xy.x - this.#initialTouchPos.x,
-      y: xy.y - this.#initialTouchPos.y
+      y: xy.y - this.#initialTouchPos.y,
+      moveX: xy.x - last.x,
+      moveY: xy.y - last.y
     };
   }
 
@@ -118,8 +133,8 @@ export default class Drag {
 
   #getClientXY(event) {
     return {
-      x: event.targetTouches && event.targetTouches.length ? event.targetTouches[0].clientX : event.changedTouches && event.changedTouches.length ? event.changedTouches[0].clientX : event.clientX,
-      y: event.targetTouches && event.targetTouches.length ? event.targetTouches[0].clientY : event.changedTouches && event.changedTouches.length ? event.changedTouches[0].clientY : event.clientY
+      x: event.changedTouches[0].clientX,
+      y: event.changedTouches[0].clientY
     }
   }
 }

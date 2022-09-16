@@ -12,7 +12,7 @@ customElements.define('mdw-navigation-button', class MDWButton extends HTMLEleme
   constructor() {
     super();
 
-    if (this.#shouldShow()) this.classList.add('mdw-show');
+    // if (this.#shouldShow()) this.classList.add('mdw-show');
   }
 
   connectedCallback() {

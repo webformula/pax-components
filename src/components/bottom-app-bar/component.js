@@ -9,6 +9,8 @@ customElements.define('mdw-bottom-app-bar', class MDWButton extends HTMLElementE
 
   constructor() {
     super();
+
+    document.body.classList.add('mdw-has-bottom-app-bar');
   }
 
   async connectedCallback() {

@@ -9,13 +9,36 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
 
   #rippleElements = [];
   #locationChange_bound = this.#locationChange.bind(this);
-
+  #onClickOutside_bound = this.#onClickOutside.bind(this);
 
   constructor() {
     super();
 
     if (!this.classList.contains('mdw-state-rail')) {
       this.classList.add('mdw-state-drawer');
+    }
+
+    if (document.body.classList.contains('mdw-mobile')) {
+      this.classList.remove('mdw-rail-enabled');
+      this.classList.remove('mdw-state-rail');
+      this.classList.remove('mdw-show');
+    }
+
+    if (this.classList.contains('mdw-rail-enabled') && document.body.classList.contains('mdw-small-screen')) {
+      this.classList.add('mdw-state-rail');
+      this.classList.remove('mdw-state-drawer');
+    }
+
+    if (this.classList.contains('mdw-rail-enabled')) {
+      window.addEventListener('mdw:screen-small', () => {
+        this.classList.add('mdw-state-rail');
+        this.classList.remove('mdw-state-drawer');
+      });
+
+      window.addEventListener('mdw:screen-normal', () => {
+        this.classList.add('mdw-state-drawer');
+        this.classList.remove('mdw-state-rail');
+      });
     }
   }
 
@@ -37,11 +60,38 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
 
     await util.nextAnimationFrameAsync();
     this.classList.add('mdw-enable-animation');
+
+    if (this.#shouldAddClickOutsideEvent) this.addEventListener('click', this.#onClickOutside_bound);
   }
 
   disconnectedCallback() {
     window.removeEventListener('locationchange', this.#locationChange_bound);
     this.#rippleElements.forEach(r => r.destroy());
+  }
+
+  get isOpen() {
+    if (this.classList.contains('mdw-show')) return true;
+    if (
+      document.body.classList.contains('mdw-small-screen')
+      && !document.body.classList.contains('mdw-mobile')
+      && this.classList.contains('mdw-state-drawer')
+    ) return true;
+    if (
+      !document.body.classList.contains('mdw-small-screen')
+      && !document.body.classList.contains('mdw-mobile')
+      && this.classList.contains('mdw-state-drawer')
+    ) return true;
+    return false;
+  }
+
+  get #shouldAddClickOutsideEvent() {
+    if (this.classList.contains('mdw-show')) return true;
+    if (
+      document.body.classList.contains('mdw-small-screen')
+      && !document.body.classList.contains('mdw-mobile')
+      && this.classList.contains('mdw-state-drawer')
+    ) return true;
+    return false;
   }
 
   async toggle() {
@@ -58,7 +108,7 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
         this.classList.add('mdw-drawer-to-rail-animation');
       }
 
-      await util.transitionendAsync(this);
+      await util.animationendAsync(this);
       this.classList.remove('mdw-drawer-to-rail-animation');
       this.classList.remove('mdw-rail-to-drawer-animation');
 
@@ -71,6 +121,11 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
         this.classList.add('mdw-show');
       }
     }
+
+    setTimeout(() => {
+      if (this.#shouldAddClickOutsideEvent) this.addEventListener('click', this.#onClickOutside_bound, true);
+      else this.removeEventListener('click', this.#onClickOutside_bound, true);
+    }, 0);
   }
 
   #locationChange() {
@@ -90,5 +145,10 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
     if (!match) match = this.querySelector(`a[href="${location.pathname}"]`);
 
     if (match) match.classList.add('mdw-current-link');
+  }
+
+  #onClickOutside(event) {
+    if (event.target.hasAttribute('href')) this.toggle();
+    if (event.target.nodeName === 'MDW-NAVIGATION') this.toggle();
   }
 });

@@ -11,8 +11,13 @@ const MDWUtil = new class MDWUtil {
     if (isSmallScreen()) document.body.classList.add('mdw-small-screen');
 
     window.addEventListener('resize', () => {
-      if (isSmallScreen()) document.body.classList.add('mdw-small-screen');
-      else document.body.classList.remove('mdw-small-screen');
+      if (isSmallScreen()) {
+        document.body.classList.add('mdw-small-screen');
+        window.dispatchEvent(new Event('mdw:screen-small'));
+      } else {
+        document.body.classList.remove('mdw-small-screen');
+        window.dispatchEvent(new Event('mdw:screen-normal'));
+      }
     });
   }
 
@@ -68,6 +73,16 @@ const MDWUtil = new class MDWUtil {
         resolve();
       }
       element.addEventListener('transitionend', onTransitionend);
+    });
+  }
+
+  async animationendAsync(element) {
+    return new Promise(resolve => {
+      function onAnimationend() {
+        element.removeEventListener('animationend', onAnimationend);
+        resolve();
+      }
+      element.addEventListener('animationend', onAnimationend);
     });
   }
 

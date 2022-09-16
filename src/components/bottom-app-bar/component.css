@@ -1,5 +1,17 @@
 mdw-bottom-app-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
+}
+
+body.mdw-mobile.mdw-has-bottom-app-bar > page-content::after {
+  content: '';
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
 }
 
 mdw-bottom-app-bar > nav {
@@ -23,12 +35,16 @@ mdw-bottom-app-bar > nav > a {
   -webkit-tap-highlight-color: transparent;
 }
 
+mdw-bottom-app-bar > nav > mdw-navigation-button {
+  margin-right: 8px;
+}
+
 mdw-bottom-app-bar > nav > a > mdw-icon {
   pointer-events: none;
 }
 
 
-body:not(.mdw-mobile) mdw-bottom-app-bar.mdw-mobile-only {
+body:not(.mdw-mobile) mdw-bottom-app-bar {
   display: none;
 }
 

@@ -1,7 +1,37 @@
-mdw-navigation-button {
-  display: none;
+mdw-navigation-button.mdw-mobile-only {
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms, height 240ms;
+}
+body:not(.mdw-small-screen).mdw-mobile mdw-navigation-button.mdw-mobile-only {
+  height: 42px;
+  opacity: 1;
+  pointer-events: all;
 }
 
-mdw-navigation-button.mdw-show {
-  display: block;
+mdw-navigation-button.mdw-small-screen-only {
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms, height 240ms;
+}
+body:not(.mdw-mobile).mdw-small-screen mdw-navigation-button.mdw-small-screen-only {
+  height: 42px;
+  opacity: 1;
+  pointer-events: all;
+}
+
+mdw-navigation-button.mdw-mobile-and-small-screen {
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms, height 240ms;
+}
+
+body.mdw-mobile mdw-navigation-button.mdw-mobile-and-small-screen,
+body.mdw-small-screen mdw-navigation-button.mdw-mobile-and-small-screen {
+  height: 42px;
+  opacity: 1;
+  pointer-events: all;
 }
