@@ -1,14 +1,14 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import Drag from '../../core/drag.js';
 import './component.css';
+import util from '../../core/util.js';
 
 customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExtended {
   useShadowRoot = false;
 
   #initialDragPosition;
-  #initialScrollPosition;
   #lastScrollTop;
-  #overScrollScale = 50;
+  #defaultDragPositionOffset;
   #drag = new Drag(this);
   #onDrag_bound = this.#onDrag.bind(this);
   #onDragStart_bound = this.#onDragStart.bind(this);
@@ -24,6 +24,15 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
     this.#drag.onDrag(this.#onDrag_bound);
     this.#drag.onStart(this.#onDragStart_bound);
     this.#drag.onEnd(this.#onDragEnd_bound);
+
+    this.#defaultDragPositionOffset = parseFloat(getComputedStyle(this).getPropertyValue('top').replace('px', '')) / this.#windowHeight;
+
+    window.addEventListener('resize', this.#onResize_bound);
+  }
+
+  #onResize() {
+    this.#defaultDragPositionOffset = parseFloat(getComputedStyle(this).getPropertyValue('top').replace('px', '')) / this.#windowHeight;
+    console.log(this.#defaultDragPositionOffset);
   }
 
   get #windowHeight() {
@@ -31,32 +40,31 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
   }
 
   get #defaultPosition() {
-    return this.#windowHeight - 220;
+    return this.#windowHeight * this.#defaultDragPositionOffset;
   }
 
   get #minimizedPosition() {
     return this.#windowHeight - 64;
   }
 
-  // get #minimizeTopLimit() {
-  //   return this.#windowHeight - 56;
-  // }
-
-  // get #positionLimit() {
-  //   return this.#windowHeight - this.offsetHeight;
-  // }
-
   connectedCallback() {
     this.#drag.enable();
   }
 
-  #onDragStart() {
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.#onResize_bound);
+  }
+
+  #onDragStart({ event }) {
+    document.querySelector('html').style.overflowY = 'hidden';
+    document.body.style.overflowY = 'hidden';
+    document.querySelector('html').style.touchAction = 'none';
+    document.body.style.touchAction = 'none';
     this.#cancelDragAnimation();
     this.#initialDragPosition = parseInt(getComputedStyle(this).getPropertyValue('top').replace('px', ''));
-    this.#initialScrollPosition = this.scrollTop;
     this.#lastScrollTop = 0;
 
-    // window.addEventListener('resize', this.#onResize_bound);
+    if (this.#initialDragPosition > 0) event.preventDefault();
   }
 
   #onDrag({ distance, direction, event }) {
@@ -79,15 +87,12 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
       return;
     }
 
-
     let top = this.#initialDragPosition + distance.y;
-    // if (top >= this.#minimizeTopLimit) top = this.#minimizeTopLimit;
 
     if (top > -80 && direction.y === 1) {
       this.style.top = `${top}px`;
       this.style.overflow = 'visible';
       this.style.height = '';
-      // event.preventDefault();
       return;
     }
 
@@ -100,15 +105,12 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
 
     if (top > 0 && direction.y === -1) {
       this.style.top = `${top}px`;
-      // event.preventDefault();
       return;
     }
   }
 
   // TODO swipe close
-  #onDragEnd({ direction, distance, velocity }) {
-    // window.removeEventListener('resize', this.#onResize_bound);
-
+  #onDragEnd({ direction, distance, velocity, event }) {
     const top = this.#initialDragPosition + distance.y;
     if (top >= 0 && this.scrollTop < 80) {
       // swipe up from default position
@@ -119,6 +121,9 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
 
       // minimize from default
       if (velocity.y > 1.6 && this.#initialDragPosition === this.#defaultPosition) return this.#positionMinimized();
+
+      // default from minimized
+      if (velocity.y < -0.7 && top > this.#defaultPosition - 80) return this.#positionDefault();
 
       // scroll and snap
       const multiplier = Math.abs(velocity.y) / 3;
@@ -139,6 +144,11 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
         if (newTopPosition >= this.#defaultPosition + 80) return this.#positionMinimized();
       }
     }
+
+    document.querySelector('html').style.overflowY = '';
+    document.body.style.overflowY = '';
+    document.querySelector('html').style.touchAction = '';
+    document.body.style.touchAction = '';
   }
 
   #animateToPosition(top, multiplier) {
@@ -157,11 +167,27 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
     this.style.top = `${top}px`;
   }
 
-  #onResize() {
-    this.#windowHeight = window.innerHeight;
+  #positionTop() {
+    this.#animateToPosition(0);
+  }
+
+  #positionDefault() {
+    this.#animateToPosition(this.#defaultPosition);
+  }
+
+  #positionMinimized() {
+    this.#animateToPosition(this.#minimizedPosition);
+  }
+
+  #cancelDragAnimation() {
+    this.classList.remove('mdw-drag-animation');
+    this.style.transitionDuration = '';
+    this.removeEventListener('transitionend', this.#cancelDragAnimation_bound);
   }
 
 
+
+  // old manual scrolling setup
   // #onDragStart() {
   //   this.#cancelDragAnimation();
   //   this.#defaultPosition = window.innerHeight - 220;
@@ -231,23 +257,4 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
   //   else this.style.transitionDuration = '';
   //   this.style.top = `${top}px`;
   // }
-
-
-  #positionTop() {
-    this.#animateToPosition(0);
-  }
-
-  #positionDefault() {
-    this.#animateToPosition(this.#defaultPosition);
-  }
-
-  #positionMinimized() {
-    this.#animateToPosition(this.#minimizedPosition);
-  }
-
-  #cancelDragAnimation() {
-    this.classList.remove('mdw-drag-animation');
-    this.style.transitionDuration = '';
-    this.removeEventListener('transitionend', this.#cancelDragAnimation_bound);
-  }
 });

@@ -1,5 +1,5 @@
 mdw-bottom-sheet {
-  position: absolute;
+  position: fixed;
   display: flex;
   flex-direction: column;
   top: calc(100% - var(--mdw-bottom-sheet-initial-position));
@@ -10,6 +10,7 @@ mdw-bottom-sheet {
   margin-right: auto;
   margin-left: auto;
   overflow-y: visible;
+  overscroll-behavior: contain;
   
   z-index: 9;
 

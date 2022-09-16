@@ -86,6 +86,19 @@ const MDWUtil = new class MDWUtil {
     });
   }
 
+  parseCSSUnit(value) {
+    value = `${value}`;
+    return {
+      value: parseFloat(value),
+      unit: (value.match(/\D/g) || []).join('').trim()
+    };
+  }
+
+  getCSSVariableValue(variableName) {
+    const variable = window.MDWCSSVariables.find(({ name }) => name === variableName);
+    if (variable) return variable.value;
+  }
+
   // can use array of strings ['one', 'two']
   // can also use array of objects with label property [{ label: 'one' }, { label: 'two' }]
   fuzzySearch(searchTerm, items = [], distanceCap = 2) {  
