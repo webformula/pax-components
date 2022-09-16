@@ -11,6 +11,9 @@ mdw-top-app-bar {
   z-index: 9;
 
   background-color: var(--mdw-surface);
+
+  /* without this, the initial window.innerHeight is not correct */
+  overflow: hidden;
 }
 
 body:not(.mdw-mobile) mdw-top-app-bar.mdw-mobile-only {
@@ -29,17 +32,10 @@ mdw-top-app-bar:before {
   transition: background-color 80ms linear;
 }
 
+
 mdw-top-app-bar:not(.mdw-no-states).mdw-scrolled:before {
   background-color: var(--mdw-surface-tint--6);
 }
-
-
-/* offset height for scrolling */
-/* mdw-top-app-bar + page-content::after {
-  content: "";
-  padding-bottom: 64px;
-} */
-
 
 mdw-top-app-bar > .mdw-headline {
   flex: 1;

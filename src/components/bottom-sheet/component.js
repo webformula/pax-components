@@ -25,14 +25,32 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
     this.#drag.onStart(this.#onDragStart_bound);
     this.#drag.onEnd(this.#onDragEnd_bound);
 
-    this.#defaultDragPositionOffset = parseFloat(getComputedStyle(this).getPropertyValue('top').replace('px', '')) / this.#windowHeight;
+    this.#defaultDragPositionOffset = this.#styleTopValue / this.#windowHeight;
+
+    // TODO change calculations to use bottom not top
+    //  This will fix the issues with ios safari's auto collapsing address bar
+    //  Cannot calculate the bottom values in css due to needing the offset height and window height
+    //  remove css var, remove top from css
+    //  containerHeight - ( windowHeight * percentOffsetFromBottom )
+    // this.style.bottom = `-${this.offsetHeight - (this.#windowHeight * 0.4)}px`;
 
     window.addEventListener('resize', this.#onResize_bound);
+
+    setTimeout(() => {
+      console.log('-', window.innerHeight)
+    }, 100)
   }
 
   #onResize() {
-    this.#defaultDragPositionOffset = parseFloat(getComputedStyle(this).getPropertyValue('top').replace('px', '')) / this.#windowHeight;
-    console.log(this.#defaultDragPositionOffset);
+    // const difference = this.#lastWindowHeight - this.#windowHeight;
+    // this.style.top = `${this.#lastStyleTopValue - difference}px`;
+    // console.log(difference, this.#lastStyleTopValue, this.#styleTopValue)
+
+    this.#defaultDragPositionOffset = this.#styleTopValue / this.#windowHeight;
+  }
+
+  get #styleTopValue() {
+    return parseFloat(getComputedStyle(this).getPropertyValue('top').replace('px', ''));
   }
 
   get #windowHeight() {
@@ -56,18 +74,19 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
   }
 
   #onDragStart({ event }) {
+    this.#cancelDragAnimation();
+
     document.querySelector('html').style.overflowY = 'hidden';
     document.body.style.overflowY = 'hidden';
     document.querySelector('html').style.touchAction = 'none';
     document.body.style.touchAction = 'none';
-    this.#cancelDragAnimation();
-    this.#initialDragPosition = parseInt(getComputedStyle(this).getPropertyValue('top').replace('px', ''));
-    this.#lastScrollTop = 0;
 
+    this.#initialDragPosition = this.#styleTopValue;
+    this.#lastScrollTop = 0;
     if (this.#initialDragPosition > 0) event.preventDefault();
   }
 
-  #onDrag({ distance, direction, event }) {
+  #onDrag({ distance, direction }) {
     if (this.scrollTop === this.#lastScrollTop && direction.y === -1 && this.style.overflow === 'scroll') {
       this.scrollTop += Math.round(-distance.moveY);
       this.#lastScrollTop = this.scrollTop;
@@ -82,7 +101,7 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
       this.scrollTop = 0;
       this.style.overflow = 'visible';
       this.style.height = '';
-      this.#initialDragPosition = parseInt(getComputedStyle(this).getPropertyValue('top').replace('px', ''));
+      this.#initialDragPosition = this.#styleTopValue;
       this.#drag.resetDistance();
       return;
     }
@@ -110,8 +129,9 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
   }
 
   // TODO swipe close
-  #onDragEnd({ direction, distance, velocity, event }) {
+  #onDragEnd({ direction, distance, velocity }) {
     const top = this.#initialDragPosition + distance.y;
+
     if (top >= 0 && this.scrollTop < 80) {
       // swipe up from default position
       if (top <= this.#defaultPosition && velocity.y < -1.1) return this.#positionTop();
@@ -144,14 +164,10 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
         if (newTopPosition >= this.#defaultPosition + 80) return this.#positionMinimized();
       }
     }
-
-    document.querySelector('html').style.overflowY = '';
-    document.body.style.overflowY = '';
-    document.querySelector('html').style.touchAction = '';
-    document.body.style.touchAction = '';
   }
 
   #animateToPosition(top, multiplier) {
+    console.log('animateToPosition')
     if (this.scrollTop !== 0) {
       this.style.top = `-${this.scrollTop}px`;
       this.scrollTop = 0;
@@ -183,6 +199,13 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
     this.classList.remove('mdw-drag-animation');
     this.style.transitionDuration = '';
     this.removeEventListener('transitionend', this.#cancelDragAnimation_bound);
+
+    if (this.#styleTopValue > 0) {
+      document.querySelector('html').style.overflowY = '';
+      document.body.style.overflowY = '';
+      document.querySelector('html').style.touchAction = '';
+      document.body.style.touchAction = '';
+    }
   }
 
 
