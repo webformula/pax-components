@@ -2,6 +2,10 @@ import { isMobile, isSmallScreen, isMobileOrSmallScreen } from './device.js';
 
 const MDWUtil = new class MDWUtil {
   #uidCounter = 0;
+  #pageScrollIsLocked = false;
+  #pageScrollLockHTMLScrollTop;
+  #pageScrollLockBodyScrollTop;
+
   isMobile = isMobile;
   isSmallScreen = isSmallScreen;
   isMobileOrSmallScreen = isMobileOrSmallScreen;
@@ -86,18 +90,68 @@ const MDWUtil = new class MDWUtil {
     });
   }
 
-  parseCSSUnit(value) {
-    value = `${value}`;
-    return {
-      value: parseFloat(value),
-      unit: (value.match(/\D/g) || []).join('').trim()
-    };
+  lockPageScroll() {
+    if (this.#pageScrollIsLocked === true) return;
+    this.#pageScrollIsLocked = true;
+
+    const htmlElement = document.querySelector('html');
+    console.log('lock', htmlElement.scrollTop);
+    this.#pageScrollLockHTMLScrollTop = htmlElement.scrollTop;
+    htmlElement.style.overflow = 'hidden';
+    htmlElement.style.position = 'relative';
+    htmlElement.style.touchAction = 'none';
+    // htmlElement.style.bottom = '0';
+    // htmlElement.style.height = 'unset';
+    // htmlElement.style.top = `-${this.#pageScrollLockHTMLScrollTop}px`;
+
+    const bodyElement = document.body;
+    bodyElement.style.overflow = 'hidden';
+    bodyElement.style.position = 'absolute';
+    bodyElement.style.touchAction = 'none';
+    bodyElement.style.bottom = '0';
+    bodyElement.style.height = 'unset';
+    bodyElement.style.top = `-${this.#pageScrollLockHTMLScrollTop}px`;
+
+    // return offset
+    // Locking page can
+    return this.#pageScrollLockHTMLScrollTop;
   }
 
-  getCSSVariableValue(variableName) {
-    const variable = window.MDWCSSVariables.find(({ name }) => name === variableName);
-    if (variable) return variable.value;
+  unlockPageScroll() {
+    if (this.#pageScrollIsLocked === false) return;
+    this.#pageScrollIsLocked = false;
+
+    const htmlElement = document.querySelector('html');
+    htmlElement.style.overflow = '';
+    htmlElement.style.position = '';
+    htmlElement.style.touchAction = '';
+    htmlElement.style.top = '';
+    htmlElement.style.bottom = '';
+    htmlElement.style.height = '';
+    htmlElement.scrollTop = this.#pageScrollLockHTMLScrollTop;
+
+    const bodyElement = document.body;
+    console.log('un', bodyElement.style.top);
+    bodyElement.style.overflow = '';
+    bodyElement.style.position = '';
+    bodyElement.style.touchAction = '';
+    bodyElement.style.top = '';
+    bodyElement.style.bottom = '';
+    bodyElement.style.height = '';
   }
+
+  // parseCSSUnit(value) {
+  //   value = `${value}`;
+  //   return {
+  //     value: parseFloat(value),
+  //     unit: (value.match(/\D/g) || []).join('').trim()
+  //   };
+  // }
+
+  // getCSSVariableValue(variableName) {
+  //   const variable = window.MDWCSSVariables.find(({ name }) => name === variableName);
+  //   if (variable) return variable.value;
+  // }
 
   // can use array of strings ['one', 'two']
   // can also use array of objects with label property [{ label: 'one' }, { label: 'two' }]

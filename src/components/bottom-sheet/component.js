@@ -3,17 +3,21 @@ import Drag from '../../core/drag.js';
 import './component.css';
 import util from '../../core/util.js';
 
+
+// TODO look into other wars of preventing body from scrolling
+// There is some bugyness on ios safari
+// could try locking the scroll to the body. Right now it is scrolling on html. We want to see if we can maintain address bar behavior
+
 customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExtended {
   useShadowRoot = false;
-
+  
+  #initialDragToScrollSwitch;
   #initialDragPosition;
-  #lastScrollTop;
-  #defaultDragPositionOffset;
   #drag = new Drag(this);
   #onDrag_bound = this.#onDrag.bind(this);
   #onDragStart_bound = this.#onDragStart.bind(this);
   #onDragEnd_bound = this.#onDragEnd.bind(this);
-  #cancelDragAnimation_bound = this.#cancelDragAnimation.bind(this);
+  #transitionend_bound = this.#transitionend.bind(this);
   #onResize_bound = this.#onResize.bind(this);
 
   constructor() {
@@ -25,187 +29,137 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
     this.#drag.onStart(this.#onDragStart_bound);
     this.#drag.onEnd(this.#onDragEnd_bound);
 
-    this.#defaultDragPositionOffset = this.#styleTopValue / this.#windowHeight;
-
-    // TODO change calculations to use bottom not top
-    //  This will fix the issues with ios safari's auto collapsing address bar
-    //  Cannot calculate the bottom values in css due to needing the offset height and window height
-    //  remove css var, remove top from css
-    //  containerHeight - ( windowHeight * percentOffsetFromBottom )
-    // this.style.bottom = `-${this.offsetHeight - (this.#windowHeight * 0.4)}px`;
-
-    window.addEventListener('resize', this.#onResize_bound);
-
-    setTimeout(() => {
-      console.log('-', window.innerHeight)
-    }, 100)
+    this.style.bottom = `${this.#initialPosition}px`;
+    this.style.overflowY = 'visible'; // used in drag events
+    // window.addEventListener('resize', this.#onResize_bound);
   }
 
-  #onResize() {
-    // const difference = this.#lastWindowHeight - this.#windowHeight;
-    // this.style.top = `${this.#lastStyleTopValue - difference}px`;
-    // console.log(difference, this.#lastStyleTopValue, this.#styleTopValue)
-
-    this.#defaultDragPositionOffset = this.#styleTopValue / this.#windowHeight;
-  }
-
-  get #styleTopValue() {
-    return parseFloat(getComputedStyle(this).getPropertyValue('top').replace('px', ''));
+  get #styleBottomValue() {
+    return parseFloat(getComputedStyle(this).getPropertyValue('bottom').replace('px', ''));
   }
 
   get #windowHeight() {
     return window.innerHeight;
   }
 
-  get #defaultPosition() {
-    return this.#windowHeight * this.#defaultDragPositionOffset;
+  get #initialPosition() {
+    return -(this.offsetHeight - (this.#windowHeight * 0.4));
+  }
+
+  get #topPosition() {
+    return -(this.offsetHeight - this.#windowHeight);
   }
 
   get #minimizedPosition() {
-    return this.#windowHeight - 64;
+    return -(this.offsetHeight - 80);
   }
 
   connectedCallback() {
     this.#drag.enable();
   }
 
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.#onResize_bound);
+  #onResize() {
   }
+
 
   #onDragStart({ event }) {
+    util.lockPageScroll();
     this.#cancelDragAnimation();
 
-    document.querySelector('html').style.overflowY = 'hidden';
-    document.body.style.overflowY = 'hidden';
-    document.querySelector('html').style.touchAction = 'none';
-    document.body.style.touchAction = 'none';
-
-    this.#initialDragPosition = this.#styleTopValue;
-    this.#lastScrollTop = 0;
-    if (this.#initialDragPosition > 0) event.preventDefault();
+    this.#initialDragToScrollSwitch = false;
+    this.#initialDragPosition = this.#styleBottomValue;
+    if (this.#initialDragPosition !== this.#topPosition) event.preventDefault();
   }
 
-  #onDrag({ distance, direction }) {
-    if (this.scrollTop === this.#lastScrollTop && direction.y === -1 && this.style.overflow === 'scroll') {
-      this.scrollTop += Math.round(-distance.moveY);
-      this.#lastScrollTop = this.scrollTop;
+  #onDrag({ distance, direction, event }) {
+    let bottom = this.#initialDragPosition - distance.y;
+    
+    // TODO work out what is causing the spikes
+    if (distance.y > 300 || distance.y < -300) {
+      console.log('skip');
       return;
     }
 
-    if (this.scrollTop > 80) return;
-    if (this.scrollTop > 0 && direction.y === -1) return;
+    // this handles case when the overflowY property has been changed to scroll during the current drag event.
+    // This is needed because the container will not be scrollable until the next touch start event
+    if (this.#initialDragToScrollSwitch === true && this.scrollTop > 0) {
+      this.scrollTop += Math.round(-distance.moveY);
+      return;
+    }
 
-    if (this.scrollTop > 0 && direction.y === 1) {
-      this.style.top = `-${this.scrollTop}px`;
-      this.scrollTop = 0;
-      this.style.overflow = 'visible';
+    // container is still scrolling
+    if (this.scrollTop > 0) return;
+
+    // container has been scrolled to zero and needs to be converted to drag
+    if (this.scrollTop <= 0 && direction.y === 1 && this.style.overflowY !== 'visible') {
+      this.style.overflowY = 'visible';
       this.style.height = '';
-      this.#initialDragPosition = this.#styleTopValue;
+      this.style.bottom = `${this.#topPosition}px`;
+      this.#initialDragPosition = this.#styleBottomValue;
       this.#drag.resetDistance();
       return;
     }
 
-    let top = this.#initialDragPosition + distance.y;
+    // console.log(bottom, this.#topPosition, direction.y);
+    // container has been drag to top and needs to be converted to scroll
+    if (bottom >= this.#topPosition && direction.y === -1) {
 
-    if (top > -80 && direction.y === 1) {
-      this.style.top = `${top}px`;
-      this.style.overflow = 'visible';
-      this.style.height = '';
+      // switch to a scroll container when in top position
+      if (this.style.overflowY !== 'scroll') {
+        this.style.overflowY = 'scroll';
+        this.style.height = '100%';
+        this.style.bottom = '0';
+        this.scrollTop = -distance.moveY;
+        this.#initialDragToScrollSwitch = true;
+      }
+      
+      // we do not want to change the bottom when using the scroll container
       return;
     }
 
-    if (top < 0 && direction.y === -1) {
-      this.style.top = '0';
-      this.style.overflow = 'scroll';
-      this.style.height = '100%';
-      return;
-    }
-
-    if (top > 0 && direction.y === -1) {
-      this.style.top = `${top}px`;
-      return;
-    }
+    this.style.bottom = `${bottom}px`;
   }
 
   // TODO swipe close
-  #onDragEnd({ direction, distance, velocity }) {
-    const top = this.#initialDragPosition + distance.y;
+  #onDragEnd({ direction, distance }) {
+    if (this.style.overflowY === 'scroll') return;
 
-    if (top >= 0 && this.scrollTop < 80) {
-      // swipe up from default position
-      if (top <= this.#defaultPosition && velocity.y < -1.1) return this.#positionTop();
-
-      // return to default from top
-      if (velocity.y > 1.6 && top <= this.#defaultPosition + 80) return this.#positionDefault();
-
-      // minimize from default
-      if (velocity.y > 1.6 && this.#initialDragPosition === this.#defaultPosition) return this.#positionMinimized();
-
-      // default from minimized
-      if (velocity.y < -0.7 && top > this.#defaultPosition - 80) return this.#positionDefault();
-
-      // scroll and snap
-      const multiplier = Math.abs(velocity.y) / 3;
-      const scrollDistanceRemaining = this.offsetHeight - this.#windowHeight + top;
-      let distanceToMove = scrollDistanceRemaining * multiplier * -direction.y;
-      if (distanceToMove > scrollDistanceRemaining) distanceToMove = scrollDistanceRemaining;
-      const newTopPosition = top - distanceToMove;
-
-      if (direction.y === -1) {
-        if (newTopPosition < 0) return this.#animateToPosition(newTopPosition, multiplier);
-        if (newTopPosition < this.#defaultPosition - 80) return this.#positionTop();
-        if (newTopPosition >= this.#defaultPosition + 80) return this.#positionMinimized();
-        return this.#positionDefault();
-      } else {
-        if (newTopPosition < -180) return this.#animateToPosition(newTopPosition, multiplier);
-        if (newTopPosition < 180) return this.#positionTop();
-        if (newTopPosition < this.#defaultPosition + 80) return this.#positionDefault();
-        if (newTopPosition >= this.#defaultPosition + 80) return this.#positionMinimized();
-      }
+    const bottom = this.#initialDragPosition - distance.y;
+    if (direction.y === -1) {
+      if (bottom > this.#initialPosition) return this.#animateToTop();
+      return this.#animateToInitial();
+    } else {
+      if (bottom >= this.#initialPosition) return this.#animateToInitial();
+      return this.#animateToMinimized();
     }
   }
 
-  #animateToPosition(top, multiplier) {
-    console.log('animateToPosition')
-    if (this.scrollTop !== 0) {
-      this.style.top = `-${this.scrollTop}px`;
-      this.scrollTop = 0;
-      this.style.overflow = 'visible';
-      this.style.height = '';
-    }
-
-    this.classList.add('mdw-drag-animation');
-    this.addEventListener('transitionend', this.#cancelDragAnimation_bound);
-
-    if (multiplier) this.style.transitionDuration = `${(multiplier * 0.5) + 0.3}s`;
-    else this.style.transitionDuration = '';
-    this.style.top = `${top}px`;
+  #animateToTop() {
+    this.#animateToPosition(this.#topPosition);
   }
 
-  #positionTop() {
-    this.#animateToPosition(0);
+  #animateToInitial() {
+    this.#animateToPosition(this.#initialPosition);
   }
 
-  #positionDefault() {
-    this.#animateToPosition(this.#defaultPosition);
-  }
-
-  #positionMinimized() {
+  #animateToMinimized() {
     this.#animateToPosition(this.#minimizedPosition);
+  }
+
+  #animateToPosition(bottom) {
+    this.classList.add('mdw-drag-animation');
+    this.addEventListener('transitionend', this.#transitionend_bound);
+    this.style.bottom = `${bottom}px`;
+  }
+
+  #transitionend() {
+    this.#cancelDragAnimation();
+    if (this.#styleBottomValue < 0) util.unlockPageScroll();
   }
 
   #cancelDragAnimation() {
     this.classList.remove('mdw-drag-animation');
-    this.style.transitionDuration = '';
-    this.removeEventListener('transitionend', this.#cancelDragAnimation_bound);
-
-    if (this.#styleTopValue > 0) {
-      document.querySelector('html').style.overflowY = '';
-      document.body.style.overflowY = '';
-      document.querySelector('html').style.touchAction = '';
-      document.body.style.touchAction = '';
-    }
+    this.removeEventListener('transitionend', this.#transitionend_bound);
   }
 
 
@@ -238,7 +192,7 @@ customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExt
   // // TODO swipe close
   // #onDragEnd({ direction, distance, velocity }) {
   //   this.classList.add('mdw-drag-animation');
-  //   this.addEventListener('transitionend', this.#cancelDragAnimation_bound);
+  //   this.addEventListener('transitionend', this.#transitionend_bound);
 
   //   const top = this.#initialDragPosition + distance.y;
 

@@ -7,6 +7,7 @@ export default class Drag {
   #lastTouchPos = { x: 0, y: 0 };
   #currentTouchPosition;
   #startTime;
+  #isDragging = false;
 
   #onDragCallbacks = [];
   #onStartCallbacks = [];
@@ -27,6 +28,10 @@ export default class Drag {
     if (this.#element) throw Error('element had already been set, cannot change.');
     if (!(value instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
     this.#element = value;
+  }
+
+  get isDragging() {
+    return this.#isDragging;
   }
 
   onDrag(callback = () => {}) {
@@ -64,7 +69,7 @@ export default class Drag {
 
   #touchstart(event) {
     this.#startTime = Date.now();
-    this.#initialTouchPos = this.#getClientXY(event);
+    this.#initialTouchPos = this.#getTouchPosition(event);
     this.#lastDistance = this.#getDistance(event);
     this.#onStartCallbacks.forEach(callback => callback({
       event
@@ -73,7 +78,7 @@ export default class Drag {
     this.#element.addEventListener('touchend', this.#touchend_bound, false);
     this.#element.addEventListener('touchmove', this.#touchmove_throttled, false);
 
-    // event.preventDefault();
+    this.#isDragging = true;
   }
 
   #touchend(event) {
@@ -87,23 +92,24 @@ export default class Drag {
       velocity: this.#getVelocity(distance, Date.now() - this.#startTime),
       event
     }));
-    // event.preventDefault();
   }
 
   #touchmove(event) {
-    this.#currentTouchPosition = this.#getClientXY(event);
+    this.#currentTouchPosition = this.#getTouchPosition(event);
     const distance = this.#getDistance(event);
+
     this.#onDragCallbacks.forEach(callback => callback({
       distance,
       direction: this.#getDirection(this.#lastDistance, distance),
       event
     }));
     this.#lastDistance = distance;
-    // event.preventDefault();
+    
+    this.#isDragging = false;
   }
 
   #getDistance(event) {
-    const xy = this.#getClientXY(event);
+    const xy = this.#getTouchPosition(event);
     const last = this.#lastTouchPos;
     this.#lastTouchPos = xy;
     return {
@@ -131,7 +137,7 @@ export default class Drag {
     };
   }
 
-  #getClientXY(event) {
+  #getTouchPosition(event) {
     return {
       x: event.changedTouches[0].clientX,
       y: event.changedTouches[0].clientY
