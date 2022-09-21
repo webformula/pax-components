@@ -29,24 +29,56 @@
 <p>There are two types of text fields: filled and outlined.</p>
 
 <div class="links">
-  <a href="#linear_determinate">Linear determinate</a>
+  <a href="#standard">Standard</a>
 </div>
 
 
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="linear_determinate">
+  <mdw-card class="mdw-no-states" id="standard">
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-progress-linear mdw-percent="40"></mdw-progress-linear>`)}
+  ${escapeHTML(`<mdw-text-field>
+    <input>
+    <label>Label</label>
+  </mdw-text-field>`)}
       </code>
     </pre>
 
-    <div class="mdw-headline-small">Linear determinate</div>
+    <div class="mdw-headline-small">Standard</div>
 
     <div class="example">
-      <mdw-progress-linear mdw-percent="40"></mdw-progress-linear>
+      <mdw-text-field>
+        <input>
+        <label>Label</label>
+      </mdw-text-field>
+    </div>
+  </mdw-card>
+
+
+  <mdw-card class="mdw-no-states" id="autocomplete">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-text-field id="autocomplete-text-field">
+    <input value="auto">
+    <label>Label</label>
+  </mdw-text-field>`)}
+      </code>
+    </pre>
+    <pre>
+      <code class="language-javascript">
+  ${"document.querySelector('#autocomplete-text-field').autocomplete = 'complete';"}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Standard</div>
+  
+    <div class="example">
+      <mdw-text-field id="autocomplete-text-field">
+        <input value="auto">
+        <label>Label</label>
+      </mdw-text-field>
     </div>
   </mdw-card>
 </section>

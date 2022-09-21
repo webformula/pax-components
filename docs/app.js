@@ -16,6 +16,7 @@ import select from './pages/select/page.js';
 import bottomAppBar from './pages/bottom app bar/page.js';
 import fab from './pages/fab/page.js';
 import mdwSwitch from './pages/switch/page.js';
+import segmentedButtons from './pages/segmented buttons/page.js';
 
 
 window.escapeHTML = str => {
@@ -41,6 +42,7 @@ registerPage(select, '/select');
 registerPage(bottomAppBar, '/bottom-app-bar');
 registerPage(fab, '/fab');
 registerPage(mdwSwitch, '/switch');
+registerPage(segmentedButtons, '/segmented-buttons');
 
 
 

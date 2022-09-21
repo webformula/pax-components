@@ -22,6 +22,7 @@ import './components/bottom-app-bar/component.js';
 import './components/fab/component.js';
 import './components/switch/component.js';
 import './components/bottom-sheet/component.js';
+import './components/segmented-button-group/component.js';
 
 export {
   MDWDialog,

@@ -1,0 +1,116 @@
+<h3>Segmented buttons</h3>
+
+<mdw-card class="mdw-no-states" style="padding: 18px;">
+  <mdw-segmented-button-group>
+    <mdw-segmented-button selected value="1">
+      <mdw-icon>format_align_right</mdw-icon>
+    </mdw-segmented-button>
+    <mdw-segmented-button value="2">
+      <mdw-icon>format_align_center</mdw-icon>
+    </mdw-segmented-button>
+    <mdw-segmented-button value="3">
+      <mdw-icon>format_align_left</mdw-icon>
+    </mdw-segmented-button>
+  </mdw-segmented-button-group>
+</mdw-card>
+
+<a href="https://m3.material.io/components/segmented-buttons/overview" target="_new">Material Design Guidelines: Segmented buttons</a>
+<p>There are two types of segmented buttons: single-select and multi-select.
+</p>
+
+<div class="links">
+  <a href="#standard">Standard</a>
+  <a href="#select-icon">Select icon</a>
+  <a href="#multi-select">Multi select</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card class="mdw-no-states" id="standard">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-segmented-button-group>
+    <mdw-segmented-button selected value="1">
+      <mdw-icon>format_align_right</mdw-icon>
+    </mdw-segmented-button>
+    <mdw-segmented-button value="2">
+      <mdw-icon>format_align_center</mdw-icon>
+    </mdw-segmented-button>
+    <mdw-segmented-button value="3">
+      <mdw-icon>format_align_left</mdw-icon>
+    </mdw-segmented-button>
+  </mdw-segmented-button-group>`)}
+      </code>
+    </pre>
+
+    <div class="mdw-headline-small">Standard</div>
+
+    <div class="example">
+      <mdw-segmented-button-group>
+        <mdw-segmented-button selected value="1"><mdw-icon>format_align_right</mdw-icon></mdw-segmented-button>
+        <mdw-segmented-button value="2"><mdw-icon>format_align_center</mdw-icon></mdw-segmented-button>
+        <mdw-segmented-button value="3"><mdw-icon>format_align_left</mdw-icon></mdw-segmented-button>
+      </mdw-segmented-button-group>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="select-icons">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-segmented-button-group class="mdw-selected-icon">
+    <mdw-segmented-button selected value="one">One</mdw-segmented-button>
+    <mdw-segmented-button value="two">Two</mdw-segmented-button>
+    <mdw-segmented-button value="three">Three</mdw-segmented-button>
+  </mdw-segmented-button-group>`)}
+      </code>
+    </pre>
+
+    <pre>
+      <code class="language-javascript">
+  ${`console.log(document.querySelector('#multi-select').value); // "one"`}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Select icons</div>
+  
+    <div class="example">
+      <mdw-segmented-button-group class="mdw-selected-icon">
+        <mdw-segmented-button selected value="one">One</mdw-segmented-button>
+        <mdw-segmented-button value="two">Two</mdw-segmented-button>
+        <mdw-segmented-button value="three">Three</mdw-segmented-button>
+      </mdw-segmented-button-group>
+    </div>
+  </mdw-card>
+
+
+  <mdw-card class="mdw-no-states" id="multi-select">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-segmented-button-group id="multi-select" class="mdw-multi-select">
+    <mdw-segmented-button selected value="one">One</mdw-segmented-button>
+    <mdw-segmented-button selected value="two">Two</mdw-segmented-button>
+    <mdw-segmented-button value="three">Three</mdw-segmented-button>
+  </mdw-segmented-button-group>`)}
+      </code>
+    </pre>
+
+    <pre>
+      <code class="language-javascript">
+  ${`console.log(document.querySelector('#multi-select').value); // "one,two"
+  console.log(document.querySelector('#multi-select').multiValue); // ["one","two"]`}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Multi select</div>
+  
+    <div class="example">
+      <mdw-segmented-button-group id="multi-select" class="mdw-multi-select">
+        <mdw-segmented-button selected value="one">One</mdw-segmented-button>
+        <mdw-segmented-button selected value="two">Two</mdw-segmented-button>
+        <mdw-segmented-button value="three">Three</mdw-segmented-button>
+      </mdw-segmented-button-group>
+    </div>
+  </mdw-card>
+</section>

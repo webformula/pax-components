@@ -7,8 +7,4 @@ export default new class extends Page {
   constructor() {
     super();
   }
-
-  connectedCallback() {
-    document.querySelector('#autocomplete-text-field').autocomplete = 'complete';
-  }
 }

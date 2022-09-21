@@ -58,7 +58,7 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
   set autocomplete(value) {
     const offset = util.getTextLengthFromInput(this.querySelector('input'));
     this.querySelector('.mdw-autocomplete').innerText = value;
-    this.querySelector('.mdw-autocomplete').style.left = `${offset + 18}px`;
+    this.querySelector('.mdw-autocomplete').style.left = `${offset + 19}px`;
   }
 
 
