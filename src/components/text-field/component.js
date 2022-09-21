@@ -1,4 +1,5 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
+import util from '../../core/util.js';
 import './component.css';
 
 customElements.define('mdw-text-field', class MDWButton extends HTMLElementExtended {
@@ -40,6 +41,8 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
       if (input.value) this.#setNotchWidth();
     }
 
+    this.insertAdjacentHTML('beforeend', `<div class="mdw-autocomplete"></div>`);
+
     input.addEventListener('input', this.#onInput_bound);
     input.addEventListener('focus', this.#onFocus_bound);
     input.addEventListener('blur', this.#onBlur_bound);
@@ -51,6 +54,12 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
     this.#trailingIcon = undefined;
   }
 
+
+  set autocomplete(value) {
+    const offset = util.getTextLengthFromInput(this.querySelector('input'));
+    this.querySelector('.mdw-autocomplete').innerText = value;
+    this.querySelector('.mdw-autocomplete').style.left = `${offset + 18}px`;
+  }
 
 
   #preventInitialAnimation() {

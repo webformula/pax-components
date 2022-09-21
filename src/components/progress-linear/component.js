@@ -1,8 +1,9 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import './component.css';
+import styleAsString from '!!css-loader!./component.css?raw';
+
 
 customElements.define('mdw-progress-linear', class MDWButton extends HTMLElementExtended {
-  useShadowRoot = false;
+  useShadowRoot = true;
 
   constructor() {
     super();
@@ -40,11 +41,12 @@ customElements.define('mdw-progress-linear', class MDWButton extends HTMLElement
     value = parseInt(value);
     if (value < 0) value = 0;
     if (value > 100) value = 100;
-    this.querySelector('.mdw-indicator').style.width = `${value}%`;
+    this.shadowRoot.querySelector('.mdw-indicator').style.width = `${value}%`;
   }
 
   template() {
     return /* html*/ `
+      <style>${styleAsString}</style>
       <div class="mdw-indicator"></div>
     `;
   }

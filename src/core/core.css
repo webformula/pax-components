@@ -4,6 +4,10 @@ html {
   height: 100%;
 }
 
+input {
+  font-family: 'Roboto Flex', Roboto, sans-serif;
+}
+
 body {
   display: block;
   height: 100%;
@@ -25,4 +29,12 @@ body page-content {
 
 a:-webkit-any-link:active {
   color: inherit;
+}
+
+
+.mdw-text-length {
+  position: fixed;
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
 }

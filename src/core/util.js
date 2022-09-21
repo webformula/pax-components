@@ -3,8 +3,8 @@ import { isMobile, isSmallScreen, isMobileOrSmallScreen } from './device.js';
 const MDWUtil = new class MDWUtil {
   #uidCounter = 0;
   #pageScrollIsLocked = false;
+  #textLengthDiv = document.createElement('div');
   #pageScrollLockHTMLScrollTop;
-  #pageScrollLockBodyScrollTop;
 
   isMobile = isMobile;
   isSmallScreen = isSmallScreen;
@@ -23,6 +23,10 @@ const MDWUtil = new class MDWUtil {
         window.dispatchEvent(new Event('mdw:screen-normal'));
       }
     });
+
+
+    this.#textLengthDiv.classList.add('mdw-text-length');
+    document.body.insertAdjacentElement('beforeend', this.#textLengthDiv);
   }
 
   get isSmallScreen() {
@@ -88,6 +92,18 @@ const MDWUtil = new class MDWUtil {
       }
       element.addEventListener('animationend', onAnimationend);
     });
+  }
+
+  getTextLengthFromInput(inputElement) {
+    if (!inputElement || inputElement.nodeName !== 'INPUT') throw Error('requires input element');
+
+    const styles = window.getComputedStyle(inputElement);
+    this.#textLengthDiv.style.fontSize = styles.getPropertyValue('font-size');
+    this.#textLengthDiv.style.fontWeight = styles.getPropertyValue('font-weight');
+    this.#textLengthDiv.style.linHeight = styles.getPropertyValue('line-height');
+    this.#textLengthDiv.style.letterSpacing = styles.getPropertyValue('letter-spacing');
+    this.#textLengthDiv.innerText = inputElement.value;
+    return this.#textLengthDiv.offsetWidth;
   }
 
   lockPageScroll() {
@@ -172,7 +188,7 @@ const MDWUtil = new class MDWUtil {
 
       return {
         label,
-        distance: this.#levenshteinDistance(searchTerm, label.toLowerCase().trim()),
+        distance: this.#calculateDistance(searchTerm, label.toLowerCase().trim()),
         item
       };
     });
@@ -183,24 +199,33 @@ const MDWUtil = new class MDWUtil {
       .map(({ item }) => item);
   }
 
-  #levenshteinDistance(s, t) {
-    if (!s.length) return t.length;
-    if (!t.length) return s.length;
+  #calculateDistance(searchTerm, target) {
+    const regex = new RegExp(`^${searchTerm}`, 'i');
+    const matchesStart = target.match(regex) !== null;
+    const levenshtein = this.#levenshteinDistance(searchTerm, target);
+
+    if (matchesStart) return levenshtein - 2; // make sure these are first in sort
+    return levenshtein;
+  }
+
+  #levenshteinDistance(searchTerm, target) {
+    if (!searchTerm.length) return target.length;
+    if (!target.length) return searchTerm.length;
     const arr = [];
-    for (let i = 0; i <= t.length; i++) {
+    for (let i = 0; i <= target.length; i++) {
       arr[i] = [i];
-      for (let j = 1; j <= s.length; j++) {
+      for (let j = 1; j <= searchTerm.length; j++) {
         arr[i][j] =
           i === 0
             ? j
             : Math.min(
               arr[i - 1][j] + 1,
               arr[i][j - 1] + 1,
-              arr[i - 1][j - 1] + (s[j - 1] === t[i - 1] ? 0 : 1)
+              arr[i - 1][j - 1] + (searchTerm[j - 1] === target[i - 1] ? 0 : 1)
             );
       }
     }
-    return arr[t.length][s.length];
+    return arr[target.length][searchTerm.length];
   };
 }
 

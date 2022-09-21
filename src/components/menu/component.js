@@ -139,7 +139,10 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   }
 
   #onPanelHide() {
-    if (this.#isTextField === true) this.#control.classList.remove('mdw-raise-label');
+    if (this.#isTextField === true) {
+      this.#control.autocomplete = '';
+      this.#control.classList.remove('mdw-raise-label');
+    }
     document.body.removeEventListener('keydown', this.#onKeydown_bound);
   }
 
@@ -153,6 +156,9 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   }
 
   #onTextFieldInput(event) {
+    // panel can be closed by hitting enter on search
+    if (!this.#panel.showing) this.#panel.show();
+
     if (!event.target.value.trim()) {
       this.#panel.resetTemplate();
       return;
@@ -166,7 +172,18 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     }
 
     this.#panel.element.replaceChildren(fragment);
-    this.#panel.element.querySelector('li[tabindex]:not([tabindex="-1"]').focus();
+
+    if (filtered.length > 0) {
+      const regex = new RegExp(`^${event.target.value}`, 'i');
+      if (filtered[0].label.match(regex) === null) {
+        this.#control.autocomplete = '';
+        return;
+      }
+
+      this.#control.autocomplete = filtered[0].label.replace(regex, '');
+    } else {
+      this.#control.autocomplete = '';
+    }
   }
 
   #handleTextFieldSelect(element) {
@@ -220,6 +237,14 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     }
     
     if (enter) {
+      if (this.#isTextField && document.activeElement.nodeName === 'INPUT') {
+        if (this.#panel.element.children.length > 0) {
+          this.#handleTextFieldSelect(this.#panel.element.children[0]);
+          this.#panel.hide();
+          return;
+        }
+      }
+
       const isItem = this.#panel.element.contains(document.activeElement) && document.activeElement.nodeName === 'LI';
       if (isItem) {
         if (this.#isTextField) this.#handleTextFieldSelect(document.activeElement);

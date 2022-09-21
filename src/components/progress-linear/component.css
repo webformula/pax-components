@@ -1,4 +1,4 @@
-mdw-progress-linear {
+:host {
   display: block;
   position: relative;
   width: 100%;
@@ -9,7 +9,7 @@ mdw-progress-linear {
   background-color: var(--mdw-surface-variant);
 }
 
-mdw-progress-linear .mdw-indicator {
+:host .mdw-indicator {
   position: absolute;
   left: 0;
   top: 0;
@@ -20,7 +20,7 @@ mdw-progress-linear .mdw-indicator {
 }
 
 
-mdw-progress-linear.mdw-indeterminate .mdw-indicator {
+:host(.mdw-indeterminate) .mdw-indicator {
   width: 100%;
   transition: all 0.2s linear;
   animation: mdw-progress-linear-indeterminate .8s infinite cubic-bezier(0.390, 0.575, 0.565, 1.000);

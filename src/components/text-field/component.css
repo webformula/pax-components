@@ -59,6 +59,27 @@ mdw-text-field > input {
   appearance: none;
 }
 
+mdw-text-field .mdw-autocomplete {
+  position: absolute;
+  top: 21px;
+  left: 0;
+  box-sizing: border-box;
+  border: none;
+  background: none;
+  outline: none;
+  opacity: 0.5;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+
+  text-decoration: inherit;
+  text-transform: inherit;
+  font-size: var(--mdw-font-size-large-body);
+  font-weight: var(--mdw-font-weight-large-body);
+  line-height: var(--mdw-font-line-height-large-body);
+  letter-spacing: var(--mdw-font-letter-spacing-large-body);
+}
+
 mdw-text-field.mdw-outlined>input {
   align-self: center;
 }
