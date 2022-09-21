@@ -188,6 +188,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
 
   #handleTextFieldSelect(element) {
     this.#control.querySelector('input').value = this.#getLabelFromElement(element);
+    this.#control.autocomplete = '';
     this.#updateSelectedItemDisplay();
     this.dispatchEvent(new Event('change', this));
   }
