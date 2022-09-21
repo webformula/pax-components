@@ -10,14 +10,15 @@ import styleAsString from '!!css-loader!./component.css?raw';
 customElements.define('mdw-button', class MDWButton extends HTMLElementExtended {
   useShadowRoot = true;
 
+  #mouseUp_bound = this.#mouseup.bind(this);
+  #handleToggle_bound = this.#handleToggle.bind(this);
+  #isAsync = this.classList.contains('mdw-async');
   #toggled = false;
   #ripple;
 
   constructor() {
     super();
     this.tabIndex = 0;
-    this.mouseUp_bound = this.mouseup.bind(this);
-    this.handleToggle_bound = this.handleToggle.bind(this);
   }
 
   get toggled() {
@@ -41,9 +42,9 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
 
   connectedCallback() {
     this.render();
-    this.addEventListener('mouseup', this.mouseUp_bound);
+    this.addEventListener('mouseup', this.#mouseUp_bound);
     if (this.classList.contains('mdw-icon-toggle-button')) {
-      this.addEventListener('click', this.handleToggle_bound);
+      this.addEventListener('click', this.#handleToggle_bound);
     }
     setTimeout(() => {
       this.#ripple = new Ripple({
@@ -55,17 +56,30 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
 
   disconnectedCallback() {
     this.#ripple.destroy();
-    this.removeEventListener('mouseup', this.mouseUp_bound);
+    this.removeEventListener('mouseup', this.#mouseUp_bound);
     if (this.classList.contains('mdw-icon-toggle-button')) {
-      this.removeEventListener('click', this.handleToggle_bound);
+      this.removeEventListener('click', this.#handleToggle_bound);
     }
   }
 
-  mouseup() {
+  showSpinner() {
+    this.classList.add('mdw-is-async');
+    this.shadowRoot.querySelector('.mdw-spinner-container').innerHTML = `
+      <mdw-progress-circular diameter="28" class="mdw-indeterminate${this.classList.contains('mdw-filled') ? ' mdw-on-filled' : ''}${this.classList.contains('mdw-filled-tonal') ? ' mdw-on-filled-tonal' : ''}"></mdw-progress-circular>
+    `;
+  }
+
+  resolve() {
+    this.classList.remove('mdw-is-async');
+    this.shadowRoot.querySelector('.mdw-spinner-container').innerHTML = '';
+  }
+
+  #mouseup() {
+    if (this.#isAsync) this.showSpinner();
     this.blur();
   }
 
-  handleToggle() {
+  #handleToggle() {
     this.#toggled = !this.#toggled;
     if (this.#toggled === true) this.setAttribute('toggled', '');
     else this.removeAttribute('toggled');

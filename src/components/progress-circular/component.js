@@ -1,8 +1,10 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './component.css';
+import styleAsString from '!!css-loader!./component.css?raw';
+
 
 customElements.define('mdw-progress-circular', class MDWButton extends HTMLElementExtended {
-  useShadowRoot = false;
+  useShadowRoot = true;
   diameter = 40;
 
   constructor() {
@@ -17,12 +19,18 @@ customElements.define('mdw-progress-circular', class MDWButton extends HTMLEleme
   }
 
   static get observedAttributes() {
-    return ['mdw-percent'];
+    return ['mdw-percent', 'diameter'];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
     if (name === 'mdw-percent') {
       if (this.rendered === true) this.#updatePercent(newValue);
+    }
+
+    if (name === 'diameter') {
+      this.diameter = newValue;
+      this.style.width = `${newValue}px`;
+      this.style.height = `${newValue}px`;
     }
   }
 
@@ -41,7 +49,7 @@ customElements.define('mdw-progress-circular', class MDWButton extends HTMLEleme
     value = parseInt(value);
     if (value < 0) value = 0;
     if (value > 100) value = 100;
-    this.querySelector('circle').style.strokeDashoffset = `${this.#strokeCircumference * (100 - value) / 100}px`;
+    this.shadowRoot.querySelector('circle').style.strokeDashoffset = `${this.#strokeCircumference * (100 - value) / 100}px`;
   }
 
   get #radius() {
@@ -57,6 +65,7 @@ customElements.define('mdw-progress-circular', class MDWButton extends HTMLEleme
     const endValue = 0.2 * this.#strokeCircumference;
     return /* html*/ `
       <style>
+        ${styleAsString}
         @keyframes mdw-progress-circular-rotate-${this.diameter} {
           0%      { stroke-dashoffset: ${startValue};  transform: rotate(0); }
           12.5%   { stroke-dashoffset: ${endValue};    transform: rotate(0); }

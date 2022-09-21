@@ -21,6 +21,23 @@
   color: var(--mdw-primary);
 }
 
+:host(.mdw-is-async) {
+  pointer-events: none;
+}
+
+:host(.mdw-async) > .mdw-spinner-container {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+:host(.mdw-is-async) .text {
+  opacity: 0;
+}
+
 :host(.mdw-icon-toggle-button),
 :host(.mdw-icon-button) {
   width: 42px;

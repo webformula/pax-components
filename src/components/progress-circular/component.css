@@ -1,4 +1,4 @@
-mdw-progress-circular {
+:host {
   display: block;
   position: relative;
   margin: 4px;
@@ -6,7 +6,7 @@ mdw-progress-circular {
   height: 40px;
 }
 
-mdw-progress-circular > svg {
+:host > svg {
   position: absolute;
   transform: rotate(-90deg);
   top: 0;
@@ -15,18 +15,25 @@ mdw-progress-circular > svg {
   overflow: visible;
 }
 
-mdw-progress-circular>svg>circle {
+:host>svg>circle {
   fill: transparent;
   transform-origin: center;
   transition: stroke-dashoffset 225ms linear;
   stroke: var(--mdw-primary);
 }
 
-mdw-progress-circular.mdw-indeterminate > svg {
+:host(.mdw-on-filled) > svg > circle {
+  stroke: var(--mdw-on-primary);
+}
+:host(.mdw-on-filled-tonal) > svg > circle {
+  stroke: var(--mdw-on-secondary-container);
+}
+
+:host(.mdw-indeterminate) > svg {
   animation: mdw-progress-circular-rotate 2000ms linear infinite;
 }
 
-mdw-progress-circular.mdw-indeterminate >svg > circle {
+:host(.mdw-indeterminate) >svg > circle {
   transition-property: stroke;
   animation-duration: 4000ms;
   animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);

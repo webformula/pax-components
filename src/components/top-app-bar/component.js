@@ -11,12 +11,10 @@ customElements.define('mdw-top-app-bar', class MDWButton extends HTMLElementExte
   #currentDirection;
   #distanceFromDirectionChange;
   #isHiding = false;
-  #startingScrolled;
   #scrollHandler_bound = util.rafThrottle(this.#scrollHandler).bind(this);
 
   constructor() {
     super();
-    
   }
 
   connectedCallback() {
@@ -41,12 +39,6 @@ customElements.define('mdw-top-app-bar', class MDWButton extends HTMLElementExte
   }
 
   #scrollHandler() {
-    // scroll event is fired if the page is refreshed with scroll
-    // if (!this.#lastScrollTop) {
-    //   this.#lastScrollTop = this.#scrollTarget.scrollTop;
-    //   return;
-    // }
-
     const distance = this.#scrollTarget.scrollTop - this.#lastScrollTop;
     if (distance === 0) return;
 
