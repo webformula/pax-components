@@ -49,9 +49,19 @@ registerPage(segmentedButtons, '/segmented-buttons');
 window.addEventListener('locationchange', () => {
   setTimeout(() => {
     hljs.highlightAll();
-  }, 0)
+  }, 0);
+});
+
+window.addEventListener('hashchange', () => {
+  const element = document.querySelector(location.hash);
+  if (element) element.scrollIntoView({ behavior: 'smooth' });
 });
 
 window.addEventListener('load', () => {
   hljs.highlightAll();
+
+  setTimeout(() => {
+    const element = document.querySelector(location.hash);
+    if (element) element.scrollIntoView();
+  }, 0);
 });
