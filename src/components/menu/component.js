@@ -103,7 +103,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
 
   #onControlClick() {
     if (this.#isTextField && this.#panel.showing === true) return;
-    this.#panel.toggle();
+    // this.#panel.toggle(); // TODO figure out if onControlFocus always covers this
   }
 
   #onControlFocus() {

@@ -51,6 +51,9 @@
 
 :host ::slotted(mdw-icon) {
   vertical-align: middle;
+}
+
+:host(:not(.mdw-icon-toggle-button):not(.mdw-icon-button)) ::slotted(mdw-icon) {
   font-size: 20px !important;
 }
 

@@ -26,6 +26,10 @@
   box-shadow: var(--mdw-elevation-3);
 }
 
+:host(.mdw-fixed) {
+  position: fixed !important;
+}
+
 :host ::slotted(mdw-icon) {
   color: var(--mdw-on-primary-container);
   vertical-align: middle;

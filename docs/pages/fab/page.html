@@ -1,10 +1,5 @@
 <h3>FAB</h3>
 
-<mdw-fab class="mdw-auto-hide-label mdw-position-bottom-right">
-  <mdw-icon>edit</mdw-icon>
-  Example
-</mdw-fab>
-
 <mdw-card class="mdw-no-states" style="padding-top:16px; padding-left: 16px; display: block;">
   <mdw-fab class="mdw-large">
     <mdw-icon>edit</mdw-icon>
@@ -31,6 +26,7 @@ design files and implementations.</p>
 
 <div class="links">
   <a href="#standard">Standard</a>
+  <a href="#fixed">Fixed</a>
   <a href="#positioning">Positioning</a>
   <a href="#colors">Colors</a>
   <a href="#sizes">Sizes</a>
@@ -41,6 +37,7 @@ design files and implementations.</p>
 <section>
   <h4>Types</h4>
 
+
   <mdw-card class="mdw-no-states" id="standard">
     <pre>
       <code class="language-html">
@@ -49,12 +46,34 @@ design files and implementations.</p>
   </mdw-fab>`)}
       </code>
     </pre>
-
+  
     <div class="mdw-headline-small">FAB</div>
-
+  
     <div class="example" style="flex-direction: column; display: flex;">
       <mdw-fab>
         <mdw-icon>edit</mdw-icon>
+      </mdw-fab>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="fixed">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-fab class="mdw-auto-hide-label mdw-position-bottom-right mdw-fixed">
+    <mdw-icon>edit</mdw-icon>
+    Example
+  </mdw-fab>`)}
+      </code>
+    </pre>
+
+    <div class="mdw-headline-small">Fixed position</div>
+
+    <div class="example" style="flex-direction: column; display: flex;">
+      The FAB in the bottom right corner of the page. If you do not set it to fixed then it would be bound to the bottom right of this container.
+      <mdw-switch style="width: 200px" onchange="document.querySelector('#fixed-fab').classList.toggle('mdw-fixed', !this.checked)">Toggle fixed</mdw-switch>
+      <mdw-fab id="fixed-fab" class="mdw-auto-hide-label mdw-position-bottom-right mdw-fixed">
+        <mdw-icon>edit</mdw-icon>
+        Example
       </mdw-fab>
     </div>
   </mdw-card>
