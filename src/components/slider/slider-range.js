@@ -23,6 +23,8 @@ customElements.define('mdw-slider-range', class MDWButton extends HTMLElementExt
   #inactiveTrack2;
   #thumb;
   #thumb2;
+  #labelOne;
+  #labelTwo;
   #isDiscrete = false;
 
 
@@ -42,6 +44,8 @@ customElements.define('mdw-slider-range', class MDWButton extends HTMLElementExt
     this.#inactiveTrack2 = this.shadowRoot.querySelector('.mdw-track-inactive.mdw-two');
     this.#thumb = this.shadowRoot.querySelector('.mdw-thumb.mdw-one');
     this.#thumb2 = this.shadowRoot.querySelector('.mdw-thumb.mdw-two');
+    this.#labelOne = this.shadowRoot.querySelector('.mdw-thumb.mdw-one .mdw-label-text');
+    this.#labelTwo = this.shadowRoot.querySelector('.mdw-thumb.mdw-two .mdw-label-text');
     this.#setPositionOne({ percent: this.percents[0] });
     this.#setPositionTwo({ percent: this.percents[1] });
 
@@ -188,6 +192,7 @@ customElements.define('mdw-slider-range', class MDWButton extends HTMLElementExt
     this.#inactiveTrack.style.width = `${pixels}px`;
 
     this.#updateNotches();
+    this.#labelOne.innerHTML = this.#value[0];
   }
 
   #setPositionTwo({ percent, pixels }) {
@@ -204,6 +209,7 @@ customElements.define('mdw-slider-range', class MDWButton extends HTMLElementExt
     this.#inactiveTrack2.style.left = `${pixels}px`;
 
     this.#updateNotches();
+    this.#labelTwo.innerHTML = this.#value[1];
   }
 
   #adjustValueOnParams() {
@@ -278,8 +284,12 @@ customElements.define('mdw-slider-range', class MDWButton extends HTMLElementExt
         ${!this.#isDiscrete ? '' : [...new Array(this.#stepCount)].map(i => `<div class="mdw-mark"></div>`).join('\n')}
       </div>
 
-      <div class="mdw-thumb mdw-one"></div>
-      <div class="mdw-thumb mdw-two"></div>
+      <div class="mdw-thumb mdw-one">
+        <div class="mdw-label"><div class="mdw-label-text"></div></div>
+      </div>
+      <div class="mdw-thumb mdw-two">
+        <div class="mdw-label"><div class="mdw-label-text"></div></div>
+      </div>
 
       <style>
         ${styleAsString}

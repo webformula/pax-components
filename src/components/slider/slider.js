@@ -17,6 +17,7 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
   #activeTrack;
   #inactiveTrack;
   #thumb;
+  #label;
   #isDiscrete = false;
 
 
@@ -34,6 +35,7 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
     this.#activeTrack = this.shadowRoot.querySelector('.mdw-track-active');
     this.#inactiveTrack = this.shadowRoot.querySelector('.mdw-track-inactive');
     this.#thumb = this.shadowRoot.querySelector('.mdw-thumb');
+    this.#label = this.shadowRoot.querySelector('.mdw-label-text');
     this.#setPosition({ percent: this.percent });
 
     this.#drag = new Drag(this.#thumb);
@@ -153,6 +155,8 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
         }
       });
     }
+
+    this.#label.innerHTML = this.#value;
   }
 
   #onclick(event) {
@@ -177,7 +181,9 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
         ${!this.#isDiscrete ? '' : [...new Array(this.#stepCount)].map(i => `<div class="mdw-mark"></div>`).join('\n')}
       </div>
 
-      <div class="mdw-thumb"></div>
+      <div class="mdw-thumb">
+        <div class="mdw-label"><div class="mdw-label-text"></div></div>
+      </div>
 
       <style>
         ${styleAsString}

@@ -1,6 +1,7 @@
 <h3>Sliders</h3>
 
-<mdw-card class=" mdw-no-states">
+<mdw-card class=" mdw-no-states" style="padding-left: 16px; padding-top: 16px;">
+  <mdw-slider style="width: 320px"></mdw-slider>
 </mdw-card>
 
 <a href="https://m3.material.io/components/sliders/overview" target="_new">Material Design Guidelines: Sliders</a>
@@ -8,6 +9,9 @@
 
 <div class="links">
   <a href="#standard">Standard</a>
+  <a href="#discrete">Siscrete</a>
+  <a href="#range">Range</a>
+  <a href="#range-discrete">Range discrete</a>
 </div>
 
 
@@ -17,16 +21,56 @@
   <mdw-card class="mdw-no-states" id="standard">
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-button>Text</mdw-button>`)}
+  ${escapeHTML(`<mdw-slider min="0" max="100" step="1" value="50"></mdw-slider>`)}
       </code>
     </pre>
 
     <div class="mdw-headline-small">Slider</div>
 
     <div class="example">
-      <mdw-slider min="0" max="30" value="10" step="5" class="mdw-discrete" onchange="console.log(this.value)"></mdw-slider>
-      <mdw-slider-range min="0" max="10" value="3,7" step="2" class="mdw-discrete" onchange="console.log(this.value)"></mdw-slider-range>
-      <input type="range" min="0" max="6" step="1">
+      <mdw-slider min="0" max="100" step="1" value="50"></mdw-slider>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="discrete">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-slider min="0" max="100" step="10" value="50" class="mdw-discrete"></mdw-slider>`)}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Slider range</div>
+  
+    <div class="example">
+      <mdw-slider min="0" max="100" step="10" value="50" class="mdw-discrete"></mdw-slider>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="range">
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-slider-range min="0" max="100" step="1" value="30,60"></mdw-slider-range>`)}
+        </code>
+      </pre>
+  
+    <div class="mdw-headline-small">Slider range</div>
+  
+    <div class="example">
+      <mdw-slider-range min="0" max="100" step="1" value="30,60"></mdw-slider-range>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="range-discrete">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-slider-range min="0" max="100" step="10" value="30,60" class="mdw-discrete"></mdw-slider-range>`)}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Slider range discrete</div>
+  
+    <div class="example">
+      <mdw-slider-range min="0" max="100" step="10" value="30,60" class="mdw-discrete"></mdw-slider-range>
     </div>
   </mdw-card>
 </section>
