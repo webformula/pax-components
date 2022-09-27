@@ -22,6 +22,7 @@ export default new class extends Page {
       return;
     }
 
+    await this.wait(500);
     select.options = [
       'One',
       'Two',
@@ -29,5 +30,36 @@ export default new class extends Page {
       'Four',
       'Five'
     ].filter(v => v.toLowerCase().includes(value.toLowerCase().trim()));
+  }
+
+  async searchOnEnter(value) {
+    const select = document.querySelector('#select-search-on-enter');
+
+    if (!value) {
+      select.options = [
+        'One',
+        'Two',
+        'Three',
+        'Four',
+        'Five'
+      ];
+      return;
+    }
+
+    await this.wait(500);
+    select.options = [
+      'One',
+      'Two',
+      'Three',
+      'Four',
+      'Five'
+    ].filter(v => v.toLowerCase().includes(value.toLowerCase().trim()));
+  }
+
+
+  async wait(time = 1000) {
+    return new Promise(resolve => {
+      setTimeout(resolve, time)
+    });
   }
 }

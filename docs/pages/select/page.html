@@ -31,6 +31,8 @@
 
 <div class="links">
   <a href="#basic">Basic</a>
+  <a href="#async-search">Async search</a>
+  <a href="#async-search-on-enter">Async search only on enter press</a>
 </div>
 
 
@@ -94,24 +96,63 @@
   </mdw-card>
 
 
-  <mdw-card class="mdw-no-states" id="basic">
+  <mdw-card class="mdw-no-states" id="async-search">
     <pre>
-        <code class="language-html">
-    ${escapeHTML(`<mdw-menu class="mdw-async-search">
-      <mdw-text-field>
-        <input>
-        <label>Select</label>
-      </mdw-text-field>
-    </mdw-menu>`)}
-        </code>
-      </pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-menu id="select-search" class="mdw-async-search">
+    <mdw-text-field>
+      <input type="search" onsearch="window.search(this.value)">
+      <label>Select</label>
+    </mdw-text-field>
+  </mdw-menu>`)}
+      </code>
+    </pre>
+
+    <pre>
+      <code class="language-javascript">
+  ${`// do some async stuff
+  window.search = async () => document.querySelector('select-search').options = ['One', 'Two'];`}
+      </code>
+    </pre>
   
     <div class="mdw-headline-small">Async search</div>
   
     <div class="example">
-      <mdw-menu id="select-search" class="mdw-async-search mdw-async-search-on-enter">
+      <mdw-menu id="select-search" class="mdw-async-search">
         <mdw-text-field>
           <input type="search" onsearch="page.search(this.value)">
+          <label>Select</label>
+        </mdw-text-field>
+      </mdw-menu>
+    </div>
+  </mdw-card>
+
+
+  <mdw-card class="mdw-no-states" id="async-search-on-enter">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-menu id="select-search-on-enter" class="mdw-async-search mdw-async-search-on-enter">
+    <mdw-text-field>
+      <input type="search" onsearch="window.searchOnEnter(this.value)">
+      <label>Select</label>
+    </mdw-text-field>
+  </mdw-menu>`)}
+      </code>
+    </pre>
+  
+    <pre>
+      <code class="language-javascript">
+  ${`// do some async stuff
+  window.searchOnEnter = async () => document.querySelector('select-search-on-enter').options = ['One', 'Two'];`}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Async search only on enter press</div>
+  
+    <div class="example">
+      <mdw-menu id="select-search-on-enter" class="mdw-async-search mdw-async-search-on-enter">
+        <mdw-text-field>
+          <input type="search" onsearch="page.searchOnEnter(this.value)">
           <label>Select</label>
         </mdw-text-field>
       </mdw-menu>

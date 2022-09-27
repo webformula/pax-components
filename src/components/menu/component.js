@@ -32,6 +32,8 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     super();
 
     this.#control = this.#getControl();
+    this.#isAsyncSearch = this.classList.contains('mdw-async-search');
+    this.#isAsyncSearchOnEnter = this.classList.contains('mdw-async-search-on-enter');
     this.#preparePanel();
   }
 
@@ -45,10 +47,13 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   set options(value = []) {
     this.#options = value;
     this.#panel.template = `
-      <ul id="${this.#id}" class="mdw-menu-panel" style="${!this.#isTextField ? '' : `width: ${this.#control.offsetWidth}px;`}">
+      <ul id="${this.#id}" class="mdw-menu-panel ${value.length === 0 ? 'mdw-no-items' : ''}" style="${!this.#isTextField ? '' : `width: ${this.#control.offsetWidth}px;`}">
+        ${!this.#isAsyncSearch ? '' : `<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>`}
+        <div class="mdw-no-items">No items</div>  
         ${value.map(value => `<li>${value}</li>`).join('\n')}
       </ul>
     `;
+    this.#panel.element.classList.remove('mdw-async-searching');
     if (this.#panel.showing) this.#panel.resetTemplate();
   }
 
@@ -63,8 +68,6 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
       this.#panel.addIgnoreElement(this.#control);
       this.#control.querySelector('input').addEventListener('input', this.#onTextFieldInput_debounce_bound);
       this.#control.querySelector('input').addEventListener('focus', this.#onControlFocus_bound);
-      this.#isAsyncSearch = this.classList.contains('mdw-async-search');
-      this.#isAsyncSearchOnEnter = this.classList.contains('mdw-async-search-on-enter');
     } else {
       this.#control.addEventListener('focus', this.#onControlFocus_bound);
     }
@@ -112,6 +115,17 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
       liElements.forEach(e => e.setAttribute('role', 'menuitem'));
     }
 
+    const noItems = document.createElement('dic');
+    noItems.innerHTML = 'No items';
+    noItems.classList.add('mdw-no-items');
+    ul.insertAdjacentElement('afterbegin', noItems);
+
+    if (this.#isAsyncSearch) {
+      const progress = document.createElement('mdw-progress-linear');
+      progress.classList.add('mdw-indeterminate');
+      ul.insertAdjacentElement('afterbegin', progress);
+    }
+
     this.#panel = new Panel();
     this.#panel.classes = 'mdw-menu-panel-shadow';
     this.#panel.template = ul.outerHTML;
@@ -147,6 +161,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
 
     // update options on open
     this.#options = liElements.map(li => this.#getLabelFromElement(li));
+    this.#panel.element.classList.toggle('mdw-no-items', this.#options.length === 0);
 
     if (this.#isTextField === true) {
       this.#control.classList.add('mdw-raise-label');
@@ -168,6 +183,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
       this.#control.autocomplete = '';
       this.#control.classList.remove('mdw-raise-label');
     }
+    this.#panel.element.classList.remove('mdw-async-searching');
     document.body.removeEventListener('keydown', this.#onKeydown_bound);
   }
 
@@ -186,6 +202,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
 
     if (this.#isAsyncSearch) {
       if (!this.#isAsyncSearchOnEnter) {
+        this.#panel.element.classList.add('mdw-async-searching');
         const input = this.#control.querySelector('input');
         input.dispatchEvent(new Event('search', this));
         this.#lastSearchValue = input.value;
@@ -274,10 +291,11 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     
     if (enter) {
       if (this.#isTextField && document.activeElement.nodeName === 'INPUT') {
-        
+
         // prevent item select when search input has changed
         const isSearchChange = this.#isAsyncSearch && this.#lastSearchValue !== document.activeElement.value;
         this.#lastSearchValue = document.activeElement.value;
+        this.#panel.element.classList.add('mdw-async-searching');
 
         if (!isSearchChange && this.#panel.element.children.length > 0) {
           this.#handleTextFieldSelect(this.#panel.element.children[0]);

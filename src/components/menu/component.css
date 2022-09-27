@@ -73,3 +73,35 @@
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-on-surface);
 }
+
+
+.mdw-menu-panel > .mdw-no-items {
+  display: none;
+  align-items: center;
+  height: 48px;
+  padding: 0 12px;
+  user-select: none;
+  outline: none;
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  line-height: var(--mdw-font-line-height-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+  color: var(--mdw-on-surface);
+}
+
+.mdw-menu-panel.mdw-no-items > .mdw-no-items {
+  display: flex;
+}
+
+
+.mdw-menu-panel > mdw-progress-linear {
+  margin-top: -8px;
+  border-radius: 0 4px 4px 0;
+  opacity: 0;
+  transition: opacity 160ms;
+}
+
+
+.mdw-menu-panel.mdw-async-searching > mdw-progress-linear {
+  opacity: 1;
+}
