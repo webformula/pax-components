@@ -23,7 +23,8 @@ import './components/fab/component.js';
 import './components/switch/component.js';
 import './components/bottom-sheet/component.js';
 import './components/segmented-button-group/component.js';
-import './components/slider/component.js';
+import './components/slider/slider.js';
+import './components/slider/slider-range.js';
 
 export {
   MDWDialog,

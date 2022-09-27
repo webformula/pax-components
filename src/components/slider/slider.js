@@ -1,6 +1,6 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import Drag from '../../core/drag.js';
-import styleAsString from '!!css-loader!./component.css?raw';
+import styleAsString from '!!css-loader!./slider.css?raw';
 
 customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended {
   useShadowRoot = true;
@@ -12,7 +12,6 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
   #drag = new Drag(this);
   #onDrag_bound = this.#onDrag.bind(this);
   #onDragStart_bound = this.#onDragStart.bind(this);
-  #onDragEnd_bound = this.#onDragEnd.bind(this);
   #onclick_bound = this.#onclick.bind(this);
   #dragStartLeftPosition;
   #activeTrack;
@@ -35,13 +34,12 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
     this.#activeTrack = this.shadowRoot.querySelector('.mdw-track-active');
     this.#inactiveTrack = this.shadowRoot.querySelector('.mdw-track-inactive');
     this.#thumb = this.shadowRoot.querySelector('.mdw-thumb');
-    this.#setPositionByValue();
+    this.#setPosition({ percent: this.percent });
 
     this.#drag = new Drag(this.#thumb);
     this.#drag.includeMouseEvents = true;
     this.#drag.onDrag(this.#onDrag_bound);
     this.#drag.onStart(this.#onDragStart_bound);
-    this.#drag.onEnd(this.#onDragEnd_bound);
     this.#drag.enable();
 
     this.#inactiveTrack.addEventListener('click', this.#onclick_bound);
@@ -58,7 +56,7 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
     return ['min', 'max', 'value', 'step'];
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name, _oldValue, newValue) {
     if (name === 'min') this.min = newValue;
     if (name === 'max') this.max = newValue;
     if (name === 'value') this.value = newValue;
@@ -66,16 +64,15 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
   }
 
   get value() {
-    return (this.#value || '').toString();
+    return `${this.#value}`;
   }
   set value(value = 50) {
     this.#value = parseFloat(value);
     this.#adjustValueOnParams();
-    if (this.rendered) this.#setPositionByValue();
   }
 
   get min() {
-    return (this.#min || '').toString();
+    return `${this.#min}`;
   }
   set min(value = 0) {
     this.#min = parseInt(value);
@@ -83,7 +80,7 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
   }
 
   get max() {
-    return (this.#max || '').toString();
+    return `${this.#max}`;
   }
   set max(value = 100) {
     this.#max = parseInt(value);
@@ -91,7 +88,7 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
   }
 
   get step() {
-    return (this.#step || '').toString();
+    return `${this.#step}`;
   }
   set step(value = 1) {
     this.#step = parseFloat(value);
@@ -99,46 +96,67 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
   }
 
   get percent() {
-    return (this.#value - this.#min) / (this.#max - this.#min) * 100;
+    return (this.#value - this.#min) / (this.#max - this.#min);
   }
 
   get #stepCount() {
     return Math.floor((this.#max - this.#min) / this.#step) + 1;
   }
 
+  #setValueFromPixels(pixels) {
+    let percent = pixels / this.offsetWidth;
+    if (percent <= 0) percent = 0;
+    if (percent >= 1) percent = 1;
+
+    const lastValue = this.#value;
+    this.#value = this.#roundByStep(this.#min + (this.#max - this.#min) * percent);
+
+    if (lastValue !== this.#value) this.dispatchEvent(new Event('change'));
+
+    // this will snap to marks
+    if (this.#isDiscrete) pixels = this.offsetWidth * this.percent;
+    this.#setPosition({ pixels });
+  }
+
   #adjustValueOnParams() {
     if (this.#value < this.#min) this.#value = this.#min;
     if (this.#value > this.#max) this.#value = this.#max;
     this.#value = this.#roundByStep(this.#value);
+    if (this.rendered) this.#setPosition({ percent: this.percent });
   }
 
-  #setPositionByValue() {
-    const percent = this.percent;
-    this.#activeTrack.style.width = `${percent}%`;
-    this.#inactiveTrack.style.left = `${percent}%`;
-    this.#thumb.style.left = `${percent}%`;
-    this.#updateMarks();
+  #roundByStep(value) {
+    const inverse = 1 / this.#step;
+    return Math.round(value * inverse) / inverse;
   }
 
-  #updateMarks() {
-    const marks = [...this.shadowRoot.querySelectorAll('.mdw-mark')];
-    const thumbX = this.#thumb.getBoundingClientRect().x;
-    marks.forEach(mark => {
-      if (mark.getBoundingClientRect().x <= thumbX) {
-        mark.classList.remove('mdw-inactive');
-        mark.classList.add('mdw-active');
-      } else {
-        mark.classList.remove('mdw-active');
-        mark.classList.add('mdw-inactive');
-      }
-    })
+  #setPosition({ percent, pixels }) {
+    if (percent && percent > 1) throw Error('percent must be from 0 - 1');
+    if (percent) pixels = this.offsetWidth * percent;
+    if (pixels < 0) pixels = 0;
+    if (pixels > this.offsetWidth) pixels = this.offsetWidth;
+
+    this.#thumb.style.left = `${pixels}px`;
+    this.#activeTrack.style.width = `${pixels}px`;
+    this.#inactiveTrack.style.left = `${pixels}px`;
+
+    if (this.#isDiscrete) {
+      const marks = [...this.shadowRoot.querySelectorAll('.mdw-mark')];
+      const thumbX = this.#thumb.getBoundingClientRect().x;
+      marks.forEach(mark => {
+        if (mark.getBoundingClientRect().x <= thumbX) {
+          mark.classList.remove('mdw-inactive');
+          mark.classList.add('mdw-active');
+        } else {
+          mark.classList.remove('mdw-active');
+          mark.classList.add('mdw-inactive');
+        }
+      });
+    }
   }
 
   #onclick(event) {
-    let percent = (event.clientX - this.getBoundingClientRect().x) / this.offsetWidth;
-    if (percent <= 0) percent = 0;
-    if (percent >= 1) percent = 1;
-    this.value = this.#min + (this.#max - this.#min) * percent;
+    this.#setValueFromPixels(event.clientX - this.getBoundingClientRect().x);
   }
 
   #onDragStart() {
@@ -147,36 +165,7 @@ customElements.define('mdw-slider', class MDWButton extends HTMLElementExtended 
   }
 
   #onDrag({ distance }) {
-    let position = this.#dragStartLeftPosition + distance.x;
-    if (position < 0) position = 0;
-    if (position > this.offsetWidth) position = this.offsetWidth;
-
-    if (this.#isDiscrete === true) {
-      this.value = this.#min + (this.#max - this.#min) * (position / this.offsetWidth);
-    } else {
-      this.#thumb.style.left = `${position}px`;
-      this.#activeTrack.style.width = `${position}px`;
-      this.#inactiveTrack.style.left = `${position}px`;
-    }
-
-    this.#updateMarks();
-  }
-
-  // TODO swipe close
-  #onDragEnd({ distance }) {
-    if (this.#isDiscrete === true) return;
-
-    let percent = (this.#dragStartLeftPosition + distance.x) / this.offsetWidth;
-    if (percent <= 0) percent = 0;
-    if (percent >= 1) percent = 1;
-    this.#value = this.#roundByStep(this.#min + (this.#max - this.#min) * percent);
-
-    // TODO should i snap the position of the thumb when not using discrete
-  }
-
-  #roundByStep(value) {
-    const inverse = 1 / this.#step;
-    return Math.round(value * inverse) / inverse;
+    this.#setValueFromPixels(this.#dragStartLeftPosition + distance.x);
   }
 
   template() {
