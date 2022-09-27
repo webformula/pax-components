@@ -83,7 +83,6 @@ export default class Panel {
     if (this.targetElement) {
       this.#setTargetElementPosition();
       this.#contentElement.classList.add('mdw-target-element');
-      this.#contentElement.style.maxHeight = `${this.#getContentHeight() }px`;
       const targetElementScrollContainer = this.#getScrollContainerForTargetElement();
       this.#initialScrollPosition = targetElementScrollContainer.scrollTop;
       targetElementScrollContainer.addEventListener('scroll', this.#onContainerScroll_bound);
@@ -128,6 +127,7 @@ export default class Panel {
 
   resetTemplate() {
     this.#contentElement.innerHTML = this.template;
+    if (this.targetElement) this.#setTargetElementPosition();
     this.#callOnRender();
   }
 
@@ -211,14 +211,18 @@ export default class Panel {
     let bottom = top + contentHeight;
     let right = left + contentWidth;
 
+    this.#contentElement.style.maxHeight = `${this.#getContentHeight()}px`;
+
     // TODO handle case whn neither positions is on screen
     if (bottom <= clientHeight) {
+      this.#contentElement.style.bottom = '';
       this.#contentElement.style.top = `${top}px`;
       this.#contentPositionProperty = 'top';
       this.#contentPosition = top;
 
     // align bottom of content to top of control
     } else {
+      this.#contentElement.style.top = '';
       this.#contentElement.style.bottom = `${clientHeight - bounds.y}px`;
       this.#contentPositionProperty = 'bottom';
       this.#contentPosition = clientHeight - bounds.y;

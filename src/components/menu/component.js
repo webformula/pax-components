@@ -11,10 +11,13 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   #panel;
   #control;
   #itemElementsForSearch;
+  #options;
   #isTextField = false;
   #id;
   #focusableElements;
-
+  #lastSearchValue;
+  #isAsyncSearch = false;
+  #isAsyncSearchOnEnter = false;
   #onControlClick_bound = this.#onControlClick.bind(this);
   #onPanelClick_bound = this.#onPanelClick.bind(this);
   #onPanelHide_bound = this.#onPanelHide.bind(this);
@@ -36,6 +39,19 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     if (this.#isTextField) return this.#control.querySelector('input').value;
   }
 
+  get options() {
+    return this.#options;
+  }
+  set options(value = []) {
+    this.#options = value;
+    this.#panel.template = `
+      <ul id="${this.#id}" class="mdw-menu-panel" style="${!this.#isTextField ? '' : `width: ${this.#control.offsetWidth}px;`}">
+        ${value.map(value => `<li>${value}</li>`).join('\n')}
+      </ul>
+    `;
+    if (this.#panel.showing) this.#panel.resetTemplate();
+  }
+
   connectedCallback() {
     this.#control.addEventListener('click', this.#onControlClick_bound);
     this.#panel.onClick = this.#onPanelClick_bound;
@@ -47,6 +63,8 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
       this.#panel.addIgnoreElement(this.#control);
       this.#control.querySelector('input').addEventListener('input', this.#onTextFieldInput_debounce_bound);
       this.#control.querySelector('input').addEventListener('focus', this.#onControlFocus_bound);
+      this.#isAsyncSearch = this.classList.contains('mdw-async-search');
+      this.#isAsyncSearchOnEnter = this.classList.contains('mdw-async-search-on-enter');
     } else {
       this.#control.addEventListener('focus', this.#onControlFocus_bound);
     }
@@ -64,7 +82,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   }
 
   #preparePanel() {
-    const ul = this.querySelector(':scope > ul');
+    const ul = this.querySelector(':scope > ul') || document.createElement('ul');
     ul.classList.add('mdw-menu-panel');
     if (ul.hasAttribute('id')) this.#id = ul.getAttribute('id');
     else {
@@ -73,6 +91,8 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     }
 
     const liElements = [...ul.querySelectorAll('li')];
+    // set initial options
+    this.#options = liElements.map(li => this.#getLabelFromElement(li));
     liElements.forEach(e => {
       if (!e.hasAttribute('tabindex')) e.setAttribute('tabindex', '0');
       if (e.hasAttribute('selected')) e.setAttribute('aria-selected', 'true');
@@ -123,9 +143,14 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   }
 
   #onPanelRender() {
+    const liElements = [...this.#panel.element.querySelectorAll('li')];
+
+    // update options on open
+    this.#options = liElements.map(li => this.#getLabelFromElement(li));
+
     if (this.#isTextField === true) {
       this.#control.classList.add('mdw-raise-label');
-      this.#itemElementsForSearch = [...this.#panel.element.querySelectorAll('li')].map(element => ({
+      this.#itemElementsForSearch = liElements.map(element => ({
         element,
         label: this.#getLabelFromElement(element)
       }));
@@ -155,9 +180,19 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     return firstChild;
   }
 
-  #onTextFieldInput(event) {
+  #onTextFieldInput(event) {    
     // panel can be closed by hitting enter on search
     if (!this.#panel.showing) this.#panel.show();
+
+    if (this.#isAsyncSearch) {
+      if (!this.#isAsyncSearchOnEnter) {
+        const input = this.#control.querySelector('input');
+        input.dispatchEvent(new Event('search', this));
+        this.#lastSearchValue = input.value;
+      }
+      return;
+    }
+
 
     if (!event.target.value.trim()) {
       this.#panel.resetTemplate();
@@ -239,7 +274,12 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     
     if (enter) {
       if (this.#isTextField && document.activeElement.nodeName === 'INPUT') {
-        if (this.#panel.element.children.length > 0) {
+        
+        // prevent item select when search input has changed
+        const isSearchChange = this.#isAsyncSearch && this.#lastSearchValue !== document.activeElement.value;
+        this.#lastSearchValue = document.activeElement.value;
+
+        if (!isSearchChange && this.#panel.element.children.length > 0) {
           this.#handleTextFieldSelect(this.#panel.element.children[0]);
           this.#panel.hide();
           return;

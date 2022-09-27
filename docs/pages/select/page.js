@@ -7,4 +7,27 @@ export default new class extends Page {
   constructor() {
     super();
   }
+
+  async search(value) {
+    const select = document.querySelector('#select-search');
+
+    if (!value) {
+      select.options = [
+        'One',
+        'Two',
+        'Three',
+        'Four',
+        'Five'
+      ];
+      return;
+    }
+
+    select.options = [
+      'One',
+      'Two',
+      'Three',
+      'Four',
+      'Five'
+    ].filter(v => v.toLowerCase().includes(value.toLowerCase().trim()));
+  }
 }

@@ -92,4 +92,29 @@
       </mdw-menu>
     </div>
   </mdw-card>
+
+
+  <mdw-card class="mdw-no-states" id="basic">
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-menu class="mdw-async-search">
+      <mdw-text-field>
+        <input>
+        <label>Select</label>
+      </mdw-text-field>
+    </mdw-menu>`)}
+        </code>
+      </pre>
+  
+    <div class="mdw-headline-small">Async search</div>
+  
+    <div class="example">
+      <mdw-menu id="select-search" class="mdw-async-search mdw-async-search-on-enter">
+        <mdw-text-field>
+          <input type="search" onsearch="page.search(this.value)">
+          <label>Select</label>
+        </mdw-text-field>
+      </mdw-menu>
+    </div>
+  </mdw-card>
 </section>
