@@ -8,6 +8,7 @@ export default class Drag {
   #currentTouchPosition;
   #startTime;
   #isDragging = false;
+  #includeMouseEvents = false;
 
   #onDragCallbacks = [];
   #onStartCallbacks = [];
@@ -28,6 +29,13 @@ export default class Drag {
     if (this.#element) throw Error('element had already been set, cannot change.');
     if (!(value instanceof HTMLElement)) throw Error('element must be an instance HTMLElement');
     this.#element = value;
+  }
+
+  get includeMouseEvents() {
+    return this.#includeMouseEvents;
+  }
+  set includeMouseEvents(value = false) {
+    this.#includeMouseEvents = value;
   }
 
   get isDragging() {
@@ -65,6 +73,7 @@ export default class Drag {
 
   #initiate() {
     this.#element.addEventListener('touchstart', this.#touchstart_bound, false);
+    if (this.#includeMouseEvents === true) this.#element.addEventListener('mousedown', this.#touchstart_bound, false);
   }
 
   #touchstart(event) {
@@ -75,8 +84,14 @@ export default class Drag {
       event
     }));
 
+    // TODO try using window to fix ios issues
     this.#element.addEventListener('touchend', this.#touchend_bound, false);
     this.#element.addEventListener('touchmove', this.#touchmove_throttled, false);
+
+    if (this.#includeMouseEvents === true) {
+      window.addEventListener('mouseup', this.#touchend_bound, false);
+      window.addEventListener('mousemove', this.#touchmove_throttled, false);
+    }
 
     this.#isDragging = true;
   }
@@ -84,6 +99,11 @@ export default class Drag {
   #touchend(event) {
     this.#element.removeEventListener('touchend', this.#touchend_bound, false);
     this.#element.removeEventListener('touchmove', this.#touchmove_throttled, false);
+
+    if (this.#includeMouseEvents === true) {
+      window.removeEventListener('mouseup', this.#touchend_bound, false);
+      window.removeEventListener('mousemove', this.#touchmove_throttled, false);
+    }
 
     const distance = this.#getDistance(event);
     this.#onEndCallbacks.forEach(callback => callback({
@@ -139,8 +159,8 @@ export default class Drag {
 
   #getTouchPosition(event) {
     return {
-      x: event.changedTouches[0].clientX,
-      y: event.changedTouches[0].clientY
+      x: event.changedTouches ? event.changedTouches[0].clientX : event.clientX,
+      y: event.changedTouches ? event.changedTouches[0].clientY : event.clientY,
     }
   }
 }

@@ -1,0 +1,103 @@
+:host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 200px;
+  height: 20px;
+}
+
+:host([disabled]) {
+  pointer-events: none;
+  opacity: .38;
+}
+
+
+:host > .mdw-track-active {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  height: 4px;
+  border-radius: 2px;
+
+  background-color: var(--mdw-primary);
+}
+
+:host([disabled]) > .mdw-track-active {
+  background-color: var(--mdw-on-surface);
+}
+
+:host > .mdw-track-inactive {
+  position: absolute;
+  left: 50%;
+  right: 0;
+  height: 4px;
+  border-radius: 2px;
+
+  background-color: var(--mdw-surface-variant);
+}
+
+:host([disabled]) > .mdw-track-inactive {
+  background-color: var(--mdw-on-surface--50);
+}
+
+:host >.mdw-thumb {
+  position: absolute;
+  left: 50%;
+  margin-left: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  background-color: var(--mdw-primary);
+  box-shadow: var(--mdw-elevation-1);
+}
+
+:host([disabled]) > .mdw-thumb {
+  background-color: var(--mdw-on-surface);
+  box-shadow: none;
+}
+
+:host > .mdw-thumb:hover::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--mdw-primary);
+  opacity: var(--mdw-state-layer-opacity-hover);
+}
+:host > .mdw-thumb:active::before {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+}
+:host > .mdw-thumb:focus::before {
+  opacity: var(--mdw-state-layer-opacity-focus);
+}
+
+
+:host > .mdw-marks {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 4px;
+  pointer-events: none;
+}
+
+:host > .mdw-marks > .mdw-mark {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+:host > .mdw-marks > .mdw-mark.mdw-active {
+  background-color: var(--mdw-on-primary--38);
+}
+
+:host > .mdw-marks > .mdw-mark.mdw-inactive {
+  background-color: var(--mdw-on-surface-variant);
+}

@@ -2,6 +2,7 @@ html {
   font-family: 'Roboto Flex', Roboto, sans-serif;
   font-size: 16px;
   height: 100%;
+  overflow-x: hidden;
 }
 
 input {
@@ -13,6 +14,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
+  overflow-x: hidden;
 
   background-color: var(--mdw-surface);
 }

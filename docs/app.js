@@ -17,6 +17,7 @@ import bottomAppBar from './pages/bottom app bar/page.js';
 import fab from './pages/fab/page.js';
 import mdwSwitch from './pages/switch/page.js';
 import segmentedButtons from './pages/segmented buttons/page.js';
+import slider from './pages/sliders/page.js';
 
 
 window.escapeHTML = str => {
@@ -43,6 +44,7 @@ registerPage(bottomAppBar, '/bottom-app-bar');
 registerPage(fab, '/fab');
 registerPage(mdwSwitch, '/switch');
 registerPage(segmentedButtons, '/segmented-buttons');
+registerPage(slider, '/sliders');
 
 
 
@@ -53,6 +55,7 @@ window.addEventListener('locationchange', () => {
 });
 
 window.addEventListener('hashchange', () => {
+  if (!location.hash) return;
   const element = document.querySelector(location.hash);
   if (element) element.scrollIntoView({ behavior: 'smooth' });
 });
@@ -60,8 +63,10 @@ window.addEventListener('hashchange', () => {
 window.addEventListener('load', () => {
   hljs.highlightAll();
 
-  setTimeout(() => {
-    const element = document.querySelector(location.hash);
-    if (element) element.scrollIntoView();
-  }, 0);
+  if (location.hash) {
+    setTimeout(() => {
+      const element = document.querySelector(location.hash);
+      if (element) element.scrollIntoView();
+    }, 0);
+  }
 });
