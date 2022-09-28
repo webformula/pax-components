@@ -19,6 +19,7 @@ import mdwSwitch from './pages/switch/page.js';
 import segmentedButtons from './pages/segmented buttons/page.js';
 import slider from './pages/sliders/page.js';
 import radio from './pages/radio/page.js';
+import snackbar from './pages/snackbar/page.js';
 
 
 window.escapeHTML = str => {
@@ -47,6 +48,7 @@ registerPage(mdwSwitch, '/switch');
 registerPage(segmentedButtons, '/segmented-buttons');
 registerPage(slider, '/sliders');
 registerPage(radio, '/radio');
+registerPage(snackbar, '/snackbar');
 
 
 

@@ -1,5 +1,7 @@
 import MDWUtil from './core/util.js';
 import MDWDialog from './components/dialog/service.js';
+import MDWSnackbar from './components/snackbar/service.js';
+
 
 import './theme.css';
 import './index.css';
@@ -26,9 +28,11 @@ import './components/segmented-button-group/component.js';
 import './components/slider/slider.js';
 import './components/slider/slider-range.js';
 import './components/radio/component.js';
+import './components/snackbar/component.js';
 
 
 export {
   MDWDialog,
-  MDWUtil
+  MDWUtil,
+  MDWSnackbar
 }

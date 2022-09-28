@@ -75,7 +75,6 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   }
 
   #mouseup() {
-    console.log('mouseup')
     if (this.#isAsync) this.showSpinner();
     this.blur();
   }

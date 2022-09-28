@@ -1,0 +1,52 @@
+<h3>Snackbar</h3>
+
+<mdw-card class=" mdw-no-states">
+</mdw-card>
+
+<a href="https://m3.material.io/components/buttons/overview" target="_new">Material Design Guidelines: Snackbar (v2)</a>
+<p>Snackbars provide brief messages about app processes at the bottom of the screen. Snackbars only show one at a time. When multiple are created they will queue and show in order.</p>
+
+<div class="links">
+  <a href="#basic">basic</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card class="mdw-no-states" id="basic">
+    <pre>
+      <code class="language-javascript">
+  ${`MDWSnackbar.show({
+    message: 'Message goes here'
+  });`}
+      </code>
+    </pre>
+
+    <div class="mdw-headline-small">Basic</div>
+
+    <div class="example">
+      <mdw-button onclick="page.basic();">Show</mdw-button>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="action">
+    <pre>
+      <code class="language-javascript">
+  ${`// Promise will resolve when the Snackbar is dismissed automatically or when action is pressed
+  await MDWSnackbar.show({
+    message: 'Message goes here',
+    action: true,
+    actionLabel: 'Done' // default 'Dismiss'
+  });
+  console.log('Snackbar dismissed');`}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">With action</div>
+  
+    <div class="example">
+      <mdw-button onclick="page.action();">Show</mdw-button>
+    </div>
+  </mdw-card>
+</section>

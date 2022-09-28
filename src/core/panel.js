@@ -4,6 +4,8 @@ import util from './util.js';
 export default class Panel {
   template = '';
   position = 'center center';
+  animation = 'translateY'; // translateY, scale
+  adjustForBarsAndNavigation = false; // make sure the panel does not overlap navigation and bars
   targetElement;
   scroll = false;
   fullScreen = false;
@@ -30,7 +32,9 @@ export default class Panel {
 
   constructor(params = {
     template: '',
-    position: 'center center',
+    position: 'center center', // position does not work with targets
+    animation: 'translateY', // translateY, scale
+    adjustForBarsAndNavigation: false,
     targetElement: undefined,
     scroll: false,
     fullScreen: false,
@@ -41,6 +45,8 @@ export default class Panel {
   }) {
     this.template = params.template;
     this.position = params.position;
+    this.animation = params.animation;
+    this.adjustForBarsAndNavigation = params.adjustForBarsAndNavigation;
     this.targetElement = params.targetElement;
     this.scroll = params.scroll;
     this.fullScreen = params.fullScreen;
@@ -69,6 +75,7 @@ export default class Panel {
     if (this.classes) classes += ` ${this.classes}`;
     if (this.fullScreen) classes += ' mdw-fullscreen';
     if (this.backdrop) classes += ' mdw-backdrop';
+    if (this.animation === 'scale') classes += ' mdw-animation-scale';
 
     document.body.insertAdjacentHTML('beforeend', `
       <div class="mdw-panel ${classes}" id="${this.#id}">
@@ -88,7 +95,10 @@ export default class Panel {
       const targetElementScrollContainer = this.#getScrollContainerForTargetElement();
       this.#initialScrollPosition = targetElementScrollContainer.scrollTop;
       targetElementScrollContainer.addEventListener('scroll', this.#onContainerScroll_bound);
+    } else {
+      this.#setGlobalPosition();
     }
+    if (this.animation === 'scale') this.#element.classList.add('mdw-animation-scale');
     this.#element.classList.add('mdw-run-animation');
 
     await util.transitionendAsync(this.#contentElement);
@@ -239,6 +249,80 @@ export default class Panel {
     // align right of content to right of control
     } else {
       this.#contentElement.style.right = `${clientWidth - bounds.x + this.offsetX}px`;
+    }
+  }
+
+  #setGlobalPosition() {
+    switch(this.position) {
+      case 'left bottom':
+      case 'bottom left':
+        this.#contentElement.style.position = 'fixed';
+        this.#contentElement.style.left = `${0 + this.offsetX}px`;
+        this.#contentElement.style.bottom = `${0 + this.offsetY}px`;
+        this.#adjustPositionForBarsAndNavigation();
+        break;
+
+      case 'right bottom':
+      case 'bottom right':
+        this.#contentElement.style.position = 'fixed';
+        this.#contentElement.style.right = `${0 + this.offsetX}px`;
+        this.#contentElement.style.bottom = `${0 + this.offsetY}px`;
+        this.#adjustPositionForBarsAndNavigation();
+        break;
+
+      case 'left top':
+      case 'top left':
+        this.#contentElement.style.position = 'fixed';
+        this.#contentElement.style.left = `${0 + this.offsetX}px`;
+        this.#contentElement.style.top = `${0 + this.offsetY}px`;
+        this.#adjustPositionForBarsAndNavigation();
+        break;
+
+      case 'right top':
+      case 'top right':
+        this.#contentElement.style.position = 'fixed';
+        this.#contentElement.style.right = `${0 + this.offsetX}px`;
+        this.#contentElement.style.top = `${0 + this.offsetY}px`;
+        this.#adjustPositionForBarsAndNavigation();
+        break;
+    }
+  }
+
+  #adjustPositionForBarsAndNavigation() {
+    if (!this.adjustForBarsAndNavigation) return;
+
+    if (this.position.includes('left')) {
+      const navigation = document.querySelector('mdw-navigation');
+      if (navigation) {
+        const contentLeft = parseInt(getComputedStyle(this.#contentElement).left.replace('px', '') || 0);
+        const navigationBounds = navigation.getBoundingClientRect();
+        if (navigationBounds.x + navigationBounds.width > contentLeft + this.offsetX) {
+          this.#contentElement.style.left = `${navigationBounds.x + navigationBounds.width + this.offsetX}px`;
+        }
+      }
+    }
+
+    if (this.position.includes('bottom')) {
+      const bottomAppBar = document.querySelector('mdw-bottom-app-bar');
+      if (bottomAppBar) {
+        const bottomAppBarBounds = bottomAppBar.getBoundingClientRect();
+        const contentBottom = window.innerHeight - parseInt(getComputedStyle(this.#contentElement).bottom.replace('px', '') || 0);
+        if (bottomAppBarBounds.y < contentBottom + this.offsetY) {
+          this.#contentElement.style.bottom = `${bottomAppBarBounds.height + this.offsetX}px`;
+        }
+      }
+    }
+
+    if (this.position.includes('top')) {
+      const topAppBar = document.querySelector('mdw-top-app-bar');
+
+      if (topAppBar) {
+        const topAppBarBounds = topAppBar.getBoundingClientRect();
+        const contentTop = parseInt(getComputedStyle(this.#contentElement).bottom.replace('px', '') || 0);
+        if (topAppBarBounds.y + topAppBarBounds.height > contentTop - this.offsetY) {
+          this.#contentElement.style.top = `${topAppBarBounds.y + topAppBarBounds.height + this.offsetY}px`;
+        }
+      }
     }
   }
 
