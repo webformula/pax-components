@@ -42,11 +42,36 @@
   --mdw-state-layer-opacity-pressed: 0.12;
   --mdw-state-layer-opacity-dragged: 0.16;
 
+  --mdw-shape-no-rounding: 0;
+  --mdw-shape-extra-small: 4px;
+  --mdw-shape-extra-small-top: 4px 4px 0 0;
+  --mdw-shape-small: 8px;
+  --mdw-shape-medium: 12px;
+  --mdw-shape-large: 16px;
+  --mdw-shape-large-end: 0 16px 16px 0;
+  --mdw-shape-large-top: 16px 16px 0 0;
+  --mdw-shape-extra-large: 28px;
+  --mdw-shape-extra-large-top: 28px 28px 0 0;
+  --mdw-shape-full: 50%;
 
-  /* font sizes are represented in pixels but scale with html.style.fontSize. base is 16px */
-  --mdw-font-size-icon: 24px;
-  --mdw-font-size-icon-top-app-bar: 30px;
 
+  --mdw-button-radius: 20px;
+  --mdw-card-spacing: 10px;
+  --mdw-navigation-drawer-width: 360px;
+
+  --mdw-transition-expand-in: cubic-bezier(.13, 1.02, .25, .95);
+  --mdw-transition-expand-out: cubic-bezier(0.550, 0.085, 0.680, 0.530);
+
+  --mdw-bottom-sheet-initial-position: 40%;
+  --mdw-bottom-sheet-minimized-position: 64px;
+
+
+
+  /* --- font sizes are represented in pixels but scale with html.style.fontSize. base is 16px */
+
+  --mdw-font-size-icon-small: 24px;
+  --mdw-font-size-icon-medium: 24px;
+  --mdw-font-size-icon-large: 24px;
 
   --mdw-font-size-large-display: 59px;
   --mdw-font-line-height-large-display: 66px;
@@ -122,28 +147,4 @@
   --mdw-font-line-height-small-headline: 32px;
   --mdw-font-weight-small-headline: 400;
   --mdw-font-letter-spacing-small-headline: 0;
-
-  
-  --mdw-shape-no-rounding: 0;
-  --mdw-shape-extra-small: 4px;
-  --mdw-shape-extra-small-top: 4px 4px 0 0;
-  --mdw-shape-small: 8px;
-  --mdw-shape-medium: 12px;
-  --mdw-shape-large: 16px;
-  --mdw-shape-large-end: 0 16px 16px 0;
-  --mdw-shape-large-top: 16px 16px 0 0;
-  --mdw-shape-extra-large: 28px;
-  --mdw-shape-extra-large-top: 28px 28px 0 0;
-  --mdw-shape-full: 50%;
-
-
-  --mdw-button-radius: 20px;
-  --mdw-card-spacing: 10px;
-  --mdw-navigation-drawer-width: 360px;
-
-  --mdw-transition-expand-in: cubic-bezier(.13, 1.02, .25, .95);
-  --mdw-transition-expand-out: cubic-bezier(0.550, 0.085, 0.680, 0.530);
-
-  --mdw-bottom-sheet-initial-position: 40%;
-  --mdw-bottom-sheet-minimized-position: 64px;
 }

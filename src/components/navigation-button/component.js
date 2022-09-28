@@ -39,7 +39,7 @@ customElements.define('mdw-navigation-button', class MDWButton extends HTMLEleme
   template() {
     return /* html */`
       <mdw-button class="mdw-icon-button">
-        <mdw-icon>menu</mdw-icon>
+        <mdw-icon class="mdw-bold mdw-small">menu</mdw-icon>
       </mdw-button>
     `;
   }

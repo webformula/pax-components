@@ -41,6 +41,20 @@ body:not(.mdw-mobile) mdw-top-app-bar.mdw-mobile-only {
   display: none;
 }
 
+body.mdw-mobile mdw-top-app-bar.mdw-mobile-hide + page-content::before,
+body.mdw-mobile mdw-top-app-bar.mdw-mobile-hide + mdw-navigation + page-content::before {
+  content: '';
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+}
+
+body.mdw-mobile mdw-top-app-bar.mdw-mobile-hide {
+  display: none;
+}
+
 mdw-top-app-bar:before {
   position: absolute;
   content: '';
@@ -140,6 +154,16 @@ body.mdw-mobile mdw-top-app-bar.mdw-mobile-only.mdw-medium + mdw-navigation + pa
   height: 112px;
 }
 
+body.mdw-mobile mdw-top-app-bar.mdw-mobile-hide.mdw-medium + page-content::before,
+body.mdw-mobile mdw-top-app-bar.mdw-mobile-hide.mdw-medium + mdw-navigation + page-content::before {
+  content: '';
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+}
+
 
 
 /* --- large --- */
@@ -220,4 +244,14 @@ body.mdw-mobile mdw-top-app-bar.mdw-mobile-only.mdw-large + mdw-navigation + pag
   left: 0;
   right: 0;
   height: 152px;
+}
+
+body.mdw-mobile mdw-top-app-bar.mdw-mobile-hide.mdw-large + page-content::before,
+body.mdw-mobile mdw-top-app-bar.mdw-mobile-hide.mdw-large + mdw-navigation + page-content::before {
+  content: '';
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
 }

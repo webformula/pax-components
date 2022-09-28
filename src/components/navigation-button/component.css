@@ -35,3 +35,8 @@ body.mdw-small-screen mdw-navigation-button.mdw-mobile-and-small-screen {
   opacity: 1;
   pointer-events: all;
 }
+
+
+mdw-navigation-button mdw-icon {
+  margin-top: -1px;
+}

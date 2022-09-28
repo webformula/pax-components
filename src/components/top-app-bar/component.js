@@ -18,10 +18,10 @@ customElements.define('mdw-top-app-bar', class MDWButton extends HTMLElementExte
   }
 
   connectedCallback() {
-    this.#scrollTarget = document.querySelector('html');
+    this.#scrollTarget = document.querySelector('body');
     this.#lastScrollTop = this.#scrollTarget.scrollTop;
-    document.addEventListener('scroll', this.#scrollHandler_bound);
-    document.addEventListener('touchmove', this.#scrollHandler_bound);
+    this.#scrollTarget.addEventListener('scroll', this.#scrollHandler_bound);
+    this.#scrollTarget.addEventListener('touchmove', this.#scrollHandler_bound);
   }
 
   hide() {
@@ -39,6 +39,7 @@ customElements.define('mdw-top-app-bar', class MDWButton extends HTMLElementExte
   }
 
   #scrollHandler() {
+    console.log('scrollHandler');
     const distance = this.#scrollTarget.scrollTop - this.#lastScrollTop;
     if (distance === 0) return;
 

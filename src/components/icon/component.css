@@ -1,10 +1,10 @@
 mdw-icon {
-  width: 24px;
-  height: 24px;
+  width: var(--mdw-font-size-icon-medium);
+  height: var(--mdw-font-size-icon-medium);
   font-family: 'Material Symbols Outlined';
   font-weight: normal;
   font-style: normal;
-  font-size: var(--mdw-font-size-icon);
+  font-size: var(--mdw-font-size-icon-medium);
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -20,6 +20,18 @@ mdw-icon {
       'wght' 400,
       'GRAD' 0,
       'opsz' 48
+}
+
+mdw-icon.mdw-small {
+  width: var(--mdw-font-size-icon-small);
+  height: var(--mdw-font-size-icon-small);
+  font-size: var(--mdw-font-size-icon-small);
+}
+
+mdw-icon.mdw-large {
+  width: var(--mdw-font-size-icon-large);
+  height: var(--mdw-font-size-icon-large);
+  font-size: var(--mdw-font-size-icon-large);
 }
 
 mdw-icon.mdw-outlined {
