@@ -72,3 +72,6 @@ window.addEventListener('load', () => {
     }, 0);
   }
 });
+
+
+// TODO auto change hash when scrolling

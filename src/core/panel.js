@@ -12,6 +12,8 @@ export default class Panel {
   clickOutsideToClose = false;
   escToClose = false;
   classes = '';
+  offsetY = 0;
+  offsetX = 0;
 
   #overflowScrollRegex = /(auto|scroll)/;
   #id = `panel${util.getUID()}`;
@@ -215,6 +217,7 @@ export default class Panel {
 
     // TODO handle case whn neither positions is on screen
     if (bottom <= clientHeight) {
+      top += this.offsetY;
       this.#contentElement.style.bottom = '';
       this.#contentElement.style.top = `${top}px`;
       this.#contentPositionProperty = 'top';
@@ -223,18 +226,19 @@ export default class Panel {
     // align bottom of content to top of control
     } else {
       this.#contentElement.style.top = '';
-      this.#contentElement.style.bottom = `${clientHeight - bounds.y}px`;
+      this.#contentElement.style.bottom = `${clientHeight - bounds.y + this.offsetY}px`;
       this.#contentPositionProperty = 'bottom';
-      this.#contentPosition = clientHeight - bounds.y;
+      this.#contentPosition = clientHeight - bounds.y + this.offsetY;
     }
 
     // TODO handle case whn neither positions is on screen
     if (right <= clientWidth) {
+      left += this.offsetX;
       this.#contentElement.style.left = `${left}px`;
 
     // align right of content to right of control
     } else {
-      this.#contentElement.style.right = `${clientWidth - bounds.x}px`;
+      this.#contentElement.style.right = `${clientWidth - bounds.x + this.offsetX}px`;
     }
   }
 

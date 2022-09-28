@@ -6,22 +6,19 @@ import util from '../../core/util.js';
 customElements.define('mdw-top-app-bar', class MDWButton extends HTMLElementExtended {
   useShadowRoot = false;
 
-  #scrollTarget;
-  #lastScrollTop;
-  #currentDirection;
-  #distanceFromDirectionChange;
   #isHiding = false;
-  #scrollHandler_bound = util.rafThrottle(this.#scrollHandler).bind(this);
+  #scrollTrack_bound = this.#scrollTrack.bind(this);
 
   constructor() {
     super();
   }
 
   connectedCallback() {
-    this.#scrollTarget = document.querySelector('body');
-    this.#lastScrollTop = this.#scrollTarget.scrollTop;
-    this.#scrollTarget.addEventListener('scroll', this.#scrollHandler_bound);
-    this.#scrollTarget.addEventListener('touchmove', this.#scrollHandler_bound);
+    util.trackPageScroll(this.#scrollTrack_bound);
+  }
+
+  disconnectedCallback() {
+    util.untrackPageScroll(this.#scrollTrack_bound);
   }
 
   hide() {
@@ -38,24 +35,14 @@ customElements.define('mdw-top-app-bar', class MDWButton extends HTMLElementExte
     this.classList.remove('mdw-hide');
   }
 
-  #scrollHandler() {
-    console.log('scrollHandler');
-    const distance = this.#scrollTarget.scrollTop - this.#lastScrollTop;
-    if (distance === 0) return;
-
-    const direction = this.#scrollTarget.scrollTop >= this.#lastScrollTop ? -1 : 1;
-    if (direction !== this.#currentDirection) this.#distanceFromDirectionChange = 0;
-    this.#currentDirection = direction;
-
-    this.#distanceFromDirectionChange += distance;
-
+  // TODO hide/show at scroll speed
+  #scrollTrack({ isScrolled, direction, distanceFromDirectionChange }) {
     // up
-    if (direction === -1 && this.#distanceFromDirectionChange > 150) this.hide();
+    if (direction === -1 && distanceFromDirectionChange > 150) this.hide();
 
     // down
-    if (direction === 1 && this.#distanceFromDirectionChange < -150) this.show();
+    if (direction === 1 && distanceFromDirectionChange < -150) this.show();
 
-    this.#lastScrollTop = this.#scrollTarget.scrollTop;
-    this.classList.toggle('mdw-scrolled', this.#scrollTarget.scrollTop > 0);
+    this.classList.toggle('mdw-scrolled', isScrolled);
   }
 });

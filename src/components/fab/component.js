@@ -7,7 +7,7 @@ customElements.define('mdw-fab', class MDWButton extends HTMLElementExtended {
   useShadowRoot = true;
 
   #ripple;
-  #hasLabel = !!this.querySelector('mdw-icon').nextSibling.textContent.trim();
+  #hasLabel = false;
   #autoHideLabel = this.classList.contains('mdw-auto-hide-label');
   #scrollTarget = document.querySelector('page-content') || document.querySelector('mdw-page-content');
   #scrollHandler_bound = util.rafThrottle(this.#scrollHandler).bind(this);
@@ -16,6 +16,9 @@ customElements.define('mdw-fab', class MDWButton extends HTMLElementExtended {
 
   constructor() {
     super();
+
+    const icon = this.querySelector('mdw-icon');
+    this.#hasLabel = icon && icon.nextElementSibling;
 
     this.classList.add('mdw-no-animation');
     if (this.#hasLabel) this.classList.add('mdw-has-label');

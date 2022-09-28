@@ -18,6 +18,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   #lastSearchValue;
   #isAsyncSearch = false;
   #isAsyncSearchOnEnter = false;
+  #isInBottomAppBar = this.parentNode.nodeName === 'MDW-BOTTOM-APP-BAR';
   #onControlClick_bound = this.#onControlClick.bind(this);
   #onPanelClick_bound = this.#onPanelClick.bind(this);
   #onPanelHide_bound = this.#onPanelHide.bind(this);
@@ -132,6 +133,14 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     this.#panel.backdrop = false;
     this.#panel.clickOutsideToClose = true;
     this.#panel.targetElement = this.#control;
+
+    // position menu above app bar https://m3.material.io/components/bottom-app-bar/guidelines
+    if (this.#isInBottomAppBar) {
+      this.#panel.targetElement = this.parentNode;
+      this.#panel.offsetY = 10;
+      this.#panel.offsetX = 10;
+    }
+
     ul.remove();
   }
 

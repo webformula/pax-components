@@ -5,6 +5,12 @@ const MDWUtil = new class MDWUtil {
   #pageScrollIsLocked = false;
   #textLengthDiv = document.createElement('div');
   #pageScrollLockHTMLScrollTop;
+  #scrollTarget;
+  #lastScrollTop;
+  #currentDirection;
+  #distanceFromDirectionChange;
+  #scrollCallbacks = [];
+  #scrollHandler_bound = this.rafThrottle(this.#scrollHandler).bind(this);
 
   isMobile = isMobile;
   isSmallScreen = isSmallScreen;
@@ -23,7 +29,7 @@ const MDWUtil = new class MDWUtil {
         window.dispatchEvent(new Event('mdw:screen-normal'));
       }
     });
-
+    
 
     this.#textLengthDiv.classList.add('mdw-text-length');
     document.body.insertAdjacentElement('beforeend', this.#textLengthDiv);
@@ -71,6 +77,12 @@ const MDWUtil = new class MDWUtil {
       requestAnimationFrame(() => {
         setTimeout(resolve, 0);
       });
+    });
+  }
+
+  async wait(ms = 100) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
     });
   }
 
@@ -156,6 +168,17 @@ const MDWUtil = new class MDWUtil {
     bodyElement.style.height = '';
   }
 
+  trackPageScroll(callback = () => {}) {
+    if (!this.#scrollTarget) this.#scrollTarget = document.body;
+    if (this.#scrollCallbacks.length === 0) this.#scrollTarget.addEventListener('scroll', this.#scrollHandler_bound);
+    this.#scrollCallbacks.push(callback);
+  }
+
+  untrackPageScroll(callback = () => { }) {
+    this.#scrollCallbacks = this.#scrollCallbacks.filter(c => c !== callback);
+    if (this.#scrollCallbacks.length === 0) this.#scrollTarget.removeEventListener('scroll', this.#scrollHandler_bound);
+  }
+
   // parseCSSUnit(value) {
   //   value = `${value}`;
   //   return {
@@ -226,7 +249,27 @@ const MDWUtil = new class MDWUtil {
       }
     }
     return arr[target.length][searchTerm.length];
-  };
+  }
+
+  #scrollHandler(event) {
+    const distance = this.#scrollTarget.scrollTop - this.#lastScrollTop;
+    if (distance === 0) return;
+
+    const direction = this.#scrollTarget.scrollTop >= this.#lastScrollTop ? -1 : 1;
+    if (direction !== this.#currentDirection) this.#distanceFromDirectionChange = 0;
+    this.#currentDirection = direction;
+
+    this.#distanceFromDirectionChange += distance;
+    this.#lastScrollTop = this.#scrollTarget.scrollTop;
+
+    this.#scrollCallbacks.forEach(callback => callback({
+      event,
+      isScrolled: this.#scrollTarget.scrollTop > 0,
+      direction,
+      distance,
+      distanceFromDirectionChange: this.#distanceFromDirectionChange || 0
+    }));
+  }
 }
 
 window.MDWUtil = MDWUtil;

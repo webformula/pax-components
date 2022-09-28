@@ -91,14 +91,10 @@
   opacity: 0;
   border-radius: var(--mdw-button-radius);
 }
-:host(:hover)::after {
-  opacity: var(--mdw-state-layer-opacity-hover);
-  background-color: var(--mdw-on-surface);
-}
-:host(:active)::after {
+/* :host(:active)::after {
   opacity: var(--mdw-state-layer-opacity-pressed);
   background-color: var(--mdw-on-surface);
-}
+} */
 :host(:focus)::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-on-surface);
@@ -116,14 +112,10 @@
   background-color: var(--mdw-surface);
   box-shadow: var(--mdw-elevation-1);
 }
-:host(:hover.mdw-elevated)::after {
-  opacity: var(--mdw-state-layer-opacity-hover);
-  background-color: var(--mdw-primary);
-}
-:host(:active.mdw-elevated)::after {
+/* :host(:active.mdw-elevated)::after {
   opacity: var(--mdw-state-layer-opacity-pressed);
   background-color: var(--mdw-primary);
-}
+} */
 :host(:focus.mdw-elevated)::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-primary);
@@ -140,13 +132,10 @@
   color: var(--mdw-on-primary);
   background-color: var(--mdw-primary);
 }
-:host(:hover.mdw-filled) {
-  box-shadow: var(--mdw-elevation-1);
-}
-:host(:active.mdw-filled)::after {
+/* :host(:active.mdw-filled)::after {
   opacity: var(--mdw-state-layer-opacity-pressed);
   background-color: var(--mdw-primary);
-}
+} */
 :host(:focus.mdw-filled)::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-primary);
@@ -172,13 +161,10 @@
   color: var(--mdw-on-secondary-container);
   background-color: var(--mdw-secondary-container);
 }
-:host(:hover.mdw-filled-tonal) {
-  box-shadow: var(--mdw-elevation-1);
-}
-:host(:active.mdw-filled-tonal)::after {
+/* :host(:active.mdw-filled-tonal)::after {
   opacity: var(--mdw-state-layer-opacity-pressed);
   background-color: var(--mdw-primary);
-}
+} */
 :host(:focus.mdw-filled-tonal)::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-primary);
@@ -206,14 +192,10 @@
   background-color: var(--mdw-surface);
   border: 1px solid var(--mdw-outline);
 }
-:host(:hover.mdw-outlined)::after {
-  opacity: var(--mdw-state-layer-opacity-hover);
-  background-color: var(--mdw-primary);
-}
-:host(:active.mdw-outlined)::after {
+/* :host(:active.mdw-outlined)::after {
   opacity: var(--mdw-state-layer-opacity-pressed);
   background-color: var(--mdw-primary);
-}
+} */
 :host(:focus.mdw-outlined)::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-primary);
@@ -234,12 +216,35 @@
 }
 
 
+@media (hover: hover) {
+  :host(:hover)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-on-surface);
+  }
+  :host(:hover.mdw-elevated)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-primary);
+  }
+  :host(:hover.mdw-filled) {
+    box-shadow: var(--mdw-elevation-1);
+  }
+  :host(:hover.mdw-filled-tonal) {
+    box-shadow: var(--mdw-elevation-1);
+  }
+  :host(:hover.mdw-outlined)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-primary);
+  }
+}
+
+
 
 /* --- Ripple --- */
 
 .mdw-ripple {
   overflow: hidden;
   border-radius: inherit;
+  transform: translateZ(0); /* fixes bug on ios safari */
   position: absolute;
   top: 0;
   left: 0;
@@ -250,4 +255,5 @@
 
 .mdw-ripple>.mdw-ripple-element {
   background-color: var(--mdw-primary--16);
+  border-radius: 50%;
 }
