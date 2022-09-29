@@ -1,13 +1,21 @@
 <h3>Icon</h3>
 
-<mdw-card class=" mdw-no-states">
+<mdw-card class=" mdw-no-states" style="padding: 16px; display: flex; flex-direction: row;">
+  <mdw-icon class="mdw-small">favorite</mdw-icon>
+  <mdw-icon>favorite</mdw-icon>
+  <mdw-icon class="mdw-large">favorite</mdw-icon>
+  <mdw-icon class="mdw-extra-large">favorite</mdw-icon>
+  <mdw-icon class="mdw-outlined">favorite</mdw-icon>
+  <mdw-icon class="mdw-bold mdw-outlined">favorite</mdw-icon>
 </mdw-card>
 
-<a href="https://m3.material.io/components/buttons/overview" target="_new">Material Design Guidelines: Buttons</a>
-<p>There are five types of common buttons: elevated, filled, filled tonal, outlined, and text.</p>
+<a href="https://fonts.google.com/icons" target="_new">Material Design Guidelines: Icons</a>
+<p>Icons use material designs font library <a href="https://fonts.google.com/icons">https://fonts.google.com/icons</a></p>
 
 <div class="links">
   <a href="#standard">Standard</a>
+  <a href="#sizes">Sizes</a>
+  <a href="#outlined">Outlined, outlined bold</a>
 </div>
 
 
@@ -17,14 +25,50 @@
   <mdw-card class="mdw-no-states" id="standard">
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-button>Text</mdw-button>`)}
+  ${escapeHTML(`<mdw-icon>favorite</mdw-icon>`)}
       </code>
     </pre>
 
-    <div class="mdw-headline-small">Text button</div>
+    <div class="mdw-headline-small">Standard</div>
 
-    <div class="example" title="test">
-      <mdw-button>Example</mdw-button>
+    <div class="example">
+      <mdw-icon>favorite</mdw-icon>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="sizes">
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-icon class="mdw-small">favorite</mdw-icon>
+  <mdw-icon>favorite</mdw-icon>
+  <mdw-icon class="mdw-large">favorite</mdw-icon>
+  <mdw-icon class="mdw-extra-large">favorite</mdw-icon>`)}
+      </code>
+    </pre>
+  
+    <div class="mdw-headline-small">Sized</div>
+  
+    <div class="example">
+      <mdw-icon class="mdw-small">favorite</mdw-icon>
+      <mdw-icon>favorite</mdw-icon>
+      <mdw-icon class="mdw-large">favorite</mdw-icon>
+      <mdw-icon class="mdw-extra-large">favorite</mdw-icon>
+    </div>
+  </mdw-card>
+
+  <mdw-card class="mdw-no-states" id="outlined">
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-icon class="mdw-outlined">favorite</mdw-icon>
+    <mdw-icon class="mdw-bold mdw-outlined">favorite</mdw-icon>`)}
+        </code>
+      </pre>
+  
+    <div class="mdw-headline-small">Outlined, Outlined bold</div>
+  
+    <div class="example">
+      <mdw-icon class="mdw-outlined">favorite</mdw-icon>
+      <mdw-icon class="mdw-bold mdw-outlined">favorite</mdw-icon>
     </div>
   </mdw-card>
 </section>

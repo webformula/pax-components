@@ -34,6 +34,12 @@ mdw-icon.mdw-large {
   font-size: var(--mdw-font-size-icon-large);
 }
 
+mdw-icon.mdw-extra-large {
+  width: var(--mdw-font-size-icon-extra-large);
+  height: var(--mdw-font-size-icon-extra-large);
+  font-size: var(--mdw-font-size-icon-extra-large);
+}
+
 mdw-icon.mdw-outlined {
   font-variation-settings:
     'FILL' 0,
