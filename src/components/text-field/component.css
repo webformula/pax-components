@@ -1,5 +1,6 @@
 mdw-text-field {
   display: inline-flex;
+  vertical-align: top;
   position: relative;
   box-sizing: border-box;
   height: 56px;
@@ -61,13 +62,12 @@ mdw-text-field > input {
 
  mdw-text-field > input::-webkit-search-cancel-button {
   -webkit-appearance: none;
-  display: inline-block;
+  /* display: inline-block;
   width: 12px;
   height: 12px;
   cursor: pointer;
   background-size: 12px;
-  background-image:
-      url("data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"rgb(60,60,60)\" d=\"M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z\"/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"rgb(60,60,60)\" d=\"M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z\"/></svg>"); */
  }
 
 mdw-text-field .mdw-autocomplete {
@@ -146,14 +146,29 @@ mdw-text-field.mdw-outlined label {
   transform-origin: left top;
   animation: mdw-text-field-label-outlined-reverse 150ms cubic-bezier(.4, 0, .2, 1);
 }
+mdw-text-field.mdw-outlined > mdw-icon + input + label {
+  transform-origin: left top;
+  animation: mdw-text-field-label-outlined-reverse-icon 150ms cubic-bezier(.4, 0, .2, 1);
+}
+
 mdw-text-field.mdw-outlined.mdw-raise-label label,
 mdw-text-field.mdw-outlined:focus-within label,
 mdw-text-field.mdw-outlined>input:not([placeholder=" "])+label,
 mdw-text-field.mdw-outlined>input:not(:placeholder-shown)+label {
   font-size: var(--mdw-font-size-small-body);
   top: -12px;
-  left: -22px;
+  left: 14px;
   animation: mdw-text-field-label-outlined 150ms cubic-bezier(.4, 0, .2, 1);
+}
+
+mdw-text-field.mdw-outlined.mdw-raise-label > mdw-icon + input + label,
+mdw-text-field.mdw-outlined:focus-within > mdw-icon + input + label,
+mdw-text-field.mdw-outlined > mdw-icon + input:not([placeholder=" "]) + label,
+mdw-text-field.mdw-outlined > mdw-icon + input:not(:placeholder-shown) + label {
+  font-size: var(--mdw-font-size-small-body);
+  top: -12px;
+  left: -22px;
+  animation: mdw-text-field-label-outlined-icon 150ms cubic-bezier(.4, 0, .2, 1);
 }
 
 mdw-text-field.mdw-preload label {
@@ -200,6 +215,22 @@ mdw-text-field.mdw-preload label {
 
   100% {
     top: -9px;
+    left: 14px;
+    font-size: var(--mdw-font-size-large-body);
+    transform: scale(0.777777);
+  }
+}
+
+@keyframes mdw-text-field-label-outlined-icon {
+  0% {
+    top: 15px;
+    left: 16px;
+    font-size: var(--mdw-font-size-large-body);
+    transform: scale(1);
+  }
+
+  100% {
+    top: -9px;
     left: -22px;
     font-size: var(--mdw-font-size-large-body);
     transform: scale(0.777777);
@@ -207,6 +238,22 @@ mdw-text-field.mdw-preload label {
 }
 
 @keyframes mdw-text-field-label-outlined-reverse {
+  0% {
+    top: -9px;
+    left: 14px;
+    font-size: var(--mdw-font-size-large-body);
+    transform: scale(0.777777);
+  }
+
+  100% {
+    top: 15px;
+    left: 15px;
+    font-size: var(--mdw-font-size-large-body);
+    transform: scale(1);
+  }
+}
+
+@keyframes mdw-text-field-label-outlined-reverse-icon {
   0% {
     top: -9px;
     left: -22px;
@@ -257,6 +304,10 @@ mdw-text-field > mdw-icon {
   margin-right: -4px;
   z-index: 1;
   color: var(--mdw-on-surface-variant);
+}
+
+mdw-text-field > mdw-icon.mdw-input-clear {
+  cursor: pointer;
 }
 
 mdw-text-field>mdw-icon+input {

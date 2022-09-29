@@ -19,6 +19,7 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
   #onFocus_bound = this.#onFocus.bind(this);
   #onBlur_bound = this.#onBlur.bind(this);
   #onInvalid_bound = this.#onInvalid.bind(this);
+  #clear_bound = this.clear.bind(this);
   #inputObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') this.#handleDisabledInput();
@@ -56,6 +57,9 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
     input.addEventListener('focus', this.#onFocus_bound);
     input.addEventListener('blur', this.#onBlur_bound);
     input.addEventListener('invalid', this.#onInvalid_bound);
+
+    const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
+    if (inputClearIcon) inputClearIcon.addEventListener('click', this.#clear_bound);
   }
 
   disconnectedCallback() {
@@ -64,6 +68,9 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
     input.removeEventListener('focus', this.#onFocus_bound);
     input.removeEventListener('blur', this.#onBlur_bound);
     input.removeEventListener('invalid', this.#onInvalid_bound);
+
+    const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
+    if (inputClearIcon) inputClearIcon.removeEventListener('click', this.#clear_bound);
 
     this.#inputObserver.disconnect();
     this.#inputObserver = undefined;
@@ -76,6 +83,16 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
     this.querySelector('.mdw-autocomplete').style.left = `${offset + 19}px`;
   }
 
+  clear(event) {
+    const input = this.querySelector('input');
+    input.value = '';
+    
+    // prevent label from moving and focus
+    if (event && event.target.classList.contains('mdw-input-clear')) {
+      this.classList.add('mdw-raise-label');
+      input.focus();
+    }
+  }
 
   #preventInitialAnimation() {
     this.classList.add('mdw-preload');
@@ -144,11 +161,10 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
   }
 
   #onBlur() {
-    if (!this.querySelector('input').value) this.#unsetNotchWidth()
+    if (!this.querySelector('input').value) this.#unsetNotchWidth();
   }
 
   #onInvalid(event) {
-    console.log(event)
     event.preventDefault();
   }
 
