@@ -2,14 +2,23 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import util from '../../core/util.js';
 import './component.css';
 
+const handleReportValidityScrollIntoView = util.debounce(input => {
+  // check if already on screen
+  const bounds = input.getBoundingClientRect();
+  if (bounds.y >= 0 && (bounds.y + bounds.height) <= window.innerHeight) return;
+
+  input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}, 100);
+
+
 customElements.define('mdw-text-field', class MDWButton extends HTMLElementExtended {
   useShadowRoot = false;
 
-  #trailingIcon;
   #previousSupportingText = this.querySelector('.mdw-supporting-text')?.innerText;
   #onInput_bound = this.#onInput.bind(this);
   #onFocus_bound = this.#onFocus.bind(this);
   #onBlur_bound = this.#onBlur.bind(this);
+  #onInvalid_bound = this.#onInvalid.bind(this);
   #inputObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') this.#handleDisabledInput();
@@ -46,12 +55,18 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
     input.addEventListener('input', this.#onInput_bound);
     input.addEventListener('focus', this.#onFocus_bound);
     input.addEventListener('blur', this.#onBlur_bound);
+    input.addEventListener('invalid', this.#onInvalid_bound);
   }
 
   disconnectedCallback() {
+    const input = this.querySelector('input');
+    input.removeEventListener('input', this.#onInput_bound);
+    input.removeEventListener('focus', this.#onFocus_bound);
+    input.removeEventListener('blur', this.#onBlur_bound);
+    input.removeEventListener('invalid', this.#onInvalid_bound);
+
     this.#inputObserver.disconnect();
     this.#inputObserver = undefined;
-    this.#trailingIcon = undefined;
   }
 
 
@@ -85,6 +100,15 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
       originalSetCustomValidity.call(input, str);
       this.#onInput();
     };
+
+
+    const originalReportValidity = input.reportValidity;
+    input.reportValidity = () => {
+      handleReportValidityScrollIntoView(input);
+      const valid = originalReportValidity.call(input);
+      this.#updateInputValidity(!valid);
+      return valid;
+    };
   }
 
   // using placeholder-shown in css to detect if has input value
@@ -96,22 +120,22 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
 
   #onInput() {
     const input = this.querySelector('input');
-    const supportingTextElement = this.querySelector('.mdw-supporting-text');
-    const invalid = !input.checkValidity();
-    const invalidIcon = this.querySelector('mdw-icon.mdw-invalid-icon');
+    this.#updateInputValidity(!input.checkValidity());
+  }
 
-    // we don't want to override trailing icon with invalid icon
-    if (!invalidIcon) this.#trailingIcon = this.querySelector('.mdw-supporting-text + mdw-icon') || this.querySelector('label + mdw-icon') || this.querySelector('input + mdw-icon');
+  #updateInputValidity(invalid = false) {
+    const input = this.querySelector('input');
+    const supportingTextElement = this.querySelector('.mdw-supporting-text');
+    const invalidIcon = this.querySelector('mdw-icon.mdw-invalid-icon');
+    
     if (invalid) {
       this.classList.add('mdw-invalid');
       if (supportingTextElement) supportingTextElement.innerText = input.validationMessage;
-      if (this.#trailingIcon) this.#trailingIcon.remove();
       if (!invalidIcon) this.insertAdjacentHTML('beforeend', '<mdw-icon class="mdw-invalid-icon">error</mdw-icon>');
     } else {
       this.classList.remove('mdw-invalid');
       if (supportingTextElement) supportingTextElement.innerText = this.#previousSupportingText;
       if (invalidIcon) invalidIcon.remove();
-      if (this.#trailingIcon) this.appendChild(this.#trailingIcon);
     }
   }
 
@@ -121,6 +145,11 @@ customElements.define('mdw-text-field', class MDWButton extends HTMLElementExten
 
   #onBlur() {
     if (!this.querySelector('input').value) this.#unsetNotchWidth()
+  }
+
+  #onInvalid(event) {
+    console.log(event)
+    event.preventDefault();
   }
 
   #setNotchWidth() {

@@ -1,6 +1,8 @@
 import MDWUtil from './core/util.js';
 import MDWDialog from './components/dialog/service.js';
 import MDWSnackbar from './components/snackbar/service.js';
+import './core/tooltip.js';
+import './core/form.js';
 
 
 import './theme.css';
@@ -29,6 +31,7 @@ import './components/slider/slider.js';
 import './components/slider/slider-range.js';
 import './components/radio/component.js';
 import './components/snackbar/component.js';
+import './components/tooltip/component.js';
 
 
 export {

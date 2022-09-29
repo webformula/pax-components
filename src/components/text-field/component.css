@@ -269,8 +269,16 @@ mdw-text-field>mdw-icon+input+label {
 
 mdw-text-field > input + mdw-icon,
 mdw-text-field > .mdw-supporting-text + mdw-icon,
+mdw-text-field > .mdw-autocomplete + mdw-icon,
 mdw-text-field > label + mdw-icon {
   margin-left: 14px;
+}
+
+mdw-text-field.mdw-invalid > input + mdw-icon:not(.mdw-invalid-icon),
+mdw-text-field.mdw-invalid > .mdw-supporting-text + mdw-icon:not(.mdw-invalid-icon),
+mdw-text-field.mdw-invalid > .mdw-autocomplete + mdw-icon:not(.mdw-invalid-icon),
+mdw-text-field.mdw-invalid > label + mdw-icon:not(.mdw-invalid-icon) {
+  display: none;
 }
 
 /* --- outline --- */

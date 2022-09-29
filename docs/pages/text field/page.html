@@ -5,7 +5,7 @@
     <form action="#">
     <mdw-text-field>
       <mdw-icon>search</mdw-icon>
-      <input required>
+      <input id="1" required>
       <label>Label</label>
       <div class="mdw-supporting-text"></div>
       <mdw-icon class="mdw-outlined">cancel</mdw-icon>
@@ -13,7 +13,7 @@
 
     <mdw-text-field class="mdw-outlined">
       <mdw-icon>search</mdw-icon>
-      <input required value="test">
+      <input id="2" required value="test">
       <label>Label</label>
       <div class="mdw-supporting-text"></div>
       <mdw-icon class="mdw-outlined">cancel</mdw-icon>
@@ -56,21 +56,20 @@
     </div>
   </mdw-card>
 
-
   <mdw-card class="mdw-no-states" id="autocomplete">
     <pre>
-      <code class="language-html">
-  ${escapeHTML(`<mdw-text-field id="autocomplete-text-field">
-    <input value="auto">
-    <label>Label</label>
-  </mdw-text-field>`)}
-      </code>
-    </pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-text-field id="autocomplete-text-field">
+      <input value="auto">
+      <label>Label</label>
+    </mdw-text-field>`)}
+        </code>
+      </pre>
     <pre>
-      <code class="language-javascript">
-  ${"document.querySelector('#autocomplete-text-field').autocomplete = 'complete';"}
-      </code>
-    </pre>
+        <code class="language-javascript">
+    ${"document.querySelector('#autocomplete-text-field').autocomplete = 'complete';"}
+        </code>
+      </pre>
   
     <div class="mdw-headline-small">Standard</div>
   
