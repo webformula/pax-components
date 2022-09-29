@@ -10,5 +10,6 @@ export default new class extends Page {
 
   connectedCallback() {
     document.querySelector('#autocomplete-text-field').autocomplete = 'complete';
+    document.querySelector('#require-custom').setCustomValidity('Custom error message');
   }
 }
