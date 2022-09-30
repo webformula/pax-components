@@ -10,7 +10,7 @@ customElements.define('mdw-navigation-drawer', class MDWButton extends HTMLEleme
 
   #rippleElements = [];
   #onScrimClick_bound = this.#onScrimClick.bind(this);
-  #locationChange_bound = this.#locationChange.bind(this);
+  #mdwPageChange_bound = this.#mdwPageChange.bind(this);
   #combinedLinks = [];
   #scrollPercent = 0;
   #navigationRailScrollPercent = 0;
@@ -25,8 +25,8 @@ customElements.define('mdw-navigation-drawer', class MDWButton extends HTMLEleme
       triggerElement: element.parentNode
     }));
 
-    window.addEventListener('locationchange', this.#locationChange_bound);
-    this.#locationChange();
+    window.addEventListener('mdwPageChange', this.#mdwPageChange_bound);
+    this.#mdwPageChange();
 
     await util.nextAnimationFrameAsync()
     this.#prepareNavigationRailLinkAnimations();
@@ -34,10 +34,10 @@ customElements.define('mdw-navigation-drawer', class MDWButton extends HTMLEleme
 
   disconnectedCallback() {
     this.#rippleElements.forEach(r => r.destroy());
-    window.removeEventListener('locationchange', this.#locationChange_bound);
+    window.removeEventListener('mdwPageChange', this.#mdwPageChange_bound);
   }
 
-  #locationChange() {
+  #mdwPageChange() {
     let currentLink = this.querySelector('a.mdw-current-link');
     if (currentLink) currentLink.classList.remove('mdw-current-link');
 

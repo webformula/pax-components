@@ -8,7 +8,7 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
   useShadowRoot = false;
 
   #rippleElements = [];
-  #locationChange_bound = this.#locationChange.bind(this);
+  #mdwPageChange_bound = this.#mdwPageChange.bind(this);
   #onClickOutside_bound = this.#onClickOutside.bind(this);
 
   constructor() {
@@ -48,8 +48,8 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
       triggerElement: element.parentNode
     }));
 
-    window.addEventListener('locationchange', this.#locationChange_bound);
-    this.#locationChange();
+    window.addEventListener('mdwPageChange', this.#mdwPageChange_bound);
+    this.#mdwPageChange();
 
     [...this.querySelectorAll('a')].forEach(element => {
       const label = element.querySelector('.mdw-label');
@@ -65,7 +65,7 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
   }
 
   disconnectedCallback() {
-    window.removeEventListener('locationchange', this.#locationChange_bound);
+    window.removeEventListener('mdwPageChange', this.#mdwPageChange_bound);
     this.#rippleElements.forEach(r => r.destroy());
   }
 
@@ -128,7 +128,7 @@ customElements.define('mdw-navigation', class MDWButton extends HTMLElementExten
     }, 0);
   }
 
-  #locationChange() {
+  #mdwPageChange() {
     let currentLink = this.querySelector('a.mdw-current-link');
     if (currentLink) currentLink.classList.remove('mdw-current-link');
 

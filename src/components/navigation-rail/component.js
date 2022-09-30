@@ -6,7 +6,7 @@ import './component.css';
 customElements.define('mdw-navigation-rail', class MDWButton extends HTMLElementExtended {
   useShadowRoot = false;
 
-  #locationChange_bound = this.#locationChange.bind(this);
+  #mdwPageChange_bound = this.#mdwPageChange.bind(this);
 
   
   constructor() {
@@ -14,8 +14,8 @@ customElements.define('mdw-navigation-rail', class MDWButton extends HTMLElement
   }
 
   async connectedCallback() {
-    window.addEventListener('locationchange', this.#locationChange_bound);
-    this.#locationChange();
+    window.addEventListener('mdwPageChange', this.#mdwPageChange_bound);
+    this.#mdwPageChange();
 
     [...this.querySelectorAll('a')].forEach(element => {
       if (element.querySelector('.mdw-label')) {
@@ -28,10 +28,10 @@ customElements.define('mdw-navigation-rail', class MDWButton extends HTMLElement
   }
 
   disconnectedCallback() {
-    window.removeEventListener('locationchange', this.#locationChange_bound);
+    window.removeEventListener('mdwPageChange', this.#mdwPageChange_bound);
   }
 
-  #locationChange() {
+  #mdwPageChange() {
     let currentLink = this.querySelector('a.mdw-current-link');
     if (currentLink) currentLink.classList.remove('mdw-current-link');
 

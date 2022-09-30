@@ -59,6 +59,21 @@ const MDWUtil = new class MDWUtil {
     };
   }
 
+  throttle(fn, ms = 200) {
+    let alreadyQueued;
+    return function throttled() {
+      const args = arguments;
+      const context = this;
+      if (!alreadyQueued) {
+        alreadyQueued = true;
+        fn.apply(context, args);
+        setTimeout(() => {
+          alreadyQueued = false;
+        }, ms);
+      }
+    };
+  }
+
   debounce(fn, wait) {
     let timer;
     return function debounced() {

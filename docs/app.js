@@ -1,6 +1,6 @@
 import './dracula.css';
 import './main.css';
-import '@webformula/pax-components';
+import { MDWUtil } from '@webformula/pax-components';
 import { registerPage } from '@webformula/pax-core';
 import home from './pages/home/page.js';
 import buttons from './pages/buttons/page.js';
@@ -56,28 +56,58 @@ registerPage(icon, '/icon');
 
 
 
-window.addEventListener('locationchange', () => {
-  setTimeout(() => {
-    hljs.highlightAll();
-  }, 0);
-});
-
-window.addEventListener('hashchange', () => {
-  if (!location.hash) return;
-  const element = document.querySelector(location.hash);
-  if (element) element.scrollIntoView({ behavior: 'smooth' });
-});
+let currentPageHashElements = [];
+let currentHashElement;
+function getCurrentPageHashElements() {
+  return [...document.querySelectorAll('a[href^="#"]')]
+    .map(el => el.getAttribute('href').replace('#', ''))
+    .map(id => document.querySelector(`#${id}`))
+    .filter(el => !!el);
+}
 
 window.addEventListener('load', () => {
+  currentPageHashElements = getCurrentPageHashElements();
   hljs.highlightAll();
 
   if (location.hash) {
     setTimeout(() => {
-      const element = document.querySelector(location.hash);
-      if (element) element.scrollIntoView();
+      try {
+        const element = document.querySelector(location.hash);
+        if (element) element.scrollIntoView();
+      } catch {}
     }, 0);
   }
 });
 
+window.addEventListener('mdwPageChange', () => {
+  setTimeout(() => {
+    hljs.highlightAll();
+  }, 0);
+  currentPageHashElements = getCurrentPageHashElements();
+});
+
+window.addEventListener('hashchange', () => {
+  console.log('hashchange');
+  if (!location.hash) return;
+  try {
+    const element = document.querySelector(location.hash);
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
+  } catch { }
+});
+
+const hashScrollThrottle = MDWUtil.throttle(() => {
+  currentPageHashElements.find(el => {
+    const bounds = el.getBoundingClientRect();
+    if (bounds.y >= 0 && (bounds.y + bounds.height) <= window.innerHeight) {
+      if (currentHashElement !== el) {
+        history.replaceState(null, null, `${document.location.pathname}#${el.getAttribute('id')}`);
+      }
+      currentHashElement = el;
+      return true;
+    }
+    return false;
+  });
+}, 1000);
+document.body.addEventListener('scroll', hashScrollThrottle);
 
 // TODO auto change hash when scrolling
