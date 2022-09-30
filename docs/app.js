@@ -56,17 +56,17 @@ registerPage(icon, '/icon');
 
 
 
-let currentPageHashElements = [];
-let currentHashElement;
-function getCurrentPageHashElements() {
-  return [...document.querySelectorAll('a[href^="#"]')]
-    .map(el => el.getAttribute('href').replace('#', ''))
-    .map(id => document.querySelector(`#${id}`))
-    .filter(el => !!el);
-}
+// let currentPageHashElements = [];
+// let currentHashElement;
+// function getCurrentPageHashElements() {
+//   return [...document.querySelectorAll('a[href^="#"]')]
+//     .map(el => el.getAttribute('href').replace('#', ''))
+//     .map(id => document.querySelector(`#${id}`))
+//     .filter(el => !!el);
+// }
 
 window.addEventListener('load', () => {
-  currentPageHashElements = getCurrentPageHashElements();
+  // currentPageHashElements = getCurrentPageHashElements();
   hljs.highlightAll();
 
   if (location.hash) {
@@ -83,31 +83,32 @@ window.addEventListener('mdwPageChange', () => {
   setTimeout(() => {
     hljs.highlightAll();
   }, 0);
-  currentPageHashElements = getCurrentPageHashElements();
+  // currentPageHashElements = getCurrentPageHashElements();
 });
 
 window.addEventListener('hashchange', () => {
-  console.log('hashchange');
   if (!location.hash) return;
+
   try {
     const element = document.querySelector(location.hash);
+    console.log(element);
     if (element) element.scrollIntoView({ behavior: 'smooth' });
-  } catch { }
+  } catch { console.log('error'); }
 });
 
-const hashScrollThrottle = MDWUtil.throttle(() => {
-  currentPageHashElements.find(el => {
-    const bounds = el.getBoundingClientRect();
-    if (bounds.y >= 0 && (bounds.y + bounds.height) <= window.innerHeight) {
-      if (currentHashElement !== el) {
-        history.replaceState(null, null, `${document.location.pathname}#${el.getAttribute('id')}`);
-      }
-      currentHashElement = el;
-      return true;
-    }
-    return false;
-  });
-}, 1000);
-document.body.addEventListener('scroll', hashScrollThrottle);
 
 // TODO auto change hash when scrolling
+// const hashScrollThrottle = MDWUtil.throttle(() => {
+//   currentPageHashElements.find(el => {
+//     const bounds = el.getBoundingClientRect();
+//     if (bounds.y >= 0 && (bounds.y + bounds.height) <= window.innerHeight) {
+//       if (currentHashElement !== el) {
+//         history.replaceState(null, null, `${document.location.pathname}#${el.getAttribute('id')}`);
+//       }
+//       currentHashElement = el;
+//       return true;
+//     }
+//     return false;
+//   });
+// }, 1000);
+// document.body.addEventListener('scroll', hashScrollThrottle);
