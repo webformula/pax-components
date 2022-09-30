@@ -17,7 +17,7 @@
   padding: 16px;
   box-sizing: border-box;
   min-width: 56px;
-  max-width: 56px;
+  /* max-width: 56px; */
   height: 56px;
   border-radius: var(--mdw-shape-large);
 
