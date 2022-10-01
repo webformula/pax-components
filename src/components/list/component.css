@@ -1,0 +1,117 @@
+mdw-list {
+  display: block;
+  background-color: var(--mdw-surface);
+}
+
+mdw-list-item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  padding: 0 16px;
+  margin-bottom: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+  outline: none;
+
+  font-size: var(--mdw-font-size-medium-body);
+  font-weight: var(--mdw-font-weight-medium-body);
+  line-height: var(--mdw-font-line-height-medium-body);
+  letter-spacing: var(--mdw-font-letter-spacing-medium-body);
+
+  color: var(--mdw-on-surface--76);
+}
+
+mdw-list.mdw-line-two > mdw-list-item {
+  height: 72px;
+}
+
+mdw-list.mdw-line-three > mdw-list-item {
+  height: 88px;
+}
+
+mdw-list-item > .mdw-text {
+  flex: 1;
+}
+
+mdw-list-item > .mdw-text > .mdw-text-secondary {
+  font-size: var(--mdw-font-size-small-body);
+  font-weight: var(--mdw-font-weight-small-body);
+  line-height: var(--mdw-font-line-height-small-body);
+  letter-spacing: var(--mdw-font-letter-spacing-small-body);
+}
+
+mdw-list-item > mdw-icon {
+  margin-right: 32px;
+}
+
+
+mdw-list:not(.mdw-no-states) > mdw-list-item::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  opacity: 0;
+  outline: none;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  mdw-list:not(.mdw-no-states) > mdw-list-item:hover::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-on-surface);
+  }
+}
+
+mdw-list:not(.mdw-no-states) > mdw-list-item:focus::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-on-surface);
+}
+
+mdw-list:not(.mdw-no-states) > mdw-list-item[selected]::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-surface-tint);
+}
+
+
+mdw-list > .mdw-sub-header {
+  position: sticky;
+  top: 0;
+  padding: 0 16px;
+  z-index: 1;
+  font-size: var(--mdw-font-size-small-small);
+  font-weight: var(--mdw-font-weight-small-small);
+  letter-spacing: var(--mdw-font-letter-spacing-small-small);
+  line-height: 42px;
+  background-color: inherit;
+}
+
+
+mdw-list > .mdw-sub-header::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-color: none;
+  transition: background-color 80ms linear;
+}
+
+mdw-list.mdw-scrolled > .mdw-sub-header.mdw-stuck::before {
+  background-color: var(--mdw-surface-tint--6);
+}
+
+
+/* Alt for box shadow */
+/* mdw-list.mdw-scrolled > .mdw-sub-header.mdw-stuck::before {
+  box-shadow: var(--mdw-elevation-1);
+}
+
+mdw-list.mdw-scrolled > .mdw-sub-header.mdw-stuck {
+  z-index: 2;
+} */

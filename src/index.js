@@ -32,6 +32,7 @@ import './components/slider/slider-range.js';
 import './components/radio/component.js';
 import './components/snackbar/component.js';
 import './components/tooltip/component.js';
+import './components/list/component.js';
 
 
 export {

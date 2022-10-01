@@ -22,6 +22,7 @@ import radio from './pages/radio/page.js';
 import snackbar from './pages/snackbar/page.js';
 import tooltip from './pages/tooltip/page.js';
 import icon from './pages/icon/page.js';
+import lists from './pages/lists/page.js';
 
 
 window.escapeHTML = str => {
@@ -53,6 +54,7 @@ registerPage(radio, '/radio');
 registerPage(snackbar, '/snackbar');
 registerPage(tooltip, '/tooltip');
 registerPage(icon, '/icon');
+registerPage(lists, '/lists');
 
 
 
