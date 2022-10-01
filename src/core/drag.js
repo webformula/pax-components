@@ -81,7 +81,8 @@ export default class Drag {
     this.#initialTouchPos = this.#getTouchPosition(event);
     this.#lastDistance = this.#getDistance(event);
     this.#onStartCallbacks.forEach(callback => callback({
-      event
+      event,
+      element: this.#element
     }));
 
     // TODO try using window to fix ios issues
@@ -110,7 +111,8 @@ export default class Drag {
       distance,
       direction: this.#getDirection({ x: 0, y: 0 }, distance),
       velocity: this.#getVelocity(distance, Date.now() - this.#startTime),
-      event
+      event,
+      element: this.#element
     }));
   }
 
@@ -121,7 +123,8 @@ export default class Drag {
     this.#onDragCallbacks.forEach(callback => callback({
       distance,
       direction: this.#getDirection(this.#lastDistance, distance),
-      event
+      event,
+      element: this.#element
     }));
     this.#lastDistance = distance;
     

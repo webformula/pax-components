@@ -1,34 +1,80 @@
 <h3>Lists</h3>
 
 
-<mdw-card class="mdw-no-states">
-  <mdw-list class="mdw-line-two mdw-select-multiple" value="1">
-    <!-- <div class="mdw-sub-header">Section one</div> -->
+<mdw-card class="mdw-no-states" onchange="console.log(event)">
+  <!-- <mdw-list class="mdw-line-two mdw-select-multiple" value="1" onchange="console.log(event.detail)"> -->
+  <mdw-list class="mdw-line-two" onchange="console.log(event.detail)">
+    <div class="mdw-sub-header mdw-inset">Section one</div>
     <mdw-list-item value="1">
-      <mdw-icon>inbox</mdw-icon>
+      <mdw-list-item-action-right action="delete" remove class="mdw-error"><mdw-icon>delete</mdw-icon></mdw-list-item-action-right>
+      <mdw-avatar><img src="https://media-exp1.licdn.com/dms/image/C5603AQGaG5R6eLBrQw/profile-displayphoto-shrink_200_200/0/1517715970498?e=1669852800&v=beta&t=qTOPe_nrsEpL0CJdck437vFqnIdOnmpb4-oQF6i-Znc"></mdw-avatar>
       <div class="mdw-text">
         <div class="mdw-text-primary">Primary text</div>
         <div class="mdw-text-secondary">Secondary</div>
       </div>
-      <mdw-checkbox></mdw-checkbox>
+      <mdw-icon>delete</mdw-icon>
+      <mdw-icon>edit</mdw-icon>
+      <mdw-list-item-action-left action="archive"><div class="mdw-text">Archive</div></mdw-list-item-action-left>
     </mdw-list-item>
 
     <mdw-list-item value="2">
-      <mdw-icon>inbox</mdw-icon>
+      <mdw-avatar class="mdw-tertiary">AS</mdw-avatar>
       <div class="mdw-text">
         <div class="mdw-text-primary">Primary text</div>
         <div class="mdw-text-secondary">Secondary</div>
       </div>
-      <mdw-checkbox></mdw-checkbox>
+      <mdw-button class="mdw-icon-button"><mdw-icon>delete</mdw-icon></mdw-button>
+      <mdw-button class="mdw-icon-button">
+        <mdw-icon>edit</mdw-icon>
+      </mdw-button>
     </mdw-list-item>
 
     <mdw-list-item value="3">
+      <mdw-avatar class="mdw-tertiary"><mdw-icon>person</mdw-icon></mdw-avatar>
+      <div class="mdw-text">
+        <div class="mdw-text-primary">Primary text</div>
+        <div class="mdw-text-secondary">Secondary</div>
+      </div>
+      <mdw-icon>delete</mdw-icon>
+      <mdw-icon>edit</mdw-icon>
+    </mdw-list-item>
+
+    <div class="mdw-divider mdw-inset">
+      Divider header
+    </div>
+
+    <mdw-list-item value="4">
       <mdw-icon>inbox</mdw-icon>
       <div class="mdw-text">
         <div class="mdw-text-primary">Primary text</div>
         <div class="mdw-text-secondary">Secondary</div>
       </div>
-      <mdw-checkbox></mdw-checkbox>
+      <mdw-icon>delete</mdw-icon>
+      <mdw-icon>edit</mdw-icon>
+    </mdw-list-item>
+    
+    <mdw-list-item value="5">
+      <mdw-icon>inbox</mdw-icon>
+      <div class="mdw-text">
+        <div class="mdw-text-primary">Primary text</div>
+        <div class="mdw-text-secondary">Secondary</div>
+      </div>
+      <mdw-button class="mdw-icon-button">
+        <mdw-icon>delete</mdw-icon>
+      </mdw-button>
+      <mdw-button class="mdw-icon-button">
+        <mdw-icon>edit</mdw-icon>
+      </mdw-button>
+    </mdw-list-item>
+    
+    <mdw-list-item value="6">
+      <mdw-icon>inbox</mdw-icon>
+      <div class="mdw-text">
+        <div class="mdw-text-primary">Primary text</div>
+        <div class="mdw-text-secondary">Secondary</div>
+      </div>
+      <mdw-icon>delete</mdw-icon>
+      <mdw-icon>edit</mdw-icon>
     </mdw-list-item>
   </mdw-list>
 </mdw-card>

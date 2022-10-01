@@ -33,6 +33,7 @@ import './components/radio/component.js';
 import './components/snackbar/component.js';
 import './components/tooltip/component.js';
 import './components/list/component.js';
+import './components/list/avatar.js';
 
 
 export {

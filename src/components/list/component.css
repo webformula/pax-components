@@ -1,9 +1,12 @@
 mdw-list {
   display: block;
   background-color: var(--mdw-surface);
+  overflow-x: hidden;
 }
 
 mdw-list-item {
+  --mdw-mdw-list-item-swipe-position: 0px;
+
   display: flex;
   position: relative;
   align-items: center;
@@ -11,16 +14,23 @@ mdw-list-item {
   height: 48px;
   padding: 0 16px;
   margin-bottom: 3px;
-  overflow: hidden;
   white-space: nowrap;
   outline: none;
+  z-index: 0;
 
   font-size: var(--mdw-font-size-medium-body);
   font-weight: var(--mdw-font-weight-medium-body);
   line-height: var(--mdw-font-line-height-medium-body);
   letter-spacing: var(--mdw-font-letter-spacing-medium-body);
+  background-color: var(--mdw-surface);
 
   color: var(--mdw-on-surface--76);
+
+  left: var(--mdw-mdw-list-item-swipe-position);
+  transition: left 220ms;
+}
+mdw-list-item.mdw-dragging {
+  transition: none;
 }
 
 mdw-list.mdw-line-two > mdw-list-item {
@@ -46,6 +56,13 @@ mdw-list-item > mdw-icon {
   margin-right: 32px;
 }
 
+mdw-list-item > .mdw-text ~ mdw-icon {
+  margin-right: 18px;
+}
+mdw-list-item > .mdw-text ~ mdw-icon:last-child {
+  margin-right: 8px;
+}
+
 
 mdw-list:not(.mdw-no-states) > mdw-list-item::after {
   position: absolute;
@@ -66,10 +83,10 @@ mdw-list:not(.mdw-no-states) > mdw-list-item::after {
   }
 }
 
-mdw-list:not(.mdw-no-states) > mdw-list-item:focus::after {
+/* mdw-list:not(.mdw-no-states) > mdw-list-item:focus::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-on-surface);
-}
+} */
 
 mdw-list:not(.mdw-no-states) > mdw-list-item[selected]::after {
   opacity: var(--mdw-state-layer-opacity-focus);
@@ -82,11 +99,16 @@ mdw-list > .mdw-sub-header {
   top: 0;
   padding: 0 16px;
   z-index: 1;
-  font-size: var(--mdw-font-size-small-small);
-  font-weight: var(--mdw-font-weight-small-small);
-  letter-spacing: var(--mdw-font-letter-spacing-small-small);
-  line-height: 42px;
+  font-size: var(--mdw-font-size-small-body);
+  font-weight: var(--mdw-font-weight-small-body);
+  letter-spacing: var(--mdw-font-letter-spacing-small-body);
+  line-height: 54px;
   background-color: inherit;
+  color: var(--mdw-on-surface-variant--76);
+}
+
+mdw-list > .mdw-sub-header.mdw-inset {
+  padding-left: 70px;
 }
 
 
@@ -115,3 +137,171 @@ mdw-list.mdw-scrolled > .mdw-sub-header.mdw-stuck::before {
 mdw-list.mdw-scrolled > .mdw-sub-header.mdw-stuck {
   z-index: 2;
 } */
+
+
+
+mdw-list > .mdw-divider {
+  max-height: 16px;
+  margin: 28px 20px;
+  font-size: var(--mdw-font-size-small-body);
+  font-weight: var(--mdw-font-weight-small-body);
+  letter-spacing: var(--mdw-font-letter-spacing-small-body);
+  line-height: 28px;
+  color: var(--mdw-on-surface-variant--60);
+  border-top: 1px solid var(--mdw-outline-variant);
+}
+
+mdw-list > .mdw-divider.mdw-inset {
+  margin-left: 70px;
+}
+
+
+mdw-list-item > mdw-list-item-action-right {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: calc(var(--mdw-mdw-list-item-swipe-position) * -1);
+  bottom: 0;
+  right: 0;
+  padding-left: 12px;
+  z-index: -1;
+
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+
+  transition: left 220ms;
+}
+mdw-list-item.mdw-dragging > mdw-list-item-action-right {
+  transition: none;
+}
+mdw-list-item > mdw-list-item-action-right::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: var(--mdw-mdw-list-item-swipe-position);
+  right: 0;
+  bottom: 0;
+  background-color: var(--mdw-surface);
+  z-index: 1;
+
+  transition: left 220ms;
+  transition-timing-function: var(--mdw-transition-expand-out);
+}
+mdw-list-item.mdw-dragging > mdw-list-item-action-right::after {
+  transition: none;
+}
+
+
+mdw-list-item > mdw-list-item-action-left {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: var(--mdw-mdw-list-item-swipe-position);
+  padding-right: 12px;
+  z-index: -1;
+
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+
+  transition: right 220ms;
+  transition-timing-function: var(--mdw-transition-expand-out);
+}
+mdw-list-item.mdw-dragging > mdw-list-item-action-left {
+  transition: none;
+}
+mdw-list-item > mdw-list-item-action-left::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: calc(var(--mdw-mdw-list-item-swipe-position) * -1);
+  bottom: 0;
+  background-color: var(--mdw-surface);
+  z-index: 1;
+
+  transition: right 220ms;
+  transition-timing-function: var(--mdw-transition-expand-out);
+}
+mdw-list-item.mdw-dragging > mdw-list-item-action-left::after {
+  transition: none;
+}
+
+
+mdw-list-item > mdw-list-item-action-right.mdw-error,
+mdw-list-item > mdw-list-item-action-left.mdw-error {
+  background-color: var(--mdw-error);
+  color: var(--mdw-on-error);
+}
+
+mdw-list-item > mdw-list-item-action-right.mdw-secondary,
+mdw-list-item > mdw-list-item-action-left.mdw-secondary {
+  background-color: var(--mdw-secondary);
+  color: var(--mdw-on-secondary);
+}
+
+mdw-list-item > mdw-list-item-action-right.mdw-tertiary,
+mdw-list-item > mdw-list-item-action-left.mdw-tertiary {
+  background-color: var(--mdw-tertiary);
+  color: var(--mdw-on-tertiary);
+}
+
+
+mdw-list-item > mdw-list-item-action-right > mdw-icon,
+mdw-list-item > mdw-list-item-action-left > mdw-icon,
+mdw-list-item > mdw-list-item-action-right > .mdw-text,
+mdw-list-item > mdw-list-item-action-left > .mdw-text {
+  transform-origin: center;
+  transform: scale(0.7);
+  animation: action-bounce-out 400ms;
+  animation-timing-function: var(--mdw-transition-bounce);
+}
+
+mdw-list-item.mdw-action-active > mdw-list-item-action-right > mdw-icon,
+mdw-list-item.mdw-action-active > mdw-list-item-action-left > mdw-icon,
+mdw-list-item.mdw-action-active > mdw-list-item-action-right > .mdw-text,
+mdw-list-item.mdw-action-active > mdw-list-item-action-left > .mdw-text {
+  transform: scale(1);
+  animation: action-bounce-in 400ms;
+}
+
+
+@keyframes action-bounce-in {
+  0% {
+    transform: scale(.7);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  70% {
+    transform: scale(.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes action-bounce-out {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.65);
+  }
+
+  70% {
+    transform: scale(.8);
+  }
+
+  100% {
+    transform: scale(0.7);
+  }
+}
