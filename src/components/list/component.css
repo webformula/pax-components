@@ -59,7 +59,7 @@ mdw-list-item > mdw-icon {
 mdw-list-item > .mdw-text ~ mdw-icon {
   margin-right: 18px;
 }
-mdw-list-item > .mdw-text ~ mdw-icon:last-child {
+mdw-list-item > .mdw-text ~ mdw-icon:last-of-type {
   margin-right: 8px;
 }
 

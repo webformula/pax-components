@@ -17,6 +17,7 @@ customElements.define('mdw-list', class MDWButton extends HTMLElementExtended {
   #ondrag_bound = this.#ondrag.bind(this);
   #ondragStart_bound = this.#ondragStart.bind(this);
   #ondragEnd_bound = this.#ondragEnd.bind(this);
+  #onActionElementClick_bound = this.#onActionElementClick.bind(this);
   #dragStartPosition;
   #drags = [];
 
@@ -39,6 +40,10 @@ customElements.define('mdw-list', class MDWButton extends HTMLElementExtended {
         this.#drags.push(drag);
       }
 
+      // setup mdw-action elements. these trigger the change event on the list, same as the swipe actions
+      [...element.querySelectorAll('.mdw-action')].forEach(actionElement => {
+        actionElement.addEventListener('click', this.#onActionElementClick_bound)
+      });
     });
     if (this.#subHeaders.length > 0) this.#scrollParent.addEventListener('scroll', this.#scroll_bound);
     this.addEventListener('click', this.#onclick_bound);
@@ -170,10 +175,12 @@ customElements.define('mdw-list', class MDWButton extends HTMLElementExtended {
       const remove = actionElement.hasAttribute('remove');
       if (remove) {
         if (position > 0) {
-          element.querySelector('mdw-list-item-action-left').style.opacity = 0;
+          const leftSwipeControl = element.querySelector('mdw-list-item-action-left');
+          if (leftSwipeControl) leftSwipeControl.style.opacity = 0;
           element.style.setProperty('--mdw-mdw-list-item-swipe-position', `100%`);
         } else {
-          element.querySelector('mdw-list-item-action-right').style.opacity = 0;
+          const rightSwipeControl = element.querySelector('mdw-list-item-action-right');
+          if (rightSwipeControl) rightSwipeControl.style.opacity = 0;
           // TODO figure out why action is bouncing. not happening with right
           element.style.setProperty('--mdw-mdw-list-item-swipe-position', `-100%`);
         }
@@ -186,6 +193,34 @@ customElements.define('mdw-list', class MDWButton extends HTMLElementExtended {
         ...(remove && { remove : true })
       }}));
     }
+  }
+
+  async #onActionElementClick(event) {
+    const action = event.target.getAttribute('action');
+    if (!action) {
+      console.warn('no action set on element with class: .mdw-action', element);
+      return;
+    }
+    
+    const remove = event.target.hasAttribute('remove');
+    const listItem = this.#getItemParent(event.target);
+    if (remove) {
+      const leftSwipeControl = listItem.querySelector('mdw-list-item-action-left');
+      if (leftSwipeControl) leftSwipeControl.style.opacity = 0;
+      const rightSwipeControl = listItem.querySelector('mdw-list-item-action-right');
+      if (rightSwipeControl) rightSwipeControl.style.opacity = 0;
+      listItem.style.setProperty('--mdw-mdw-list-item-swipe-position', `100%`);
+      await util.transitionendAsync(listItem);
+      this.#remove(listItem);
+    }
+
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: {
+        action,
+        listItem: this.#getItemParent(event.target),
+        ...(remove && { remove: true })
+      }
+    }));
   }
 
   async #remove(element) {
