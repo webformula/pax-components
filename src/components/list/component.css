@@ -45,6 +45,10 @@ mdw-list-item > .mdw-text {
   flex: 1;
 }
 
+body.mdw-mobile mdw-list-item > .mdw-mobile-hide {
+  display: none;
+}
+
 mdw-list-item > .mdw-text > .mdw-text-secondary {
   font-size: var(--mdw-font-size-small-body);
   font-weight: var(--mdw-font-weight-small-body);

@@ -113,7 +113,7 @@ customElements.define('mdw-list', class MDWButton extends HTMLElementExtended {
   #getScrollParent(node) {
     if (!node) return;
     if (node.nodeName === 'BODY') return node;
-    if (node.scrollHeight > node.clientHeight) return node;
+    if (node.scrollHeight > node.offsetHeight) return node;
     return this.#getScrollParent(node.parentNode);
   }
 
