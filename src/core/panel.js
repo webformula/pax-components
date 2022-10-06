@@ -57,7 +57,7 @@ export default class Panel {
   }
 
   get element() {
-    return this.#getFirstChild(this.#contentElement);
+    return this.#contentElement;
   }
 
   get showing() {

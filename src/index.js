@@ -34,6 +34,8 @@ import './components/snackbar/component.js';
 import './components/tooltip/component.js';
 import './components/list/component.js';
 import './components/list/avatar.js';
+import './components/expander/component.js';
+import './components/date-picker/component.js';
 
 
 export {

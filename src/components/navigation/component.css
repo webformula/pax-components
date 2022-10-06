@@ -33,13 +33,13 @@ body.mdw-mobile > mdw-navigation.mdw-show::after {
   transition: opacity 120ms 320ms;
 }
 
-mdw-navigation > nav {
+mdw-navigation nav {
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-mdw-navigation > nav > a {
+mdw-navigation nav a {
   position: relative;
   display: flex;
   flex-direction: column;

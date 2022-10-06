@@ -3,7 +3,8 @@ import Panel from '../../core/panel.js';
 import util from '../../core/util.js';
 import './component.css';
 
-// TODO handle focus on panel close
+// TODO remove control click after checking on mobile
+// TODO focus next broken with async search
 
 customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   useShadowRoot = false;
@@ -54,7 +55,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
         ${value.map(value => `<li>${value}</li>`).join('\n')}
       </ul>
     `;
-    this.#panel.element.classList.remove('mdw-async-searching');
+    this.#panel.element.querySelector('.mdw-menu-panel').classList.remove('mdw-async-searching');
     if (this.#panel.showing) this.#panel.resetTemplate();
   }
 
@@ -88,6 +89,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   #preparePanel() {
     const ul = this.querySelector(':scope > ul') || document.createElement('ul');
     ul.classList.add('mdw-menu-panel');
+    ul.classList.add('mdw-menu-panel-shadow');
     if (ul.hasAttribute('id')) this.#id = ul.getAttribute('id');
     else {
       this.#id = `mdw_menu_ul_${util.getUID()}`;
@@ -128,7 +130,6 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
     }
 
     this.#panel = new Panel();
-    this.#panel.classes = 'mdw-menu-panel-shadow';
     this.#panel.template = ul.outerHTML;
     this.#panel.backdrop = false;
     this.#panel.clickOutsideToClose = true;
@@ -170,7 +171,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
 
     // update options on open
     this.#options = liElements.map(li => this.#getLabelFromElement(li));
-    this.#panel.element.classList.toggle('mdw-no-items', this.#options.length === 0);
+    this.#panel.element.querySelector('.mdw-menu-panel').classList.toggle('mdw-no-items', this.#options.length === 0);
 
     if (this.#isTextField === true) {
       this.#control.classList.add('mdw-raise-label');
@@ -180,7 +181,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
       }));
       this.#updateSelectedItemDisplay();
     }
-    this.#focusableElements = [...this.#panel.element.querySelectorAll('li[tabindex]:not([tabindex="-1"]')];
+    this.#focusableElements = [...this.#panel.element.querySelectorAll('li:not([tabindex="-1"]')];
   }
 
   #onPanelShow() {
@@ -192,7 +193,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
       this.#control.autocomplete = '';
       this.#control.classList.remove('mdw-raise-label');
     }
-    this.#panel.element.classList.remove('mdw-async-searching');
+    this.#panel.element.querySelector('.mdw-menu-panel').classList.remove('mdw-async-searching');
     document.body.removeEventListener('keydown', this.#onKeydown_bound);
   }
 
@@ -211,7 +212,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
 
     if (this.#isAsyncSearch) {
       if (!this.#isAsyncSearchOnEnter) {
-        this.#panel.element.classList.add('mdw-async-searching');
+        this.#panel.element.querySelector('.mdw-menu-panel').classList.add('mdw-async-searching');
         const input = this.#control.querySelector('input');
         input.dispatchEvent(new Event('search', this));
         this.#lastSearchValue = input.value;
@@ -232,7 +233,7 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
       fragment.append(item.element);
     }
 
-    this.#panel.element.replaceChildren(fragment);
+    this.#panel.element.querySelector('.mdw-menu-panel').replaceChildren(fragment);
 
     if (filtered.length > 0) {
       const regex = new RegExp(`^${event.target.value}`, 'i');
@@ -304,10 +305,10 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
         // prevent item select when search input has changed
         const isSearchChange = this.#isAsyncSearch && this.#lastSearchValue !== document.activeElement.value;
         this.#lastSearchValue = document.activeElement.value;
-        this.#panel.element.classList.add('mdw-async-searching');
+        this.#panel.element.querySelector('.mdw-menu-panel').classList.add('mdw-async-searching');
 
-        if (!isSearchChange && this.#panel.element.children.length > 0) {
-          this.#handleTextFieldSelect(this.#panel.element.children[0]);
+        if (!isSearchChange && this.#panel.element.querySelector('.mdw-menu-panel').children.length > 0) {
+          this.#handleTextFieldSelect(this.#panel.element.querySelector('.mdw-menu-panel').children[0]);
           this.#panel.hide();
           return;
         }
@@ -325,7 +326,6 @@ customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
   #focusNextElement() {
     const lastIndex = this.#focusableElements.length - 1;
     const indexOfFocus = this.#focusableElements.indexOf(document.activeElement);
-
     if (indexOfFocus === -1) {
       const currentSelected = this.#itemElementsForSearch.find(({ element }) => element.hasAttribute('selected'));
       if (currentSelected) {
