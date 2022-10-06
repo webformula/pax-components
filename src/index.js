@@ -1,6 +1,7 @@
 import MDWUtil from './core/util.js';
 import MDWDialog from './components/dialog/service.js';
 import MDWSnackbar from './components/snackbar/service.js';
+import MDWDate from './core/date.js';
 import './core/tooltip.js';
 import './core/form.js';
 
@@ -39,7 +40,8 @@ import './components/date-picker/component.js';
 
 
 export {
+  MDWDate,
   MDWDialog,
-  MDWUtil,
-  MDWSnackbar
+  MDWSnackbar,
+  MDWUtil
 }
