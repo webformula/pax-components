@@ -51,6 +51,10 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.querySelector('.mdw-years-container').removeEventListener('click', this.#yearClick_bound);
   }
 
+  setDisplayDate(date) {
+    this.#updateDisplayDate(date, true, true);
+  }
+
   #nextMonth() {
     this.#changeMonth(1);
   }

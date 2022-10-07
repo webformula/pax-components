@@ -16,8 +16,8 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
   #control;
   #isTextField = false;
   #onControlFocus_bound = this.#onControlFocus.bind(this);
-  #onPanelRender_bound = this.#onPanelRender.bind(this);
-  #onPanelHide_bound = this.#onPanelHide.bind(this);
+  #onControlClick_bound = this.#onControlClick.bind(this);
+  #onInput_bound = this.#onInput.bind(this);
 
 
   constructor() {
@@ -30,8 +30,8 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
       this.#control.classList.add('mdw-has-date-picker');
     }
 
-    if (this.#isTextField) this.value = this.#control.querySelector('input').value;
-    else if (his.hasAttribute('value')) this.value = this.getAttribute('value');
+    if (this.#isTextField) this.#value = dateUtil.parse(this.#control.querySelector('input').value || '');
+    else if (his.hasAttribute('value')) this.#value = dateUtil.parse(this.getAttribute('value'));
 
     this.#displayDate = dateUtil.parse(this.value ? this.value : dateUtil.today());
 
@@ -43,6 +43,12 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
   }
   set value(value) {
     this.#value = value && dateUtil.parse(value);
+    this.#displayDate = this.#value;
+
+    if (this.#panel.showing) {
+      const picker = this.#panel.element.querySelector('mdw-date-picker-desktop') || this.#panel.element.querySelector('mdw-date-picker-mobile');
+      picker.setDisplayDate(this.#displayDate);
+    }
   }
 
   get displayDate() {
@@ -52,6 +58,10 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
   connectedCallback() {
     if (this.#isTextField) {
       this.#control.querySelector('input').addEventListener('focus', this.#onControlFocus_bound);
+
+      // on mobile to prevent the default browser control we disable click events on the input, so no focus
+      if (util.isMobile) this.#control.addEventListener('click', this.#onControlClick_bound);
+      else this.#control.querySelector('input').addEventListener('input', this.#onInput_bound);
     } else {
       this.#control.addEventListener('focus', this.#onControlFocus_bound);
     }
@@ -60,6 +70,8 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
   disconnectedCallback() {
     if (this.#isTextField) {
       this.#control.querySelector('input').removeEventListener('focus', this.#onControlFocus_bound);
+      this.#control.removeEventListener('click', this.#onControlClick_bound);
+      this.#control.querySelector('input').removeEventListener('input', this.#onInput_bound);
     } else {
       this.#control.removeEventListener('focus', this.#onControlFocus_bound);
     }
@@ -78,15 +90,16 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
     this.#panel.hide();
   }
 
-  #onPanelRender() {
-    
-  }
-
-  #onPanelHide() {
-  }
-
   #onControlFocus() {
     this.#panel.show();
+  }
+
+  #onControlClick() {
+    this.#panel.show();
+  }
+
+  #onInput(event) {
+    this.value = event.target.value;
   }
 
   #preparePanel() {
@@ -94,8 +107,6 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
     this.#panel.classes = 'mdw-date-picker-panel';
     this.#panel.template = this.template();
     this.#panel.backdrop = true;
-    this.#panel.onRender = this.#onPanelRender_bound;
-    this.#panel.onHide = this.#onPanelHide_bound;
     this.#panel.addIgnoreElement(this.#control);
 
     if (!util.isMobile) {

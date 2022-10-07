@@ -32,6 +32,11 @@ mdw-card .example {
   flex-direction: column;
 }
 
+.links a {
+  width: 0;
+  white-space: nowrap;
+}
+
 
 .dot-icon {
   font-size: 18px;

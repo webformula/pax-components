@@ -2,7 +2,6 @@ mdw-date-picker-mobile {
   display: flex;
   flex-direction: column;
   width: 328px;
-  height: 512px;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -74,8 +73,12 @@ mdw-date-picker-mobile:not(.mdw-year-view) .mdw-actions-container::before {
 
 mdw-date-picker-mobile .mdw-views-container {
   position: relative;
-  flex: 1;
-  /* padding-top: 24px; */
+  height: 336px;
+  transition: height 120ms;
+}
+
+mdw-date-picker-mobile.mdw-input-view .mdw-views-container {
+  height: 90px;
 }
 
 
@@ -167,7 +170,12 @@ mdw-date-picker-mobile .mdw-views-container .mdw-months-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  opacity: 1;
   transition: opacity 120ms;
+}
+mdw-date-picker-mobile.mdw-input-view .mdw-views-container .mdw-months-container {
+  opacity: 0;
+  pointer-events: none;
 }
 
 mdw-date-picker-mobile .mdw-views-container .mdw-months-container .mdw-days-header {
@@ -197,7 +205,7 @@ mdw-date-picker-mobile .mdw-views-container .mdw-months-container .mdw-month {
 mdw-date-picker-mobile .mdw-views-container .mdw-months-container .mdw-month .mdw-days-container {
   display: grid;
   grid-template-columns: repeat(7, 44px);
-  grid-template-rows: repeat(6, 44px);
+  grid-template-rows: repeat(6, 42px);
   grid-column-gap: 0;
   grid-row-gap: 0;
   align-items: center;
@@ -380,4 +388,28 @@ mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year {
 mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year[selected] {
   background-color: var(--mdw-primary);
   color: var(--mdw-on-primary);
+}
+
+
+
+/* --- input --- */
+
+
+mdw-date-picker-mobile .mdw-views-container .mdw-input-container {
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  right: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms;
+}
+
+mdw-date-picker-mobile.mdw-input-view .mdw-views-container .mdw-input-container {
+  opacity: 1;
+  pointer-events: all;
+}
+
+mdw-date-picker-mobile .mdw-views-container .mdw-input-container mdw-text-field {
+  width: 100%;
 }

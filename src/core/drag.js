@@ -9,6 +9,7 @@ export default class Drag {
   #startTime;
   #isDragging = false;
   #includeMouseEvents = false;
+  #ignoreElements = [];
 
   #onDragCallbacks = [];
   #onStartCallbacks = [];
@@ -71,12 +72,21 @@ export default class Drag {
     this.#initialTouchPos = this.#currentTouchPosition;
   }
 
+  addIgnoreElement(element) {
+    this.#ignoreElements.push(element);
+  }
+
+  emptyIgnoreElements() {
+    this.#ignoreElements = [];
+  }
+
   #initiate() {
     this.#element.addEventListener('touchstart', this.#touchstart_bound, false);
     if (this.#includeMouseEvents === true) this.#element.addEventListener('mousedown', this.#touchstart_bound, false);
   }
 
   #touchstart(event) {
+    if (this.#ignoreElements.find(v => v === event.target || v.contains(event.target))) return;
     this.#startTime = Date.now();
     this.#initialTouchPos = this.#getTouchPosition(event);
     this.#lastDistance = this.#getDistance(event);
