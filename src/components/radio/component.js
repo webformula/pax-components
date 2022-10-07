@@ -4,7 +4,7 @@ import './component.css';
 
 // TODO handle focus on panel close
 
-customElements.define('mdw-radio-group', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-radio-group', class MDWRadio extends HTMLElementExtended {
   useShadowRoot = false;
 
   #lastValue;

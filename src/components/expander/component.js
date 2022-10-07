@@ -2,7 +2,7 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import util from '../../core/util.js';
 import './component.css';
 
-customElements.define('mdw-expander', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-expander', class MDWExpander extends HTMLElementExtended {
   useShadowRoot = false;
 
   #control = this.querySelector('.mdw-expander-control');

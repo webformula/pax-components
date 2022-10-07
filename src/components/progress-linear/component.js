@@ -2,7 +2,7 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
 
-customElements.define('mdw-progress-linear', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-progress-linear', class MDWProgressLinear extends HTMLElementExtended {
   useShadowRoot = true;
 
   constructor() {

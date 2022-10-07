@@ -1,7 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
-customElements.define('mdw-snackbar', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-snackbar', class MDWSnackbar extends HTMLElementExtended {
   useShadowRoot = true;
 
   constructor() {

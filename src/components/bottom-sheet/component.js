@@ -8,7 +8,7 @@ import util from '../../core/util.js';
 // There is some bugyness on ios safari
 // could try locking the scroll to the body. Right now it is scrolling on html. We want to see if we can maintain address bar behavior
 
-customElements.define('mdw-bottom-sheet', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-bottom-sheet', class MDWBottomSheet extends HTMLElementExtended {
   useShadowRoot = false;
   
   #initialDragToScrollSwitch;

@@ -3,7 +3,7 @@ import Drag from '../../core/drag.js';
 import util from '../../core/util.js';
 import './component.css';
 
-customElements.define('mdw-list', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-list', class MDWList extends HTMLElementExtended {
   useShadowRoot = false;
 
   #actionActiveThreshold = 64;

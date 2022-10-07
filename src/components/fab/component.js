@@ -3,7 +3,7 @@ import Ripple from '../../core/Ripple.js';
 import util from '../../core/util.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
-customElements.define('mdw-fab', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-fab', class MDWFab extends HTMLElementExtended {
   useShadowRoot = true;
 
   #ripple;

@@ -3,7 +3,7 @@ import Ripple from '../../core/Ripple.js';
 import util from '../../core/util.js';
 import './component.css';
 
-customElements.define('mdw-bottom-app-bar', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-bottom-app-bar', class MDWBottomAppBar extends HTMLElementExtended {
   useShadowRoot = false;
 
   #rippleElements = [];

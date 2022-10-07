@@ -3,7 +3,7 @@ import util from '../../core/util.js';
 import './component.css';
 
 
-customElements.define('mdw-navigation-button', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-navigation-button', class MDWNavigationButton extends HTMLElementExtended {
   useShadowRoot = false;
 
   #onclick_bound = this.#onclick.bind(this);

@@ -2,7 +2,7 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import './component.css';
 import './segmented-button.js';
 
-customElements.define('mdw-segmented-button-group', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-segmented-button-group', class MDWSegmentedButtonGroup extends HTMLElementExtended {
   useShadowRoot = false;
 
   #multiSelect = this.classList.contains('mdw-multi-select');

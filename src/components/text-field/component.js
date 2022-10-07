@@ -11,7 +11,7 @@ const handleReportValidityScrollIntoView = util.debounce(input => {
 }, 100);
 
 
-customElements.define('mdw-text-field', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-text-field', class MDWTextField extends HTMLElementExtended {
   useShadowRoot = false;
 
   #previousSupportingText = this.querySelector('.mdw-supporting-text')?.innerText;

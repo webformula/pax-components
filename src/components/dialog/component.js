@@ -2,7 +2,7 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import util from '../../core/util.js';
 import './component.css';
 
-customElements.define('mdw-dialog', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-dialog', class MDWDialog extends HTMLElementExtended {
   useShadowRoot = false;
 
   #scrollHandler_bound = util.rafThrottle(this.#scrollHandler).bind(this);

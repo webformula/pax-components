@@ -3,7 +3,7 @@ import util from '../../core/util.js'
 import Drag from '../../core/drag.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
-customElements.define('mdw-switch', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-switch', class MDWSwitch extends HTMLElementExtended {
   useShadowRoot = true;
 
   #dragStartChecked;

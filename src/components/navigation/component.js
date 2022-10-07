@@ -4,7 +4,7 @@ import util from '../../core/util.js';
 import './component.css';
 
 
-customElements.define('mdw-navigation', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementExtended {
   useShadowRoot = false;
 
   #rippleElements = [];

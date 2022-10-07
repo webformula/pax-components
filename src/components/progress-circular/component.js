@@ -3,7 +3,7 @@ import './component.css';
 import styleAsString from '!!css-loader!./component.css?raw';
 
 
-customElements.define('mdw-progress-circular', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-progress-circular', class MDWProgressCircular extends HTMLElementExtended {
   useShadowRoot = true;
   diameter = 40;
 

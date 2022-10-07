@@ -2,7 +2,7 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import Ripple from '../../core/Ripple.js';
 import './component.css';
 
-customElements.define('mdw-card', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   useShadowRoot = false;
 
   constructor() {

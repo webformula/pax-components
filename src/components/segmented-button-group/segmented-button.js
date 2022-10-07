@@ -1,7 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import styleAsString from '!!css-loader!./segmented-button.css?raw';
 
-customElements.define('mdw-segmented-button', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-segmented-button', class MDWSegmentedButton extends HTMLElementExtended {
   useShadowRoot = true;
 
   constructor() {

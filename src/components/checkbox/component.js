@@ -4,7 +4,7 @@ import Ripple from '../../core/Ripple.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
 
-customElements.define('mdw-checkbox', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExtended {
   useShadowRoot = true;
 
   #inputId = `checkbox_${util.getUID()}`;

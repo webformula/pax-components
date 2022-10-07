@@ -1,7 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
-customElements.define('mdw-tooltip', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-tooltip', class MDWTooltip extends HTMLElementExtended {
   useShadowRoot = true;
 
   constructor() {

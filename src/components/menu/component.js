@@ -6,7 +6,7 @@ import './component.css';
 // TODO remove control click after checking on mobile
 // TODO focus next broken with async search
 
-customElements.define('mdw-menu', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-menu', class MDWMenu extends HTMLElementExtended {
   useShadowRoot = false;
 
   #panel;

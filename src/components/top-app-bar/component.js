@@ -3,7 +3,7 @@ import './component.css';
 import util from '../../core/util.js';
 
 
-customElements.define('mdw-top-app-bar', class MDWButton extends HTMLElementExtended {
+customElements.define('mdw-top-app-bar', class MDWTopAppBar extends HTMLElementExtended {
   useShadowRoot = false;
 
   #isHiding = false;
