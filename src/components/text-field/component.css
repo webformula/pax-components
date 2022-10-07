@@ -45,6 +45,8 @@ mdw-text-field > input {
   background: none;
   outline: none;
   z-index: 1;
+  padding: 0;
+  margin: 0;
   /* width: 191px;  */ /* default */
 
   text-decoration: inherit;
@@ -85,7 +87,7 @@ body.mdw-mobile mdw-text-field.mdw-has-date-picker input[type="date"] {
 
 mdw-text-field .mdw-autocomplete {
   position: absolute;
-  top: 21px;
+  top: 22px;
   left: 0;
   box-sizing: border-box;
   border: none;
@@ -316,7 +318,7 @@ mdw-text-field>mdw-icon+input {
 }
 
 mdw-text-field>mdw-icon+input+label {
-  margin-left: 36px;
+  margin-left: 32px;
 }
 
 mdw-text-field > input + mdw-icon,
