@@ -86,8 +86,8 @@ mdw-dialog.mdw-fullscreen > .mdw-header {
   border-radius: var(--mdw-shape-extra-large) var(--mdw-shape-extra-large) 0 0;
 }
 
-.mdw-panel.mdw-fullscreen mdw-dialog > .mdw-header:before,
-mdw-dialog.mdw-fullscreen > .mdw-header:before {
+.mdw-panel.mdw-fullscreen mdw-dialog > .mdw-header::before,
+mdw-dialog.mdw-fullscreen > .mdw-header::before {
   position: absolute;
   content: '';
   top: 0;
@@ -100,8 +100,8 @@ mdw-dialog.mdw-fullscreen > .mdw-header:before {
   border-radius: var(--mdw-shape-extra-large) var(--mdw-shape-extra-large) 0 0;
 }
 
-.mdw-panel.mdw-fullscreen mdw-dialog:not(.mdw-no-states).mdw-scrolled > .mdw-header:before,
-mdw-dialog.mdw-fullscreen:not(.mdw-no-states).mdw-scrolled > .mdw-header:before {
+.mdw-panel.mdw-fullscreen mdw-dialog:not(.mdw-no-states).mdw-scrolled > .mdw-header::before,
+mdw-dialog.mdw-fullscreen:not(.mdw-no-states).mdw-scrolled > .mdw-header::before {
   background-color: var(--mdw-surface-tint--6);
 }
 
@@ -158,8 +158,8 @@ mdw-dialog.mdw-fullscreen > .mdw-content {
     border-radius: none;
   }
 
-  .mdw-panel.mdw-fullscreen mdw-dialog > .mdw-header:before,
-  mdw-dialog.mdw-fullscreen > .mdw-header:before {
+  .mdw-panel.mdw-fullscreen mdw-dialog > .mdw-header::before,
+  mdw-dialog.mdw-fullscreen > .mdw-header::before {
     border-radius: none;
   }
 }

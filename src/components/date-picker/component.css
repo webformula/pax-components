@@ -3,10 +3,18 @@
   height: 262px;
   padding: 8px 0;
   overflow-y: auto;
+  box-sizing: border-box;
 
   border-radius: var(--mdw-shape-extra-small);
   background-color: var(--mdw-surface);
   box-shadow: var(--mdw-elevation-2);
+}
+
+body.mdw-mobile .mdw-date-picker-panel > .mdw-panel-content {
+  width: 328px;
+  height: 512px;
+  padding: 0;
+  overflow: hidden;
 }
 
 /* hide scroll bar */

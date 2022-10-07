@@ -4,6 +4,7 @@ import dateUtil from '../../core/date.js';
 import util from '../../core/util.js';
 import './component.css';
 import './desktop.js';
+import './mobile.js';
 
 customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElementExtended {
   useShadowRoot = false;
@@ -92,17 +93,19 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
     this.#panel = new Panel();
     this.#panel.classes = 'mdw-date-picker-panel';
     this.#panel.template = this.template();
-    this.#panel.backdrop = false;
-    this.#panel.clickOutsideToClose = true;
-    this.#panel.targetElement = this.#control;
+    this.#panel.backdrop = true;
     this.#panel.onRender = this.#onPanelRender_bound;
     this.#panel.onHide = this.#onPanelHide_bound;
     this.#panel.addIgnoreElement(this.#control);
+
+    if (!util.isMobile) {
+      this.#panel.clickOutsideToClose = true;
+      this.#panel.targetElement = this.#control;
+    }
   }
 
   template() {
-    return /* html */`
-      <mdw-date-picker-desktop mdw-date-picker-id="${this.#id}"></mdw-date-picker-desktop>
-    `;
+    if (util.isMobile) return `<mdw-date-picker-mobile mdw-date-picker-id="${this.#id}"></mdw-date-picker-mobile>`;
+    else return `<mdw-date-picker-desktop mdw-date-picker-id="${this.#id}"></mdw-date-picker-desktop>`;
   }
 });

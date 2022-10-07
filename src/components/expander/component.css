@@ -22,7 +22,7 @@ mdw-expander .mdw-expander-control .mdw-expander-arrow {
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 6px solid var(--mdw-on-secondary-container);
+  border-bottom: 6px solid var(--mdw-on-secondary-container--60);
   transform-origin: center;
   transform: rotate(0);
   transition: transform 280ms;

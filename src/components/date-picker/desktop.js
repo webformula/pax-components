@@ -3,6 +3,8 @@ import dateUtil from '../../core/date.js';
 import util from '../../core/util.js';
 import './desktop.css';
 
+// TODO tooltips
+
 customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop extends HTMLElementExtended {
   useShadowRoot = false;
 
@@ -79,7 +81,7 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.#updateDisplayDate(dateUtil.parse(event.target.getAttribute('mdw-date')), false);
     this.#datePickerComponent.setValueDate(this.#displayDate);
 
-    const selected = this.querySelector('.mdw-day[selected]');
+    const selected = this.querySelector('.mdw-day:not(.mdw-not-current-month)[selected]');
     if (selected) selected.removeAttribute('selected');
     event.target.setAttribute('selected', '');
 

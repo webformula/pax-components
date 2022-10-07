@@ -187,8 +187,8 @@ const MDWDate = new class MDWDate {
       let monthOffset = 0;
       if (parts.year < year) monthOffset = -1;
       if (parts.year > year) monthOffset = 1;
-      if (parts.month < month) monthOffset = -1;
-      if (parts.month > month) monthOffset = 1;
+      if (parts.year === year && parts.month < month) monthOffset = -1;
+      if (parts.year === year && parts.month > month) monthOffset = 1;
 
       const display = (fillNextMonth && monthOffset > 0) || monthOffset === 0 ? parts.day : '';
       const currentMonth = parts.month === month;

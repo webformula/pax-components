@@ -3,10 +3,7 @@ mdw-date-picker-desktop {
   height: 262px;
   padding: 8px 0;
   overflow-y: auto;
-
-  border-radius: var(--mdw-shape-extra-small);
-  background-color: var(--mdw-surface);
-  box-shadow: var(--mdw-elevation-2);
+  box-sizing: border-box;
 }
 
 mdw-date-picker-desktop .mdw-control-container {
@@ -67,6 +64,7 @@ mdw-date-picker-desktop.mdw-year-view .mdw-control-container mdw-icon {
 }
 
 mdw-date-picker-desktop .mdw-months-container {
+  position: relative;
   width: 100%;
   height: 184px;
   flex-shrink: 0;
@@ -99,7 +97,7 @@ mdw-date-picker-desktop .mdw-months-container .mdw-days-header {
 mdw-date-picker-desktop .mdw-months-container .mdw-days-container {
   position: absolute;
   display: grid;
-  top: 76px;
+  top: 24px;
   left: 100%;
   grid-template-columns: repeat(7, 32px);
   grid-template-rows: repeat(6, 28px);
@@ -180,6 +178,10 @@ mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day[selec
 
 mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day.mdw-today {
   border: 1px solid var(--mdw-outline--60);
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day.mdw-not-current-month[selected] {
+  color: var(--mdw-on-primary);
 }
 
 
