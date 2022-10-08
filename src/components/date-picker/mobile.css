@@ -374,7 +374,6 @@ mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year {
   border-radius: 18px;
   text-align: center;
   cursor: pointer;
-  color: var(--mdw-theme-text--heading);
   margin: 7px;
   -webkit-tap-highlight-color: transparent;
 

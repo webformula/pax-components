@@ -1,19 +1,17 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import Panel from '../../core/panel.js';
-import dateUtil from '../../core/date.js';
 import util from '../../core/util.js';
 import './component.css';
 import './desktop.js';
-import './mobile.js';
 
-// TODO min max
-
-customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElementExtended {
+customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElementExtended {
   useShadowRoot = false;
 
-  #id = this.getAttribute('id') || `mdw-date-picker-${util.getUID()}`;
-  #value = '';
-  #displayDate = '';
+  #id = this.getAttribute('id') || `mdw-time-picker-${util.getUID()}`;
+  #value = this.getAttribute('value') || `${(new Date()).getHours()}:${(new Date()).getMinutes()}`;
+  #min = this.getAttribute('min') || '00:00';
+  #max = this.getAttribute('max') || '24:00';
+  #step = parseInt(this.getAttribute('step') || '60'); // seconds
   #panel;
   #control;
   #isTextField = false;
@@ -24,37 +22,58 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
 
   constructor() {
     super();
-
+    
     this.setAttribute('id', this.#id);
     this.#control = this.parentNode;
     if (this.#control.nodeName === 'MDW-TEXT-FIELD') {
       this.#isTextField = true;
-      this.#control.classList.add('mdw-has-date-picker');
+      this.#control.classList.add('mdw-has-time-picker');
+
+      const input = this.#control.querySelector('input');
+      if (input.hasAttribute('min')) this.#min = input.getAttribute('min');
+      if (input.hasAttribute('max')) this.#max = input.getAttribute('max');
+      if (input.hasAttribute('step')) this.#step = input.getAttribute('step');
     }
 
-    if (this.#isTextField) this.#value = dateUtil.parse(this.#control.querySelector('input').value || '');
-    else if (his.hasAttribute('value')) this.#value = dateUtil.parse(this.getAttribute('value'));
+    // if (this.#isTextField) this.#value = dateUtil.parse(this.#control.querySelector('input').value || '');
+    // else if (his.hasAttribute('value')) this.#value = dateUtil.parse(this.getAttribute('value'));
 
-    this.#displayDate = dateUtil.parse(this.value ? this.value : dateUtil.today());
+    // this.#displayTime = dateUtil.parse(this.value ? this.value : dateUtil.today());
 
     this.#preparePanel();
   }
 
   get value() {
-    return this.#value && dateUtil.format(this.#value, 'YYYY-MM-dd');
+    return this.#value;
   }
   set value(value) {
-    this.#value = value && dateUtil.parse(value);
-    this.#displayDate = this.#value;
+    this.#value = value;
 
     if (this.#panel.showing) {
-      const picker = this.#panel.element.querySelector('mdw-date-picker-desktop') || this.#panel.element.querySelector('mdw-date-picker-mobile');
-      picker.setDisplayDate(this.#displayDate);
+      const picker = this.#panel.element.querySelector('mdw-time-picker-desktop') || this.#panel.element.querySelector('mdw-time-picker-mobile');
+      picker.setDisplayTime(this.#value);
     }
   }
 
-  get displayDate() {
-    return this.#displayDate;
+  get min() {
+    return this.#min;
+  }
+  set min(value) {
+    this.#min = value;
+  }
+
+  get max() {
+    return this.#max;
+  }
+  set max(value) {
+    this.#max = value;
+  }
+
+  get step() {
+    return this.#step.toString();
+  }
+  set step(value) {
+    this.#step = parseInt(value);
   }
 
   connectedCallback() {
@@ -79,13 +98,9 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
     }
   }
 
-  setValueDate(date) {
-    this.#value = date;
+  setValue(time) {
+    this.#value = time;
     if (this.#isTextField) this.#control.querySelector('input').value = this.value;
-  }
-
-  setDisplayDate(date) {
-    this.#displayDate = date;
   }
 
   hide() {
@@ -106,7 +121,7 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
 
   #preparePanel() {
     this.#panel = new Panel();
-    this.#panel.classes = 'mdw-date-picker-panel';
+    this.#panel.classes = 'mdw-time-picker-panel';
     this.#panel.template = this.template();
     this.#panel.addIgnoreElement(this.#control);
     this.#panel.backdrop = true;
@@ -119,7 +134,7 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
   }
 
   template() {
-    if (util.isMobile) return `<mdw-date-picker-mobile mdw-date-picker-id="${this.#id}"></mdw-date-picker-mobile>`;
-    else return `<mdw-date-picker-desktop mdw-date-picker-id="${this.#id}"></mdw-date-picker-desktop>`;
+    if (util.isMobile) return `<mdw-time-picker-mobile mdw-time-picker-id="${this.#id}"></mdw-time-picker-mobile>`;
+    else return `<mdw-time-picker-desktop mdw-time-picker-id="${this.#id}"></mdw-time-picker-desktop>`;
   }
 });

@@ -4,7 +4,7 @@ import util from '../../core/util.js';
 import Drag from '../../core/drag.js';
 import './mobile.css';
 
-// TODO tooltips
+// TODO min max
 
 customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extends HTMLElementExtended {
   useShadowRoot = false;

@@ -3,6 +3,7 @@ import dateUtil from '../../core/date.js';
 import util from '../../core/util.js';
 import './desktop.css';
 
+// TODO min max
 // TODO tooltips
 
 customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop extends HTMLElementExtended {
@@ -28,7 +29,12 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
   }
 
   disconnectedCallback() {
-    this.beforeRender();
+    this.querySelector('#mdw-next-month-arrow').removeEventListener('click', this.#nextMonth_bound);
+    this.querySelector('#mdw-previous-month-arrow').removeEventListener('click', this.#previousMonth_bound);
+    this.querySelector('.mdw-year-label').removeEventListener('click', this.#yearViewClick_bound);
+    this.querySelector('.mdw-month-label').removeEventListener('click', this.#yearViewClick_bound);
+    this.querySelector('.mdw-months-container').removeEventListener('click', this.#dayClick_bound);
+    this.querySelector('.mdw-years-container').removeEventListener('click', this.#yearClick_bound);
   }
 
   afterRender() {
@@ -38,17 +44,6 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.querySelector('.mdw-month-label').addEventListener('click', this.#yearViewClick_bound);
     this.querySelector('.mdw-months-container').addEventListener('click', this.#dayClick_bound);
     this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClick_bound);
-  }
-
-  beforeRender() {
-    if (!this.rendered) return;
-
-    this.querySelector('#mdw-next-month-arrow').removeEventListener('click', this.#nextMonth_bound);
-    this.querySelector('#mdw-previous-month-arrow').removeEventListener('click', this.#previousMonth_bound);
-    this.querySelector('.mdw-year-label').removeEventListener('click', this.#yearViewClick_bound);
-    this.querySelector('.mdw-month-label').removeEventListener('click', this.#yearViewClick_bound);
-    this.querySelector('.mdw-months-container').removeEventListener('click', this.#dayClick_bound);
-    this.querySelector('.mdw-years-container').removeEventListener('click', this.#yearClick_bound);
   }
 
   setDisplayDate(date) {

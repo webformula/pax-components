@@ -39,6 +39,15 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
       attributes: true
     });
 
+
+    // const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    // const originalSet = descriptor.set;
+    // descriptor.set = function (value) {
+    //   console.log(value)
+    //   originalSet.apply(this, arguments);
+    // };
+    // Object.defineProperty(input, 'value', descriptor);
+
     if (this.classList.contains('mdw-outlined')) {
       this.insertAdjacentHTML('afterbegin', `
         <div class="mdw-outlined-border-container">

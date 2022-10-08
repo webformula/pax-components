@@ -259,7 +259,6 @@ mdw-date-picker-desktop .mdw-years-container .mdw-year {
   border-radius: 14px;
   text-align: center;
   cursor: pointer;
-  color: var(--mdw-theme-text--heading);
 
   font-size: var(--mdw-font-size-medium-label);
   font-weight: var(--mdw-font-weight-medium-label);

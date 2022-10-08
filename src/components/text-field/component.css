@@ -80,10 +80,18 @@ mdw-text-field > input {
  mdw-text-field.mdw-has-date-picker > input::-webkit-calendar-picker-indicator {
   display: none;
 }
-
 body.mdw-mobile mdw-text-field.mdw-has-date-picker input[type="date"] {
   pointer-events: none;
 }
+
+ mdw-text-field.mdw-has-time-picker > input::-webkit-inner-spin-button,
+ mdw-text-field.mdw-has-time-picker > input::-webkit-calendar-picker-indicator {
+   display: none;
+ }
+
+ body.mdw-mobile mdw-text-field.mdw-has-time-picker input[type="time"] {
+   pointer-events: none;
+ }
 
 mdw-text-field .mdw-autocomplete {
   position: absolute;

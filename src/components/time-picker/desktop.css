@@ -1,0 +1,130 @@
+/* hide scroll bar */
+.mdw-time-picker-panel.mdw-lock > .mdw-panel-content mdw-time-picker-desktop .mdw-hour-container,
+.mdw-time-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-time-picker-desktop .mdw-hour-container,
+.mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-desktop .mdw-hour-container,
+.mdw-time-picker-panel.mdw-lock > .mdw-panel-content mdw-time-picker-desktop .mdw-minute-container,
+.mdw-time-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-time-picker-desktop .mdw-minute-container,
+.mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-desktop .mdw-minute-container {
+  overflow: hidden;
+}
+
+
+mdw-time-picker-desktop {
+  display: flex;
+  width: 200px;
+  height: 262px;
+  padding: 8px 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+
+mdw-time-picker-desktop .mdw-hour-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+}
+mdw-time-picker-desktop .mdw-hour-container .mdw-hour {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  line-height: 28px;
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface);
+}
+mdw-time-picker-desktop .mdw-hour-container .mdw-hour[selected] {
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+}
+mdw-time-picker-desktop .mdw-hour-container .mdw-hour.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+mdw-time-picker-desktop .mdw-minute-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+}
+mdw-time-picker-desktop .mdw-minute-container .mdw-minute {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  line-height: 28px;
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface);
+}
+mdw-time-picker-desktop .mdw-minute-container .mdw-minute[selected] {
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+}
+mdw-time-picker-desktop .mdw-minute-container .mdw-minute.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+mdw-time-picker-desktop .mdw-second-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+}
+mdw-time-picker-desktop .mdw-second-container .mdw-second {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  line-height: 28px;
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface);
+}
+mdw-time-picker-desktop .mdw-second-container .mdw-second[selected] {
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+}
+mdw-time-picker-desktop .mdw-second-container .mdw-second.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+mdw-time-picker-desktop .mdw-meridiem-container {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+}
+mdw-time-picker-desktop .mdw-meridiem-container .mdw-meridiem {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  line-height: 28px;
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface);
+}
+mdw-time-picker-desktop .mdw-meridiem-container .mdw-meridiem[selected] {
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+}
+mdw-time-picker-desktop .mdw-meridiem-container .mdw-meridiem.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
