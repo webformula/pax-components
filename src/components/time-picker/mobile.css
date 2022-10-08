@@ -50,8 +50,8 @@ mdw-time-picker-mobile .mdw-hour-container {
   -webkit-perspective: 1000;
   perspective: 1000;
 
-  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
-  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
 }
 
 mdw-time-picker-mobile .mdw-hour-container .mdw-hour {
@@ -91,8 +91,8 @@ mdw-time-picker-mobile .mdw-minute-container {
   -webkit-perspective: 1000;
   perspective: 1000;
 
-  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
-  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
 }
 
 mdw-time-picker-mobile .mdw-minute-container .mdw-minute {
@@ -189,7 +189,6 @@ mdw-time-picker-mobile .mdw-meridiem-container .mdw-meridiem.mdw-out-of-range {
   cursor: auto;
   color: var(--mdw-on-surface--60);
 }
-
 
 mdw-time-picker-mobile .mdw-select-area {
   position: absolute;

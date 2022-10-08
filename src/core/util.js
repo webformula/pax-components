@@ -138,7 +138,6 @@ const MDWUtil = new class MDWUtil {
     this.#pageScrollIsLocked = true;
 
     const htmlElement = document.querySelector('html');
-    console.log('lock', htmlElement.scrollTop);
     this.#pageScrollLockHTMLScrollTop = htmlElement.scrollTop;
     htmlElement.style.overflow = 'hidden';
     htmlElement.style.position = 'relative';
@@ -174,7 +173,6 @@ const MDWUtil = new class MDWUtil {
     htmlElement.scrollTop = this.#pageScrollLockHTMLScrollTop;
 
     const bodyElement = document.body;
-    console.log('un', bodyElement.style.top);
     bodyElement.style.overflow = '';
     bodyElement.style.position = '';
     bodyElement.style.touchAction = '';
