@@ -4,7 +4,10 @@
 .mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-desktop .mdw-hour-container,
 .mdw-time-picker-panel.mdw-lock > .mdw-panel-content mdw-time-picker-desktop .mdw-minute-container,
 .mdw-time-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-time-picker-desktop .mdw-minute-container,
-.mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-desktop .mdw-minute-container {
+.mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-desktop .mdw-minute-container,
+.mdw-time-picker-panel.mdw-lock > .mdw-panel-content mdw-time-picker-desktop .mdw-second-container,
+.mdw-time-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-time-picker-desktop .mdw-second-container,
+.mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-desktop .mdw-second-container {
   overflow: hidden;
 }
 

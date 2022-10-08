@@ -40,6 +40,7 @@ mdw-text-field > input {
   flex: 1;
   align-self: flex-end;
   width: 100%;
+  min-height: 28px; /* this is needed for type time on ios */
   box-sizing: border-box;
   border: none;
   background: none;

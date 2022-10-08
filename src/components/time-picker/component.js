@@ -3,6 +3,7 @@ import Panel from '../../core/panel.js';
 import util from '../../core/util.js';
 import './component.css';
 import './desktop.js';
+import './mobile.js';
 
 customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElementExtended {
   useShadowRoot = false;

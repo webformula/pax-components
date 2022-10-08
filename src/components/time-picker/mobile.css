@@ -1,0 +1,203 @@
+/* hide scroll bar */
+.mdw-time-picker-panel.mdw-lock > .mdw-panel-content mdw-time-picker-mobile .mdw-hour-container,
+.mdw-time-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-time-picker-mobile .mdw-hour-container,
+.mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-mobile .mdw-hour-container,
+.mdw-time-picker-panel.mdw-lock > .mdw-panel-content mdw-time-picker-mobile .mdw-minute-container,
+.mdw-time-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-time-picker-mobile .mdw-minute-container,
+.mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-mobile .mdw-minute-container,
+.mdw-time-picker-panel.mdw-lock > .mdw-panel-content mdw-time-picker-mobile .mdw-second-container,
+.mdw-time-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-time-picker-mobile .mdw-second-container,
+.mdw-time-picker-panel.mdw-close-animation > .mdw-panel-content mdw-time-picker-mobile .mdw-second-container {
+  overflow: hidden;
+}
+
+
+mdw-time-picker-mobile {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  height: 206px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+mdw-time-picker-mobile .mdw-time-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 160px;
+  box-sizing: border-box;
+}
+
+mdw-time-picker-mobile .mdw-actions-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  height: 46px;
+  box-sizing: border-box;
+}
+
+mdw-time-picker-mobile .mdw-hour-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  
+  -webkit-perspective: 1000;
+  perspective: 1000;
+
+  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+}
+
+mdw-time-picker-mobile .mdw-hour-container .mdw-hour {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-small-headline);
+  font-weight: var(--mdw-font-weight-small-headline);
+  line-height: 32px;
+  letter-spacing: var(--mdw-font-letter-spacing-small-headline);
+  color: var(--mdw-on-surface);
+}
+mdw-time-picker-mobile .mdw-hour-container .mdw-hour-spacer {
+  width: 100%;
+  padding-top: 61px;
+}
+mdw-time-picker-mobile .mdw-hour-container .mdw-hour:last-child {
+  padding-bottom: 59px;
+}
+
+mdw-time-picker-mobile .mdw-hour-container .mdw-hour.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+mdw-time-picker-mobile .mdw-minute-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+
+  -webkit-perspective: 1000;
+  perspective: 1000;
+
+  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+}
+
+mdw-time-picker-mobile .mdw-minute-container .mdw-minute {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-small-headline);
+  font-weight: var(--mdw-font-weight-small-headline);
+  line-height: 32px;
+  letter-spacing: var(--mdw-font-letter-spacing-small-headline);
+  color: var(--mdw-on-surface);
+  user-select: none;
+  /* transform-style: preserve-3d; */
+}
+
+mdw-time-picker-mobile .mdw-minute-container .mdw-minute-spacer {
+  width: 100%;
+  padding-top: 61px;
+}
+mdw-time-picker-mobile .mdw-minute-container .mdw-minute:last-child {
+  padding-bottom: 59px;
+}
+
+mdw-time-picker-mobile .mdw-minute-container .mdw-minute.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+mdw-time-picker-mobile .mdw-second-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+mdw-time-picker-mobile .mdw-second-container .mdw-second {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-small-headline);
+  font-weight: var(--mdw-font-weight-small-headline);
+  line-height: 32px;
+  letter-spacing: var(--mdw-font-letter-spacing-small-headline);
+  color: var(--mdw-on-surface);
+}
+
+mdw-time-picker-mobile .mdw-second-container .mdw-second.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+mdw-time-picker-mobile .mdw-meridiem-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 70px;
+  height: 94px;
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+
+  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: -webkit-linear-gradient(top,rgba(255, 255, 255, 0) 0%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+}
+
+mdw-time-picker-mobile .mdw-meridiem-container .mdw-meridiem {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-small-headline);
+  font-weight: var(--mdw-font-weight-small-headline);
+  line-height: 32px;
+  letter-spacing: var(--mdw-font-letter-spacing-small-headline);
+  color: var(--mdw-on-surface);
+  user-select: none;
+}
+
+mdw-time-picker-mobile .mdw-meridiem-container .mdw-meridiem:first-child {
+  padding-top: 27px;
+}
+mdw-time-picker-mobile .mdw-meridiem-container .mdw-meridiem:last-child {
+  padding-bottom: 26px;
+}
+
+mdw-time-picker-mobile .mdw-meridiem-container .mdw-meridiem.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+
+mdw-time-picker-mobile .mdw-select-area {
+  position: absolute;
+  top: calc(50% - 17px);
+  left: 8px;
+  right: 8px;
+  height: 34px;
+  border-radius: var(--mdw-shape-extra-small);
+  background-color: var(--mdw-on-surface--16);
+  pointer-events: none;
+}
