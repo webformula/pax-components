@@ -4,7 +4,7 @@ import util from '../../core/util.js';
 import Drag from '../../core/drag.js';
 import './mobile.css';
 
-// TODO min max
+// TODO orientation
 
 customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extends HTMLElementExtended {
   useShadowRoot = false;
@@ -12,6 +12,8 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
   #drag = new Drag();
   #datePickerComponent;
   #displayDate = '';
+  #min;
+  #max;
   #monthClickHandler_bound = this.#monthClickHandler.bind(this);
   #yearClickHandler_bound = this.#yearClickHandler.bind(this);
   #okHandler_bound = this.#okHandler.bind(this);
@@ -30,6 +32,8 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
   connectedCallback() {
     this.#datePickerComponent = document.querySelector(`#${this.getAttribute('mdw-date-picker-id')}`);
     this.#displayDate = this.#datePickerComponent.displayDate;
+    this.#min = this.#datePickerComponent.min && dateUtil.parse(this.#datePickerComponent.min);
+    this.#max = this.#datePickerComponent.max && dateUtil.parse(this.#datePickerComponent.max);
     this.render();
   }
 
@@ -60,6 +64,16 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
 
   setDisplayDate(date) {
     this.#updateDisplayDate(date, true, true);
+  }
+
+  setMinDate(date) {
+    this.#min = date && dateUtil.parse(date);
+    this.#updateDisplayDate();
+  }
+
+  setMaxDate(date) {
+    this.#max = date && dateUtil.parse(date);
+    this.#updateDisplayDate();
   }
 
   #okHandler() {
@@ -201,6 +215,8 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
       previous.innerHTML = this.#monthDaysTemplate(dateUtil.addToDateByParts(date, { month: -1 }));
       const next = this.querySelector('.mdw-month.mdw-next');
       next.innerHTML = this.#monthDaysTemplate(dateUtil.addToDateByParts(date, { month: 1 }));
+
+      this.querySelector('.mdw-years-container').innerHTML = this.#yearTemplate();
     }
 
     if (updateDaySelection) {
@@ -267,7 +283,7 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
         </div>
 
         <div class="mdw-years-container">
-          ${dateUtil.defaultYearRange().map(year => `<div class="mdw-year" mdw-year="${year}">${year}</div>`).join('\n') }
+          ${this.#yearTemplate()}
         </div>
 
         <div class="mdw-input-container">
@@ -285,18 +301,29 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
     `;
   }
 
+  #yearTemplate() {
+    return dateUtil.defaultYearRange().map(year => {
+      const isPreviousMinYear = this.#min && this.#min.getFullYear() > year;
+      const isNextMaxYear = this.#max && this.#max.getFullYear() < year;
+      const outOfRange = isPreviousMinYear || isNextMaxYear;
+      return `<div class="mdw-year${outOfRange ? ' mdw-out-of-range' : ''}" mdw-year="${year}">${year}</div>`;
+    }).join('\n');
+  }
 
   #monthDaysTemplate(date = this.#displayDate) {
     const valueFormatted = this.#datePickerComponent.value;
-    return `
+    const isPreviousMinMonth = this.#min && this.#min.getMonth() >= this.#displayDate.getMonth();
+    const isNextMaxMonth = this.#max && this.#max.getMonth() <= this.#displayDate.getMonth();
+    
+    return /*html*/`
       <div class="mdw-control-container">
         <div class="mdw-month-label">${dateUtil.format(date, 'MMMM')}</div>
         <div class="mdw-year-label">
           ${dateUtil.getYear(date)}
           <div class="mdw-arrow"></div>
         </div>
-        <mdw-icon class="mdw-previous-month-arrow mdw-bold">keyboard_arrow_left</mdw-icon>
-        <mdw-icon class="mdw-next-month-arrow mdw-bold">keyboard_arrow_right</mdw-icon>
+        <mdw-icon class="mdw-previous-month-arrow mdw-bold" ${isPreviousMinMonth ? 'disabled' : ''}>keyboard_arrow_left</mdw-icon>
+        <mdw-icon class="mdw-next-month-arrow mdw-bold" ${isNextMaxMonth ? 'disabled' : ''}>keyboard_arrow_right</mdw-icon>
       </div>
 
       <div class="mdw-days-header">
@@ -305,12 +332,11 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
 
       <div class="mdw-days-container">
         ${dateUtil.getMonthDays(date, {
-          fillNextMonth: true
-          // minDate: MDWDateUtil.parse(this.minDate),
-          // maxDate: MDWDateUtil.parse(this.maxDate)
+          fillNextMonth: true,
+          minDate: this.#min,
+          maxDate: this.#max
         }).map(week => week.map(({ display, date, currentMonth, interactive, beforeMinDate, afterMaxDate, isToday }) => {
           let classes = 'mdw-day';
-          // let { year, month, day } = dateUtil.getParts(date);
           if (beforeMinDate) classes += ' mdw-before-min-date';
           if (afterMaxDate) classes += ' mdw-after-max-date';
           if (interactive) classes += ' mdw-interactive';

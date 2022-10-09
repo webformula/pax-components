@@ -1,9 +1,8 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import util from '../../core/util.js';
 import './desktop.css';
 
+// TODO min max
 // TODO infinite scroll
-// TODO tooltips
 
 customElements.define('mdw-time-picker-desktop', class MDWTimePickerDesktop extends HTMLElementExtended {
   useShadowRoot = false;
@@ -87,7 +86,7 @@ customElements.define('mdw-time-picker-desktop', class MDWTimePickerDesktop exte
     // remove seconds based on step
     if (this.#step % 60 === 0) this.#displayTime = time.split(':').slice(0, 2).join(':');
     else this.#displayTime = time;
-    
+
     let displayHour = parseInt(this.#displayTime.split(':')[0]);
     if (displayHour === 0) displayHour = 12;
     const displayMinute = parseInt(this.#displayTime.split(':')[1]);

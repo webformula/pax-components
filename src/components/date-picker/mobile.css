@@ -161,6 +161,12 @@ mdw-date-picker-mobile.mdw-year-view .mdw-views-container .mdw-months-container 
   opacity: 0;
 }
 
+mdw-date-picker-mobile .mdw-views-container .mdw-months-container .mdw-month .mdw-control-container mdw-icon[disabled],
+mdw-date-picker-mobile .mdw-views-container .mdw-months-container .mdw-month .mdw-control-container mdw-icon[disabled] {
+  pointer-events: none;
+  opacity: 0.38;
+}
+
 
 mdw-date-picker-mobile .mdw-views-container .mdw-months-container {
   position: relative;
@@ -387,6 +393,12 @@ mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year {
 mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year[selected] {
   background-color: var(--mdw-primary);
   color: var(--mdw-on-primary);
+}
+
+mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
 }
 
 

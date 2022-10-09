@@ -4,7 +4,7 @@ import util from '../../core/util.js';
 import './mobile.css';
 
 // TODO seconds
-// TODO tooltips
+// TODO min max
 
 customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop extends HTMLElementExtended {
   useShadowRoot = false;

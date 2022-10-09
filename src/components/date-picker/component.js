@@ -6,7 +6,6 @@ import './component.css';
 import './desktop.js';
 import './mobile.js';
 
-// TODO min max
 
 customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElementExtended {
   useShadowRoot = false;
@@ -14,6 +13,8 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
   #id = this.getAttribute('id') || `mdw-date-picker-${util.getUID()}`;
   #value = '';
   #displayDate = '';
+  #min;
+  #max;
   #panel;
   #control;
   #isTextField = false;
@@ -32,8 +33,12 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
       this.#control.classList.add('mdw-has-date-picker');
     }
 
-    if (this.#isTextField) this.#value = dateUtil.parse(this.#control.querySelector('input').value || '');
-    else if (his.hasAttribute('value')) this.#value = dateUtil.parse(this.getAttribute('value'));
+    if (this.#isTextField) {
+      const input = this.#control.querySelector('input');
+      this.#value = dateUtil.parse(input.value || '');
+      this.#min = input.getAttribute('min');
+      this.#max = input.getAttribute('max');
+    } else if (his.hasAttribute('value')) this.#value = dateUtil.parse(this.getAttribute('value'));
 
     this.#displayDate = dateUtil.parse(this.value ? this.value : dateUtil.today());
 
@@ -50,6 +55,30 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
     if (this.#panel.showing) {
       const picker = this.#panel.element.querySelector('mdw-date-picker-desktop') || this.#panel.element.querySelector('mdw-date-picker-mobile');
       picker.setDisplayDate(this.#displayDate);
+    }
+  }
+
+  get min() {
+    return this.#min;
+  }
+  set min(value) {
+    this.#min = value && dateUtil.parse(value);
+
+    if (this.#panel.showing) {
+      const picker = this.#panel.element.querySelector('mdw-date-picker-desktop') || this.#panel.element.querySelector('mdw-date-picker-mobile');
+      picker.setMinDate(this.#min);
+    }
+  }
+
+  get max() {
+    return this.#max;
+  }
+  set max(value) {
+    this.#max = value && dateUtil.parse(value);
+
+    if (this.#panel.showing) {
+      const picker = this.#panel.element.querySelector('mdw-date-picker-desktop') || this.#panel.element.querySelector('mdw-date-picker-mobile');
+      picker.setMaxDate(this.#max);
     }
   }
 

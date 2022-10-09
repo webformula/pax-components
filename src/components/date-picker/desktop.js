@@ -3,7 +3,6 @@ import dateUtil from '../../core/date.js';
 import util from '../../core/util.js';
 import './desktop.css';
 
-// TODO min max
 // TODO tooltips
 
 customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop extends HTMLElementExtended {
@@ -11,6 +10,8 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
 
   #datePickerComponent;
   #displayDate = '';
+  #min;
+  #max;
   #nextMonth_bound = this.#nextMonth.bind(this);
   #previousMonth_bound = this.#previousMonth.bind(this);
   #yearViewClick_bound = this.#yearViewClick.bind(this);
@@ -25,6 +26,8 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
   connectedCallback() {
     this.#datePickerComponent = document.querySelector(`#${this.getAttribute('mdw-date-picker-id')}`);
     this.#displayDate = this.#datePickerComponent.displayDate;
+    this.#min = this.#datePickerComponent.min && dateUtil.parse(this.#datePickerComponent.min);
+    this.#max = this.#datePickerComponent.max && dateUtil.parse(this.#datePickerComponent.max);
     this.render();
   }
 
@@ -47,7 +50,17 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
   }
 
   setDisplayDate(date) {
-    this.#updateDisplayDate(date, true, true);
+    this.#updateDisplayDate(date);
+  }
+
+  setMinDate(date) {
+    this.#min = date && dateUtil.parse(date);
+    this.#updateDisplayDate();
+  }
+
+  setMaxDate(date) {
+    this.#max = date && dateUtil.parse(date);
+    this.#updateDisplayDate();
   }
 
   #nextMonth() {
@@ -111,7 +124,18 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     const displayYear = this.querySelector(`.mdw-year[year="${parts.year}"]`);
     if (displayYear) displayYear.setAttribute('selected', '');
 
-    if (render) this.querySelector('.mdw-days-container.mdw-active').innerHTML = this.#monthDaysTemplate();
+    // disable enable month arrows
+    const isPreviousMinMonth = this.#min && this.#min.getMonth() >= this.#displayDate.getMonth();
+    const isNextMaxMonth = this.#max && this.#max.getMonth() <= this.#displayDate.getMonth();
+    if (isPreviousMinMonth) this.querySelector('#mdw-previous-month-arrow').setAttribute('disabled', '');
+    else this.querySelector('#mdw-previous-month-arrow').removeAttribute('disabled');
+    if (isNextMaxMonth) this.querySelector('#mdw-next-month-arrow').setAttribute('disabled', '');
+    else this.querySelector('#mdw-next-month-arrow').removeAttribute('disabled');
+
+    if (render) {
+      this.querySelector('.mdw-days-container.mdw-active').innerHTML = this.#monthDaysTemplate();
+      this.querySelector('.mdw-years-container').innerHTML = this.#yearTemplate();
+    }
   }
 
   async #changeMonth(direction = 1) {
@@ -154,6 +178,9 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
 
 
   template() {
+    const isPreviousMinMonth = this.#min && this.#min.getMonth() >= this.#displayDate.getMonth();
+    const isNextMaxMonth = this.#max && this.#max.getMonth() <= this.#displayDate.getMonth();
+
     return /* html */`
       <div class="mdw-control-container">
         <div class="mdw-month-label">${dateUtil.format(this.#displayDate, 'MMMM')}</div>
@@ -161,8 +188,8 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
           ${dateUtil.getYear(this.#displayDate)}
           <div class="mdw-arrow"></div>
         </div>
-        <mdw-icon id="mdw-previous-month-arrow" class="mdw-bold">keyboard_arrow_left</mdw-icon>
-        <mdw-icon id="mdw-next-month-arrow" class="mdw-bold">keyboard_arrow_right</mdw-icon>
+        <mdw-icon id="mdw-previous-month-arrow" ${isPreviousMinMonth ? 'disabled' : ''} class="mdw-bold">keyboard_arrow_left</mdw-icon>
+        <mdw-icon id="mdw-next-month-arrow" ${isNextMaxMonth ? 'disabled' : ''} class="mdw-bold">keyboard_arrow_right</mdw-icon>
       </div>
 
       <div class="mdw-months-container">
@@ -174,18 +201,26 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
       </div>
 
       <div class="mdw-years-container">
-        ${dateUtil.defaultYearRange().map(year => `<div class="mdw-year" mdw-year="${year}">${year}</div>`).join('\n') }
+        ${this.#yearTemplate()}
       </div>
     `;
   }
 
+  #yearTemplate() {
+    return dateUtil.defaultYearRange().map(year => {
+      const isPreviousMinYear = this.#min && this.#min.getFullYear() > year;
+      const isNextMaxYear = this.#max && this.#max.getFullYear() < year;
+      const outOfRange = isPreviousMinYear || isNextMaxYear;
+      return `<div class="mdw-year${outOfRange ? ' mdw-out-of-range' : ''}" mdw-year="${year}">${year}</div>`;
+    }).join('\n');
+  }
 
   #monthDaysTemplate(date = this.#displayDate) {
     const valueFormatted = this.#datePickerComponent.value;
     return dateUtil.getMonthDays(date, {
-      fillNextMonth: true
-      // minDate: MDWDateUtil.parse(this.minDate),
-      // maxDate: MDWDateUtil.parse(this.maxDate)
+      fillNextMonth: true,
+      minDate: this.#min,
+      maxDate: this.#max
     }).map(week => week.map(({ display, date, currentMonth, interactive, beforeMinDate, afterMaxDate, isToday }) => {
       let classes = 'mdw-day';
       // let { year, month, day } = dateUtil.getParts(date);

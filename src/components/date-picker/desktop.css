@@ -25,6 +25,18 @@ mdw-date-picker-desktop .mdw-control-container .mdw-year-label {
   cursor: pointer;
 }
 
+mdw-date-picker-desktop .mdw-control-container #mdw-previous-month-arrow[disabled],
+mdw-date-picker-desktop .mdw-control-container #mdw-next-month-arrow[disabled] {
+  pointer-events: none;
+  opacity: 0.38;
+}
+
+mdw-date-picker-desktop.mdw-year-view .mdw-control-container #mdw-previous-month-arrow,
+mdw-date-picker-desktop.mdw-year-view .mdw-control-container #mdw-next-month-arrow {
+  pointer-events: none;
+  opacity: 0;
+}
+
 mdw-date-picker-desktop .mdw-control-container .mdw-year-label {
   cursor: pointer;
   display: flex;
@@ -270,4 +282,10 @@ mdw-date-picker-desktop .mdw-years-container .mdw-year {
 mdw-date-picker-desktop .mdw-years-container .mdw-year[selected] {
   background-color: var(--mdw-primary);
   color: var(--mdw-on-primary);
+}
+
+mdw-date-picker-desktop .mdw-years-container .mdw-year.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
 }
