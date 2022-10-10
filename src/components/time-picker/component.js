@@ -5,6 +5,8 @@ import './component.css';
 import './desktop.js';
 import './mobile.js';
 
+// TODO input still allows out of range setting directly. Should i handle that?
+
 customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElementExtended {
   useShadowRoot = false;
 
@@ -35,11 +37,11 @@ customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElement
       if (input.hasAttribute('max')) this.#max = input.getAttribute('max');
       if (input.hasAttribute('step')) this.#step = input.getAttribute('step');
     }
-
-    // if (this.#isTextField) this.#value = dateUtil.parse(this.#control.querySelector('input').value || '');
-    // else if (his.hasAttribute('value')) this.#value = dateUtil.parse(this.getAttribute('value'));
-
-    // this.#displayTime = dateUtil.parse(this.value ? this.value : dateUtil.today());
+    
+    // set default value if none 
+    if (this.#isTextField && this.#control.querySelector('input').hasAttribute('value')) this.#value = input.value;
+    else if (this.#min && util.compareInputTimeDifference(this.#value, this.#min) === -1) this.#value = this.#min;
+    else if (this.#max && util.compareInputTimeDifference(this.#value, this.#max) === 1) this.#value = this.#max;
 
     this.#preparePanel();
   }

@@ -1,7 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
+import util from '../../core/util.js';
 import './desktop.css';
 
-// TODO min max
 // TODO infinite scroll
 
 customElements.define('mdw-time-picker-desktop', class MDWTimePickerDesktop extends HTMLElementExtended {
@@ -63,23 +63,6 @@ customElements.define('mdw-time-picker-desktop', class MDWTimePickerDesktop exte
     }
 
     this.addEventListener('click', this.#onClick_bound);
-  }
-  
-  #getTimeDifference(timeA, timeB) {
-    const timeAHour = parseInt(timeA.split(':')[0]);
-    const timeAMinute = parseInt(timeA.split(':')[1]);
-    const timeASecond = parseInt(timeA.split(':')[2] || 0);
-    const timeBHour = parseInt(timeB.split(':')[0]);
-    const timeBMinute = parseInt(timeB.split(':')[1]);
-    const timeBSecond = parseInt(timeB.split(':')[2] || 0);
-    const hour = timeAHour - timeBHour;
-    const minute = timeAMinute - timeBMinute;
-    const second = timeASecond - timeBSecond;
-    return {
-      hour,
-      minute,
-      second
-    };
   }
 
   setDisplayTime(time = this.#displayTime) {
@@ -153,30 +136,61 @@ customElements.define('mdw-time-picker-desktop', class MDWTimePickerDesktop exte
     this.#timePickerComponent.setValue(this.#displayTime);
   }
 
-
   template() {
     const displayHour = parseInt(this.#displayTime.split(':')[0]);
+    const displayMinute = parseInt(this.#displayTime.split(':')[1]);
+    const displaySecond = parseInt(this.#displayTime.split(':')[2] || 0);
+    const stepMinutes = Math.max(1, Math.floor(this.#step / 60));
     const meridiemOffset = displayHour < 12 ? 0 : 12;
 
     return /* html */`
       <div class="mdw-hour-container">
         ${[...new Array(12).keys()].map((_, i) => {
           const hour = i + 1;
-          const hourDisplay = hour.toString().padStart(2, '0');
           const meridiemHour = hour + meridiemOffset;
           const outOfRange = meridiemHour < this.#minHour || meridiemHour > this.#maxHour;
           const selected = displayHour === meridiemHour;
-          return `<div class="mdw-hour${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${hour}">${hourDisplay}</div>`
+          return /*html*/`
+            <div class="mdw-hour${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${hour}">
+              ${hour.toString().padStart(2, '0') }
+            </div>
+          `;
         }).join('\n')}
       </div>
 
       <div class="mdw-minute-container">
-          ${this.#minuteTemplate()}
+          ${[...new Array(Math.floor(60 / stepMinutes)).keys()].map((_, i) => {
+            const minute = i * stepMinutes;
+            const minDiff = util.getInputTimeDifference(`${displayHour}:${minute}`, this.#min);
+            const maxDiff = util.getInputTimeDifference(this.#max, `${displayHour}:${minute}`);
+            const outOfRange = minDiff.minute < 0 || maxDiff.minute > 0;
+            const selected = displayMinute === minute;
+            return /*html*/`
+              <div class="mdw-minute${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${minute}">
+                ${minute.toString().padStart(2, '0')}
+              </div>
+            `;
+          }).join('\n') }
       </div>
-      
+
       ${this.#step % 60 === 0 ? '' : `
         <div class="mdw-second-container">
-            ${this.#secondsTemplate()}
+          ${this.#step % 60 === 0 ? '' : /*html*/`
+            <div class="mdw-second-container">
+              ${[...new Array(Math.max(1, Math.floor(60 / this.#step))).keys()].map((_, i) => {
+                const second = i * this.#step;
+                const minDiff = util.getInputTimeDifference(`${displayHour}:${displayMinute}:${second}`, this.#min);
+                const maxDiff = util.getInputTimeDifference(this.#max, `${displayHour}:${displayMinute}:${second}`);
+                const outOfRange = minDiff.second < 0 || maxDiff.second > 0;
+                const selected = displaySecond === second;
+                return /*html*/`
+                  <div class="mdw-second${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${second}">
+                    ${second.toString().padStart(2, '0')}
+                  </div>
+                `;
+              }).join('\n')}
+            </div>
+          `}
         </div>
       `}
 
@@ -185,38 +199,5 @@ customElements.define('mdw-time-picker-desktop', class MDWTimePickerDesktop exte
         <div class="mdw-meridiem" value="pm">PM</div>
       </div>
     `;
-  }
-
-  #minuteTemplate() {
-    const displayHour = parseInt(this.#displayTime.split(':')[0]);
-    const displayMinute = parseInt(this.#displayTime.split(':')[1]);
-    const stepMinutes = Math.max(1, Math.floor(this.#step / 60));
-    return [...new Array(Math.floor(60 / stepMinutes)).keys()].map((_, i) => {
-      const minute = i * stepMinutes;
-      const minDiff = this.#getTimeDifference(`${displayHour}:${minute}`, this.#min);
-      const isOutOfMinRange = minDiff.hour < 0 || (minDiff.hour === 0 && minDiff.minute <= 0);
-      const maxDiff = this.#getTimeDifference(this.#max, `${displayHour}:${minute}`);
-      const isOutOfMaxRange = maxDiff.hour < 0 || (maxDiff.hour === 0 && maxDiff.minute <= 0);
-      const outOfRange = isOutOfMinRange || isOutOfMaxRange;
-      const selected = displayMinute === minute;
-      return `<div class="mdw-minute${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${minute}">${minute.toString().padStart(2, '0')}</div>`
-    }).join('\n');
-  }
-
-  #secondsTemplate() {
-    const displayHour = parseInt(this.#displayTime.split(':')[0]);
-    const displayMinute = parseInt(this.#displayTime.split(':')[1]);
-    const displaySecond = parseInt(this.#displayTime.split(':')[2] || 0);
-
-    return [...new Array(Math.max(1, Math.floor(60 / this.#step))).keys()].map((_, i) => {
-      const second = i * this.#step;
-      const minDiff = this.#getTimeDifference(`${displayHour}:${displayMinute}:${second}`, this.#min);
-      const isOutOfMinRange = minDiff.hour < 0 || (minDiff.hour === 0 && minDiff.minute === 0 && minDiff.second <= 0);
-      const maxDiff = this.#getTimeDifference(this.#max, `${displayHour}:${displayMinute}:${second}`);
-      const isOutOfMaxRange = maxDiff.hour < 0 || (maxDiff.hour === 0 && maxDiff.minute === 0 && maxDiff.second <= 0);
-      const outOfRange = isOutOfMinRange || isOutOfMaxRange;
-      const selected = displaySecond === second;
-      return `<div class="mdw-second${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${second}">${second.toString().padStart(2, '0')}</div>`
-    }).join('\n');
   }
 });

@@ -1,9 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import Drag from '../../core/drag.js';
 import util from '../../core/util.js';
 import './mobile.css';
 
-// TODO seconds
 // TODO min max
 
 customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop extends HTMLElementExtended {
@@ -22,6 +20,8 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
   #hourScrollEndHandler_bound = this.#hourScrollEndHandler.bind(this);
   #minuteScrollHandler_bound = this.#minuteScrollHandler.bind(this);
   #minuteScrollEndHandler_bound = this.#minuteScrollEndHandler.bind(this);
+  #secondScrollHandler_bound = this.#secondScrollHandler.bind(this);
+  #secondScrollEndHandler_bound = this.#secondScrollEndHandler.bind(this);
   #onCancel_bound = this.#onCancel.bind(this);
   #onOk_bound = this.#onOk.bind(this);
 
@@ -51,6 +51,13 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
     this.querySelector('.mdw-minute-container').removeEventListener('touchend', this.#minuteScrollEndHandler_bound);
     this.querySelector('#mdw-cancel').removeEventListener('click', this.#onCancel_bound);
     this.querySelector('#mdw-ok').removeEventListener('click', this.#onOk_bound);
+
+    const secondsContainer = this.querySelector('.mdw-minute-container');
+    if (secondsContainer) {
+      this.querySelector('.mdw-second-container').removeEventListener('scroll', this.#secondScrollHandler_bound);
+      this.querySelector('.mdw-second-container').removeEventListener('touchend', this.#secondScrollEndHandler_bound);
+    }
+
     util.unlockPageScroll();
   }
 
@@ -81,6 +88,12 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
     this.querySelector('.mdw-minute-container').addEventListener('touchend', this.#minuteScrollEndHandler_bound);
     this.querySelector('#mdw-cancel').addEventListener('click', this.#onCancel_bound);
     this.querySelector('#mdw-ok').addEventListener('click', this.#onOk_bound);
+
+    const secondsContainer = this.querySelector('.mdw-minute-container');
+    if (secondsContainer) {
+      this.querySelector('.mdw-second-container').addEventListener('scroll', this.#secondScrollHandler_bound);
+      this.querySelector('.mdw-second-container').addEventListener('touchend', this.#secondScrollEndHandler_bound);
+    }
 
     setTimeout(() => {
       this.#hourScrollHandler({ target: this.querySelector('.mdw-hour-container') });
@@ -231,7 +244,6 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
       let position = elBounds.y - bounds.y - contentOffset;
       const rotateFactor = (Math.abs(position) - 18) / rotateScale;
 
-      // if (element.getAttribute('value') === '0') console.log(position);
       if (Math.abs(position) <= deadZone) {
         element.style.transform = '';
       } else {
@@ -256,7 +268,30 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
       let position = elBounds.y - bounds.y - contentOffset;
       const rotateFactor = (Math.abs(position) - 10) / rotateScale;
 
-      // if (element.getAttribute('value') === '0') console.log(position);
+      if (Math.abs(position) <= deadZone) {
+        element.style.transform = '';
+      } else {
+        let yMovement = Math.pow((position + 1) * 0.05, 2);
+        if (position > 0) yMovement *= -1;
+        if (yMovement > 20) yMovement = 20;
+        if (yMovement < -20) yMovement = -20;
+        element.style.transform = `translateZ(-${Math.abs(position)}px) translateY(${yMovement}px) rotateX(${rotateFactor * maxRotate}deg)`;
+      }
+    });
+  }
+
+  #secondScrollHandler(event) {
+    const bounds = event.target.getBoundingClientRect();
+    const deadZone = 32 / 2;
+    const rotateScale = event.target.offsetHeight / 2;
+    const maxRotate = 70;
+    const contentOffset = 61;
+
+    [...event.target.querySelectorAll('.mdw-second')].forEach((element, i) => {
+      const elBounds = element.getBoundingClientRect();
+      let position = elBounds.y - bounds.y - contentOffset;
+      const rotateFactor = (Math.abs(position) - 10) / rotateScale;
+
       if (Math.abs(position) <= deadZone) {
         element.style.transform = '';
       } else {
@@ -330,10 +365,42 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
 
     closest.element.setAttribute('selected', '');
   }
+
+  async #secondScrollEndHandler() {
+    const container = this.querySelector('.mdw-second-container');
+    await this.#waitForScrollToEnd(container);
+
+    const bounds = container.getBoundingClientRect();
+    const contentOffset = 61;
+
+    const positions = [...this.querySelectorAll('.mdw-second')].map(element => {
+      const elBounds = element.getBoundingClientRect();
+      return {
+        position: elBounds.y - bounds.y - contentOffset,
+        element
+      };
+    });
+    positions.sort((a, b) => Math.abs(a.position) - Math.abs(b.position));
+    const selected = this.querySelector('.mdw-second[selected]');
+    if (selected) selected.removeAttribute('selected');
+    const closest = positions.shift();
+    closest.element.scrollIntoView({ block: 'center', behavior: 'smooth' });
+
+    if (!closest.element.hasAttribute('selected')) {
+      const hour = parseInt(this.#displayTime.split(':')[0]);
+      const minute = parseInt(closest.element.getAttribute('value'))
+      const second = parseInt(this.#displayTime.split(':')[2] || 0);
+      this.setDisplayTime(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`, false);
+    }
+
+    closest.element.setAttribute('selected', '');
+  }
   
 
   template() {
     const displayHour = parseInt(this.#displayTime.split(':')[0]);
+    const displayMinute = parseInt(this.#displayTime.split(':')[1]);
+    const displaySecond = parseInt(this.#displayTime.split(':')[2] || 0);
     const meridiemOffset = displayHour < 12 ? 0 : 12;
 
     return /* html */`
@@ -341,13 +408,13 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
         <div class="mdw-hour-container">
           <div class="mdw-hour-spacer"></div>
           ${[...new Array(12).keys()].map((_, i) => {
-        const hour = i + 1;
-        const hourDisplay = hour.toString().padStart(2, '0');
-        const meridiemHour = hour + meridiemOffset;
-        const outOfRange = meridiemHour < this.#minHour || meridiemHour > this.#maxHour;
-        const selected = displayHour === meridiemHour;
-        return `<div class="mdw-hour${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${hour}">${hourDisplay}</div>`
-      }).join('\n')}
+            const hour = i + 1;
+            const hourDisplay = hour.toString().padStart(2, '0');
+            const meridiemHour = hour + meridiemOffset;
+            const outOfRange = meridiemHour < this.#minHour || meridiemHour > this.#maxHour;
+            const selected = displayHour === meridiemHour;
+            return `<div class="mdw-hour${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${hour}">${hourDisplay}</div>`
+          }).join('\n')}
         </div>
 
         <div class="mdw-minute-container">
@@ -355,9 +422,21 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
             ${this.#minuteTemplate()}
         </div>
         
-        ${this.#step % 60 === 0 ? '' : `
+        ${this.#step % 60 === 0 ? '' : /*html*/`
           <div class="mdw-second-container">
-              ${this.#secondsTemplate()}
+            <div class="mdw-second-spacer"></div>
+            ${[...new Array(Math.max(1, Math.floor(60 / this.#step))).keys()].map((_, i) => {
+              const second = i * this.#step;
+              const minDiff = this.#getTimeDifference(`${displayHour}:${displayMinute}:${second}`, this.#min);
+              const maxDiff = this.#getTimeDifference(this.#max, `${displayHour}:${displayMinute}:${second}`);
+              const outOfRange = minDiff.second <= 0 || maxDiff.second >= 0;
+              const selected = displaySecond === second;
+              return /*html*/`
+                <div class="mdw-second${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${second}">
+                  ${second.toString().padStart(2, '0')}
+                </div>
+              `;
+            }).join('\n') }
           </div>
         `}
 
@@ -385,29 +464,10 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
     return [...new Array(Math.floor(60 / stepMinutes)).keys()].map((_, i) => {
       const minute = i * stepMinutes;
       const minDiff = this.#getTimeDifference(`${displayHour}:${minute}`, this.#min);
-      const isOutOfMinRange = minDiff.hour < 0 || (minDiff.hour === 0 && minDiff.minute <= 0);
       const maxDiff = this.#getTimeDifference(this.#max, `${displayHour}:${minute}`);
-      const isOutOfMaxRange = maxDiff.hour < 0 || (maxDiff.hour === 0 && maxDiff.minute <= 0);
-      const outOfRange = isOutOfMinRange || isOutOfMaxRange;
+      const outOfRange = minDiff.minute <= 0 || maxDiff.minute >= 0;
       const selected = displayMinute === minute;
       return `<div class="mdw-minute${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${minute}">${minute.toString().padStart(2, '0')}</div>`
-    }).join('\n');
-  }
-
-  #secondsTemplate() {
-    const displayHour = parseInt(this.#displayTime.split(':')[0]);
-    const displayMinute = parseInt(this.#displayTime.split(':')[1]);
-    const displaySecond = parseInt(this.#displayTime.split(':')[2] || 0);
-
-    return [...new Array(Math.max(1, Math.floor(60 / this.#step))).keys()].map((_, i) => {
-      const second = i * this.#step;
-      const minDiff = this.#getTimeDifference(`${displayHour}:${displayMinute}:${second}`, this.#min);
-      const isOutOfMinRange = minDiff.hour < 0 || (minDiff.hour === 0 && minDiff.minute === 0 && minDiff.second <= 0);
-      const maxDiff = this.#getTimeDifference(this.#max, `${displayHour}:${displayMinute}:${second}`);
-      const isOutOfMaxRange = maxDiff.hour < 0 || (maxDiff.hour === 0 && maxDiff.minute === 0 && maxDiff.second <= 0);
-      const outOfRange = isOutOfMinRange || isOutOfMaxRange;
-      const selected = displaySecond === second;
-      return `<div class="mdw-second${outOfRange ? ' mdw-out-of-range' : ''}"${selected ? ' selected' : ''} value="${second}">${second.toString().padStart(2, '0')}</div>`
     }).join('\n');
   }
 });

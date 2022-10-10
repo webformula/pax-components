@@ -15,7 +15,7 @@
 mdw-time-picker-mobile {
   display: flex;
   flex-direction: column;
-  width: 220px;
+  width: 240px;
   height: 206px;
   overflow: hidden;
   box-sizing: border-box;
@@ -124,12 +124,19 @@ mdw-time-picker-mobile .mdw-minute-container .mdw-minute.mdw-out-of-range {
 }
 
 mdw-time-picker-mobile .mdw-second-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
   height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
+
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  
+  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
 }
 
 mdw-time-picker-mobile .mdw-second-container .mdw-second {
@@ -148,6 +155,13 @@ mdw-time-picker-mobile .mdw-second-container .mdw-second.mdw-out-of-range {
   pointer-events: none;
   cursor: auto;
   color: var(--mdw-on-surface--60);
+}
+mdw-time-picker-mobile .mdw-second-container .mdw-second-spacer {
+  width: 100%;
+  padding-top: 61px;
+}
+mdw-time-picker-mobile .mdw-second-container .mdw-second:last-child {
+  padding-bottom: 59px;
 }
 
 mdw-time-picker-mobile .mdw-meridiem-container {

@@ -192,6 +192,42 @@ const MDWUtil = new class MDWUtil {
     if (this.#scrollCallbacks.length === 0) this.#scrollTarget.removeEventListener('scroll', this.#scrollHandler_bound);
   }
 
+  // 00:00 or 00:00:00
+  getInputTimeDifference(timeA, timeB) {
+    const timeAHour = parseInt(timeA.split(':')[0]);
+    const timeAMinute = parseInt(timeA.split(':')[1]);
+    const timeASecond = parseInt(timeA.split(':')[2] || 0);
+    const timeBHour = parseInt(timeB.split(':')[0]);
+    const timeBMinute = parseInt(timeB.split(':')[1]);
+    const timeBSecond = parseInt(timeB.split(':')[2] || 0);
+    const hour = timeAHour - timeBHour;
+    const minute = timeAMinute - timeBMinute;
+    const second = timeASecond - timeBSecond;
+    return {
+      hour,
+      minute,
+      second
+    };
+  }
+
+  // -1, 0, 1
+  compareInputTimeDifference(timeA, timeB) {
+    const timeAHour = parseInt(timeA.split(':')[0]);
+    const timeAMinute = parseInt(timeA.split(':')[1]);
+    const timeASecond = parseInt(timeA.split(':')[2] || 0);
+    const timeBHour = parseInt(timeB.split(':')[0]);
+    const timeBMinute = parseInt(timeB.split(':')[1]);
+    const timeBSecond = parseInt(timeB.split(':')[2] || 0);
+
+    if (timeAHour < timeBHour) return -1;
+    if (timeAHour > timeBHour) return 1;
+    if (timeAMinute < timeBMinute) return -1;
+    if (timeAMinute > timeBMinute) return 1;
+    if (timeASecond < timeBSecond) return -1
+    if (timeASecond > timeBSecond) return 1;
+    return 0;
+  }
+
   // parseCSSUnit(value) {
   //   value = `${value}`;
   //   return {
