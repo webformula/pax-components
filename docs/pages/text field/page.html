@@ -16,29 +16,6 @@
       <div class="mdw-supporting-text"></div>
       <mdw-icon class="mdw-outlined">person</mdw-icon>
     </mdw-text-field>
-
-    <mdw-text-field>
-      <input type="time">
-      <label>Time</label>
-    </mdw-text-field>
-
-    <mdw-text-field>
-      <input type="time" step="1">
-      <label>Label</label>
-      <mdw-time-picker></mdw-time-picker>
-    </mdw-text-field>
-
-
-    <mdw-text-field>
-      <input type="date" min="2022-10-05">
-      <label>Time</label>
-    </mdw-text-field>
-    
-    <mdw-text-field>
-      <input type="date" min="2022-10-05" max="2022-11-20">
-      <label>Label</label>
-      <mdw-date-picker></mdw-date-picker>
-    </mdw-text-field>
   </div>
   <div class="mdw-headline-small">Types</div>
   <div class="mdw-supporting-text">filled - outlined</div>
@@ -60,6 +37,8 @@
   <a href="#autocomplete">Autocomplete</a>
   <a href="#date">Date</a>
   <a href="#date-default">Date using browser default control</a>
+  <a href="#time">Time</a>
+  <a href="#time-default">Time using browser default control</a>
 </div>
 
 
@@ -309,6 +288,49 @@
       <mdw-text-field>
         <input type="date" value="2022-09-10">
         <label>Date</label>
+      </mdw-text-field>
+    </div>
+  </mdw-card>
+
+
+  <mdw-card class="mdw-no-states" id="time">
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-text-field>
+      <input type="time" >
+      <label>Time</label>
+      <mdw-time-picker></mdw-time-picker>
+    </mdw-text-field>`)}
+        </code>
+      </pre>
+  
+    <div class="mdw-headline-small">Time</div>
+  
+    <div class="example">
+      <mdw-text-field>
+        <input type="time">
+        <label>Time</label>
+        <mdw-time-picker></mdw-time-picker>
+      </mdw-text-field>
+    </div>
+  </mdw-card>
+  
+  <mdw-card class="mdw-no-states" id="time-default">
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-text-field>
+      <input type="time">
+      <label>Time</label>
+    </mdw-text-field>`)}
+        </code>
+      </pre>
+  
+    <div class="mdw-headline-small">Time using browser default control</div>
+  
+    <div class="example">
+      <mdw-text-field>
+        <input type="time">
+        <label>Time</label>
       </mdw-text-field>
     </div>
   </mdw-card>
