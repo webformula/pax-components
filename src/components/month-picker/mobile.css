@@ -1,0 +1,112 @@
+/* hide scroll bar */
+.mdw-month-picker-panel.mdw-lock > .mdw-panel-content mdw-month-picker-mobile .mdw-months-container,
+.mdw-month-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-month-picker-mobile .mdw-months-container,
+.mdw-month-picker-panel.mdw-close-animation > .mdw-panel-content mdw-month-picker-mobile .mdw-months-container,
+.mdw-month-picker-panel.mdw-lock > .mdw-panel-content mdw-month-picker-mobile .mdw-years-container,
+.mdw-month-picker-panel.mdw-open-animation-target > .mdw-panel-content mdw-month-picker-mobile .mdw-years-container,
+.mdw-month-picker-panel.mdw-close-animation > .mdw-panel-content mdw-month-picker-mobile .mdw-years-container {
+  overflow: hidden;
+}
+
+mdw-month-picker-mobile {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  height: 206px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+mdw-month-picker-mobile .mdw-date-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 160px;
+  box-sizing: border-box;
+}
+
+mdw-month-picker-mobile .mdw-actions-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  height: 46px;
+  box-sizing: border-box;
+}
+
+mdw-month-picker-mobile .mdw-months-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  -webkit-perspective: 1000;
+  perspective: 1000;
+
+  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+}
+
+
+mdw-month-picker-mobile .mdw-months-container .mdw-month {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-small-headline);
+  font-weight: var(--mdw-font-weight-small-headline);
+  line-height: 32px;
+  letter-spacing: var(--mdw-font-letter-spacing-small-headline);
+  color: var(--mdw-on-surface);
+}
+
+mdw-month-picker-mobile .mdw-months-container .mdw-month-spacer {
+  width: 100%;
+  padding-top: 61px;
+}
+
+mdw-month-picker-mobile .mdw-months-container .mdw-month:last-child {
+  padding-bottom: 59px;
+}
+
+
+mdw-month-picker-mobile .mdw-years-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 90px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  -webkit-perspective: 1000;
+  perspective: 1000;
+
+  mask-image: linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 4%, var(--mdw-surface) 35%, var(--mdw-surface) 65%, rgba(255, 255, 255, 0) 100%);
+}
+
+
+mdw-month-picker-mobile .mdw-years-container .mdw-year {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 18px;
+  margin: 4px;
+  font-size: var(--mdw-font-size-small-headline);
+  font-weight: var(--mdw-font-weight-small-headline);
+  line-height: 32px;
+  letter-spacing: var(--mdw-font-letter-spacing-small-headline);
+  color: var(--mdw-on-surface);
+}
+
+mdw-month-picker-mobile .mdw-years-container .mdw-year-spacer {
+  width: 100%;
+  padding-top: 61px;
+}
+
+mdw-month-picker-mobile .mdw-years-container .mdw-year:last-child {
+  padding-bottom: 59px;
+}

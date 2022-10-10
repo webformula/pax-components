@@ -4,7 +4,7 @@ import dateUtil from '../../core/date.js';
 import util from '../../core/util.js';
 import './component.css';
 import './desktop.js';
-// import './mobile.js';
+import './mobile.js';
 
 
 // TODO min max
