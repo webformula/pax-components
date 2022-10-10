@@ -4,6 +4,7 @@ const MDWDate = new class MDWDate {
   #local = 'en-US';
   #timezone;
   #yearMonthDayRegex = /([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(?!\S)/;
+  #yearMonthRegex = /([12]\d{3})-(0[1-9]|1[0-2])(?!\S)/;
   #specialCharacterRegex = /[\u200e\u200f]/g;
   #formatPatternRegex = new RegExp(`[YMDdAaHhms]+`, 'g');
 
@@ -42,6 +43,16 @@ const MDWDate = new class MDWDate {
           year,
           month,
           day
+        });
+      }
+
+      const inputYearMonthMatch = value.match(this.#yearMonthRegex);
+      if (inputYearMonthMatch) {
+        const [_, year, month] = inputYearMonthMatch;
+        return this.buildFromParts({
+          year,
+          month,
+          day: '01'
         });
       }
     }

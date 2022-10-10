@@ -1,20 +1,21 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import Panel from '../../core/panel.js';
+import dateUtil from '../../core/date.js';
 import util from '../../core/util.js';
 import './component.css';
 import './desktop.js';
-import './mobile.js';
+// import './mobile.js';
 
-// TODO input still allows out of range setting directly. Should i handle that?
 
-customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElementExtended {
+// TODO min max
+
+customElements.define('mdw-month-picker', class MDWMonthPicker extends HTMLElementExtended {
   useShadowRoot = false;
 
-  #id = this.getAttribute('id') || `mdw-time-picker-${util.getUID()}`;
-  #value = this.getAttribute('value') || `${(new Date()).getHours()}:${(new Date()).getMinutes()}`;
-  #min = this.getAttribute('min') || '00:00';
-  #max = this.getAttribute('max') || '24:00';
-  #step = parseInt(this.getAttribute('step') || '60'); // seconds
+  #id = this.getAttribute('id') || `mdw-month-picker-${util.getUID()}`;
+  #value = dateUtil.format(new Date(), 'YYYY-MM');
+  #min;
+  #max;
   #panel;
   #control;
   #isTextField = false;
@@ -25,23 +26,18 @@ customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElement
 
   constructor() {
     super();
-    
+
     this.setAttribute('id', this.#id);
     this.#control = this.parentNode;
     if (this.#control.nodeName === 'MDW-TEXT-FIELD') {
       this.#isTextField = true;
-      this.#control.classList.add('mdw-has-time-picker');
+      this.#control.classList.add('mdw-has-month-picker');
 
       const input = this.#control.querySelector('input');
+      if (input.value) this.#min = input.value;
       if (input.hasAttribute('min')) this.#min = input.getAttribute('min');
       if (input.hasAttribute('max')) this.#max = input.getAttribute('max');
-      if (input.hasAttribute('step')) this.#step = input.getAttribute('step');
     }
-    
-    // set default value if none 
-    if (this.#isTextField && this.#control.querySelector('input').value) this.#value = input.value;
-    else if (this.#min && util.compareInputTimeDifference(this.#value, this.#min) === -1) this.#value = this.#min;
-    else if (this.#max && util.compareInputTimeDifference(this.#value, this.#max) === 1) this.#value = this.#max;
 
     this.#preparePanel();
   }
@@ -53,30 +49,13 @@ customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElement
     this.#value = value;
 
     if (this.#panel.showing) {
-      const picker = this.#panel.element.querySelector('mdw-time-picker-desktop') || this.#panel.element.querySelector('mdw-time-picker-mobile');
-      picker.setDisplayTime(this.#value);
+      const picker = this.#panel.element.querySelector('mdw-month-picker-desktop') || this.#panel.element.querySelector('mdw-month-picker-mobile');
+      picker.setDisplayDate(this.#value);
     }
   }
 
-  get min() {
-    return this.#min;
-  }
-  set min(value) {
-    this.#min = value;
-  }
-
-  get max() {
-    return this.#max;
-  }
-  set max(value) {
-    this.#max = value;
-  }
-
-  get step() {
-    return this.#step.toString();
-  }
-  set step(value) {
-    this.#step = parseInt(value);
+  get displayDate() {
+    return this.#value;
   }
 
   connectedCallback() {
@@ -101,8 +80,8 @@ customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElement
     }
   }
 
-  setValue(time) {
-    this.#value = time;
+  setValue(date) {
+    this.#value = date;
     if (this.#isTextField) this.#control.querySelector('input').value = this.value;
   }
 
@@ -124,7 +103,7 @@ customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElement
 
   #preparePanel() {
     this.#panel = new Panel();
-    this.#panel.classes = 'mdw-time-picker-panel';
+    this.#panel.classes = 'mdw-month-picker-panel';
     this.#panel.template = this.template();
     this.#panel.addIgnoreElement(this.#control);
     this.#panel.backdrop = true;
@@ -137,7 +116,7 @@ customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElement
   }
 
   template() {
-    if (util.isMobile) return `<mdw-time-picker-mobile mdw-time-picker-id="${this.#id}"></mdw-time-picker-mobile>`;
-    else return `<mdw-time-picker-desktop mdw-time-picker-id="${this.#id}"></mdw-time-picker-desktop>`;
+    if (util.isMobile) return `<mdw-month-picker-mobile mdw-month-picker-id="${this.#id}"></mdw-month-picker-mobile>`;
+    else return `<mdw-month-picker-desktop mdw-month-picker-id="${this.#id}"></mdw-month-picker-desktop>`;
   }
 });

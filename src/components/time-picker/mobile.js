@@ -4,7 +4,7 @@ import './mobile.css';
 
 // TODO min max
 
-customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop extends HTMLElementExtended {
+customElements.define('mdw-time-picker-mobile', class MDWTimePickerMobile extends HTMLElementExtended {
   useShadowRoot = false;
 
   #timePickerComponent;
@@ -52,7 +52,7 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
     this.querySelector('#mdw-cancel').removeEventListener('click', this.#onCancel_bound);
     this.querySelector('#mdw-ok').removeEventListener('click', this.#onOk_bound);
 
-    const secondsContainer = this.querySelector('.mdw-minute-container');
+    const secondsContainer = this.querySelector('.mdw-second-container');
     if (secondsContainer) {
       this.querySelector('.mdw-second-container').removeEventListener('scroll', this.#secondScrollHandler_bound);
       this.querySelector('.mdw-second-container').removeEventListener('touchend', this.#secondScrollEndHandler_bound);
@@ -89,7 +89,7 @@ customElements.define('mdw-time-picker-mobile', class MDWTimePickerDesktop exten
     this.querySelector('#mdw-cancel').addEventListener('click', this.#onCancel_bound);
     this.querySelector('#mdw-ok').addEventListener('click', this.#onOk_bound);
 
-    const secondsContainer = this.querySelector('.mdw-minute-container');
+    const secondsContainer = this.querySelector('.mdw-second-container');
     if (secondsContainer) {
       this.querySelector('.mdw-second-container').addEventListener('scroll', this.#secondScrollHandler_bound);
       this.querySelector('.mdw-second-container').addEventListener('touchend', this.#secondScrollEndHandler_bound);

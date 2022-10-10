@@ -1,0 +1,25 @@
+.mdw-month-picker-panel > .mdw-panel-content {
+  width: 264px;
+  height: 180px;
+  padding: 8px 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  border-radius: var(--mdw-shape-extra-small);
+  background-color: var(--mdw-surface);
+  box-shadow: var(--mdw-elevation-2);
+}
+
+body.mdw-mobile .mdw-month-picker-panel > .mdw-panel-content {
+  width: 328px;
+  height: unset;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* hide scroll bar */
+.mdw-month-picker-panel.mdw-lock > .mdw-panel-content,
+.mdw-month-picker-panel.mdw-open-animation-target > .mdw-panel-content,
+.mdw-month-picker-panel.mdw-close-animation > .mdw-panel-content {
+  overflow: hidden;
+}

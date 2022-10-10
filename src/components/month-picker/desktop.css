@@ -1,0 +1,163 @@
+mdw-month-picker-desktop {
+  width: 264px;
+  position: relative;
+  height: 180px;
+  padding: 8px 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+mdw-month-picker-desktop .mdw-control-container {
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  padding-right: 8px;
+  height: 48px;
+}
+
+
+mdw-month-picker-desktop .mdw-control-container .mdw-month-label,
+mdw-month-picker-desktop .mdw-control-container .mdw-year-label {
+  margin-right: 8px;
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  line-height: var(--mdw-font-line-height-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+  color: var(--mdw-on-surface);
+  cursor: pointer;
+}
+
+
+mdw-month-picker-desktop .mdw-control-container .mdw-year-label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+mdw-month-picker-desktop .mdw-control-container .mdw-year-label .mdw-arrow {
+  width: 0;
+  height: 0;
+  margin-left: 12px;
+  margin-bottom: 3px;
+  border-left: 5.5px solid transparent;
+  border-right: 5.5px solid transparent;
+  border-bottom: 5.5px solid var(--mdw-on-secondary-container--60);
+  transform-origin: center;
+  transform: rotate(0);
+  transition: transform 280ms;
+}
+
+mdw-month-picker-desktop.mdw-year-view .mdw-control-container .mdw-year-label .mdw-arrow {
+  transform: rotate(180deg);
+}
+
+
+mdw-month-picker-desktop .mdw-months-container {
+  display: grid;
+  grid-template-columns: repeat(4, 60px);
+  grid-template-rows: repeat(3, 28px);
+  grid-column-gap: 4px;
+  grid-row-gap: 4px;
+  align-items: center;
+  justify-items: center;
+  padding: 8px 8px;
+  opacity: 1;
+  transition: opacity 120ms;
+}
+mdw-month-picker-desktop.mdw-year-view .mdw-months-container {
+  pointer-events: none;
+  opacity: 0;
+}
+
+mdw-month-picker-desktop .mdw-months-container .mdw-month {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 28px;
+  user-select: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 14px;
+  /* pointer-events: none; */
+
+  font-size: var(--mdw-font-size-small-label);
+  font-weight: var(--mdw-font-weight-small-label);
+  line-height: var(--mdw-font-line-height-small-label);
+  letter-spacing: var(--mdw-font-letter-spacing-small-label);
+  color: var(--mdw-on-surface);
+}
+
+mdw-month-picker-desktop .mdw-months-container .mdw-month::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  border-radius: 14px;
+  z-index: -1;
+}
+
+mdw-month-picker-desktop .mdw-months-container .mdw-month[selected] {
+  color: var(--mdw-on-primary);
+}
+
+mdw-month-picker-desktop .mdw-months-container .mdw-month[selected]::before {
+  background-color: var(--mdw-primary);
+}
+
+
+mdw-month-picker-desktop .mdw-years-container {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  overflow-y: scroll;
+  height: 108px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 52px);
+  grid-column-gap: 7px;
+  grid-row-gap: 4px;
+  align-items: center;
+  justify-items: center;
+  padding: 8px 16px;
+  padding-right: 20px;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms;
+}
+
+mdw-month-picker-desktop.mdw-year-view .mdw-years-container {
+  opacity: 1;
+  pointer-events: all;
+}
+
+mdw-month-picker-desktop .mdw-years-container .mdw-year {
+  width: 100%;
+  border-radius: 14px;
+  text-align: center;
+  cursor: pointer;
+
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  line-height: 28px;
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface);
+}
+
+mdw-month-picker-desktop .mdw-years-container .mdw-year[selected] {
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+}
+
+mdw-month-picker-desktop .mdw-years-container .mdw-year.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}

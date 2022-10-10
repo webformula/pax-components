@@ -57,7 +57,7 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
         </div>
       `);
 
-      if (input.value || input.type === 'date') this.#setNotchWidth();
+      if (input.value || input.type === 'date' || input.type === 'month' || input.type === 'time') this.#setNotchWidth();
     }
 
     this.insertAdjacentHTML('beforeend', `<div class="mdw-autocomplete"></div>`);
@@ -171,7 +171,7 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
 
   #onBlur() {
     const input = this.querySelector('input');
-    if (!input.value && input.type !== 'date') this.#unsetNotchWidth();
+    if (!input.value && input.type !== 'date' && input.type !== 'time' && input.type !== 'month') this.#unsetNotchWidth();
   }
 
   #onInvalid(event) {
