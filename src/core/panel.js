@@ -8,7 +8,7 @@ export default class Panel {
   adjustForBarsAndNavigation = false; // make sure the panel does not overlap navigation and bars
   targetElement;
   scroll = false;
-  fullScreen = false;
+  fullscreen = false;
   width = '360px';
   backdrop = true;
   clickOutsideToClose = false;
@@ -37,11 +37,12 @@ export default class Panel {
     adjustForBarsAndNavigation: false,
     targetElement: undefined,
     scroll: false,
-    fullScreen: false,
+    fullscreen: false,
     width: '360px',
     backdrop: true,
     clickOutsideToClose: false,
-    escToClose: false
+    escToClose: false,
+    targetToFullscreen: false
   }) {
     this.template = params.template;
     this.position = params.position;
@@ -49,11 +50,12 @@ export default class Panel {
     this.adjustForBarsAndNavigation = params.adjustForBarsAndNavigation;
     this.targetElement = params.targetElement;
     this.scroll = params.scroll;
-    this.fullScreen = params.fullScreen;
+    this.fullscreen = params.fullscreen;
     this.width = params.width;
     this.backdrop = params.backdrop;
     this.clickOutsideToClose = params.clickOutsideToClose;
     this.escToClose = params.escToClose;
+    this.targetToFullscreen = params.targetToFullscreen;
   }
 
   get element() {
@@ -68,12 +70,20 @@ export default class Panel {
     if (this.#showing === true) return;
     this.#showing = true;
 
+    if (this.targetToFullscreen) this.backdrop = false;
+
     // NOTE animation bug
     // transition end event was breaking and the fix was to use a second class for the open animation
     // we also need to set the max hight in javascript
-    let classes = !this.targetElement ? 'mdw-open-animation' : 'mdw-open-animation-target';
+    let classes = '';
+    if (this.targetToFullscreen) {
+      if (!this.targetElement) throw Error('Must set targetElement when using targetToFullscreen');
+      classes += 'mdw-open-animation-target-to-fullscreen mdw-fullscreen';
+    } else if (this.targetElement) classes += 'mdw-open-animation-target';
+    else classes += 'mdw-open-animation';
+    // let classes = !this.targetElement ? 'mdw-open-animation' : 'mdw-open-animation-target';
     if (this.classes) classes += ` ${this.classes}`;
-    if (this.fullScreen) classes += ' mdw-fullscreen';
+    if (this.fullscreen) classes += ' mdw-fullscreen';
     if (this.backdrop) classes += ' mdw-backdrop';
     if (this.animation === 'scale') classes += ' mdw-animation-scale';
 
@@ -90,6 +100,9 @@ export default class Panel {
     this.#contentElement = this.#element.querySelector(':scope > .mdw-panel-content');
 
     if (this.targetElement) {
+      // animate for element to fullscreen
+      if (this.targetToFullscreen) return this.#transitionTargetedFullscreen();
+
       this.#setTargetElementPosition();
       this.#contentElement.classList.add('mdw-target-element');
       const targetElementScrollContainer = this.#getScrollContainerForTargetElement();
@@ -324,6 +337,46 @@ export default class Panel {
         }
       }
     }
+  }
+
+
+  async #transitionTargetedFullscreen() {
+    const bounds = this.targetElement.getBoundingClientRect();
+    let boxShadow = '';
+    let borderRadius = '';
+
+    if (this.#contentElement.children.length === 1) {
+      const templateParentElement = this.#contentElement.children[0];
+      const computedStyle = getComputedStyle(templateParentElement);
+      boxShadow = computedStyle.boxShadow;
+      borderRadius = computedStyle.borderRadius;
+      templateParentElement.style.margin = '0';
+      templateParentElement.style.top = '0';
+      templateParentElement.style.left = '0';
+      templateParentElement.style.boxShadow = 'none';
+      templateParentElement.style.borderRadius = '0';
+    }
+
+    this.#contentElement.style.top = `${bounds.top}px`;
+    this.#contentElement.style.left = `${bounds.left}px`;
+    this.#contentElement.style.width = `${bounds.width}px`;
+    this.#contentElement.style.height = `${bounds.height}px`;
+    this.#contentElement.style.boxShadow = boxShadow;
+    this.#contentElement.style.borderRadius = borderRadius;
+    
+    await util.nextAnimationFrameAsync();
+    await util.wait(150); // Temp for img load on disabled cache
+
+    this.#element.classList.add('mdw-run-animation');
+    this.targetElement.style.boxShadow = 'none';
+    this.#contentElement.style.top = '';
+    this.#contentElement.style.left = '';
+    this.#contentElement.style.width = '';
+    this.#contentElement.style.height = '';
+    this.#contentElement.style.borderRadius = '0';
+
+    await util.transitionendAsync(this.#contentElement);
+    this.#contentElement.style.overflowY = 'auto';
   }
 
   // TODO handle horizontal scroll

@@ -69,6 +69,34 @@
   transition-timing-function: var(--mdw-transition-expand-in);
 }
 
+.mdw-panel.mdw-open-animation-target-to-fullscreen {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.mdw-panel.mdw-open-animation-target-to-fullscreen > .mdw-panel-content {
+  overflow: hidden;
+  position: absolute;
+}
+
+.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation {
+  opacity: 1;
+}
+
+.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation > .mdw-panel-content {
+  transition:
+    top 600ms,
+    left 400ms,
+    width 400ms,
+    height 800ms,
+    border-radius 800ms;
+  transition-timing-function: var(--mdw-transition-expand-in);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 
 /* animate close */
 
