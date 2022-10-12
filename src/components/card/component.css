@@ -300,8 +300,23 @@ mdw-card.mdw-expanded > .mdw-expanding-container > .mdw-expanded {
   pointer-events: auto;
 }
 
+mdw-card .mdw-expander-arrow {
+  position: relative;
+  transform-origin: center;
+  transform: rotate(0);
+  transition: transform 280ms;
+  user-select: none;
+  cursor: pointer;
+}
+
+mdw-card.mdw-expanded .mdw-expander-arrow {
+  transform: rotate(180deg);
+}
+
 
 /* --- actions --- */
+
+
 mdw-card > mdw-card-swipe-action {
   display: flex;
   flex-direction: column;

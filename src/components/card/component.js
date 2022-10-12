@@ -8,6 +8,9 @@ import Drag from '../../core/drag.js';
 
 
 // TODO expanded drag
+// TODO drag order grid
+// TODO list
+// TODO fullscreen on desktop
 
 
 customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
