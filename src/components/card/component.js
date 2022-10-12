@@ -3,6 +3,12 @@ import Ripple from '../../core/Ripple.js';
 import './component.css';
 import Panel from '../../core/panel.js';
 import util from '../../core/util.js';
+import Drag from '../../core/drag.js';
+
+
+
+// TODO expanded drag
+
 
 customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   useShadowRoot = false;
@@ -18,6 +24,14 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   #onClick_bound = this.#onClick.bind(this);
   #onClickFullscreenBack_bound = this.#onClickFullscreenBack.bind(this);
   #imgOnload_bound = this.#imgOnload.bind(this);
+
+  #swipeActionElement = this.querySelector('mdw-card-swipe-action');
+  #ondrag_bound = this.#ondrag.bind(this);
+  #ondragStart_bound = this.#ondragStart.bind(this);
+  #ondragEnd_bound = this.#ondragEnd.bind(this);
+  #swipeActionClick_bound = this.#swipeActionClick.bind(this);
+  #dragStartPosition;
+  #drag;
 
   constructor() {
     super();
@@ -36,6 +50,18 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
       this.setAttribute('mdw-card-id', this.#id);
       this.insertAdjacentHTML('afterbegin', '  <mdw-icon class="mdw-card-fullscreen-back">arrow_back_ios_new</mdw-icon>');
       this.addEventListener('click', this.#onClick_bound);
+    } else if (this.#isExpanding) {
+      // expands without going fullscreen
+      this.addEventListener('click', this.#onClick_bound);
+    }
+
+    // setup swipe actions
+    if (this.#swipeActionElement) {
+      this.#drag = new Drag(this);
+      this.#drag.onDrag(this.#ondrag_bound);
+      this.#drag.onStart(this.#ondragStart_bound);
+      this.#drag.onEnd(this.#ondragEnd_bound);
+      this.#swipeActionElement.addEventListener('click', this.#swipeActionClick_bound);
     }
   }
 
@@ -52,6 +78,8 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
         });
       }, 0);
     }
+
+    this.#drag && this.#drag.enable();
   }
 
   disconnectedCallback() {
@@ -63,6 +91,19 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
       this.querySelector('.mdw-card-fullscreen-back').removeEventListener('click', this.#onClickFullscreenBack_bound);
     } else if (this.#isFullscreen) {
       this.removeEventListener('click', this.#onClick_bound);
+    } else if (this.#isExpanding) {
+      // expands without going fullscreen
+      this.removeEventListener('click', this.#onClick_bound);
+    }
+
+    // setup swipe actions
+    if (this.#swipeActionElement) {
+      this.#swipeActionElement.removeEventListener('click', this.#swipeActionClick_bound);
+    }
+
+    if (this.#drag) {
+      this.#drag.destroy();
+      this.#drag = undefined;
     }
   }
 
@@ -78,10 +119,22 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
 
   #onClick() {
     if (this.#isFullscreen) this.#transitionFullScreen();
+    else if (this.#isExpanding) this.#expandContract();
   }
 
   #onClickFullscreenBack() {
     this.#originalFullscreenCard.hide();
+  }
+
+  #expandContract() {
+    const expanded = this.querySelector('.mdw-expanding-container> .mdw-expanded');
+    if (this.classList.contains('mdw-expanded')) {
+      expanded.style.height = '0';
+      this.classList.remove('mdw-expanded');
+    } else {
+      this.classList.add('mdw-expanded');
+      expanded.style.height = `${expanded.offsetHeight + expanded.scrollHeight}px`;
+    }
   }
 
   #transitionFullScreen() {
@@ -114,5 +167,31 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     this.#imgHeight = this.#imgHeight || img.offsetHeight;
     this.#imgWidth = this.#imgWidth || img.offsetWidth;
     this.style.setProperty('--mdw-img-fullscreen-height', `${this.#imgHeight / this.#imgWidth * window.innerWidth}px`);
+  }
+
+
+  #ondragStart({ element }) {
+    element.classList.add('mdw-dragging');
+    this.#dragStartPosition = parseInt(getComputedStyle(this).getPropertyValue('--mdw-card-swipe-position').replace('px', ''));
+  }
+
+  #ondrag({ distance }) {
+    let position = this.#dragStartPosition + distance.x;
+    if (position > 60) position = 60;
+    if (position < 0) position = 0;
+    this.style.setProperty('--mdw-card-swipe-position', `${position}px`);  }
+
+  async #ondragEnd({ element }) {
+    element.classList.remove('mdw-dragging');
+    const position = parseInt(getComputedStyle(this).getPropertyValue('--mdw-card-swipe-position').replace('px', ''));
+    if (position < 30) this.style.setProperty('--mdw-card-swipe-position', `0px`);
+    else this.style.setProperty('--mdw-card-swipe-position', `60px`);
+  }
+
+  #swipeActionClick(event) {
+    if (event.target.nodeName === 'MDW-ICON') {
+      if (this.#swipeActionElement.hasAttribute('checked')) this.#swipeActionElement.removeAttribute('checked');
+      else this.#swipeActionElement.setAttribute('checked', '');
+    }
   }
 });

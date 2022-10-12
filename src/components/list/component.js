@@ -156,20 +156,20 @@ customElements.define('mdw-list', class MDWList extends HTMLElementExtended {
 
   #ondragStart({ element }) {
     element.classList.add('mdw-dragging');
-    this.#dragStartPosition = parseInt(getComputedStyle(element).getPropertyValue('--mdw-mdw-list-item-swipe-position').replace('px', ''));
+    this.#dragStartPosition = parseInt(getComputedStyle(element).getPropertyValue('--mdw-list-item-swipe-position').replace('px', ''));
   }
 
   #ondrag({ distance, element }) {
     const position = this.#dragStartPosition + distance.x;
-    element.style.setProperty('--mdw-mdw-list-item-swipe-position', `${position}px`);
+    element.style.setProperty('--mdw-list-item-swipe-position', `${position}px`);
     element.classList.toggle('mdw-action-active', position < -this.#actionActiveThreshold || position > this.#actionActiveThreshold);
   }
 
   async #ondragEnd({ element }) {
     element.classList.remove('mdw-dragging');
 
-    const position = parseInt(getComputedStyle(element).getPropertyValue('--mdw-mdw-list-item-swipe-position').replace('px', ''));
-    if (position > -this.#actionActiveThreshold && position < this.#actionActiveThreshold) element.style.setProperty('--mdw-mdw-list-item-swipe-position', `0px`);
+    const position = parseInt(getComputedStyle(element).getPropertyValue('--mdw-list-item-swipe-position').replace('px', ''));
+    if (position > -this.#actionActiveThreshold && position < this.#actionActiveThreshold) element.style.setProperty('--mdw-list-item-swipe-position', `0px`);
     else {
       const actionElement = position < -this.#actionActiveThreshold ? element.querySelector('mdw-list-item-action-left') : element.querySelector('mdw-list-item-action-right');
       const remove = actionElement.hasAttribute('remove');
@@ -177,16 +177,16 @@ customElements.define('mdw-list', class MDWList extends HTMLElementExtended {
         if (position > 0) {
           const leftSwipeControl = element.querySelector('mdw-list-item-action-left');
           if (leftSwipeControl) leftSwipeControl.style.opacity = 0;
-          element.style.setProperty('--mdw-mdw-list-item-swipe-position', `100%`);
+          element.style.setProperty('--mdw-list-item-swipe-position', `100%`);
         } else {
           const rightSwipeControl = element.querySelector('mdw-list-item-action-right');
           if (rightSwipeControl) rightSwipeControl.style.opacity = 0;
           // TODO figure out why action is bouncing. not happening with right
-          element.style.setProperty('--mdw-mdw-list-item-swipe-position', `-100%`);
+          element.style.setProperty('--mdw-list-item-swipe-position', `-100%`);
         }
         await util.transitionendAsync(element);
         this.#remove(element);
-      } else element.style.setProperty('--mdw-mdw-list-item-swipe-position', `0px`);
+      } else element.style.setProperty('--mdw-list-item-swipe-position', `0px`);
       this.dispatchEvent(new CustomEvent('change', { detail: {
         action: actionElement.getAttribute('action'),
         listItem: element,
@@ -209,7 +209,7 @@ customElements.define('mdw-list', class MDWList extends HTMLElementExtended {
       if (leftSwipeControl) leftSwipeControl.style.opacity = 0;
       const rightSwipeControl = listItem.querySelector('mdw-list-item-action-right');
       if (rightSwipeControl) rightSwipeControl.style.opacity = 0;
-      listItem.style.setProperty('--mdw-mdw-list-item-swipe-position', `100%`);
+      listItem.style.setProperty('--mdw-list-item-swipe-position', `100%`);
       await util.transitionendAsync(listItem);
       this.#remove(listItem);
     }

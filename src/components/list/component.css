@@ -5,7 +5,7 @@ mdw-list {
 }
 
 mdw-list-item {
-  --mdw-mdw-list-item-swipe-position: 0px;
+  --mdw-list-item-swipe-position: 0px;
 
   display: flex;
   position: relative;
@@ -26,7 +26,7 @@ mdw-list-item {
 
   color: var(--mdw-on-surface--76);
 
-  left: var(--mdw-mdw-list-item-swipe-position);
+  left: var(--mdw-list-item-swipe-position);
   transition: left 220ms;
 }
 mdw-list-item.mdw-dragging {
@@ -181,7 +181,7 @@ mdw-list-item > mdw-list-item-action-right {
   align-items: center;
   position: absolute;
   top: 0;
-  left: calc(var(--mdw-mdw-list-item-swipe-position) * -1);
+  left: calc(var(--mdw-list-item-swipe-position) * -1);
   bottom: 0;
   right: 0;
   padding-left: 12px;
@@ -199,7 +199,7 @@ mdw-list-item > mdw-list-item-action-right::after {
   position: absolute;
   content: '';
   top: 0;
-  left: var(--mdw-mdw-list-item-swipe-position);
+  left: var(--mdw-list-item-swipe-position);
   right: 0;
   bottom: 0;
   background-color: var(--mdw-surface);
@@ -221,7 +221,7 @@ mdw-list-item > mdw-list-item-action-left {
   top: 0;
   left: 0;
   bottom: 0;
-  right: var(--mdw-mdw-list-item-swipe-position);
+  right: var(--mdw-list-item-swipe-position);
   padding-right: 12px;
   z-index: -1;
 
@@ -239,7 +239,7 @@ mdw-list-item > mdw-list-item-action-left::after {
   content: '';
   top: 0;
   left: 0;
-  right: calc(var(--mdw-mdw-list-item-swipe-position) * -1);
+  right: calc(var(--mdw-list-item-swipe-position) * -1);
   bottom: 0;
   background-color: var(--mdw-surface);
   z-index: 1;
