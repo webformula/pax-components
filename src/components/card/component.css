@@ -13,7 +13,7 @@ mdw-card {
   color: var(--mdw-on-surface);
   z-index: 0;
 
-  margin-bottom: var(--mdw-card-spacing);
+  margin-bottom: 8px;
   
   padding: 16px;
 
