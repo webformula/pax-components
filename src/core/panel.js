@@ -67,6 +67,7 @@ export default class Panel {
   }
 
   async show() {
+    console.log('show')
     if (this.#showing === true) return;
     this.#showing = true;
 
@@ -101,7 +102,7 @@ export default class Panel {
 
     if (this.targetElement) {
       // animate for element to fullscreen
-      if (this.targetToFullscreen) return this.#transitionTargetedFullscreen();
+      if (this.targetToFullscreen) return this.#transitionTargetedFullscreenShow();
 
       this.#setTargetElementPosition();
       this.#contentElement.classList.add('mdw-target-element');
@@ -129,6 +130,16 @@ export default class Panel {
   async hide() {
     if (this.#showing === false) return;
     this.#showing = false;
+
+    // animate from fullscreen to element
+    if (this.targetElement && this.targetToFullscreen) {
+      await this.#transitionTargetedFullscreenHide();
+      this.#contentElement.removeEventListener('click', this.#callOnClick_bound);
+      if (this.clickOutsideToClose === true) document.body.removeEventListener('click', this.#onClickOutside_bound);
+
+      this.#element.remove();
+      this.#callOnHide();
+    }
 
     this.#element.classList.add('mdw-close-animation');
     if (this.targetElement) this.#contentElement.style.maxHeight = `${this.#getContentHeight()}px`;
@@ -340,8 +351,9 @@ export default class Panel {
   }
 
 
-  async #transitionTargetedFullscreen() {
+  async #transitionTargetedFullscreenShow() {
     const bounds = this.targetElement.getBoundingClientRect();
+    console.log(bounds.top)
     let boxShadow = '';
     let borderRadius = '';
 
@@ -365,9 +377,24 @@ export default class Panel {
     this.#contentElement.style.borderRadius = borderRadius;
     
     await util.nextAnimationFrameAsync();
-    await util.wait(150); // Temp for img load on disabled cache
+
+    const contentBounds = this.#contentElement.getBoundingClientRect();
+
+    // TODO figure out how to handle this in card component
+    const cardImg = this.#contentElement.querySelector('mdw-card > .mdw-img-container.mdw-height-medium');
+    if (cardImg) {
+      const imgHeight = Math.max(240, (contentBounds.y / window.innerHeight) * 500);
+      cardImg.style.transition = `height ${imgHeight}ms`;
+    }
+
+    // adjust animation speed based on position
+    const topTiming = Math.max(200, (contentBounds.y / window.innerHeight) * 400);
+    const heightTiming = Math.max(200, (1 - (contentBounds.bottom / window.innerHeight)) * 400);
+    const leftTiming = Math.max(100, (contentBounds.x / window.innerWidth) * 400);
+    this.#contentElement.style.transition = `top ${topTiming}ms, left ${leftTiming}ms, width ${leftTiming}ms, height ${heightTiming}ms, border-radius 400ms`;
 
     this.#element.classList.add('mdw-run-animation');
+
     this.targetElement.style.boxShadow = 'none';
     this.#contentElement.style.top = '';
     this.#contentElement.style.left = '';
@@ -376,7 +403,28 @@ export default class Panel {
     this.#contentElement.style.borderRadius = '0';
 
     await util.transitionendAsync(this.#contentElement);
+    await util.wait(Math.max(topTiming, heightTiming));
+    this.#element.classList.remove('mdw-open-animation-target-to-fullscreen');
+    this.#element.classList.remove('mdw-run-animation');
     this.#contentElement.style.overflowY = 'auto';
+  }
+
+  async #transitionTargetedFullscreenHide() {
+    const bounds = this.targetElement.getBoundingClientRect();
+    
+    this.#contentElement.style.overflowY = 'hidden';
+    this.#element.classList.add('mdw-close-animation-target-to-fullscreen');
+    this.#contentElement.style.top = `${bounds.top}px`;
+    this.#contentElement.style.left = `${bounds.left}px`;
+    this.#contentElement.style.width = `${bounds.width}px`;
+    this.#contentElement.style.height = `${bounds.height}px`;
+    this.#contentElement.style.borderRadius = '';
+
+
+    await util.transitionendAsync(this.#contentElement);
+    this.#element.classList.add('mdw-closed');
+    await util.wait(300);
+    this.targetElement.style.boxShadow = '';
   }
 
   // TODO handle horizontal scroll

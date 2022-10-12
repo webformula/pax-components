@@ -2,28 +2,40 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import Ripple from '../../core/Ripple.js';
 import './component.css';
 import Panel from '../../core/panel.js';
+import util from '../../core/util.js';
 
 customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   useShadowRoot = false;
-
+  
+  #id = this.getAttribute('id') || `mdw-fullscreen-car-${util.getUID()}`;
   #panel;
   #imgHeight;
   #imgWidth;
+  #originalFullscreenCard;
+  #isFullscreen = this.classList.contains('mdw-fullscreen');
   #isExpanding = !!this.querySelector('.mdw-expanding-container');
   #mouseUp_bound = this.#mouseup.bind(this);
   #onClick_bound = this.#onClick.bind(this);
+  #onClickFullscreenBack_bound = this.#onClickFullscreenBack.bind(this);
   #imgOnload_bound = this.#imgOnload.bind(this);
 
   constructor() {
     super();
     this.tabIndex = 0;
 
-    if (this.#isExpanding) {
-      this.addEventListener('click', this.#onClick_bound);
+    // this happens when a card is copied into a panel for fullscreen
+    if (this.parentNode.classList.contains('mdw-panel-content')) {
+      this.#calculateImgMaxHeightForFullscreen();
     }
 
     if (this.parentNode.classList.contains('mdw-panel-content')) {
-      this.#calculateImgMaxHeightForFullscreen();
+      this.#originalFullscreenCard = document.querySelector(`#${this.getAttribute('mdw-card-id')}`);
+      this.querySelector('.mdw-card-fullscreen-back').addEventListener('click', this.#onClickFullscreenBack_bound);
+    } else if (this.#isFullscreen) {
+      this.setAttribute('id', this.#id);
+      this.setAttribute('mdw-card-id', this.#id);
+      this.insertAdjacentHTML('afterbegin', '  <mdw-icon class="mdw-card-fullscreen-back">arrow_back_ios_new</mdw-icon>');
+      this.addEventListener('click', this.#onClick_bound);
     }
   }
 
@@ -46,17 +58,36 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     this?.ripple?.destroy();
     this.removeEventListener('mouseup', this.#mouseUp_bound);
     this.removeEventListener('mouseup', this.#mouseUp_bound);
+
+    if (this.parentNode.classList.contains('mdw-panel-content')) {
+      this.querySelector('.mdw-card-fullscreen-back').removeEventListener('click', this.#onClickFullscreenBack_bound);
+    } else if (this.#isFullscreen) {
+      this.removeEventListener('click', this.#onClick_bound);
+    }
+  }
+
+  hide() {
+    if (this.#isFullscreen && this.#panel && this.#panel.showing) {
+      this.#panel.hide();
+    }
   }
 
   #mouseup() {
     this.blur();
   }
 
-  #onClick(event) {
-    this.#transitionToFullScreen();
+  #onClick() {
+    if (this.#isFullscreen) this.#transitionFullScreen();
   }
 
-  #transitionToFullScreen() {
+  #onClickFullscreenBack() {
+    this.#originalFullscreenCard.hide();
+  }
+
+  #transitionFullScreen() {
+    let template = this.outerHTML;
+    template = template.replace(`id="${this.#id}"`, '');
+    template = template.replace(`mdw-card-id="${this.#id}"`, '');
     this.#panel = new Panel();
     this.#panel.template = this.outerHTML;
     this.#panel.targetElement = this;
