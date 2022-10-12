@@ -192,6 +192,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     if (event.target.nodeName === 'MDW-ICON') {
       if (this.#swipeActionElement.hasAttribute('checked')) this.#swipeActionElement.removeAttribute('checked');
       else this.#swipeActionElement.setAttribute('checked', '');
+      this.#swipeActionElement.dispatchEvent(new Event('change'));
     }
   }
 });
