@@ -7,10 +7,31 @@
   </div>
 
   <div class="mdw-card-content">
-    <div class="mdw-title-medium">Headline</div>
+    <div class="mdw-headline-medium">Headline</div>
     <div class="mdw-subhead-small">Subhead</div>
     <div class="mdw-supporting-text">
       one two three four five six.
+    </div>
+  </div>
+</mdw-card>
+
+<mdw-card>
+  <div class="mdw-card-image mdw-rounded mdw-size-medium">
+    <img alt="landscape"
+      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
+  </div>
+
+  <div class="mdw-card-content">
+    <div class="mdw-headline">Headline</div>
+    <div class="mdw-subhead">Subhead</div>
+    <div class="mdw-supporting-text">
+      one two three four five six.
+      <div>sdflkj sdfklsdisdk dsjkljs klsdjkd fiosdlsd jkfd sdjkfud s </div>
+    </div>
+
+    <div class="mdw-card-actions">
+      <mdw-button class="mdw-filled">Favorite</mdw-button>
+      <mdw-button class="mdw-filled-tonal">Delete</mdw-button>
     </div>
   </div>
 </mdw-card>
@@ -22,11 +43,16 @@
   </div>
 
   <div class="mdw-card-content">
-    <div class="mdw-title-medium">Headline</div>
-    <div class="mdw-subhead-small">Subhead</div>
+    <div class="mdw-headline">Headline</div>
+    <div class="mdw-subhead">Subhead</div>
     <div class="mdw-supporting-text">
       one two three four five six.
       <div>sdflkj sdfklsdisdk dsjkljs klsdjkd fiosdlsd jkfd sdjkfud s </div>
+    </div>
+
+    <div class="mdw-card-actions">
+      <mdw-button class="mdw-filled">Favorite</mdw-button>
+      <mdw-button class="mdw-filled-tonal">Delete</mdw-button>
     </div>
   </div>
 </mdw-card>
@@ -40,7 +66,7 @@
       </div>
 
       <div class="mdw-card-content">
-        <div class="mdw-title-medium">Headline</div>
+        <div class="mdw-headline-medium">Headline</div>
         <div class="mdw-subhead-small">Subhead</div>
         <div class="mdw-supporting-text">
           one two three four five six.
@@ -50,99 +76,7 @@
   `).join('\n')}
 </mdw-card-container>
 
-<!-- <div style="display: grid; grid-template-columns: repeat(3, 1fr); grid-column-gap: 8px; grid-row-gap: 0px;">
-  <mdw-card class="mdw-no-states">
-    <div class="mdw-card-image mdw-rounded mdw-size-medium">
-      <img alt="landscape"
-        src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-    </div>
-
-    <div class="mdw-title">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-  </mdw-card>
-
-  <mdw-card class="mdw-no-states">
-    <div class="mdw-card-image mdw-rounded mdw-size-medium">
-      <img alt="landscape"
-        src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-    </div>
-  
-    <div class="mdw-title">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-  </mdw-card>
-
-  <mdw-card class="mdw-no-states" style="order: -1">
-    <div class="mdw-card-image mdw-rounded mdw-size-medium">
-      <img alt="landscape"
-        src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-    </div>
-  
-    <div class="mdw-title">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-  </mdw-card>
-
-  <mdw-card class="mdw-no-states" style="grid-row-end: span 2; order: -2;">
-    <div class="mdw-card-image mdw-rounded mdw-size-medium">
-      <img alt="landscape"
-        src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-    </div>
-  
-    <div class="mdw-title">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-  </mdw-card>
-
-  <mdw-card class="mdw-no-states">
-    <div class="mdw-card-image mdw-rounded mdw-size-medium">
-      <img alt="landscape"
-        src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-    </div>
-  
-    <div class="mdw-title">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-  </mdw-card>
-
-  <mdw-card class="mdw-no-states">
-    <mdw-card-swipe-action onchange="console.log('sdfsdf')">
-      <mdw-icon>favorite</mdw-icon>
-    </mdw-card-swipe-action>
-    <div class="mdw-card-image mdw-rounded mdw-size-medium">
-      <img alt="landscape"
-        src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-    </div>
-  
-    <div class="mdw-title">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-  </mdw-card>
-
-  <mdw-card class="mdw-no-states">
-    <mdw-card-swipe-action onchange="console.log('sdfsdf')">
-      <mdw-icon>favorite</mdw-icon>
-    </mdw-card-swipe-action>
-    <div class="mdw-card-image mdw-rounded mdw-size-medium">
-      <img alt="landscape"
-        src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-    </div>
-  
-    <div class="mdw-title">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-  </mdw-card>
-
-  <mdw-card class="mdw-no-states">
-    <mdw-card-swipe-action onchange="console.log('sdfsdf')">
-      <mdw-icon>favorite</mdw-icon>
-    </mdw-card-swipe-action>
-    <div class="mdw-card-image mdw-rounded mdw-size-medium">
-      <img alt="landscape"
-        src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-    </div>
-  
-    <div class="mdw-title">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-  </mdw-card>
-  
-</div> -->
-
-<mdw-card class="mdw-no-states">
+<mdw-card>
   <mdw-card-swipe-action onchange="console.log('sdfsdf')">
     <mdw-icon>favorite</mdw-icon>
   </mdw-card-swipe-action>
@@ -151,7 +85,7 @@
       src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
   </div>
 
-  <div class="mdw-title">Headline</div>
+  <div class="mdw-headline">Headline</div>
   <div class="mdw-subhead">Subhead</div>
 </mdw-card>
 
@@ -163,13 +97,13 @@
 
   <div class="mdw-card-content">
     <div class="mdw-contracted">
-      <div class="mdw-title">Expand</div>
+      <div class="mdw-headline">Expand</div>
       <div class="mdw-subhead">Subhead</div>
     </div>
 
     <div class="mdw-expanded">
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="mdw-title">Expanded Headline</div>
+        <div class="mdw-headline">Expanded Headline</div>
         <mdw-button class="mdw-icon-button mdw-filled-tonal">
           <mdw-icon>favorite</mdw-icon>
         </mdw-button>
@@ -224,7 +158,7 @@
   </div>
 </mdw-card>
 
-<mdw-card class="mdw-no-states">
+<mdw-card>
   <div class="mdw-card-image mdw-rounded mdw-size-medium">
     <img alt="landscape"
       src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
@@ -233,7 +167,7 @@
   <div class="mdw-card-content">
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <div>
-        <div class="mdw-title">Headline</div>
+        <div class="mdw-headline">Headline</div>
         <div class="mdw-subhead">Subhead</div>
       </div>
       <mdw-icon class="mdw-expander-arrow">expand_more</mdw-icon>
@@ -248,27 +182,27 @@
   </div>
 </mdw-card>
 
-<mdw-card class="mdw-no-states">
+<mdw-card>
   <div class="mdw-container" style="padding: 18px; flex-direction: row; display: flex;">
     <mdw-card style="flex: 1">
-      <div class="mdw-title">Headline</div>
+      <div class="mdw-headline">Headline</div>
       <div class="mdw-subhead">Subhead</div>
       <div class="mdw-ripple"></div>
     </mdw-card>
 
     <mdw-card class="mdw-filled" style="flex: 1">
-      <div class="mdw-title">Headline</div>
+      <div class="mdw-headline">Headline</div>
       <div class="mdw-subhead">Subhead</div>
       <div class="mdw-ripple"></div>
     </mdw-card>
 
     <mdw-card class="mdw-outlined" style="flex: 1">
-      <div class="mdw-title">Headline</div>
+      <div class="mdw-headline">Headline</div>
       <div class="mdw-subhead">Subhead</div>
       <div class="mdw-ripple"></div>
     </mdw-card>
   </div>
-  <div class="mdw-title">Types</div>
+  <div class="mdw-headline">Types</div>
   <!-- <div class="mdw-subhead">subhead</div> -->
   <div class="mdw-supporting-text">elevated - filled - Outlined</div>
 </mdw-card>
@@ -291,18 +225,18 @@
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-card>
-    <div class="mdw-title">Headline</div>
+    <div class="mdw-headline">Headline</div>
     <div class="mdw-subhead">Subhead</div>
     <div class="mdw-ripple"></div>
   </mdw-card>`)}
       </code>
     </pre>
   
-    <div class="mdw-title">Elevated card</div>
+    <div class="mdw-headline">Elevated card</div>
   
     <div class="example">
       <mdw-card>
-        <div class="mdw-title">Headline</div>
+        <div class="mdw-headline">Headline</div>
         <div class="mdw-subhead">Subhead</div>
         <div class="mdw-ripple"></div>
       </mdw-card>
@@ -314,18 +248,18 @@
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-card class="mdw-filled">
-    <div class="mdw-title">Headline</div>
+    <div class="mdw-headline">Headline</div>
     <div class="mdw-subhead">Subhead</div>
     <div class="mdw-ripple"></div>
   </mdw-card>`)}
       </code>
     </pre>
   
-    <div class="mdw-title">Filled card</div>
+    <div class="mdw-headline">Filled card</div>
   
     <div class="example">
       <mdw-card class="mdw-filled">
-        <div class="mdw-title">Headline</div>
+        <div class="mdw-headline">Headline</div>
         <div class="mdw-subhead">Subhead</div>
         <div class="mdw-ripple"></div>
       </mdw-card>
@@ -337,18 +271,18 @@
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-card class="mdw-outlined">
-    <div class="mdw-title">Headline</div>
+    <div class="mdw-headline">Headline</div>
     <div class="mdw-subhead">Subhead</div>
     <div class="mdw-ripple"></div>
   </mdw-card>`)}
       </code>
     </pre>
   
-    <div class="mdw-title">Outlined card</div>
+    <div class="mdw-headline">Outlined card</div>
   
     <div class="example">
       <mdw-card class="mdw-outlined">
-        <div class="mdw-title">Headline</div>
+        <div class="mdw-headline">Headline</div>
         <div class="mdw-subhead">Subhead</div>
         <div class="mdw-ripple"></div>
       </mdw-card>

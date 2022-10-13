@@ -6,8 +6,6 @@ import util from '../../core/util.js';
 import Drag from '../../core/drag.js';
 
 
-// TODO readdress layout for multi orientation and list
-
 // TODO expanded drag
 // TODO drag order grid
 // TODO list
