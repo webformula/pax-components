@@ -21,6 +21,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   #imgHeight;
   #imgWidth;
   #originalFullscreenCard;
+  #isOutlined = this.classList.contains('mdw-outlined');
   #isFullscreen = this.classList.contains('mdw-fullscreen');
   #isExpanding = !!this.querySelector('.mdw-expanding-container');
   #mouseUp_bound = this.#mouseup.bind(this);
@@ -60,6 +61,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
 
     // setup swipe actions
     if (this.#swipeActionElement) {
+      this.classList.add('mdw-has-swipe-action');
       this.#drag = new Drag(this);
       this.#drag.onDrag(this.#ondrag_bound);
       this.#drag.onStart(this.#ondragStart_bound);
@@ -182,6 +184,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     let position = this.#dragStartPosition + distance.x;
     if (position > 60) position = 60;
     if (position < 0) position = 0;
+    if (this.#isOutlined && position < 1) position = 1;
     this.style.setProperty('--mdw-card-swipe-position', `${position}px`);  }
 
   async #ondragEnd({ element }) {

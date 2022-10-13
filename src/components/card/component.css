@@ -9,6 +9,7 @@ mdw-card {
   -webkit-tap-highlight-color: transparent;
 
   box-shadow: var(--mdw-elevation-1);
+  box-sizing: border-box;
   background-color: var(--mdw-surface);
   color: var(--mdw-on-surface);
   z-index: 0;
@@ -19,6 +20,10 @@ mdw-card {
 
   left: var(--mdw-card-swipe-position);
   transition: left 120ms;
+}
+/* fixes outline overlap */
+mdw-card.mdw-outlined {
+  --mdw-card-swipe-position: 1px;
 }
 mdw-card.mdw-dragging {
   transition: none;
@@ -329,6 +334,7 @@ mdw-card > mdw-card-swipe-action {
   padding-left: 18px;
   z-index: -1;
   border-radius: var(--mdw-shape-medium) 0 0 var(--mdw-shape-medium);
+  box-sizing: border-box;
 
   background-color: var(--mdw-surface-tint--16);
   color: var(--mdw-on-surface-variant);
@@ -336,6 +342,20 @@ mdw-card > mdw-card-swipe-action {
   transition:
     left 120ms,
     background-color 120ms;
+}
+
+mdw-card.mdw-outlined > mdw-card-swipe-action {
+  top: -1px;
+  bottom: -1px;
+  border-left: 1px solid var(--mdw-outline);
+  border-top: 1px solid var(--mdw-outline);
+  border-bottom: 1px solid var(--mdw-outline);
+}
+
+mdw-card.mdw-has-swipe-action {
+  border-left: none;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 mdw-card > mdw-card-swipe-action mdw-icon {
@@ -374,8 +394,13 @@ mdw-card > mdw-card-swipe-action::after {
   border-radius: var(--mdw-shape-medium) 0 0 var(--mdw-shape-medium);
   background-color: var(--mdw-surface);
   z-index: 1;
+  box-sizing: border-box;
 
   transition: left 120ms;
+}
+
+mdw-card.mdw-filled > mdw-card-swipe-action::after {
+  background-color: var(--mdw-surface-variant);
 }
 
 mdw-card.mdw-dragging > mdw-card-swipe-action::after {
