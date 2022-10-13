@@ -6,6 +6,7 @@ import util from '../../core/util.js';
 import Drag from '../../core/drag.js';
 
 
+// TODO readdress layout for multi orientation and list
 
 // TODO expanded drag
 // TODO drag order grid
@@ -22,8 +23,9 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   #imgWidth;
   #originalFullscreenCard;
   #isOutlined = this.classList.contains('mdw-outlined');
+  #isInPanel = this.parentNode.classList.contains('mdw-panel-content');
   #isFullscreen = this.classList.contains('mdw-fullscreen');
-  #isExpanding = !!this.querySelector('.mdw-expanding-container');
+  #isExpanding = !!this.querySelector('.mdw-card-content > .mdw-expanded');
   #mouseUp_bound = this.#mouseup.bind(this);
   #onClick_bound = this.#onClick.bind(this);
   #onClickFullscreenBack_bound = this.#onClickFullscreenBack.bind(this);
@@ -42,11 +44,11 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     this.tabIndex = 0;
 
     // this happens when a card is copied into a panel for fullscreen
-    if (this.parentNode.classList.contains('mdw-panel-content')) {
+    if (this.#isInPanel) {
       this.#calculateImgMaxHeightForFullscreen();
     }
 
-    if (this.parentNode.classList.contains('mdw-panel-content')) {
+    if (this.#isInPanel) {
       this.#originalFullscreenCard = document.querySelector(`#${this.getAttribute('mdw-card-id')}`);
       this.querySelector('.mdw-card-fullscreen-back').addEventListener('click', this.#onClickFullscreenBack_bound);
     } else if (this.#isFullscreen) {
@@ -92,7 +94,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     this.removeEventListener('mouseup', this.#mouseUp_bound);
     this.removeEventListener('mouseup', this.#mouseUp_bound);
 
-    if (this.parentNode.classList.contains('mdw-panel-content')) {
+    if (this.#isInPanel) {
       this.querySelector('.mdw-card-fullscreen-back').removeEventListener('click', this.#onClickFullscreenBack_bound);
     } else if (this.#isFullscreen) {
       this.removeEventListener('click', this.#onClick_bound);
@@ -132,7 +134,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   }
 
   #expandContract() {
-    const expanded = this.querySelector('.mdw-expanding-container> .mdw-expanded');
+    const expanded = this.querySelector('.mdw-card-content > .mdw-expanded');
     if (this.classList.contains('mdw-expanded')) {
       expanded.style.height = '0';
       this.classList.remove('mdw-expanded');

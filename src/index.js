@@ -13,6 +13,7 @@ generate();
 
 import './components/button/component.js';
 import './components/card/component.js';
+import './components/card/container.js';
 import './components/navigation-button/component.js';
 import './components/navigation/component.js';
 import './components/icon/component.js';
