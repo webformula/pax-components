@@ -8,7 +8,6 @@ import Drag from '../../core/drag.js';
 
 // TODO expanded drag
 // TODO drag order grid
-// TODO list
 // TODO fullscreen on desktop
 
 
@@ -149,29 +148,41 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     this.#panel = new Panel();
     this.#panel.template = this.outerHTML;
     this.#panel.targetElement = this;
-    this.#panel.targetToFullscreen = true;;
+    this.#panel.fullscreen = true;
+    this.#panel.disableFullscreenDesktop = true;
     this.#panel.show();
   }
 
   // sets height for fullscreen view so image can expand
   #calculateImgMaxHeightForFullscreen() {
-    const img = this.querySelector('.mdw-img-container img');
+    const img = this.querySelector('.mdw-card-image img');
     if (!img) return;
 
     this.#imgHeight = this.getAttribute('height');
     this.#imgWidth = this.getAttribute('width');
     if (!this.#imgHeight || !this.#imgWidth) img.addEventListener('load', this.#imgOnload_bound);
     else {
-      this.style.setProperty('--mdw-img-fullscreen-height', `${this.#imgHeight / this.#imgWidth * window.innerWidth}px`);
+      this.style.setProperty('--mdw-img-fullscreen-height', `${this.#getImgFullscreenHeight()}px`);
     }
   }
 
   #imgOnload() {
-    const img = this.querySelector('.mdw-img-container img');
+    const img = this.querySelector('.mdw-card-image img');
     img.removeEventListener('load', this.#imgOnload_bound);
     this.#imgHeight = this.#imgHeight || img.offsetHeight;
     this.#imgWidth = this.#imgWidth || img.offsetWidth;
-    this.style.setProperty('--mdw-img-fullscreen-height', `${this.#imgHeight / this.#imgWidth * window.innerWidth}px`);
+    this.style.setProperty('--mdw-img-fullscreen-height', `${this.#getImgFullscreenHeight()}px`);
+  }
+
+  #getImgFullscreenHeight() {
+    // TODO how can i make 560 dynamic?
+    // 560 currently comes directly from panel.css
+    if (window.innerHeight > 600) {
+      const styleWidth = parseInt(getComputedStyle(this).width.replace('px', ''));
+      if (styleWidth < 560) return this.#imgHeight / this.#imgWidth * styleWidth;
+      return this.#imgHeight / this.#imgWidth * 560;
+    }
+    return this.#imgHeight / this.#imgWidth * window.innerWidth;
   }
 
 

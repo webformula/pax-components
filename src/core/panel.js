@@ -9,6 +9,7 @@ export default class Panel {
   targetElement;
   scroll = false;
   fullscreen = false;
+  disableFullscreenDesktop = false;
   width = '360px';
   backdrop = true;
   clickOutsideToClose = false;
@@ -42,7 +43,8 @@ export default class Panel {
     backdrop: true,
     clickOutsideToClose: false,
     escToClose: false,
-    targetToFullscreen: false
+    targetToFullscreen: false,
+    disableFullscreenDesktop: false
   }) {
     this.template = params.template;
     this.position = params.position;
@@ -56,6 +58,7 @@ export default class Panel {
     this.clickOutsideToClose = params.clickOutsideToClose;
     this.escToClose = params.escToClose;
     this.targetToFullscreen = params.targetToFullscreen;
+    this.disableFullscreenDesktop = params.disableFullscreenDesktop;
   }
 
   get element() {
@@ -67,24 +70,19 @@ export default class Panel {
   }
 
   async show() {
-    console.log('show')
     if (this.#showing === true) return;
     this.#showing = true;
 
-    if (this.targetToFullscreen) this.backdrop = false;
-
-    // NOTE animation bug
-    // transition end event was breaking and the fix was to use a second class for the open animation
-    // we also need to set the max hight in javascript
     let classes = '';
-    if (this.targetToFullscreen) {
-      if (!this.targetElement) throw Error('Must set targetElement when using targetToFullscreen');
-      classes += 'mdw-open-animation-target-to-fullscreen mdw-fullscreen';
+    if (this.fullscreen && this.targetElement) {
+      classes += 'mdw-open-animation-target-to-fullscreen';
+      if (util.isMobile) this.backdrop = false;
     } else if (this.targetElement) classes += 'mdw-open-animation-target';
     else classes += 'mdw-open-animation';
-    // let classes = !this.targetElement ? 'mdw-open-animation' : 'mdw-open-animation-target';
+
     if (this.classes) classes += ` ${this.classes}`;
     if (this.fullscreen) classes += ' mdw-fullscreen';
+    if (this.disableFullscreenDesktop) classes += ' mdw-disable-fullscreen-desktop';
     if (this.backdrop) classes += ' mdw-backdrop';
     if (this.animation === 'scale') classes += ' mdw-animation-scale';
 
@@ -100,10 +98,8 @@ export default class Panel {
     this.#element = document.querySelector(`#${this.#id}`);
     this.#contentElement = this.#element.querySelector(':scope > .mdw-panel-content');
 
-    if (this.targetElement) {
-      // animate for element to fullscreen
-      if (this.targetToFullscreen) return this.#transitionTargetedFullscreenShow();
-
+    if (this.targetElement && this.fullscreen) await this.#targetToFullscreenShow();
+    else if (this.targetElement) {
       this.#setTargetElementPosition();
       this.#contentElement.classList.add('mdw-target-element');
       const targetElementScrollContainer = this.#getScrollContainerForTargetElement();
@@ -117,8 +113,10 @@ export default class Panel {
 
     await util.transitionendAsync(this.#contentElement);
     this.#element.classList.remove('mdw-open-animation');
-    this.#element.classList.remove('mdw-open-animation-target');
+    this.#element.classList.remove('mdw-open-animation-target')
+    this.#element.classList.remove('mdw-open-animation-target-to-fullscreen');
     this.#element.classList.remove('mdw-run-animation');
+    this.#element.classList.add('mdw-showing');
 
     this.#contentElement.addEventListener('click', this.#callOnClick_bound);
     if (this.clickOutsideToClose === true) document.body.addEventListener('click', this.#onClickOutside_bound);
@@ -131,29 +129,25 @@ export default class Panel {
     if (this.#showing === false) return;
     this.#showing = false;
 
-    // animate from fullscreen to element
-    if (this.targetElement && this.targetToFullscreen) {
-      await this.#transitionTargetedFullscreenHide();
-      this.#contentElement.removeEventListener('click', this.#callOnClick_bound);
-      if (this.clickOutsideToClose === true) document.body.removeEventListener('click', this.#onClickOutside_bound);
+    this.#element.classList.remove('mdw-showing');
 
-      this.#element.remove();
-      this.#callOnHide();
+    if (this.targetElement && this.fullscreen) {
+      await this.#targetToFullscreenHide();
+    } else {
+      this.#element.classList.add('mdw-close-animation');
+      if (this.targetElement) this.#contentElement.style.maxHeight = `${this.#getContentHeight()}px`;
+
+      await util.nextAnimationFrameAsync();
+      this.#element.classList.add('mdw-run-animation');
+
+      if (this.targetElement) {
+        this.#getScrollContainerForTargetElement().removeEventListener('scroll', this.#onContainerScroll_bound);
+        this.#contentElement.style.maxHeight = '0';
+      }
+
+      await util.transitionendAsync(this.#contentElement);
     }
 
-    this.#element.classList.add('mdw-close-animation');
-    if (this.targetElement) this.#contentElement.style.maxHeight = `${this.#getContentHeight()}px`;
-    
-    
-    await util.nextAnimationFrameAsync();
-    this.#element.classList.add('mdw-run-animation');
-
-    if (this.targetElement) {
-      this.#getScrollContainerForTargetElement().removeEventListener('scroll', this.#onContainerScroll_bound);
-      this.#contentElement.style.maxHeight = '0';
-    }
-
-    await util.transitionendAsync(this.#contentElement);
     this.#contentElement.removeEventListener('click', this.#callOnClick_bound);
     if (this.clickOutsideToClose === true) document.body.removeEventListener('click', this.#onClickOutside_bound);
 
@@ -351,80 +345,81 @@ export default class Panel {
   }
 
 
-  async #transitionTargetedFullscreenShow() {
+  async #targetToFullscreenShow() {
     const bounds = this.targetElement.getBoundingClientRect();
-    console.log(bounds.top)
-    let boxShadow = '';
     let borderRadius = '';
-
     if (this.#contentElement.children.length === 1) {
-      const templateParentElement = this.#contentElement.children[0];
-      const computedStyle = getComputedStyle(templateParentElement);
-      boxShadow = computedStyle.boxShadow;
-      borderRadius = computedStyle.borderRadius;
-      templateParentElement.style.margin = '0';
-      templateParentElement.style.top = '0';
-      templateParentElement.style.left = '0';
-      templateParentElement.style.boxShadow = 'none';
-      templateParentElement.style.borderRadius = '0';
+      borderRadius = getComputedStyle(this.#contentElement.children[0]).borderRadius;
+    }
+
+    if (window.innerWidth > 600 && this.disableFullscreenDesktop === true) {
+      this.#contentElement.style.transformOrigin = 'top';
+      const xDiff = (bounds.x + (bounds.width / 2)) - (window.innerWidth / 2);
+      const yDiff = (bounds.y + (bounds.height / 2)) - (window.innerHeight / 2);
+      this.#contentElement.style.transform = `translate(${xDiff}px, ${yDiff}px)`;
     }
 
     this.#contentElement.style.top = `${bounds.top}px`;
     this.#contentElement.style.left = `${bounds.left}px`;
     this.#contentElement.style.width = `${bounds.width}px`;
+    this.#contentElement.style.maxWidth = `${bounds.width}px`;
     this.#contentElement.style.height = `${bounds.height}px`;
-    this.#contentElement.style.boxShadow = boxShadow;
+    this.#contentElement.style.maxHeight = `${bounds.height}px`;
     this.#contentElement.style.borderRadius = borderRadius;
-    
+
     await util.nextAnimationFrameAsync();
-
-    const contentBounds = this.#contentElement.getBoundingClientRect();
-
-    // TODO figure out how to handle this in card component
-    const cardImg = this.#contentElement.querySelector('mdw-card > .mdw-img-container.mdw-height-medium');
-    if (cardImg) {
-      const imgHeight = Math.max(240, (contentBounds.y / window.innerHeight) * 500);
-      cardImg.style.transition = `height ${imgHeight}ms`;
-    }
-
+    
     // adjust animation speed based on position
+    const contentBounds = this.#contentElement.getBoundingClientRect();
     const topTiming = Math.max(200, (contentBounds.y / window.innerHeight) * 400);
     const heightTiming = Math.max(200, (1 - (contentBounds.bottom / window.innerHeight)) * 400);
     const leftTiming = Math.max(100, (contentBounds.x / window.innerWidth) * 400);
-    this.#contentElement.style.transition = `top ${topTiming}ms, left ${leftTiming}ms, width ${leftTiming}ms, height ${heightTiming}ms, border-radius 400ms`;
+    this.#contentElement.style.transition = `top ${topTiming}ms, left ${leftTiming}ms, width ${leftTiming}ms, max-width ${leftTiming}ms, height ${heightTiming}ms, max-height ${heightTiming}ms, border-radius 400ms, transform 220ms`;
 
     this.#element.classList.add('mdw-run-animation');
-
-    this.targetElement.style.boxShadow = 'none';
     this.#contentElement.style.top = '';
     this.#contentElement.style.left = '';
     this.#contentElement.style.width = '';
+    this.#contentElement.style.maxWidth = '';
     this.#contentElement.style.height = '';
-    this.#contentElement.style.borderRadius = '0';
+    this.#contentElement.style.maxHeight = '';
+    this.#contentElement.style.transform = '';
+    if (window.innerWidth <= 600 || this.disableFullscreenDesktop !== true) this.#contentElement.style.borderRadius = '';
 
-    await util.transitionendAsync(this.#contentElement);
     await util.wait(Math.max(topTiming, heightTiming));
-    this.#element.classList.remove('mdw-open-animation-target-to-fullscreen');
-    this.#element.classList.remove('mdw-run-animation');
-    this.#contentElement.style.overflowY = 'auto';
   }
 
-  async #transitionTargetedFullscreenHide() {
+  async #targetToFullscreenHide() {
     const bounds = this.targetElement.getBoundingClientRect();
-    
-    this.#contentElement.style.overflowY = 'hidden';
+    let borderRadius = '';
+    if (this.#contentElement.children.length === 1) {
+      borderRadius = getComputedStyle(this.#contentElement.children[0]).borderRadius;
+    }
+
     this.#element.classList.add('mdw-close-animation-target-to-fullscreen');
-    this.#contentElement.style.top = `${bounds.top}px`;
-    this.#contentElement.style.left = `${bounds.left}px`;
-    this.#contentElement.style.width = `${bounds.width}px`;
-    this.#contentElement.style.height = `${bounds.height}px`;
-    this.#contentElement.style.borderRadius = '';
+    
+    await util.nextAnimationFrameAsync();
 
+    this.#element.classList.add('mdw-run-animation');
 
+    if (window.innerWidth > 600 && this.disableFullscreenDesktop === true) {
+      this.#contentElement.style.transformOrigin = 'top';
+      const xDiff = (bounds.x + (bounds.width / 2)) - (window.innerWidth / 2);
+      const yDiff = (bounds.y + (bounds.height / 2)) - (window.innerHeight / 2);
+      this.#contentElement.style.transform = `translate(${xDiff}px, ${yDiff}px)`;
+      this.#contentElement.style.maxWidth = `${bounds.width}px`;
+      this.#contentElement.style.maxHeight = `${bounds.height}px`;
+    } else {
+      this.#contentElement.style.top = `${bounds.top}px`;
+      this.#contentElement.style.left = `${bounds.left}px`;
+      this.#contentElement.style.width = `${bounds.width}px`;
+      this.#contentElement.style.height = `${bounds.height}px`;
+    }
+    
+    this.#contentElement.style.borderRadius = borderRadius;
+    
     await util.transitionendAsync(this.#contentElement);
-    this.#element.classList.add('mdw-closed');
-    await util.wait(300);
-    this.targetElement.style.boxShadow = '';
+    await util.wait(150);
   }
 
   // TODO handle horizontal scroll

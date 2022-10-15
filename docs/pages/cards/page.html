@@ -1,95 +1,6 @@
 <h3>Cards</h3>
 
-<mdw-card class="mdw-card-list-item">
-  <div class="mdw-card-image mdw-rounded mdw-size-medium">
-    <img alt="landscape"
-      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-  </div>
-
-  <div class="mdw-card-content">
-    <div class="mdw-headline-medium">Headline</div>
-    <div class="mdw-subhead-small">Subhead</div>
-    <div class="mdw-supporting-text">
-      one two three four five six.
-    </div>
-  </div>
-</mdw-card>
-
-<mdw-card>
-  <div class="mdw-card-image mdw-rounded mdw-size-medium">
-    <img alt="landscape"
-      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-  </div>
-
-  <div class="mdw-card-content">
-    <div class="mdw-headline">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-    <div class="mdw-supporting-text">
-      one two three four five six.
-      <div>sdflkj sdfklsdisdk dsjkljs klsdjkd fiosdlsd jkfd sdjkfud s </div>
-    </div>
-
-    <div class="mdw-card-actions">
-      <mdw-button class="mdw-filled">Favorite</mdw-button>
-      <mdw-button class="mdw-filled-tonal">Delete</mdw-button>
-    </div>
-  </div>
-</mdw-card>
-
-<mdw-card class="mdw-card-orientation-landscape">
-  <div class="mdw-card-image mdw-rounded mdw-size-large">
-    <img alt="landscape"
-      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-  </div>
-
-  <div class="mdw-card-content">
-    <div class="mdw-headline">Headline</div>
-    <div class="mdw-subhead">Subhead</div>
-    <div class="mdw-supporting-text">
-      one two three four five six.
-      <div>sdflkj sdfklsdisdk dsjkljs klsdjkd fiosdlsd jkfd sdjkfud s </div>
-    </div>
-
-    <div class="mdw-card-actions">
-      <mdw-button class="mdw-filled">Favorite</mdw-button>
-      <mdw-button class="mdw-filled-tonal">Delete</mdw-button>
-    </div>
-  </div>
-</mdw-card>
-
-<mdw-card-container>
-  ${[...new Array(12).keys()].map((_, i) => `
-    <mdw-card ${i % 4 === 0 ? 'style="height: 488px;"' : ''}>
-      <div class="mdw-card-image mdw-rounded mdw-size-medium">
-        <img alt="landscape"
-          src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-      </div>
-
-      <div class="mdw-card-content">
-        <div class="mdw-headline-medium">Headline</div>
-        <div class="mdw-subhead-small">Subhead</div>
-        <div class="mdw-supporting-text">
-          one two three four five six.
-        </div>
-      </div>
-    </mdw-card>
-  `).join('\n')}
-</mdw-card-container>
-
-<mdw-card>
-  <mdw-card-swipe-action onchange="console.log('sdfsdf')">
-    <mdw-icon>favorite</mdw-icon>
-  </mdw-card-swipe-action>
-  <div class="mdw-card-image mdw-rounded mdw-size-medium">
-    <img alt="landscape"
-      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
-  </div>
-
-  <div class="mdw-headline">Headline</div>
-  <div class="mdw-subhead">Subhead</div>
-</mdw-card>
-
-<mdw-card class="mdw-fullscreen mdw-no-states">
+<mdw-card class="mdw-fullscreen mdw-no-states" style="width: 400px;">
   <div class="mdw-card-image mdw-rounded mdw-size-medium">
     <img alt="landscape"
       src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
@@ -157,6 +68,96 @@
     </div>
   </div>
 </mdw-card>
+
+<mdw-card class="mdw-card-list-item">
+  <div class="mdw-card-image mdw-rounded mdw-size-medium">
+    <img alt="landscape"
+      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
+  </div>
+
+  <div class="mdw-card-content">
+    <div class="mdw-headline-medium">Headline</div>
+    <div class="mdw-subhead-small">Subhead</div>
+    <div class="mdw-supporting-text">
+      one two three four five six.
+    </div>
+  </div>
+</mdw-card>
+
+<mdw-card>
+  <div class="mdw-card-image mdw-rounded mdw-size-medium">
+    <img alt="landscape"
+      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
+  </div>
+
+  <div class="mdw-card-content">
+    <div class="mdw-headline">Headline</div>
+    <div class="mdw-subhead">Subhead</div>
+    <div class="mdw-supporting-text">
+      one two three four five six.
+      <div>sdflkj sdfklsdisdk dsjkljs klsdjkd fiosdlsd jkfd sdjkfud s </div>
+    </div>
+
+    <div class="mdw-card-actions">
+      <mdw-button class="mdw-filled">Favorite</mdw-button>
+      <mdw-button class="mdw-filled-tonal">Delete</mdw-button>
+    </div>
+  </div>
+</mdw-card>
+
+<mdw-card class="mdw-card-orientation-landscape">
+  <div class="mdw-card-image mdw-rounded mdw-size-large">
+    <img alt="landscape"
+      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
+  </div>
+
+  <div class="mdw-card-content">
+    <div class="mdw-headline">Headline</div>
+    <div class="mdw-subhead">Subhead</div>
+    <div class="mdw-supporting-text">
+      one two three four five six.
+      <div>sdflkj sdfklsdisdk dsjkljs klsdjkd fiosdlsd jkfd sdjkfud s </div>
+    </div>
+
+    <div class="mdw-card-actions">
+      <mdw-button class="mdw-filled">Favorite</mdw-button>
+      <mdw-button class="mdw-filled-tonal">Delete</mdw-button>
+    </div>
+  </div>
+</mdw-card>
+
+<mdw-card-container>
+  ${[...new Array(12).keys()].map((_v, i) => `
+    <mdw-card ${i % 4 === 0 ? 'style="height: 488px;"' : ''}>
+      <div class="mdw-card-image mdw-rounded mdw-size-medium">
+        <img alt="landscape"
+          src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
+      </div>
+
+      <div class="mdw-card-content">
+        <div class="mdw-headline-medium">Headline</div>
+        <div class="mdw-subhead-small">Subhead</div>
+        <div class="mdw-supporting-text">
+          one two three four five six.
+        </div>
+      </div>
+    </mdw-card>
+  `).join('\n')}
+</mdw-card-container>
+
+<mdw-card>
+  <mdw-card-swipe-action onchange="console.log('sdfsdf')">
+    <mdw-icon>favorite</mdw-icon>
+  </mdw-card-swipe-action>
+  <div class="mdw-card-image mdw-rounded mdw-size-medium">
+    <img alt="landscape"
+      src="https://images.ctfassets.net/hrltx12pl8hq/7JnR6tVVwDyUM8Cbci3GtJ/bf74366cff2ba271471725d0b0ef418c/shutterstock_376532611-og.jpg" />
+  </div>
+
+  <div class="mdw-headline">Headline</div>
+  <div class="mdw-subhead">Subhead</div>
+</mdw-card>
+
 
 <mdw-card>
   <div class="mdw-card-image mdw-rounded mdw-size-medium">

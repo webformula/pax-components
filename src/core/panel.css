@@ -17,13 +17,22 @@
   pointer-events: none;
 }
 
-.mdw-panel:not(.mdw-lock):not(.mdw-open-animation):not(.mdw-open-animation-target):not(.mdw-close-animation) > .mdw-panel-content {
+.mdw-panel:not(.mdw-lock):not(.mdw-open-animation):not(.mdw-open-animation-target):not(.mdw-open-animation-target-to-fullscreen):not(.mdw-close-animation) > .mdw-panel-content {
   pointer-events: all;
 }
 
 .mdw-panel.mdw-backdrop {
+  opacity: 0;
   pointer-events: unset;
   background-color: var(--mdw-scrim--16);
+  transition: opacity 220ms;
+}
+
+.mdw-panel.mdw-backdrop.mdw-open-animation.mdw-run-animation,
+.mdw-panel.mdw-backdrop.mdw-open-animation-target.mdw-run-animation,
+.mdw-panel.mdw-backdrop.mdw-open-animation-target-to-fullscreen.mdw-run-animation,
+.mdw-panel.mdw-backdrop.mdw-showing {
+  opacity: 1;
 }
 
 .mdw-panel > .mdw-panel-content.mdw-target-element {
@@ -69,34 +78,6 @@
   transition-timing-function: var(--mdw-transition-expand-in);
 }
 
-.mdw-panel.mdw-open-animation-target-to-fullscreen {
-  pointer-events: none;
-  opacity: 0;
-}
-
-.mdw-panel.mdw-open-animation-target-to-fullscreen > .mdw-panel-content {
-  overflow: hidden;
-  position: absolute;
-}
-
-.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation {
-  opacity: 1;
-}
-
-.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation > .mdw-panel-content {
-  transition:
-    top 400ms,
-    left 220ms,
-    width 220ms,
-    height 400ms,
-    border-radius 200ms;
-  transition-timing-function: var(--mdw-transition-expand-in);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 
 /* animate close */
 
@@ -134,9 +115,80 @@
 }
 
 
+/* --- panel to fullscreen --- */
+.mdw-panel.mdw-open-animation-target-to-fullscreen > .mdw-panel-content {
+  overflow: hidden;
+  opacity: 0;
+}
+
+.mdw-panel.mdw-fullscreen.mdw-close-animation-target-to-fullscreen > .mdw-panel-content {
+  overflow: hidden;
+}
+
+.mdw-panel.mdw-close-animation-target-to-fullscreen.mdw-run-animation > .mdw-panel-content,
+.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation > .mdw-panel-content {
+  opacity: 1;
+  transition:
+    top 320ms,
+    left 320ms,
+    width 320ms,
+    max-width 320ms,
+    height 320ms,
+    max-height 320ms,
+    transform 320ms;
+  transition-timing-function: var(--mdw-transition-expand-in);
+  animation: mdw-card-fullscreen-open 220ms;
+}
 
 
 /* --- fullscreen --- */
+
+@media only screen and (min-width: 601px) {
+  .mdw-panel.mdw-fullscreen.mdw-disable-fullscreen-desktop > .mdw-panel-content {
+    max-width: 560px;
+    max-height: 80%;
+    overflow: auto;
+    transform: translate(0, 0);
+  }
+
+  .mdw-panel.mdw-fullscreen.mdw-disable-fullscreen-desktop.mdw-run-animation > .mdw-panel-content {
+    overflow: hidden;
+  }
+
+
+  .mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation > .mdw-panel-content {
+    animation: mdw-card-fullscreen-open 220ms;
+  }
+
+  .mdw-panel.mdw-close-animation-target-to-fullscreen.mdw-run-animation > .mdw-panel-content {
+    opacity: 0;
+    animation: mdw-card-fullscreen-close 220ms;
+  }
+  
+  @keyframes mdw-card-fullscreen-open {
+    0% {
+      opacity: 0;
+    }
+
+    30% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes mdw-card-fullscreen-close {
+    0% {
+      opacity: 1;
+    }
+
+    70% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+}
 
 @media only screen and (max-width: 600px) {
   /* unset all above css for basic */
@@ -157,6 +209,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: auto;
   }
 
   /* animate open */

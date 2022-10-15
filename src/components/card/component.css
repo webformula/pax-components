@@ -190,28 +190,43 @@ mdw-card > .mdw-card-content > .mdw-contracted {
   transition: opacity 120ms;
 }
 
-.mdw-panel.mdw-fullscreen.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-content > .mdw-contracted {
-  opacity: 1;
-  pointer-events: none;
-  height: auto;
-  overflow: hidden;
-}
-
-.mdw-panel.mdw-fullscreen.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-content > .mdw-contracted,
-.mdw-panel.mdw-fullscreen:not(.mdw-closed) mdw-card > .mdw-card-content > .mdw-contracted {
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  overflow: hidden;
-}
-
-
 mdw-card > .mdw-card-content > .mdw-expanded {
   height: 0;
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
   background-color: inherit;
+}
+
+mdw-card > .mdw-card-image.mdw-size-small {
+  height: 60px;
+  transition: height 240ms;
+}
+
+mdw-card > .mdw-card-image.mdw-size-medium {
+  height: 120px;
+  transition: height 240ms;
+}
+
+mdw-card > .mdw-card-image.mdw-size-large {
+  height: 180px;
+  transition: height 240ms;
+}
+
+
+.mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-content > .mdw-contracted {
+  opacity: 1;
+  pointer-events: none;
+  height: auto;
+  overflow: hidden;
+}
+
+.mdw-panel.mdw-fullscreen mdw-card > .mdw-card-content > .mdw-contracted,
+.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-content > .mdw-contracted {
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
 }
 
 .mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-content > .mdw-expanded {
@@ -221,7 +236,7 @@ mdw-card > .mdw-card-content > .mdw-expanded {
   pointer-events: none;
 }
 
-.mdw-panel.mdw-fullscreen:not(.mdw-closed) mdw-card > .mdw-card-content > .mdw-expanded,
+.mdw-panel.mdw-fullscreen mdw-card > .mdw-card-content > .mdw-expanded,
 .mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-content > .mdw-expanded {
   height: auto;
   overflow: visible;
@@ -229,51 +244,38 @@ mdw-card > .mdw-card-content > .mdw-expanded {
   pointer-events: auto;
 }
 
-.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-rounded {
-  border-radius: var(--mdw-shape-medium);
+.mdw-panel.mdw-fullscreen:not(.mdw-close-animation-target-to-fullscreen.mdw-run-animation) mdw-card > .mdw-card-image,
+.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image {
+  border-radius: 0;
 }
-
-.mdw-panel.mdw-fullscreen:not(.mdw-close-animation-target-to-fullscreen) mdw-card > .mdw-card-image.mdw-rounded,
+.mdw-panel.mdw-fullscreen:not(.mdw-close-animation-target-to-fullscreen.mdw-run-animation) mdw-card > .mdw-card-image.mdw-rounded,
 .mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-rounded {
   border-radius: 0 0 var(--mdw-shape-medium) var(--mdw-shape-medium);
 }
 
-.mdw-panel.mdw-fullscreen:not(.mdw-close-animation-target-to-fullscreen) mdw-card > .mdw-card-image,
-.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image {
-  border-radius: 0;
+
+.mdw-panel.mdw-fullscreen mdw-card > .mdw-card-image.mdw-size-small,
+.mdw-panel.mdw-fullscreen mdw-card > .mdw-card-image.mdw-size-medium,
+.mdw-panel.mdw-fullscreen mdw-card > .mdw-card-image.mdw-size-large,
+.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-size-small,
+.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-size-medium,
+.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-size-large {
+  height: var(--mdw-img-fullscreen-height, 300px);
 }
 
-mdw-card > .mdw-card-image.mdw-size-small {
+.mdw-panel.mdw-close-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-size-small,
+.mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-image.mdw-size-small {
   height: 60px;
-  transition: height 400ms;
 }
 
-mdw-card > .mdw-card-image.mdw-size-medium {
+.mdw-panel.mdw-close-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-size-medium,
+.mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-image.mdw-size-medium {
   height: 120px;
-  transition: height 400ms;
 }
 
-mdw-card > .mdw-card-image.mdw-size-large {
+.mdw-panel.mdw-close-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-size-large,
+.mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-image.mdw-size-large {
   height: 180px;
-  transition: height 440ms;
-}
-
-.mdw-panel.mdw-fullscreen:not(.mdw-close-animation-target-to-fullscreen) mdw-card > .mdw-card-image.mdw-height-small,
-.mdw-panel.mdw-fullscreen:not(.mdw-close-animation-target-to-fullscreen) mdw-card > .mdw-card-image.mdw-height-medium,
-.mdw-panel.mdw-fullscreen:not(.mdw-close-animation-target-to-fullscreen) mdw-card > .mdw-card-image.mdw-height-large {
-  height: var(--mdw-img-fullscreen-height, 300px)
-}
-
-.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-height-small,
-.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-height-medium,
-.mdw-panel.mdw-open-animation-target-to-fullscreen.mdw-run-animation mdw-card > .mdw-card-image.mdw-height-large {
-  height: var(--mdw-img-fullscreen-height, 300px)
-}
-
-.mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-image.mdw-height-small,
-.mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-image.mdw-height-medium,
-.mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-image.mdw-height-large {
-  height: inherit;
 }
 
 
