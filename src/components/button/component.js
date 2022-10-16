@@ -19,6 +19,8 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   constructor() {
     super();
     this.tabIndex = 0;
+
+    this.setAttribute('role', 'button');
   }
 
   get toggled() {

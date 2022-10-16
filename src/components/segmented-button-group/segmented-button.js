@@ -7,6 +7,7 @@ customElements.define('mdw-segmented-button', class MDWSegmentedButton extends H
   constructor() {
     super();
     this.tabIndex = 0;
+    this.setAttribute('role', 'radio');
     if (this.parentNode.classList.contains('mdw-selected-icon')) this.classList.add('mdw-selected-icon');
     if (!this.hasAttribute('value')) this.value = this.innerText.trim();
   }

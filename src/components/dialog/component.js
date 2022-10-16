@@ -2,6 +2,10 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import util from '../../core/util.js';
 import './component.css';
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
+// TODO look into using the dialog component
+// TODO align events and naming with dialog
+
 customElements.define('mdw-dialog', class MDWDialog extends HTMLElementExtended {
   useShadowRoot = false;
 
@@ -9,6 +13,11 @@ customElements.define('mdw-dialog', class MDWDialog extends HTMLElementExtended 
 
   constructor() {
     super();
+
+    this.setAttribute('role', 'dialog');
+
+    // aria-labelledby
+    // aria-describedby
   }
 
   connectedCallback() {

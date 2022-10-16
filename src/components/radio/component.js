@@ -7,7 +7,6 @@ import './component.css';
 customElements.define('mdw-radio-group', class MDWRadio extends HTMLElementExtended {
   useShadowRoot = false;
 
-  #lastValue;
   #groupName = `mdw-radio-${util.getUID()}`;
   #onclick_bound = this.#onclick.bind(this);
 
@@ -15,11 +14,11 @@ customElements.define('mdw-radio-group', class MDWRadio extends HTMLElementExten
     super();
 
     this.render();
+    this.setAttribute('role', 'radiogroup');
   }
 
   connectedCallback() {
     this.addEventListener('click', this.#onclick_bound);
-    this.#lastValue = this.value;
   }
 
   disconnectedCallback() {

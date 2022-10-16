@@ -11,6 +11,8 @@ customElements.define('mdw-segmented-button-group', class MDWSegmentedButtonGrou
 
   constructor() {
     super();
+
+    this.setAttribute('role', 'radiogroup');
   }
 
   connectedCallback() {

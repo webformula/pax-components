@@ -13,9 +13,13 @@ customElements.define('mdw-switch', class MDWSwitch extends HTMLElementExtended 
   #dragHandler_bound = this.#dragHandler.bind(this);
   #dragStartHandler_bound = this.#dragStartHandler.bind(this);
 
-
+  // TODO keyboard inputs
+  
   constructor() {
     super();
+
+    this.tabIndex = 0;
+    this.setAttribute('role', 'checkbox');
   }
 
   get value() {

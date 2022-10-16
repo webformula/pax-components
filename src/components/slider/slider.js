@@ -20,10 +20,13 @@ customElements.define('mdw-slider', class MDWSlider extends HTMLElementExtended 
   #label;
   #isDiscrete = false;
 
+  // TODO arrow inputs, include on focus
 
   constructor() {
     super();
 
+    this.tabIndex = 0;
+    this.setAttribute('role', 'slider');
     this.#isDiscrete = this.classList.contains('mdw-discrete');
   }
 

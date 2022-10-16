@@ -17,6 +17,9 @@ customElements.define('mdw-fab', class MDWFab extends HTMLElementExtended {
   constructor() {
     super();
 
+    this.tabIndex = 0;
+    this.setAttribute('role', 'button');
+
     const icon = this.querySelector('mdw-icon');
     this.#hasLabel = icon && icon.nextElementSibling;
 

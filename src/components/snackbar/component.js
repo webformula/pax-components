@@ -6,6 +6,8 @@ customElements.define('mdw-snackbar', class MDWSnackbar extends HTMLElementExten
 
   constructor() {
     super();
+
+    this.setAttribute('role', 'alertdialog');
   }
 
   connectedCallback() {

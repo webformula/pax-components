@@ -7,6 +7,8 @@ customElements.define('mdw-progress-linear', class MDWProgressLinear extends HTM
 
   constructor() {
     super();
+
+    this.setAttribute('role', 'progressbar');
   }
 
   get percent() {

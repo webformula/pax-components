@@ -10,6 +10,8 @@ customElements.define('mdw-tooltip', class MDWTooltip extends HTMLElementExtende
 
   connectedCallback() {
     this.render();
+
+    this.setAttribute('role', 'tooltip');
   }
 
   show(target, mouseX) {

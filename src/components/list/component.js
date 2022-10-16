@@ -3,6 +3,8 @@ import Drag from '../../core/drag.js';
 import util from '../../core/util.js';
 import './component.css';
 
+// TODO add mutation observer for added list items?
+
 customElements.define('mdw-list', class MDWList extends HTMLElementExtended {
   useShadowRoot = false;
 
@@ -24,8 +26,11 @@ customElements.define('mdw-list', class MDWList extends HTMLElementExtended {
   constructor() {
     super();
 
+    this.setAttribute('role', 'list');
+
     [...this.querySelectorAll('mdw-list-item')].forEach(element => {
       element.tabIndex = 0
+      element.setAttribute('role', 'listitem');
       if (this.#isSelectable) {
         const avatar = element.querySelector('mdw-avatar');
         if (avatar) avatar.classList.add('mdw-checkbox');

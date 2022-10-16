@@ -27,10 +27,13 @@ customElements.define('mdw-slider-range', class MDWSliderRange extends HTMLEleme
   #labelTwo;
   #isDiscrete = false;
 
-
+  // TODO arrow inputs, include on focus
+  
   constructor() {
     super();
 
+    this.tabIndex = 0;
+    this.setAttribute('role', 'slider');
     this.#isDiscrete = this.classList.contains('mdw-discrete');
   }
 

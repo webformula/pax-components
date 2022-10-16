@@ -9,6 +9,8 @@ customElements.define('mdw-progress-circular', class MDWProgressCircular extends
 
   constructor() {
     super();
+
+    this.setAttribute('role', 'progressbar');
   }
 
   get percent() {

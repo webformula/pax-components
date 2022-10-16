@@ -12,6 +12,8 @@ customElements.define('mdw-navigation-button', class MDWNavigationButton extends
   constructor() {
     super();
 
+    this.tabIndex = 0;
+    this.setAttribute('role', 'button');
     // if (this.#shouldShow()) this.classList.add('mdw-show');
   }
 
