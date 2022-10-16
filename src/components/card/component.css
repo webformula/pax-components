@@ -14,7 +14,7 @@ mdw-card {
   color: var(--mdw-on-surface);
   z-index: 0;
 
-  padding: 16px;
+  /* padding: 16px; */
   margin-bottom: 8px;
 
   left: var(--mdw-card-swipe-position);
@@ -46,10 +46,11 @@ mdw-card > .mdw-card-image {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(100% + 32px);
-  margin-left: -16px;
-  margin-top: -16px;
-  margin-bottom: 20px;
+  width: 100%;
+  /* width: calc(100% + 32px); */
+  /* margin-left: -16px; */
+  /* margin-top: -16px; */
+  /* margin-bottom: 20px; */
   overflow: hidden;
   border-radius: var(--mdw-shape-medium) var(--mdw-shape-medium) 0 0;
 }
@@ -183,6 +184,7 @@ mdw-card.mdw-outlined {
 
 mdw-card > .mdw-card-content {
   position: relative;
+  padding: 16px;
 }
 
 mdw-card > .mdw-card-content > .mdw-contracted {
@@ -471,7 +473,7 @@ mdw-card.mdw-card-orientation-landscape > .mdw-card-content {
 }
 
 mdw-card.mdw-card-orientation-landscape > .mdw-card-image {
-  margin-bottom: -16px;
+  /* margin-bottom: -16px; */
   aspect-ratio: 1 / 1;
   height: 100%;
   width: auto;

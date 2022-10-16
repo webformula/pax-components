@@ -120,9 +120,10 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     this.blur();
   }
 
-  #onClick() {
+  #onClick(event) {
     if (this.#isFullscreen) this.#transitionFullScreen();
     else if (this.#isExpanding) this.#expandContract();
+    event.stopPropagation();
   }
 
   #onClickFullscreenBack() {
