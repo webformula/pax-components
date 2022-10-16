@@ -1,12 +1,16 @@
-<h3>Radio</h3>
-
-<mdw-card class="mdw-no-states">
-  <mdw-radio-group>
-    <input type="radio" id="one" name="test" value="one" checked>
-    <label for="one">One</label>
-    <input type="radio" id="two" name="test" value="two" checked>
-    <label for="two">Two</label>
-  </mdw-radio-group>
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Radio buttons</div>
+    <div class="mdw-supporting-text">Radio buttons allow users to select one option from a set.</div>
+  </div>
+  <div class="mdw-card-content">
+    <mdw-radio-group>
+      <input type="radio" id="one" name="test" value="one" checked>
+      <label for="one">One</label>
+      <input type="radio" id="two" name="test" value="two" checked>
+      <label for="two">Two</label>
+    </mdw-radio-group>
+  </div>
 </mdw-card>
 
 <a href="https://m3.material.io/components/radio-button/overview" target="_new">Material Design Guidelines:
@@ -23,7 +27,20 @@ options.</p>
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="standard">
+  <mdw-card id="standard">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Standard</div>
+      
+      <div class="example">
+        <mdw-radio-group>
+          <input type="radio" id="one" value="one" checked>
+          <label for="one">One</label>
+          <input type="radio" id="two" value="two" checked>
+          <label for="two">Two</label>
+        </mdw-radio-group>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-radio-group>
@@ -34,20 +51,22 @@ options.</p>
   </mdw-radio-group>`)}
       </code>
     </pre>
-
-    <div class="mdw-headline">Standard</div>
-
-    <div class="example">
-      <mdw-radio-group>
-        <input type="radio" id="one" value="one" checked>
-        <label for="one">One</label>
-        <input type="radio" id="two" value="two" checked>
-        <label for="two">Two</label>
-      </mdw-radio-group>
-    </div>
   </mdw-card>
 
-  <mdw-card class="mdw-no-states" id="label-left">
+  <mdw-card id="label-left">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Label left</div>
+      
+      <div class="example">
+        <mdw-radio-group class="mdw-label-left">
+          <input type="radio" id="one" value="one" checked>
+          <label for="one">One</label>
+          <input type="radio" id="two" value="two" checked>
+          <label for="two">Two</label>
+        </mdw-radio-group>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-radio-group class="mdw-label-left">
@@ -58,16 +77,5 @@ options.</p>
   </mdw-radio-group>`)}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Label left</div>
-  
-    <div class="example">
-      <mdw-radio-group class="mdw-label-left">
-        <input type="radio" id="one" value="one" checked>
-        <label for="one">One</label>
-        <input type="radio" id="two" value="two" checked>
-        <label for="two">Two</label>
-      </mdw-radio-group>
-    </div>
   </mdw-card>
 </section>

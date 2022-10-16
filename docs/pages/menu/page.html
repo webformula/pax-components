@@ -1,34 +1,38 @@
-<h3>Menu</h3>
-
-<mdw-card class="mdw-no-states">
-  <mdw-menu>
-    <mdw-button>Menu</mdw-button>
-
-    <ul>
-      <li>
-        <mdw-icon>content_copy</mdw-icon>
-        <div class="mdw-label">copy</div>
-      </li>
-      <li>
-        <mdw-icon>content_paste</mdw-icon>
-        <div class="mdw-label">Past</div>
-      </li>
-      <li>
-        <mdw-icon>cut</mdw-icon>
-        <div class="mdw-label">Cut</div>
-      </li>
-      <li>Plain</li>
-      <li>
-        <div class="mdw-label">Submenu</div>
-        <mdw-icon>arrow_right</mdw-icon>
-      </li>
-      <li>Plain</li>
-      <li>Plain</li>
-      <li>Plain</li>
-      <li>Plain</li>
-      <li>Plain</li>
-    </ul>
-  </mdw-menu>
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Menus</div>
+    <div class="mdw-supporting-text">Menus display a list of choices on a temporary surface.</div>
+  </div>
+  <div class="mdw-card-content">
+    <mdw-menu>
+      <mdw-button>Menu</mdw-button>
+    
+      <ul>
+        <li>
+          <mdw-icon>content_copy</mdw-icon>
+          <div class="mdw-label">copy</div>
+        </li>
+        <li>
+          <mdw-icon>content_paste</mdw-icon>
+          <div class="mdw-label">Past</div>
+        </li>
+        <li>
+          <mdw-icon>cut</mdw-icon>
+          <div class="mdw-label">Cut</div>
+        </li>
+        <li>Plain</li>
+        <li>
+          <div class="mdw-label">Submenu</div>
+          <mdw-icon>arrow_right</mdw-icon>
+        </li>
+        <li>Plain</li>
+        <li>Plain</li>
+        <li>Plain</li>
+        <li>Plain</li>
+        <li>Plain</li>
+      </ul>
+    </mdw-menu>
+  </div>
 </mdw-card>
 
 <a href="https://m3.material.io/components/menus/specs#15cc3423-ab1f-4d1c-8ce4-e5c9ae95f19f" target="_new">Material Design Guidelines:
@@ -36,14 +40,44 @@
 <p>Selects are menus that are assigned to a text field</p>
 
 <div class="links">
-  <a href="#menu_with_button">Menu with button</a>
+  <a href="#basic">Basic</a>
 </div>
 
 
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="menu_with_button">
+  <mdw-card id="basic">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Basic menu</div>
+      
+      <div class="example">
+        <mdw-menu>
+          <mdw-button>Menu</mdw-button>
+      
+          <ul>
+            <li>
+              <mdw-icon>content_copy</mdw-icon>
+              <div class="mdw-label">copy</div>
+            </li>
+            <li>
+              <mdw-icon>content_paste</mdw-icon>
+              <div class="mdw-label">Past</div>
+            </li>
+            <li>
+              <mdw-icon>cut</mdw-icon>
+              <div class="mdw-label">Cut</div>
+            </li>
+            <li>Plain</li>
+            <li>
+              <div class="mdw-label">Submenu</div>
+              <mdw-icon>arrow_right</mdw-icon>
+            </li>
+          </ul>
+        </mdw-menu>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-menu>
@@ -71,33 +105,5 @@
   </mdw-menu>`)}
       </code>
     </pre>
-
-    <div class="mdw-headline">Menu with button</div>
-
-    <div class="example">
-      <mdw-menu>
-        <mdw-button>Menu</mdw-button>
-      
-        <ul>
-          <li>
-            <mdw-icon>content_copy</mdw-icon>
-            <div class="mdw-label">copy</div>
-          </li>
-          <li>
-            <mdw-icon>content_paste</mdw-icon>
-            <div class="mdw-label">Past</div>
-          </li>
-          <li>
-            <mdw-icon>cut</mdw-icon>
-            <div class="mdw-label">Cut</div>
-          </li>
-          <li>Plain</li>
-          <li>
-            <div class="mdw-label">Submenu</div>
-            <mdw-icon>arrow_right</mdw-icon>
-          </li>
-        </ul>
-      </mdw-menu>
-    </div>
   </mdw-card>
 </section>

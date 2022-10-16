@@ -1,29 +1,34 @@
-<h3>Select</h3>
-
-<mdw-card class="mdw-no-states">
-  <mdw-menu>
-    <mdw-text-field>
-      <input>
-      <label>Select</label>
-    </mdw-text-field>
-
-    <ul>
-      <li selected>
-        <mdw-icon>emoji_people</mdw-icon>
-        <div class="mdw-label">Zero</div>
-      </li>
-      <li>One</li>
-      <li>Two</li>
-      <li>Four</li>
-      <li>Five</li>
-      <li>Six</li>
-      <li>Seven</li>
-      <li>Eight</li>
-      <li>Nine</li>
-      <li>Ten</li>
-    </ul>
-  </mdw-menu>
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Selects</div>
+    <div class="mdw-supporting-text">Selects are menus with text fields</div>
+  </div>
+  <div class="mdw-card-content">
+    <mdw-menu>
+      <mdw-text-field>
+        <input>
+        <label>Select</label>
+      </mdw-text-field>
+    
+      <ul>
+        <li selected>
+          <mdw-icon>emoji_people</mdw-icon>
+          <div class="mdw-label">Zero</div>
+        </li>
+        <li>One</li>
+        <li>Two</li>
+        <li>Four</li>
+        <li>Five</li>
+        <li>Six</li>
+        <li>Seven</li>
+        <li>Eight</li>
+        <li>Nine</li>
+        <li>Ten</li>
+      </ul>
+    </mdw-menu>
+  </div>
 </mdw-card>
+
 
 <a href="https://m3.material.io/components/menus/specs#15cc3423-ab1f-4d1c-8ce4-e5c9ae95f19f" target="_new">Material Design Guidelines:
   Select</a>
@@ -39,7 +44,36 @@
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="basic">
+  <mdw-card id="basic">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Basic</div>
+      
+      <div class="example">
+        <mdw-menu>
+          <mdw-text-field>
+            <input>
+            <label>Select</label>
+          </mdw-text-field>
+      
+          <ul>
+            <li selected>
+              <mdw-icon>emoji_people</mdw-icon>
+              <div class="mdw-label">Zero</div>
+            </li>
+            <li>One</li>
+            <li>Two</li>
+            <li>Four</li>
+            <li>Five</li>
+            <li>Six</li>
+            <li>Seven</li>
+            <li>Eight</li>
+            <li>Nine</li>
+            <li>Ten</li>
+          </ul>
+        </mdw-menu>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-menu>
@@ -66,37 +100,23 @@
   </mdw-menu>`)}
       </code>
     </pre>
-
-    <div class="mdw-headline">Basic</div>
-
-    <div class="example">
-      <mdw-menu>
-        <mdw-text-field>
-          <input>
-          <label>Select</label>
-        </mdw-text-field>
-      
-        <ul>
-          <li selected>
-            <mdw-icon>emoji_people</mdw-icon>
-            <div class="mdw-label">Zero</div>
-          </li>
-          <li>One</li>
-          <li>Two</li>
-          <li>Four</li>
-          <li>Five</li>
-          <li>Six</li>
-          <li>Seven</li>
-          <li>Eight</li>
-          <li>Nine</li>
-          <li>Ten</li>
-        </ul>
-      </mdw-menu>
-    </div>
   </mdw-card>
 
 
-  <mdw-card class="mdw-no-states" id="async-search">
+  <mdw-card id="async-search">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Async search</div>
+      
+      <div class="example">
+        <mdw-menu id="select-search" class="mdw-async-search">
+          <mdw-text-field>
+            <input type="search" onsearch="page.search(this.value)">
+            <label>Select</label>
+          </mdw-text-field>
+        </mdw-menu>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-menu id="select-search" class="mdw-async-search">
@@ -107,28 +127,30 @@
   </mdw-menu>`)}
       </code>
     </pre>
-
+    
     <pre>
       <code class="language-javascript">
   ${`// do some async stuff
   window.search = async () => document.querySelector('select-search').options = ['One', 'Two'];`}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Async search</div>
-  
-    <div class="example">
-      <mdw-menu id="select-search" class="mdw-async-search">
-        <mdw-text-field>
-          <input type="search" onsearch="page.search(this.value)">
-          <label>Select</label>
-        </mdw-text-field>
-      </mdw-menu>
-    </div>
   </mdw-card>
 
 
-  <mdw-card class="mdw-no-states" id="async-search-on-enter">
+  <mdw-card id="async-search-on-enter">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Async search only on enter press</div>
+      
+      <div class="example">
+        <mdw-menu id="select-search-on-enter" class="mdw-async-search mdw-async-search-on-enter">
+          <mdw-text-field>
+            <input type="search" onsearch="page.searchOnEnter(this.value)">
+            <label>Select</label>
+          </mdw-text-field>
+        </mdw-menu>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-menu id="select-search-on-enter" class="mdw-async-search mdw-async-search-on-enter">
@@ -139,23 +161,12 @@
   </mdw-menu>`)}
       </code>
     </pre>
-  
+    
     <pre>
       <code class="language-javascript">
   ${`// do some async stuff
   window.searchOnEnter = async () => document.querySelector('select-search-on-enter').options = ['One', 'Two'];`}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Async search only on enter press</div>
-  
-    <div class="example">
-      <mdw-menu id="select-search-on-enter" class="mdw-async-search mdw-async-search-on-enter">
-        <mdw-text-field>
-          <input type="search" onsearch="page.searchOnEnter(this.value)">
-          <label>Select</label>
-        </mdw-text-field>
-      </mdw-menu>
-    </div>
   </mdw-card>
 </section>

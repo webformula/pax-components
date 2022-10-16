@@ -1,6 +1,13 @@
-<h3>Tooltip</h3>
-
-<mdw-card class=" mdw-no-states">
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Tooltips</div>
+    <!-- <div class="mdw-supporting-text">Checkboxes can turn an option on or off</div> -->
+  </div>
+  <div class="mdw-card-content">
+    <div class="example" title="test">
+      <mdw-button>Example</mdw-button>
+    </div>
+  </div>
 </mdw-card>
 
 <a href="https://m3.material.io/components/buttons/overview" target="_new">Material Design Guidelines: Buttons</a>
@@ -14,17 +21,19 @@
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="standard">
+  <mdw-card id="standard">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Text button</div>
+      
+      <div class="example" title="test">
+        <mdw-button>Example</mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-button>Text</mdw-button>`)}
       </code>
     </pre>
-
-    <div class="mdw-headline">Text button</div>
-
-    <div class="example" title="test">
-      <mdw-button>Example</mdw-button>
-    </div>
   </mdw-card>
 </section>

@@ -3,6 +3,7 @@ import Ripple from '../../core/Ripple.js';
 import util from '../../core/util.js';
 import './component.css';
 
+// TODO scroll to active href
 
 customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementExtended {
   useShadowRoot = false;

@@ -1,6 +1,11 @@
-<h3>Snackbar</h3>
-
-<mdw-card class=" mdw-no-states">
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Snackbars</div>
+    <div class="mdw-supporting-text">Checkboxes can turn an option on or off</div>
+  </div>
+  <div class="mdw-card-content">
+    <mdw-button onclick="page.basic();">Show</mdw-button>
+  </div>
 </mdw-card>
 
 <a href="https://m3.material.io/components/buttons/overview" target="_new">Material Design Guidelines: Snackbar (v2)</a>
@@ -14,7 +19,15 @@
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="basic">
+  <mdw-card id="basic">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Basic</div>
+      
+      <div class="example">
+        <mdw-button onclick="page.basic();">Show</mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-javascript">
   ${`MDWSnackbar.show({
@@ -22,15 +35,17 @@
   });`}
       </code>
     </pre>
-
-    <div class="mdw-headline">Basic</div>
-
-    <div class="example">
-      <mdw-button onclick="page.basic();">Show</mdw-button>
-    </div>
   </mdw-card>
 
-  <mdw-card class="mdw-no-states" id="action">
+  <mdw-card id="action">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">With action</div>
+      
+      <div class="example">
+        <mdw-button onclick="page.action();">Show</mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-javascript">
   ${`// Promise will resolve when the Snackbar is dismissed automatically or when action is pressed
@@ -42,11 +57,5 @@
   console.log('Snackbar dismissed');`}
       </code>
     </pre>
-  
-    <div class="mdw-headline">With action</div>
-  
-    <div class="example">
-      <mdw-button onclick="page.action();">Show</mdw-button>
-    </div>
   </mdw-card>
 </section>
