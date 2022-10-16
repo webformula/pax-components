@@ -1,7 +1,11 @@
-<h3>Dialog</h3>
-
-<mdw-card class="mdw-no-states">
-  <mdw-button onclick="page.openSimple()">Open dialog</mdw-button>
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Dialogs</div>
+    <div class="mdw-supporting-text">Dialogs provide important prompts in a user flow.</div>
+  </div>
+  <div class="mdw-card-content">
+    <mdw-button onclick="page.openSimple()">Open dialog</mdw-button>
+  </div>
 </mdw-card>
 
 <a href="https://m3.material.io/components/dialogs/overview" target="_new">Material Design Guidelines:
@@ -20,7 +24,15 @@ basic and full-screen.</p>
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="simple">
+  <mdw-card id="simple">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Simple dialog</div>
+      
+      <div class="example">
+        <mdw-button onclick="page.openSimple()">Open</mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-javascript">
   const answer = await MDWDialog.simple({
@@ -33,43 +45,50 @@ basic and full-screen.</p>
   if (answer === 'negative') console.log('User pressed cancel');
       </code>
     </pre>
-
-    <div class="mdw-headline">Simple dialog</div>
-
-    <div class="example">
-      <mdw-button onclick="page.openSimple()">Open</mdw-button>
-    </div>
   </mdw-card>
 
-  <mdw-card class="mdw-no-states" id="template">
-    <pre>
-        <code class="language-html">
-    ${escapeHTML(`// templateString
-    <mdw-dialog>
-      <div class="mdw-header">Headline</div>
-      <div class="mdw-content">Here is some content for the dialog.</div>
-      <div class="mdw-actions">
-        <mdw-button onclick="MDWDialog.close()">Close</mdw-button>
+
+  <mdw-card id="template">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Template dialog</div>
+      
+      <div class="example">
+        <mdw-button onclick="page.openTemplate()">Open</mdw-button>
       </div>
-    </mdw-dialog>`)}
-        </code>
-      </pre>
-    <pre>
-        <code class="language-javascript">
-    MDWDialog.template({
-      template: templateString
-    });
-        </code>
-      </pre>
-  
-    <div class="mdw-headline">Template dialog</div>
-  
-    <div class="example">
-      <mdw-button onclick="page.openTemplate()">Open</mdw-button>
     </div>
+
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`// templateString
+  <mdw-dialog>
+    <div class="mdw-header">Headline</div>
+    <div class="mdw-content">Here is some content for the dialog.</div>
+    <div class="mdw-actions">
+      <mdw-button onclick="MDWDialog.close()">Close</mdw-button>
+    </div>
+  </mdw-dialog>`)}
+      </code>
+    </pre>
+    <pre>
+      <code class="language-javascript">
+  MDWDialog.template({
+    template: templateString
+  });
+      </code>
+    </pre>
   </mdw-card>
 
-  <mdw-card class="mdw-no-states" id="fullscreen">
+
+  <mdw-card id="fullscreen">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Fullscreen dialog</div>
+      
+      <div class="example">
+        <div>When using fullscreen with screens larger than 600px, the dialog will auto switch to not be fullscreen</div>
+        <mdw-button onclick="page.openFullscreen()">Open</mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`// templateString
@@ -90,17 +109,9 @@ basic and full-screen.</p>
       </mdw-text-field>
   
       <div class="mdw-supporting-text">
-        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin
-        literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
-        College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and
-        going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes
-        from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,
-        written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first
-        line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-  
-        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32
-        and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form,
-        accompanied by English versions from the 1914 translation by H. Rackham.
+        
+        ...
+        
       </div>
     </div>
   </mdw-dialog>`)}
@@ -113,44 +124,39 @@ basic and full-screen.</p>
   });
       </code>
     </pre>
-  
-    <div class="mdw-headline">Fullscreen dialog</div>
-  
-    <div class="example">
-      <div>When using fullscreen with screens larger than 600px, the dialog will auto switch to not be fullscreen</div>
-      <mdw-button onclick="page.openFullscreen()">Open</mdw-button>
-    </div>
   </mdw-card>
 
 
-  <mdw-card class="mdw-no-states" id="response">
-    <pre>
-          <code class="language-html">
-      ${escapeHTML(`// templateString
-      <mdw-dialog>
-        <div class="mdw-header">Headline</div>
-        <div class="mdw-content">Here is some content for the dialog.</div>
-        <div class="mdw-actions">
-          <mdw-button onclick="MDWDialog.close('response value')">Close</mdw-button>
-        </div>
-      </mdw-dialog>`)}
-          </code>
-        </pre>
-    <pre>
-          <code class="language-javascript">
-      const value = await MDWDialog.template({
-        template: templateString
-      });
-
-      // value is passed in when closing the dialog: MDWDialog.close('response value')
-      console.log(value);
-          </code>
-        </pre>
-  
-    <div class="mdw-headline">Template dialog</div>
-  
-    <div class="example">
-      <mdw-button onclick="page.openTemplate()">Open</mdw-button>
+  <mdw-card id="response">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Template dialog</div>
+      
+      <div class="example">
+        <mdw-button onclick="page.openTemplate()">Open</mdw-button>
+      </div>
     </div>
+
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`// templateString
+  <mdw-dialog>
+    <div class="mdw-header">Headline</div>
+    <div class="mdw-content">Here is some content for the dialog.</div>
+    <div class="mdw-actions">
+      <mdw-button onclick="MDWDialog.close('response value')">Close</mdw-button>
+    </div>
+  </mdw-dialog>`)}
+      </code>
+    </pre>
+    <pre>
+      <code class="language-javascript">
+  const value = await MDWDialog.template({
+    template: templateString
+  });
+
+  // value is passed in when closing the dialog: MDWDialog.close('response value')
+  console.log(value);
+      </code>
+    </pre>
   </mdw-card>
 </section>

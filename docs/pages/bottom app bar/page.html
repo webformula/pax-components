@@ -1,7 +1,8 @@
-<h3>Bottom app bar</h3>
-
-<mdw-card class="mdw-no-states">
-  
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Bottom app bar</div>
+    <div class="mdw-supporting-text">A bottom app bar displays navigation and key actions at the bottom of mobile screens.</div>
+  </div>
 </mdw-card>
 
 <a href="https://m3.material.io/components/bottom-app-bar/overview" target="_new">Material Design Guidelines:
@@ -21,7 +22,15 @@ floating action button (FAB).</p>
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="basic">
+  <mdw-card id="basic">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Basic</div>
+      
+      <div class="example">
+        <iframe src="./pages/bottom app bar/basic-index.html" style="height: 260px; width: 100%"></iframe>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-bottom-app-bar>
@@ -52,16 +61,18 @@ floating action button (FAB).</p>
   </mdw-bottom-app-bar>`)}
       </code>
     </pre>
-
-    <div class="mdw-headline">Basic</div>
-
-    <div class="example">
-      <iframe src="./pages/bottom app bar/basic-index.html" style="height: 260px; width: calc(100% - 24px)"></iframe>
-    </div>
   </mdw-card>
 
 
-  <mdw-card class="mdw-no-states" id="auto-hide">
+  <mdw-card id="auto-hide">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Auto hide</div>
+      
+      <div class="example">
+        <iframe src="./pages/bottom app bar/auto-hide-index.html" style="height: 260px; width: 100%;"></iframe>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-bottom-app-bar class="mdw-auto-hide">
@@ -81,15 +92,20 @@ floating action button (FAB).</p>
   </mdw-bottom-app-bar>`)}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Auto hide</div>
-  
-    <div class="example">
-      <iframe src="./pages/bottom app bar/auto-hide-index.html" style="height: 260px; width: calc(100% - 24px)"></iframe>
-    </div>
   </mdw-card>
 
-  <mdw-card class="mdw-no-states" id="secondary-bar">
+
+
+  <mdw-card id="secondary-bar">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Secondary bar using id (multiple bars)</div>
+      
+      <div class="example">
+        <iframe src="./pages/bottom app bar/secondary-bar-index.html"
+          style="height: 260px; width: 100%"></iframe>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-bottom-app-bar>
@@ -125,7 +141,7 @@ floating action button (FAB).</p>
   </mdw-bottom-app-bar>`)}
       </code>
     </pre>
-
+    
     <pre>
       <code class="language-javascript">
   ${`document.querySelector('mdw-bottom-app-bar').showAlt('bottom-ap-bar-secondary-one');
@@ -135,16 +151,21 @@ floating action button (FAB).</p>
   document.querySelector('mdw-bottom-app-bar').showAlt();`}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Secondary bar using id (multiple bars)</div>
-  
-    <div class="example">
-      <iframe src="./pages/bottom app bar/secondary-bar-index.html" style="height: 260px; width: calc(100% - 24px)"></iframe>
-    </div>
   </mdw-card>
 
 
-  <mdw-card class="mdw-no-states" id="secondary-bar-hash">
+  <mdw-card id="secondary-bar-hash">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Secondary bar using URL hashes</div>
+      <div class="mdw-body-small" style="margin-left: 16px;">Changing the hash to any non matching secondary hash will revert
+        back to primary</div>
+      
+      <div class="example">
+        <iframe src="./pages/bottom app bar/secondary-bar-hash-index.html"
+          style="height: 260px; width: 100%"></iframe>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-bottom-app-bar>
@@ -176,24 +197,26 @@ floating action button (FAB).</p>
   </mdw-bottom-app-bar>`)}
       </code>
     </pre>
-
+    
     <pre>
       <code class="language-javascript">
   ${`// Changing the location hash will change bar
   location.hash = '#one';`}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Secondary bar using URL hashes</div>
-    <div class="mdw-body-small" style="margin-left: 16px;">Changing the hash to any non matching secondary hash will revert back to primary</div>
-  
-    <div class="example">
-      <iframe src="./pages/bottom app bar/secondary-bar-hash-index.html"
-        style="height: 260px; width: calc(100% - 24px)"></iframe>
-    </div>
   </mdw-card>
 
-  <mdw-card class="mdw-no-states" id="mobile-only">
+
+
+  <mdw-card id="mobile-only">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Mobile only</div>
+      
+      <div class="example" style="height: 260px">
+        <iframe src="./pages/bottom app bar/mobile-only-index.html" style="height: 260px; width: 100%;"></iframe>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-bottom-app-bar class="mdw-mobile-only">
@@ -209,12 +232,6 @@ floating action button (FAB).</p>
   </mdw-bottom-app-bar>`)}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Mobile only</div>
-  
-    <div class="example" style="height: 260px">
-      <iframe src="./pages/bottom app bar/mobile-only-index.html" style="height: 260px; width: calc(100% - 24px)"></iframe>
-    </div>
   </mdw-card>
 </section>
   

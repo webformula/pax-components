@@ -22,7 +22,7 @@ mdw-card {
 }
 /* fixes outline overlap */
 mdw-card.mdw-outlined {
-  --mdw-card-swipe-position: 1px;
+  --mdw-card-swipe-position: 0;
 }
 mdw-card.mdw-dragging {
   transition: none;
@@ -349,7 +349,7 @@ mdw-card > mdw-card-swipe-action {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 0;
+  top: 1px;
   left: calc(var(--mdw-card-swipe-position) * -1);
   bottom: 0;
   width: 100px;
@@ -410,7 +410,7 @@ mdw-card > mdw-card-swipe-action::after {
   content: '';
   top: 0;
   left: var(--mdw-card-swipe-position);
-  width: 100px;
+  width: 101px;
   padding-top: 18px;
   padding-left: 18px;
   bottom: 0;

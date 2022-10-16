@@ -40,3 +40,16 @@ a:-webkit-any-link:active {
   user-select: none;
   pointer-events: none;
 }
+
+
+a {
+  color: var(--mdw-primary);
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+  line-height: var(--mdw-font-line-height-large-label);
+}
+
+a:hover {
+  filter: brightness(56%);
+}

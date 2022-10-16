@@ -1,15 +1,18 @@
 pre {
   display: contents;
+  margin: 0;
+}
+
+mdw-card > pre:first-of-type > code {
+  margin-top: 8px;
 }
 
 pre > code {
   width: calc(100% - 16px);
-  border-radius: var(--mdw-shape-medium) var(--mdw-shape-medium) 0 0;
 }
 
-pre + pre code {
-  width: calc(100% - 16px);
-  border-radius: 0;
+mdw-card > pre:last-of-type > code {
+  border-radius: 0 0 var(--mdw-shape-medium) var(--mdw-shape-medium);
 }
 
 page-content {
@@ -45,4 +48,19 @@ mdw-card .example {
 
 page-content {
   background-color: #ededed;
+}
+
+mdw-card.header-card {
+  margin-top: 16px;
+  margin-bottom: 48px;
+  padding-bottom: 8px;
+  box-shadow: none;
+}
+
+mdw-card.header-card .mdw-headline {
+  font-size: 32px;
+}
+
+page-content > section > mdw-card {
+  margin-bottom: 36px;
 }

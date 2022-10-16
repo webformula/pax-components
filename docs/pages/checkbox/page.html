@@ -1,11 +1,12 @@
-<h3>Checkbox</h3>
-
-<mdw-card class=" mdw-no-states">
-  <div class="mdw-container" style="padding: 18px;">
-    <mdw-checkbox onchange="console.log(this.checked)">Label</mdw-checkbox>
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Checkboxes</div>
+    <div class="mdw-supporting-text">Checkboxes can turn an option on or off</div>
   </div>
-  <div class="mdw-headline">Types</div>
-  <div class="mdw-supporting-text"></div>
+  <div class="mdw-card-content" style="display: flex; flex-direction:column;">
+    <mdw-checkbox checked>Checked</mdw-checkbox>
+    <mdw-checkbox>Unchecked</mdw-checkbox>
+  </div>
 </mdw-card>
 
 <a href="https://material.io/components/checkboxes#usage" target="_new">Material Design Guidelines:
@@ -21,33 +22,37 @@
 <section>
   <h4>Types</h4>
 
-  <mdw-card class="mdw-no-states" id="standard">
+  <mdw-card id="standard">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Checkboxes</div>
+      
+      <div class="example" style="flex-direction: column; display: flex;">
+        <mdw-checkbox>unchecked</mdw-checkbox>
+        <mdw-checkbox checked>checked</mdw-checkbox>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-checkbox>unchecked</mdw-checkbox>
   <mdw-checkbox checked>checked</mdw-checkbox>`)}
       </code>
     </pre>
-
-    <div class="mdw-headline">Checkboxes</div>
-
-    <div class="example" style="flex-direction: column; display: flex;">
-      <mdw-checkbox>unchecked</mdw-checkbox>
-      <mdw-checkbox checked>checked</mdw-checkbox>
-    </div>
   </mdw-card>
 
-  <mdw-card class="mdw-no-states" id="left_label">
-    <pre>
-        <code class="language-html">
-  ${escapeHTML(`<mdw-checkbox class="mdw-label-left">left label</mdw-checkbox>`)}
-        </code>
-      </pre>
-  
-    <div class="mdw-headline">Left label</div>
-  
-    <div class="example" style="flex-direction: column; display: flex;">
-      <mdw-checkbox class="mdw-label-left">left label</mdw-checkbox>
+  <mdw-card id="left_label">    
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Left label</div>
+      
+      <div class="example" style="flex-direction: column; display: flex;">
+        <mdw-checkbox class="mdw-label-left">left label</mdw-checkbox>
+      </div>
     </div>
+
+    <pre>
+      <code class="language-html">
+${escapeHTML(`<mdw-checkbox class="mdw-label-left">left label</mdw-checkbox>`)}
+      </code>
+    </pre>
   </mdw-card>
 </section>

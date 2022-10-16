@@ -1,30 +1,30 @@
-<h3>Icon buttons</h3>
-
-<mdw-card class=" mdw-no-states">
-  <div class="mdw-container" style="padding: 18px;">
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Icon buttons</div>
+    <div class="mdw-supporting-text">Icon buttons help people take supplementary actions with a single tap.
+</div>
+  </div>
+  <div class="mdw-card-content">
     <mdw-button class="mdw-icon-button">
       <mdw-icon>settings</mdw-icon>
     </mdw-button>
-
+    
     <mdw-button class="mdw-icon-button mdw-elevated">
       <mdw-icon>favorite</mdw-icon>
     </mdw-button>
-
+    
     <mdw-button class="mdw-icon-button mdw-filled">
       <mdw-icon>close</mdw-icon>
     </mdw-button>
-
+    
     <mdw-button class="mdw-icon-button mdw-filled-tonal">
       <mdw-icon>add</mdw-icon>
     </mdw-button>
-
+    
     <mdw-button class="mdw-icon-button mdw-outlined">
       <mdw-icon>keyboard_voice</mdw-icon>
     </mdw-button>
   </div>
-  <div class="mdw-headline">Types</div>
-  <!-- <div class="mdw-subhead">subhead</div> -->
-  <div class="mdw-supporting-text">text - elevated - filled - filled tonal - outlined</div>
 </mdw-card>
 
 <a href="https://m3.material.io/components/icon-buttons/overview" target="_new">Material Design Guidelines: Icon
@@ -45,6 +45,16 @@
   <h4>Types</h4>
 
   <mdw-card class="mdw-no-states" id="icon_button">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Icon button</div>
+      
+      <div class="example">
+        <mdw-button class="mdw-icon-button">
+          <mdw-icon>settings</mdw-icon>
+        </mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-button class="mdw-icon-button">
@@ -52,17 +62,24 @@
   </mdw-button>`)}
       </code>
     </pre>
-
-    <div class="mdw-headline">Icon button</div>
-
-    <div class="example">
-      <mdw-button class="mdw-icon-button">
-        <mdw-icon>settings</mdw-icon>
-      </mdw-button>
-    </div>
   </mdw-card>
 
+
   <mdw-card class=" mdw-no-states" id="icon_toggle_button">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Icon toggle button</div>
+      
+      <div class="example">
+        <mdw-button class="mdw-icon-toggle-button">
+          <mdw-icon>favorite</mdw-icon>
+        </mdw-button>
+      
+        <mdw-button toggled class="mdw-icon-toggle-button">
+          <mdw-icon>favorite</mdw-icon>
+        </mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-button class="mdw-icon-toggle-button">
@@ -74,22 +91,24 @@
   </mdw-button>`)}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Icon toggle button</div>
-  
-    <div class="example">
-      <mdw-button class="mdw-icon-toggle-button">
-        <mdw-icon>favorite</mdw-icon>
-      </mdw-button>
-  
-      <mdw-button toggled class="mdw-icon-toggle-button">
-        <mdw-icon>favorite</mdw-icon>
-      </mdw-button>
-    </div>
   </mdw-card>
 
 
-  <mdw-card class=" mdw-no-states" id="filled_toggle_button">
+  <mdw-card class=" mdw-no-states" id="filled_toggle_button">    
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Filled icon toggle button</div>
+      
+      <div class="example">
+        <mdw-button class="mdw-icon-toggle-button mdw-filled">
+          <mdw-icon>favorite</mdw-icon>
+        </mdw-button>
+      
+        <mdw-button toggled class="mdw-icon-toggle-button mdw-filled">
+          <mdw-icon>favorite</mdw-icon>
+        </mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-button class="mdw-icon-toggle-button mdw-filled">
@@ -101,22 +120,24 @@
   </mdw-button>`)}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Filled icon toggle button</div>
-  
-    <div class="example">
-      <mdw-button class="mdw-icon-toggle-button mdw-filled">
-        <mdw-icon>favorite</mdw-icon>
-      </mdw-button>
-
-      <mdw-button toggled class="mdw-icon-toggle-button mdw-filled">
-        <mdw-icon>favorite</mdw-icon>
-      </mdw-button>
-    </div>
   </mdw-card>
 
 
   <mdw-card class=" mdw-no-states" id="filled_tonal_toggle_button">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Filled tonal icon toggle button</div>
+      
+      <div class="example">
+        <mdw-button class="mdw-icon-toggle-button mdw-filled-tonal">
+          <mdw-icon>favorite</mdw-icon>
+        </mdw-button>
+      
+        <mdw-button toggled class="mdw-icon-toggle-button mdw-filled-tonal">
+          <mdw-icon>favorite</mdw-icon>
+        </mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-button class="mdw-icon-toggle-button mdw-filled-tonal">
@@ -128,22 +149,24 @@
   </mdw-button>`)}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Filled tonal icon toggle button</div>
-  
-    <div class="example">
-      <mdw-button class="mdw-icon-toggle-button mdw-filled-tonal">
-        <mdw-icon>favorite</mdw-icon>
-      </mdw-button>
-  
-      <mdw-button toggled class="mdw-icon-toggle-button mdw-filled-tonal">
-        <mdw-icon>favorite</mdw-icon>
-      </mdw-button>
-    </div>
   </mdw-card>
 
 
   <mdw-card class=" mdw-no-states" id="outlined_toggle_button">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Outlined icon toggle button</div>
+      
+      <div class="example">
+        <mdw-button class="mdw-icon-toggle-button mdw-outlined">
+          <mdw-icon>favorite</mdw-icon>
+        </mdw-button>
+      
+        <mdw-button toggled class="mdw-icon-toggle-button mdw-outlined">
+          <mdw-icon>favorite</mdw-icon>
+        </mdw-button>
+      </div>
+    </div>
+
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-button class="mdw-icon-toggle-button mdw-outlined">
@@ -155,17 +178,5 @@
   </mdw-button>`)}
       </code>
     </pre>
-  
-    <div class="mdw-headline">Outlined icon toggle button</div>
-  
-    <div class="example">
-      <mdw-button class="mdw-icon-toggle-button mdw-outlined">
-        <mdw-icon>favorite</mdw-icon>
-      </mdw-button>
-  
-      <mdw-button toggled class="mdw-icon-toggle-button mdw-outlined">
-        <mdw-icon>favorite</mdw-icon>
-      </mdw-button>
-    </div>
   </mdw-card>
 </section>

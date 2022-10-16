@@ -27,7 +27,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   #onClickFullscreenBack_bound = this.#onClickFullscreenBack.bind(this);
   #imgOnload_bound = this.#imgOnload.bind(this);
 
-  #swipeActionElement = this.querySelector('mdw-card-swipe-action');
+  #swipeActionElement = this.querySelector(':scope > mdw-card-swipe-action');
   #ondrag_bound = this.#ondrag.bind(this);
   #ondragStart_bound = this.#ondragStart.bind(this);
   #ondragEnd_bound = this.#ondragEnd.bind(this);
@@ -193,7 +193,6 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     let position = this.#dragStartPosition + distance.x;
     if (position > 60) position = 60;
     if (position < 0) position = 0;
-    if (this.#isOutlined && position < 1) position = 1;
     this.style.setProperty('--mdw-card-swipe-position', `${position}px`);  }
 
   async #ondragEnd({ element }) {
@@ -203,6 +202,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     else this.style.setProperty('--mdw-card-swipe-position', `60px`);
   }
 
+  // TODO make action its own component so it can have .checked
   #swipeActionClick(event) {
     if (event.target.nodeName === 'MDW-ICON') {
       if (this.#swipeActionElement.hasAttribute('checked')) this.#swipeActionElement.removeAttribute('checked');
