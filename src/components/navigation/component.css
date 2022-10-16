@@ -96,21 +96,21 @@ mdw-navigation.mdw-state-drawer + page-content {
 }
 
 body.mdw-mobile mdw-navigation:not(.mdw-state-rail) + mdw-top-app-bar,
-body.mdw-small-screen mdw-navigation:not(.mdw-state-rail) + mdw-top-app-bar,
+body.mdw-small-viewport mdw-navigation:not(.mdw-state-rail) + mdw-top-app-bar,
 body.mdw-mobile mdw-navigation:not(.mdw-state-rail) + mdw-top-app-bar + page-content,
-body.mdw-small-screen mdw-navigation:not(.mdw-state-rail) + mdw-top-app-bar + page-content,
+body.mdw-small-viewport mdw-navigation:not(.mdw-state-rail) + mdw-top-app-bar + page-content,
 body.mdw-mobile mdw-navigation:not(.mdw-state-rail) + page-content,
-body.mdw-small-screen mdw-navigation:not(.mdw-state-rail) + page-content {
+body.mdw-small-viewport mdw-navigation:not(.mdw-state-rail) + page-content {
   margin-left: 0;
   width: 100%;
 }
 
 body.mdw-mobile mdw-navigation.mdw-rail-enabled.mdw-state-drawer + mdw-top-app-bar,
-body.mdw-small-screen mdw-navigation.mdw-rail-enabled.mdw-state-drawer + mdw-top-app-bar,
+body.mdw-small-viewport mdw-navigation.mdw-rail-enabled.mdw-state-drawer + mdw-top-app-bar,
 body.mdw-mobile mdw-navigation.mdw-rail-enabled.mdw-state-drawer + mdw-top-app-bar + page-content,
-body.mdw-small-screen mdw-navigation.mdw-rail-enabled.mdw-state-drawer + mdw-top-app-bar + page-content,
+body.mdw-small-viewport mdw-navigation.mdw-rail-enabled.mdw-state-drawer + mdw-top-app-bar + page-content,
 body.mdw-mobile mdw-navigation.mdw-rail-enabled.mdw-state-drawer + page-content,
-body.mdw-small-screen mdw-navigation.mdw-rail-enabled.mdw-state-drawer + page-content {
+body.mdw-small-viewport mdw-navigation.mdw-rail-enabled.mdw-state-drawer + page-content {
   margin-left: 80px;
   width: calc(100% - 80px);
 }
@@ -188,7 +188,7 @@ mdw-navigation.mdw-state-drawer .mdw-drawer-hide {
 
 mdw-navigation.mdw-enable-animation.mdw-rail-to-drawer-animation,
 body.mdw-mobile mdw-navigation.mdw-enable-animation:not(.mdw-state-rail),
-body.mdw-small-screen mdw-navigation.mdw-enable-animation:not(.mdw-state-rail) {
+body.mdw-small-viewport mdw-navigation.mdw-enable-animation:not(.mdw-state-rail) {
   transition: width 420ms;
   transition-timing-function: var(--mdw-transition-expand-in);
 }
@@ -212,12 +212,12 @@ mdw-navigation.mdw-enable-animation:not(.mdw-state-rail) + page-content {
   transition-timing-function: var(--mdw-transition-expand-in);
 }
 
-body.mdw-small-screen mdw-navigation:not(.mdw-rail-enabled):not(.mdw-state-rail),
+body.mdw-small-viewport mdw-navigation:not(.mdw-rail-enabled):not(.mdw-state-rail),
 body.mdw-mobile mdw-navigation:not(.mdw-rail-enabled):not(.mdw-state-rail) {
   width: 0;
   opacity: 0;
 }
-body.mdw-small-screen mdw-navigation.mdw-enable-animation:not(.mdw-rail-enabled):not(.mdw-state-rail),
+body.mdw-small-viewport mdw-navigation.mdw-enable-animation:not(.mdw-rail-enabled):not(.mdw-state-rail),
 body.mdw-mobile mdw-navigation.mdw-enable-animation:not(.mdw-rail-enabled):not(.mdw-state-rail) {
   border-radius: 0 var(--mdw-shape-large) 0 0;
   transition:
@@ -227,12 +227,12 @@ body.mdw-mobile mdw-navigation.mdw-enable-animation:not(.mdw-rail-enabled):not(.
 }
 
 body.mdw-mobile mdw-navigation:not(.mdw-state-rail).mdw-show,
-body.mdw-small-screen mdw-navigation:not(.mdw-state-rail).mdw-show {
+body.mdw-small-viewport mdw-navigation:not(.mdw-state-rail).mdw-show {
   opacity: 1;
   width: min(var(--mdw-navigation-drawer-width), calc(100% - 64px));
 }
 body.mdw-mobile mdw-navigation.mdw-enable-animation:not(.mdw-state-rail).mdw-show,
-body.mdw-small-screen mdw-navigation.mdw-enable-animation:not(.mdw-state-rail).mdw-show {
+body.mdw-small-viewport mdw-navigation.mdw-enable-animation:not(.mdw-state-rail).mdw-show {
   transition:
     width 420ms,
     opacity 40ms;
@@ -389,21 +389,21 @@ mdw-navigation.mdw-enable-animation.mdw-state-rail + page-content {
   transition-timing-function: var(--mdw-transition-expand-out);
 }
 
-body:not(.mdw-mobile):not(.mdw-small-screen) mdw-navigation.mdw-enable-animation.mdw-state-rail {
+body:not(.mdw-mobile):not(.mdw-small-viewport) mdw-navigation.mdw-enable-animation.mdw-state-rail {
   transition: width 180ms;
   transition-timing-function: var(--mdw-transition-expand-out);
 }
-body:not(.mdw-mobile):not(.mdw-small-screen) mdw-navigation.mdw-enable-animation.mdw-state-rail + mdw-top-app-bar {
+body:not(.mdw-mobile):not(.mdw-small-viewport) mdw-navigation.mdw-enable-animation.mdw-state-rail + mdw-top-app-bar {
   transition: top 180ms, margin-left 180ms;
   transition-timing-function: var(--mdw-transition-expand-out);
 }
-body:not(.mdw-mobile):not(.mdw-small-screen) mdw-navigation.mdw-enable-animation.mdw-state-rail + mdw-top-app-bar.mdw-medium,
-body:not(.mdw-mobile):not(.mdw-small-screen) mdw-navigation.mdw-enable-animation.mdw-state-rail + mdw-top-app-bar.mdw-large {
+body:not(.mdw-mobile):not(.mdw-small-viewport) mdw-navigation.mdw-enable-animation.mdw-state-rail + mdw-top-app-bar.mdw-medium,
+body:not(.mdw-mobile):not(.mdw-small-viewport) mdw-navigation.mdw-enable-animation.mdw-state-rail + mdw-top-app-bar.mdw-large {
   transition: height 180ms, margin-left 180ms;
   transition-timing-function: var(--mdw-transition-expand-out);
 }
-body:not(.mdw-mobile):not(.mdw-small-screen) mdw-navigation.mdw-enable-animation.mdw-state-rail + mdw-top-app-bar + page-content,
-body:not(.mdw-mobile):not(.mdw-small-screen) mdw-navigation.mdw-enable-animation.mdw-state-rail + page-content {
+body:not(.mdw-mobile):not(.mdw-small-viewport) mdw-navigation.mdw-enable-animation.mdw-state-rail + mdw-top-app-bar + page-content,
+body:not(.mdw-mobile):not(.mdw-small-viewport) mdw-navigation.mdw-enable-animation.mdw-state-rail + page-content {
   transition: margin-left 180ms;
   transition-timing-function: var(--mdw-transition-expand-out);
 }

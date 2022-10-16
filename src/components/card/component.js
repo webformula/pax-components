@@ -8,7 +8,6 @@ import Drag from '../../core/drag.js';
 
 // TODO expanded drag
 // TODO drag order grid
-// TODO fullscreen on desktop
 
 
 customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
@@ -149,7 +148,6 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     this.#panel.template = this.outerHTML;
     this.#panel.targetElement = this;
     this.#panel.fullscreen = true;
-    this.#panel.disableFullscreenDesktop = true;
     this.#panel.show();
   }
 
@@ -175,12 +173,11 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
   }
 
   #getImgFullscreenHeight() {
-    // TODO how can i make 560 dynamic?
-    // 560 currently comes directly from panel.css
-    if (window.innerHeight > 600) {
+    if (util.isFullscreenCutoff) {
+      const width = util.fullscreenCutoffSize - 40;
       const styleWidth = parseInt(getComputedStyle(this).width.replace('px', ''));
-      if (styleWidth < 560) return this.#imgHeight / this.#imgWidth * styleWidth;
-      return this.#imgHeight / this.#imgWidth * 560;
+      if (styleWidth < width) return this.#imgHeight / this.#imgWidth * styleWidth;
+      return this.#imgHeight / this.#imgWidth * width;
     }
     return this.#imgHeight / this.#imgWidth * window.innerWidth;
   }

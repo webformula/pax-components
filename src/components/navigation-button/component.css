@@ -4,19 +4,19 @@ mdw-navigation-button.mdw-mobile-only {
   pointer-events: none;
   transition: opacity 240ms, height 240ms;
 }
-body:not(.mdw-small-screen).mdw-mobile mdw-navigation-button.mdw-mobile-only {
+body:not(.mdw-small-viewport).mdw-mobile mdw-navigation-button.mdw-mobile-only {
   height: 42px;
   opacity: 1;
   pointer-events: all;
 }
 
-mdw-navigation-button.mdw-small-screen-only {
+mdw-navigation-button.mdw-small-viewport-only {
   height: 0;
   opacity: 0;
   pointer-events: none;
   transition: opacity 240ms, height 240ms;
 }
-body:not(.mdw-mobile).mdw-small-screen mdw-navigation-button.mdw-small-screen-only {
+body:not(.mdw-mobile).mdw-small-viewport mdw-navigation-button.mdw-small-viewport-only {
   height: 42px;
   opacity: 1;
   pointer-events: all;
@@ -30,7 +30,7 @@ mdw-navigation-button.mdw-mobile-and-small-screen {
 }
 
 body.mdw-mobile mdw-navigation-button.mdw-mobile-and-small-screen,
-body.mdw-small-screen mdw-navigation-button.mdw-mobile-and-small-screen {
+body.mdw-small-viewport mdw-navigation-button.mdw-mobile-and-small-screen {
   height: 42px;
   opacity: 1;
   pointer-events: all;

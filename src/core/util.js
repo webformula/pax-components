@@ -1,4 +1,4 @@
-import { isMobile, isSmallScreen, isMobileOrSmallScreen } from './device.js';
+import device from './device.js';
 
 const MDWUtil = new class MDWUtil {
   #uidCounter = 0;
@@ -12,31 +12,18 @@ const MDWUtil = new class MDWUtil {
   #scrollCallbacks = [];
   #scrollHandler_bound = this.rafThrottle(this.#scrollHandler).bind(this);
 
-  isMobile = isMobile;
-  isSmallScreen = isSmallScreen;
-  isMobileOrSmallScreen = isMobileOrSmallScreen;
+  isMobile = device.isMobile;
+  isSmallViewport = device.isSmallViewport;
+  isFullscreenCutoff = device.isFullscreenCutoff;
+  isMobileOrSmallViewport = device.isMobileOrSmallViewport;
 
   constructor() {
-    if (isMobile) document.body.classList.add('mdw-mobile');
-    if (isSmallScreen()) document.body.classList.add('mdw-small-screen');
-
-    window.addEventListener('resize', () => {
-      if (isSmallScreen()) {
-        document.body.classList.add('mdw-small-screen');
-        window.dispatchEvent(new Event('mdw:screen-small'));
-      } else {
-        document.body.classList.remove('mdw-small-screen');
-        window.dispatchEvent(new Event('mdw:screen-normal'));
-      }
-    });
-    
-
     this.#textLengthDiv.classList.add('mdw-text-length');
     document.body.insertAdjacentElement('beforeend', this.#textLengthDiv);
   }
 
-  get isSmallScreen() {
-    return isSmallScreen();
+  get isSmallViewport() {
+    return isSmallViewport();
   }
 
   getUID() {

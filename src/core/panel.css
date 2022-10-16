@@ -132,26 +132,23 @@
     top 320ms,
     left 320ms,
     width 320ms,
-    max-width 320ms,
-    height 320ms,
-    max-height 320ms,
-    transform 320ms;
+    height 320ms;
   transition-timing-function: var(--mdw-transition-expand-in);
-  animation: mdw-card-fullscreen-open 220ms;
 }
 
 
 /* --- fullscreen --- */
 
 @media only screen and (min-width: 601px) {
-  .mdw-panel.mdw-fullscreen.mdw-disable-fullscreen-desktop > .mdw-panel-content {
+  .mdw-panel.mdw-fullscreen > .mdw-panel-content {
     max-width: 560px;
     max-height: 80%;
     overflow: auto;
     transform: translate(0, 0);
+    transition-timing-function: linear;
   }
 
-  .mdw-panel.mdw-fullscreen.mdw-disable-fullscreen-desktop.mdw-run-animation > .mdw-panel-content {
+  .mdw-panel.mdw-fullscreen.mdw-run-animation > .mdw-panel-content {
     overflow: hidden;
   }
 
@@ -170,7 +167,8 @@
       opacity: 0;
     }
 
-    30% {
+    70%,
+    100% {
       opacity: 1;
     }
   }

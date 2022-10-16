@@ -1,5 +1,7 @@
 import util from './util.js';
 
+// TODO rebuild how animations works. There is css in other components that this will effect
+// TODO figure out how to handle the ability to disable fullscreen cutoff
 
 export default class Panel {
   template = '';
@@ -9,7 +11,6 @@ export default class Panel {
   targetElement;
   scroll = false;
   fullscreen = false;
-  disableFullscreenDesktop = false;
   width = '360px';
   backdrop = true;
   clickOutsideToClose = false;
@@ -43,8 +44,7 @@ export default class Panel {
     backdrop: true,
     clickOutsideToClose: false,
     escToClose: false,
-    targetToFullscreen: false,
-    disableFullscreenDesktop: false
+    targetToFullscreen: false
   }) {
     this.template = params.template;
     this.position = params.position;
@@ -58,7 +58,6 @@ export default class Panel {
     this.clickOutsideToClose = params.clickOutsideToClose;
     this.escToClose = params.escToClose;
     this.targetToFullscreen = params.targetToFullscreen;
-    this.disableFullscreenDesktop = params.disableFullscreenDesktop;
   }
 
   get element() {
@@ -76,13 +75,12 @@ export default class Panel {
     let classes = '';
     if (this.fullscreen && this.targetElement) {
       classes += 'mdw-open-animation-target-to-fullscreen';
-      if (util.isMobile) this.backdrop = false;
+      if (util.isFullscreenCutoff) this.backdrop = false;
     } else if (this.targetElement) classes += 'mdw-open-animation-target';
     else classes += 'mdw-open-animation';
 
     if (this.classes) classes += ` ${this.classes}`;
     if (this.fullscreen) classes += ' mdw-fullscreen';
-    if (this.disableFullscreenDesktop) classes += ' mdw-disable-fullscreen-desktop';
     if (this.backdrop) classes += ' mdw-backdrop';
     if (this.animation === 'scale') classes += ' mdw-animation-scale';
 
@@ -352,19 +350,19 @@ export default class Panel {
       borderRadius = getComputedStyle(this.#contentElement.children[0]).borderRadius;
     }
 
-    if (window.innerWidth > 600 && this.disableFullscreenDesktop === true) {
-      this.#contentElement.style.transformOrigin = 'top';
+    if (util.isFullscreenCutoff) {
+      // this.#contentElement.style.transformOrigin = 'top left';
       const xDiff = (bounds.x + (bounds.width / 2)) - (window.innerWidth / 2);
       const yDiff = (bounds.y + (bounds.height / 2)) - (window.innerHeight / 2);
       this.#contentElement.style.transform = `translate(${xDiff}px, ${yDiff}px)`;
+      this.#contentElement.style.maxWidth = `${bounds.width}px`;
+      this.#contentElement.style.maxHeight = `${bounds.height}px`;
     }
 
     this.#contentElement.style.top = `${bounds.top}px`;
     this.#contentElement.style.left = `${bounds.left}px`;
     this.#contentElement.style.width = `${bounds.width}px`;
-    this.#contentElement.style.maxWidth = `${bounds.width}px`;
     this.#contentElement.style.height = `${bounds.height}px`;
-    this.#contentElement.style.maxHeight = `${bounds.height}px`;
     this.#contentElement.style.borderRadius = borderRadius;
 
     await util.nextAnimationFrameAsync();
@@ -384,7 +382,7 @@ export default class Panel {
     this.#contentElement.style.height = '';
     this.#contentElement.style.maxHeight = '';
     this.#contentElement.style.transform = '';
-    if (window.innerWidth <= 600 || this.disableFullscreenDesktop !== true) this.#contentElement.style.borderRadius = '';
+    if (!util.isFullscreenCutoff) this.#contentElement.style.borderRadius = '';
 
     await util.wait(Math.max(topTiming, heightTiming));
   }
@@ -402,7 +400,7 @@ export default class Panel {
 
     this.#element.classList.add('mdw-run-animation');
 
-    if (window.innerWidth > 600 && this.disableFullscreenDesktop === true) {
+    if (util.isFullscreenCutoff) {
       this.#contentElement.style.transformOrigin = 'top';
       const xDiff = (bounds.x + (bounds.width / 2)) - (window.innerWidth / 2);
       const yDiff = (bounds.y + (bounds.height / 2)) - (window.innerHeight / 2);

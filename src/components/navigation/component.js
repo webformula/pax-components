@@ -24,18 +24,18 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
       this.classList.remove('mdw-show');
     }
 
-    if (this.classList.contains('mdw-rail-enabled') && document.body.classList.contains('mdw-small-screen')) {
+    if (this.classList.contains('mdw-rail-enabled') && document.body.classList.contains('mdw-small-viewport')) {
       this.classList.add('mdw-state-rail');
       this.classList.remove('mdw-state-drawer');
     }
 
     if (this.classList.contains('mdw-rail-enabled')) {
-      window.addEventListener('mdw:screen-small', () => {
+      window.addEventListener('mdw-viewport-small', () => {
         this.classList.add('mdw-state-rail');
         this.classList.remove('mdw-state-drawer');
       });
 
-      window.addEventListener('mdw:screen-normal', () => {
+      window.addEventListener('mdw-viewport-normal', () => {
         this.classList.add('mdw-state-drawer');
         this.classList.remove('mdw-state-rail');
       });
@@ -72,12 +72,12 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
   get isOpen() {
     if (this.classList.contains('mdw-show')) return true;
     if (
-      document.body.classList.contains('mdw-small-screen')
+      document.body.classList.contains('mdw-small-viewport')
       && !document.body.classList.contains('mdw-mobile')
       && this.classList.contains('mdw-state-drawer')
     ) return true;
     if (
-      !document.body.classList.contains('mdw-small-screen')
+      !document.body.classList.contains('mdw-small-viewport')
       && !document.body.classList.contains('mdw-mobile')
       && this.classList.contains('mdw-state-drawer')
     ) return true;
@@ -87,7 +87,7 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
   get #shouldAddClickOutsideEvent() {
     if (this.classList.contains('mdw-show')) return true;
     if (
-      document.body.classList.contains('mdw-small-screen')
+      document.body.classList.contains('mdw-small-viewport')
       && !document.body.classList.contains('mdw-mobile')
       && this.classList.contains('mdw-state-drawer')
     ) return true;

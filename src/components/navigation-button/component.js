@@ -33,7 +33,7 @@ customElements.define('mdw-navigation-button', class MDWNavigationButton extends
 
   // TODO
   #shouldShow() {
-    return !util.isMobileOrSmallScreen();
+    return !util.isMobileOrSmallViewport();
   }
 
   template() {
