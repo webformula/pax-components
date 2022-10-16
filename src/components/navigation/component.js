@@ -3,8 +3,6 @@ import Ripple from '../../core/Ripple.js';
 import util from '../../core/util.js';
 import './component.css';
 
-// TODO scroll to active href
-
 customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementExtended {
   useShadowRoot = false;
 
@@ -145,7 +143,13 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
     // try just pathname
     if (!match) match = this.querySelector(`a[href="${location.pathname}"]`);
 
-    if (match) match.classList.add('mdw-current-link');
+    if (match) {
+      match.classList.add('mdw-current-link');
+
+      const bounds = match.getBoundingClientRect();
+      if (bounds.y >= 0 && (bounds.y + bounds.height) <= this.offsetHeight) return;
+      match.scrollIntoView({ block: 'center' });
+    }
   }
 
   #onClickOutside(event) {
