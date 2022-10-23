@@ -1,3 +1,13 @@
+body {
+  --mdw-navigation-rail-width: 90px;
+}
+
+body > mdw-navigation > nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control,
+body > mdw-navigation > nav.mdw-rail > a {
+  letter-spacing: 0;
+}
+
+
 pre {
   display: contents;
   margin: 0;

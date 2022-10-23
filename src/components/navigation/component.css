@@ -59,7 +59,9 @@ mdw-navigation nav {
   transition: opacity 220ms;
 }
 
-mdw-navigation nav a {
+mdw-navigation nav a,
+mdw-navigation nav .mdw-nav-group > .mdw-nav-group-control,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a {
   position: relative;
   display: flex;
   text-decoration: none;
@@ -67,10 +69,12 @@ mdw-navigation nav a {
   -webkit-tap-highlight-color: transparent;
   height: 56px;
   line-height: 56px;
+  cursor: pointer;
   color: var(--mdw-on-secondary-container);
 }
 
-mdw-navigation nav a:hover {
+mdw-navigation nav a:hover,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a {
   filter: none;
 }
 
@@ -80,7 +84,7 @@ mdw-navigation nav a:hover {
 
 mdw-navigation nav.mdw-rail {
   left: 0;
-  width: 80px;
+  width: var(--mdw-navigation-rail-width);
 }
 
 mdw-navigation:not(.mdw-state-rail) nav:not(.mdw-rail) {
@@ -97,7 +101,8 @@ mdw-navigation  nav:not(.mdw-rail) mdw-navigation-button {
   margin-left: 6px;
 }
 
-mdw-navigation nav:not(.mdw-rail) a > mdw-icon {
+mdw-navigation nav:not(.mdw-rail) a > mdw-icon,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a > mdw-icon {
   position: relative;
   top: 0;
 }
@@ -133,11 +138,12 @@ body.mdw-mobile mdw-navigation.mdw-rail-enabled + mdw-top-app-bar + page-content
 body.mdw-small-viewport mdw-navigation.mdw-rail-enabled + mdw-top-app-bar + page-content,
 body.mdw-mobile mdw-navigation.mdw-rail-enabled + page-content,
 body.mdw-small-viewport mdw-navigation.mdw-rail-enabled + page-content {
-  margin-left: 80px;
-  width: calc(100% - 80px);
+  margin-left: var(--mdw-navigation-rail-width);
+  width: calc(100% - var(--mdw-navigation-rail-width));
 }
 
-mdw-navigation nav:not(.mdw-rail) a {
+mdw-navigation nav:not(.mdw-rail) a,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a {
   justify-content: flex-start;
   padding-left: 16px;
   padding-right: 12px;
@@ -152,7 +158,8 @@ mdw-navigation nav:not(.mdw-rail) a {
   transition-timing-function: var(--mdw-transition-expand-out);
 }
 
-mdw-navigation nav:not(.mdw-rail) a:after {
+mdw-navigation nav:not(.mdw-rail) a:after,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a:after {
   position: absolute;
   content: "";
   top: 0;
@@ -163,28 +170,33 @@ mdw-navigation nav:not(.mdw-rail) a:after {
   border-radius: var(--mdw-shape-extra-large);
 }
 
-mdw-navigation nav:not(.mdw-rail) a > mdw-icon {
+mdw-navigation nav:not(.mdw-rail) a > mdw-icon,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a > mdw-icon {
   margin-right: 12px;
   align-self: center;
 }
 
-mdw-navigation nav:not(.mdw-rail) a > .mdw-label {
+mdw-navigation nav:not(.mdw-rail) a > .mdw-label,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a > .mdw-label {
   flex: 1;
   margin-right: 12px;
 }
 
-mdw-navigation nav:not(.mdw-rail) a.mdw-current-link {
+mdw-navigation nav:not(.mdw-rail) a.mdw-current-link,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a.mdw-current-link {
   background-color: var(--mdw-secondary-container);
   transition-duration: 600ms;
   transition-timing-function: var(--mdw-transition-expand-in);
 }
 
-mdw-navigation nav:not(.mdw-rail) a:hover::after {
+mdw-navigation nav:not(.mdw-rail) a:hover::after,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a:hover:after {
   opacity: var(--mdw-state-layer-opacity-hover);
   background-color: var(--mdw-on-surface);
 }
 
-mdw-navigation nav:not(.mdw-rail) a:focus::after {
+mdw-navigation nav:not(.mdw-rail) a:focus::after,
+mdw-navigation nav.mdw-rail .mdw-nav-group > .mdw-nav-group-content > a:focus:after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-on-surface);
 }
@@ -234,7 +246,7 @@ mdw-navigation:not(.mdw-state-rail) nav.mdw-rail {
 }
 
 mdw-navigation.mdw-state-rail {
-  width: 80px;
+  width: var(--mdw-navigation-rail-width);
 }
 
 mdw-navigation nav.mdw-rail mdw-navigation-button {
@@ -247,8 +259,8 @@ mdw-navigation nav.mdw-rail mdw-navigation-button {
 mdw-navigation.mdw-state-rail + mdw-top-app-bar,
 mdw-navigation.mdw-state-rail + mdw-top-app-bar + page-content,
 mdw-navigation.mdw-state-rail + page-content {
-  margin-left: 80px;
-  width: calc(100% - 80px);
+  margin-left: var(--mdw-navigation-rail-width);
+  width: calc(100% - var(--mdw-navigation-rail-width));
 }
 
 mdw-navigation.mdw-state-rail .mdw-headline {
@@ -257,7 +269,8 @@ mdw-navigation.mdw-state-rail .mdw-headline {
 }
 
 
-mdw-navigation nav.mdw-rail a {
+mdw-navigation nav.mdw-rail > a,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control {
   flex-direction: column;
   align-items: center;
   margin-bottom: 12px;
@@ -269,7 +282,8 @@ mdw-navigation nav.mdw-rail a {
 }
 
 
-mdw-navigation nav.mdw-rail a > mdw-icon {
+mdw-navigation nav.mdw-rail > a > mdw-icon,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control > mdw-icon {
   position: relative;
   display: flex;
   justify-content: center;
@@ -281,7 +295,8 @@ mdw-navigation nav.mdw-rail a > mdw-icon {
   pointer-events: none;
 }
 
-mdw-navigation nav.mdw-rail a > mdw-icon::after {
+mdw-navigation nav.mdw-rail > a > mdw-icon::after,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control > mdw-icon::after {
   content: '';
   position: absolute;
   top: 12px;
@@ -297,7 +312,8 @@ mdw-navigation nav.mdw-rail a > mdw-icon::after {
   transition-timing-function: var(--mdw-transition-expand-out);
 }
 
-mdw-navigation nav.mdw-rail a:hover > mdw-icon::after {
+mdw-navigation nav.mdw-rail > a:hover > mdw-icon::after,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control:hover > mdw-icon::after {
   top: 0;
   left: 0;
   right: 0;
@@ -305,7 +321,8 @@ mdw-navigation nav.mdw-rail a:hover > mdw-icon::after {
   background-color: var(--mdw-on-surface--8);
 }
 
-mdw-navigation nav.mdw-rail a:focus > mdw-icon::after {
+mdw-navigation nav.mdw-rail > a:focus > mdw-icon::after,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control:focus > mdw-icon::after {
   top: 0;
   left: 0;
   right: 0;
@@ -313,7 +330,8 @@ mdw-navigation nav.mdw-rail a:focus > mdw-icon::after {
   background-color: var(--mdw-on-surface--12);
 }
 
-mdw-navigation nav.mdw-rail a.mdw-current-link > mdw-icon::after {
+mdw-navigation nav.mdw-rail > a.mdw-current-link > mdw-icon::after,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control.mdw-current-link > mdw-icon::after {
   top: 0;
   left: 0;
   right: 0;
@@ -323,18 +341,20 @@ mdw-navigation nav.mdw-rail a.mdw-current-link > mdw-icon::after {
   transition-timing-function: var(--mdw-transition-expand-in);
 }
 
-mdw-navigation nav.mdw-rail a.mdw-contains-label > mdw-icon {
+mdw-navigation nav.mdw-rail > a.mdw-contains-label > mdw-icon,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control.mdw-contains-label > mdw-icon {
   height: 32px;
   line-height: 32px;
   border-radius: 16px;
 }
 
-mdw-navigation nav.mdw-rail a.mdw-contains-label > mdw-icon::after {
+mdw-navigation nav.mdw-rail > a.mdw-contains-label > mdw-icon::after,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control.mdw-contains-label > mdw-icon:after {
   content: '';
   position: absolute;
   top: 0;
-  left: 12px;
-  right: 12px;
+  left: 0;
+  right: 0;
   bottom: 0;
   border-radius: 16px;
 
@@ -343,19 +363,22 @@ mdw-navigation nav.mdw-rail a.mdw-contains-label > mdw-icon::after {
   transition-timing-function: var(--mdw-transition-expand-out);
 }
 
-mdw-navigation nav.mdw-rail a.mdw-contains-label:hover > mdw-icon::after {
+mdw-navigation nav.mdw-rail > a.mdw-contains-label:hover > mdw-icon::after,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control.mdw-contains-label:hover > mdw-icon::after {
   left: 0;
   right: 0;
   background-color: var(--mdw-on-surface--8);
 }
 
-mdw-navigation nav.mdw-rail a.mdw-contains-label:focus > mdw-icon::after {
+mdw-navigation nav.mdw-rail > a.mdw-contains-label:focus > mdw-icon::after,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control.mdw-contains-label:focus > mdw-icon::after {
   left: 0;
   right: 0;
   background-color: var(--mdw-on-surface--12);
 }
 
-mdw-navigation nav.mdw-rail a.mdw-contains-label.mdw-current-link > mdw-icon::after {
+mdw-navigation nav.mdw-rail > a.mdw-contains-label.mdw-current-link > mdw-icon::after,
+mdw-navigation nav.mdw-rail > > .mdw-nav-group > .mdw-nav-group-control.mdw-contains-label.mdw-current-link > mdw-icon::after {
   left: 0;
   right: 0;
   background-color: var(--mdw-secondary-container);
@@ -363,13 +386,15 @@ mdw-navigation nav.mdw-rail a.mdw-contains-label.mdw-current-link > mdw-icon::af
   transition-timing-function: var(--mdw-transition-expand-in);
 }
 
-mdw-navigation nav.mdw-rail a > .mdw-label {
+mdw-navigation nav.mdw-rail > a > .mdw-label,
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control > .mdw-label {
   margin-top: 4px;
   line-height: 1;
   pointer-events: none;
 }
 
-mdw-navigation.mdw-state-rail.mdw-rail-label-only-active nv.mdw-state-rail a:not(.mdw-current-link) > .mdw-label {
+mdw-navigation.mdw-state-rail.mdw-rail-label-only-active nav.mdw-state-rail > a:not(.mdw-current-link) > .mdw-label,
+mdw-navigation.mdw-state-rail.mdw-rail-label-only-active nav.mdw-state-rail > .mdw-nav-group > .mdw-nav-group-control:not(.mdw-current-link) > .mdw-label {
   opacity: 0;
 }
 
@@ -418,6 +443,40 @@ body:not(.mdw-mobile):not(.mdw-small-viewport) mdw-navigation.mdw-enable-animati
   transition-timing-function: var(--mdw-transition-expand-out);
 }
 
+
+mdw-navigation .mdw-nav-group {
+  position: relative;
+}
+
+mdw-navigation .mdw-nav-group > .mdw-nav-group-content {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: var(--mdw-navigation-rail-width);
+  width: 0px;
+  bottom: 0;
+  padding: 16px 0;
+  background-color: var(--mdw-surface);
+  pointer-events: none;
+  overflow-x: hidden;
+
+  transition: left 120ms, width 220ms;
+}
+
+mdw-navigation .mdw-nav-group > .mdw-nav-group-content > a {
+  min-width: var(--mdw-navigation-rail-width);
+  padding-left: 4px;
+  padding-right: 8px;
+}
+
+mdw-navigation .mdw-nav-group:hover > .mdw-nav-group-content {
+  left: var(--mdw-navigation-rail-width);
+  width: 220px;
+  overflow-x: visible;
+  overflow-y: auto;
+  pointer-events: auto;
+}
 
 
 /* --- Ripple --- */

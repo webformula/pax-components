@@ -50,7 +50,7 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
     window.addEventListener('mdwPageChange', this.#mdwPageChange_bound);
     this.#mdwPageChange();
 
-    [...this.querySelectorAll('a')].forEach(element => {
+    [...this.querySelectorAll('a'), ...this.querySelectorAll('.mdw-nav-group-control')].forEach(element => {
       const label = element.querySelector('.mdw-label');
       if (label && !label.classList.contains('mdw-rail-hide')) {
         element.classList.add('mdw-contains-label');
@@ -128,7 +128,7 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
   }
 
   #mdwPageChange() {
-    const currentLinks = [...this.querySelectorAll('a.mdw-current-link')];
+    const currentLinks = [...this.querySelectorAll('.mdw-current-link')];
     currentLinks.forEach(e => e.classList.remove('mdw-current-link'));
 
     // try full url
@@ -148,6 +148,16 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
         link.classList.add('mdw-current-link');
         let navParent = link.parentNode;
 
+        // nav group for rails
+        if (navParent.classList.contains('mdw-nav-group-content')) {
+          const groupControl = navParent.parentNode.querySelector('.mdw-nav-group-control');
+          groupControl.classList.add('mdw-current-link');
+
+          // TODO make dynamic, allow multi-nesting?
+          navParent = this.parentNode.parentNode;
+        }
+
+        // expanders
         if (navParent.classList.contains('mdw-expander-content')) {
           const expander = navParent.parentNode;
           setTimeout(() => {
