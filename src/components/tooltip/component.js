@@ -22,7 +22,7 @@ customElements.define('mdw-tooltip', class MDWTooltip extends HTMLElementExtende
     if (mouseX) {
       this.style.left = `${mouseX + 8}px`;
     } else {
-      this.style.left = `${bounds.x + (bounds.width /2)}px`;
+      this.style.left = `${bounds.x + (bounds.width / 2)}px`;
     }
     this.classList.add('mdw-show');
   }

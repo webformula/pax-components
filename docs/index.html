@@ -14,10 +14,10 @@
 </head>
 
 <body>
-  <mdw-navigation class="mdw-rail-enabled mdw-rail-label-only-active">
-    <mdw-navigation-button class="mdw-small-screen-only"></mdw-navigation-button>
-    <div class="mdw-headline">Documentation</div>
-    <nav>
+  <mdw-navigation class="mdw-rail-enabled mdw-state mdw-rail-label-only-active">
+    <nav class="mdw-drawer">
+      <mdw-navigation-button class="mdw-small-screen-only"></mdw-navigation-button>
+      <div class="mdw-headline">Documentation</div>
       <a href="/">
         <mdw-icon>home</mdw-icon>
         <div class="mdw-label">Welcome</div>
@@ -33,120 +33,125 @@
         </div>
         <div class="mdw-expander-content">
           <a href="/buttons">
-            <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
             <div class="mdw-label">Buttons</div>
             <!-- <mdw-icon>home</mdw-icon> -->
             <div class="mdw-ripple"></div>
           </a>
 
           <a href="/fab">
-            <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
             <div class="mdw-label">FAB</div>
+            <div class="mdw-ripple"></div>
+          </a>
+
+          <a href="/icon-buttons">
+            <div class="mdw-label">Icon buttons</div>
+            <div class="mdw-ripple"></div>
+          </a>
+
+          <a href="/segmented-buttons">
+            <div class="mdw-label">Segmented buttons</div>
             <div class="mdw-ripple"></div>
           </a>
         </div>
       </mdw-expander>
       
       <a href="/bottom-app-bar">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Bottom app bar</div>
         <div class="mdw-ripple"></div>
       </a>
-      <a href="/buttons">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
+      <!-- <a href="/buttons">
         <div class="mdw-label">Buttons</div>
-        <!-- <mdw-icon>home</mdw-icon> -->
         <div class="mdw-ripple"></div>
-      </a>
+      </a> -->
       <a href="/cards">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Cards</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/checkbox">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">checkboxs</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/dialog">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Dialog</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/fab">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">FAB</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/icon">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Icons</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/icon-buttons">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Icon buttons</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/lists">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Lists</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/menu">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">menus</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/progress-indicators">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Progress</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/radio">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Radio buttons</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/segmented-buttons">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Segmented buttons</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/select">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">selects</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/sliders">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Sliders</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/snackbar">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Snackbars</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/switch">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Switchs</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/text-field">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Text fields</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/tooltip">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Tooltips</div>
         <div class="mdw-ripple"></div>
       </a>
       <a href="/top-app-bar">
-        <mdw-icon class="dot-icon mdw-outlined mdw-bold">circle</mdw-icon>
         <div class="mdw-label">Top app bar</div>
         <div class="mdw-ripple"></div>
+      </a>
+    </nav>
+
+    <nav class="mdw-rail">
+      <mdw-navigation-button class="mdw-small-screen-only"></mdw-navigation-button>
+
+      <a href="/">
+        <mdw-icon>home</mdw-icon>
+        <div class="mdw-label">Welcome</div>
+      </a>
+
+      <a href="/buttons">
+        <mdw-icon class="mdw-outlined">add</mdw-icon>
+        <div class="mdw-label">Buttons</div>
+      </a>
+
+      <a href="/2">
+        <mdw-icon class="mdw-outlined">change_history</mdw-icon>
       </a>
     </nav>
   </mdw-navigation>

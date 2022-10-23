@@ -17,7 +17,7 @@ mdw-expander .mdw-expander-control {
 mdw-expander .mdw-expander-control .mdw-expander-arrow {
   position: absolute;
   top: 24px;
-  right: 42px;
+  right: 30px;
   width: 0;
   height: 0;
   border-left: 6px solid transparent;
@@ -38,3 +38,48 @@ mdw-expander .mdw-expander-content {
   height: 0;
 }
 
+
+
+/* --- navigation --- */
+
+
+mdw-navigation mdw-expander .mdw-expander-control {
+  position: relative;
+  line-height: 56px;
+  padding-left: 16px;
+  padding-right: 12px;
+  margin-left: 0;
+  margin-right: 0;
+  cursor: pointer;
+  
+  transition: background-color;
+  transition-duration: 120ms;
+  transition-timing-function: var(--mdw-transition-expand-out);
+}
+
+mdw-navigation mdw-expander .mdw-expander-control:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border-radius: var(--mdw-shape-extra-large);
+}
+
+
+mdw-navigation mdw-expander .mdw-expander-control:hover::after {
+  opacity: var(--mdw-state-layer-opacity-hover);
+  background-color: var(--mdw-on-surface);
+}
+
+mdw-navigation mdw-expander .mdw-expander-control:focus::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-on-surface);
+}
+
+
+mdw-navigation mdw-expander .mdw-expander-content > a {
+  margin-left: 12px;
+}

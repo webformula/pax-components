@@ -128,27 +128,50 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
   }
 
   #mdwPageChange() {
-    let currentLink = this.querySelector('a.mdw-current-link');
-    if (currentLink) currentLink.classList.remove('mdw-current-link');
+    const currentLinks = [...this.querySelectorAll('a.mdw-current-link')];
+    currentLinks.forEach(e => e.classList.remove('mdw-current-link'));
 
     // try full url
-    let match = this.querySelector(`a[href="${location.href}"]`);
+    let matches = [...this.querySelectorAll(`a[href="${location.href}"]`)];
 
     // try full url without search parameters
-    if (!match) match = this.querySelector(`a[href="${location.href.split('?')[0]}"]`);
+    if (!matches.length) matches = [...this.querySelectorAll(`a[href="${location.href.split('?')[0]}"]`)];
 
     // try pathname with search parameters
-    if (!match) match = this.querySelector(`a[href="${location.pathname}?${location.href.split('?')[1]}"]`);
+    if (!matches.length) matches = [...this.querySelectorAll(`a[href="${location.pathname}?${location.href.split('?')[1]}"]`)];
 
     // try just pathname
-    if (!match) match = this.querySelector(`a[href="${location.pathname}"]`);
+    if (!matches.length) matches = [...this.querySelectorAll(`a[href="${location.pathname}"]`)];
 
-    if (match) {
-      match.classList.add('mdw-current-link');
+    if (matches.length) {
+      matches.forEach(link => {
+        link.classList.add('mdw-current-link');
+        let navParent = link.parentNode;
 
-      const bounds = match.getBoundingClientRect();
-      if (bounds.y >= 0 && (bounds.y + bounds.height) <= this.offsetHeight) return;
-      match.scrollIntoView({ block: 'center' });
+        if (navParent.classList.contains('mdw-expander-content')) {
+          const expander = navParent.parentNode;
+          setTimeout(() => {
+            expander.show();
+          }, 0);
+
+          // TODO make dynamic, allow multi-nesting?
+          navParent = this.parentNode.parentNode;
+        }
+
+        // only fix scroll for non rail
+        if (!navParent.classList.contains('mdw-rail')) {
+          const bounds = link.getBoundingClientRect();
+
+          // TODO fix this for nested
+          if (this.classList.contains('mdw-state-rail') && link.parentNode.classList.contains('mdw-rail')) {
+            if (bounds.y >= 0 && (bounds.y + bounds.height) <= this.offsetHeight) return;
+            link.scrollIntoView({ block: 'center' });
+          } else if (!this.classList.contains('mdw-state-rail') && !link.parentNode.classList.contains('mdw-rail')) {
+            if (bounds.y >= 0 && (bounds.y + bounds.height) <= this.offsetHeight) return;
+            link.scrollIntoView({ block: 'center' });
+          }
+        }
+      });
     }
   }
 
