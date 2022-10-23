@@ -114,3 +114,20 @@ window.addEventListener('hashchange', () => {
 //   });
 // }, 1000);
 // document.body.addEventListener('scroll', hashScrollThrottle);
+
+
+window.toggleColorScheme = () => {
+  const scheme = MDWUtil.toggleColorScheme();
+
+  setTimeout(() => {
+    const toggleA = document.querySelector('#theme-toggle');
+    const toggleb = document.querySelector('#theme-toggle-2');
+    if (scheme === 'light') {
+      toggleA.setAttribute('toggled', '');
+      toggleb.setAttribute('toggled', '');
+    } else {
+      toggleA.removeAttribute('toggled');
+      toggleb.removeAttribute('toggled');
+    }
+  }, 0);
+};

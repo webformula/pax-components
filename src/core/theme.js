@@ -1,4 +1,13 @@
+// NOTE to change theme add 'color-scheme: dark | light;' to html element style
+//      By default it will use the systems preference
+
+let initiated = false;
+
 export function generate() {
+  initiated = true;
+  polyFillColorSchemeObserver.disconnect();
+  polyfillColorSchemePreference();
+
   const computedStyles = getComputedStyle(document.body);
   const variables = [...document.styleSheets]
     .filter(sheet => sheet.href === null || sheet.href.startsWith(window.location.origin))
@@ -12,8 +21,6 @@ export function generate() {
       name,
       value: computedStyles.getPropertyValue(name)
     }));
-  
-  window.MDWCSSVariables = variables;
 
   // create alpha versions of colors
   const colorRegex = /^\s?#/;
@@ -40,9 +47,32 @@ export function generate() {
     // document.documentElement.style.setProperty(`${name}--90`, `${value}e6`);
   });
 
-  // convert pixels to rem. used so all fonts scale with html.style.fontSize
-  const fontSizes = variables.filter(({ name }) => name.startsWith('--mdw-font-size'));
-  fontSizes.forEach(({ name, value }) => {
-    document.documentElement.style.setProperty(name, `${parseInt(value.replace('px', '')) / 16}rem`);
-  });
+  // this can only run once
+  if (!initiated) {
+    // convert pixels to rem. used so all fonts scale with html.style.fontSize
+    const fontSizes = variables.filter(({ name }) => name.startsWith('--mdw-font-size'));
+    fontSizes.forEach(({ name, value }) => {
+      document.documentElement.style.setProperty(name, `${parseInt(value.replace('px', '')) / 16}rem`);
+    });
+  }
+
+  polyFillColorSchemeObserver.observe(document.querySelector('html'), { attributes: true, attributeFilter: ['style'] });
+}
+
+// currently prefer-color-scheme does not respect color-scheme so we are poly-filling it
+// https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+//   Respects color-scheme inherited from parent
+const polyFillColorSchemeObserver = new MutationObserver(() => {
+  generate();
+});
+function polyfillColorSchemePreference() {
+  const themePreferenceDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const html = document.querySelector('html');
+  const htmlColorScheme = getComputedStyle(html).colorScheme;
+  
+  if (themePreferenceDark === true && htmlColorScheme !== 'light') {
+    html.classList.add('mdw-theme-dark');
+  } else {
+    html.classList.remove('mdw-theme-dark');
+  }
 }

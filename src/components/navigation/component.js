@@ -172,7 +172,7 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
         if (!navParent.classList.contains('mdw-rail')) {
           const bounds = link.getBoundingClientRect();
 
-          // TODO fix this for nested
+          // TODO add for nav group?
           if (this.classList.contains('mdw-state-rail') && link.parentNode.classList.contains('mdw-rail')) {
             if (bounds.y >= 0 && (bounds.y + bounds.height) <= this.offsetHeight) return;
             link.scrollIntoView({ block: 'center' });

@@ -13,6 +13,10 @@ mdw-navigation {
   background-color: var(--mdw-surface);
 }
 
+mdw-navigation.mdw-state-rail {
+  overflow-y: hidden;
+}
+
 body.mdw-mobile > mdw-navigation::after {
   content: '';
   position: fixed;
@@ -98,7 +102,7 @@ mdw-navigation.mdw-state-rail nav:not(.mdw-rail) {
 
 mdw-navigation  nav:not(.mdw-rail) mdw-navigation-button {
   line-height: 56px;
-  margin-left: 6px;
+  margin-left: calc(var(--mdw-navigation-rail-width) / 2 - 34px);
 }
 
 mdw-navigation nav:not(.mdw-rail) a > mdw-icon,
@@ -238,6 +242,7 @@ body.mdw-small-viewport mdw-navigation.mdw-enable-animation:not(.mdw-state-rail)
 
 mdw-navigation.mdw-state-rail nav.mdw-rail {
   opacity: 1;
+  height: calc(100% - 36px);
 }
 
 mdw-navigation:not(.mdw-state-rail) nav.mdw-rail {
@@ -263,11 +268,13 @@ mdw-navigation.mdw-state-rail + page-content {
   width: calc(100% - var(--mdw-navigation-rail-width));
 }
 
-mdw-navigation.mdw-state-rail .mdw-headline {
-  opacity: 0;
-  /* height: 0; */
+mdw-navigation nav.mdw-rail > mdw-button {
+  align-self: center;
 }
 
+mdw-navigation.mdw-state-rail .mdw-headline {
+  opacity: 0;
+}
 
 mdw-navigation nav.mdw-rail > a,
 mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control {

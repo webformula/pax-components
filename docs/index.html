@@ -16,7 +16,14 @@
 <body>
   <mdw-navigation class="mdw-rail-enabled mdw-state mdw-rail-label-only-active">
     <nav class="mdw-drawer">
-      <mdw-navigation-button class="mdw-small-screen-only"></mdw-navigation-button>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <mdw-navigation-button class="mdw-small-screen-only"></mdw-navigation-button>
+
+        <mdw-button id="theme-toggle" class="mdw-icon-toggle-button" onClick="window.toggleColorScheme()">
+          <mdw-icon value="on">dark_mode</mdw-icon>
+          <mdw-icon value="off">light_mode</mdw-icon>
+        </mdw-button>
+      </div>
       <div class="mdw-headline">Documentation</div>
       <a href="/">
         <mdw-icon>home</mdw-icon>
@@ -233,6 +240,11 @@
           </a>
         </div>
       </div>
+
+      <mdw-button id="theme-toggle-2" class="mdw-icon-toggle-button" onClick="window.toggleColorScheme()" style="margin-top: auto;">
+        <mdw-icon value="on">dark_mode</mdw-icon>
+        <mdw-icon value="off">light_mode</mdw-icon>
+      </mdw-button>
     </nav>
   </mdw-navigation>
 

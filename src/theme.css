@@ -1,3 +1,6 @@
+/* Change theme by adding 'color-scheme: dark | light;' to the html element style */
+/* By default it will use the system preference */
+
 :root {
   --mdw-primary: #6750A4;
   --mdw-primary-container: #EADDFF;
@@ -28,7 +31,9 @@
   --mdw-surface-inverse: #313033;
   --mdw-on-surface-inverse: #F4EFF4;
 
-  --mdw-background: #FFFBFE;
+  /* original */
+  /* --mdw-background: #FFFBFE; */
+  --mdw-background: #edebed;
   --mdw-on-background: #1C1B1F;
 
   --mdw-outline: #79747E;
@@ -150,4 +155,56 @@
   --mdw-font-line-height-small-headline: 32px;
   --mdw-font-weight-small-headline: 400;
   --mdw-font-letter-spacing-small-headline: 0;
+}
+
+
+/* you can use system preference for dark, but this is not fully implemented yet. https: //developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme */
+/*   Currently this feature is polyfilled and should work as expected */
+/*   All you need to do is add 'color-scheme: dark | light;' to the html element style */
+/* @media (prefers-color-scheme: dark) {
+  :root {
+  }
+} */
+
+:root.mdw-theme-dark {
+  --mdw-primary: #d0bcff;
+  --mdw-primary-container: #4f378b;
+  --mdw-on-primary: #381e73;
+  --mdw-on-primary-container: #eaddff;
+  --mdw-primary-inverse: #2f4300;
+
+  --mdw-secondary: #cbc2db;
+  --mdw-secondary-container: #4a4458;
+  --mdw-on-secondary: #332d41;
+  --mdw-on-secondary-container: #e8def8;
+
+  --mdw-tertiary: #efb8c8;
+  --mdw-tertiary-container: #633b48;
+  --mdw-on-tertiary: #4a2532;
+  --mdw-on-tertiary-container: #ffd8e4;
+
+  --mdw-error: #f2b8b5;
+  --mdw-error-container: #8c1d18;
+  --mdw-on-error: #601410;
+  --mdw-on-error-container: #f9dedc;
+
+  --mdw-surface: #1c1b1e;
+  --mdw-surface-variant: #49454f;
+  --mdw-on-surface: #e6e1e5;
+  --mdw-on-surface-variant: #cac4cf;
+  --mdw-surface-tint: #d0bcff;
+  --mdw-surface-inverse: #e3e4e1;
+  --mdw-on-surface-inverse: #191e1a;
+
+  /* original */
+  /* --mdw-background: #1c1b1e; */
+
+  --mdw-background: #39373d;
+  --mdw-on-background: #e6e1e5;
+
+  --mdw-outline: #948f99;
+  --mdw-outline-variant: #cdd1cf;
+
+  --mdw-shadow: #000000;
+  --mdw-scrim: #000000;
 }
