@@ -1,7 +1,7 @@
 <mdw-card class="header-card">
   <div class="mdw-card-content">
     <div class="mdw-headline" style="font-size: 36px;">Lists</div>
-    <!-- <div class="mdw-supporting-text">Display items</div> -->
+    <!-- <div class="mdw-supporting-text-text">Display items</div> -->
   </div>
   <div class="mdw-card-content">
     <mdw-list class="mdw-line-two">
@@ -13,8 +13,8 @@
             src="https://media-exp1.licdn.com/dms/image/C5603AQGaG5R6eLBrQw/profile-displayphoto-shrink_200_200/0/1517715970498?e=1669852800&v=beta&t=qTOPe_nrsEpL0CJdck437vFqnIdOnmpb4-oQF6i-Znc">
         </mdw-avatar>
         <div class="mdw-text">
-          <div class="mdw-text-primary">Primary text</div>
-          <div class="mdw-text-secondary">Secondary</div>
+          <div class="mdw-headline">Primary text</div>
+          <div class="mdw-supporting-text">Secondary</div>
         </div>
         <mdw-icon class="mdw-action" action="delete" remove>delete</mdw-icon>
         <mdw-icon class="mdw-action" action="archive">edit</mdw-icon>
@@ -26,8 +26,8 @@
       <mdw-list-item value="2">
         <mdw-avatar class="mdw-tertiary">AS</mdw-avatar>
         <div class="mdw-text">
-          <div class="mdw-text-primary">Primary text</div>
-          <div class="mdw-text-secondary">Secondary</div>
+          <div class="mdw-headline">Primary text</div>
+          <div class="mdw-supporting-text">Secondary</div>
         </div>
         <mdw-button class="mdw-icon-button">
           <mdw-icon>delete</mdw-icon>
@@ -42,8 +42,8 @@
           <mdw-icon>person</mdw-icon>
         </mdw-avatar>
         <div class="mdw-text">
-          <div class="mdw-text-primary">Primary text</div>
-          <div class="mdw-text-secondary">Secondary</div>
+          <div class="mdw-headline">Primary text</div>
+          <div class="mdw-supporting-text">Secondary</div>
         </div>
         <mdw-icon>delete</mdw-icon>
         <mdw-icon>edit</mdw-icon>
@@ -56,8 +56,8 @@
       <mdw-list-item value="4">
         <mdw-icon>inbox</mdw-icon>
         <div class="mdw-text">
-          <div class="mdw-text-primary">Primary text</div>
-          <div class="mdw-text-secondary">Secondary</div>
+          <div class="mdw-headline">Primary text</div>
+          <div class="mdw-supporting-text">Secondary</div>
         </div>
         <mdw-icon>delete</mdw-icon>
         <mdw-icon>edit</mdw-icon>
@@ -67,7 +67,7 @@
   </div>
 </mdw-card>
 
-<a href="https://material.io/components/lists" target="_new">Material Design Guidelines: Lists (v2)</a>
+<a href="https://m3.material.io/components/lists/overview" target="_new">Material Design Guidelines: Lists</a>
 <p>Lists are continuous, vertical indexes of text or images.</p>
 
 
@@ -92,30 +92,29 @@
       
       <div class="example">
         <mdw-list>
-          <mdw-list-item>One</mdw-list-item>
-          <mdw-list-item>Two</mdw-list-item>
-          <mdw-list-item>Three</mdw-list-item>
+          <mdw-list-item>
+            <mdw-icon>inbox</mdw-icon>
+            One
+          </mdw-list-item>
         </mdw-list>
       
         <mdw-list class="mdw-line-two">
           <mdw-list-item>
+            <mdw-icon>inbox</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Two line: Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
-      
+        </mdw-list>
+
+        <mdw-list class="mdw-line-three">
           <mdw-list-item>
+            <mdw-icon>inbox</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
-            </div>
-          </mdw-list-item>
-      
-          <mdw-list-item>
-            <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Three line: Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
         </mdw-list>
@@ -125,30 +124,29 @@
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-list>
-    <mdw-list-item>One</mdw-list-item>
-    <mdw-list-item>Two</mdw-list-item>
-    <mdw-list-item>Three</mdw-list-item>
+    <mdw-list-item>
+      <mdw-icon>inbox</mdw-icon>
+      One
+    </mdw-list-item>
   </mdw-list>
   
   <mdw-list class="mdw-line-two">
     <mdw-list-item>
+      <mdw-icon>inbox</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Two line: Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
+  </mdw-list>
   
+  <mdw-list class="mdw-line-three">
     <mdw-list-item>
+      <mdw-icon>inbox</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
-      </div>
-    </mdw-list-item>
-  
-    <mdw-list-item>
-      <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Three line: Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   </mdw-list>`)}
@@ -166,8 +164,8 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
@@ -176,16 +174,16 @@
                 src="https://media-exp1.licdn.com/dms/image/C5603AQGaG5R6eLBrQw/profile-displayphoto-shrink_200_200/0/1517715970498?e=1669852800&v=beta&t=qTOPe_nrsEpL0CJdck437vFqnIdOnmpb4-oQF6i-Znc">
             </mdw-avatar>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
           <mdw-list-item>
             <mdw-avatar class="mdw-tertiary">AS</mdw-avatar>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
         </mdw-list>
@@ -198,8 +196,8 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
@@ -208,16 +206,16 @@
           src="https://media-exp1.licdn.com/dms/image/C5603AQGaG5R6eLBrQw/profile-displayphoto-shrink_200_200/0/1517715970498?e=1669852800&v=beta&t=qTOPe_nrsEpL0CJdck437vFqnIdOnmpb4-oQF6i-Znc">
       </mdw-avatar>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
     <mdw-list-item>
       <mdw-avatar class="mdw-tertiary">AS</mdw-avatar>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   </mdw-list>`)}
@@ -235,8 +233,8 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Icon buttons</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Icon buttons</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
             <mdw-button class="mdw-icon-button mdw-action" action="delete" remove>
               <mdw-icon>delete</mdw-icon>
@@ -249,8 +247,8 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Hide action until hover</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Hide action until hover</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
             <mdw-icon class="mdw-action mdw-auto-hide-action" action="delete" remove>delete</mdw-icon>
             <mdw-icon class="mdw-action mdw-auto-hide-action" action="edit">edit</mdw-icon>
@@ -259,8 +257,8 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">No actions</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">No actions</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
             <mdw-icon>delete</mdw-icon>
             <mdw-icon>edit</mdw-icon>
@@ -275,8 +273,8 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Icon buttons</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Icon buttons</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
       <mdw-button class="mdw-icon-button mdw-action" action="delete" remove>
         <mdw-icon>delete</mdw-icon>
@@ -289,8 +287,8 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Hide action until hover</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Hide action until hover</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
       <mdw-icon class="mdw-action mdw-auto-hide-action" action="delete" remove>delete</mdw-icon>
       <mdw-icon class="mdw-action mdw-auto-hide-action" action="edit">edit</mdw-icon>
@@ -299,8 +297,8 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">No actions</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">No actions</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
       <mdw-icon>delete</mdw-icon>
       <mdw-icon>edit</mdw-icon>
@@ -335,24 +333,24 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
@@ -360,24 +358,24 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
         </mdw-list>
@@ -391,24 +389,24 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
@@ -416,24 +414,24 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   </mdw-list>`)}
@@ -452,8 +450,8 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
@@ -464,8 +462,8 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
@@ -474,8 +472,8 @@
           <mdw-list-item>
             <mdw-icon>person</mdw-icon>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
         </mdw-list>
@@ -488,8 +486,8 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
 
@@ -500,8 +498,8 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
 
@@ -510,8 +508,8 @@
     <mdw-list-item>
       <mdw-icon>person</mdw-icon>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   </mdw-list>`)}
@@ -533,8 +531,8 @@
             </mdw-list-item-action-right>
             <mdw-avatar>BR</mdw-avatar>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
             <mdw-icon class="mdw-action mdw-mobile-hide" action="delete" remove>delete</mdw-icon>
             <mdw-icon class="mdw-action mdw-mobile-hide" action="archive">edit</mdw-icon>
@@ -549,8 +547,8 @@
             </mdw-list-item-action-right>
             <mdw-avatar>BR</mdw-avatar>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
             <mdw-icon class="mdw-action mdw-mobile-hide" action="delete" remove>delete</mdw-icon>
             <mdw-icon class="mdw-action mdw-mobile-hide" action="archive">edit</mdw-icon>
@@ -565,8 +563,8 @@
             </mdw-list-item-action-right>
             <mdw-avatar>BR</mdw-avatar>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Primary text</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Primary text</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
             <mdw-icon class="mdw-action mdw-mobile-hide" action="delete" remove>delete</mdw-icon>
             <mdw-icon class="mdw-action mdw-mobile-hide" action="archive">edit</mdw-icon>
@@ -587,8 +585,8 @@
       </mdw-list-item-action-right>
       <mdw-avatar>BR</mdw-avatar>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
       <mdw-icon class="mdw-action mdw-mobile-hide" action="delete" remove>delete</mdw-icon>
       <mdw-icon class="mdw-action mdw-mobile-hide" action="archive">edit</mdw-icon>
@@ -603,8 +601,8 @@
       </mdw-list-item-action-right>
       <mdw-avatar>BR</mdw-avatar>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
       <mdw-icon class="mdw-action mdw-mobile-hide" action="delete" remove>delete</mdw-icon>
       <mdw-icon class="mdw-action mdw-mobile-hide" action="archive">edit</mdw-icon>
@@ -619,8 +617,8 @@
       </mdw-list-item-action-right>
       <mdw-avatar>BR</mdw-avatar>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Primary text</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Primary text</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
       <mdw-icon class="mdw-action mdw-mobile-hide" action="delete" remove>delete</mdw-icon>
       <mdw-icon class="mdw-action mdw-mobile-hide" action="archive">edit</mdw-icon>
@@ -656,21 +654,21 @@
         <mdw-list class="mdw-select" value="1" onchange="page.selectChange(this.value)">
           <mdw-list-item value="1">
             <div class="mdw-text">
-              <div class="mdw-text-primary">One</div>
+              <div class="mdw-headline">One</div>
             </div>
             <mdw-checkbox></mdw-checkbox>
           </mdw-list-item>
       
           <mdw-list-item value="2">
             <div class="mdw-text">
-              <div class="mdw-text-primary">Two</div>
+              <div class="mdw-headline">Two</div>
             </div>
             <mdw-checkbox></mdw-checkbox>
           </mdw-list-item>
       
           <mdw-list-item value="3">
             <div class="mdw-text">
-              <div class="mdw-text-primary">Three</div>
+              <div class="mdw-headline">Three</div>
             </div>
             <mdw-checkbox></mdw-checkbox>
           </mdw-list-item>
@@ -683,21 +681,21 @@
   ${escapeHTML(`<mdw-list class="mdw-select" value="1" onchange="window.selectChange(this.value)">
     <mdw-list-item value="1">
       <div class="mdw-text">
-        <div class="mdw-text-primary">One</div>
+        <div class="mdw-headline">One</div>
       </div>
       <mdw-checkbox></mdw-checkbox>
     </mdw-list-item>
   
     <mdw-list-item value="2">
       <div class="mdw-text">
-        <div class="mdw-text-primary">Two</div>
+        <div class="mdw-headline">Two</div>
       </div>
       <mdw-checkbox></mdw-checkbox>
     </mdw-list-item>
 
     <mdw-list-item value="3">
       <div class="mdw-text">
-        <div class="mdw-text-primary">Three</div>
+        <div class="mdw-headline">Three</div>
       </div>
       <mdw-checkbox></mdw-checkbox>
     </mdw-list-item>
@@ -724,24 +722,24 @@
           <mdw-list-item value="1">
             <mdw-avatar class="mdw-tertiary">BR</mdw-avatar>
             <div class="mdw-text">
-              <div class="mdw-text-primary">One</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">One</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
           <mdw-list-item value="2">
             <mdw-avatar class="mdw-tertiary">AS</mdw-avatar>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Two</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Two</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
       
           <mdw-list-item value="3">
             <mdw-avatar class="mdw-tertiary">FR</mdw-avatar>
             <div class="mdw-text">
-              <div class="mdw-text-primary">Three</div>
-              <div class="mdw-text-secondary">Secondary</div>
+              <div class="mdw-headline">Three</div>
+              <div class="mdw-supporting-text">Secondary</div>
             </div>
           </mdw-list-item>
         </mdw-list>
@@ -754,24 +752,24 @@
     <mdw-list-item value="1">
       <mdw-avatar class="mdw-tertiary">BR</mdw-avatar>
       <div class="mdw-text">
-        <div class="mdw-text-primary">One</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">One</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
     <mdw-list-item value="2">
       <mdw-avatar class="mdw-tertiary">AS</mdw-avatar>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Two</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Two</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   
     <mdw-list-item value="3">
       <mdw-avatar class="mdw-tertiary">FR</mdw-avatar>
       <div class="mdw-text">
-        <div class="mdw-text-primary">Three</div>
-        <div class="mdw-text-secondary">Secondary</div>
+        <div class="mdw-headline">Three</div>
+        <div class="mdw-supporting-text">Secondary</div>
       </div>
     </mdw-list-item>
   </mdw-list>`)}
