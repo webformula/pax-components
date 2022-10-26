@@ -3,7 +3,7 @@ import util from '../../core/util.js'
 import Ripple from '../../core/Ripple.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
-// TODO intermediate
+// TODO indeterminate
 
 customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExtended {
   useShadowRoot = true;
@@ -31,12 +31,21 @@ customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExten
     this.#updateAttribute();
   }
 
+  get indeterminate() {
+    return this.shadowRoot.querySelector('input').indeterminate;
+  }
+  set indeterminate(value) {
+    this.shadowRoot.querySelector('input').indeterminate = value;
+    this.#updateAttribute();
+  }
+
   static get observedAttributes() {
-    return ['checked'];
+    return ['checked', 'indeterminate'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'checked' && this.rendered) this.shadowRoot.querySelector('input').checked = newValue !== null;
+    if (name === 'indeterminate' && this.rendered) this.shadowRoot.querySelector('input').indeterminate = newValue !== null;
   }
 
   connectedCallback() {
@@ -50,6 +59,7 @@ customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExten
       centered: true
     });
     if (this.hasAttribute('checked')) this.shadowRoot.querySelector('input').checked = true;
+    if (this.hasAttribute('indeterminate')) this.shadowRoot.querySelector('input').indeterminate = true;
     this.shadowRoot.querySelector('input').addEventListener('change', this.#updateAttribute_bound);
   }
 
@@ -61,6 +71,10 @@ customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExten
   #updateAttribute() {
     if (this.checked === true) this.setAttribute('checked', '');
     else this.removeAttribute('checked');
+
+    if (this.indeterminate === true) this.setAttribute('indeterminate', '');
+    else this.removeAttribute('indeterminate');
+
     this.dispatchEvent(new Event('change'));
   }
 
@@ -72,6 +86,7 @@ customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExten
           <svg version="1.1" focusable="false" viewBox="0 0 24 24">
             <path fill="none" stroke="white" d="M4.1,12.7 9,17.6 20.3,6.3" ></path>
           </svg>
+          <div class="mdw-indeterminate-check"></div>
           <div class="mdw-ripple"></div>
         </div>
         <slot></slot>

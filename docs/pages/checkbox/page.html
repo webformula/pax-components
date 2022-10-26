@@ -17,6 +17,7 @@
   <a href="#standard">Standard</a>
   <a href="#left_label">Left label</a>
   <a href="#error">Error style</a>
+  <a href="#indeterminate">Indeterminate state</a>
 </div>
 
 
@@ -68,10 +69,29 @@ ${escapeHTML(`<mdw-checkbox class="mdw-label-left">left label</mdw-checkbox>`)}
     </div>
   
     <pre>
-        <code class="language-html">
-    ${escapeHTML(`<mdw-checkbox class="mdw-error">unchecked error</mdw-checkbox>
-    <mdw-checkbox checked class="mdw-error">checked error</mdw-checkbox>`)}
-        </code>
-      </pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-checkbox class="mdw-error">unchecked error</mdw-checkbox>
+  <mdw-checkbox checked class="mdw-error">checked error</mdw-checkbox>`)}
+      </code>
+    </pre>
+  </mdw-card>
+
+  <mdw-card id="indeterminate">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Indeterminate</div>
+      <div class="mdw-subhead">Indeterminate overrides checked and unchecked states. If checked is changed then indeterminate will be set false.</div>
+  
+      <div class="example" style="flex-direction: column; display: flex;">
+        <mdw-checkbox indeterminate>unchecked</mdw-checkbox>
+        <mdw-checkbox checked indeterminate>checked</mdw-checkbox>
+      </div>
+    </div>
+  
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-checkbox indeterminate>unchecked</mdw-checkbox>
+  <mdw-checkbox checked indeterminate>checked</mdw-checkbox>`)}
+      </code>
+    </pre>
   </mdw-card>
 </section>
