@@ -3,6 +3,7 @@ import Drag from '../../core/drag.js';
 import util from '../../core/util.js';
 import './component.css';
 
+// TODO update style to v3
 // TODO add mutation observer for added list items?
 
 customElements.define('mdw-list', class MDWList extends HTMLElementExtended {

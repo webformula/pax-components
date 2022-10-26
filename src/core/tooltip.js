@@ -22,7 +22,7 @@ async function initialize() {
 
   document.body.insertAdjacentHTML('beforeend', '<mdw-tooltip class="mdw-main-tooltip"></mdw-tooltip>');
   await util.nextAnimationFrameAsync();
-  tooltipElement = document.querySelector('mdw-tooltip.mdw-main-tooltip')
+  tooltipElement = document.querySelector('mdw-tooltip.mdw-main-tooltip');
 
   observer.observe(document.body, { subtree: true, attributeFilter: ['title', 'tooltip'] });
 

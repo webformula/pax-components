@@ -9,13 +9,14 @@
   </div>
 </mdw-card>
 
-<a href="https://material.io/components/checkboxes#usage" target="_new">Material Design Guidelines:
-  Checkbox <b>(still based on version 2)</b></a>
+<a href="https://m3.material.io/components/checkbox/overview" target="_new">Material Design Guidelines:
+  Checkbox</a>
 <p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
 
 <div class="links">
   <a href="#standard">Standard</a>
   <a href="#left_label">Left label</a>
+  <a href="#error">Error style</a>
 </div>
 
 
@@ -54,5 +55,23 @@
 ${escapeHTML(`<mdw-checkbox class="mdw-label-left">left label</mdw-checkbox>`)}
       </code>
     </pre>
+  </mdw-card>
+
+  <mdw-card id="error">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Checkboxes error style</div>
+  
+      <div class="example" style="flex-direction: column; display: flex;">
+        <mdw-checkbox class="mdw-error">unchecked error</mdw-checkbox>
+        <mdw-checkbox checked class="mdw-error">checked error</mdw-checkbox>
+      </div>
+    </div>
+  
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-checkbox class="mdw-error">unchecked error</mdw-checkbox>
+    <mdw-checkbox checked class="mdw-error">checked error</mdw-checkbox>`)}
+        </code>
+      </pre>
   </mdw-card>
 </section>

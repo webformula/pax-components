@@ -68,20 +68,31 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
     this.#rippleElements.forEach(r => r.destroy());
   }
 
-  get isOpen() {
-    if (this.classList.contains('mdw-show')) return true;
-    if (
-      document.body.classList.contains('mdw-small-viewport')
-      && !document.body.classList.contains('mdw-mobile')
-      && this.classList.contains('mdw-state-drawer')
-    ) return true;
-    if (
-      !document.body.classList.contains('mdw-small-viewport')
-      && !document.body.classList.contains('mdw-mobile')
-      && this.classList.contains('mdw-state-drawer')
-    ) return true;
-    return false;
+  get state() {
+    if (util.isMobile) {
+      if (this.classList.contains('mdw-show')) return 'drawer';
+      return 'hidden';
+    } else {
+      if (this.classList.contains('mdw-hide')) return 'hidden';
+      if (this.classList.contains('mdw-state-rail')) return 'rail';
+      return 'drawer';
+    }
   }
+
+  // get isOpen() {
+  //   if (this.classList.contains('mdw-show')) return true;
+  //   if (
+  //     document.body.classList.contains('mdw-small-viewport')
+  //     && !document.body.classList.contains('mdw-mobile')
+  //     && this.classList.contains('mdw-state-drawer')
+  //   ) return true;
+  //   if (
+  //     !document.body.classList.contains('mdw-small-viewport')
+  //     && !document.body.classList.contains('mdw-mobile')
+  //     && this.classList.contains('mdw-state-drawer')
+  //   ) return true;
+  //   return false;
+  // }
 
   get #shouldAddClickOutsideEvent() {
     if (this.classList.contains('mdw-show')) return true;
@@ -94,23 +105,15 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
   }
 
   async toggle() {
+    console.log('toggle');
     if (this.classList.contains('mdw-rail-enabled')) {
       if (this.classList.contains('mdw-state-rail')) {
         this.classList.remove('mdw-state-rail');
         this.classList.add('mdw-state-drawer');
-        this.classList.remove('mdw-drawer-to-rail-animation');
-        this.classList.add('mdw-rail-to-drawer-animation');
       } else {
         this.classList.remove('mdw-state-drawer');
         this.classList.add('mdw-state-rail');
-        this.classList.remove('mdw-rail-to-drawer-animation');
-        this.classList.add('mdw-drawer-to-rail-animation');
       }
-
-      await util.animationendAsync(this);
-      this.classList.remove('mdw-drawer-to-rail-animation');
-      this.classList.remove('mdw-rail-to-drawer-animation');
-
     } else {
       if (this.classList.contains('mdw-show')) {
         this.classList.remove('mdw-show');
@@ -125,6 +128,8 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
       if (this.#shouldAddClickOutsideEvent) this.addEventListener('click', this.#onClickOutside_bound, true);
       else this.removeEventListener('click', this.#onClickOutside_bound, true);
     }, 0);
+
+    window.dispatchEvent(new CustomEvent('mdw-navigation-state', { detail: this.state }));
   }
 
   #mdwPageChange() {

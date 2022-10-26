@@ -5,6 +5,7 @@ import './component.css';
 import './desktop.js';
 import './mobile.js';
 
+// TODO update style to v3
 // TODO input still allows out of range setting directly. Should i handle that?
 
 customElements.define('mdw-time-picker', class MDWTimePicker extends HTMLElementExtended {

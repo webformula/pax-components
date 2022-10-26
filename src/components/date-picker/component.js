@@ -6,6 +6,7 @@ import './component.css';
 import './desktop.js';
 import './mobile.js';
 
+// TODO update style to v3
 
 customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElementExtended {
   useShadowRoot = false;

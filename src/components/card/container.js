@@ -13,15 +13,16 @@ customElements.define('mdw-card-container', class MDWCardContainer extends HTMLE
   #cards = [];
 
   // used to reflow on list changes
-  #observer = new MutationObserver((mutationList) => {
-    this.#observer.disconnect();
-    this.#layout();
-    this.#observer.observe(this, { childList: true });
-  });
+  #observer;
 
   constructor() {
     super();
 
+    this.#observer = new MutationObserver(() => {
+      this.#observer.disconnect();
+      this.#layout();
+      this.#observer.observe(this, { childList: true });
+    });
     this.#isList = this.classList.contains('mdw-list') || (!this.classList.contains('mdw-grid') && util.isMobile);
 
     if (this.#isList) {

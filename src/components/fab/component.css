@@ -158,7 +158,7 @@
 
 :host(.mdw-tertiary) {
   color: var(--mdw-on-tertiary-container);
-  background-color: var(--mdw-tertiary);
+  background-color: var(--mdw-tertiary-container);
 }
 :host(.mdw-tertiary:hover)::after {
   background-color: var(--mdw-on-tertiary-container);

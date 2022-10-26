@@ -1,5 +1,4 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import util from '../../core/util.js';
 import './component.css';
 
 
@@ -7,6 +6,7 @@ customElements.define('mdw-navigation-button', class MDWNavigationButton extends
   useShadowRoot = false;
 
   #onclick_bound = this.#onclick.bind(this);
+  #onNavigationState_bound = this.#onNavigationState.bind(this);
 
 
   constructor() {
@@ -14,7 +14,6 @@ customElements.define('mdw-navigation-button', class MDWNavigationButton extends
 
     this.tabIndex = 0;
     this.setAttribute('role', 'button');
-    // if (this.#shouldShow()) this.classList.add('mdw-show');
   }
 
   connectedCallback() {
@@ -22,26 +21,30 @@ customElements.define('mdw-navigation-button', class MDWNavigationButton extends
   }
 
   afterRender() {
+    this.#onNavigationState();
+    window.addEventListener('mdw-navigation-state', this.#onNavigationState_bound);
     this.addEventListener('click', this.#onclick_bound);
   }
 
   disconnectedCallback() {
     this.removeEventListener('click', this.#onclick_bound);
+    window.removeEventListener('mdw-navigation-state', this.#onNavigationState_bound);
   }
 
   #onclick() {
     document.querySelector('mdw-navigation').toggle();
   }
 
-  // TODO
-  #shouldShow() {
-    return !util.isMobileOrSmallViewport();
+  #onNavigationState() {
+    if (document.querySelector('mdw-navigation').state === 'drawer') this.querySelector('mdw-button').removeAttribute('toggled');
+    else this.querySelector('mdw-button').setAttribute('toggled', '');
   }
 
   template() {
     return /* html */`
-      <mdw-button class="mdw-icon-button">
-        <mdw-icon class="mdw-bold mdw-small">menu</mdw-icon>
+      <mdw-button class="mdw-icon-toggle-button">
+        <mdw-icon class="mdw-bold mdw-small" value="on">menu</mdw-icon>
+        <mdw-icon class="mdw-bold mdw-small" value="off">menu_open</mdw-icon>
       </mdw-button>
     `;
   }

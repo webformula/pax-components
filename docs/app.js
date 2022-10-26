@@ -131,3 +131,14 @@ window.toggleColorScheme = () => {
     }
   }, 0);
 };
+
+let isScrolled = false;
+document.body.addEventListener('scroll', () => {
+  if (document.body.scrollTop === 0 && isScrolled === true) {
+    document.querySelector('#scroll-top-fab').style.display = 'none';
+    isScrolled = false;
+  } else if (isScrolled === false) {
+    document.querySelector('#scroll-top-fab').style.display = '';
+    isScrolled = true;
+  }
+})
