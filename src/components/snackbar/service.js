@@ -2,24 +2,25 @@ import Panel from '../../core/panel.js';
 import util from '../../core/util.js';
 
 const MDWSnackbar = new class MDWSnackbar {
-  defaultMS = 3500;
+  defaultMS = 4000;
 
   #currentSnackbar;
   #snackbarQueue = [];
 
   show(params = {
     message: '',
-    action: false,
-    actionLabel: 'Dismiss',
+    actionLabel: '',
+    closeButton: true,
     ms: this.defaultMS
   }) {
     if (!params.message) throw Error('Message required');
-
+    if (params.closeButton === undefined) params.closeButton = true;
     const panel = new Panel();
     panel.template = /*html*/`
-      <mdw-snackbar>
+      <mdw-snackbar ${!params.lineTwo ? '' : 'class="mdw-line-two"'}>
         <div class="mdw-text">${params.message}</div>
-        ${!params.action ? '' : `<mdw-button onclick="MDWSnackbar.dismiss()">${params.actionLabel || 'Dismiss'}</mdw-button>`}
+        ${!params.actionLabel ? '' : `<mdw-button onclick="MDWSnackbar.dismiss('action')">${params.actionLabel || 'Dismiss'}</mdw-button>`}
+        ${params.actionLabel || !params.closeButton ? '' : `<mdw-icon onclick="MDWSnackbar.dismiss('close')">close</mdw-icon>`}
       </mdw-snackbar>
     `;
     panel.position = 'bottom left';
@@ -40,9 +41,9 @@ const MDWSnackbar = new class MDWSnackbar {
     });
   }
 
-  dismiss() {
+  dismiss(source) {
     if (!this.#currentSnackbar) return;
-    this.#currentSnackbar.panel.hide();
+    this.#currentSnackbar.panel.hide(source);
   }
 
   #handleQueue() {

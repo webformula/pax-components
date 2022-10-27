@@ -8,11 +8,13 @@
   </div>
 </mdw-card>
 
-<a href="https://m3.material.io/components/buttons/overview" target="_new">Material Design Guidelines: Snackbar (v2)</a>
-<p>Snackbars provide brief messages about app processes at the bottom of the screen. Snackbars only show one at a time. When multiple are created they will queue and show in order.</p>
+<a href="https://m3.material.io/components/snackbar/overview" target="_new">Material Design Guidelines: Snackbar</a>
+<p>Snackbars provide brief messages about app processes at the bottom of the screen.</p>
 
 <div class="links">
   <a href="#basic">basic</a>
+  <a href="#action">Action</a>
+  <a href="#no-close">No close and longer time</a>
 </div>
 
 
@@ -57,5 +59,25 @@
   console.log('Snackbar dismissed');`}
       </code>
     </pre>
+  </mdw-card>
+
+  <mdw-card id="no-close">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">No close button and longer time</div>
+  
+      <div class="example">
+        <mdw-button onclick="page.noClose();">Show</mdw-button>
+      </div>
+    </div>
+  
+    <pre>
+        <code class="language-javascript">
+    ${`MDWSnackbar.show({
+      message: 'Message goes here',
+      closeButton: false,
+      ms: 6000
+    });`}
+        </code>
+      </pre>
   </mdw-card>
 </section>

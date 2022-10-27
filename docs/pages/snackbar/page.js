@@ -23,4 +23,12 @@ export default new class extends Page {
     });
     console.log('Snackbar dismissed');
   }
+
+  async noClose() {
+    await MDWSnackbar.show({
+      message: 'Message goes here',
+      closeButton: false,
+      ms: 6000
+    });
+  }
 }
