@@ -11,6 +11,7 @@ import './index.css';
 import { generate } from './core/theme.js';
 generate();
 
+import './components/badge/component.js';
 import './components/button/component.js';
 import './components/card/component.js';
 import './components/card/container.js';
