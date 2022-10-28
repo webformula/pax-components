@@ -1,9 +1,15 @@
 :host {
-  position: absolute;
-  left: calc(50% + 3px); 
-  top: 6px;
+  align-self: flex-start;
+  display: flex;
   width: 0;
   height: 0;
+}
+
+:host-context(.mdw-icon-button),
+:host-context(mdw-icon) {
+  position: absolute;
+  left: calc(50% + 5px);
+  top: 10px;
 }
 
 :host > .mdw-content {
@@ -22,4 +28,10 @@
   letter-spacing: var(--mdw-font-letter-spacing-small-label);
   
   color: var(--mdw-on-error);
+}
+
+
+:host(.mdw-contains-value) {
+  top: 6px;
+  left: calc(50% - 2px);
 }

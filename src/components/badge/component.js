@@ -35,6 +35,7 @@ customElements.define('mdw-badge', class MDWBadge extends HTMLElementExtended {
     if (value > 999) value = '999+';
     this.#value = value;
     this.shadowRoot.removeEventListener('slotchange', this.#slotChange_bound);
+    this.classList.toggle('mdw-contains-value', !!value);
     this.innerHTML = value;
     requestAnimationFrame(() => {
       this.shadowRoot.addEventListener('slotchange', this.#slotChange_bound);
