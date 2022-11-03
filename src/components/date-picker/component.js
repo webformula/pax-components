@@ -140,6 +140,7 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
     this.#panel.template = this.template();
     this.#panel.addIgnoreElement(this.#control);
     this.#panel.backdrop = true;
+    this.#panel.offsetY = 2;
 
     if (!util.isMobile) {
       this.#panel.backdrop = false;

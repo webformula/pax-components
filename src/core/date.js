@@ -1,3 +1,6 @@
+// TODO expose local
+// TODO expose timezone
+
 const MDWDate = new class MDWDate {
   #intlFormatter;
   #intlFormatterLong;
@@ -140,6 +143,15 @@ const MDWDate = new class MDWDate {
     return new Date(this.getYear(date), this.getMonth(date) - 1, 1);
   }
 
+  getMonthNames() {
+    const formatter = new Intl.DateTimeFormat(this.#local, { month: 'long', timeZone: this.#timezone });
+    const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(month => {
+      const mm = month < 10 ? `0${month}` : month;
+      return new Date(`2017-${mm}-01T00:00:00+00:00`);
+    });
+    return months.map(date => formatter.format(date));
+  }
+
   getParts(date) {
     return {
       year: this.getYear(date),
@@ -176,7 +188,7 @@ const MDWDate = new class MDWDate {
     return [...new Array(range)].map((_, i) => startYear + i);
   }
 
-  getMonthDays(date, { fillNextMonth = false, minDate, maxDate }) {
+  getMonthDays(date, { fillNextMonth = false, fillPreviousMonth = true, minDate, maxDate }) {
     if (minDate && !this.isValid(minDate)) minDate = undefined;
     if (maxDate && !this.isValid(maxDate)) maxDate = undefined;
 
@@ -201,7 +213,7 @@ const MDWDate = new class MDWDate {
       if (parts.year === year && parts.month < month) monthOffset = -1;
       if (parts.year === year && parts.month > month) monthOffset = 1;
 
-      const display = (fillNextMonth && monthOffset > 0) || monthOffset === 0 ? parts.day : '';
+      const display = (fillPreviousMonth && monthOffset < 0) || (fillNextMonth && monthOffset > 0) || monthOffset === 0 ? parts.day : '';
       const currentMonth = parts.month === month;
       const beforeMinDate = minDate ? date < minDate : false;
       const afterMaxDate = maxDate ? date > maxDate : false;

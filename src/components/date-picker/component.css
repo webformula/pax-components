@@ -1,13 +1,16 @@
 .mdw-date-picker-panel > .mdw-panel-content {
-  width: 280px;
-  height: 262px;
-  padding: 8px 0;
+  /* width: 280px; */
+  /* height: 262px; */
+  width: 328px;
+  height: 428px;
+  padding: 12px;
+  padding-top: 20px;
   overflow-y: auto;
   box-sizing: border-box;
 
-  border-radius: var(--mdw-shape-extra-small);
+  border-radius: var(--mdw-shape-large);
   background-color: var(--mdw-surface);
-  box-shadow: var(--mdw-elevation-2);
+  box-shadow: var(--mdw-elevation-3);
 }
 
 body.mdw-mobile .mdw-date-picker-panel > .mdw-panel-content {

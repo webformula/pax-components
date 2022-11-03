@@ -1,3 +1,7 @@
+html {
+  color-scheme: light;
+}
+
 body {
   --mdw-navigation-rail-width: 90px;
 }

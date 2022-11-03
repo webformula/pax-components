@@ -7,6 +7,8 @@ import styleAsString from '!!css-loader!./component.css?raw';
 // TODO href
 // TODO form
 
+// TODO fix ripple when in panel. Look at date picker cancel
+
 customElements.define('mdw-button', class MDWButton extends HTMLElementExtended {
   useShadowRoot = true;
 

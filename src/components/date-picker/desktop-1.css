@@ -1,0 +1,291 @@
+mdw-date-picker-desktop {
+  width: 280px;
+  height: 262px;
+  padding: 8px 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+mdw-date-picker-desktop .mdw-control-container {
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  padding-right: 8px;
+  height: 48px;
+}
+
+mdw-date-picker-desktop .mdw-control-container .mdw-month-label,
+mdw-date-picker-desktop .mdw-control-container .mdw-year-label {
+  margin-right: 8px;
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  line-height: var(--mdw-font-line-height-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+  color: var(--mdw-on-surface);
+  cursor: pointer;
+}
+
+mdw-date-picker-desktop .mdw-control-container #mdw-previous-month-arrow[disabled],
+mdw-date-picker-desktop .mdw-control-container #mdw-next-month-arrow[disabled] {
+  pointer-events: none;
+  opacity: 0.38;
+}
+
+mdw-date-picker-desktop.mdw-year-view .mdw-control-container #mdw-previous-month-arrow,
+mdw-date-picker-desktop.mdw-year-view .mdw-control-container #mdw-next-month-arrow {
+  pointer-events: none;
+  opacity: 0;
+}
+
+mdw-date-picker-desktop .mdw-control-container .mdw-year-label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+mdw-date-picker-desktop .mdw-control-container .mdw-year-label .mdw-arrow {
+  width: 0;
+  height: 0;
+  margin-left: 12px;
+  margin-bottom: 3px;
+  border-left: 5.5px solid transparent;
+  border-right: 5.5px solid transparent;
+  border-bottom: 5.5px solid var(--mdw-on-secondary-container--60);
+  transform-origin: center;
+  transform: rotate(0);
+  transition: transform 280ms;
+}
+
+mdw-date-picker-desktop.mdw-year-view .mdw-control-container .mdw-year-label .mdw-arrow {
+  transform: rotate(180deg);
+}
+
+mdw-date-picker-desktop .mdw-control-container mdw-icon {
+  cursor: pointer;
+  padding: 12px;
+  opacity: 1;
+  transition: opacity 120ms;
+}
+
+mdw-date-picker-desktop.mdw-year-view .mdw-control-container mdw-icon {
+  cursor: pointer;
+  padding: 12px;
+  opacity: 1;
+  transition: opacity 120ms;
+}
+
+mdw-date-picker-desktop .mdw-months-container {
+  position: relative;
+  width: 100%;
+  height: 184px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 120ms;
+}
+
+mdw-date-picker-desktop.mdw-year-view .mdw-months-container {
+  pointer-events: none;
+  opacity: 0;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-header {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  padding: 4px 28px;
+
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  line-height: var(--mdw-font-line-height-medium-label);
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface);
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container {
+  position: absolute;
+  display: grid;
+  top: 24px;
+  left: 100%;
+  grid-template-columns: repeat(7, 32px);
+  grid-template-rows: repeat(6, 28px);
+  grid-column-gap: 4px;
+  grid-row-gap: 0px;
+  align-items: center;
+  justify-items: center;
+  padding: 8px 16px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container.mdw-active {
+  display: grid;
+  left: 0;
+  pointer-events: all;
+  opacity: 1;
+}
+
+mdw-date-picker-desktop.mdw-year-view .mdw-months-container .mdw-days-container.mdw-active {
+  pointer-events: none;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  user-select: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  pointer-events: none;
+  border-radius: 50%;
+
+  font-size: var(--mdw-font-size-small-label);
+  font-weight: var(--mdw-font-weight-small-label);
+  line-height: var(--mdw-font-line-height-small-label);
+  letter-spacing: var(--mdw-font-letter-spacing-small-label);
+  color: var(--mdw-on-surface);
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day.mdw-interactive {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day.mdw-not-current-month {
+  color: var(--mdw-on-surface--60);
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day[selected] {
+  color: var(--mdw-on-primary);
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day[selected]::before {
+  background-color: var(--mdw-primary);
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day.mdw-today {
+  border: 1px solid var(--mdw-outline--60);
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container .mdw-day.mdw-not-current-month[selected] {
+  color: var(--mdw-on-primary);
+}
+
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container.mdw-animation-start-next-from-active {
+  left: -25%;
+  opacity: 0;
+  transition:
+    opacity 180ms,
+    left 180ms;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container.mdw-animation-start-next-to-active {
+  left: 25%;
+  opacity: 0;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container.mdw-animation-next-to-active {
+  left: 0;
+  opacity: 1;
+  transition:
+    opacity 180ms,
+    left 180ms;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container.mdw-animation-start-previous-from-active {
+  left: 25%;
+  opacity: 0;
+  transition:
+    opacity 180ms,
+    left 180ms;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container.mdw-animation-start-previous-to-active {
+  left: -25%;
+  opacity: 0;
+}
+
+mdw-date-picker-desktop .mdw-months-container .mdw-days-container.mdw-animation-previous-to-active {
+  left: 0;
+  opacity: 1;
+  transition:
+    opacity 180ms,
+    left 180ms;
+}
+
+
+mdw-date-picker-desktop .mdw-years-container {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  overflow-y: scroll;
+  height: 184px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 52px);
+  grid-column-gap: 7px;
+  grid-row-gap: 4px;
+  align-items: center;
+  justify-items: center;
+  padding: 8px 16px;
+  padding-right: 20px;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms;
+}
+
+mdw-date-picker-desktop.mdw-year-view .mdw-years-container {
+  opacity: 1;
+  pointer-events: all;
+}
+
+mdw-date-picker-desktop .mdw-years-container .mdw-year {
+  width: 100%;
+  border-radius: 14px;
+  text-align: center;
+  cursor: pointer;
+
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  line-height: 28px;
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface);
+}
+
+mdw-date-picker-desktop .mdw-years-container .mdw-year[selected] {
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+}
+
+mdw-date-picker-desktop .mdw-years-container .mdw-year.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}

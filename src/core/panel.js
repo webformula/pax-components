@@ -239,7 +239,7 @@ export default class Panel {
     let bottom = top + contentHeight;
     let right = left + contentWidth;
 
-    this.#contentElement.style.maxHeight = `${this.#getContentHeight()}px`;
+    this.#contentElement.style.maxHeight = `${contentHeight}px`;
 
     // TODO handle case whn neither positions is on screen
     if (bottom <= clientHeight) {
