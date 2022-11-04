@@ -4,6 +4,8 @@ import util from '../../core/util.js';
 import './desktop.css';
 
 // TODO tooltips
+// TODO keyboard
+// TODO ranges year, month, buttons
 
 customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop extends HTMLElementExtended {
   useShadowRoot = false;
@@ -17,6 +19,8 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
   #previousMonth_bound = this.#previousMonth.bind(this);
   #monthViewClick_bound = this.#monthViewClick.bind(this);
   #monthClick_bound = this.#monthClick.bind(this);
+  #nextYear_bound = this.#nextYear.bind(this);
+  #previousYear_bound = this.#previousYear.bind(this);
   #yearViewClick_bound = this.#yearViewClick.bind(this);
   #dayClick_bound = this.#dayClick.bind(this);
   #yearClick_bound = this.#yearClick.bind(this);
@@ -44,8 +48,9 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.querySelector('.mdw-month-previous').addEventListener('click', this.#previousMonth_bound);
     this.querySelector('.mdw-month-drop-down').addEventListener('click', this.#monthViewClick_bound);
     this.querySelector('.mdw-months-container').addEventListener('click', this.#monthClick_bound);
-    // this.querySelector('.mdw-year-label').addEventListener('click', this.#yearViewClick_bound);
-    // this.querySelector('.mdw-month-label').addEventListener('click', this.#yearViewClick_bound);
+    this.querySelector('.mdw-year-next').addEventListener('click', this.#nextYear_bound);
+    this.querySelector('.mdw-year-previous').addEventListener('click', this.#previousYear_bound);
+    this.querySelector('.mdw-year-drop-down').addEventListener('click', this.#yearViewClick_bound);
     this.querySelector('.mdw-month-days-container').addEventListener('click', this.#dayClick_bound);
     // this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClick_bound);
 
@@ -81,6 +86,14 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.#changeMonth(-1);
   }
 
+  #nextYear() {
+    this.#updateDisplayDate(dateUtil.addToDateByParts(this.#displayDate, { year: 1 }));
+  }
+
+  #previousYear() {
+    this.#updateDisplayDate(dateUtil.addToDateByParts(this.#displayDate, { year: -1 }));
+  }
+
   #hide() {
     this.#datePickerComponent.hide();
   }
@@ -96,14 +109,14 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
   }
 
   #yearViewClick() {
-    if (this.classList.contains('mdw-year-view')) {
-      this.classList.remove('mdw-year-view');
+    if (this.classList.contains('mdw-years-view')) {
+      this.classList.remove('mdw-years-view');
     } else {
-      this.classList.add('mdw-year-view');
-      const selectedYear = this.querySelector('.mdw-year[selected]');
+      this.classList.add('mdw-years-view');
+      const selectedYear = this.querySelector('.mdw-year-item[selected]');
       if (selectedYear) selectedYear.removeAttribute('selected');
 
-      const currentYear = this.querySelector(`.mdw-year[mdw-year="${dateUtil.getYear(this.#displayDate)}"]`);
+      const currentYear = this.querySelector(`.mdw-year-item[year="${dateUtil.getYear(this.#displayDate)}"]`);
       if (currentYear) {
         currentYear.setAttribute('selected', '');
         currentYear.scrollIntoView({ block: 'center' });
@@ -119,7 +132,7 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
       const selectedMonth = this.querySelector('.mdw-month-item[selected]');
       if (selectedMonth) selectedMonth.removeAttribute('selected');
 
-      const currentMonth = this.querySelector(`.mdw-month-item[mdw-month="${dateUtil.getMonth(this.#displayDate)}"]`);
+      const currentMonth = this.querySelector(`.mdw-month-item[month="${dateUtil.getMonth(this.#displayDate)}"]`);
       if (currentMonth) {
         currentMonth.setAttribute('selected', '');
         currentMonth.scrollIntoView({ block: 'center' });
@@ -142,17 +155,17 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
   }
 
   #yearClick(event) {
-    if (!event.target.classList.contains('mdw-year')) return;
+    if (!event.target.classList.contains('mdw-year-item')) return;
 
-    this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { year: parseInt(event.target.getAttribute('mdw-year')) }));
+    this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { year: parseInt(event.target.getAttribute('mdw-year-item')) }));
 
-    this.classList.remove('mdw-year-view');
+    this.classList.remove('mdw-years-view');
   }
 
   #monthClick(event) {
     if (!event.target.classList.contains('mdw-month-item')) return;
 
-    this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { month: parseInt(event.target.getAttribute('mdw-month')) }));
+    this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { month: parseInt(event.target.getAttribute('month')) }));
 
     this.classList.remove('mdw-months-view');
   }
@@ -165,10 +178,15 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.querySelector('.mdw-year-label').innerHTML = parts.year;
     this.querySelector('.mdw-control-container .mdw-month-label').innerHTML = dateUtil.format(date, 'MMMM');
 
-    const selectedYear = this.querySelector('.mdw-year[selected]');
+    const selectedYear = this.querySelector('.mdw-year-item[selected]');
     if (selectedYear) selectedYear.removeAttribute('selected');
-    const displayYear = this.querySelector(`.mdw-year[year="${parts.year}"]`);
+    const displayYear = this.querySelector(`.mdw-year-item[month="${parts.year}"]`);
     if (displayYear) displayYear.setAttribute('selected', '');
+
+    const selectedMonth = this.querySelector('.mdw-month-item[selected]');
+    if (selectedMonth) selectedMonth.removeAttribute('selected');
+    const displayMonth = this.querySelector(`.mdw-month-item[month="${parts.year}"]`);
+    if (displayMonth) displayMonth.setAttribute('selected', '');
 
     // disable enable month arrows
     const isPreviousMinMonth = this.#min && this.#min.getMonth() >= this.#displayDate.getMonth();
@@ -232,12 +250,12 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
           <mdw-icon>arrow_drop_down</mdw-icon>
         </div>
         <mdw-icon class="mdw-month-next" >chevron_right</mdw-icon>
-        <mdw-icon>chevron_left</mdw-icon>
+        <mdw-icon class="mdw-year-previous">chevron_left</mdw-icon>
         <div class="mdw-year-drop-down">
           <div class="mdw-year-label">${dateUtil.getYear(this.#displayDate)}</div>
           <mdw-icon>arrow_drop_down</mdw-icon>
         </div>
-        <mdw-icon>chevron_right</mdw-icon>
+        <mdw-icon class="mdw-year-next">chevron_right</mdw-icon>
       </div>
 
       <div class="mdw-month-days-container">
@@ -250,6 +268,7 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
       </div>
 
       <div class="mdw-months-container">${this.#monthsTemplate()}</div>
+      <div class="mdw-years-container">${this.#yearTemplate()}</div>
 
       <div class="mdw-actions">
         <mdw-button class="mdw-clear">Clear</mdw-button>
@@ -281,13 +300,23 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
   }
 
   #yearTemplate() {
-
+    return dateUtil.defaultYearRange().map(year => {
+      const isPreviousMinYear = this.#min && this.#min.getFullYear() > year;
+      const isNextMaxYear = this.#max && this.#max.getFullYear() < year;
+      const outOfRange = isPreviousMinYear || isNextMaxYear;
+      return /*html*/`
+        <div class="mdw-year-item${outOfRange ? ' mdw-out-of-range' : ''}" year="${year}">
+          <mdw-icon>check</mdw-icon>
+          ${year}
+        </div>
+      `;
+    }).join('\n');
   }
 
   #monthsTemplate() {
     const monthNames = dateUtil.getMonthNames();
     return monthNames.map((name, i) => /*html*/`
-      <div class="mdw-month-item" mdw-month="${i}">
+      <div class="mdw-month-item" month="${i}">
         <mdw-icon>check</mdw-icon>
         ${name}
       </div>

@@ -2,7 +2,7 @@ mdw-date-picker-desktop {
   width: 328px;
   height: 428px;
   max-height: 428px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 mdw-date-picker-desktop .mdw-control-container {
@@ -21,6 +21,8 @@ mdw-date-picker-desktop .mdw-control-container > mdw-icon {
   cursor: pointer;
 }
 
+mdw-date-picker-desktop .mdw-control-container .mdw-year-previous[disabled],
+mdw-date-picker-desktop .mdw-control-container .mdw-year-next[disabled],
 mdw-date-picker-desktop .mdw-control-container .mdw-month-previous[disabled],
 mdw-date-picker-desktop .mdw-control-container .mdw-month-next[disabled] {
   pointer-events: none;
@@ -28,12 +30,29 @@ mdw-date-picker-desktop .mdw-control-container .mdw-month-next[disabled] {
   opacity: 0.38;
 }
 
-/* mdw-date-picker-desktop.mdw-year-view .mdw-control-container .mdw-month-previous,
-mdw-date-picker-desktop.mdw-year-view .mdw-control-container .mdw-month-next {
+mdw-date-picker-desktop.mdw-years-view .mdw-control-container .mdw-month-previous,
+mdw-date-picker-desktop.mdw-years-view .mdw-control-container .mdw-month-next,
+mdw-date-picker-desktop.mdw-years-view .mdw-control-container .mdw-year-previous,
+mdw-date-picker-desktop.mdw-years-view .mdw-control-container .mdw-year-next,
+mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-month-previous,
+mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-month-next,
+mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-year-previous,
+mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-year-next {
   pointer-events: none;
   cursor: none;
   opacity: 0;
-} */
+}
+
+mdw-date-picker-desktop.mdw-years-view .mdw-control-container .mdw-month-drop-down,
+mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-year-drop-down {
+  opacity: .38;
+  pointer-events: none;
+}
+
+mdw-date-picker-desktop.mdw-years-view .mdw-control-container .mdw-month-drop-down mdw-icon,
+mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-year-drop-down mdw-icon {
+  opacity: 0;
+}
 
 mdw-date-picker-desktop .mdw-control-container > .mdw-month-drop-down {
   display: flex;
@@ -77,7 +96,7 @@ mdw-date-picker-desktop .mdw-month-days-container {
   transition: opacity 120ms;
 }
 
-mdw-date-picker-desktop.mdw-year-view .mdw-month-days-container,
+mdw-date-picker-desktop.mdw-years-view .mdw-month-days-container,
 mdw-date-picker-desktop.mdw-months-view .mdw-month-days-container {
   pointer-events: none;
   opacity: 0;
@@ -122,7 +141,7 @@ mdw-date-picker-desktop .mdw-month-days-container .mdw-days-container.mdw-active
   opacity: 1;
 }
 
-mdw-date-picker-desktop.mdw-year-view .mdw-month-days-container .mdw-days-container.mdw-active {
+mdw-date-picker-desktop.mdw-years-view .mdw-month-days-container .mdw-days-container.mdw-active {
   pointer-events: none;
 }
 
@@ -193,7 +212,7 @@ mdw-date-picker-desktop .mdw-actions {
   transition: opacity 120ms;
 }
 
-mdw-date-picker-desktop.mdw-year-view .mdw-actions,
+mdw-date-picker-desktop.mdw-years-view .mdw-actions,
 mdw-date-picker-desktop.mdw-months-view .mdw-actions {
   opacity: 0;
   pointer-events: none;
@@ -256,7 +275,7 @@ mdw-date-picker-desktop .mdw-months-container {
   top: 54px;
   left : 0;
   width: 100%;
-  height: 374px;
+  height: 364px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -264,6 +283,7 @@ mdw-date-picker-desktop .mdw-months-container {
   opacity: 0;
   transition: opacity 120ms;
   background-color: var(--mdw-surface);
+  border-radius: var(--mdw-shape-large);
 }
 
 mdw-date-picker-desktop.mdw-months-view .mdw-months-container {
@@ -294,5 +314,55 @@ mdw-date-picker-desktop .mdw-months-container mdw-icon {
 }
 
 mdw-date-picker-desktop .mdw-months-container .mdw-month-item[selected] mdw-icon {
+  opacity: 1;
+}
+
+
+/* --- years view --- */
+
+mdw-date-picker-desktop .mdw-years-container {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  width: 100%;
+  height: 364px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms;
+  background-color: var(--mdw-surface);
+  border-radius: var(--mdw-shape-large);
+}
+
+mdw-date-picker-desktop.mdw-years-view .mdw-years-container {
+  opacity: 1;
+  pointer-events: all;
+}
+
+mdw-date-picker-desktop .mdw-years-container .mdw-year-item {
+  display: flex;
+  height: 48px;
+  line-height: 48px;
+  align-items: center;
+  cursor: pointer;
+}
+
+mdw-date-picker-desktop .mdw-years-container .mdw-year-item[selected] {
+  background-color: var(--mdw-surface-tint--6);
+}
+
+mdw-date-picker-desktop .mdw-years-container .mdw-year-item:hover {
+  background-color: var(--mdw-surface-tint--12);
+}
+
+mdw-date-picker-desktop .mdw-years-container mdw-icon {
+  opacity: 0;
+  margin: 0 14px;
+  pointer-events: none;
+}
+
+mdw-date-picker-desktop .mdw-years-container .mdw-year-item[selected] mdw-icon {
   opacity: 1;
 }
