@@ -5,7 +5,6 @@ import './desktop.css';
 
 // TODO tooltips
 // TODO keyboard
-// TODO year list click
 
 customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop extends HTMLElementExtended {
   useShadowRoot = false;
@@ -53,7 +52,7 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.querySelector('.mdw-year-drop-down').addEventListener('click', this.#yearViewClick_bound);
     this.querySelector('.mdw-month-days-container').addEventListener('click', this.#dayClick_bound);
     // TODO
-    // this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClick_bound);
+    this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClick_bound);
 
     this.querySelector('.mdw-cancel').addEventListener('click', this.#cancel_bound);
     this.querySelector('.mdw-clear').addEventListener('click', this.#clear_bound);
@@ -156,11 +155,15 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
   }
 
   #yearClick(event) {
+    console.log(event.target);
     if (!event.target.classList.contains('mdw-year-item')) return;
 
-    this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { year: parseInt(event.target.getAttribute('mdw-year-item')) }));
+    this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { year: parseInt(event.target.getAttribute('year')) }));
 
     this.classList.remove('mdw-years-view');
+
+    // fixes clickOutsideToClose bug
+    event.stopPropagation();
   }
 
   #monthClick(event) {
@@ -169,6 +172,9 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { month: parseInt(event.target.getAttribute('month')) }));
 
     this.classList.remove('mdw-months-view');
+
+    // fixes clickOutsideToClose bug
+    event.stopPropagation();
   }
 
   #updateDisplayDate(date, render = true) {
