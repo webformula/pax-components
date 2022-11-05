@@ -145,11 +145,7 @@ const MDWDate = new class MDWDate {
 
   getMonthNames() {
     const formatter = new Intl.DateTimeFormat(this.#local, { month: 'long', timeZone: this.#timezone });
-    const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(month => {
-      const mm = month < 10 ? `0${month}` : month;
-      return new Date(`2017-${mm}-01T00:00:00+00:00`);
-    });
-    return months.map(date => formatter.format(date));
+    return [...Array(12).keys()].map((m) => formatter.format(new Date(Date.UTC(2021, (m + 1) % 12))));
   }
 
   getParts(date) {

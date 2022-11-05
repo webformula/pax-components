@@ -21,6 +21,8 @@ mdw-date-picker-desktop .mdw-control-container > mdw-icon {
   cursor: pointer;
 }
 
+mdw-date-picker-desktop .mdw-years-container .mdw-year-item[disabled],
+mdw-date-picker-desktop .mdw-months-container .mdw-month-item[disabled],
 mdw-date-picker-desktop .mdw-control-container .mdw-year-drop-down[disabled],
 mdw-date-picker-desktop .mdw-control-container .mdw-month-drop-down[disabled],
 mdw-date-picker-desktop .mdw-control-container .mdw-year-previous[disabled],

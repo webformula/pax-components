@@ -5,7 +5,7 @@ import './desktop.css';
 
 // TODO tooltips
 // TODO keyboard
-// TODO ranges year, month, buttons
+// TODO year list click
 
 customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop extends HTMLElementExtended {
   useShadowRoot = false;
@@ -52,6 +52,7 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.querySelector('.mdw-year-previous').addEventListener('click', this.#previousYear_bound);
     this.querySelector('.mdw-year-drop-down').addEventListener('click', this.#yearViewClick_bound);
     this.querySelector('.mdw-month-days-container').addEventListener('click', this.#dayClick_bound);
+    // TODO
     // this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClick_bound);
 
     this.querySelector('.mdw-cancel').addEventListener('click', this.#cancel_bound);
@@ -209,7 +210,8 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
 
     if (render) {
       this.querySelector('.mdw-days-container.mdw-active').innerHTML = this.#monthDaysTemplate();
-      // this.querySelector('.mdw-years-container').innerHTML = this.#yearTemplate();
+      this.querySelector('.mdw-years-container').innerHTML = this.#yearTemplate();
+      this.querySelector('.mdw-months-container').innerHTML = this.#monthsTemplate();
     }
   }
 
@@ -220,9 +222,6 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     alt.innerHTML = this.#monthDaysTemplate(nextDate);
 
     this.#updateDisplayDate(nextDate);
-
-    // this.querySelector('.mdw-control-container .mdw-month-label').innerHTML = dateUtil.format(nextDate, 'MMMM');
-    // this.querySelector('.mdw-control-container .mdw-year-label').innerHTML = dateUtil.getYear(nextDate);
 
     if (direction === 1) {
       alt.classList.add('mdw-animation-start-next-to-active');
@@ -344,7 +343,7 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
       const isNextMaxYear = this.#max && this.#max.getFullYear() < year;
       const outOfRange = isPreviousMinYear || isNextMaxYear;
       return /*html*/`
-        <div class="mdw-year-item${outOfRange ? ' mdw-out-of-range' : ''}" year="${year}">
+        <div class="mdw-year-item" ${outOfRange ? 'disabled' : ''} year="${year}">
           <mdw-icon>check</mdw-icon>
           ${year}
         </div>
@@ -354,11 +353,16 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
 
   #monthsTemplate() {
     const monthNames = dateUtil.getMonthNames();
-    return monthNames.map((name, i) => /*html*/`
-      <div class="mdw-month-item" month="${i}">
-        <mdw-icon>check</mdw-icon>
-        ${name}
-      </div>
-    `).join('\n');
+    return monthNames.map((name, i) => {
+      const isPreviousMinMonth = this.#min && this.#min.getMonth() > i;
+      const isNextMaxMonth = this.#max && this.#max.getMonth() < i;
+      const outOfRange = isPreviousMinMonth || isNextMaxMonth;
+      return /*html*/`
+        <div class="mdw-month-item" ${outOfRange ? 'disabled' : ''} month="${i + 1}">
+          <mdw-icon>check</mdw-icon>
+          ${name}
+        </div>
+      `;
+    }).join('\n');
   }
 });
