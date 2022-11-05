@@ -188,13 +188,24 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     const displayMonth = this.querySelector(`.mdw-month-item[month="${parts.year}"]`);
     if (displayMonth) displayMonth.setAttribute('selected', '');
 
-    // disable enable month arrows
-    const isPreviousMinMonth = this.#min && this.#min.getMonth() >= this.#displayDate.getMonth();
-    const isNextMaxMonth = this.#max && this.#max.getMonth() <= this.#displayDate.getMonth();
-    if (isPreviousMinMonth) this.querySelector('.mdw-month-previous').setAttribute('disabled', '');
+    const {
+      previousYearOutOfRange,
+      nextYearOutOfRange,
+      previousMonthOutOfRange,
+      nextMonthOutOfRange
+    } = this.#checkMinMax();
+    if (previousYearOutOfRange) this.querySelector('.mdw-year-previous').setAttribute('disabled', '');
+    else this.querySelector('.mdw-year-previous').removeAttribute('disabled');
+    if (nextYearOutOfRange) this.querySelector('.mdw-year-next').setAttribute('disabled', '');
+    else this.querySelector('.mdw-year-next').removeAttribute('disabled');
+    if (previousYearOutOfRange && nextYearOutOfRange) this.querySelector('.mdw-year-drop-down').setAttribute('disabled', '');
+    else this.querySelector('.mdw-year-drop-down').removeAttribute('disabled');
+    if (previousMonthOutOfRange) this.querySelector('.mdw-month-previous').setAttribute('disabled', '');
     else this.querySelector('.mdw-month-previous').removeAttribute('disabled');
-    if (isNextMaxMonth) this.querySelector('.mdw-month-next').setAttribute('disabled', '');
+    if (nextMonthOutOfRange) this.querySelector('.mdw-month-next').setAttribute('disabled', '');
     else this.querySelector('.mdw-month-next').removeAttribute('disabled');
+    if (previousMonthOutOfRange && nextMonthOutOfRange) this.querySelector('.mdw-month-drop-down').setAttribute('disabled', '');
+    else this.querySelector('.mdw-month-drop-down').removeAttribute('disabled');
 
     if (render) {
       this.querySelector('.mdw-days-container.mdw-active').innerHTML = this.#monthDaysTemplate();
@@ -240,22 +251,50 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     alt.classList.remove('mdw-animation-start-previous-to-active');
   }
 
+  #checkMinMax() {
+    const previousYearOutOfRange = this.#min && this.#min.getFullYear() >= this.#displayDate.getFullYear();
+    const nextYearOutOfRange = this.#max && this.#max.getFullYear() <= this.#displayDate.getFullYear();
+
+    // last day of previous month
+    const previousMonthDate = dateUtil.setDateByParts(this.#displayDate, { day: -1 });
+    const previousMonthOutOfRange = this.#min && this.#min > previousMonthDate;
+
+    // first day of next month
+    const nextMonthDate = dateUtil.setDateByParts(dateUtil.addToDateByParts(this.#displayDate, { month: 1 }), { day: 1 });
+    const nextMonthOutOfRange = this.#max && this.#max < nextMonthDate;
+
+    return {
+      previousYearOutOfRange,
+      nextYearOutOfRange,
+      previousMonthOutOfRange,
+      nextMonthOutOfRange
+    };
+  }
+
 
   template() {
+    const {
+      previousYearOutOfRange,
+      nextYearOutOfRange,
+      previousMonthOutOfRange,
+      nextMonthOutOfRange
+    } = this.#checkMinMax();
+
+
     return /*html*/`
       <div class="mdw-control-container">
-        <mdw-icon class="mdw-month-previous">chevron_left</mdw-icon>
-        <div class="mdw-month-drop-down">
+        <mdw-icon class="mdw-month-previous" ${previousMonthOutOfRange ? 'disabled' : ''}>chevron_left</mdw-icon>
+        <div class="mdw-month-drop-down" ${previousMonthOutOfRange && nextMonthOutOfRange ? 'disabled' : ''}>
           <div class="mdw-month-label">${dateUtil.format(this.#displayDate, 'MMMM')}</div>
           <mdw-icon>arrow_drop_down</mdw-icon>
         </div>
-        <mdw-icon class="mdw-month-next" >chevron_right</mdw-icon>
-        <mdw-icon class="mdw-year-previous">chevron_left</mdw-icon>
-        <div class="mdw-year-drop-down">
+        <mdw-icon class="mdw-month-next" ${nextMonthOutOfRange ? 'disabled' : ''}>chevron_right</mdw-icon>
+        <mdw-icon class="mdw-year-previous" ${previousYearOutOfRange ? 'disabled' : ''}>chevron_left</mdw-icon>
+        <div class="mdw-year-drop-down" ${previousYearOutOfRange && nextYearOutOfRange ? 'disabled' : ''}>
           <div class="mdw-year-label">${dateUtil.getYear(this.#displayDate)}</div>
           <mdw-icon>arrow_drop_down</mdw-icon>
         </div>
-        <mdw-icon class="mdw-year-next">chevron_right</mdw-icon>
+        <mdw-icon class="mdw-year-next" ${nextYearOutOfRange ? 'disabled' : ''}>chevron_right</mdw-icon>
       </div>
 
       <div class="mdw-month-days-container">

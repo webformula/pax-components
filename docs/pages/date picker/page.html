@@ -1,0 +1,70 @@
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Date Picker</div>
+    <div class="mdw-supporting-text"></div>
+  </div>
+  <div class="mdw-card-content">
+  </div>
+</mdw-card>
+
+<a href="https://m3.material.io/components/badges/overview" target="_new">Material Design Guidelines: Buttons</a>
+<p>Badges convey dynamic information, such as counts or status. A badge can include labels or numbers.</p>
+
+<div class="links">
+  <a href="#basic">Basic</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+
+  <mdw-card id="basic">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Basic</div>
+
+      <div class="example">
+        <mdw-text-field>
+          <input type="date">
+          <label>Date</label>
+          <mdw-date-picker></mdw-date-picker>
+        </mdw-text-field>
+      </div>
+    </div>
+
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-text-field>
+    <input type="date">
+    <label>Date</label>
+    <mdw-date-picker></mdw-date-picker>
+  </mdw-text-field>`)}
+      </code>
+    </pre>
+  </mdw-card>
+
+
+  <mdw-card id="basic">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Min max</div>
+  
+      <div class="example">
+        <mdw-text-field>
+          <input type="date" min="2022-11-03" max="2022-11-20">
+          <label>Date min max</label>
+          <mdw-date-picker></mdw-date-picker>
+        </mdw-text-field>
+      </div>
+    </div>
+  
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-text-field>
+      <input type="date" min="2022-11-05" max="2022-12-20">
+      <label>Date min max</label>
+      <mdw-date-picker></mdw-date-picker>
+    </mdw-text-field>`)}
+        </code>
+      </pre>
+  </mdw-card>
+</section>
