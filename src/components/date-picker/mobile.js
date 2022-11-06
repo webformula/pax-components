@@ -12,17 +12,12 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
   #drag = new Drag();
   #datePickerComponent;
   #displayDate = '';
+  #currentValue = '';
   #min;
   #max;
-  #monthClickHandler_bound = this.#monthClickHandler.bind(this);
-  #yearClickHandler_bound = this.#yearClickHandler.bind(this);
-  #okHandler_bound = this.#okHandler.bind(this);
-  #cancelHandler_bound = this.#cancelHandler.bind(this);
-  #yearScrollHandler_bound = util.rafThrottle(this.#yearScrollHandler).bind(this);
-  #onDrag_bound = this.#onDrag.bind(this);
-  #onDragEnd_bound = this.#onDragEnd.bind(this);
-  #inputView_bound = this.#inputView.bind(this);
-  #onInput_bound = util.debounce(this.#onInput, 100).bind(this);
+  #previousMonthClick_bound = this.#previousMonthClick.bind(this);
+  #nextMonthClick_bound = this.#nextMonthClick.bind(this);
+  #dayClick_bound = this.#dayClick.bind(this);
 
 
   constructor() {
@@ -32,34 +27,16 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
   connectedCallback() {
     this.#datePickerComponent = document.querySelector(`#${this.getAttribute('mdw-date-picker-id')}`);
     this.#displayDate = this.#datePickerComponent.displayDate;
+    this.#currentValue = this.#datePickerComponent.value || dateUtil.format(this.#displayDate, 'YYYY-MM-dd');
     this.#min = this.#datePickerComponent.min && dateUtil.parse(this.#datePickerComponent.min);
     this.#max = this.#datePickerComponent.max && dateUtil.parse(this.#datePickerComponent.max);
     this.render();
   }
 
-  disconnectedCallback() {
-    this.querySelector('.mdw-months-container').removeEventListener('click', this.#monthClickHandler_bound);
-    this.querySelector('.mdw-years-container').removeEventListener('click', this.#yearClickHandler_bound);
-    this.querySelector('#mdw-ok').removeEventListener('click', this.#okHandler_bound);
-    this.querySelector('#mdw-cancel').removeEventListener('click', this.#cancelHandler_bound);
-    this.querySelector('#mdw-edit').removeEventListener('click', this.#inputView_bound);
-
-    this.#drag.destroy();
-    this.#drag = undefined;
-  }
-
   afterRender() {
-    this.#drag.element = this.querySelector('.mdw-months-container');
-    this.#drag.onDrag(this.#onDrag_bound);
-    this.#drag.onEnd(this.#onDragEnd_bound);
-    [...this.querySelectorAll('.mdw-control-container')].forEach(e => this.#drag.addIgnoreElement(e));
-    this.#drag.enable();
-
-    this.querySelector('.mdw-months-container').addEventListener('click', this.#monthClickHandler_bound);
-    this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClickHandler_bound);
-    this.querySelector('#mdw-ok').addEventListener('click', this.#okHandler_bound);
-    this.querySelector('#mdw-cancel').addEventListener('click', this.#cancelHandler_bound);
-    this.querySelector('#mdw-edit').addEventListener('click', this.#inputView_bound);
+    this.querySelector('.mdw-month-previous').addEventListener('click', this.#previousMonthClick_bound);
+    this.querySelector('.mdw-month-next').addEventListener('click', this.#nextMonthClick_bound);
+    this.querySelector('.mdw-months-container').addEventListener('click', this.#dayClick_bound);
   }
 
   setDisplayDate(date) {
@@ -76,82 +53,79 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
     this.#updateDisplayDate();
   }
 
-  #okHandler() {
-    this.#datePickerComponent.setValueDate(this.#displayDate);
-    this.#datePickerComponent.setDisplayDate(this.#displayDate);
-    this.#datePickerComponent.hide();
+  #updateDisplayDate(date, render = true, updateDaySelection = false) {
+    this.#displayDate = date;
+    this.#datePickerComponent.setDisplayDate(date);
+
+    this.querySelector('.mdw-year-label').innerHTML = dateUtil.format(date, 'MMMM YYYY');
+    const parts = dateUtil.getParts(date);
+    // const selectedYear = this.querySelector('.mdw-year[selected]');
+    // if (selectedYear) selectedYear.removeAttribute('selected');
+    const displayYear = this.querySelector(`.mdw-year[year="${parts.year}"]`);
+    if (displayYear) displayYear.setAttribute('selected', '');
+
+    if (render) {
+      const active = this.querySelector('.mdw-month.mdw-active');
+      active.innerHTML = this.#monthDaysTemplate();
+      const previous = this.querySelector('.mdw-month.mdw-previous');
+      previous.innerHTML = this.#monthDaysTemplate(dateUtil.addToDateByParts(date, { month: -1 }));
+      const next = this.querySelector('.mdw-month.mdw-next');
+      next.innerHTML = this.#monthDaysTemplate(dateUtil.addToDateByParts(date, { month: 1 }));
+
+      // this.querySelector('.mdw-years-container').innerHTML = this.#yearTemplate();
+    }
+
+    if (updateDaySelection) {
+      this.#currentValue = dateUtil.format(date, 'YYYY-MM-DD');
+      this.querySelector('.mdw-display-date-text').innerHTML = dateUtil.format(date, 'ddd, MMM DD');
+      const selected = this.querySelector('.mdw-day:not(.mdw-not-current-month)[selected]');
+      if (selected) selected.removeAttribute('selected');
+      const next = this.querySelector(`.mdw-day:not(.mdw-not-current-month)[mdw-date="${this.#currentValue}"]`);
+      if (next) next.setAttribute('selected', '');
+    }
+
+    this.#drag.emptyIgnoreElements();
+    [...this.querySelectorAll('.mdw-control-container')].forEach(e => this.#drag.addIgnoreElement(e));
   }
 
-  #cancelHandler() {
-    this.#datePickerComponent.hide();
+  #checkMinMax() {
+    const previousYearOutOfRange = this.#min && this.#min.getFullYear() >= this.#displayDate.getFullYear();
+    const nextYearOutOfRange = this.#max && this.#max.getFullYear() <= this.#displayDate.getFullYear();
+
+    // last day of previous month
+    const previousMonthDate = dateUtil.setDateByParts(this.#displayDate, { day: -1 });
+    const previousMonthOutOfRange = this.#min && this.#min > previousMonthDate;
+
+    // first day of next month
+    const nextMonthDate = dateUtil.setDateByParts(dateUtil.addToDateByParts(this.#displayDate, { month: 1 }), { day: 1 });
+    const nextMonthOutOfRange = this.#max && this.#max < nextMonthDate;
+
+    return {
+      previousYearOutOfRange,
+      nextYearOutOfRange,
+      previousMonthOutOfRange,
+      nextMonthOutOfRange
+    };
   }
 
-  #monthClickHandler(event) {
-    if (event.target.classList.contains('mdw-next-month-arrow')) this.#changeMonth(1);
-    else if (event.target.classList.contains('mdw-previous-month-arrow')) this.#changeMonth(-1);
-    else if (event.target.classList.contains('mdw-day')) this.#dayClickHandler(event);
-    else if (event.target.classList.contains('mdw-month-label')) this.#yearView();
-    else if (event.target.classList.contains('mdw-year-label')) this.#yearView();
+  #previousMonthClick() {
+    console.log('previousMonthClick')
+    this.#changeMonth(-1);
   }
 
-  #dayClickHandler(event) {
-    this.#updateDisplayDate(dateUtil.parse(event.target.getAttribute('mdw-date')), false);
+  #nextMonthClick() {
+    console.log('nextMonthClick')
+    this.#changeMonth(1);
+  }
+
+  #dayClick(event) {
+    if (!event.target.classList.contains('mdw-day')) return;
+
+    this.#updateDisplayDate(dateUtil.parse(event.target.getAttribute('mdw-date')), false, true);
 
     const selected = this.querySelector('.mdw-day:not(.mdw-not-current-month)[selected]');
     if (selected) selected.removeAttribute('selected');
     event.target.setAttribute('selected', '');
-  }
-
-  #yearClickHandler(event) {
-    if (!event.target.classList.contains('mdw-year')) return;
-
-    this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { year: parseInt(event.target.getAttribute('mdw-year')) }));
-
-    this.classList.remove('mdw-year-view');
-  }
-
-  #yearView() {
-    if (this.classList.contains('mdw-year-view')) {
-      this.classList.remove('mdw-year-view');
-      this.querySelector('.mdw-years-container').removeEventListener('scroll', this.#yearScrollHandler_bound);
-      this.classList.remove('mdw-scrolled');
-      this.classList.remove('mdw-scrolled-fully');
-      this.#drag.enable();
-    } else {
-      this.#drag.disable();
-      this.classList.add('mdw-year-view');
-      const selectedYear = this.querySelector('.mdw-year[selected]');
-      if (selectedYear) selectedYear.removeAttribute('selected');
-
-      const currentYear = this.querySelector(`.mdw-year[mdw-year="${dateUtil.getYear(this.#displayDate)}"]`);
-      if (currentYear) {
-        currentYear.setAttribute('selected', '');
-        currentYear.scrollIntoView({ block: 'center' });
-      }
-      this.querySelector('.mdw-years-container').addEventListener('scroll', this.#yearScrollHandler_bound);
-    }
-  }
-
-  #inputView() {
-    if (this.classList.contains('mdw-input-view')) {
-      this.querySelector('input').removeEventListener('input', this.#onInput_bound);
-      this.classList.remove('mdw-input-view');
-      this.#drag.enable();
-    } else {
-      this.#drag.disable();
-      this.classList.add('mdw-input-view');
-      this.classList.remove('mdw-years-view');
-      this.querySelector('input').addEventListener('click', e => e.preventDefault());
-      this.querySelector('input').value = dateUtil.format(this.#displayDate, 'YYYY-MM-DD');
-      this.querySelector('input').addEventListener('input', this.#onInput_bound);
-      this.querySelector('.mdw-years-container').removeEventListener('scroll', this.#yearScrollHandler_bound);
-      this.classList.remove('mdw-scrolled');
-      this.classList.remove('mdw-scrolled-fully');
-    }
-  }
-
-  #onInput(event) {
-    this.#updateDisplayDate(dateUtil.parse(event.target.value), true, true);
   }
 
   async #changeMonth(direction = 1) {
@@ -194,85 +168,36 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
     previous.classList.remove('mdw-animation-previous-active');
     next.classList.remove('mdw-animation-next-active');
 
-    this.#updateDisplayDate(nextDate);
-  }
-
-  #updateDisplayDate(date, render = true, updateDaySelection = false) {
-    this.#displayDate = date;
-    this.#datePickerComponent.setDisplayDate(date);
-
-    this.querySelector('.mdw-display-date-text').innerHTML = dateUtil.format(date, 'ddd, MMM DD');
-    const parts = dateUtil.getParts(date);
-    const selectedYear = this.querySelector('.mdw-year[selected]');
-    if (selectedYear) selectedYear.removeAttribute('selected');
-    const displayYear = this.querySelector(`.mdw-year[year="${parts.year}"]`);
-    if (displayYear) displayYear.setAttribute('selected', '');
-
-    if (render) {
-      const active = this.querySelector('.mdw-month.mdw-active');
-      active.innerHTML = this.#monthDaysTemplate();
-      const previous = this.querySelector('.mdw-month.mdw-previous');
-      previous.innerHTML = this.#monthDaysTemplate(dateUtil.addToDateByParts(date, { month: -1 }));
-      const next = this.querySelector('.mdw-month.mdw-next');
-      next.innerHTML = this.#monthDaysTemplate(dateUtil.addToDateByParts(date, { month: 1 }));
-
-      this.querySelector('.mdw-years-container').innerHTML = this.#yearTemplate();
-    }
-
-    if (updateDaySelection) {
-      const selected = this.querySelector('.mdw-day:not(.mdw-not-current-month)[selected]');
-      if (selected) selected.removeAttribute('selected');
-      const next = this.querySelector(`.mdw-day:not(.mdw-not-current-month)[mdw-date="${dateUtil.format(date, 'YYYY-MM-DD')}"]`);
-      if (next) next.setAttribute('selected', '');
-    }
-
-    this.#drag.emptyIgnoreElements();
-    [...this.querySelectorAll('.mdw-control-container')].forEach(e => this.#drag.addIgnoreElement(e));
-  }
-
-  #yearScrollHandler(event) {
-    this.classList.toggle('mdw-scrolled', event.target.scrollTop > 0);
-    this.classList.toggle('mdw-scrolled-fully', event.target.scrollHeight - event.target.offsetHeight === event.target.scrollTop);
-  }
-
-  #onDrag({ distance }) {
-    this.querySelector('.mdw-months-container').style.transform = `translateX(${distance.x}px)`;
-  }
-
-  async #onDragEnd({ distance }) {
-    const container = this.querySelector('.mdw-months-container');
-    const active = this.querySelector('.mdw-month.mdw-active');
-    const halfway = active.offsetWidth / 2;
-
-    container.style.transition = 'transform 120ms';
-    if (distance.x >= halfway) {
-      container.style.transform = 'translateX(100%)';
-    } else if (distance.x <= -halfway) {
-      container.style.transform = 'translateX(-100%)';
-    } else {
-      container.style.transform = 'translateX(0)';
-    }
-
-    await util.transitionendAsync(container);
-
-    container.style.transition = '';
-    container.style.transform = '';
-    if (distance.x >= halfway) {
-      this.#updateDisplayDate(dateUtil.addToDateByParts(this.#displayDate, { month: -1 }));
-    } else if (distance.x <= -halfway) {
-      this.#updateDisplayDate(dateUtil.addToDateByParts(this.#displayDate, { month: 1 }));
-    }
+    this.#updateDisplayDate(nextDate, true);
   }
 
 
   template() {
-    return /* html */`
+    const {
+      previousYearOutOfRange,
+      nextYearOutOfRange,
+      previousMonthOutOfRange,
+      nextMonthOutOfRange
+    } = this.#checkMinMax();
+
+    return /*html*/`
       <div class="mdw-header">
         <div class="mdw-select-date-text">Select date</div>
         <div class="mdw-display-date-container">
           <div class="mdw-display-date-text">${dateUtil.format(this.#displayDate, 'ddd, MMM DD')}</div>
           <mdw-icon id="mdw-edit">edit</mdw-icon>
         </div>
+      </div>
+
+      <div class="mdw-divider"></div>
+
+      <div class="mdw-controls-container">
+        <div class="mdw-year-drop-down" ${previousYearOutOfRange && nextYearOutOfRange ? 'disabled' : ''}>
+          <div class="mdw-year-label">${dateUtil.format(this.#displayDate, 'MMMM YYYY')}</div>
+          <mdw-icon>arrow_drop_down</mdw-icon>
+        </div>
+        <mdw-icon class="mdw-month-previous mdw-bold" ${previousMonthOutOfRange ? 'disabled' : ''}>chevron_left</mdw-icon>
+        <mdw-icon class="mdw-month-next mdw-bold" ${nextMonthOutOfRange ? 'disabled' : ''}>chevron_right</mdw-icon>
       </div>
 
       <div class="mdw-views-container">
@@ -282,16 +207,7 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
           <div class="mdw-month mdw-next">${this.#monthDaysTemplate(dateUtil.addToDateByParts(this.#displayDate, { month: 1 }))}</div>
         </div>
 
-        <div class="mdw-years-container">
-          ${this.#yearTemplate()}
-        </div>
-
-        <div class="mdw-input-container">
-          <mdw-text-field>
-            <input type="date">
-            <label>Enter date</label>
-          </mdw-text-field>
-        </div>
+        <!-- -->
       </div>
 
       <div class="mdw-actions-container">
@@ -301,38 +217,22 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
     `;
   }
 
-  #yearTemplate() {
-    return dateUtil.defaultYearRange().map(year => {
-      const isPreviousMinYear = this.#min && this.#min.getFullYear() > year;
-      const isNextMaxYear = this.#max && this.#max.getFullYear() < year;
-      const outOfRange = isPreviousMinYear || isNextMaxYear;
-      return `<div class="mdw-year${outOfRange ? ' mdw-out-of-range' : ''}" mdw-year="${year}">${year}</div>`;
-    }).join('\n');
-  }
-
   #monthDaysTemplate(date = this.#displayDate) {
-    const valueFormatted = this.#datePickerComponent.value;
-    const isPreviousMinMonth = this.#min && this.#min.getMonth() >= this.#displayDate.getMonth();
-    const isNextMaxMonth = this.#max && this.#max.getMonth() <= this.#displayDate.getMonth();
-    
-    return /*html*/`
-      <div class="mdw-control-container">
-        <div class="mdw-month-label">${dateUtil.format(date, 'MMMM')}</div>
-        <div class="mdw-year-label">
-          ${dateUtil.getYear(date)}
-          <div class="mdw-arrow"></div>
-        </div>
-        <mdw-icon class="mdw-previous-month-arrow mdw-bold" ${isPreviousMinMonth ? 'disabled' : ''}>keyboard_arrow_left</mdw-icon>
-        <mdw-icon class="mdw-next-month-arrow mdw-bold" ${isNextMaxMonth ? 'disabled' : ''}>keyboard_arrow_right</mdw-icon>
-      </div>
+    const valueFormatted = this.#currentValue;
+    const {
+      previousMonthOutOfRange,
+      nextMonthOutOfRange
+    } = this.#checkMinMax();
 
+    return /*html*/`
       <div class="mdw-days-header">
         ${dateUtil.getDayNames('narrow').map(n => `<span>${n}</span>`).join('\n')}
       </div>
 
       <div class="mdw-days-container">
         ${dateUtil.getMonthDays(date, {
-          fillNextMonth: true,
+          fillNextMonth: false,
+          fillPreviousMonth: false,
           minDate: this.#min,
           maxDate: this.#max
         }).map(week => week.map(({ display, date, currentMonth, interactive, beforeMinDate, afterMaxDate, isToday }) => {

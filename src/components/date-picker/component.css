@@ -1,13 +1,10 @@
 .mdw-date-picker-panel > .mdw-panel-content {
-  /* width: 280px; */
-  /* height: 262px; */
   width: 328px;
   height: 428px;
   padding: 12px;
   padding-top: 20px;
   overflow: hidden;
   box-sizing: border-box;
-
   border-radius: var(--mdw-shape-large);
   background-color: var(--mdw-surface);
   box-shadow: var(--mdw-elevation-3);
@@ -15,14 +12,11 @@
 
 body.mdw-mobile .mdw-date-picker-panel > .mdw-panel-content {
   width: 328px;
-  height: unset;
+  height: 512px;
   padding: 0;
   overflow: hidden;
-}
-
-/* hide scroll bar */
-.mdw-date-picker-panel.mdw-lock > .mdw-panel-content,
-.mdw-date-picker-panel.mdw-open-animation-target > .mdw-panel-content,
-.mdw-date-picker-panel.mdw-close-animation > .mdw-panel-content {
-  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: var(--mdw-shape-large);
+  box-shadow: var(--mdw-elevation-3);
+  background-color: var(--mdw-surface);
 }

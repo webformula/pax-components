@@ -51,16 +51,25 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
     this.querySelector('.mdw-year-previous').addEventListener('click', this.#previousYear_bound);
     this.querySelector('.mdw-year-drop-down').addEventListener('click', this.#yearViewClick_bound);
     this.querySelector('.mdw-month-days-container').addEventListener('click', this.#dayClick_bound);
-    // TODO
     this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClick_bound);
-
     this.querySelector('.mdw-cancel').addEventListener('click', this.#cancel_bound);
     this.querySelector('.mdw-clear').addEventListener('click', this.#clear_bound);
     this.querySelector('.mdw-ok').addEventListener('click', this.#hide_bound);
   }
 
   disconnectedCallback() {
-
+    this.querySelector('.mdw-month-next').removeEventListener('click', this.#nextMonth_bound);
+    this.querySelector('.mdw-month-previous').removeEventListener('click', this.#previousMonth_bound);
+    this.querySelector('.mdw-month-drop-down').removeEventListener('click', this.#monthViewClick_bound);
+    this.querySelector('.mdw-months-container').removeEventListener('click', this.#monthClick_bound);
+    this.querySelector('.mdw-year-next').removeEventListener('click', this.#nextYear_bound);
+    this.querySelector('.mdw-year-previous').removeEventListener('click', this.#previousYear_bound);
+    this.querySelector('.mdw-year-drop-down').removeEventListener('click', this.#yearViewClick_bound);
+    this.querySelector('.mdw-month-days-container').removeEventListener('click', this.#dayClick_bound);
+    this.querySelector('.mdw-years-container').removeEventListener('click', this.#yearClick_bound);
+    this.querySelector('.mdw-cancel').removeEventListener('click', this.#cancel_bound);
+    this.querySelector('.mdw-clear').removeEventListener('click', this.#clear_bound);
+    this.querySelector('.mdw-ok').removeEventListener('click', this.#hide_bound);
   }
 
 
