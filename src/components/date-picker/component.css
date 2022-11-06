@@ -12,7 +12,8 @@
 
 body.mdw-mobile .mdw-date-picker-panel > .mdw-panel-content {
   width: 328px;
-  height: 512px;
+  height: unset;
+  /* height: 512px; */
   padding: 0;
   overflow: hidden;
   box-sizing: border-box;

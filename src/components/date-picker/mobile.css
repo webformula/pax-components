@@ -57,14 +57,24 @@ mdw-date-picker-mobile .mdw-controls-container .mdw-year-drop-down {
 
 mdw-date-picker-mobile .mdw-controls-container .mdw-month-previous {
   margin-right: 28px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
 }
 
 mdw-date-picker-mobile .mdw-controls-container .mdw-month-next {
   margin-right: 6px;
+}
+
+mdw-date-picker-mobile .mdw-controls-container .mdw-month-previous,
+mdw-date-picker-mobile .mdw-controls-container .mdw-month-next {
+  opacity: 1;
+  transition: opacity 120ms;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+}
+
+mdw-date-picker-mobile.mdw-year-view .mdw-controls-container .mdw-month-previous,
+mdw-date-picker-mobile.mdw-year-view .mdw-controls-container .mdw-month-next {
+  pointer-events: none;
+  opacity: 0;
 }
 
 mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down {
@@ -86,6 +96,17 @@ mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down {
 mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down .mdw-year-label {
   margin-right: 4px;
   -webkit-tap-highlight-color: transparent;
+}
+
+mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down > mdw-icon {
+  transform-origin: center;
+  transform: rotate(0);
+  transition: transform 280ms;
+  -webkit-tap-highlight-color: transparent;
+}
+
+mdw-date-picker-mobile.mdw-year-view .mdw-controls-container > .mdw-year-drop-down > mdw-icon {
+  transform: rotate(180deg);
 }
 
 mdw-date-picker-mobile .mdw-actions-container {
@@ -113,9 +134,9 @@ mdw-date-picker-mobile .mdw-views-container {
   transition: height 120ms;
 }
 
-/* mdw-date-picker-mobile.mdw-input-view .mdw-views-container {
+mdw-date-picker-mobile.mdw-input-view .mdw-views-container {
   height: 90px;
-} */
+}
 
 
 
@@ -174,7 +195,6 @@ mdw-date-picker-mobile .mdw-views-container .mdw-months-container .mdw-month .md
   grid-row-gap: 0;
   align-items: center;
   justify-items: center;
-  /* padding: 0 10px; */
   pointer-events: none;
 }
 
@@ -301,4 +321,88 @@ mdw-date-picker-mobile .mdw-views-container .mdw-months-container .mdw-month .md
 
 mdw-date-picker-mobile .mdw-views-container .mdw-months-container .mdw-month .mdw-days-container .mdw-day.mdw-today::before {
   border: 1px solid var(--mdw-outline--60);
+}
+
+
+
+
+/* --- year --- */
+
+
+mdw-date-picker-mobile .mdw-views-container .mdw-years-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+  height: 280px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 88px);
+  grid-column-gap: 8px;
+  grid-row-gap: 0px;
+  align-items: center;
+  justify-items: center;
+  padding: 8px 16px;
+  padding-right: 20px;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms;
+}
+
+mdw-date-picker-mobile.mdw-year-view .mdw-views-container .mdw-years-container {
+  opacity: 1;
+  pointer-events: all;
+  background-color: var(--mdw-surface);
+}
+
+mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year {
+  width: 100%;
+  border-radius: 18px;
+  text-align: center;
+  cursor: pointer;
+  margin: 7px;
+  -webkit-tap-highlight-color: transparent;
+
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  line-height: 36px;
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  color: var(--mdw-on-surface);
+}
+
+mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year[selected] {
+  background-color: var(--mdw-primary);
+  color: var(--mdw-on-primary);
+}
+
+mdw-date-picker-mobile .mdw-views-container .mdw-years-container .mdw-year.mdw-out-of-range {
+  pointer-events: none;
+  cursor: auto;
+  color: var(--mdw-on-surface--60);
+}
+
+
+
+/* --- input --- */
+
+
+mdw-date-picker-mobile .mdw-views-container .mdw-input-container {
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  right: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms;
+}
+
+mdw-date-picker-mobile.mdw-input-view .mdw-views-container .mdw-input-container {
+  opacity: 1;
+  pointer-events: all;
+}
+
+mdw-date-picker-mobile .mdw-views-container .mdw-input-container mdw-text-field {
+  width: 100%;
 }

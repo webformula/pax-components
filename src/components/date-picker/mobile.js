@@ -4,7 +4,9 @@ import util from '../../core/util.js';
 import Drag from '../../core/drag.js';
 import './mobile.css';
 
-// TODO orientation
+// TODO 
+// TODO min max
+// TODO swipe
 
 customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extends HTMLElementExtended {
   useShadowRoot = false;
@@ -18,6 +20,12 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
   #previousMonthClick_bound = this.#previousMonthClick.bind(this);
   #nextMonthClick_bound = this.#nextMonthClick.bind(this);
   #dayClick_bound = this.#dayClick.bind(this);
+  #cancel_bound = this.#cancel.bind(this);
+  #ok_bound = this.#ok.bind(this);
+  #yearDropDownClick_bound = this.#yearDropDownClick.bind(this);
+  #yearClickHandler_bound = this.#yearClickHandler.bind(this);
+  #inputView_bound = this.#inputView.bind(this);
+  #onInput_bound = util.debounce(this.#onInput, 100).bind(this);
 
 
   constructor() {
@@ -37,6 +45,11 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
     this.querySelector('.mdw-month-previous').addEventListener('click', this.#previousMonthClick_bound);
     this.querySelector('.mdw-month-next').addEventListener('click', this.#nextMonthClick_bound);
     this.querySelector('.mdw-months-container').addEventListener('click', this.#dayClick_bound);
+    this.querySelector('.mdw-cancel').addEventListener('click', this.#cancel_bound);
+    this.querySelector('.mdw-ok').addEventListener('click', this.#ok_bound);
+    this.querySelector('.mdw-year-drop-down').addEventListener('click', this.#yearDropDownClick_bound);
+    this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClickHandler_bound);
+    this.querySelector('.mdw-edit').addEventListener('click', this.#inputView_bound);
   }
 
   setDisplayDate(date) {
@@ -51,6 +64,15 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
   setMaxDate(date) {
     this.#max = date && dateUtil.parse(date);
     this.#updateDisplayDate();
+  }
+
+  #cancel() {
+    this.#datePickerComponent.hide();
+  }
+
+  #ok() {
+    this.#datePickerComponent.setValueDate(dateUtil.parse(this.#currentValue));
+    this.#datePickerComponent.hide();
   }
 
   #updateDisplayDate(date, render = true, updateDaySelection = false) {
@@ -72,7 +94,7 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
       const next = this.querySelector('.mdw-month.mdw-next');
       next.innerHTML = this.#monthDaysTemplate(dateUtil.addToDateByParts(date, { month: 1 }));
 
-      // this.querySelector('.mdw-years-container').innerHTML = this.#yearTemplate();
+      this.querySelector('.mdw-years-container').innerHTML = this.#yearTemplate();
     }
 
     if (updateDaySelection) {
@@ -109,12 +131,10 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
   }
 
   #previousMonthClick() {
-    console.log('previousMonthClick')
     this.#changeMonth(-1);
   }
 
   #nextMonthClick() {
-    console.log('nextMonthClick')
     this.#changeMonth(1);
   }
 
@@ -171,6 +191,55 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
     this.#updateDisplayDate(nextDate, true);
   }
 
+  #yearDropDownClick() {
+    if (this.classList.contains('mdw-year-view')) {
+      this.classList.remove('mdw-year-view');
+      // this.#drag.enable();
+    } else {
+      // this.#drag.disable();
+      this.classList.add('mdw-year-view');
+      const selectedYear = this.querySelector('.mdw-year[selected]');
+      if (selectedYear) selectedYear.removeAttribute('selected');
+
+      const currentYear = this.querySelector(`.mdw-year[mdw-year="${dateUtil.getYear(this.#displayDate)}"]`);
+      if (currentYear) {
+        currentYear.setAttribute('selected', '');
+        currentYear.scrollIntoView({ block: 'center' });
+      }
+    }
+  }
+
+  #yearClickHandler(event) {
+    if (!event.target.classList.contains('mdw-year')) return;
+
+    this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { year: parseInt(event.target.getAttribute('mdw-year')) }));
+
+    this.classList.remove('mdw-year-view');
+  }
+
+  #inputView() {
+    this.classList.remove('mdw-year-view');
+
+    if (this.classList.contains('mdw-input-view')) {
+      this.querySelector('input').removeEventListener('input', this.#onInput_bound);
+      this.classList.remove('mdw-input-view');
+      // this.#drag.enable();
+    } else {
+      // this.#drag.disable();
+      this.classList.add('mdw-input-view');
+      this.classList.remove('mdw-years-view');
+      this.querySelector('input').addEventListener('click', e => e.preventDefault());
+      this.querySelector('input').value = dateUtil.format(this.#displayDate, 'YYYY-MM-DD');
+      this.querySelector('input').addEventListener('input', this.#onInput_bound);
+    }
+  }
+
+  #onInput(event) {
+    this.#currentValue = event.target.value;
+    this.#updateDisplayDate(dateUtil.parse(event.target.value), true);
+  }
+
+
 
   template() {
     const {
@@ -185,7 +254,7 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
         <div class="mdw-select-date-text">Select date</div>
         <div class="mdw-display-date-container">
           <div class="mdw-display-date-text">${dateUtil.format(this.#displayDate, 'ddd, MMM DD')}</div>
-          <mdw-icon id="mdw-edit">edit</mdw-icon>
+          <mdw-icon class="mdw-edit">edit</mdw-icon>
         </div>
       </div>
 
@@ -207,23 +276,27 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
           <div class="mdw-month mdw-next">${this.#monthDaysTemplate(dateUtil.addToDateByParts(this.#displayDate, { month: 1 }))}</div>
         </div>
 
-        <!-- -->
+        <div class="mdw-years-container">
+          ${this.#yearTemplate()}
+        </div>
+        
+        <div class="mdw-input-container">
+          <mdw-text-field>
+            <input type="date">
+            <label>Enter date</label>
+          </mdw-text-field>
+        </div>
       </div>
 
       <div class="mdw-actions-container">
-        <mdw-button id="mdw-cancel">Cancel</mdw-button>
-        <mdw-button id="mdw-ok">Ok</mdw-button>
+        <mdw-button class="mdw-cancel">Cancel</mdw-button>
+        <mdw-button class="mdw-ok">Ok</mdw-button>
       </div>
     `;
   }
 
   #monthDaysTemplate(date = this.#displayDate) {
     const valueFormatted = this.#currentValue;
-    const {
-      previousMonthOutOfRange,
-      nextMonthOutOfRange
-    } = this.#checkMinMax();
-
     return /*html*/`
       <div class="mdw-days-header">
         ${dateUtil.getDayNames('narrow').map(n => `<span>${n}</span>`).join('\n')}
@@ -248,5 +321,14 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extend
         }).join('\n')).join('\n')}
       </div>
     `;
+  }
+
+  #yearTemplate() {
+    return dateUtil.defaultYearRange().map(year => {
+      const isPreviousMinYear = this.#min && this.#min.getFullYear() > year;
+      const isNextMaxYear = this.#max && this.#max.getFullYear() < year;
+      const outOfRange = isPreviousMinYear || isNextMaxYear;
+      return `<div class="mdw-year${outOfRange ? ' mdw-out-of-range' : ''}" mdw-year="${year}">${year}</div>`;
+    }).join('\n');
   }
 });
