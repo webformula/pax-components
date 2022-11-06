@@ -7,6 +7,9 @@ import './desktop.js';
 import './mobile.js';
 
 // TODO update style to v3
+// TODO ranges
+//      Desktop: 2 pickers
+//      Mobile: fullscreen with scrolling months
 
 customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElementExtended {
   useShadowRoot = false;
