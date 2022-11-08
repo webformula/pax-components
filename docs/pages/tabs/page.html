@@ -25,22 +25,102 @@ primary and secondary.</p>
     <div class="mdw-card-content">
       <div class="mdw-headline">Basic</div>
       
-      <div class="example">
+      <div class="example" style="height: 200px; overflow-y: auto;">
         <mdw-tabs id="one">
-          <div class="mdw-tab" selected>One</div>
-          <div class="mdw-tab">Twofsdfsdfsdfsd</div>
-          <div class="mdw-tab">Three</div>
+          <div class="mdw-tab">
+            <div class="mdw-label">One</div>
+            <div class="mdw-ripple"></div>
+          </div>
+          <div class="mdw-tab">
+            <mdw-icon>inbox</mdw-icon>
+            <div class="mdw-ripple"></div>
+          </div>
+          <div class="mdw-tab">
+            <mdw-icon>inbox</mdw-icon>
+            Inbox
+            <div class="mdw-ripple"></div>
+          </div>
         </mdw-tabs>
 
         <mdw-tabs-content mdw-tabs="one">
+          <div class="mdw-content">
+            One<br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            <br />one
+            
+          </div>
 
+          <div class="mdw-content">
+            Two
+          </div>
+
+          <div class="mdw-content">
+            
+            Three
+          </div>
         </mdw-tabs-content>
       </div>
     </div>
 
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-button>Text</mdw-button>`)}
+  ${escapeHTML(`<mdw-tabs id="one">
+    <div class="mdw-tab">
+      <div class="mdw-label">One</div>
+      <div class="mdw-ripple"></div>
+    </div>
+    <div class="mdw-tab">
+      <mdw-icon>inbox</mdw-icon>
+      <div class="mdw-ripple"></div>
+    </div>
+    <div class="mdw-tab">
+      <mdw-icon>inbox</mdw-icon>
+      Inbox
+      <div class="mdw-ripple"></div>
+    </div>
+  </mdw-tabs>
+  
+  <mdw-tabs-content mdw-tabs="one">
+    <div class="mdw-content">
+      One<br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+      <br />one
+  
+    </div>
+  
+    <div class="mdw-content">
+      Two
+    </div>
+  
+    <div class="mdw-content">
+  
+      Three
+    </div>
+  </mdw-tabs-content>`)}
       </code>
     </pre>
   </mdw-card>

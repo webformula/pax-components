@@ -1,0 +1,22 @@
+mdw-tabs-content {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+mdw-tabs-content .mdw-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 420ms;
+}
+
+mdw-tabs-content .mdw-content[selected] {
+  opacity: 1;
+  height: unset;
+  overflow: unset;
+}
