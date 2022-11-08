@@ -44,7 +44,7 @@
   </mdw-card>
 
 
-  <mdw-card id="basic">
+  <mdw-card id="minmax">
     <div class="mdw-card-content">
       <div class="mdw-headline">Min max</div>
   
@@ -66,5 +66,29 @@
     </mdw-text-field>`)}
         </code>
       </pre>
+  </mdw-card>
+
+  <mdw-card id="time">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Min max</div>
+  
+      <div class="example">
+        <mdw-text-field>
+          <input type="time">
+          <label>Date min max</label>
+          <mdw-time-picker></mdw-time-picker>
+        </mdw-text-field>
+      </div>
+    </div>
+  
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-text-field>
+    <input type="time">
+    <label>Date min max</label>
+    <mdw-time-picker></mdw-time-picker>
+  </mdw-text-field>`)}
+      </code>
+    </pre>
   </mdw-card>
 </section>

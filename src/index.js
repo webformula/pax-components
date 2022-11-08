@@ -41,6 +41,7 @@ import './components/expander/component.js';
 import './components/date-picker/component.js';
 import './components/time-picker/component.js';
 import './components/month-picker/component.js';
+import './components/tabs/component.js';
 
 
 export {

@@ -25,6 +25,7 @@ import snackbar from './pages/snackbar/page.js';
 import tooltip from './pages/tooltip/page.js';
 import icon from './pages/icon/page.js';
 import lists from './pages/lists/page.js';
+import tabs from './pages/tabs/page.js';
 
 
 window.escapeHTML = str => {
@@ -59,6 +60,7 @@ registerPage(snackbar, '/snackbar');
 registerPage(tooltip, '/tooltip');
 registerPage(icon, '/icon');
 registerPage(lists, '/lists');
+registerPage(tabs, '/tabs');
 
 
 
