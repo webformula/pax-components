@@ -45,6 +45,7 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
   addChip(params = {
     label: '',
     value: '',
+    position: 'start | end',
     leadingIcon: '',
     trailingIcon: '',
     clearButton: false,
@@ -52,6 +53,7 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
     checked: false // only for type filter
   }) {
     if (!params.label && !params.value) throw Error('params must contain label or value');
+    if (params.position && !['start', 'end'].includes(params.position)) console.warn('mdw-chip.group.addChip({ position }) invalid value. valid values: [start, end]')
     const template = /*html*/`
       <mdw-chip value="${params.value || params.label}"${this.#type !== 'filter' || !params.checked ? '' : ' checked'}>
         ${!params.checkmark ? '' : `<mdw-icon class="mdw-check">${params.leadingIcon || 'check'}</mdw-icon>`}
@@ -61,8 +63,8 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
         ${params.clearButton || !params.trailingIcon ? '' : `<mdw-icon>${params.trailingIcon}</mdw-icon>`}
       </mdw-chip>
     `;
-
-    this.insertAdjacentHTML('afterbegin', template);
+    
+    this.insertAdjacentHTML(params.position === 'start' ? 'afterbegin' : 'beforeend', template);
   }
 
   #getType() {
