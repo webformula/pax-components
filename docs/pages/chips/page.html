@@ -174,5 +174,17 @@ series of email contacts. There are four types of chips: assist, filter, input, 
   </mdw-chip-group>`)}
       </code>
     </pre>
+
+    <pre>
+      <code class="language-javascript">
+  ${`// add chip
+  document.querySelector('mdw-chip-group.mdw-type-input').addChip({
+    label: 'Three',
+    value: 'three@email.com',
+    clearButton: true,
+    position: 'start'
+  })`}
+      </code>
+    </pre>
   </mdw-card>
 </section>
