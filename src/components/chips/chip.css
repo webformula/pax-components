@@ -34,6 +34,7 @@ mdw-chip::after {
   border-radius: var(--mdw-shape-small);
   background-color: var(--mdw-on-surface);
   opacity: 0;
+  pointer-events: none;
 }
 
 mdw-chip.mdw-elevated {
@@ -48,18 +49,42 @@ mdw-chip-group.mdw-type-filter mdw-chip[checked] {
 }
 
 mdw-chip mdw-icon {
+  position: relative;
   color: var(--mdw-primary);
   font-size: 18px;
   width: 18px;
   height: 18px;
-  line-height: 32px;
   margin-left: -8px;
   margin-right: 8px;
+  align-self: center;
+  border-radius: 50%;
+}
+
+mdw-chip mdw-icon:not(.mdw-clear) {
+  pointer-events: none;
+}
+
+mdw-chip mdw-icon:after {
+  position: absolute;
+  content: '';
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 50%;
 }
 
 mdw-chip .mdw-label + mdw-icon {
   margin-left: 8px;
   margin-right: -8px;
+}
+
+mdw-chip-group.mdw-type-input mdw-chip mdw-icon {
+  color: var(--mdw-on-surface-variant);
+}
+
+mdw-chip mdw-icon.mdw-clear:hover::after {
+  background-color: var(--mdw-on-surface--12);
 }
 
 

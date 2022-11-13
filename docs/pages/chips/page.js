@@ -9,8 +9,8 @@ export default new class extends Page {
   }
 
   connectedCallback() {
-    document.querySelector('.mdw-type-filter').addEventListener('change', event => {
-      console.log(event.target);
+    document.querySelector('.mdw-type-input').addEventListener('change', event => {
+      console.log(event.target.value);
     });
   }
 }

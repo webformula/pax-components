@@ -144,7 +144,6 @@ const MDWUtil = new class MDWUtil {
       const label = document.createElement('div');
       label.classList.add('mdw-label');
       label.innerHTML = text;
-      console.log(nextNode);
       if (nextNode) nextNode.before(label);
       else element.append(label);
     }

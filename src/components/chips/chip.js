@@ -16,7 +16,7 @@ customElements.define('mdw-chip', class MDWChip extends HTMLElementExtended {
     super();
 
     this.tabIndex = 0;
-    this.#type = this.#getType();
+    this.#type = this.parentNode.type;
 
     // TODO verify this will not cause problems not being in connected callback
     util.wrapTextInLabel(this);
@@ -39,20 +39,22 @@ customElements.define('mdw-chip', class MDWChip extends HTMLElementExtended {
     if (this.#ripple) this.#ripple.destroy();
   }
 
-  #onclick() {
+  #onclick(event) {
     this.blur();
 
     if (this.#type === 'filter') {
       this.toggleAttribute('checked');
       this.parentNode.dispatchEvent(new Event('change'));
     }
-  }
 
-  #getType() {
-    const parentClassList = this.parentNode.classList;
-    if (parentClassList.contains('mdw-type-filter')) return 'filter';
-    if (parentClassList.contains('mdw-type-input')) return 'input';
-    if (parentClassList.contains('mdw-type-suggestion')) return 'suggestion';
-    return 'assist';
+    if (this.#type === 'input') {
+      if (event.target.classList.contains('mdw-clear')) {
+        const parent = this.parentNode;
+        this.remove();
+        parent.dispatchEvent(new Event('change'));
+      } else {
+        // edit
+      }
+    }
   }
 });
