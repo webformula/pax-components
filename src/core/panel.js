@@ -31,6 +31,7 @@ export default class Panel {
   #contentPositionProperty;
   #contentPosition;
   #initialScrollPosition;
+  #targetElementScrollContainer;
 
   constructor(params = {
     template: '',
@@ -100,9 +101,9 @@ export default class Panel {
     else if (this.targetElement) {
       this.#setTargetElementPosition();
       this.#contentElement.classList.add('mdw-target-element');
-      const targetElementScrollContainer = this.#getScrollContainerForTargetElement();
-      this.#initialScrollPosition = targetElementScrollContainer.scrollTop;
-      targetElementScrollContainer.addEventListener('scroll', this.#onContainerScroll_bound);
+      this.#targetElementScrollContainer = this.#getScrollContainerForTargetElement();
+      this.#initialScrollPosition = this.#targetElementScrollContainer.scrollTop;
+      this.#targetElementScrollContainer.addEventListener('scroll', this.#onContainerScroll_bound);
     } else {
       this.#setGlobalPosition();
     }
@@ -139,7 +140,7 @@ export default class Panel {
       this.#element.classList.add('mdw-run-animation');
 
       if (this.targetElement) {
-        this.#getScrollContainerForTargetElement().removeEventListener('scroll', this.#onContainerScroll_bound);
+        this.#targetElementScrollContainer.removeEventListener('scroll', this.#onContainerScroll_bound);
         this.#contentElement.style.maxHeight = '0';
       }
 
@@ -427,6 +428,7 @@ export default class Panel {
   }
 
   #getScrollContainerForTargetElement() {
+    console.log(this.targetElement);
     let parentNode = this.targetElement.parentNode;
     while (parentNode !== null) {
       const style = getComputedStyle(parentNode);

@@ -9,6 +9,7 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
   useShadowRoot = false;
 
   #type;
+  #menuTemplate;
 
   constructor() {
     super();
@@ -16,6 +17,7 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
 
   connectedCallback() {
     this.#type = this.#getType();
+    this.#handleMenu();
   }
 
   get value() {
@@ -40,6 +42,10 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
 
   get type() {
     return this.#type;
+  }
+
+  get menuTemplate() {
+    return this.#menuTemplate;
   }
 
   addChip(params = {
@@ -72,5 +78,16 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
     if (this.classList.contains('mdw-type-input')) return 'input';
     if (this.classList.contains('mdw-type-suggestion')) return 'suggestion';
     return 'assist';
+  }
+
+  #handleMenu() {
+    const element = this.querySelector('mdw-chip-menu');
+    if (!element) return;
+
+    element.remove();
+    const ul = element.querySelector('ul');
+    ul.classList.add('mdw-menu-panel');
+    ul.classList.add('mdw-menu-panel-shadow');
+    this.#menuTemplate = element.innerHTML;
   }
 });

@@ -123,20 +123,18 @@ series of email contacts. There are four types of chips: assist, filter, input, 
   
       <div class="example">
         <mdw-chip-group class="mdw-type-input">
-          <!-- <mdw-chip-menu>
+          <mdw-chip-menu>
             <ul>
-              <li class="mdw-chip"></li>
-
               <li mdw-action="edit">
                 <mdw-icon>edit</mdw-icon>
                 <div class="mdw-label">Edit</div>
               </li>
               <li mdw-action="remove">
-                <mdw-icon>trash</mdw-icon>
+                <mdw-icon>remove</mdw-icon>
                 <div class="mdw-label">Remove</div>
               </li>
             </ul>
-          </mdw-chip-menu> -->
+          </mdw-chip-menu>
           <mdw-chip value="one@email.com">
             One person
             <mdw-icon class="mdw-clear">clear</mdw-icon>
@@ -150,23 +148,30 @@ series of email contacts. There are four types of chips: assist, filter, input, 
     </div>
   
     <pre>
-        <code class="language-html">
-    ${escapeHTML(`<mdw-chip-group>
-      <mdw-chip onclick="console.log('do something')">
-        One
-        <div class="mdw-ripple"></div>
-      </mdw-chip>
-      <mdw-chip>
-        <mdw-icon>inbox</mdw-icon>
-        <div class="mdw-label">icon</div>
-        <div class="mdw-ripple"></div>
-      </mdw-chip>
-      <mdw-chip>
-        Three
-        <div class="mdw-ripple"></div>
-      </mdw-chip>
-    </mdw-chip-group>`)}
-        </code>
-      </pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-chip-group class="mdw-type-input">
+    <mdw-chip-menu>
+      <ul>
+        <li mdw-action="edit">
+          <mdw-icon>edit</mdw-icon>
+          <div class="mdw-label">Edit</div>
+        </li>
+        <li mdw-action="remove">
+          <mdw-icon>remove</mdw-icon>
+          <div class="mdw-label">Remove</div>
+        </li>
+      </ul>
+    </mdw-chip-menu>
+    <mdw-chip value="one@email.com">
+      One person
+      <mdw-icon class="mdw-clear">clear</mdw-icon>
+    </mdw-chip>
+    <mdw-chip value="two@email.com">
+      <div class="mdw-label">Person Two</div>
+      <mdw-icon class="mdw-clear">clear</mdw-icon>
+    </mdw-chip>
+  </mdw-chip-group>`)}
+      </code>
+    </pre>
   </mdw-card>
 </section>
