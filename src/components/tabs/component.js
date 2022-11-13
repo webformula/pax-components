@@ -4,7 +4,6 @@ import './tabs-content.js';
 import util from '../../core/util.js';
 import Ripple from '../../core/Ripple.js';
 
-// TODO initial selected
 
 customElements.define('mdw-tabs', class MDWTabs extends HTMLElementExtended {
   useShadowRoot = false;
@@ -16,12 +15,16 @@ customElements.define('mdw-tabs', class MDWTabs extends HTMLElementExtended {
 
   constructor() {
     super();
+
+    // TODO verify this will not cause problems not being in connected callback
+    this.insertAdjacentHTML('beforeend', `<div class="mdw-underline"></div>`);
+    [...this.querySelectorAll('.mdw-tab')].forEach(element => {
+      element.tabIndex = 0;
+      util.wrapTextInLabel(element);
+    });
   }
 
   async connectedCallback() {
-    this.insertAdjacentHTML('beforeend', `<div class="mdw-underline"></div>`);
-    this.#wrapLabels();
-
     this.#rippleElements = [...this.querySelectorAll('.mdw-ripple')].map(element => new Ripple({
       element: element,
       triggerElement: element.parentNode
@@ -47,28 +50,6 @@ customElements.define('mdw-tabs', class MDWTabs extends HTMLElementExtended {
 
     // internal value set in here
     this.#setSelected(next);
-  }
-
-  // If the user doe not wrap text in <div class="mdw-label"></div>
-  #wrapLabels() {
-    [...this.querySelectorAll('.mdw-tab')].forEach(element => {
-      element.tabIndex = 0;
-      if (element.querySelector('.mdw-label')) return;
-
-      const textNodes = [...element.childNodes].filter(node => node.nodeType === 3)
-      const text = textNodes
-        .map(node => node.textContent)
-        .join('')
-        .trim();
-
-      if (text !== '') {
-        textNodes.forEach(node => node.remove());
-        const label = document.createElement('div');
-        label.classList.add('mdw-label');
-        label.innerHTML = text;
-        element.appendChild(label);
-      }
-    });
   }
 
   #positionUnderline() {

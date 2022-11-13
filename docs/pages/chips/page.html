@@ -1,0 +1,82 @@
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Chips</div>
+    <div class="mdw-supporting-text">Chips help people enter information, make selections, filter content, or trigger actions.
+    </div>
+  </div>
+  <div class="mdw-card-content">
+    <div class="example" title="test">
+    </div>
+  </div>
+</mdw-card>
+
+<a href="https://m3.material.io/components/chips/overview" target="_new">Material Design Guidelines: Chips</a>
+<p>Chips can show multiple interactive elements together in the same area, such as a list of selectable movie times, or a
+series of email contacts. There are four types of chips: assist, filter, input, and suggestion.</p>
+
+<div class="links">
+  <a href="#basic">Basic</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card id="standard">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Basic</div>
+
+      <div class="example">
+        <mdw-chip-group class="mdw-type-filter">
+          <mdw-chip checked value="1">
+            <mdw-icon class="mdw-check">check</mdw-icon>
+            One
+            <div class="mdw-ripple"></div>
+          </mdw-chip>
+          <mdw-chip value="2">
+            <mdw-icon>inbox</mdw-icon>
+            <div class="mdw-label">inbox</div>
+            <!-- <mdw-icon>inbox</mdw-icon> -->
+          </mdw-chip>
+          <mdw-chip value="3" class="mdw-elevated">Three</mdw-chip>
+        </mdw-chip-group>
+      </div>
+    </div>
+
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-tabs id="one">
+    <div class="mdw-tab">
+      <div class="mdw-label">One</div>
+      <div class="mdw-ripple"></div>
+    </div>
+    <div class="mdw-tab">
+      <mdw-icon>inbox</mdw-icon>
+      <div class="mdw-ripple"></div>
+    </div>
+    <div class="mdw-tab">
+      <mdw-icon>inbox</mdw-icon>
+      Inbox
+      <div class="mdw-ripple"></div>
+    </div>
+  </mdw-tabs>
+  
+  <mdw-tabs-content mdw-tabs="one">
+    <div class="mdw-content">
+      One<br />one
+  
+    </div>
+  
+    <div class="mdw-content">
+      Two
+    </div>
+  
+    <div class="mdw-content">
+  
+      Three
+    </div>
+  </mdw-tabs-content>`)}
+      </code>
+    </pre>
+  </mdw-card>
+</section>

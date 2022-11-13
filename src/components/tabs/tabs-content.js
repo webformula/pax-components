@@ -1,8 +1,6 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './tabs-content.css';
 
-// TODO initial selected
-
 
 customElements.define('mdw-tabs-content', class MDWTabsContent extends HTMLElementExtended {
   useShadowRoot = false;

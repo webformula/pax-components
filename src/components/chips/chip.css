@@ -1,0 +1,126 @@
+mdw-chip {
+  position: relative;
+  display: flex;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 16px;
+  border: 1px solid var(--mdw-outline);
+  border-radius: var(--mdw-shape-small);
+  box-sizing: border-box;
+  margin-right: 8px;
+  cursor: pointer;
+  outline: none;
+
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+
+  background-color: var(--mdw-surface);
+  color: var(--mdw-on-surface);
+}
+
+mdw-chip:last-of-type {
+  margin-right: 0;
+}
+
+/* state layer */
+mdw-chip::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--mdw-shape-small);
+  background-color: var(--mdw-on-surface);
+  opacity: 0;
+}
+
+mdw-chip.mdw-elevated {
+  border: none;
+  box-shadow: var(--mdw-elevation-1);
+}
+
+mdw-chip-group.mdw-type-filter mdw-chip[checked] {
+  border-color: transparent;
+  background-color: var(--mdw-secondary-container);
+  color: var(--mdw-on-secondary-container);
+}
+
+mdw-chip mdw-icon {
+  color: var(--mdw-primary);
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 32px;
+  margin-left: -8px;
+  margin-right: 8px;
+}
+
+mdw-chip .mdw-label + mdw-icon {
+  margin-left: 8px;
+  margin-right: -8px;
+}
+
+
+mdw-chip[disabled] {
+  pointer-events: none;
+  background-color: var(--mdw-surface--12);
+  color: var(--mdw-on-surface--38);
+  border-color: var(--mdw-outline--12);
+  box-shadow: none;
+}
+
+mdw-chip[disabled] mdw-icon {
+  color: var(--mdw-on-surface--38);
+}
+
+mdw-chip-group.mdw-type-filter mdw-chip[checked][disabled] {
+  border-color: transparent;
+  background-color: var(--mdw-on-surface--12);
+  color: var(--mdw-on-surface--38);
+}
+
+@media (hover: hover) {
+  mdw-chip:hover::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+  }
+
+  mdw-chip:hover:not(:focus).mdw-elevated {
+    box-shadow: var(--mdw-elevation-2);
+  }
+}
+
+mdw-chip:focus::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+}
+
+
+mdw-chip mdw-icon.mdw-check {
+  display: none;
+}
+
+mdw-chip-group.mdw-type-filter mdw-chip[checked] mdw-icon.mdw-check {
+  display: unset;
+}
+
+
+/* --- Ripple --- */
+
+.mdw-ripple {
+  overflow: hidden;
+  border-radius: inherit;
+  transform: translateZ(0);
+  /* fixes bug on ios safari */
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.mdw-ripple > .mdw-ripple-element {
+  background-color: var(--mdw-on-surface--16);
+  border-radius: 50%;
+}

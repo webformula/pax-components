@@ -122,6 +122,34 @@ const MDWUtil = new class MDWUtil {
     });
   }
 
+  // If the user doe not wrap text in <div class="mdw-label"></div>
+  wrapTextInLabel(element) {
+    if (element.querySelector('.mdw-label')) return;
+
+    let nextNode;
+    let hasHitTextNode = false;
+    const textNodes = [...element.childNodes].filter(node => {
+      const isTextNode = node.nodeType === 3;
+      if (hasHitTextNode && !nextNode) nextNode = node;
+      else if (isTextNode && !!node.textContent.trim()) hasHitTextNode = true;
+      return isTextNode;
+    });
+    const text = textNodes
+      .map(node => node.textContent.trim())
+      .join('')
+      .trim();
+      
+    if (text !== '') {
+      textNodes.forEach(node => node.remove());
+      const label = document.createElement('div');
+      label.classList.add('mdw-label');
+      label.innerHTML = text;
+      console.log(nextNode);
+      if (nextNode) nextNode.before(label);
+      else element.append(label);
+    }
+  }
+
   getTextLengthFromInput(inputElement) {
     if (!inputElement || inputElement.nodeName !== 'INPUT') throw Error('requires input element');
 
