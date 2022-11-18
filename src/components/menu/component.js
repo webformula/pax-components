@@ -119,15 +119,13 @@ customElements.define('mdw-menu', class MDWMenu extends HTMLElementExtended {
       liElements.forEach(e => e.setAttribute('role', 'menuitem'));
     }
 
-    const noItems = document.createElement('dic');
+    const noItems = document.createElement('div');
     noItems.innerHTML = 'No items';
     noItems.classList.add('mdw-no-items');
     ul.insertAdjacentElement('afterbegin', noItems);
 
     if (this.#isAsyncSearch) {
-      const progress = document.createElement('mdw-progress-linear');
-      progress.classList.add('mdw-indeterminate');
-      ul.insertAdjacentElement('afterbegin', progress);
+      ul.insertAdjacentHTML('afterbegin', '<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>')
     }
 
     this.#panel = new Panel();
