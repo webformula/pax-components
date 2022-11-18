@@ -243,7 +243,7 @@ customElements.define('mdw-menu', class MDWMenu extends HTMLElementExtended {
         return;
       }
 
-      this.#control.autocomplete = filtered[0].label.replace(regex, '');
+      this.#control.autocomplete = filtered[0].label;
     } else {
       this.#control.autocomplete = '';
     }

@@ -25,6 +25,7 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
       if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') this.#handleDisabledInput();
     });
   });
+  #autocomplete;
 
   constructor() {
     super();
@@ -86,10 +87,24 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
   }
 
 
+  get autocomplete() {
+    return this.#autocomplete;
+  }
   set autocomplete(value) {
-    const offset = util.getTextLengthFromInput(this.querySelector('input'));
+    this.#autocomplete = value;
+    this.#setAutocomplete();
+  }
+
+  #setAutocomplete() {
+    if (!this.#autocomplete) return;
+
+    const input = this.querySelector('input');
+    const match = this.#autocomplete.match(new RegExp(`^${input.value}(.*)`, 'i'));
+    const value = match ? match[1] : this.#autocomplete;
+
     this.querySelector('.mdw-autocomplete').innerText = value;
-    this.querySelector('.mdw-autocomplete').style.left = `${offset + 19}px`;
+    const offset = util.getTextLengthFromInput(this.querySelector('input'));
+    this.querySelector('.mdw-autocomplete').style.left = `${offset + 16}px`;
   }
 
   clear(event) {
@@ -147,6 +162,7 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
   #onInput() {
     const input = this.querySelector('input');
     this.#updateInputValidity(!input.checkValidity());
+    this.#setAutocomplete();
   }
 
   #updateInputValidity(invalid = false) {

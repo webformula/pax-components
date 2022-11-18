@@ -9,7 +9,7 @@ export default new class extends Page {
   }
 
   connectedCallback() {
-    document.querySelector('#autocomplete-text-field').autocomplete = 'complete';
+    document.querySelector('#autocomplete-text-field').autocomplete = 'autocomplete';
     document.querySelector('#require-custom').setCustomValidity('Custom error message');
   }
 }
