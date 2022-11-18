@@ -7,9 +7,7 @@ customElements.define('mdw-month-picker-mobile', class MDWMonthPickerMobile exte
 
   #monthPickerComponent;
   #displayDate = '';
-  #monthNames = [
-    'January', 'Feudary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'
-  ];
+  #monthNames = dateUtil.getMonthNames();
   #monthScrollHandler_bound = this.#monthScrollHandler.bind(this);
   #monthScrollEndHandler_bound = this.#monthScrollEndHandler.bind(this);
   #yearScrollHandler_bound = this.#yearScrollHandler.bind(this);

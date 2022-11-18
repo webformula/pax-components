@@ -7,9 +7,7 @@ customElements.define('mdw-month-picker-desktop', class MDWMonthPickerDesktop ex
 
   #monthPickerComponent;
   #displayDate = '';
-  #monthNames = [
-    'Jan', 'Fed', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'
-  ];
+  #monthNames = dateUtil.getMonthNamesShort();
   #monthClick_bound = this.#monthClick.bind(this);
   #yearViewClick_bound = this.#yearViewClick.bind(this);
   #yearClick_bound = this.#yearClick.bind(this);
