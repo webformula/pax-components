@@ -2,11 +2,7 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import Ripple from '../../core/Ripple.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
-// TODO async
-// TODO icon
-// TODO href
-// TODO form
-
+// TODO form submit
 // TODO fix ripple when in panel. Look at date picker cancel
 
 customElements.define('mdw-button', class MDWButton extends HTMLElementExtended {

@@ -94,7 +94,7 @@ customElements.define('mdw-bottom-app-bar', class MDWBottomAppBar extends HTMLEl
     secondary.classList.remove('mdw-show-animation-start');
   }
 
-  // TODO hide/show at scroll speed
+  // TODO hide/show transition move at scroll speed
   #scrollTrack({ isScrolled, direction, distanceFromDirectionChange }) {
     // up
     if (direction === -1 && distanceFromDirectionChange > 150) this.hide();

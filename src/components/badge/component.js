@@ -1,7 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import styleAsString from '!!css-loader!./component.css?raw';
 
-// TODO align at end of text button
+// TODO align at end of button with text
 
 customElements.define('mdw-badge', class MDWBadge extends HTMLElementExtended {
   useShadowRoot = true;

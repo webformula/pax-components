@@ -35,7 +35,7 @@ customElements.define('mdw-top-app-bar', class MDWTopAppBar extends HTMLElementE
     this.classList.remove('mdw-hide');
   }
 
-  // TODO hide/show at scroll speed
+  // TODO hide/show transition at scroll speed
   #scrollTrack({ isScrolled, direction, distanceFromDirectionChange }) {
     // up
     if (direction === -1 && distanceFromDirectionChange > 150) this.hide();

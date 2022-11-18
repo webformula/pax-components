@@ -6,7 +6,7 @@ import './component.css';
 import './desktop.js';
 import './mobile.js';
 
-// TODO update style to v3
+
 // TODO ranges
 //      Desktop: 2 pickers
 //      Mobile: fullscreen with scrolling months

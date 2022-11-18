@@ -6,8 +6,8 @@ import util from '../../core/util.js';
 import Drag from '../../core/drag.js';
 
 
-// TODO expanded drag
-// TODO drag order grid
+// TODO expanded card on drag. Look at material guidelines for video
+// TODO drag reorder grid
 
 
 customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
@@ -202,7 +202,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     else this.style.setProperty('--mdw-card-swipe-position', `60px`);
   }
 
-  // TODO make action its own component so it can have .checked
+  // TODO make action its own component so it can have .checked ?
   #swipeActionClick(event) {
     if (event.target.nodeName === 'MDW-ICON') {
       if (this.#swipeActionElement.hasAttribute('checked')) this.#swipeActionElement.removeAttribute('checked');

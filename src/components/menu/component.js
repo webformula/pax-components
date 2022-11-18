@@ -3,8 +3,8 @@ import Panel from '../../core/panel.js';
 import util from '../../core/util.js';
 import './component.css';
 
-// TODO remove control click after checking on mobile
-// TODO focus next broken with async search
+// TODO (NOT SURE WHAT THIS. BAD FORM MY SELF) remove control click after checking on mobile
+// TODO focus next broken with async search (arrow down multiple times after typing)
 // TODO sub menus
 
 customElements.define('mdw-menu', class MDWMenu extends HTMLElementExtended {

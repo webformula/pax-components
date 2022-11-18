@@ -174,7 +174,7 @@ export default class MDWRipple {
   }
 
   /** Enforces a style recalculation of a DOM element by computing its styles. */
-  // TODO(devversion): Move into global utility function.
+  // TODO(dev version): Move into global utility function.
   enforceStyleRecalculation(element) {
     // Enforce a style recalculation by calling `getComputedStyle` and accessing any property.
     // Calling `getPropertyValue` is important to let optimizers know that this is not a noop.

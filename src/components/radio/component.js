@@ -2,7 +2,6 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import util from '../../core/util.js';
 import './component.css';
 
-// TODO handle focus on panel close
 
 customElements.define('mdw-radio-group', class MDWRadio extends HTMLElementExtended {
   useShadowRoot = false;
