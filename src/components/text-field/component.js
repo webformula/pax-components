@@ -96,11 +96,11 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
   }
 
   #setAutocomplete() {
-    if (!this.#autocomplete) return;
+    if (typeof this.#autocomplete !== 'string') return;
 
     const input = this.querySelector('input');
     const match = this.#autocomplete.match(new RegExp(`^${input.value}(.*)`, 'i'));
-    const value = match ? match[1] : this.#autocomplete;
+    const value = !match || match[0] === match[1] ? '' : match[1];
 
     this.querySelector('.mdw-autocomplete').innerText = value;
     const offset = util.getTextLengthFromInput(this.querySelector('input'));

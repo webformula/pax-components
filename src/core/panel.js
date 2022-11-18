@@ -428,7 +428,6 @@ export default class Panel {
   }
 
   #getScrollContainerForTargetElement() {
-    console.log(this.targetElement);
     let parentNode = this.targetElement.parentNode;
     while (parentNode !== null) {
       const style = getComputedStyle(parentNode);
