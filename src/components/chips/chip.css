@@ -7,7 +7,6 @@ mdw-chip {
   border: 1px solid var(--mdw-outline);
   border-radius: var(--mdw-shape-small);
   box-sizing: border-box;
-  margin-right: 8px;
   cursor: pointer;
   outline: none;
 
@@ -17,10 +16,6 @@ mdw-chip {
 
   background-color: var(--mdw-surface);
   color: var(--mdw-on-surface);
-}
-
-mdw-chip:last-of-type {
-  margin-right: 0;
 }
 
 /* state layer */
@@ -83,10 +78,6 @@ mdw-chip-group.mdw-type-input mdw-chip mdw-icon {
   color: var(--mdw-on-surface-variant);
 }
 
-mdw-chip mdw-icon.mdw-clear:hover::after {
-  background-color: var(--mdw-on-surface--12);
-}
-
 
 mdw-chip[disabled] {
   pointer-events: none;
@@ -107,12 +98,16 @@ mdw-chip-group.mdw-type-filter mdw-chip[checked][disabled] {
 }
 
 @media (hover: hover) {
-  mdw-chip:hover::after {
+  mdw-chip:not(.mdw-edit):hover::after {
     opacity: var(--mdw-state-layer-opacity-hover);
   }
 
-  mdw-chip:hover:not(:focus).mdw-elevated {
+  mdw-chip:not(.mdw-edit):hover:not(:focus).mdw-elevated {
     box-shadow: var(--mdw-elevation-2);
+  }
+
+  mdw-chip mdw-icon.mdw-clear:hover::after {
+    background-color: var(--mdw-on-surface--12);
   }
 }
 
@@ -128,6 +123,43 @@ mdw-chip mdw-icon.mdw-check {
 mdw-chip-group.mdw-type-filter mdw-chip[checked] mdw-icon.mdw-check {
   display: unset;
 }
+
+
+
+mdw-chip input {
+  display: none;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  text-decoration: inherit;
+  text-transform: inherit;
+  font-size: var(--mdw-font-size-large-body);
+  font-weight: var(--mdw-font-weight-large-body);
+  line-height: var(--mdw-font-line-height-large-body);
+  letter-spacing: var(--mdw-font-letter-spacing-large-body);
+  color: var(--mdw-on-surface);
+  caret-color: var(--mdw-primary);
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+mdw-chip-group.mdw-type-input mdw-chip.mdw-edit {
+  border: none;
+}
+
+mdw-chip-group.mdw-type-input mdw-chip.mdw-edit input {
+  display: block;
+}
+
+mdw-chip-group.mdw-type-input mdw-chip.mdw-edit .mdw-label,
+mdw-chip-group.mdw-type-input mdw-chip.mdw-edit mdw-icon {
+  display: none;
+}
+
 
 
 /* --- Ripple --- */

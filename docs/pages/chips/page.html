@@ -17,7 +17,9 @@ series of email contacts. There are four types of chips: assist, filter, input, 
 <div class="links">
   <a href="#assist">Assist</a>
   <a href="#filter">Filter</a>
+  <a href="#menu">Menu</a>
   <a href="#input">Input</a>
+  <a href="#input">wrap</a>
 </div>
 
 
@@ -118,12 +120,13 @@ series of email contacts. There are four types of chips: assist, filter, input, 
   </mdw-card>
 
 
-  <mdw-card id="input">
+
+  <mdw-card id="menu">
     <div class="mdw-card-content">
-      <div class="mdw-headline">Input</div>
+      <div class="mdw-headline">With drop menu</div>
   
       <div class="example">
-        <mdw-chip-group class="mdw-type-input">
+        <mdw-chip-group>
           <mdw-chip-menu>
             <ul>
               <li mdw-action="edit">
@@ -138,11 +141,9 @@ series of email contacts. There are four types of chips: assist, filter, input, 
           </mdw-chip-menu>
           <mdw-chip value="one@email.com">
             One person
-            <mdw-icon class="mdw-clear">clear</mdw-icon>
           </mdw-chip>
           <mdw-chip value="two@email.com">
             <div class="mdw-label">Person Two</div>
-            <mdw-icon class="mdw-clear">clear</mdw-icon>
           </mdw-chip>
         </mdw-chip-group>
       </div>
@@ -150,7 +151,7 @@ series of email contacts. There are four types of chips: assist, filter, input, 
   
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-chip-group class="mdw-type-input">
+  ${escapeHTML(`<mdw-chip-group>
     <mdw-chip-menu>
       <ul>
         <li mdw-action="edit">
@@ -165,10 +166,56 @@ series of email contacts. There are four types of chips: assist, filter, input, 
     </mdw-chip-menu>
     <mdw-chip value="one@email.com">
       One person
-      <mdw-icon class="mdw-clear">clear</mdw-icon>
     </mdw-chip>
     <mdw-chip value="two@email.com">
       <div class="mdw-label">Person Two</div>
+    </mdw-chip>
+  </mdw-chip-group>`)}
+      </code>
+    </pre>
+
+    <pre>
+      <code class="language-javascript">
+  ${`// add chip
+  document.querySelector('mdw-chip-group.mdw-type-input').addChip({
+    label: 'Three',
+    value: 'three@email.com',
+    clearButton: true,
+    position: 'start'
+  })`}
+      </code>
+    </pre>
+  </mdw-card>
+
+
+
+  <mdw-card id="input">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Input</div>
+  
+      <div class="example">
+        <mdw-chip-group class="mdw-type-input">
+          <mdw-chip value="one@email.com">
+            one@email.com
+            <mdw-icon class="mdw-clear">clear</mdw-icon>
+          </mdw-chip>
+          <mdw-chip value="two@email.com">
+            <div class="mdw-label">two@email.com</div>
+            <mdw-icon class="mdw-clear">clear</mdw-icon>
+          </mdw-chip>
+        </mdw-chip-group>
+      </div>
+    </div>
+  
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-chip-group class="mdw-type-input">
+    <mdw-chip value="one@email.com">
+      one@email.com
+      <mdw-icon class="mdw-clear">clear</mdw-icon>
+    </mdw-chip>
+    <mdw-chip value="two@email.com">
+      <div class="mdw-label">two@email.com</div>
       <mdw-icon class="mdw-clear">clear</mdw-icon>
     </mdw-chip>
   </mdw-chip-group>`)}
@@ -186,5 +233,44 @@ series of email contacts. There are four types of chips: assist, filter, input, 
   })`}
       </code>
     </pre>
+  </mdw-card>
+
+
+  <mdw-card id="wrap">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Wrap</div>
+  
+      <div class="example">
+        <div style="width: 300px; padding: 8px; border: 1px solid;">
+          <mdw-chip-group class="mdw-wrap">
+            <mdw-chip>One</mdw-chip>
+            <mdw-chip>Two</mdw-chip>
+            <mdw-chip>Three</mdw-chip>
+            <mdw-chip>Four</mdw-chip>
+            <mdw-chip>Five</mdw-chip>
+            <mdw-chip>Six</mdw-chip>
+            <mdw-chip>Seven</mdw-chip>
+            <mdw-chip>Eight</mdw-chip>
+            <mdw-chip>Nine</mdw-chip>
+          </mdw-chip-group>
+        </div>
+      </div>
+    </div>
+  
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-chip-group class="mdw-wrap">
+      <mdw-chip>One</mdw-chip>
+      <mdw-chip>Two</mdw-chip>
+      <mdw-chip>Three</mdw-chip>
+      <mdw-chip>Four</mdw-chip>
+      <mdw-chip>Five</mdw-chip>
+      <mdw-chip>Six</mdw-chip>
+      <mdw-chip>Seven</mdw-chip>
+      <mdw-chip>Eight</mdw-chip>
+      <mdw-chip>Nine</mdw-chip>
+    </mdw-chip-group>`)}
+        </code>
+      </pre>
   </mdw-card>
 </section>

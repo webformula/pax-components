@@ -1,3 +1,19 @@
 mdw-chip-group {
   display: flex;
 }
+
+mdw-chip-group:not(.mdw-wrap) mdw-chip {
+  margin-right: 8px;
+}
+
+mdw-chip-group:not(.mdw-wrap) mdw-chip:last-of-type {
+  margin-right: 0;
+}
+
+
+mdw-chip-group.mdw-wrap {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 8px;
+  row-gap: 8px;
+}

@@ -2,7 +2,6 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import './component.css';
 import './chip.js';
 
-// TODO input editing value
 // TODO figure out if we should add properties to dynamically interact with chips
 
 customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementExtended {
@@ -17,7 +16,7 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
 
   connectedCallback() {
     this.#type = this.#getType();
-    this.#handleMenu();
+    this.#setupMenu();
   }
 
   get value() {
@@ -80,7 +79,7 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
     return 'assist';
   }
 
-  #handleMenu() {
+  #setupMenu() {
     const element = this.querySelector('mdw-chip-menu');
     if (!element) return;
 
