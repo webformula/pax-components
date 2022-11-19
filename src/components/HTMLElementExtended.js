@@ -14,6 +14,7 @@ export default class HTMLElementExtended extends HTMLElement {
   async beforeRender() { }
   async afterRender() { }
 
+  // TODO replace with sanitizer api when supported https://developer.mozilla.org/en-US/docs/Web/API/HTML_Sanitizer_API
   // makes html safe from executing malicious code
   // Should be used for any user inputted data
   htmlEscape(value = '') {

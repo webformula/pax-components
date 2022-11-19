@@ -1,16 +1,19 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CompressionPlugin from 'compression-webpack-plugin';
+
 
 
 export default {
   entry: './docs/app.js',
   output: {
-    filename: 'bundle.js'
+    filename: 'bundle.[contenthash].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './docs/index.html'
-    })
+    }),
+    new CompressionPlugin()
   ],
   devServer: {
     static: {

@@ -21,6 +21,7 @@
   "devDependencies": {
     "@webformula/pax-components": "file:./src",
     "@webformula/pax-core": "file:../pax-core",
+    "compression-webpack-plugin": "^10.0.0",
     "css-loader": "^6.7.1",
     "highlight.js": "^11.6.0",
     "html-loader": "^4.1.0",
