@@ -14,6 +14,18 @@ export default class HTMLElementExtended extends HTMLElement {
   async beforeRender() { }
   async afterRender() { }
 
+  // makes html safe from executing malicious code
+  // Should be used for any user inputted data
+  htmlEscape(value = '') {
+    return value
+      .replace(/&/g, '&amp;')
+      .replace(/>/g, '&gt;')
+      .replace(/</g, '&lt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/`/g, '&#96;');
+  }
+
   template() {
     return /*html*/'';
   }
@@ -44,17 +56,4 @@ export default class HTMLElementExtended extends HTMLElement {
     await this.afterRender();
     this.rendered = true;
   }
-
-
-  // TODO look into how this would happen without rerender?
-  // #createTemplate() {
-  //   document.body.insertAdjacentHTML('beforeend', /*html*/`
-  //     <template id="${this.#templateId}">
-  //       <tr>
-  //         <td class="record"></td>
-  //         <td></td>
-  //       </tr>
-  //     </template>
-  //   `);
-  // }
 }
