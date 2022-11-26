@@ -27,6 +27,9 @@ body.mdw-mobile > mdw-navigation::after {
   background-color: black;
   opacity: 0;
   pointer-events: none;
+}
+
+body.mdw-enable-animation.mdw-mobile > mdw-navigation::after {
   transition:
     left 180ms,
     opacity 180ms;
@@ -37,8 +40,11 @@ body.mdw-mobile > mdw-navigation.mdw-show::after {
   opacity: 0.12;
   pointer-events: all;
   left: min(var(--mdw-navigation-drawer-width), calc(100% - 64px));
+}
+
+body.mdw-enable-animation.mdw-mobile > mdw-navigation.mdw-show::after {
   transition:
-    left 420ms, 
+    left 420ms,
     opacity 420ms;
   transition-timing-function: var(--mdw-transition-expand-in);
 }
@@ -60,6 +66,9 @@ mdw-navigation nav {
   width: calc(100% - 24px);
   display: flex;
   flex-direction: column;
+}
+
+mdw-navigation.mdw-enable-animation nav {
   transition: opacity 220ms;
 }
 
@@ -385,7 +394,7 @@ mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control.mdw-contai
 }
 
 mdw-navigation nav.mdw-rail > a.mdw-contains-label.mdw-current-link > mdw-icon::after,
-mdw-navigation nav.mdw-rail > > .mdw-nav-group > .mdw-nav-group-control.mdw-contains-label.mdw-current-link > mdw-icon::after {
+mdw-navigation nav.mdw-rail > .mdw-nav-group > .mdw-nav-group-control.mdw-contains-label.mdw-current-link > mdw-icon::after {
   left: 0;
   right: 0;
   background-color: var(--mdw-secondary-container);

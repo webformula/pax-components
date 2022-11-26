@@ -122,6 +122,22 @@ const MDWUtil = new class MDWUtil {
     });
   }
 
+  getTextFromNode(element) {
+    let nextNode;
+    let hasHitTextNode = false;
+    const textNodes = [...element.childNodes].filter(node => {
+      const isTextNode = node.nodeType === 3;
+      if (hasHitTextNode && !nextNode) nextNode = node;
+      else if (isTextNode && !!node.textContent.trim()) hasHitTextNode = true;
+      return isTextNode;
+    });
+
+    return textNodes
+      .map(node => node.textContent.trim())
+      .join('')
+      .trim();
+  }
+
   // If the user doe not wrap text in <div class="mdw-label"></div>
   wrapTextInLabel(element) {
     if (element.querySelector('.mdw-label')) return;

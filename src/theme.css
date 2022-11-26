@@ -1,3 +1,11 @@
+/* hide while loading */
+html:not(.mdw-initiated) body {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
 /* Change theme by adding 'color-scheme: dark | light;' to the html element style */
 /* By default it will use the system preference */
 

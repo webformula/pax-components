@@ -16,6 +16,7 @@ customElements.define('mdw-navigation-button', class MDWNavigationButton extends
 
     this.tabIndex = 0;
     this.setAttribute('role', 'button');
+    this.setAttribute('aria-label', 'menu toggle');
   }
 
   connectedCallback() {
@@ -44,7 +45,7 @@ customElements.define('mdw-navigation-button', class MDWNavigationButton extends
 
   template() {
     return /* html */`
-      <mdw-button class="mdw-icon-toggle-button">
+      <mdw-button class="mdw-icon-toggle-button" aria-label="menu toggle">
         <div class="mdw-menu-icon" value="on">${menuIconSVGRaw}</div>
         <div class="mdw-menu-open-icon" value="off">${menuOpenIconSVGRaw}</div>
       </mdw-button>

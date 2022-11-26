@@ -1,6 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import Ripple from '../../core/Ripple.js';
 import styleAsString from '!!css-loader!./component.css?raw';
+import util from '../../core/util.js';
 
 // TODO form submit
 // TODO fix ripple when in panel. Look at date picker cancel
@@ -19,6 +20,10 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
     this.tabIndex = 0;
 
     this.setAttribute('role', 'button');
+    if (!this.hasAttribute('aria-label')) {
+      const text = util.getTextFromNode(this);
+      if (text) this.setAttribute('aria-label', text);
+    }
   }
 
   get toggled() {

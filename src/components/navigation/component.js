@@ -61,6 +61,15 @@ customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementE
     this.classList.add('mdw-enable-animation');
 
     if (this.#shouldAddClickOutsideEvent) this.addEventListener('click', this.#onClickOutside_bound);
+
+    setTimeout(() => {
+      [...this.querySelectorAll('a')].forEach(link => {
+        if (!link.hasAttribute('aria-label')) {
+          const text = util.getTextFromNode(link.querySelector('.mdw-label') || link);
+          if (text) link.setAttribute('aria-label', text);
+        }
+      });
+    }, 0);
   }
 
   disconnectedCallback() {

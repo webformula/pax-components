@@ -6,7 +6,6 @@ import './core/tooltip.js';
 import './core/form.js';
 
 
-import './theme.css';
 import './index.css';
 import { generate } from './core/theme.js';
 generate();
@@ -43,6 +42,10 @@ import './components/time-picker/component.js';
 import './components/month-picker/component.js';
 import './components/tabs/component.js';
 import './components/chips/component.js';
+
+setTimeout(() => {
+  document.querySelector('html').classList.add('mdw-initiated');
+}, 0);
 
 
 export {

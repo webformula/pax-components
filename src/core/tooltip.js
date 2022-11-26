@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', initialize);
 async function initialize() {
   if (document.body.classList.contains('mdw-no-tooltip')) return;
 
-  document.body.insertAdjacentHTML('beforeend', '<mdw-tooltip class="mdw-main-tooltip"></mdw-tooltip>');
+  document.body.insertAdjacentHTML('beforeend', '<mdw-tooltip class="mdw-main-tooltip" aria-label="blank"></mdw-tooltip>');
   await util.nextAnimationFrameAsync();
   tooltipElement = document.querySelector('mdw-tooltip.mdw-main-tooltip');
 
@@ -70,7 +70,9 @@ function onMousemove(event) {
 function startTooltipTimer(target) {
   if (tooltipTimer) return;
   tooltipTimer = setTimeout(() => {
-    tooltipElement.innerHTML = target.getAttribute('tooltip');
+    const text = target.getAttribute('tooltip');
+    tooltipElement.innerHTML = text;
+    tooltipElement.setAttribute('aria-label', text);
     tooltipElement.show(target, lastMousePosition);
   }, 1000);
   target.addEventListener('mousemove', onMousemove);

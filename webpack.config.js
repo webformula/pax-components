@@ -29,7 +29,7 @@ export default {
   module: {
     rules: [
       {
-        test: /\.css$/i,
+        test: /^((?!theme).)*\.css$/i,
         use: ["style-loader", "css-loader"]
       },
       {
