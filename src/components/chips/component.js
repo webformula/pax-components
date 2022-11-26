@@ -1,6 +1,9 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './component.css';
 import './chip.js';
+import checkIconSVGRaw from '../../svg-icons/check_FILL1_wght400_GRAD0_opsz24.svg';
+import closeIconSVGRaw from '../../svg-icons/close_FILL1_wght400_GRAD0_opsz24.svg';
+
 
 
 // TODO figure out if we should add properties to dynamically interact with chips
@@ -54,18 +57,22 @@ customElements.define('mdw-chip-group', class MDWChipGroup extends HTMLElementEx
     leadingIcon: '',
     trailingIcon: '',
     clearButton: false,
-    checkmark: false,
+    checkMark: false,
     checked: false // only for type filter
   }) {
     if (!params.label && !params.value) throw Error('params must contain label or value');
     if (params.position && !['start', 'end'].includes(params.position)) console.warn('mdw-chip.group.addChip({ position }) invalid value. valid values: [start, end]')
     const template = /*html*/`
       <mdw-chip value="${params.value || params.label}"${this.#type !== 'filter' || !params.checked ? '' : ' checked'}>
-        ${!params.checkmark ? '' : `<mdw-icon class="mdw-check">${params.leadingIcon || 'check'}</mdw-icon>`}
-        ${params.checkmark || !params.leadingIcon ? '' : `<mdw-icon>${params.leadingIcon}</mdw-icon>`}
+        ${params.checkMark && params.leadingIcon ? `<mdw-icon class="mdw-check">${params.leadingIcon}</mdw-icon>` : ''}
+        ${params.checkMark && !params.leadingIcon ? `<div class="mdw-check mdw-icon-svg">${checkIconSVGRaw}</div>` : ''}
+        ${!params.checkMark && params.leadingIcon ? '' : `<mdw-icon>${params.leadingIcon}</mdw-icon>`}
+
         <div class="mdw-label">${params.label || params.value}</div>
-        ${!params.clearButton ? '' : `<mdw-icon class="mdw-clear">${params.trailingIcon || 'clear'}</mdw-icon>`}
-        ${params.clearButton || !params.trailingIcon ? '' : `<mdw-icon>${params.trailingIcon}</mdw-icon>`}
+
+        ${params.clearButton && params.trailingIcon ? `<mdw-icon class="mdw-clear">${params.trailingIcon}</mdw-icon>` : ''}
+        ${params.clearButton && !params.trailingIcon ? `<div class="mdw-clear mdw-icon-svg">${closeIconSVGRaw}</div>` : ''}
+        ${!params.clearButton && params.trailingIcon ? '' : `<mdw-icon>${params.trailingIcon}</mdw-icon>`}
       </mdw-chip>
     `;
     

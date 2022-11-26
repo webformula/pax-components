@@ -37,6 +37,10 @@ export default {
         use: [
           'html-loader'
         ]
+      },
+      {
+        test: /\.svg$/i,
+        use: 'raw-loader',
       }
     ],
   }

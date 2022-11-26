@@ -13,7 +13,7 @@ mdw-date-picker-desktop .mdw-control-container {
 }
 
 
-mdw-date-picker-desktop .mdw-control-container > mdw-icon {
+mdw-date-picker-desktop .mdw-control-container > .mdw-icon-svg {
   display: flex;
   width: 32px;
   margin: 0;
@@ -53,8 +53,8 @@ mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-year-drop-do
   pointer-events: none;
 }
 
-mdw-date-picker-desktop.mdw-years-view .mdw-control-container .mdw-month-drop-down mdw-icon,
-mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-year-drop-down mdw-icon {
+mdw-date-picker-desktop.mdw-years-view .mdw-control-container .mdw-month-drop-down .mdw-icon-svg,
+mdw-date-picker-desktop.mdw-months-view .mdw-control-container .mdw-year-drop-down .mdw-icon-svg {
   opacity: 0;
 }
 
@@ -311,13 +311,13 @@ mdw-date-picker-desktop .mdw-months-container .mdw-month-item:hover {
   background-color: var(--mdw-surface-tint--12);
 }
 
-mdw-date-picker-desktop .mdw-months-container mdw-icon {
+mdw-date-picker-desktop .mdw-months-container .mdw-icon-svg {
   opacity: 0;
   margin: 0 14px;
   pointer-events: none;
 }
 
-mdw-date-picker-desktop .mdw-months-container .mdw-month-item[selected] mdw-icon {
+mdw-date-picker-desktop .mdw-months-container .mdw-month-item[selected] .mdw-icon-svg {
   opacity: 1;
 }
 
@@ -361,12 +361,12 @@ mdw-date-picker-desktop .mdw-years-container .mdw-year-item:hover {
   background-color: var(--mdw-surface-tint--12);
 }
 
-mdw-date-picker-desktop .mdw-years-container mdw-icon {
+mdw-date-picker-desktop .mdw-years-container .mdw-icon-svg {
   opacity: 0;
   margin: 0 14px;
   pointer-events: none;
 }
 
-mdw-date-picker-desktop .mdw-years-container .mdw-year-item[selected] mdw-icon {
+mdw-date-picker-desktop .mdw-years-container .mdw-year-item[selected] .mdw-icon-svg {
   opacity: 1;
 }

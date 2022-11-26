@@ -40,3 +40,14 @@ body.mdw-small-viewport mdw-navigation-button.mdw-mobile-and-small-screen {
 mdw-navigation-button mdw-icon {
   margin-top: -1px;
 }
+
+mdw-navigation-button .mdw-menu-icon,
+mdw-navigation-button .mdw-menu-open-icon {
+  width: 24px;
+  height: 24px;
+}
+
+mdw-navigation-button .mdw-menu-icon > svg,
+mdw-navigation-button .mdw-menu-open-icon > svg {
+  fill: var(--mdw-on-surface-variant);
+}

@@ -51,3 +51,9 @@ export {
   MDWSnackbar,
   MDWUtil
 }
+
+// TODO make sure the webpage shows blank white until js loaded
+// TODO change switch to input
+// TODO look into places we can get css without js
+// TODO make webpage separate css
+// TODO figure out how to get rid of iframes

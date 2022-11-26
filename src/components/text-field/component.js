@@ -1,6 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import util from '../../core/util.js';
 import './component.css';
+import errorIconSVGString from '../../svg-icons/error_FILL1_wght400_GRAD0_opsz24.svg';
 
 const handleReportValidityScrollIntoView = util.debounce(input => {
   // check if already on screen
@@ -173,7 +174,7 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
     if (invalid) {
       this.classList.add('mdw-invalid');
       if (supportingTextElement) supportingTextElement.innerText = input.validationMessage;
-      if (!invalidIcon) this.insertAdjacentHTML('beforeend', '<mdw-icon class="mdw-invalid-icon">error</mdw-icon>');
+      if (!invalidIcon) this.insertAdjacentHTML('beforeend', `<div class="mdw-invalid-icon">${errorIconSVGString}</div>`);
     } else {
       this.classList.remove('mdw-invalid');
       if (supportingTextElement) supportingTextElement.innerText = this.#previousSupportingText;

@@ -15,11 +15,15 @@ mdw-date-picker-mobile .mdw-header {
   box-sizing: border-box;
 }
 
+mdw-date-picker-mobile .mdw-icon-svg > svg {
+  fill: var(--mdw-on-surface-variant);
+}
+
 mdw-date-picker-mobile .mdw-header .mdw-select-date-text {
   font-size: var(--mdw-font-size-medium-label);
   font-weight: var(--mdw-font-weight-medium-label);
   letter-spacing: var(--mdw-font-letter-spacing-medium-label);
-  color: var(--mdw-on-surface);
+  color: var(--mdw-on-surface-variant);
   line-height: 16px;
   height: 16px;
   margin-bottom: 36px;
@@ -29,7 +33,7 @@ mdw-date-picker-mobile .mdw-header .mdw-display-date-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--mdw-on-surface);
+  color: var(--mdw-on-surface-variant);
 }
 
 mdw-date-picker-mobile .mdw-header .mdw-display-date-container .mdw-display-date-text {
@@ -45,7 +49,7 @@ mdw-date-picker-mobile .mdw-controls-container {
   height: 24px;
   padding: 16px 12px;
 
-  color: var(--mdw-on-surface);
+  color: var(--mdw-on-surface-variant);
 }
 
 
@@ -77,6 +81,12 @@ mdw-date-picker-mobile.mdw-year-view .mdw-controls-container .mdw-month-next {
   opacity: 0;
 }
 
+mdw-date-picker-mobile.mdw-year-view .mdw-controls-container .mdw-month-previous[disabled],
+mdw-date-picker-mobile.mdw-year-view .mdw-controls-container .mdw-month-next[disabled] {
+  pointer-events: none;
+  opacity: 0.38;
+}
+
 mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down {
   display: flex;
   align-items: center;
@@ -98,14 +108,20 @@ mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down .mdw-year-l
   -webkit-tap-highlight-color: transparent;
 }
 
-mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down > mdw-icon {
+mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down > .mdw-icon-svg {
+  width: 24px;
+  height: 24px;
   transform-origin: center;
   transform: rotate(0);
   transition: transform 280ms;
   -webkit-tap-highlight-color: transparent;
 }
 
-mdw-date-picker-mobile.mdw-year-view .mdw-controls-container > .mdw-year-drop-down > mdw-icon {
+mdw-date-picker-mobile .mdw-controls-container > .mdw-year-drop-down > .mdw-icon-svg > svg {
+  fill: var(--mdw-on-surface-variant);
+}
+
+mdw-date-picker-mobile.mdw-year-view .mdw-controls-container > .mdw-year-drop-down > .mdw-icon-svg {
   transform: rotate(180deg);
 }
 

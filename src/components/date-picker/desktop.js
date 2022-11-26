@@ -2,6 +2,11 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import dateUtil from '../../core/date.js';
 import util from '../../core/util.js';
 import './desktop.css';
+import checkIconSVGRaw from '../../svg-icons/check_FILL1_wght400_GRAD0_opsz24.svg';
+import arrowDropDownIconSVGRaw from '../../svg-icons/arrow_drop_down_FILL1_wght400_GRAD0_opsz24.svg';
+import chevronLeftIconSVGRaw from '../../svg-icons/chevron_left_FILL1_wght400_GRAD0_opsz24.svg';
+import chevronRightSVGRaw from '../../svg-icons/chevron_right_FILL1_wght400_GRAD0_opsz24.svg';
+
 
 // TODO tooltips
 // TODO keyboard
@@ -297,18 +302,18 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
 
     return /*html*/`
       <div class="mdw-control-container">
-        <mdw-icon class="mdw-month-previous" ${previousMonthOutOfRange ? 'disabled' : ''}>chevron_left</mdw-icon>
+        <div class="mdw-month-previous mdw-icon-svg" ${previousMonthOutOfRange ? 'disabled' : ''}>${chevronLeftIconSVGRaw}</div>
         <div class="mdw-month-drop-down" ${previousMonthOutOfRange && nextMonthOutOfRange ? 'disabled' : ''}>
           <div class="mdw-month-label">${dateUtil.format(this.#displayDate, 'MMMM')}</div>
-          <mdw-icon>arrow_drop_down</mdw-icon>
+          <div class="mdw-icon-svg">${arrowDropDownIconSVGRaw}</div>
         </div>
-        <mdw-icon class="mdw-month-next" ${nextMonthOutOfRange ? 'disabled' : ''}>chevron_right</mdw-icon>
-        <mdw-icon class="mdw-year-previous" ${previousYearOutOfRange ? 'disabled' : ''}>chevron_left</mdw-icon>
+        <div class="mdw-month-next mdw-icon-svg" ${nextMonthOutOfRange ? 'disabled' : ''}>${chevronRightSVGRaw}</div>
+        <div class="mdw-year-previous mdw-icon-svg" ${previousYearOutOfRange ? 'disabled' : ''}>${chevronLeftIconSVGRaw}</div>
         <div class="mdw-year-drop-down" ${previousYearOutOfRange && nextYearOutOfRange ? 'disabled' : ''}>
           <div class="mdw-year-label">${dateUtil.getYear(this.#displayDate)}</div>
-          <mdw-icon>arrow_drop_down</mdw-icon>
+          <div class="mdw-icon-svg">${arrowDropDownIconSVGRaw}</div>
         </div>
-        <mdw-icon class="mdw-year-next" ${nextYearOutOfRange ? 'disabled' : ''}>chevron_right</mdw-icon>
+        <div class="mdw-year-next mdw-icon-svg" ${nextYearOutOfRange ? 'disabled' : ''}>${chevronRightSVGRaw}</div>
       </div>
 
       <div class="mdw-month-days-container">
@@ -359,7 +364,7 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
       const outOfRange = isPreviousMinYear || isNextMaxYear;
       return /*html*/`
         <div class="mdw-year-item" ${outOfRange ? 'disabled' : ''} year="${year}">
-          <mdw-icon>check</mdw-icon>
+          <div class="mdw-icon-svg">${checkIconSVGRaw}</div>
           ${year}
         </div>
       `;
@@ -374,7 +379,7 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop exte
       const outOfRange = isPreviousMinMonth || isNextMaxMonth;
       return /*html*/`
         <div class="mdw-month-item" ${outOfRange ? 'disabled' : ''} month="${i + 1}">
-          <mdw-icon>check</mdw-icon>
+          <div class="mdw-icon-svg">${checkIconSVGRaw}</div>
           ${name}
         </div>
       `;

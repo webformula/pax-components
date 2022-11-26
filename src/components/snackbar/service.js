@@ -1,5 +1,7 @@
 import Panel from '../../core/panel.js';
 import util from '../../core/util.js';
+import closeIconSVGRaw from '../../svg-icons/close_FILL1_wght400_GRAD0_opsz24.svg';
+
 
 const MDWSnackbar = new class MDWSnackbar {
   defaultMS = 4000;
@@ -20,7 +22,7 @@ const MDWSnackbar = new class MDWSnackbar {
       <mdw-snackbar ${!params.lineTwo ? '' : 'class="mdw-line-two"'}>
         <div class="mdw-text">${params.message}</div>
         ${!params.actionLabel ? '' : `<mdw-button onclick="MDWSnackbar.dismiss('action')">${params.actionLabel || 'Dismiss'}</mdw-button>`}
-        ${params.actionLabel || !params.closeButton ? '' : `<mdw-icon onclick="MDWSnackbar.dismiss('close')">close</mdw-icon>`}
+        ${params.actionLabel || !params.closeButton ? '' : `<div class="mdw-icon-svg" onclick="MDWSnackbar.dismiss('close')">${closeIconSVGRaw}</div>`}
       </mdw-snackbar>
     `;
     panel.position = 'bottom left';

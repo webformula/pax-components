@@ -4,6 +4,7 @@ import './component.css';
 import Panel from '../../core/panel.js';
 import util from '../../core/util.js';
 import Drag from '../../core/drag.js';
+import chevronLeftIconSVGRaw from '../../svg-icons/arrow_back_ios_FILL1_wght300_GRAD0_opsz24.svg';
 
 
 // TODO expanded card on drag. Look at material guidelines for video
@@ -50,7 +51,7 @@ customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
     } else if (this.#isFullscreen) {
       this.setAttribute('id', this.#id);
       this.setAttribute('mdw-card-id', this.#id);
-      this.insertAdjacentHTML('afterbegin', '  <mdw-icon class="mdw-card-fullscreen-back">arrow_back_ios_new</mdw-icon>');
+      this.insertAdjacentHTML('afterbegin', `  <div class="mdw-card-fullscreen-back">${chevronLeftIconSVGRaw}</div>`);
       this.addEventListener('click', this.#onClick_bound);
     } else if (this.#isExpanding) {
       // expands without going fullscreen

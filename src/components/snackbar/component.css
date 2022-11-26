@@ -25,7 +25,12 @@
 }
 
 :host ::slotted(mdw-icon) {
+  color: var(--mdw-primary-container);
+}
+
+:host ::slotted(.mdw-icon-svg) {
   margin-right: 12px;
   cursor: pointer;
-  color: var(--mdw-primary-container);
+  width: 24px;
+  height: 24px;
 }

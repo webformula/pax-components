@@ -453,8 +453,15 @@ mdw-text-field.mdw-invalid > .mdw-supporting-text {
   color: var(--mdw-error);
 }
 
-mdw-text-field > mdw-icon.mdw-invalid-icon {
-  color: var(--mdw-error);
+mdw-text-field > .mdw-invalid-icon {
+  width: 24px;
+  height: 24px;
+  z-index: 1;
+  align-self: center;
+}
+
+mdw-text-field > .mdw-invalid-icon > svg {
+  fill: var(--mdw-error);
 }
 
 mdw-text-field.mdw-invalid>.mdw-outlined-border-container>.mdw-outlined-leading,

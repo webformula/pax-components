@@ -54,3 +54,17 @@ a {
 a:hover {
   filter: brightness(56%);
 }
+
+.mdw-icon-svg {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.mdw-icon-svg > svg {
+  fill: var(--mdw-on-surface);
+}
+
+mdw-snackbar .mdw-icon-svg > svg {
+  fill: var(--mdw-primary-container);
+}

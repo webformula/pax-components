@@ -1,5 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './component.css';
+import menuIconSVGRaw from '../../svg-icons/menu_FILL1_wght400_GRAD0_opsz24.svg';
+import menuOpenIconSVGRaw from '../../svg-icons/menu_open_FILL1_wght400_GRAD0_opsz24.svg';
 
 
 customElements.define('mdw-navigation-button', class MDWNavigationButton extends HTMLElementExtended {
@@ -43,8 +45,8 @@ customElements.define('mdw-navigation-button', class MDWNavigationButton extends
   template() {
     return /* html */`
       <mdw-button class="mdw-icon-toggle-button">
-        <mdw-icon class="mdw-bold mdw-small" value="on">menu</mdw-icon>
-        <mdw-icon class="mdw-bold mdw-small" value="off">menu_open</mdw-icon>
+        <div class="mdw-menu-icon" value="on">${menuIconSVGRaw}</div>
+        <div class="mdw-menu-open-icon" value="off">${menuOpenIconSVGRaw}</div>
       </mdw-button>
     `;
   }

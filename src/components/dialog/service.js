@@ -1,4 +1,5 @@
 import Panel from '../../core/panel.js'
+import closeIconSVGRaw from '../../svg-icons/close_FILL1_wght400_GRAD0_opsz24.svg';
 
 const MDWDialog = new class MDWDialog {
   #currentDialog;
@@ -60,7 +61,7 @@ const MDWDialog = new class MDWDialog {
     panel.template = `
       <mdw-dialog>
         <div class="mdw-header">
-          <mdw-icon onclick="MDWDialog.close()">close</mdw-icon>
+          <div class="mdw-icon-svg" onclick="MDWDialog.close()">${closeIconSVGRaw}</div>
           <div class="mdw-headline">Headline</div>
           <mdw-button>Save</mdw-button>
         </div>

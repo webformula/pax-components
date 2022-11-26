@@ -43,7 +43,8 @@ mdw-chip-group.mdw-type-filter mdw-chip[checked] {
   color: var(--mdw-on-secondary-container);
 }
 
-mdw-chip mdw-icon {
+mdw-chip mdw-icon,
+mdw-chip .mdw-icon-svg {
   position: relative;
   color: var(--mdw-primary);
   font-size: 18px;
@@ -55,11 +56,13 @@ mdw-chip mdw-icon {
   border-radius: 50%;
 }
 
-mdw-chip mdw-icon:not(.mdw-clear) {
+mdw-chip mdw-icon:not(.mdw-clear),
+mdw-chip .mdw-icon-svg:not(.mdw-clear) {
   pointer-events: none;
 }
 
-mdw-chip mdw-icon:after {
+mdw-chip mdw-icon:after,
+mdw-chip .mdw-icon-svg:after {
   position: absolute;
   content: '';
   top: -3px;
@@ -69,12 +72,14 @@ mdw-chip mdw-icon:after {
   border-radius: 50%;
 }
 
-mdw-chip .mdw-label + mdw-icon {
+mdw-chip .mdw-label + mdw-icon,
+mdw-chip .mdw-label + .mdw-icon-svg {
   margin-left: 8px;
   margin-right: -8px;
 }
 
-mdw-chip-group.mdw-type-input mdw-chip mdw-icon {
+mdw-chip-group.mdw-type-input mdw-chip mdw-icon,
+mdw-chip-group.mdw-type-input mdw-chip .mdw-icon-svg > svg {
   color: var(--mdw-on-surface-variant);
 }
 
@@ -87,7 +92,8 @@ mdw-chip[disabled] {
   box-shadow: none;
 }
 
-mdw-chip[disabled] mdw-icon {
+mdw-chip[disabled] mdw-icon,
+mdw-chip[disabled] .mdw-icon-svg > svg {
   color: var(--mdw-on-surface--38);
 }
 
@@ -106,7 +112,8 @@ mdw-chip-group.mdw-type-filter mdw-chip[checked][disabled] {
     box-shadow: var(--mdw-elevation-2);
   }
 
-  mdw-chip mdw-icon.mdw-clear:hover::after {
+  mdw-chip mdw-icon.mdw-clear:hover::after,
+  mdw-chip .mdw-icon-svg.mdw-clear:hover::after {
     background-color: var(--mdw-on-surface--12);
   }
 }
@@ -116,11 +123,13 @@ mdw-chip:focus::after {
 }
 
 
-mdw-chip mdw-icon.mdw-check {
+mdw-chip mdw-icon.mdw-check,
+mdw-chip .mdw-icon-svg.mdw-check {
   display: none;
 }
 
-mdw-chip-group.mdw-type-filter mdw-chip[checked] mdw-icon.mdw-check {
+mdw-chip-group.mdw-type-filter mdw-chip[checked] mdw-icon.mdw-check,
+mdw-chip-group.mdw-type-filter mdw-chip[checked] .mdw-icon-svg.mdw-check {
   display: unset;
 }
 
@@ -156,7 +165,8 @@ mdw-chip-group.mdw-type-input mdw-chip.mdw-edit input {
 }
 
 mdw-chip-group.mdw-type-input mdw-chip.mdw-edit .mdw-label,
-mdw-chip-group.mdw-type-input mdw-chip.mdw-edit mdw-icon {
+mdw-chip-group.mdw-type-input mdw-chip.mdw-edit mdw-icon,
+mdw-chip-group.mdw-type-input mdw-chip.mdw-edit .mdw-icon-svg {
   display: none;
 }
 

@@ -59,16 +59,16 @@
 }
 
 /* TODO add animations */
-:host(:not(.mdw-icon-toggle-button):not(.mdw-icon-button)) ::slotted(mdw-icon) {
+:host(:not(.mdw-icon-toggle-button):not(.mdw-icon-button)) ::slotted([value]), {
   margin-right: 4px;
   font-size: 20px !important;
 }
 
-:host(.mdw-icon-toggle-button:not([toggled])) ::slotted(mdw-icon[value="on"]) {
+:host(.mdw-icon-toggle-button:not([toggled])) ::slotted([value="on"]) {
   display: none !important;
 }
 
-:host(.mdw-icon-toggle-button[toggled]) ::slotted(mdw-icon[value="off"]) {
+:host(.mdw-icon-toggle-button[toggled]) ::slotted([value="off"]) {
   display: none !important;
 }
 

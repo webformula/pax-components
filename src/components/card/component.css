@@ -292,12 +292,18 @@ mdw-card > .mdw-card-fullscreen-back {
   padding-right: 8px;
   height: 36px;
   border-radius: 50%;
-  color: var(--mdw-surface);
-  text-shadow: 0 0 3px rgba(0,0,0,0.4);
+  /* color: var(--mdw-surface); */
+  /* text-shadow: 0 0 3px rgba(0,0,0,0.4); */
   cursor: pointer;
   pointer-events: none;
   opacity: 0;
   transition: opacity 120ms;
+}
+
+mdw-card > .mdw-card-fullscreen-back > svg {
+  transform: scale(1.1);
+  fill: var(--mdw-surface);
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, .5));
 }
 
 .mdw-panel.mdw-open-animation-target-to-fullscreen mdw-card > .mdw-card-fullscreen-back {
