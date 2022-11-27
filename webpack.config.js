@@ -4,14 +4,13 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 
-
 export default {
   entry: {
     docs: './docs/app.js',
     components: './src/index.js'
   },
   output: {
-    filename: '[name].[contenthash].js'
+    filename: process.env.WEBPACK_SERVE ? '[name].js' : '[name].[contenthash].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -36,7 +35,7 @@ export default {
     historyApiFallback: true,
     historyApiFallback: {
       rewrites: [
-        { from: /bundle\.js/, to: '/bundle.js' },
+        { from: /bundle\.js/, to: '/docs.js' }
       ],
     },
   },
