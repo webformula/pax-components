@@ -19,12 +19,13 @@ export default {
       chunks: ['docs']
     }),
     // new MiniCssExtractPlugin(),
-    new CompressionPlugin({
-      exclude: ['index.html', 'theme.css']
-    }),
+    // new CompressionPlugin({
+    //   exclude: ['index.html', 'theme.css']
+    // }),
     new CopyPlugin({
       patterns: [
-        { from: 'src/theme.css', to: '' }
+        { from: 'src/theme.css', to: '' },
+        { from: 'docs/favicon.ico', to: '' }
       ]
     })
   ],
