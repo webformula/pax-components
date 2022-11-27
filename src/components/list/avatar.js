@@ -1,5 +1,5 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import styleAsString from '!!css-loader!./avatar.css?raw';
+import styleAsString from '!!raw-loader!./avatar.css';
 
 
 customElements.define('mdw-avatar', class MDWAvatar extends HTMLElementExtended {

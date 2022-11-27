@@ -1,7 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import util from '../../core/util.js'
 import Ripple from '../../core/Ripple.js';
-import styleAsString from '!!css-loader!./component.css?raw';
+import styleAsString from '!!raw-loader!./component.css';
 
 
 customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExtended {

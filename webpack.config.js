@@ -1,19 +1,33 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 
 
 export default {
-  entry: './docs/app.js',
+  entry: {
+    docs: './docs/app.js',
+    components: './src/index.js'
+  },
   output: {
-    filename: 'bundle.[contenthash].js'
+    filename: '[name].[contenthash].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './docs/index.html'
+      template: './docs/index.html',
+      chunks: ['docs']
     }),
-    new CompressionPlugin()
+    // new MiniCssExtractPlugin(),
+    new CompressionPlugin({
+      exclude: ['index.html', 'theme.css']
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/theme.css', to: '' }
+      ]
+    })
   ],
   devServer: {
     static: {
@@ -28,9 +42,13 @@ export default {
   },
   module: {
     rules: [
+      // {
+      //   test: /^((?!theme).)*\.css$/i,
+      //   use: [MiniCssExtractPlugin.loader, "css-loader"]
+      // },
       {
         test: /^((?!theme).)*\.css$/i,
-        use: ["style-loader", "css-loader"]
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.html$/,

@@ -1,5 +1,5 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import styleAsString from '!!css-loader!./component.css?raw';
+import styleAsString from '!!raw-loader!./component.css';
 
 // TODO align at end of button with text
 

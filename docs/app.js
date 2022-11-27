@@ -1,3 +1,4 @@
+import './font.css';
 import './dracula.css';
 import './main.css';
 import { MDWUtil } from '@webformula/pax-components';

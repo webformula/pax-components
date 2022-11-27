@@ -1,6 +1,6 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import Ripple from '../../core/Ripple.js';
-import styleAsString from '!!css-loader!./component.css?raw';
+import styleAsString from '!!raw-loader!./component.css';
 import util from '../../core/util.js';
 
 // TODO form submit

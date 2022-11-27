@@ -1,6 +1,6 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import Drag from '../../core/drag.js';
-import styleAsString from '!!css-loader!./slider-range.css?raw';
+import styleAsString from '!!raw-loader!./slider-range.css';
 
 customElements.define('mdw-slider-range', class MDWSliderRange extends HTMLElementExtended {
   useShadowRoot = true;
