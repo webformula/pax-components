@@ -1,0 +1,114 @@
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Forms</div>
+    <div class="mdw-supporting-text">Below are some example of forms.</div>
+  </div>
+  <div class="mdw-card-content">
+  </div>
+</mdw-card>
+
+<p>This section contains component attributes, token mappings, and default values for quick reference or building your</p>
+
+<div class="links">
+  <a href="#standard">Standard</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card id="standard">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Basic errors and hints</div>
+      <div class="mdw-subhead">Form validation uses the browsers built features to handle all validations. <a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation">MDN: Client-side form validation</a></div>
+      <p style="margin-top: 16px; margin-bottom: 42px;">To submit a form you can add an <b>mdw-button[type="submit"]</b> component. This will hook it up to the form element, acting the same as a standard html button. The <b>mdw-button[onclick]</b> attribute / event will only fire if the form is valid.</p>
+
+      <div class="example">
+        <form style="display: flex; flex-direction: column; gap: 18px; max-width: 280px">
+          <mdw-text-field>
+            <input required>
+            <label>One (required)</label>
+            <div class="mdw-supporting-text"></div>
+          </mdw-text-field>
+
+          <mdw-text-field>
+            <input>
+            <label>Two</label>
+            <div class="mdw-supporting-text">Has hint, not required</div>
+          </mdw-text-field>
+
+          <mdw-text-field>
+            <input required>
+            <label>Three</label>
+            <div class="mdw-supporting-text">Has hint, is required</div>
+          </mdw-text-field>
+
+          <mdw-text-field>
+            <input required>
+            <label>Four (required)</label>
+            <div class="mdw-supporting-text mdw-disable-default">Custom error, default disabled</div>
+          </mdw-text-field>
+
+          <mdw-text-field>
+            <input required pattern="[A-Za-z0-9]{2}">
+            <label>Five (required)</label>
+            <div class="mdw-supporting-text">Required pattern. Min length 2.</div>
+          </mdw-text-field>
+
+          <mdw-text-field>
+            <input required pattern="[A-Za-z0-9]{2}">
+            <label>Six (required)</label>
+            <div class="mdw-supporting-text mdw-disable-default">Same as above, with default disabled</div>
+          </mdw-text-field>
+
+          <mdw-button type="submit" onclick="console.log('this logs when form is valid');" style="align-self: start;">Submit</mdw-button>
+        </form>
+      </div>
+    </div>
+
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<form style="display: flex; flex-direction: column; gap: 18px; max-width: 280px">
+    <mdw-text-field>
+      <input required>
+      <label>One (required)</label>
+      <div class="mdw-supporting-text"></div>
+    </mdw-text-field>
+  
+    <mdw-text-field>
+      <input>
+      <label>Two</label>
+      <div class="mdw-supporting-text">Has hint, not required</div>
+    </mdw-text-field>
+  
+    <mdw-text-field>
+      <input required>
+      <label>Three</label>
+      <div class="mdw-supporting-text">Has hint, is required</div>
+    </mdw-text-field>
+  
+    <mdw-text-field>
+      <input required>
+      <label>Four (required)</label>
+      <div class="mdw-supporting-text mdw-disable-default">Custom error, default disabled</div>
+    </mdw-text-field>
+  
+    <mdw-text-field>
+      <input required pattern="[A-Za-z0-9]{2}">
+      <label>Five (required)</label>
+      <div class="mdw-supporting-text">Required pattern. Min length 2.</div>
+    </mdw-text-field>
+  
+    <mdw-text-field>
+      <input required pattern="[A-Za-z0-9]{2}">
+      <label>Six (required)</label>
+      <div class="mdw-supporting-text mdw-disable-default">Same as above, with default disabled</div>
+    </mdw-text-field>
+  
+    <mdw-button type="submit" onclick="console.log('this logs when form is valid');" style="align-self: start;">Submit
+    </mdw-button>
+  </form>`)}
+      </code>
+    </pre>
+  </mdw-card>
+</section>

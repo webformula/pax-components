@@ -12,8 +12,10 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   #mouseUp_bound = this.#mouseup.bind(this);
   #handleToggle_bound = this.#handleToggle.bind(this);
   #isAsync = this.classList.contains('mdw-async');
+  #isSubmit = this.getAttribute('type') === 'submit';
   #toggled = false;
   #ripple;
+  #formValidationClick_bound = this.#formValidationClick.bind(this);
 
   constructor() {
     super();
@@ -51,6 +53,7 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
     if (this.classList.contains('mdw-icon-toggle-button')) {
       this.addEventListener('click', this.#handleToggle_bound);
     }
+    if (this.#isSubmit) this.addEventListener('click', this.#formValidationClick_bound, true);
     setTimeout(() => {
       this.#ripple = new Ripple({
         element: this.shadowRoot.querySelector('.mdw-ripple'),
@@ -88,6 +91,27 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
     this.#toggled = !this.#toggled;
     if (this.#toggled === true) this.setAttribute('toggled', '');
     else this.removeAttribute('toggled');
+  }
+
+  #formValidationClick(event) {
+    const form = this.#getParentFormElement(event.target);
+    if (!form) return;
+
+    const isValid = form.reportValidity();
+    if (isValid === true) return;
+    
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    event.stopPropagation();
+  }
+
+  #getParentFormElement(child) {
+    let node = child.parentNode;
+    while (node != null) {
+      if (node.nodeName === 'BODY') return;
+      if (node.nodeName === 'FORM') return node;
+      node = node.parentNode;
+    }
   }
 
   template() {

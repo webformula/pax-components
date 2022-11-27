@@ -28,6 +28,7 @@ import icon from './pages/icon/page.js';
 import lists from './pages/lists/page.js';
 import tabs from './pages/tabs/page.js';
 import chips from './pages/chips/page.js';
+import forms from './pages/forms/page.js';
 
 
 window.escapeHTML = str => {
@@ -64,6 +65,7 @@ registerPage(icon, '/icon');
 registerPage(lists, '/lists');
 registerPage(tabs, '/tabs');
 registerPage(chips, '/chips');
+registerPage(forms, '/forms');
 
 
 

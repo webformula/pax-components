@@ -56,4 +56,6 @@ export {
 }
 
 // TODO change switch to input
-// TODO figure out how to get rid of iframes
+
+// TODO figure out how to get rid of iframes. Currently a redirect statement needs to be added to s3 for js file.
+//   An alternate strategy would be to add a custom build pipeline for the external html files, to rewrite the src url.

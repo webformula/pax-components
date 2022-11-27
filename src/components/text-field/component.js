@@ -168,8 +168,8 @@ customElements.define('mdw-text-field', class MDWTextField extends HTMLElementEx
 
   #updateInputValidity(invalid = false) {
     const input = this.querySelector('input');
-    const supportingTextElement = this.querySelector('.mdw-supporting-text');
-    const invalidIcon = this.querySelector('mdw-icon.mdw-invalid-icon');
+    const supportingTextElement = this.querySelector('.mdw-supporting-text:not(.mdw-disable-default)');
+    const invalidIcon = this.querySelector('.mdw-invalid-icon');
     
     if (invalid) {
       this.classList.add('mdw-invalid');

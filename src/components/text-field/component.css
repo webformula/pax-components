@@ -8,7 +8,7 @@ mdw-text-field {
   margin-bottom: 22px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-  width: 200px;
+  /* min-width: 200px; */
 }
 
 mdw-text-field:after {
@@ -151,7 +151,8 @@ mdw-text-field > input::placeholder {
 
 mdw-text-field label {
   transform-origin: left top;
-  animation: mdw-text-field-label-reverse 150ms cubic-bezier(.4, 0, .2, 1);
+  animation: mdw-text-field-label-reverse 164ms;
+  animation-timing-function: var(--mdw-transition-expand-in);
 }
 
 mdw-text-field.mdw-raise-label label,
@@ -160,16 +161,19 @@ mdw-text-field > input:not([placeholder=" "])+label,
 mdw-text-field > input:not(:placeholder-shown) + label {
   font-size: var(--mdw-font-size-small-body);
   top: 4px;
-  animation: mdw-text-field-label 150ms cubic-bezier(.4, 0, .2, 1);
+  animation: mdw-text-field-label 164ms;
+  animation-timing-function: var(--mdw-transition-expand-in);
 }
 
 mdw-text-field.mdw-outlined label {
   transform-origin: left top;
-  animation: mdw-text-field-label-outlined-reverse 150ms cubic-bezier(.4, 0, .2, 1);
+  animation: mdw-text-field-label-outlined-reverse 164ms;
+  animation-timing-function: var(--mdw-transition-expand-in);
 }
 mdw-text-field.mdw-outlined > mdw-icon + input + label {
   transform-origin: left top;
-  animation: mdw-text-field-label-outlined-reverse-icon 150ms cubic-bezier(.4, 0, .2, 1);
+  animation: mdw-text-field-label-outlined-reverse-icon 164ms;
+  animation-timing-function: var(--mdw-transition-expand-in);
 }
 
 mdw-text-field.mdw-outlined.mdw-raise-label label,
@@ -179,7 +183,8 @@ mdw-text-field.mdw-outlined>input:not(:placeholder-shown)+label {
   font-size: var(--mdw-font-size-small-body);
   top: -12px;
   left: 14px;
-  animation: mdw-text-field-label-outlined 150ms cubic-bezier(.4, 0, .2, 1);
+  animation: mdw-text-field-label-outlined 164ms;
+  animation-timing-function: var(--mdw-transition-expand-in);
 }
 
 mdw-text-field.mdw-outlined.mdw-raise-label > mdw-icon + input + label,
@@ -189,7 +194,8 @@ mdw-text-field.mdw-outlined > mdw-icon + input:not(:placeholder-shown) + label {
   font-size: var(--mdw-font-size-small-body);
   top: -12px;
   left: -22px;
-  animation: mdw-text-field-label-outlined-icon 150ms cubic-bezier(.4, 0, .2, 1);
+  animation: mdw-text-field-label-outlined-icon 164ms;
+  animation-timing-function: var(--mdw-transition-expand-in);
 }
 
 mdw-text-field.mdw-preload label {
@@ -207,7 +213,7 @@ mdw-text-field.mdw-preload label {
   100% {
     top: 7px;
     font-size: var(--mdw-font-size-large-body);
-    transform: scale(0.777777);
+    transform: scale(0.8);
   }
 }
 
@@ -215,7 +221,7 @@ mdw-text-field.mdw-preload label {
   0% {
     top: 7px;
     font-size: var(--mdw-font-size-large-body);
-    transform: scale(0.777777);
+    transform: scale(0.8);
   }
 
   100% {
@@ -238,7 +244,7 @@ mdw-text-field.mdw-preload label {
     top: -9px;
     left: 14px;
     font-size: var(--mdw-font-size-large-body);
-    transform: scale(0.777777);
+    transform: scale(0.8);
   }
 }
 
@@ -254,7 +260,7 @@ mdw-text-field.mdw-preload label {
     top: -9px;
     left: -22px;
     font-size: var(--mdw-font-size-large-body);
-    transform: scale(0.777777);
+    transform: scale(0.8);
   }
 }
 
@@ -263,7 +269,7 @@ mdw-text-field.mdw-preload label {
     top: -9px;
     left: 14px;
     font-size: var(--mdw-font-size-large-body);
-    transform: scale(0.777777);
+    transform: scale(0.8);
   }
 
   100% {
@@ -279,7 +285,7 @@ mdw-text-field.mdw-preload label {
     top: -9px;
     left: -22px;
     font-size: var(--mdw-font-size-large-body);
-    transform: scale(0.777777);
+    transform: scale(0.8);
   }
 
   100% {
@@ -293,7 +299,7 @@ mdw-text-field.mdw-preload label {
 
 mdw-text-field > .mdw-supporting-text {
   position: absolute;
-  bottom: -22px;
+  top: 48px;
 
   font-size: var(--mdw-font-size-small-body);
   font-weight: var(--mdw-font-weight-small-body);
