@@ -3,7 +3,7 @@ import Ripple from '../../core/Ripple.js';
 import styleAsString from '!!raw-loader!./component.css';
 import util from '../../core/util.js';
 
-// TODO form submit
+
 // TODO fix ripple when in panel. Look at date picker cancel
 
 customElements.define('mdw-button', class MDWButton extends HTMLElementExtended {
@@ -53,6 +53,7 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
     if (this.classList.contains('mdw-icon-toggle-button')) {
       this.addEventListener('click', this.#handleToggle_bound);
     }
+    
     if (this.#isSubmit) this.addEventListener('click', this.#formValidationClick_bound, true);
     setTimeout(() => {
       this.#ripple = new Ripple({
@@ -98,7 +99,8 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
     if (!form) return;
 
     const isValid = form.reportValidity();
-    if (isValid === true) return;
+    if (form.method === 'dialog' && isValid === true) form.submit();
+    else if (isValid === true) return;
     
     event.preventDefault();
     event.stopImmediatePropagation();

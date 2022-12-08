@@ -4,7 +4,7 @@ import './component.css';
 import util from '../../core/util.js';
 
 
-// TODO look into other wars of preventing body from scrolling
+// TODO look into other ways of preventing body from scrolling
 //   There is some bugs on ios safari with bottom url bar
 //   could try locking the scroll to the body. Right now it is scrolling on html. We want to see if we can maintain address bar behavior
 
