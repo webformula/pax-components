@@ -1,41 +1,89 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import util from '../../core/util.js';
 import './component.css';
+import util from '../../core/util.js';
 
-// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
-// TODO look into using the dialog component
-// TODO align events and naming with dialog
 
-customElements.define('mdw-dialog', class MDWDialog extends HTMLElementExtended {
+// TODO esc
+// TODO fullscreen
+
+customElements.define('mdw-dialog', class MDWDialog2 extends HTMLElementExtended {
   useShadowRoot = false;
 
-  #scrollHandler_bound = util.rafThrottle(this.#scrollHandler).bind(this);
+  #backdropElement;
+  #clickBackdropClose = false;
+  #returnValue;
+  #backDropIsRemoving = false;
+  #backdropClickHandler_bound = this.#backdropClickHandler.bind(this)
 
   constructor() {
     super();
-
-    this.setAttribute('role', 'dialog');
-
-    // aria-labelledby
-    // aria-describedby
   }
 
   connectedCallback() {
-    if (this.#isFullscreen()) {
-      setTimeout(() => {
-        const scrollTarget = this.querySelector(':scope > .mdw-content');
-        if (scrollTarget) scrollTarget.addEventListener('scroll', this.#scrollHandler_bound);
-      }, 0);
-    }
+    this.setAttribute('role', 'dialog');
   }
 
-  #isFullscreen() {
-    if (this.classList.contains('mdw-fullscreen')) return true;
-    if (this?.parentNode?.parentNode?.classList.contains('mdw-fullscreen')) return true;
-    return false;
+  get open() {
+    return this.hasAttribute('open');
   }
 
-  #scrollHandler(event) {
-    this.classList.toggle('mdw-scrolled', event.target.scrollTop > 0);
+  get clickBackdropClose() {
+    return this.#clickBackdropClose;
+  }
+  set clickBackdropClose(value) {
+    this.#clickBackdropClose = value;
+  }
+
+  get returnValue() {
+    return this.#returnValue;
+  }
+
+  disconnectedCallback() {
+    this.#removeBackdrop();
+  }
+
+
+  show(backdrop = true) {
+    if (this.open === true) return;
+
+    if (backdrop) this.#addBackdrop();
+    this.setAttribute('open', '');
+  }
+
+  close(returnValue) {
+    if (this.open !== true) return;
+
+    this.removeAttribute('open');
+    this.#removeBackdrop();
+    this.#returnValue = returnValue;
+    this.dispatchEvent(new Event('close'));
+  }
+
+  #addBackdrop() {
+    this.#backdropElement = document.createElement('div');
+    this.#backdropElement.classList.add('mdw-dialog-backdrop');
+    this.insertAdjacentElement('beforebegin', this.#backdropElement);
+    if (this.#clickBackdropClose === true) this.#backdropElement.addEventListener('click', this.#backdropClickHandler_bound);
+
+    setTimeout(() => {
+      this.#backdropElement.style.opacity = 1;
+    }, 10);
+  }
+
+  async #removeBackdrop() {
+    if (!this.#backdropElement || this.#backDropIsRemoving === true) return;
+    this.#backDropIsRemoving = true;
+
+    this.#backdropElement.removeEventListener('click', this.#backdropClickHandler_bound);
+    this.#backdropElement.style.opacity = 0;
+
+    await util.transitionendAsync(this.#backdropElement);
+
+    this.#backdropElement.remove();
+    this.#backdropElement = undefined;
+  }
+
+  #backdropClickHandler() {
+    this.close();
   }
 });

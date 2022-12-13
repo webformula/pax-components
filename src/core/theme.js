@@ -45,6 +45,17 @@ export function generate() {
     // document.documentElement.style.setProperty(`${name}--80`, `${value}cc`);
     // document.documentElement.style.setProperty(`${name}--87`, `${value}de`);
     // document.documentElement.style.setProperty(`${name}--90`, `${value}e6`);
+
+    // // ::backdrop does not inherit from root, so me need to set variable directly for use
+    // if (name === '--mdw-scrim') {
+    //   const styleSheet = document.createElement('style');
+    //   styleSheet.innerText = `
+    //     ::backdrop {
+    //       background: ${value}29;
+    //     }
+    //   `;
+    //   document.head.appendChild(styleSheet);
+    // }
   });
 
   // this can only run once

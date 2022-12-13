@@ -16,10 +16,8 @@ basic and full-screen.</p>
 <div class="links">
   <a href="#simple">Simple</a>
   <a href="#template">Template</a>
-  <a href="#fullscreen">Fullscreen</a>
   <a href="#response">Response</a>
 </div>
-
 
 <section>
   <h4>Types</h4>
@@ -60,13 +58,11 @@ basic and full-screen.</p>
     <pre>
       <code class="language-html">
   ${escapeHTML(`// templateString
-  <mdw-dialog>
-    <div class="mdw-header">Headline</div>
-    <div class="mdw-content">Here is some content for the dialog.</div>
-    <div class="mdw-actions">
-      <mdw-button onclick="MDWDialog.close()">Close</mdw-button>
-    </div>
-  </mdw-dialog>`)}
+  <div class="mdw-header">Headline</div>
+  <div class="mdw-content">Here is some content for the dialog.</div>
+  <div class="mdw-actions">
+    <mdw-button onclick="MDWDialog.close()">Close</mdw-button>
+  </div>`)}
       </code>
     </pre>
     <pre>
@@ -79,57 +75,9 @@ basic and full-screen.</p>
   </mdw-card>
 
 
-  <mdw-card id="fullscreen">
-    <div class="mdw-card-content">
-      <div class="mdw-headline">Fullscreen dialog</div>
-      
-      <div class="example">
-        <div>When using fullscreen with screens larger than 600px, the dialog will auto switch to not be fullscreen</div>
-        <mdw-button onclick="page.openFullscreen()">Open</mdw-button>
-      </div>
-    </div>
-
-    <pre>
-      <code class="language-html">
-  ${escapeHTML(`// templateString
-  <mdw-dialog>
-    <div class="mdw-header">
-      <mdw-icon onclick="MDWDialog.close()">close</mdw-icon>
-      <div class="mdw-headline">Headline</div>
-      <mdw-button>Save</mdw-button>
-    </div>
-    <div class="mdw-content">
-      <mdw-text-field style="width: 100%">
-        <input>
-        <label>First name</label>
-      </mdw-text-field>
-      <mdw-text-field style="width: 100%">
-        <input>
-        <label>Last name</label>
-      </mdw-text-field>
-  
-      <div class="mdw-supporting-text">
-        
-        ...
-        
-      </div>
-    </div>
-  </mdw-dialog>`)}
-      </code>
-    </pre>
-    <pre>
-      <code class="language-javascript">
-  MDWDialog.fullscreen({
-    template: templateString
-  });
-      </code>
-    </pre>
-  </mdw-card>
-
-
   <mdw-card id="response">
     <div class="mdw-card-content">
-      <div class="mdw-headline">Template dialog</div>
+      <div class="mdw-headline">Dialog response</div>
       
       <div class="example">
         <mdw-button onclick="page.openTemplate()">Open</mdw-button>
@@ -160,3 +108,98 @@ basic and full-screen.</p>
     </pre>
   </mdw-card>
 </section>
+
+<mdw-dialog>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+</mdw-dialog>
+
+<dialog>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+  <div>div</div>
+
+  <form method="dialog">
+    <mdw-button type="submit">ok</mdw-button>
+  </form>
+</dialog>

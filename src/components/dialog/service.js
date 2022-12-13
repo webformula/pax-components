@@ -1,5 +1,5 @@
-import Panel from '../../core/panel.js'
-import closeIconSVGRaw from '../../svg-icons/close_FILL1_wght400_GRAD0_opsz24.svg';
+import util from '../../core/util.js';
+
 
 const MDWDialog = new class MDWDialog {
   #currentDialog;
@@ -9,99 +9,91 @@ const MDWDialog = new class MDWDialog {
   simple(params = {
     headline: '',
     message: '',
-    actionPositive: true,
-    actionPositiveLabel: 'OK',
-    actionNegative: false,
-    actionNegativeLabel: 'Cancel'
+    backdrop: true,
+    clickBackdropClose: false,
+    actionConfirm: true,
+    actionConfirmLabel: 'OK',
+    actionCancel: false,
+    actionCancelLabel: 'Cancel'
   }) {
-    const panel = new Panel();
+    if (this.#currentDialog) throw Error('Cannot create dialog while one exists');
 
-    const actionPositive = params.actionPositive || true;
-    const actionPositiveLabel = params.actionPositiveLabel || 'OK';
-    const actionNegative = params.actionNegative || false;
-    const actionNegativeLabel = params.actionNegativeLabel || 'Cancel';
+    const actionConfirm = params.actionConfirm === undefined ? true : params.actionConfirm;
+    const actionCancel = params.actionCancel || false;
+    const element = document.createElement('mdw-dialog');
+    element.clickBackdropClose = params.clickBackdropClose;
+    element.insertAdjacentHTML('afterbegin', `
+      ${!params.headline ? '' : `<div class="mdw-header">${params.headline}</div>`}
+      <div class="mdw-content">${params.message || ''}</div>
+      ${actionConfirm || actionCancel ? `<div class="mdw-actions">
+        ${actionConfirm === true ? `<mdw-button onclick="MDWDialog.close('confirm')">${params.actionConfirmLabel || 'OK'}</mdw-button>` : ''}
+        ${actionCancel === true ? `<mdw-button onclick="MDWDialog.close('negative')">${params.actionCancelLabel || 'Cancel'}</mdw-button>` : ''}
+      </div>` : ''}
+    `);
 
-    panel.template = `
-      <mdw-dialog>
-        ${!params.headline ? '' : `<div class="mdw-header">${params.headline}</div>`}
-        <div class="mdw-content">${params.message || ''}</div>
-        ${actionNegative !== true && actionPositive !== true ? '' : `<div class="mdw-actions">
-          ${actionPositive !== true ? '' : `<mdw-button onclick="MDWDialog.close('positive')">${actionPositiveLabel || 'OK'}</mdw-button>`}
-          ${actionNegative !== true ? '' : `<mdw-button onclick="MDWDialog.close('negative')">${actionNegativeLabel || 'Cancel'}</mdw-button>`}
-        </div>`}
-      </mdw-dialog>
-    `;
+    document.body.appendChild(element);
 
-    panel.show();
+    // for show animation
+    setTimeout(() => {
+      element.show(params.backdrop === undefined ? true : params.backdrop);
+    }, 0);
 
-    this.#currentDialog = panel;
+    this.#currentDialog = element;
     return new Promise(resolve => {
       this.#currentDialogPromiseResolve = resolve;
     });
   }
 
-  template(params = {
-    template: ''
-  }) {
-    const panel = new Panel();
-    panel.template = params.template;
-    panel.show();
+  async close(returnValue) {
+    if (!this.#currentDialog) throw Error('No dialog to close');
 
-    this.#currentDialog = panel;
+    if (this.#currentDialogPromiseResolve) this.#currentDialogPromiseResolve(returnValue);
+    this.#currentDialog.close(returnValue);
+
+    await util.transitionendAsync(this.#currentDialog);
+
+    this.#currentDialog.remove();
+    this.#currentDialog = undefined;
+    this.#currentDialogPromiseResolve = undefined;
+  }
+
+  template(params = {
+    template,
+    backdrop: true,
+    clickBackdropClose: false,
+  }) {
+    if (this.#currentDialog) throw Error('Cannot create dialog while one exists');
+
+    const element = document.createElement('mdw-dialog');
+    element.clickBackdropClose = params.clickBackdropClose;
+    element.insertAdjacentHTML('afterbegin', params.template);
+
+    document.body.appendChild(element);
+
+    // for show animation
+    setTimeout(() => {
+      element.show(params.backdrop === undefined ? true : params.backdrop);
+    }, 0);
+
+    this.#currentDialog = element;
     return new Promise(resolve => {
       this.#currentDialogPromiseResolve = resolve;
     });
   }
   
-  fullscreen(params = {
-    template: ''
-  }) {
-    const panel = new Panel();
-    panel.template = params.template;
-//     panel.template = `
-//       <mdw-dialog>
-//         <div class="mdw-header">
-//           <div class="mdw-icon-svg" onclick="MDWDialog.close()">${closeIconSVGRaw}</div>
-//           <div class="mdw-headline">Headline</div>
-//           <mdw-button>Save</mdw-button>
-//         </div>
-//         <div class="mdw-content">
-//           <mdw-text-field style="width: 100%">
-//             <input>
-//             <label>First name</label>
-//           </mdw-text-field>
-//           <mdw-text-field style="width: 100%">
-//             <input>
-//             <label>Last name</label>
-//           </mdw-text-field>
-
-//           <div class="mdw-supporting-text">
-//           Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-// The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-//           </div>
-//         </div>
-//       </mdw-dialog>
-//     `;
-    panel.fullScreen = true;
-    panel.show();
+  // fullscreen(params = {
+  //   template: ''
+  // }) {
+  //   const panel = new Panel();
+  //   panel.template = params.template;
+  //   panel.fullScreen = true;
+  //   panel.show();
     
-    this.#currentDialog = panel;
-    return new Promise(resolve => {
-      this.#currentDialogPromiseResolve = resolve;
-    });
-  }
-
-
-
-  close(message) {
-    if (!this.#currentDialog) throw Error('No dialog to close');
-    if (this.#currentDialogPromiseResolve) this.#currentDialogPromiseResolve(message);
-    this.#currentDialog.hide();
-
-    this.#currentDialog = undefined;
-    this.#currentDialogPromiseResolve = undefined;
-  }
+  //   this.#currentDialog = panel;
+  //   return new Promise(resolve => {
+  //     this.#currentDialogPromiseResolve = resolve;
+  //   });
+  // }
 }
 
 window.MDWDialog = MDWDialog;
