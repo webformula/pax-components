@@ -3,6 +3,9 @@ import util from '../../core/util.js';
 import './component.css';
 import errorIconSVGString from '../../svg-icons/error_FILL1_wght400_GRAD0_opsz24.svg';
 
+
+// TODO fix error icon
+
 const handleReportValidityScrollIntoView = util.debounce(input => {
   // check if already on screen
   const bounds = input.getBoundingClientRect();

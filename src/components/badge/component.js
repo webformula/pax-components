@@ -43,7 +43,6 @@ customElements.define('mdw-badge', class MDWBadge extends HTMLElementExtended {
   }
 
   #slotChange() {
-    console.log('slotChange')
     this.value = this.innerHTML;
   }
 

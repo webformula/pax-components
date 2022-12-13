@@ -42,6 +42,7 @@ import './components/time-picker/component.js';
 import './components/month-picker/component.js';
 import './components/tabs/component.js';
 import './components/chips/component.js';
+import './components/form/component.js';
 
 setTimeout(() => {
   document.querySelector('html').classList.add('mdw-initiated');

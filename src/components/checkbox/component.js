@@ -22,6 +22,13 @@ customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExten
     this.shadowRoot.querySelector('input').value = v;
   }
 
+  get name() {
+    return this.getAttribute('name');
+  }
+  get type() {
+    return 'checkbox';
+  }
+
   get checked() {
     return this.shadowRoot.querySelector('input').checked;
   }
@@ -48,6 +55,7 @@ customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExten
   }
 
   connectedCallback() {
+    this.setAttribute('role', 'checkbox');
     this.render();
   }
 
@@ -78,9 +86,10 @@ customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExten
   }
 
   template() {
+    const name = this.getAttribute('name');
     return /* html */`
       <label for="${this.#inputId}">
-        <input type="checkbox" tabIndex="0" id="${this.#inputId}">
+        <input type="checkbox" ${!name ? '' : `name="${name}"`} tabIndex="0" id="${this.#inputId}">
         <div class="mdw-background">
           <svg version="1.1" focusable="false" viewBox="0 0 24 24">
             <path fill="none" stroke="white" d="M4.1,12.7 9,17.6 20.3,6.3" ></path>
