@@ -10,8 +10,8 @@ export default new class extends Page {
     return this.renderTemplateString(html);
   }
 
-  connectedCallback() {
-    // document.querySelector('#autocomplete-text-field').autocomplete = 'autocomplete';
-    // document.querySelector('#require-custom').setCustomValidity('Custom error message');
+  afterRender() {
+    document.querySelector('#autocomplete-textfield').autocomplete = 'autocomplete';
+    document.querySelector('#require-custom').setCustomValidity('Custom error message');
   }
 }
