@@ -6,8 +6,8 @@ import CompressionPlugin from 'compression-webpack-plugin';
 
 export default {
   entry: {
-    docs: './docs/app.js',
-    components: './src/index.js'
+    docs: './docs2/app.js',
+    components: './src2/index.js'
   },
   output: {
     filename: process.env.WEBPACK_SERVE ? '[name].js' : '[name].[contenthash].js'
@@ -15,7 +15,7 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './docs/index.html',
+      template: './docs2/index.html',
       chunks: ['docs']
     }),
     // new MiniCssExtractPlugin(),
@@ -24,14 +24,14 @@ export default {
     // }),
     new CopyPlugin({
       patterns: [
-        { from: 'src/theme.css', to: '' },
-        { from: 'docs/favicon.ico', to: '' }
+        { from: 'src2/theme.css', to: '' },
+        { from: 'docs2/favicon.ico', to: '' }
       ]
     })
   ],
   devServer: {
     static: {
-      directory: './docs'
+      directory: './docs2'
     },
     historyApiFallback: true,
     historyApiFallback: {

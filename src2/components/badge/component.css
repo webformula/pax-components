@@ -1,0 +1,40 @@
+:host {
+  align-self: flex-start;
+  display: flex;
+  width: 0;
+  height: 0;
+  margin-top: 6px;
+}
+
+:host-context(.mdw-icon-button),
+:host-context(mdw-icon) {
+  position: absolute;
+  left: calc(50% + 5px);
+  top: 10px;
+  margin-top: 0;
+}
+
+:host > .mdw-content {
+  display: block;
+  position: absolute;
+  padding: 2px;
+  min-height: 2px;
+  min-width: 2px;
+  border-radius: 8px;
+  
+  background-color: var(--mdw-error);
+
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 1;
+  letter-spacing: var(--mdw-font-letter-spacing-small-label);
+  
+  color: var(--mdw-on-error);
+}
+
+
+:host(.mdw-contains-value) {
+  top: 3px;
+  margin-top: 2px;
+  left: calc(50% - 2px);
+}

@@ -1,0 +1,199 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  user-select: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+
+  padding: 0 16px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: var(--mdw-button-radius);
+
+  color: var(--mdw-primary);
+}
+
+/* font size adjusted in components/icon/component.css */
+:host ::slotted(mdw-icon) {
+  vertical-align: middle;
+  margin-top: -4px;
+  margin-right: 2px;
+  margin-left: -2px;
+}
+
+:host ::slotted(mdw-icon.mdw-trailing) {
+  margin-right: -2px;
+  margin-left: 2px;
+}
+
+:host([disabled]) {
+  pointer-events: none;
+  cursor: unset;
+  color: var(--mdw-on-surface);
+  opacity: 0.38;
+}
+
+/* state layer */
+:host::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  border-radius: var(--mdw-button-radius);
+}
+:host(:focus)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-on-surface);
+}
+
+
+:host(.mdw-async-pending) {
+  pointer-events: none;
+}
+:host(.mdw-async-pending) .text {
+  opacity: 0;
+}
+:host(.mdw-async) > .spinner {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+
+/* --- Types --- */
+
+:host(.mdw-filled) {
+  color: var(--mdw-on-primary);
+  background-color: var(--mdw-primary);
+}
+:host([disabled].mdw-filled) {
+  pointer-events: none;
+  cursor: unset;
+  background-color: var(--mdw-on-surface--12);
+  color: var(--mdw-on-surface--38);
+  box-shadow: none;
+}
+/* state layer */
+:host(:focus.mdw-filled)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-primary);
+}
+
+:host(.mdw-elevated) {
+  background-color: var(--mdw-surface);
+  box-shadow: var(--mdw-elevation-1);
+}
+:host([disabled].mdw-elevated) {
+  pointer-events: none;
+  cursor: unset;
+  background-color: var(--mdw-on-surface--12);
+  color: var(--mdw-on-surface--38);
+  box-shadow: none;
+}
+/* state layer */
+:host(:focus.mdw-elevated)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-primary);
+}
+
+:host(.mdw-filled-tonal) {
+  color: var(--mdw-on-secondary-container);
+  background-color: var(--mdw-secondary-container);
+}
+:host([disabled].mdw-filled-tonal) {
+  pointer-events: none;
+  cursor: unset;
+  background-color: var(--mdw-on-surface--12);
+  color: var(--mdw-on-surface--38);
+  box-shadow: none;
+}
+/* state layer */
+:host(:focus.mdw-filled-tonal)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-primary);
+}
+
+:host(.mdw-outlined) {
+  color: var(--mdw-primary);
+  background-color: var(--mdw-surface);
+  border: 1px solid var(--mdw-outline);
+}
+:host([disabled].mdw-outlined) {
+  pointer-events: none;
+  cursor: unset;
+  color: var(--mdw-on-surface--38);
+  border: 1px solid var(--mdw-on-surface--12);
+}
+/* state layer */
+:host(:focus.mdw-outlined)::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-primary);
+}
+
+/* TODO confirm how this should be. This is in spec, but it looks weird
+:host(:active)::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-on-surface);
+} */
+
+
+/* hover state layers. Media needed to prevent hover on mobile */
+@media (hover: hover) {
+  :host(:hover)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-on-surface);
+  }
+  :host(:hover.mdw-elevated)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-primary);
+  }
+  :host(:hover.mdw-filled) {
+    box-shadow: var(--mdw-elevation-1);
+  }
+  :host(:hover.mdw-filled-tonal) {
+    box-shadow: var(--mdw-elevation-1);
+  }
+  :host(:hover.mdw-outlined)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-primary);
+  }
+}
+
+
+
+/* --- Ripple --- */
+
+.ripple {
+  overflow: hidden;
+  border-radius: inherit;
+  transform: translateZ(0);
+  /* fixes bug on ios safari */
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.ripple > .mdw-ripple-element {
+  background-color: var(--mdw-primary--16);
+  border-radius: 50%;
+}
+
+:host(:hover.mdw-filled) .ripple > .mdw-ripple-element {
+  background-color: var(--mdw-on-primary--16);
+}

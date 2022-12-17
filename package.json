@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/webformula/pax-components#readme",
   "devDependencies": {
-    "@webformula/pax-components": "file:./src",
+    "@webformula/pax-components": "file:./src2",
     "@webformula/pax-core": "file:../pax-core",
     "compression-webpack-plugin": "^10.0.0",
     "copy-webpack-plugin": "^11.0.0",
