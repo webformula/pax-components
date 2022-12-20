@@ -14,6 +14,8 @@ import './components/checkbox/component.js';
 import './components/dialog/component.js';
 import './components/icon/component.js';
 import './components/navigation/component.js';
+import './components/progress-circular/component.js';
+import './components/progress-linear/component.js';
 import './components/radio/index.js';
 import './components/slider/index.js';
 import './components/switch/component.js';
