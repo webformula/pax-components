@@ -65,6 +65,7 @@ customElements.define('mdw-textfield', class MDWTextfield extends HTMLElementExt
   }
 
   disconnectedCallback() {
+    const input = this.querySelector('input');
     input.removeEventListener('focus', this.#setNotchWidth_bound);
     input.removeEventListener('blur', this.#unsetNotchWidth_bound);
     input.removeEventListener('invalid', this.#onInvalid_bound);

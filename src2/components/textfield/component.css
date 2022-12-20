@@ -122,7 +122,8 @@ mdw-textfield > input:not(:placeholder-shown) + label {
   animation-timing-function: var(--mdw-transition-expand-in);
 }
 
-mdw-textfield > mdw-icon {
+mdw-textfield > mdw-icon,
+mdw-textfield > .mdw-invalid-icon {
   align-self: center;
   margin-left: -4px;
   margin-right: -4px;
@@ -143,9 +144,13 @@ mdw-textfield > mdw-icon.mdw-input-clear {
 }
 
 mdw-textfield > input + mdw-icon,
+mdw-textfield > input + .mdw-invalid-icon,
 mdw-textfield > .mdw-supporting-text + mdw-icon,
+mdw-textfield > .mdw-supporting-text + .mdw-invalid-icon,
 mdw-textfield > .mdw-autocomplete + mdw-icon,
-mdw-textfield > label + mdw-icon {
+mdw-textfield > .mdw-autocomplete + .mdw-invalid-icon,
+mdw-textfield > label + mdw-icon,
+mdw-textfield > label + .mdw-invalid-icon {
   margin-left: 14px;
 }
 

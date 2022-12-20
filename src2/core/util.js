@@ -37,6 +37,16 @@ const MDWUtil = new class MDWUtil {
       });
     });
   }
+
+  async transitionendAsync(element) {
+    return new Promise(resolve => {
+      function onTransitionend() {
+        element.removeEventListener('transitionend', onTransitionend);
+        resolve();
+      }
+      element.addEventListener('transitionend', onTransitionend);
+    });
+  }
   
   // <div>one<div></div></div> === one
   getTextFromNode(element) {

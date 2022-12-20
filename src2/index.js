@@ -4,12 +4,14 @@ generate();
 
 import MDWUtil from './core/util.js';
 import MDWDevice from './core/device.js';
+import MDWDialog from './components/dialog/service.js';
 
 
 import './components/badge/component.js';
 import './components/button/component.js';
 import './components/card/component.js';
 import './components/checkbox/component.js';
+import './components/dialog/component.js';
 import './components/icon/component.js';
 import './components/navigation/component.js';
 import './components/radio/index.js';
@@ -28,5 +30,6 @@ export {
   // MDWDialog,
   // MDWSnackbar,
   MDWDevice,
+  MDWDialog,
   MDWUtil
 }
