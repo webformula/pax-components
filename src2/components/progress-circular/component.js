@@ -97,6 +97,11 @@ customElements.define('mdw-progress-circular', class MDWProgressCircular extends
           87.5001%  { stroke-dashoffset: ${endValue};    transform: rotateX(180deg) rotate(341.5deg); }
           100%    { stroke-dashoffset: ${startValue};  transform: rotateX(180deg) rotate(341.5deg); }
         }
+
+        :host {
+          width: ${this.#diameter}px;
+          height: ${this.#diameter}px;
+        }
       </style>
       <svg style="width: ${this.#diameter}px; height: ${this.#diameter}px;">
         <circle

@@ -27,7 +27,7 @@ export function generate() {
 
 
   colors.forEach(({ name, value }) => {
-    // document.documentElement.style.setProperty(`${name}--0`, `${value}00`);
+    document.documentElement.style.setProperty(`${name}--0`, `${value}00`);
     // document.documentElement.style.setProperty(`${name}--2`, `${value}05`);
     // document.documentElement.style.setProperty(`${name}--3`, `${value}08`);
     document.documentElement.style.setProperty(`${name}--4`, `${value}0a`);

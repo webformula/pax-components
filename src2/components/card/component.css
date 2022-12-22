@@ -7,7 +7,6 @@ mdw-card {
   box-sizing: border-box;
   background-color: var(--mdw-surface);
   color: var(--mdw-on-surface);
-  z-index: 0;
   outline: none;
   -webkit-tap-highlight-color: transparent;
 

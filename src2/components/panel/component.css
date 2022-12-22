@@ -7,7 +7,6 @@
 */
 
 mdw-panel {
-  display: none;
   display: flex;
   position: fixed;
   flex-direction: column;
@@ -23,9 +22,6 @@ mdw-panel {
   /* transform: translate(-50%, calc(-50% - 120px)); */
   /* kick off screen so pointer events to hit */
   transform: translateY(10000px);
-
-  /* transition: opacity 120ms, transform 280ms; */
-  /* transition-timing-function: var(--mdw-transition-expand-out); */
 
   animation: mdw-panel-hide 280ms;
   animation-timing-function: var(--mdw-transition-expand-out);
@@ -45,8 +41,6 @@ mdw-panel[open] {
   transform: translate(-50%, -50%);
   pointer-events: all;
 
-  /* transition: opacity 120ms, transform 280ms;
-  transition-timing-function: var(--mdw-transition-expand-in); */
   animation: mdw-panel-show 280ms;
   animation-timing-function: var(--mdw-transition-expand-in);
 }
@@ -54,6 +48,24 @@ mdw-panel[open] {
 mdw-panel[open].mdw-target {
   transform: translateY(0);
   animation: mdw-panel-show-target 280ms;
+}
+
+mdw-panel.mdw-animation-scale,
+mdw-panel.mdw-animation-scale.mdw-target {
+  animation: mdw-panel-hide-scale 180ms;
+  transform: scale(0.9);
+}
+
+mdw-panel[open].mdw-animation-scale,
+mdw-panel[open].mdw-animation-scale.mdw-target {
+  animation: mdw-panel-show-scale 180ms;
+  transform: scale(1);
+}
+
+mdw-panel.mdw-no-animation,
+mdw-panel.mdw-no-animation.mdw-target {
+  animation: none;
+  transition: none;
 }
 
 
@@ -125,6 +137,51 @@ mdw-panel[open].mdw-target {
   }
 
   100% {
+    /* kick off screen so pointer events to hit */
+    transform: translateY(10000px);
+  }
+}
+
+
+@keyframes mdw-panel-show-scale {
+  0% {
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.9)
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  99% {
+    overflow: hidden;
+  }
+  100% {
+    overflow: auto;
+    transform: scale(1)
+  }
+}
+
+
+@keyframes mdw-panel-hide-scale {
+  0% {
+    overflow: hidden;
+    opacity: 1;
+    transform: scale(1)
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  99% {
+    overflow: hidden;
+    transform: scale(0.9)
+  }
+
+  100% {
+    overflow: auto;
     /* kick off screen so pointer events to hit */
     transform: translateY(10000px);
   }

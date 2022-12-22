@@ -22,12 +22,6 @@ mdw-icon {
     'opsz' 48
 }
 
-mdw-button mdw-icon {
-  width: var(--mdw-font-size-icon-small);
-  height: var(--mdw-font-size-icon-small);
-  font-size: var(--mdw-font-size-icon-small);
-}
-
 /* handles in src/components/icon/component.js */
 html:not(.mdw-material-icon-font-loaded) mdw-icon {
   opacity: 0;

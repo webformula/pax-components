@@ -3,6 +3,7 @@ const MDWPanel = class MDWPanel {
 
   #template;
   #target = null;
+  #animation = 'translateY';
   #backdrop = false;
   #clickOutsideClose = true;
   #clickOutsideCloseIgnoreElements = [];
@@ -14,7 +15,8 @@ const MDWPanel = class MDWPanel {
     target: null,
     backdrop: false,
     clickOutsideClose: true,
-    clickOutsideCloseIgnoreElements: []
+    clickOutsideCloseIgnoreElements: [],
+    animation: 'translateY | scale'
   }) {
     if (params.template)  this.#template = params.template;
     if (params.target) this.#target = params.target;
@@ -23,6 +25,7 @@ const MDWPanel = class MDWPanel {
     if (Array.isArray(params.clickOutsideCloseIgnoreElements.length)) {
       this.#clickOutsideCloseIgnoreElements = params.clickOutsideCloseIgnoreElements;
     }
+    if (params.animation) this.#animation = params.animation;
 
     // create panel immediately so events can be attached
     this.#panel = document.createElement('mdw-panel');
@@ -52,6 +55,15 @@ const MDWPanel = class MDWPanel {
     else this.#target = document.querySelector(value);
     if (this.#created) this.#panel.target = this.#target;
   }
+
+  get animation() {
+    return this.#animation;
+  }
+  set animation(value) {
+    this.#animation = value;
+    if (this.#created) this.#panel.animation = value;
+  }
+
 
   get backdrop() {
     return this.#backdrop;
@@ -91,6 +103,7 @@ const MDWPanel = class MDWPanel {
 
   #createPanel() {
     this.#panel.target = this.#target;
+    this.#panel.animation = this.#animation;
     this.#panel.backdrop = this.#backdrop;
     this.#panel.clickOutsideClose = this.#clickOutsideClose;
     this.#panel.innerHTML = this.#template;

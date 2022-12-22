@@ -5,6 +5,8 @@ import util from '../../core/util.js';
 
 customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
   #overflowScrollRegex = /(auto|scroll)/;
+  #validAnimations = ['translateY', 'scale'];
+  #animation = this.getAttribute('animation') || 'translateY';
   #backdrop = false;
   #clickOutsideClose = true;
   #onClickOutside_bound = this.#onClickOutside.bind(this);
@@ -17,6 +19,8 @@ customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
   
   constructor() {
     super();
+
+    this.classList.add('mdw-no-animation');
   }
 
   disconnectedCallback() {
@@ -35,6 +39,14 @@ customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
 
   get open() {
     return this.hasAttribute('open');
+  }
+
+  get animation() {
+    return this.#animation;
+  }
+  set animation(value) {
+    if (this.#validAnimations.contains(value)) throw Error(`not valid values. Must be one of these: ${this.#validAnimations.join(',')}`);
+    this.#animation = value;
   }
 
   get backdrop() {
@@ -66,8 +78,10 @@ customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
 
 
   show(backdrop = this.#backdrop) {
+    this.classList.remove('mdw-no-animation');
     if (this.open === true) return;
 
+    if (this.#animation === 'scale') this.classList.add('mdw-animation-scale');
     if (backdrop) util.addBackdrop(this);
     if (this.#target) this.#setupTarget();
     this.setAttribute('open', '');

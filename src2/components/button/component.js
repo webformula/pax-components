@@ -14,9 +14,12 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   #name = '';
   #type = 'submit';
   #value = '';
+  #toggled = false;
+  #isToggle = this.classList.contains('mdw-icon-toggle-button');
   #isAsync = this.classList.contains('mdw-async');
   #ripple;
   #mouseUp_bound = this.#mouseup.bind(this);
+  #handleToggle_bound = this.#handleToggle.bind(this);
 
 
   constructor() {
@@ -32,6 +35,10 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
       if (text) this.setAttribute('aria-label', text);
     }
     this.addEventListener('mouseup', this.#mouseUp_bound);
+
+    if (this.classList.contains('mdw-icon-toggle-button')) {
+      this.addEventListener('click', this.#handleToggle_bound);
+    }
   }
 
   afterRender() {
@@ -44,6 +51,10 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   disconnectedCallback() {
     this.#ripple.destroy();
     this.removeEventListener('mouseup', this.#mouseUp_bound);
+
+    if (this.classList.contains('mdw-icon-toggle-button')) {
+      this.removeEventListener('click', this.#handleToggle_bound);
+    }
   }
 
   template() {
@@ -58,11 +69,12 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   }
 
   static get observedAttributes() {
-    return ['form', 'type'];
+    return ['form', 'type', 'toggled'];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
-    this[name] = newValue;
+    if (name === 'toggled') this.toggled = newValue !== null;
+    else this[name] = newValue;
   }
 
   get form() {
@@ -91,6 +103,16 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   }
   set value(value) {
     this.#value = value;
+  }
+
+  get toggled() {
+    if (!this.#isToggle) throw Error('Cannot toggle. To enable add class "mdw-icon-toggle-button"');
+    return this.#toggled;
+  }
+  set toggled(value) {
+    if (!this.#isToggle) throw Error('Cannot toggle. To enable add class "mdw-icon-toggle-button"');
+    this.#toggled = !!value;
+    this.classList.toggle('mdw-toggled', this.#toggled);
   }
 
   pending() {
@@ -122,5 +144,9 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
     }
     
     if (previous) icon.classList.add('mdw-trailing');
+  }
+
+  #handleToggle() {
+    this.toggled = !this.toggled;
   }
 });

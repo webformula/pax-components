@@ -20,12 +20,14 @@
   color: var(--mdw-primary);
 }
 
-/* font size adjusted in components/icon/component.css */
 :host ::slotted(mdw-icon) {
   vertical-align: middle;
   margin-top: -4px;
   margin-right: 2px;
   margin-left: -2px;
+  width: var(--mdw-font-size-icon-small) !important;
+  height: var(--mdw-font-size-icon-small) !important;
+  font-size: var(--mdw-font-size-icon-small) !important;
 }
 
 :host ::slotted(mdw-icon.mdw-trailing) {
@@ -64,12 +66,101 @@
   opacity: 0;
 }
 :host(.mdw-async) > .spinner {
-  display: flex;
-  justify-content: center;
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
+  left: calc(50% - 18px);
+  top: 1px;
+}
+
+
+/* --- icon buttons / icon toggle --- */
+
+:host(.mdw-icon-toggle-button),
+:host(.mdw-icon-button) {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0;
+  margin: 8px;
+  border-radius: 50%;
+  justify-content: center;
+  color: var(--mdw-on-surface-variant);
+}
+
+:host(.mdw-icon-toggle-button)::after,
+:host(.mdw-icon-button)::after {
+  border-radius: 50%;
+}
+
+:host(.mdw-icon-button) ::slotted(mdw-icon),
+:host(.mdw-icon-toggle-button) ::slotted(mdw-icon) {
+  width: var(--mdw-font-size-icon-medium) !important;
+  height: var(--mdw-font-size-icon-medium) !important;
+  font-size: var(--mdw-font-size-icon-medium) !important;
+  margin: 0;
+  margin-top: -1px;
+}
+
+/* TODO add animations for icon switching */
+:host(:not(.mdw-icon-toggle-button):not(.mdw-icon-button)) ::slotted([value]) {
+  margin-right: 4px;
+  font-size: 20px !important;
+}
+
+:host(.mdw-icon-toggle-button:not(.mdw-toggled)) ::slotted([value="on"]) {
+  display: none !important;
+}
+
+:host(.mdw-icon-toggle-button.mdw-toggled) ::slotted([value="off"]) {
+  display: none !important;
+}
+
+:host(.mdw-icon-toggle-button:not(.mdw-toggled)) ::slotted(mdw-icon:not([value])) {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48 !important
+}
+
+/* --- state layer --- */
+:host(.mdw-icon-toggle-button) {
+  color: var(--mdw-on-surface-variant);
+}
+:host(.mdw-icon-toggle-button.mdw-toggled) {
+  color: var(--mdw-primary);
+}
+:host(.mdw-icon-toggle-button)::after,
+:host(.mdw-icon-button)::after {
+  margin-left: 0;
+}
+
+:host(.mdw-icon-toggle-button.mdw-filled) {
+  color: var(--mdw-primary);
+  background-color: var(--mdw-surface-variant);
+}
+
+:host(.mdw-icon-toggle-button.mdw-filled.mdw-toggled) {
+  color: var(--mdw-on-primary);
+  background-color: var(--mdw-primary);
+}
+
+:host(.mdw-icon-toggle-button.mdw-filled-tonal) {
+  color: var(--mdw-on-surface-variant);
+  background-color: var(--mdw-surface-variant);
+}
+
+:host(.mdw-icon-toggle-button.mdw-filled-tonal.mdw-toggled) {
+  color: var(--mdw-on-secondary-container);
+  background-color: var(--mdw-secondary-container);
+}
+
+:host(.mdw-icon-toggle-button.mdw-outlined) {
+  color: var(--mdw-on-surface-variant);
+}
+
+:host(.mdw-icon-toggle-button.mdw-outlined.mdw-toggled) {
+  color: var(--mdw-on-surface-inverse);
+  background-color: var(--mdw-surface-inverse);
 }
 
 
@@ -143,35 +234,6 @@
   background-color: var(--mdw-primary);
 }
 
-/* TODO confirm how this should be. This is in spec, but it looks weird
-:host(:active)::after {
-  opacity: var(--mdw-state-layer-opacity-pressed);
-  background-color: var(--mdw-on-surface);
-} */
-
-
-/* hover state layers. Media needed to prevent hover on mobile */
-@media (hover: hover) {
-  :host(:hover)::after {
-    opacity: var(--mdw-state-layer-opacity-hover);
-    background-color: var(--mdw-on-surface);
-  }
-  :host(:hover.mdw-elevated)::after {
-    opacity: var(--mdw-state-layer-opacity-hover);
-    background-color: var(--mdw-primary);
-  }
-  :host(:hover.mdw-filled) {
-    box-shadow: var(--mdw-elevation-1);
-  }
-  :host(:hover.mdw-filled-tonal) {
-    box-shadow: var(--mdw-elevation-1);
-  }
-  :host(:hover.mdw-outlined)::after {
-    opacity: var(--mdw-state-layer-opacity-hover);
-    background-color: var(--mdw-primary);
-  }
-}
-
 
 
 /* --- Ripple --- */
@@ -190,10 +252,72 @@
 }
 
 .ripple > .mdw-ripple-element {
-  background-color: var(--mdw-primary--16);
+  background-color: var(--mdw-on-surface--16);
   border-radius: 50%;
 }
 
-:host(:hover.mdw-filled) .ripple > .mdw-ripple-element {
-  background-color: var(--mdw-on-primary--16);
+/* TODO confirm how this should be. This is in spec, but it looks weird
+:host(:active)::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-on-surface);
+} */
+
+
+/* hover state layers. Media needed to prevent hover on mobile */
+@media (hover: hover) {
+  :host(:hover)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-on-surface);
+  }
+
+  :host(:hover.mdw-elevated)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-primary);
+  }
+
+  :host(:hover.mdw-filled) {
+    box-shadow: var(--mdw-elevation-1);
+  }
+
+  :host(:hover.mdw-filled-tonal) {
+    box-shadow: var(--mdw-elevation-1);
+  }
+
+  :host(:hover.mdw-outlined)::after {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-primary);
+  }
+
+  :host(:hover.mdw-filled) .ripple > .mdw-ripple-element {
+    background-color: var(--mdw-on-primary--16);
+  }
+}
+
+
+/* --- mdw-menu --- */
+
+:host-context(mdw-menu) {
+  border-radius: 0;
+  height: 48px;
+  line-height: 48px;
+  padding: 0 12px;
+  color: var(--mdw-on-surface);
+}
+
+:host-context(mdw-menu)::after {
+  border-radius: 0;
+  height: 48px;
+}
+
+:host-context(mdw-menu) ::slotted(mdw-icon) {
+  margin-top: 0px;
+  margin-right: 8px;
+  width: var(--mdw-font-size-icon-medium) !important;
+  height: var(--mdw-font-size-icon-medium) !important;
+  font-size: var(--mdw-font-size-icon-medium) !important;
+}
+
+:host-context(mdw-menu) ::slotted(mdw-icon.mdw-trailing) {
+  margin-right: -2px;
+  margin-left: 8px;
 }
