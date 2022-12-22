@@ -2,18 +2,23 @@ import './index.css';
 import { generate } from './core/theme.js';
 generate();
 
-import MDWUtil from './core/util.js';
-import MDWDevice from './core/device.js';
-import MDWDialog from './components/dialog/service.js';
+import mdwUtil from './core/util.js';
+import mdwDate from './core/dateUtil.js';
+import mdwDevice from './core/device.js';
+import mdwDialog from './components/dialog/service.js';
+import MDWPanel from './components/panel/service.js';
 
 
 import './components/badge/component.js';
+import './components/bottom-app-bar/component.js';
 import './components/button/component.js';
 import './components/card/component.js';
 import './components/checkbox/component.js';
+import './components/date-picker/index.js';
 import './components/dialog/component.js';
 import './components/icon/component.js';
 import './components/navigation/component.js';
+import './components/panel/component.js';
 import './components/progress-circular/component.js';
 import './components/progress-linear/component.js';
 import './components/radio/index.js';
@@ -31,7 +36,9 @@ export {
   // MDWDate,
   // MDWDialog,
   // MDWSnackbar,
-  MDWDevice,
-  MDWDialog,
-  MDWUtil
+  mdwDate,
+  mdwDevice,
+  mdwDialog,
+  mdwUtil,
+  MDWPanel
 }

@@ -34,7 +34,7 @@ basic and full-screen.</p>
 
     <pre>
       <code class="language-javascript">
-  const answer = await MDWDialog.simple({
+  const answer = await mdwDialog.simple({
     headline: 'Question',
     message: 'Are you sure?',
     backdrop: true, // default true
@@ -67,13 +67,13 @@ basic and full-screen.</p>
   <div class="mdw-header">Headline</div>
   <div class="mdw-content">Here is some content for the dialog.</div>
   <div class="mdw-actions">
-    <mdw-button onclick="MDWDialog.close()">Close</mdw-button>
+    <mdw-button onclick="mdwDialog.close()">Close</mdw-button>
   </div>`)}
       </code>
     </pre>
     <pre>
       <code class="language-javascript">
-  MDWDialog.template({
+  mdwDialog.template({
     template: templateString
   });
       </code>
@@ -97,18 +97,18 @@ basic and full-screen.</p>
     <div class="mdw-header">Headline</div>
     <div class="mdw-content">Here is some content for the dialog.</div>
     <div class="mdw-actions">
-      <mdw-button onclick="MDWDialog.close('response value')">Close</mdw-button>
+      <mdw-button onclick="mdwDialog.close('response value')">Close</mdw-button>
     </div>
   </mdw-dialog>`)}
       </code>
     </pre>
     <pre>
       <code class="language-javascript">
-  const value = await MDWDialog.template({
+  const value = await mdwDialog.template({
     template: templateString
   });
 
-  // value is passed in when closing the dialog: MDWDialog.close('response value')
+  // value is passed in when closing the dialog: mdwDialog.close('response value')
   console.log(value);
       </code>
     </pre>

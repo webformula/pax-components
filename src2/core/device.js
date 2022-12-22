@@ -2,7 +2,7 @@
 // https://material.io/blog/device-metrics
 // https://henan-guanjie.gitee.io/ui-design/tools/devices/index.html
 
-const MDWDevice = new class MDWDevice {
+const mdwDevice = new class MDWDevice {
   #platform = (
     navigator?.userAgentData?.platform
     || navigator?.platform
@@ -51,5 +51,5 @@ const MDWDevice = new class MDWDevice {
   }
 }
 
-window.MDWDevice = MDWDevice;
-export default MDWDevice;
+window.mdwDevice = mdwDevice;
+export default mdwDevice;

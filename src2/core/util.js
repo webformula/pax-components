@@ -3,10 +3,9 @@ let queue = [];
 let observing = false;
 
 const observeCallback = () => {
-  queue = queue.filter(fn => {
-    fn();
-    return false;
-  });
+  while (queue.length) {
+    queue.pop()();
+  }
   observe.disconnect();
   observing = false;
 };
@@ -14,10 +13,18 @@ const observe = new MutationObserver(observeCallback);
 
 
 
-const MDWUtil = new class MDWUtil {
+const mdwUtil = new class MDWUtil {
   #uidCounter = 0;
   #nodeData = 0;
   #textLengthDiv = document.createElement('div');
+  #scrollTarget;
+  #lastScrollTop;
+  #scrollCallbacks = [];
+  #scrollCurrentDirection;
+  #scrollDistanceFromDirectionChange;
+  #backdropElement;
+  #backDropIsRemoving = false;
+  #scrollHandler_bound = this.rafThrottle(this.#scrollHandler).bind(this);
 
   constructor() {
     this.#textLengthDiv.classList.add('mdw-text-length');
@@ -35,6 +42,16 @@ const MDWUtil = new class MDWUtil {
       requestAnimationFrame(() => {
         setTimeout(resolve, 0);
       });
+    });
+  }
+
+  async animationendAsync(element) {
+    return new Promise(resolve => {
+      function onAnimationend() {
+        element.removeEventListener('animationend', onAnimationend);
+        resolve();
+      }
+      element.addEventListener('animationend', onAnimationend);
     });
   }
 
@@ -131,7 +148,64 @@ const MDWUtil = new class MDWUtil {
     this.#textLengthDiv.innerText = inputElement.value;
     return this.#textLengthDiv.offsetWidth;
   }
+
+  trackPageScroll(callback = () => { }) {
+    if (!this.#scrollTarget) this.#scrollTarget = document.body;
+    if (this.#scrollCallbacks.length === 0) this.#scrollTarget.addEventListener('scroll', this.#scrollHandler_bound);
+    this.#scrollCallbacks.push(callback);
+  }
+
+  untrackPageScroll(callback = () => { }) {
+    this.#scrollCallbacks = this.#scrollCallbacks.filter(c => c !== callback);
+    if (this.#scrollCallbacks.length === 0) this.#scrollTarget.removeEventListener('scroll', this.#scrollHandler_bound);
+  }
+
+  addBackdrop(element) {
+    if (this.#backdropElement) return;
+
+    this.#backdropElement = document.createElement('div');
+    this.#backdropElement.classList.add('mdw-backdrop');
+    element.insertAdjacentElement('beforebegin', this.#backdropElement);
+    setTimeout(() => {
+      this.#backdropElement.style.opacity = 1;
+    }, 10);
+
+    return this.#backdropElement;
+  }
+
+  async removeBackdrop() {
+    if (!this.#backdropElement || this.#backDropIsRemoving === true) return;
+
+    this.#backDropIsRemoving = true;
+    this.#backdropElement.style.opacity = 0;
+
+    await this.transitionendAsync(this.#backdropElement);
+
+    this.#backdropElement.remove();
+    this.#backdropElement = undefined;
+    this.#backDropIsRemoving = false;
+  }
+
+  #scrollHandler(event) {
+    const distance = this.#scrollTarget.scrollTop - this.#lastScrollTop;
+    if (distance === 0) return;
+
+    const direction = this.#scrollTarget.scrollTop >= this.#lastScrollTop ? -1 : 1;
+    if (direction !== this.#scrollCurrentDirection) this.#scrollDistanceFromDirectionChange = 0;
+    this.#scrollCurrentDirection = direction;
+
+    this.#scrollDistanceFromDirectionChange += distance;
+    this.#lastScrollTop = this.#scrollTarget.scrollTop;
+
+    this.#scrollCallbacks.forEach(callback => callback({
+      event,
+      isScrolled: this.#scrollTarget.scrollTop > 0,
+      direction,
+      distance,
+      distanceFromDirectionChange: this.#scrollDistanceFromDirectionChange || 0
+    }));
+  }
 }
 
-window.MDWUtil = MDWUtil;
-export default MDWUtil;
+window.mdwUtil = mdwUtil;
+export default mdwUtil;

@@ -18,9 +18,11 @@ window.escapeHTML = str => {
 
 import home from './pages/home/page.js';
 import badges from './pages/badges/page.js';
+import bottomAppBars from './pages/bottom app bars/page.js';
 import buttons from './pages/buttons/page.js';
 import cards from './pages/cards/page.js';
 import checkboxes from './pages/checkboxes/page.js';
+import datePickers from './pages/date pickers/page.js';
 import dialogs from './pages/dialogs/page.js';
 import icons from './pages/icons/page.js';
 import progressIndicators from './pages/progress indicators/page.js';
@@ -34,9 +36,11 @@ import textFields from './pages/text fields/page.js';
 
 registerPage(home, '/');
 registerPage(badges, '/badges');
+registerPage(bottomAppBars, '/bottom-app-bars');
 registerPage(buttons, '/buttons');
 registerPage(cards, '/cards');
 registerPage(checkboxes, '/checkboxes');
+registerPage(datePickers, '/date-pickers');
 registerPage(dialogs, '/dialogs');
 registerPage(icons, '/icons');
 registerPage(radios, '/radios');

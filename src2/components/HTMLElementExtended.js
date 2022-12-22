@@ -28,6 +28,7 @@ export default class HTMLElementExtended extends HTMLElement {
     //   Other options would be setTimeout or calling from connectedCallback. Both are slower
     if (this.#hasTemplate) {
       util.nextTick(() => {
+        // console.log(this.constructor.name)
         this.#prepareRender();
         this.render();
       });

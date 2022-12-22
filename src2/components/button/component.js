@@ -21,7 +21,6 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
 
   constructor() {
     super();
-
     this.#handleTrailingIcon();
   }
 

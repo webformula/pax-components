@@ -1,0 +1,131 @@
+/*
+  To make calculating position easier we do not set display: none;
+  instead we set translateY(10000px) to push the panel off screen
+
+  The alternative would be to calculate the height using computed css (only works when css height set)
+  or to programmatically set display be fore calculating position
+*/
+
+mdw-panel {
+  display: none;
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  max-width: calc(100% - 84px);
+  max-height: calc(100% - 84px);
+  box-sizing: border-box;
+  z-index: 11;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+
+  opacity: 0;
+  /* transform: translate(-50%, calc(-50% - 120px)); */
+  /* kick off screen so pointer events to hit */
+  transform: translateY(10000px);
+
+  /* transition: opacity 120ms, transform 280ms; */
+  /* transition-timing-function: var(--mdw-transition-expand-out); */
+
+  animation: mdw-panel-hide 280ms;
+  animation-timing-function: var(--mdw-transition-expand-out);
+
+  /* overflow: auto; */
+}
+
+mdw-panel.mdw-target {
+  /* transform: translateY(-120px); */
+  animation: mdw-panel-hide-target 280ms;
+}
+
+
+mdw-panel[open] {
+  display: flex;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: all;
+
+  /* transition: opacity 120ms, transform 280ms;
+  transition-timing-function: var(--mdw-transition-expand-in); */
+  animation: mdw-panel-show 280ms;
+  animation-timing-function: var(--mdw-transition-expand-in);
+}
+
+mdw-panel[open].mdw-target {
+  transform: translateY(0);
+  animation: mdw-panel-show-target 280ms;
+}
+
+
+
+@keyframes mdw-panel-show {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 120px));
+  }
+  /* 1% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 120px));
+  } */
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes mdw-panel-hide {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  99% {
+    transform: translate(-50%, calc(-50% - 120px));
+  }
+
+  100% {
+    /* kick off screen so pointer events to hit */
+    transform: translateY(10000px);
+  }
+}
+
+@keyframes mdw-panel-show-target {
+  0% {
+    opacity: 0;
+    transform: translateY(-120px);
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes mdw-panel-hide-target {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  99% {
+    transform: translateY(-120px);
+  }
+
+  100% {
+    /* kick off screen so pointer events to hit */
+    transform: translateY(10000px);
+  }
+}

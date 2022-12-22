@@ -1,5 +1,5 @@
 import { Page } from '@webformula/pax-core';
-import { MDWDialog } from '@webformula/pax-components';
+import { mdwDialog } from '@webformula/pax-components';
 import html from './page.html';
 
 export default new class extends Page {
@@ -12,7 +12,7 @@ export default new class extends Page {
   }
 
   async openSimple() {
-    const answer = await MDWDialog.simple({
+    const answer = await mdwDialog.simple({
       headline: 'Question',
       message: 'Are you sure?',
       actionCancel: true
@@ -23,22 +23,22 @@ export default new class extends Page {
   }
 
   openTemplate() {
-    MDWDialog.template({
+    mdwDialog.template({
       template: `
       <div class="mdw-header">Headline</div>
       <div class="mdw-content">Here is some content for the dialog.</div>
       <div class="mdw-actions">
-        <mdw-button onclick="MDWDialog.close()">Close</mdw-button>
+        <mdw-button onclick="mdwDialog.close()">Close</mdw-button>
       </div>
       `
     });
   }
 
   openFullscreen() {
-    MDWDialog.template({
+    mdwDialog.template({
       template: `
         <div class="mdw-header">
-          <mdw-icon onclick="MDWDialog.close()">close</mdw-icon>
+          <mdw-icon onclick="mdwDialog.close()">close</mdw-icon>
           <div class="mdw-headline">Headline</div>
           <mdw-button>Save</mdw-button>
         </div>
@@ -109,7 +109,7 @@ export default new class extends Page {
           </div>
 
           <div class="mdw-actions">
-        <mdw-button onclick="MDWDialog.close('response value')">Close</mdw-button>
+        <mdw-button onclick="mdwDialog.close('response value')">Close</mdw-button>
       </div>
         </div>
       `
@@ -117,12 +117,12 @@ export default new class extends Page {
   }
 
   async openTemplate() {
-    const value = await MDWDialog.template({
+    const value = await mdwDialog.template({
       template: `
       <div class="mdw-header">Headline</div>
       <div class="mdw-content">Here is some content for the dialog.</div>
       <div class="mdw-actions">
-        <mdw-button onclick="MDWDialog.close('response value')">Close</mdw-button>
+        <mdw-button onclick="mdwDialog.close('response value')">Close</mdw-button>
       </div>
       `
     });

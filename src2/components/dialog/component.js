@@ -13,7 +13,6 @@ customElements.define('mdw-dialog', class MDWDialog extends HTMLElementExtended 
   #backdropElement;
   #clickBackdropClose = false;
   #returnValue;
-  #backDropIsRemoving = false;
   #backdropClickHandler_bound = this.#backdropClickHandler.bind(this)
 
   constructor() {
@@ -64,27 +63,16 @@ customElements.define('mdw-dialog', class MDWDialog extends HTMLElementExtended 
   }
 
   #addBackdrop() {
-    this.#backdropElement = document.createElement('div');
-    this.#backdropElement.classList.add('mdw-dialog-backdrop');
-    this.insertAdjacentElement('beforebegin', this.#backdropElement);
+    if (this.#backdropElement) return;
+    this.#backdropElement = util.addBackdrop(this);
     if (this.#clickBackdropClose === true) this.#backdropElement.addEventListener('click', this.#backdropClickHandler_bound);
-
-    setTimeout(() => {
-      this.#backdropElement.style.opacity = 1;
-    }, 10);
   }
 
-  async #removeBackdrop() {
-    if (!this.#backdropElement || this.#backDropIsRemoving === true) return;
-    this.#backDropIsRemoving = true;
+  #removeBackdrop() {
+    if (!this.#backdropElement) return;
 
     this.#backdropElement.removeEventListener('click', this.#backdropClickHandler_bound);
-    this.#backdropElement.style.opacity = 0;
-
-    await util.transitionendAsync(this.#backdropElement);
-
-    this.#backdropElement.remove();
-    this.#backdropElement = undefined;
+    util.removeBackdrop();
   }
 
   #backdropClickHandler() {
