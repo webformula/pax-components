@@ -3,7 +3,7 @@ import styleAsString from '!!raw-loader!./component.css';
 
 // TODO align at end of button with text
 
-customElements.define('mdw-badge', class MDWBadge extends HTMLElementExtended {
+export default class MDWBadgeElement extends HTMLElementExtended {
   useShadowRoot = true;
   
   #value = '';
@@ -51,4 +51,6 @@ customElements.define('mdw-badge', class MDWBadge extends HTMLElementExtended {
       </style>
     `;
   }
-});
+}
+
+customElements.define('mdw-badge', MDWBadgeElement);

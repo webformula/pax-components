@@ -1,21 +1,18 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import Panel from '../panel/service.js';
-import util from '../../core/util.js';
 import './component.css';
 
-// TODO (NOT SURE WHAT THIS. BAD FORM MY SELF) remove control click after checking on mobile
-// TODO focus next broken with async search (arrow down multiple times after typing)
+// TODO bottom sheet on mobile
 // TODO sub menus
 
 // TODO look into allowing mdw-menu to be a panel
 
-customElements.define('mdw-menu', class MDWMenu extends HTMLElementExtended {
-  // useTemplate = false;
+customElements.define('mdw-menu', class MDWMenuElement extends HTMLElementExtended {
+  useTemplate = false;
 
   #control;
   #controlSelector = this.getAttribute('control');
   #panel;
-  #onControlFocus_bound = this.#onControlFocus.bind(this);
+  #onControlClick_bound = this.#onControlClick.bind(this);
   #onPanelOpen_bound = this.#onPanelOpen.bind(this);
   #onPanelClose_bound = this.#onPanelClose.bind(this);
   #onItemClick_bound = this.#onItemClick.bind(this);
@@ -29,7 +26,7 @@ customElements.define('mdw-menu', class MDWMenu extends HTMLElementExtended {
   connectedCallback() {
     this.#control = document.querySelector(this.#controlSelector);
     if (!this.#control) throw Error('No control found. Must provide the attributer "control" with a valid css selector');
-    this.#control.addEventListener('focus', this.#onControlFocus_bound);
+    this.#control.addEventListener('click', this.#onControlClick_bound);
   }
 
   afterRender() {
@@ -42,7 +39,7 @@ customElements.define('mdw-menu', class MDWMenu extends HTMLElementExtended {
     return `<mdw-panel target="${this.#controlSelector}" animation="scale">${this.innerHTML}</mdw-panel>`;
   }
 
-  #onControlFocus() {
+  #onControlClick() {
     this.#panel.show();
   }
 

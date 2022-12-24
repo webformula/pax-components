@@ -7,7 +7,7 @@ import util from '../../core/util.js';
 // TODO toggle
 // TODO form
 
-customElements.define('mdw-button', class MDWButton extends HTMLElementExtended {
+export default class MDWButtonElement extends HTMLElementExtended {
   useShadowRoot = true;
 
   #form = null;
@@ -149,4 +149,7 @@ customElements.define('mdw-button', class MDWButton extends HTMLElementExtended 
   #handleToggle() {
     this.toggled = !this.toggled;
   }
-});
+}
+
+
+customElements.define('mdw-button', MDWButtonElement);

@@ -5,7 +5,7 @@ import Ripple from '../../core/Ripple.js';
 
 
 
-customElements.define('mdw-bottom-app-bar', class MDWBottomAppBar extends HTMLElementExtended {
+export default class MDWBottomAppBarElement extends HTMLElementExtended {
   #rippleElements = [];
   #isHiding = false;
   #scrollTrack_bound = this.#scrollTrack.bind(this);
@@ -110,4 +110,7 @@ customElements.define('mdw-bottom-app-bar', class MDWBottomAppBar extends HTMLEl
     if (secondaryByHash) this.showSecondary(secondaryByHash.getAttribute('id'));
     else this.showPrimary();
   }
-});
+}
+
+
+customElements.define('mdw-bottom-app-bar', MDWBottomAppBarElement);

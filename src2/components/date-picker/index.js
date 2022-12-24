@@ -13,7 +13,7 @@ import './mobile.js';
 //      Desktop: 2 pickers, range
 //      Mobile: fullscreen with scrolling months
 
-customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElementExtended {
+customElements.define('mdw-date-picker', class MDWDatePickerElement extends HTMLElementExtended {
   useTemplate = false;
   
   #id = this.getAttribute('id') || `mdw-date-picker-${util.uid()}`;
@@ -131,6 +131,7 @@ customElements.define('mdw-date-picker', class MDWDatePicker extends HTMLElement
       this.#panel.backdrop = true;
       this.#panel.clickOutsideClose = false;
     } else {
+      this.#panel.animation = 'scale';
       this.#panel.backdrop = false;
       this.#panel.clickOutsideClose = true;
       this.#panel.target = this.#control;

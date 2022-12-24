@@ -5,7 +5,7 @@ import util from '../../core/util.js';
 import Ripple from '../../core/Ripple.js';
 
 
-customElements.define('mdw-navigation', class MDWNavigation extends HTMLElementExtended {
+customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLElementExtended {
   #rippleElements = [];
   #mdwPageChange_bound = this.#mdwPageChange.bind(this);
   #onClickOutside_bound = this.#onClickOutside.bind(this);

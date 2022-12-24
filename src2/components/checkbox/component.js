@@ -4,7 +4,7 @@ import util from '../../core/util.js';
 import Ripple from '../../core/Ripple.js';
 
 
-customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExtended {
+export default class MDWCheckboxElement extends HTMLElementExtended {
   useShadowRoot = true;
 
   #checked = false;
@@ -106,4 +106,7 @@ customElements.define('mdw-checkbox', class MDWCheckbox extends HTMLElementExten
     this.checked = !this.#checked;
     this.dispatchEvent(new Event('change'));
   }
-});
+}
+
+
+customElements.define('mdw-checkbox', MDWCheckboxElement);

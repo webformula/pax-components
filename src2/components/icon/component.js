@@ -13,7 +13,7 @@ if (iconFont) iconFont.loaded.then(() => {
 });
 
 
-customElements.define('mdw-icon', class MDWIcon extends HTMLElementExtended {
+customElements.define('mdw-icon', class MDWIconElement extends HTMLElementExtended {
   constructor() {
     super();
   }

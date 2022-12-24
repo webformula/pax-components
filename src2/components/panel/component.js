@@ -3,7 +3,7 @@ import './component.css';
 import util from '../../core/util.js';
 
 
-customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
+export default class MDWPanelElement extends HTMLElementExtended {
   #overflowScrollRegex = /(auto|scroll)/;
   #validAnimations = ['translateY', 'scale'];
   #animation = this.getAttribute('animation') || 'translateY';
@@ -19,7 +19,10 @@ customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
   
   constructor() {
     super();
+  }
 
+  connectedCallback() {
+    this.classList.add('mdw-panel');
     this.classList.add('mdw-no-animation');
   }
 
@@ -45,7 +48,7 @@ customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
     return this.#animation;
   }
   set animation(value) {
-    if (this.#validAnimations.contains(value)) throw Error(`not valid values. Must be one of these: ${this.#validAnimations.join(',')}`);
+    if (!this.#validAnimations.includes(value)) throw Error(`not valid values. Must be one of these: ${this.#validAnimations.join(',')}`);
     this.#animation = value;
   }
 
@@ -93,6 +96,11 @@ customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
     }
 
     if (this.#targetScrollContainer) this.#targetScrollContainer.addEventListener('scroll', this.#onTargetScroll_bound);
+
+    this.classList.add('mdw-animating');
+    util.animationendAsync(this).finally(() => {
+      this.classList.remove('mdw-animating');
+    });
   }
 
   close() {
@@ -104,6 +112,11 @@ customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
     this.removeAttribute('open');
     util.removeBackdrop();
     this.dispatchEvent(new Event('close'));
+
+    this.classList.add('mdw-animating');
+    util.animationendAsync(this).finally(() => {
+      this.classList.remove('mdw-animating');
+    });
   }
 
   #onClickOutside(event) {
@@ -152,4 +165,7 @@ customElements.define('mdw-panel', class MDWPanel extends HTMLElementExtended {
       if (parentNode === document.body) return document.body;
     }
   }
-});
+}
+
+
+customElements.define('mdw-panel', MDWPanelElement);

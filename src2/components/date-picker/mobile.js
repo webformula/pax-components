@@ -11,7 +11,7 @@ import { checkMinMax, monthDaysTemplate } from './helper.js';
 // TODO drag
 
 
-customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobile extends HTMLElementExtended {
+customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement extends HTMLElementExtended {
   useTemplate = false;
 
   #component;

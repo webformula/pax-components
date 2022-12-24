@@ -12,7 +12,7 @@ import { checkMinMax, monthDaysTemplate } from './helper.js';
 // TODO keyboard
 
 
-customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktop extends HTMLElementExtended {
+customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktopElement extends HTMLElementExtended {
   useTemplate = false;
 
   #component;

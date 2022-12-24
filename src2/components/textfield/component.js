@@ -14,7 +14,7 @@ const handleReportValidityScrollIntoView = util.debounce(input => {
 }, 100);
 
 
-customElements.define('mdw-textfield', class MDWTextfield extends HTMLElementExtended {
+export default class MDWTextfieldElement extends HTMLElementExtended {
   #setNotchWidth_bound = this.#setNotchWidth.bind(this);
   #unsetNotchWidth_bound = this.#unsetNotchWidth.bind(this);
   #onInvalid_bound = this.#onInvalid.bind(this);
@@ -31,6 +31,7 @@ customElements.define('mdw-textfield', class MDWTextfield extends HTMLElementExt
     const input = this.querySelector('input');
     const placeholder = input.getAttribute('placeholder');
     input.setAttribute('placeholder', placeholder || ' ');
+    this.classList.add('mdw-no-animation');
 
     this.#handleDisabledInput();
     this.#overrideInputSetCustomValidity();
@@ -62,6 +63,10 @@ customElements.define('mdw-textfield', class MDWTextfield extends HTMLElementExt
     if (this.querySelector('.mdw-outlined-border-container + mdw-icon')) {
       this.classList.add('mdw-has-leading-icon');
     }
+
+    setTimeout(() => {
+      this.classList.remove('mdw-no-animation');
+    }, 100)
   }
 
   disconnectedCallback() {
@@ -215,4 +220,7 @@ customElements.define('mdw-textfield', class MDWTextfield extends HTMLElementExt
     const offset = util.getTextLengthFromInput(this.querySelector('input'));
     this.querySelector('.mdw-autocomplete').style.left = `${offset + 16}px`;
   }
-});
+}
+
+
+customElements.define('mdw-textfield', MDWTextfieldElement);

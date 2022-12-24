@@ -8,9 +8,11 @@ import './component.css';
 // TODO drag reorder grid
 
 
-customElements.define('mdw-card', class MDWCard extends HTMLElementExtended {
+export default class MDWCardElement extends HTMLElementExtended {
 
   constructor() {
     super();
   }
-});
+}
+
+customElements.define('mdw-card', MDWCardElement);

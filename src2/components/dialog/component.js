@@ -7,7 +7,7 @@ import util from '../../core/util.js';
 // TODO esc
 // TODO fullscreen
 
-customElements.define('mdw-dialog', class MDWDialog extends HTMLElementExtended {
+export default class MDWDialogElement extends HTMLElementExtended {
   useShadowRoot = false;
 
   #backdropElement;
@@ -78,4 +78,6 @@ customElements.define('mdw-dialog', class MDWDialog extends HTMLElementExtended 
   #backdropClickHandler() {
     this.close();
   }
-});
+}
+
+customElements.define('mdw-dialog', MDWDialogElement);

@@ -24,6 +24,7 @@ import './components/panel/component.js';
 import './components/progress-circular/component.js';
 import './components/progress-linear/component.js';
 import './components/radio/index.js';
+import './components/select/index.js';
 import './components/slider/index.js';
 import './components/switch/component.js';
 import './components/textfield/component.js';

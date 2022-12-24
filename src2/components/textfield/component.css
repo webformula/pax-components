@@ -122,6 +122,10 @@ mdw-textfield > input:not(:placeholder-shown) + label {
   animation-timing-function: var(--mdw-transition-expand-in);
 }
 
+mdw-textfield.mdw-no-animation > label {
+  animation-duration: 0ms !important;
+}
+
 mdw-textfield > mdw-icon,
 mdw-textfield > .mdw-invalid-icon {
   align-self: center;
