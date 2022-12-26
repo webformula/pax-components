@@ -186,6 +186,65 @@ const mdwUtil = new class MDWUtil {
     this.#backDropIsRemoving = false;
   }
 
+  // can use array of strings ['one', 'two']
+  // can also use array of objects with label property [{ label: 'one' }, { label: 'two' }]
+  fuzzySearch(searchTerm, items = [], distanceCap = 2) {
+    items = items.filter(v => !!v);
+    if (items.length === 0) return [];
+    const type = typeof items[0];
+    if (!['string', 'object'].includes(type)) throw Error('Incorrect items array');
+    if (type === 'object') {
+      if (typeof items[0].label !== 'string') throw Error('Items array with objects must contain a label property that is a string');
+    }
+
+    searchTerm = searchTerm.toLowerCase().trim();
+    const filterArr = items.map(item => {
+      let label;
+      if (type == 'object') label = item.label;
+      else label = item;
+
+      return {
+        label,
+        distance: this.#calculateDistance(searchTerm, label.toLowerCase().trim()),
+        item
+      };
+    });
+
+    return filterArr
+      .filter(({ distance }) => distance <= distanceCap)
+      .sort((a, b) => a.distance - b.distance)
+      .map(({ item }) => item);
+  }
+
+  #calculateDistance(searchTerm, target) {
+    const regex = new RegExp(`^${searchTerm}`, 'i');
+    const matchesStart = target.match(regex) !== null;
+    const levenshtein = this.#levenshteinDistance(searchTerm, target);
+
+    if (matchesStart) return levenshtein - 2; // make sure these are first in sort
+    return levenshtein;
+  }
+
+  #levenshteinDistance(searchTerm, target) {
+    if (!searchTerm.length) return target.length;
+    if (!target.length) return searchTerm.length;
+    const arr = [];
+    for (let i = 0; i <= target.length; i++) {
+      arr[i] = [i];
+      for (let j = 1; j <= searchTerm.length; j++) {
+        arr[i][j] =
+          i === 0
+            ? j
+            : Math.min(
+              arr[i - 1][j] + 1,
+              arr[i][j - 1] + 1,
+              arr[i - 1][j - 1] + (searchTerm[j - 1] === target[i - 1] ? 0 : 1)
+            );
+      }
+    }
+    return arr[target.length][searchTerm.length];
+  }
+
   #scrollHandler(event) {
     const distance = this.#scrollTarget.scrollTop - this.#lastScrollTop;
     if (distance === 0) return;

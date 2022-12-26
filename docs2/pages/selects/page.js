@@ -11,27 +11,31 @@ export default new class extends Page {
   }
 
   async search(value) {
-    const select = document.querySelector('#select-search');
-
-    if (!value) {
-      select.options = [
-        'One',
-        'Two',
-        'Three',
-        'Four',
-        'Five'
-      ];
-      return;
-    }
+    const select = document.querySelector('#async-search-select');
 
     await this.wait(500);
-    select.options = [
-      'One',
-      'Two',
-      'Three',
-      'Four',
-      'Five'
-    ].filter(v => v.toLowerCase().includes(value.toLowerCase().trim()));
+    select.optionValues = [
+      {
+        label: 'One',
+        value: 'one'
+      },
+      {
+        label: 'Two',
+        value: 'two'
+      },
+      {
+        label: 'Three',
+        value: 'three'
+      },
+      {
+        label: 'Four',
+        value: 'four'
+      },
+      {
+        label: 'Five',
+        value: 'five'
+      }
+    ].filter(v => v.label.toLowerCase().includes(value.toLowerCase().trim()));;
   }
 
   async searchOnEnter(value) {

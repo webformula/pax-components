@@ -65,6 +65,18 @@
 }
 
 
+:host([selected])::after,
+:host:active::after {
+  opacity: var(--mdw-state-layer-opacity-pressed);
+  background-color: var(--mdw-primary);
+}
+
+:host(:not([selected])):focus::after {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-on-surface);
+}
+
+
 /* --- Ripple --- */
 
 .ripple {

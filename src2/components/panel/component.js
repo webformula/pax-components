@@ -75,6 +75,14 @@ export default class MDWPanelElement extends HTMLElementExtended {
     this.classList.toggle('mdw-target', !!this.#target);
   }
 
+  get offsetY() {
+    return this.#offsetY;
+  }
+  set offsetY(value) {
+    if (isNaN(value)) throw Error('must be a number');
+    this.#offsetY = value;
+  }
+
   addClickOutsideCloseIgnore(element) {
     this.#clickOutsideCloseIgnoreElements.push(element);
   }

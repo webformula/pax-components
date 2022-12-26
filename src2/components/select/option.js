@@ -2,10 +2,11 @@ import HTMLElementExtended from "../HTMLElementExtended.js";
 import styleAsString from '!!raw-loader!./option.css';
 import Ripple from '../../core/Ripple.js';
 
+
 customElements.define('mdw-option', class MDWOptionGroupElement extends HTMLElementExtended {
   useShadowRoot = true;
 
-  #value = '';
+  #value = this.getAttribute('value') || '';
   #ripple;
 
   constructor() {
@@ -24,6 +25,7 @@ customElements.define('mdw-option', class MDWOptionGroupElement extends HTMLElem
   }
 
   connectedCallback() {
+    this.tabIndex = 0;
     this.setAttribute('role', 'option');
   }
 
