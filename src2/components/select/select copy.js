@@ -1,9 +1,6 @@
-import HTMLElementExtended from '../HTMLElementExtended.js';
-import styleAsString from '!!raw-loader!./select.css';
-import styleAsStringTextfield from '!!raw-loader!../textfield/component.css';
-import styleAsStringPanel from '!!raw-loader!../panel/component.css';
+import MDWPanelElement from '../panel/component.js';
+import './select.css';
 import util from '../../core/util.js';
-
 
 
 // TODO async search. figure out how to handle search clear / re open
@@ -11,141 +8,96 @@ import util from '../../core/util.js';
 // TODO fix click for non input. the text field clickable area that is not the input
 
 
-customElements.define('mdw-select', class MDWSelectElement extends HTMLElementExtended {
-  useShadowRoot = true;
-  useTemplate = false;
-
-  #value = '';
-  #displayValue = '';
-  #label = this.getAttribute('label');
-  #disabled = this.hasAttribute('disabled');
-  #panel;
-  #textfield;
-  #input;
-  #arrowElement;
-  #options = [];
-  #isSearch = this.classList.contains('mdw-search');
-  #isSearchAsync = this.classList.contains('mdw-search-async');
-  #onOpen_bound = this.#onOpen.bind(this);
-  #onClose_bound = this.#onClose.bind(this);
+customElements.define('mdw-select', class MDWSelect extends MDWPanelElement {
+  #textfield = this.parentElement;
+  #input = this.parentNode.querySelector('input');
+  #arrowElement = document.createElement('div');
   #onInputFocus_bound = this.#onInputFocus.bind(this);
   #onClick_bound = this.#onClick.bind(this);
+  #onOpen_bound = this.#onOpen.bind(this);
+  #onClose_bound = this.#onClose.bind(this);
+  #isSearch = this.classList.contains('mdw-search');
+  #isSearchAsync = this.classList.contains('mdw-search-async');
   #onKeydown_bound = this.#onKeydown.bind(this);
-  #onInputSearch_debounce = util.debounce(this.#onInputSearch, 300).bind(this);
+  #options = [];
+  #onInputSearch_debounce_bound = util.debounce(this.#onInputSearch, 300).bind(this);
   #onInputSearchAsync_bound = this.#onInputSearchAsync.bind(this);
   #searchAsyncEvent_debounced = util.debounce(this.#searchAsyncEvent, 300).bind(this);
+  #selectedValue = '';
+  #selectedLabel = '';
 
 
   constructor() {
     super();
+
+    if (!this.#input) throw Error('No input found. mdw-select must be inside mdw-textfield');
+    this.target = this.#textfield;
+    this.animation = 'scale';
+    this.addClickOutsideCloseIgnore(this.#input);
+
+    // makes the input not usable, only clickable. Create normal select
+    if (!this.#isSearch && !this.#isSearchAsync) {
+      this.#textfield.classList.add('mdw-select-no-search');
+      this.#input.setAttribute('readonly', '');
+      this.offsetY = -this.#textfield.offsetHeight;
+    }
+
+    this.#arrowElement.classList.add('mdw-select-arrow');
+    this.insertAdjacentElement('beforebegin', this.#arrowElement);
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.setAttribute('role', 'select');
+    this.#setWidth();
 
     // grab initial options
     this.#options = [...this.querySelectorAll('mdw-option')].map(element => ({
       label: util.getTextFromNode(element),
       element
     }));
-  }
 
-  afterRender() {
-    this.#arrowElement = this.shadowRoot.querySelector('.mdw-select-arrow');
-    this.#textfield = this.shadowRoot.querySelector('mdw-textfield');
-    this.#input = this.shadowRoot.querySelector('input');
-    this.#panel = this.shadowRoot.querySelector('mdw-panel');
-    this.#panel.target = this;
-    this.#panel.animation = 'scale';
-    this.#panel.addClickOutsideCloseIgnore(this.#textfield);
-    this.#setWidth();
-
-    // makes the input not usable, only clickable. Create normal select
-    if (!this.#isSearch && !this.#isSearchAsync) {
-      this.#textfield.classList.add('mdw-select-no-search');
-      this.#input.setAttribute('readonly', '');
-      this.#panel.offsetY = -this.#textfield.offsetHeight;
-    }
+    this.addEventListener('open', this.#onOpen_bound);
+    this.addEventListener('close', this.#onClose_bound);
 
     if (this.#isSearchAsync) {
       this.insertAdjacentHTML('afterbegin', '<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>');
     }
-
-    this.#textfield.addEventListener('click', this.#onInputFocus_bound);
-    this.#input.addEventListener('focus', this.#onInputFocus_bound);
-    this.#panel.addEventListener('open', this.#onOpen_bound);
-    this.#panel.addEventListener('close', this.#onClose_bound);
+    if (this.#options.length === 0) this.insertAdjacentHTML('beforeend', '<div class="mdw-no-items">No items</div>');
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.#textfield.removeEventListener('click', this.#onInputFocus_bound);
     this.#input.removeEventListener('focus', this.#onInputFocus_bound);
-    this.#panel.removeEventListener('open', this.#onOpen_bound);
-    this.#panel.removeEventListener('close', this.#onClose_bound);
+    this.removeEventListener('open', this.#onOpen_bound);
+    this.removeEventListener('close', this.#onClose_bound);
+    this.removeEventListener('click', this.#onClick_bound);
     document.body.removeEventListener('keydown', this.#onKeydown_bound);
-    if (this.#isSearch) this.#input.removeEventListener('input', this.#onInputSearch_debounce);
+    if (this.#isSearch) this.#input.removeEventListener('input', this.#onInputSearch_debounce_bound);
     if (this.#isSearchAsync) this.#input.removeEventListener('input', this.#onInputSearchAsync_bound);
   }
 
-  template() {
-    return /*html*/`
-      <mdw-textfield ${!this.#disabled ? '' : 'disabled'}>
-        <input value="${this.#displayValue}">
-        ${!this.#label ? '' : `<label>${this.#label}</label>`}
-        <div class="mdw-select-arrow"></div>
-        <mdw-panel class="mdw-option-group">
-          <slot></slot>
-        </mdw-panel>
-      </mdw-textfield>
-
-      <style>
-        ${styleAsString}
-        ${styleAsStringTextfield}
-        ${styleAsStringPanel}
-      </style>
-    `;
-  }
-
-  static get observedAttributes() {
-    return ['value', 'disabled'];
-  }
-
-  attributeChangedCallback(name, _oldValue, newValue) {
-    if (name === 'disabled') {
-      this.#disabled = newValue !== null;
-      if (this.#textfield) this.#textfield.toggleAttribute('disabled', this.#disabled);
-    } else this[name] = newValue;
-  }
-
   get value() {
-    return this.#value;
+    return this.#selectedValue;
   }
+
   set value(value) {
-    this.#value = value;
-    this.#displayValue = value;
-
-    const element = this.querySelector(`mdw-option[value="${value}"]`);
-    if (element) this.#displayValue = util.getTextFromNode(element);
-    if (this.#input) this.#input.value = this.#displayValue;
-    if (this.#panel && this.#panel.open === true) this.#updateOptionDisplay();
-  }
-
-  get display() {
-    return this.#input.value;
-  }
-
-  get disabled() {
-    return this.#disabled;
-  }
-  set disabled(value) {
-    this.toggleAttribute('disabled', !!value);
+    value = `${value}`;
+    const option = this.#options.find(v => v.element.value === value);
+    if (!option) {
+      this.#selectedValue = '';
+      this.#selectedLabel = '';
+    } else {
+      this.#selectedValue = option.element.value;
+      this.#selectedLabel = option.label;
+    }
+    this.#input.value = this.#selectedLabel;
   }
 
   get options() {
     return this.querySelectorAll('mdw-option');
   }
-
+  
   set optionValues(values) {
     if (!Array.isArray(values) || values.length === 0) {
       this.#options = [];
@@ -161,7 +113,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
         };
       });
     }
-    this.#renderOptions();
+    this.#updateOptions();
   }
 
   // remove progress bar. This automatically called after optionValues are set
@@ -169,29 +121,15 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     this.classList.remove('mdw-search-async-searching');
   }
 
-
-  #onInputFocus() {
-    this.#panel.show();
-  }
-
-  // set the min width of the select to the input width
-  async #setWidth() {
-    this.#panel.style.minWidth = `${this.offsetWidth}px`;
-
-    // fonts can cause input widths to change
-    await document.fonts.ready;
-    this.#panel.style.minWidth = `${this.offsetWidth}px`;
-  }
-
   #onOpen() {
     this.#textfield.classList.add('mdw-raise-label');
     if (!this.#isSearch) this.#updateOptionDisplay();
-    // else this.#renderOptions();
+    else this.#updateOptions();
 
     this.#arrowElement.classList.add('mdw-open');
     this.addEventListener('click', this.#onClick_bound);
     document.body.addEventListener('keydown', this.#onKeydown_bound);
-    if (this.#isSearch) this.#input.addEventListener('input', this.#onInputSearch_debounce);
+    if (this.#isSearch) this.#input.addEventListener('input', this.#onInputSearch_debounce_bound);
     if (this.#isSearchAsync) this.#input.addEventListener('input', this.#onInputSearchAsync_bound);
   }
 
@@ -200,27 +138,31 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     this.#arrowElement.classList.remove('mdw-open');
     this.removeEventListener('click', this.#onClick_bound);
     document.body.removeEventListener('keydown', this.#onKeydown_bound);
-    if (this.#isSearch) this.#input.removeEventListener('input', this.#onInputSearch_debounce);
+    if (this.#isSearch) this.#input.removeEventListener('input', this.#onInputSearch_debounce_bound);
     if (this.#isSearchAsync) this.#input.removeEventListener('input', this.#onInputSearchAsync_bound);
 
     // reset value if not changed
-    this.#input.value = this.#displayValue;
+    this.#input.value = this.#selectedLabel;
+  }
+
+  #onInputFocus() {
+    this.show();
   }
 
   #onClick(event) {
     if (event.target.nodeName === 'MDW-OPTION') {
       this.#selectOption(event.target);
-      this.#panel.close();
+      this.close();
     }
   }
 
   #selectOption(optionElement) {
-    // this.#selectedLabel = util.getTextFromNode(optionElement);
-    this.value = optionElement.value;
+    this.#selectedLabel = util.getTextFromNode(optionElement);
+    this.#selectedValue = optionElement.value;
 
     // clear any autocomplete text
     this.#textfield.autocomplete = '';
-    // this.#updateOptionDisplay();
+    this.#updateOptionDisplay();
     this.dispatchEvent(new Event('change', this));
   }
 
@@ -231,12 +173,26 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
       currentSelected.removeAttribute('aria-selected');
     }
 
-    const nextSelected = this.querySelector(`mdw-option[value="${this.#value}"]`);
+    const nextSelected = this.querySelector(`mdw-option[value="${this.#selectedValue}"]`);
     if (nextSelected) {
       nextSelected.setAttribute('selected', '');
       nextSelected.setAttribute('aria-selected', 'true');
       nextSelected.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+  }
+
+  #updateOptions() {
+    const fragment = new DocumentFragment();
+    for (const item of this.#options) {
+      fragment.append(item.element);
+    }
+    this.replaceChildren(fragment);
+    if (this.#isSearchAsync) {
+      this.insertAdjacentHTML('afterbegin', '<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>');
+    }
+    if (this.#options.length === 0) this.insertAdjacentHTML('beforeend', '<div class="mdw-no-items">No items</div> ');
+    this.#updateOptionDisplay();
+    this.resolveSearch();
   }
 
   #onKeydown(event) {
@@ -245,14 +201,16 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     const tab = key === 'Tab';
     const enter = key === 'Enter';
     const downArrow = key === 'ArrowDown';
+    const rightArrow = key === 'ArrowRight';
     const upArrow = key === 'ArrowUp';
+    const leftArrow = key === 'ArrowLeft';
 
-    if (escape && this.clickOutsideToClose === true) this.#panel.close();
+    if (escape && this.clickOutsideToClose === true) this.close();
 
-    if ((tab && !shiftKey) || downArrow) {
+    if ((tab && !shiftKey) || downArrow || rightArrow) {
       this.#focusNext();
       event.preventDefault();
-    } else if ((tab && shiftKey) || upArrow) {
+    } else if ((tab && shiftKey) || upArrow || leftArrow) {
       this.#focusPrevious();
       event.preventDefault();
     }
@@ -262,12 +220,12 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
       if (focusedElement.nodeName === 'INPUT') {
         const firstOption = this.querySelector('mdw-option');
         firstOption.click();
-        this.#panel.close();
+        this.close();
       }
 
       if (focusedElement.nodeName === 'MDW-OPTION') {
         event.target.click();
-        this.#panel.close();
+        this.close();
       }
     }
   }
@@ -304,13 +262,12 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     if (nextFocus) nextFocus.focus();
   }
 
-  #onInputSearch() {
-    const terms = this.#input.value.trim();
-    if (!terms) return this.#renderOptions();
+  #onInputSearch(event) {
+    const terms = event.target.value.trim();
+    if (!terms) return this.#updateOptions();
 
     const filtered = util.fuzzySearch(terms, this.#options);
-    console.log('filtered', filtered);
-
+    
     const fragment = new DocumentFragment();
     for (const item of filtered) {
       fragment.append(item.element);
@@ -329,29 +286,24 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     }
   }
 
-
-  #renderOptions() {
-    const fragment = new DocumentFragment();
-    for (const item of this.#options) {
-      fragment.append(item.element);
-    }
-    this.replaceChildren(fragment);
-    if (this.#isSearchAsync) {
-      this.insertAdjacentHTML('afterbegin', '<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>');
-    }
-    if (this.#options.length === 0) this.insertAdjacentHTML('beforeend', '<div class="mdw-no-items">No items</div> ');
-    this.#updateOptionDisplay();
-    this.resolveSearch();
-  }
-
-  #onInputSearchAsync() {
-    const terms = this.#input.value.trim();
-    if (!terms) return this.#renderOptions();
+  #onInputSearchAsync(event) {
+    const terms = event.target.value.trim();
+    if (!terms) return this.#updateOptions();
     this.classList.add('mdw-search-async-searching');
     this.#searchAsyncEvent_debounced();
   }
 
-  #searchAsyncEvent() {
-    this.dispatchEvent(new Event('search', this));
+  #searchAsyncEvent(event) {
+    this.#input.dispatchEvent(new Event('search', this));
+  }
+
+  // set the min width of the select to the input width
+  async #setWidth() {
+    this.style.minWidth = `${this.#textfield.offsetWidth}px`;
+    this.#input.addEventListener('focus', this.#onInputFocus_bound);
+
+    // fonts can cause input widths to change
+    await document.fonts.ready;
+    this.style.minWidth = `${this.#textfield.offsetWidth}px`;
   }
 });

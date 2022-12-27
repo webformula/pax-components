@@ -4,6 +4,8 @@ import util from '../../core/util.js';
 import errorIconSVGString from '../../svg-icons/error_FILL1_wght400_GRAD0_opsz24.svg';
 
 
+// TODO fix disabled when using input attr directly
+
 
 const handleReportValidityScrollIntoView = util.debounce(input => {
   // check if already on screen

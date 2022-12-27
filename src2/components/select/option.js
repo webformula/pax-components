@@ -1,12 +1,13 @@
 import HTMLElementExtended from "../HTMLElementExtended.js";
 import styleAsString from '!!raw-loader!./option.css';
 import Ripple from '../../core/Ripple.js';
+import util from '../../core/util.js';
 
 
 customElements.define('mdw-option', class MDWOptionGroupElement extends HTMLElementExtended {
   useShadowRoot = true;
 
-  #value = this.getAttribute('value') || '';
+  #value = this.getAttribute('value') || util.getTextFromNode(this);
   #ripple;
 
   constructor() {

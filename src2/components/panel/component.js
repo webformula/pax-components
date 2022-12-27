@@ -128,8 +128,8 @@ export default class MDWPanelElement extends HTMLElementExtended {
   }
 
   #onClickOutside(event) {
-    if (this.contains(event.target)) return;
-    const isIgnoreElement = this.#clickOutsideCloseIgnoreElements.find(v => v.contains(event.target));
+    if (event.path.includes(this)) return;
+    const isIgnoreElement = this.#clickOutsideCloseIgnoreElements.find(v => event.path.includes(v));
     if (isIgnoreElement) return;
     this.close();
   }

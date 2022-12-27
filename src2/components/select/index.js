@@ -1,2 +1,2 @@
 import './select.js';
-import './option.js'
+import './option.js';

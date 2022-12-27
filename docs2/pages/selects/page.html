@@ -4,39 +4,31 @@
     <div class="mdw-supporting-text">Selects are menus with text fields</div>
   </div>
   <div class="mdw-card-content">
-    <mdw-textfield>
-      <input>
-      <label>Basic</label>
-      <mdw-select>
-        <mdw-option value="1">one</mdw-option>
-        <mdw-option value="2">two</mdw-option>
-        <mdw-option value="3">three</mdw-option>
-        <mdw-option value="4">four</mdw-option>
-        <mdw-option value="5">five</mdw-option>
-        <mdw-option value="6">six</mdw-option>
-        <mdw-option value="7">seven</mdw-option>
-        <mdw-option value="8">eight</mdw-option>
-        <mdw-option value="9">nine</mdw-option>
-        <mdw-option value="10">ten</mdw-option>
-      </mdw-select>
-    </mdw-textfield>
+    <mdw-select label="Standard">
+      <mdw-option value="1">one</mdw-option>
+      <mdw-option value="2">two</mdw-option>
+      <mdw-option value="3">three</mdw-option>
+      <mdw-option value="4">four</mdw-option>
+      <mdw-option value="5">five</mdw-option>
+      <mdw-option value="6">six</mdw-option>
+      <mdw-option value="7">seven</mdw-option>
+      <mdw-option value="8">eight</mdw-option>
+      <mdw-option value="9">nine</mdw-option>
+      <mdw-option value="10">ten</mdw-option>
+    </mdw-select>
 
-    <mdw-textfield>
-      <input>
-      <label>Search</label>
-      <mdw-select class="mdw-search">
-        <mdw-option value="1">one</mdw-option>
-        <mdw-option value="2">two</mdw-option>
-        <mdw-option value="3">three</mdw-option>
-        <mdw-option value="4">four</mdw-option>
-        <mdw-option value="5">five</mdw-option>
-        <mdw-option value="6">six</mdw-option>
-        <mdw-option value="7">seven</mdw-option>
-        <mdw-option value="8">eight</mdw-option>
-        <mdw-option value="9">nine</mdw-option>
-        <mdw-option value="10">ten</mdw-option>
-      </mdw-select>
-    </mdw-textfield>
+    <mdw-select class="mdw-search" label="Search">
+      <mdw-option value="1">one</mdw-option>
+      <mdw-option value="2">two</mdw-option>
+      <mdw-option value="3">three</mdw-option>
+      <mdw-option value="4">four</mdw-option>
+      <mdw-option value="5">five</mdw-option>
+      <mdw-option value="6">six</mdw-option>
+      <mdw-option value="7">seven</mdw-option>
+      <mdw-option value="8">eight</mdw-option>
+      <mdw-option value="9">nine</mdw-option>
+      <mdw-option value="10">ten</mdw-option>
+    </mdw-select>
   </div>
 </mdw-card>
 
@@ -60,39 +52,88 @@
       <div class="mdw-headline">Basic</div>
       
       <div class="example">
-        <mdw-textfield>
-          <input>
-          <label>Label</label>
-          <mdw-select>
-            <mdw-option value="1">one</mdw-option>
-            <mdw-option value="2">two</mdw-option>
-            <mdw-option value="3">three</mdw-option>
-            <mdw-option value="4">four</mdw-option>
-            <mdw-option value="5">five</mdw-option>
-            <mdw-option value="6">six</mdw-option>
-            <mdw-option value="7">seven</mdw-option>
-            <mdw-option value="8">eight</mdw-option>
-            <mdw-option value="9">nine</mdw-option>
-            <mdw-option value="10">ten</mdw-option>
-          </mdw-select>
-        </mdw-textfield>
+        <mdw-select label="Label">
+          <mdw-option value="1">one</mdw-option>
+          <mdw-option value="2">two</mdw-option>
+          <mdw-option value="3">three</mdw-option>
+          <mdw-option value="4">four</mdw-option>
+          <mdw-option value="5">five</mdw-option>
+          <mdw-option value="6">six</mdw-option>
+          <mdw-option value="7">seven</mdw-option>
+          <mdw-option value="8">eight</mdw-option>
+          <mdw-option value="9">nine</mdw-option>
+          <mdw-option value="10">ten</mdw-option>
+        </mdw-select>
 
-        <mdw-textfield>
-          <input disabled>
-          <label>Disabled</label>
-          <mdw-select>
-            <mdw-option value="1">one</mdw-option>
-          </mdw-select>
-        </mdw-textfield>
+        <mdw-select label="Label" disabled>
+          <mdw-option value="1">one</mdw-option>
+          <mdw-option value="2">two</mdw-option>
+          <mdw-option value="3">three</mdw-option>
+          <mdw-option value="4">four</mdw-option>
+          <mdw-option value="5">five</mdw-option>
+          <mdw-option value="6">six</mdw-option>
+          <mdw-option value="7">seven</mdw-option>
+          <mdw-option value="8">eight</mdw-option>
+          <mdw-option value="9">nine</mdw-option>
+          <mdw-option value="10">ten</mdw-option>
+        </mdw-select>
       </div>
     </div>
 
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-textfield>
-    <input>
-    <label>Label</label>
-    <mdw-select>
+  ${escapeHTML(`<mdw-select label="Label">
+    <mdw-option value="1">one</mdw-option>
+    <mdw-option value="2">two</mdw-option>
+    <mdw-option value="3">three</mdw-option>
+    <mdw-option value="4">four</mdw-option>
+    <mdw-option value="5">five</mdw-option>
+    <mdw-option value="6">six</mdw-option>
+    <mdw-option value="7">seven</mdw-option>
+    <mdw-option value="8">eight</mdw-option>
+    <mdw-option value="9">nine</mdw-option>
+    <mdw-option value="10">ten</mdw-option>
+  </mdw-select>
+  
+  <mdw-select label="Label" disabled>
+    <mdw-option value="1">one</mdw-option>
+    <mdw-option value="2">two</mdw-option>
+    <mdw-option value="3">three</mdw-option>
+    <mdw-option value="4">four</mdw-option>
+    <mdw-option value="5">five</mdw-option>
+    <mdw-option value="6">six</mdw-option>
+    <mdw-option value="7">seven</mdw-option>
+    <mdw-option value="8">eight</mdw-option>
+    <mdw-option value="9">nine</mdw-option>
+    <mdw-option value="10">ten</mdw-option>
+  </mdw-select>`)}
+      </code>
+    </pre>
+  </mdw-card>
+
+  <mdw-card id="search">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Search</div>
+  
+      <div class="example">
+        <mdw-select class="mdw-search" label="Label">
+          <mdw-option value="1">one</mdw-option>
+          <mdw-option value="2">two</mdw-option>
+          <mdw-option value="3">three</mdw-option>
+          <mdw-option value="4">four</mdw-option>
+          <mdw-option value="5">five</mdw-option>
+          <mdw-option value="6">six</mdw-option>
+          <mdw-option value="7">seven</mdw-option>
+          <mdw-option value="8">eight</mdw-option>
+          <mdw-option value="9">nine</mdw-option>
+          <mdw-option value="10">ten</mdw-option>
+        </mdw-select>
+      </div>
+    </div>
+  
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-select class="mdw-search" label="Label">
       <mdw-option value="1">one</mdw-option>
       <mdw-option value="2">two</mdw-option>
       <mdw-option value="3">three</mdw-option>
@@ -103,62 +144,7 @@
       <mdw-option value="8">eight</mdw-option>
       <mdw-option value="9">nine</mdw-option>
       <mdw-option value="10">ten</mdw-option>
-    </mdw-select>
-  </mdw-textfield>
-  
-  <mdw-textfield>
-    <input disabled>
-    <label>Disabled</label>
-    <mdw-select>
-      <mdw-option value="1">one</mdw-option>
-    </mdw-select>
-  </mdw-textfield>`)}
-      </code>
-    </pre>
-  </mdw-card>
-
-  <mdw-card id="search">
-    <div class="mdw-card-content">
-      <div class="mdw-headline">Search</div>
-  
-      <div class="example">
-        <mdw-textfield>
-          <input>
-          <label>Label</label>
-          <mdw-select class="mdw-search">
-            <mdw-option value="1">one</mdw-option>
-            <mdw-option value="2">two</mdw-option>
-            <mdw-option value="3">three</mdw-option>
-            <mdw-option value="4">four</mdw-option>
-            <mdw-option value="5">five</mdw-option>
-            <mdw-option value="6">six</mdw-option>
-            <mdw-option value="7">seven</mdw-option>
-            <mdw-option value="8">eight</mdw-option>
-            <mdw-option value="9">nine</mdw-option>
-            <mdw-option value="10">ten</mdw-option>
-          </mdw-select>
-        </mdw-textfield>
-      </div>
-    </div>
-  
-    <pre>
-        <code class="language-html">
-    ${escapeHTML(`<mdw-textfield>
-      <input>
-      <label>Label</label>
-      <mdw-select class="mdw-search">
-        <mdw-option value="1">one</mdw-option>
-        <mdw-option value="2">two</mdw-option>
-        <mdw-option value="3">three</mdw-option>
-        <mdw-option value="4">four</mdw-option>
-        <mdw-option value="5">five</mdw-option>
-        <mdw-option value="6">six</mdw-option>
-        <mdw-option value="7">seven</mdw-option>
-        <mdw-option value="8">eight</mdw-option>
-        <mdw-option value="9">nine</mdw-option>
-        <mdw-option value="10">ten</mdw-option>
-      </mdw-select>
-    </mdw-textfield>`)}
+    </mdw-select>`)}
         </code>
       </pre>
   </mdw-card>
@@ -169,30 +155,45 @@
       <div class="mdw-headline">Async search</div>
       
       <div class="example">
-        <mdw-textfield>
-          <input onsearch="page.search(this.value)">
-          <label>Label</label>
-          <mdw-select id="async-search-select" class="mdw-search-async">
-          </mdw-select>
-        </mdw-textfield>
+        <mdw-select id="async-search-select" class="mdw-search-async" label="Label">
+          <mdw-option value="1">one</mdw-option>
+          <mdw-option value="2">two</mdw-option>
+          <mdw-option value="3">three</mdw-option>
+          <mdw-option value="4">four</mdw-option>
+          <mdw-option value="5">five</mdw-option>
+          <mdw-option value="6">six</mdw-option>
+          <mdw-option value="7">seven</mdw-option>
+          <mdw-option value="8">eight</mdw-option>
+          <mdw-option value="9">nine</mdw-option>
+          <mdw-option value="10">ten</mdw-option>
+        </mdw-select>
       </div>
     </div>
 
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-textfield>
-    <input onsearch="window.search(this.value)">
-    <label>Label</label>
-    <mdw-select class="mdw-search-async">
-    </mdw-select>
-  </mdw-textfield>`)}
+  ${escapeHTML(`<mdw-select id="async-search-select" class="mdw-search-async" label="Label">
+    <mdw-option value="1">one</mdw-option>
+    <mdw-option value="2">two</mdw-option>
+    <mdw-option value="3">three</mdw-option>
+    <mdw-option value="4">four</mdw-option>
+    <mdw-option value="5">five</mdw-option>
+    <mdw-option value="6">six</mdw-option>
+    <mdw-option value="7">seven</mdw-option>
+    <mdw-option value="8">eight</mdw-option>
+    <mdw-option value="9">nine</mdw-option>
+    <mdw-option value="10">ten</mdw-option>
+  </mdw-select>`)}
       </code>
     </pre>
     
     <pre>
       <code class="language-javascript">
   ${`// do some async stuff
-  window.search = async () => document.querySelector('select-search').optionValues = [{ label: 'One', value: 1 }, { label: 'Two', value: 2}];`}
+  document.querySelector('#async-search-select').addEventListener('search', e => {
+    console.log(e.target.display); // what is being typed
+    e.target.optionValues = [{ label: 'One', value: 1 }, { label: 'Two', value: 2}];
+  });`}
       </code>
     </pre>
   </mdw-card>

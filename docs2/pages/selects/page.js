@@ -10,6 +10,10 @@ export default new class extends Page {
     return this.renderTemplateString(html);
   }
 
+  afterRender() {
+    document.querySelector('#async-search-select').addEventListener('search', e => page.search(e.target.display));
+  }
+
   async search(value) {
     const select = document.querySelector('#async-search-select');
 
@@ -17,23 +21,23 @@ export default new class extends Page {
     select.optionValues = [
       {
         label: 'One',
-        value: 'one'
+        value: '1'
       },
       {
         label: 'Two',
-        value: 'two'
+        value: '2'
       },
       {
         label: 'Three',
-        value: 'three'
+        value: '3'
       },
       {
         label: 'Four',
-        value: 'four'
+        value: '4'
       },
       {
         label: 'Five',
-        value: 'five'
+        value: '5'
       }
     ].filter(v => v.label.toLowerCase().includes(value.toLowerCase().trim()));;
   }
