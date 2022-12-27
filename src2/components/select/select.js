@@ -152,9 +152,9 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     } else {
       this.#options = values.map(v => {
         const element = document.createElement('mdw-option');
-        element.value = v.value;
+        element.setAttribute('value', v.value);
         element.innerText = v.label;
-
+        
         return {
           label: v.label,
           element
@@ -215,12 +215,10 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
   }
 
   #selectOption(optionElement) {
-    // this.#selectedLabel = util.getTextFromNode(optionElement);
     this.value = optionElement.value;
 
     // clear any autocomplete text
     this.#textfield.autocomplete = '';
-    // this.#updateOptionDisplay();
     this.dispatchEvent(new Event('change', this));
   }
 
@@ -309,8 +307,6 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     if (!terms) return this.#renderOptions();
 
     const filtered = util.fuzzySearch(terms, this.#options);
-    console.log('filtered', filtered);
-
     const fragment = new DocumentFragment();
     for (const item of filtered) {
       fragment.append(item.element);

@@ -28,6 +28,8 @@ customElements.define('mdw-option', class MDWOptionGroupElement extends HTMLElem
   connectedCallback() {
     this.tabIndex = 0;
     this.setAttribute('role', 'option');
+
+    this.#value = this.getAttribute('value') || util.getTextFromNode(this);
   }
 
   afterRender() {
