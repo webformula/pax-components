@@ -12,7 +12,7 @@
   top: 0;
 }
 
-:host(.mdw-search-async-searching) ::slotted(mdw-progress-linear) {
+:host(.mdw-filter-async-active) ::slotted(mdw-progress-linear) {
   display: block;
 }
 
@@ -56,7 +56,7 @@ mdw-textfield .mdw-select-arrow.mdw-open {
 }
 
 
-mdw-textfield.mdw-select-no-search input {
+mdw-textfield.mdw-select-no-filter input {
   cursor: pointer;
 }
 

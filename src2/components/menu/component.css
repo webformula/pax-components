@@ -1,4 +1,4 @@
-mdw-menu > mdw-panel {
+mdw-menu.mdw-panel {
   min-width: 112px;
   max-width: 280px;
   max-height: 320px;
@@ -7,6 +7,8 @@ mdw-menu > mdw-panel {
   border-radius: var(--mdw-shape-extra-small);
   background-color: var(--mdw-surface);
   box-shadow: var(--mdw-elevation-1);
+  box-sizing: border-box;
+  /* transform-origin: top; */
 }
 
 /* button styles are in src/components/button/component.css */

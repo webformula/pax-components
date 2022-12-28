@@ -11,11 +11,11 @@ export default new class extends Page {
   }
 
   afterRender() {
-    document.querySelector('#async-search-select').addEventListener('search', e => page.search(e.target.display));
+    document.querySelector('#async-filter-select').addEventListener('filter', e => page.filter(e.target.display));
   }
 
-  async search(value) {
-    const select = document.querySelector('#async-search-select');
+  async filter(value) {
+    const select = document.querySelector('#async-filter-select');
 
     await this.wait(500);
     select.optionValues = [
@@ -42,8 +42,8 @@ export default new class extends Page {
     ].filter(v => v.label.toLowerCase().includes(value.toLowerCase().trim()));;
   }
 
-  async searchOnEnter(value) {
-    const select = document.querySelector('#select-search-on-enter');
+  async filterOnEnter(value) {
+    const select = document.querySelector('#select-filter-on-enter');
 
     if (!value) {
       select.options = [

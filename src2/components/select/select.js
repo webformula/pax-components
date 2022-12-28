@@ -6,8 +6,8 @@ import util from '../../core/util.js';
 
 
 
-// TODO async search. figure out how to handle search clear / re open
-// TODO keyboard for search (enter key). Do i want this?
+// TODO async filter. figure out how to handle filter clear / re open
+// TODO keyboard for filter (enter key). Do i want this?
 // TODO fix click for non input. the text field clickable area that is not the input
 
 
@@ -24,16 +24,16 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
   #input;
   #arrowElement;
   #options = [];
-  #isSearch = this.classList.contains('mdw-search');
-  #isSearchAsync = this.classList.contains('mdw-search-async');
+  #isFilter = this.classList.contains('mdw-filter');
+  #isFilterAsync = this.classList.contains('mdw-filter-async');
   #onOpen_bound = this.#onOpen.bind(this);
   #onClose_bound = this.#onClose.bind(this);
   #onInputFocus_bound = this.#onInputFocus.bind(this);
   #onClick_bound = this.#onClick.bind(this);
   #onKeydown_bound = this.#onKeydown.bind(this);
-  #onInputSearch_debounce = util.debounce(this.#onInputSearch, 300).bind(this);
-  #onInputSearchAsync_bound = this.#onInputSearchAsync.bind(this);
-  #searchAsyncEvent_debounced = util.debounce(this.#searchAsyncEvent, 300).bind(this);
+  #onInputFilter_debounce = util.debounce(this.#onInputFilter, 300).bind(this);
+  #onInputFilterAsync_bound = this.#onInputFilterAsync.bind(this);
+  #filterAsyncEvent_debounced = util.debounce(this.#filterAsyncEvent, 300).bind(this);
 
 
   constructor() {
@@ -61,13 +61,13 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     this.#setWidth();
 
     // makes the input not usable, only clickable. Create normal select
-    if (!this.#isSearch && !this.#isSearchAsync) {
-      this.#textfield.classList.add('mdw-select-no-search');
+    if (!this.#isFilter && !this.#isFilterAsync) {
+      this.#textfield.classList.add('mdw-select-no-filter');
       this.#input.setAttribute('readonly', '');
-      this.#panel.offsetY = -this.#textfield.offsetHeight;
+      this.#panel.positionOverlap = true;
     }
 
-    if (this.#isSearchAsync) {
+    if (this.#isFilterAsync) {
       this.insertAdjacentHTML('afterbegin', '<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>');
     }
 
@@ -84,8 +84,8 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     this.#panel.removeEventListener('open', this.#onOpen_bound);
     this.#panel.removeEventListener('close', this.#onClose_bound);
     document.body.removeEventListener('keydown', this.#onKeydown_bound);
-    if (this.#isSearch) this.#input.removeEventListener('input', this.#onInputSearch_debounce);
-    if (this.#isSearchAsync) this.#input.removeEventListener('input', this.#onInputSearchAsync_bound);
+    if (this.#isFilter) this.#input.removeEventListener('input', this.#onInputFilter_debounce);
+    if (this.#isFilterAsync) this.#input.removeEventListener('input', this.#onInputFilterAsync_bound);
   }
 
   template() {
@@ -165,8 +165,8 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
   }
 
   // remove progress bar. This automatically called after optionValues are set
-  resolveSearch() {
-    this.classList.remove('mdw-search-async-searching');
+  resolveFilter() {
+    this.classList.remove('mdw-filter-async-active');
   }
 
 
@@ -185,14 +185,14 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
 
   #onOpen() {
     this.#textfield.classList.add('mdw-raise-label');
-    if (!this.#isSearch) this.#updateOptionDisplay();
+    if (!this.#isFilter) this.#updateOptionDisplay();
     // else this.#renderOptions();
 
     this.#arrowElement.classList.add('mdw-open');
     this.addEventListener('click', this.#onClick_bound);
     document.body.addEventListener('keydown', this.#onKeydown_bound);
-    if (this.#isSearch) this.#input.addEventListener('input', this.#onInputSearch_debounce);
-    if (this.#isSearchAsync) this.#input.addEventListener('input', this.#onInputSearchAsync_bound);
+    if (this.#isFilter) this.#input.addEventListener('input', this.#onInputFilter_debounce);
+    if (this.#isFilterAsync) this.#input.addEventListener('input', this.#onInputFilterAsync_bound);
   }
 
   #onClose() {
@@ -200,8 +200,8 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     this.#arrowElement.classList.remove('mdw-open');
     this.removeEventListener('click', this.#onClick_bound);
     document.body.removeEventListener('keydown', this.#onKeydown_bound);
-    if (this.#isSearch) this.#input.removeEventListener('input', this.#onInputSearch_debounce);
-    if (this.#isSearchAsync) this.#input.removeEventListener('input', this.#onInputSearchAsync_bound);
+    if (this.#isFilter) this.#input.removeEventListener('input', this.#onInputFilter_debounce);
+    if (this.#isFilterAsync) this.#input.removeEventListener('input', this.#onInputFilterAsync_bound);
 
     // reset value if not changed
     this.#input.value = this.#displayValue;
@@ -302,7 +302,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     if (nextFocus) nextFocus.focus();
   }
 
-  #onInputSearch() {
+  #onInputFilter() {
     const terms = this.#input.value.trim();
     if (!terms) return this.#renderOptions();
 
@@ -332,22 +332,22 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
       fragment.append(item.element);
     }
     this.replaceChildren(fragment);
-    if (this.#isSearchAsync) {
+    if (this.#isFilterAsync) {
       this.insertAdjacentHTML('afterbegin', '<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>');
     }
     if (this.#options.length === 0) this.insertAdjacentHTML('beforeend', '<div class="mdw-no-items">No items</div> ');
     this.#updateOptionDisplay();
-    this.resolveSearch();
+    this.resolveFilter();
   }
 
-  #onInputSearchAsync() {
+  #onInputFilterAsync() {
     const terms = this.#input.value.trim();
     if (!terms) return this.#renderOptions();
-    this.classList.add('mdw-search-async-searching');
-    this.#searchAsyncEvent_debounced();
+    this.classList.add('mdw-filter-async-active');
+    this.#filterAsyncEvent_debounced();
   }
 
-  #searchAsyncEvent() {
-    this.dispatchEvent(new Event('search', this));
+  #filterAsyncEvent() {
+    this.dispatchEvent(new Event('filter', this));
   }
 });

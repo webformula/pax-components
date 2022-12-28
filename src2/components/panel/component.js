@@ -5,16 +5,17 @@ import util from '../../core/util.js';
 
 export default class MDWPanelElement extends HTMLElementExtended {
   #overflowScrollRegex = /(auto|scroll)/;
-  #validAnimations = ['translateY', 'scale'];
+  #validAnimations = ['translateY', 'scale', 'expand'];
   #animation = this.getAttribute('animation') || 'translateY';
   #backdrop = false;
   #clickOutsideClose = true;
   #onClickOutside_bound = this.#onClickOutside.bind(this);
   #clickOutsideCloseIgnoreElements = [];
   #target = null;
-  #offsetY = 0;
-  #offsetX = 0;
+  #lastOffsetHeight;
+  #lastOffsetWidth;
   #targetScrollContainer;
+  #positionOverlap = false;
   #onTargetScroll_bound = util.rafThrottle(this.#onTargetScroll.bind(this));
   
   constructor() {
@@ -24,6 +25,7 @@ export default class MDWPanelElement extends HTMLElementExtended {
   connectedCallback() {
     this.classList.add('mdw-panel');
     this.classList.add('mdw-no-animation');
+    if (this.classList.contains('mdw-position-overlap')) this.#positionOverlap = true;
   }
 
   disconnectedCallback() {
@@ -75,12 +77,11 @@ export default class MDWPanelElement extends HTMLElementExtended {
     this.classList.toggle('mdw-target', !!this.#target);
   }
 
-  get offsetY() {
-    return this.#offsetY;
+  get positionOverlap() {
+    return this.#positionOverlap;
   }
-  set offsetY(value) {
-    if (isNaN(value)) throw Error('must be a number');
-    this.#offsetY = value;
+  set positionOverlap(value) {
+    this.#positionOverlap = !!value;
   }
 
   addClickOutsideCloseIgnore(element) {
@@ -93,6 +94,7 @@ export default class MDWPanelElement extends HTMLElementExtended {
     if (this.open === true) return;
 
     if (this.#animation === 'scale') this.classList.add('mdw-animation-scale');
+    if (this.#animation === 'expand') this.classList.add('mdw-animation-expand');
     if (backdrop) util.addBackdrop(this);
     if (this.#target) this.#setupTarget();
     this.setAttribute('open', '');
@@ -108,6 +110,8 @@ export default class MDWPanelElement extends HTMLElementExtended {
     this.classList.add('mdw-animating');
     util.animationendAsync(this).finally(() => {
       this.classList.remove('mdw-animating');
+      this.#lastOffsetHeight = this.offsetHeight;
+      this.#lastOffsetWidth = this.offsetWidth;
     });
   }
 
@@ -145,20 +149,29 @@ export default class MDWPanelElement extends HTMLElementExtended {
     const bounds = this.#target.getBoundingClientRect();
     const { clientWidth, clientHeight } = document.documentElement;
     // initial position is top left panel aligned with bottom left target
-    const panelBottom = bounds.bottom + this.offsetHeight;
-    const panelRight = bounds.left + this.offsetWidth;
+
+    if (!this.#lastOffsetHeight) this.#lastOffsetHeight = this.offsetHeight;
+    if (!this.#lastOffsetWidth) this.#lastOffsetWidth = this.offsetWidth;
+    const panelBottom = bounds.bottom + this.#lastOffsetHeight;
+    const panelRight = bounds.left + this.#lastOffsetWidth;
 
     // Panel offscreen adjustment
     if (panelBottom <= clientHeight) {
-      this.style.top = `${bounds.bottom + this.#offsetY}px`;
+      this.style.bottom = 'unset';
+      if (this.#positionOverlap) this.style.top = `${bounds.top}px`;
+      else this.style.top = `${bounds.bottom}px`;
     } else {
-      this.style.top = `${bounds.top - this.offsetHeight - this.#offsetY}px`;
+      this.style.top = 'unset';
+      if (this.#positionOverlap) this.style.bottom = `${clientHeight - bounds.bottom}px`;
+      else this.style.bottom = `${clientHeight - bounds.top}px`;
     }
 
     if (panelRight <= clientWidth) {
-      this.style.left = `${bounds.left + this.#offsetX}px`;
+      this.style.right = 'unset';
+      this.style.left = `${bounds.left}px`;
     } else {
-      this.style.left = `${bounds.right - this.offsetWidth}px`;
+      this.style.left = 'unset';
+      this.style.right = `${client.width - bounds.right}px`;
     }
   }
 

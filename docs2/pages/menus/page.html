@@ -30,6 +30,7 @@
 
 <div class="links">
   <a href="#basic">Basic</a>
+  <a href="#position-overlap">Position overlap</a>
 </div>
 
 
@@ -51,7 +52,7 @@
             <mdw-icon>content_paste</mdw-icon>
             paste
           </mdw-button>
-          <!-- <mdw-button>plain</mdw-button> -->
+          <mdw-button>plain</mdw-button>
         </mdw-menu>
       </div>
     </div>
@@ -72,5 +73,43 @@
   </mdw-menu>`)}
       </code>
     </pre>
+  </mdw-card>
+
+  <mdw-card id="positon-overlap">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Position overlap</div>
+  
+      <div class="example">
+        <mdw-button id="control2">menu</mdw-button>
+        <mdw-menu control="#control2" class="mdw-position-overlap">
+          <mdw-button>
+            <mdw-icon>content_copy</mdw-icon>
+            copy
+          </mdw-button>
+          <mdw-button>
+            <mdw-icon>content_paste</mdw-icon>
+            paste
+          </mdw-button>
+          <mdw-button>plain</mdw-button>
+        </mdw-menu>
+      </div>
+    </div>
+  
+    <pre>
+        <code class="language-html">
+    ${escapeHTML(`<mdw-button id="control2">menu</mdw-button>
+    <mdw-menu control="#control2" class="mdw-position-overlap">
+      <mdw-button>
+        <mdw-icon>content_copy</mdw-icon>
+        copy
+      </mdw-button>
+      <mdw-button>
+        <mdw-icon>content_paste</mdw-icon>
+        paste
+      </mdw-button>
+      <mdw-button>plain</mdw-button>
+    </mdw-menu>`)}
+        </code>
+      </pre>
   </mdw-card>
 </section>
