@@ -90,7 +90,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
 
   template() {
     return /*html*/`
-      <mdw-textfield ${!this.#disabled ? '' : 'disabled'}>
+      <mdw-textfield ${!this.#disabled ? '' : 'disabled'} ${!this.classList.contains('mdw-outlined') ? '' : 'class="mdw-outlined"'}>
         <input value="${this.#displayValue}">
         ${!this.#label ? '' : `<label>${this.#label}</label>`}
         <div class="mdw-select-arrow"></div>
@@ -154,7 +154,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
         const element = document.createElement('mdw-option');
         element.setAttribute('value', v.value);
         element.innerText = v.label;
-        
+
         return {
           label: v.label,
           element
