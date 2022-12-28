@@ -18,6 +18,7 @@ import './components/date-picker/index.js';
 import './components/dialog/component.js';
 import './components/fab/component.js';
 import './components/icon/component.js';
+import './components/list/index.js';
 import './components/menu/component.js';
 import './components/navigation/component.js';
 import './components/panel/component.js';

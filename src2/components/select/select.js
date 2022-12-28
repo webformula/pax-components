@@ -56,7 +56,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     this.#input = this.shadowRoot.querySelector('input');
     this.#panel = this.shadowRoot.querySelector('mdw-panel');
     this.#panel.target = this;
-    this.#panel.animation = 'scale';
+    this.#panel.animation = 'expand';
     this.#panel.addClickOutsideCloseIgnore(this.#textfield);
     this.#setWidth();
 
