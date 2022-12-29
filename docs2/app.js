@@ -36,8 +36,10 @@ import selects from './pages/selects/page.js';
 import sliders from './pages/sliders/page.js';
 import snackbars from './pages/snackbars/page.js';
 import switches from './pages/switches/page.js';
+import tabs from './pages/tabs/page.js';
 import textFields from './pages/text fields/page.js';
 import topAppBars from './pages/top app bars/page.js';
+import tooltips from './pages/tooltips/page.js';
 
 
 
@@ -62,8 +64,10 @@ registerPage(selects, '/selects');
 registerPage(sliders, '/sliders');
 registerPage(snackbars, '/snackbars');
 registerPage(switches, '/switches');
+registerPage(tabs, '/tabs');
 registerPage(textFields, '/text-fields');
 registerPage(topAppBars, '/top-app-bars');
+registerPage(tooltips, '/tooltips');
 
 
 

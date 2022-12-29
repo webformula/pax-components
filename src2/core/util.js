@@ -82,6 +82,16 @@ const mdwUtil = new class MDWUtil {
       .trim();
   }
 
+  getTextWidth(element) {
+    const styles = window.getComputedStyle(element);
+    this.#textLengthDiv.style.fontSize = styles.getPropertyValue('font-size');
+    this.#textLengthDiv.style.fontWeight = styles.getPropertyValue('font-weight');
+    this.#textLengthDiv.style.linHeight = styles.getPropertyValue('line-height');
+    this.#textLengthDiv.style.letterSpacing = styles.getPropertyValue('letter-spacing');
+    this.#textLengthDiv.innerText = this.getTextFromNode(element);
+    return this.#textLengthDiv.offsetWidth;
+  }
+
   /** use observer to mimic process.nextTick behavior
    *    This triggers faster than using setTimeout and is more predictable
    */
