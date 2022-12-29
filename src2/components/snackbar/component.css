@@ -23,6 +23,9 @@ mdw-snackbar.mdw-panel {
   bottom: -8px;
 }
 
+mdw-snackbar.mdw-panel.mdw-line-two {
+  height: 68px;
+}
 
 mdw-snackbar mdw-button,
 mdw-snackbar mdw-icon {

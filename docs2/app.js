@@ -37,6 +37,7 @@ import sliders from './pages/sliders/page.js';
 import snackbars from './pages/snackbars/page.js';
 import switches from './pages/switches/page.js';
 import textFields from './pages/text fields/page.js';
+import topAppBars from './pages/top app bars/page.js';
 
 
 
@@ -62,6 +63,7 @@ registerPage(sliders, '/sliders');
 registerPage(snackbars, '/snackbars');
 registerPage(switches, '/switches');
 registerPage(textFields, '/text-fields');
+registerPage(topAppBars, '/top-app-bars');
 
 
 

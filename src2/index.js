@@ -32,6 +32,7 @@ import './components/slider/index.js';
 import './components/snackbar/index.js';
 import './components/switch/component.js';
 import './components/textfield/component.js';
+import './components/top-app-bar/component.js';
 
 
 // TODO look into whenDefined https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/whenDefined
