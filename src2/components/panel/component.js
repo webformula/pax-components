@@ -5,7 +5,7 @@ import util from '../../core/util.js';
 
 export default class MDWPanelElement extends HTMLElementExtended {
   #overflowScrollRegex = /(auto|scroll)/;
-  #validAnimations = ['translateY', 'scale', 'expand'];
+  #validAnimations = ['translateY', 'scale', 'expand', 'transitionYReverse'];
   #animation = this.getAttribute('animation') || 'translateY';
   #backdrop = false;
   #clickOutsideClose = true;
@@ -95,6 +95,7 @@ export default class MDWPanelElement extends HTMLElementExtended {
 
     if (this.#animation === 'scale') this.classList.add('mdw-animation-scale');
     if (this.#animation === 'expand') this.classList.add('mdw-animation-expand');
+    if (this.#animation === 'transitionYReverse') this.classList.add('mdw-animation-transitionYReverse');
     if (backdrop) util.addBackdrop(this);
     if (this.#target) this.#setupTarget();
     this.setAttribute('open', '');

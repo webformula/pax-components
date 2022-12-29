@@ -34,6 +34,7 @@ import radios from './pages/radios/page.js';
 import segmentedButtons from './pages/segmented buttons/page.js';
 import selects from './pages/selects/page.js';
 import sliders from './pages/sliders/page.js';
+import snackbars from './pages/snackbars/page.js';
 import switches from './pages/switches/page.js';
 import textFields from './pages/text fields/page.js';
 
@@ -58,6 +59,7 @@ registerPage(radios, '/radios');
 registerPage(segmentedButtons, '/segmented-buttons');
 registerPage(selects, '/selects');
 registerPage(sliders, '/sliders');
+registerPage(snackbars, '/snackbars');
 registerPage(switches, '/switches');
 registerPage(textFields, '/text-fields');
 

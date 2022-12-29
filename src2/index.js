@@ -2,11 +2,12 @@ import './index.css';
 import { generate } from './core/theme.js';
 generate();
 
-import mdwUtil from './core/util.js';
 import mdwDate from './core/dateUtil.js';
 import mdwDevice from './core/device.js';
 import mdwDialog from './components/dialog/service.js';
 import MDWPanel from './components/panel/service.js';
+import MDWSnackbar from './components/snackbar/service.js';
+import mdwUtil from './core/util.js';
 
 
 import './components/badge/component.js';
@@ -28,6 +29,7 @@ import './components/radio/index.js';
 import './components/segmented-button-group/index.js';
 import './components/select/index.js';
 import './components/slider/index.js';
+import './components/snackbar/index.js';
 import './components/switch/component.js';
 import './components/textfield/component.js';
 
@@ -38,12 +40,10 @@ setTimeout(() => {
 }, 0);
 
 export {
-  // MDWDate,
-  // MDWDialog,
-  // MDWSnackbar,
   mdwDate,
   mdwDevice,
   mdwDialog,
+  MDWPanel,
   mdwUtil,
-  MDWPanel
+  MDWSnackbar
 }

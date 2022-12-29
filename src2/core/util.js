@@ -94,6 +94,12 @@ const mdwUtil = new class MDWUtil {
     }
   }
 
+  async wait(ms = 100) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  }
+
   throttle(fn, ms = 200) {
     let alreadyQueued;
     return function throttled() {
