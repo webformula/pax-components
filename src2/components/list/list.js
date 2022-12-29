@@ -1,5 +1,6 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './list.css';
+import util from '../../core/util.js';
 
 
 // TODO add mutation observer for added list items?
@@ -37,10 +38,15 @@ customElements.define('mdw-list', class MDWListElement extends HTMLElementExtend
 
   set value(value) {
     if (value === null || value === undefined) value = '';
+    value = `${value}`;
     this.#value = value;
     const valueArray = value.split(',');
-    [...this.querySelectorAll('mdw-list-item')].forEach(item => {
-      item.checked = valueArray.includes(item.value);
+
+    // if we call checked before the component is connected, it will overwrite the setter/getter
+    util.nextAnimationFrameAsync().then(() => {
+      [...this.querySelectorAll('mdw-list-item')].forEach(item => {
+        item.checked = valueArray.includes(item.value);
+      });
     });
   }
 

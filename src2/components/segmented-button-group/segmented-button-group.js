@@ -1,5 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './segmented-button-group.css';
+import util from '../../core/util.js';
+
 
 customElements.define('mdw-segmented-button-group', class MDWSegmentedButtonGroupElement extends HTMLElementExtended {
   #multiSelect = this.classList.contains('mdw-multi-select');
@@ -34,8 +36,11 @@ customElements.define('mdw-segmented-button-group', class MDWSegmentedButtonGrou
     if (value === null || value === undefined) value = '';
     this.#value = value;
     const valueArray = value.split(',');
-    [...this.querySelectorAll('mdw-segmented-button')].forEach(item => {
-      item.checked = valueArray.includes(item.value);
+    // if we call checked before the component is connected, it will overwrite the setter/getter
+    util.nextAnimationFrameAsync().then(() => {
+      [...this.querySelectorAll('mdw-segmented-button')].forEach(item => {
+        item.checked = valueArray.includes(item.value);
+      });
     });
   }
 

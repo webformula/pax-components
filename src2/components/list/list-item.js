@@ -9,7 +9,7 @@ import util from '../../core/util.js';
 customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElementExtended {
   #drag;
   #checked = false;
-  #value = '';
+  #value = this.getAttribute('value') || '';
   #selectCheckbox;
   #onclickSelect_bound = this.#onclickSelect.bind(this);
   #onclickAction_bound = this.#onclickAction.bind(this);
@@ -60,17 +60,14 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
       this.#drag = undefined;
     }
   }
-  
-  get #selectable() {
-    return this.parentElement.selectable;
-  }
 
   static get observedAttributes() {
     return ['value', 'checked'];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
-    this[name] = newValue;
+    if (name === 'checked') this.checked = newValue !== null;
+    else this[name] = newValue;
   }
 
   get value() {
@@ -83,14 +80,20 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
   }
 
   get checked() {
+    console.log('get checked');
     return this.#checked;
   }
   set checked(value) {
+    console.log('checked')
     this.#checked = !!value;
     this.classList.toggle('mdw-checked', this.#checked);
     this.setAttribute('aria-checked', this.#checked.toString() || 'false');
     if (this.#selectCheckbox) this.#selectCheckbox.checked = this.checked;
     this.parentElement.updateSelection(this.value, this.checked);
+  }
+
+  get #selectable() {
+    return this.parentElement.selectable;
   }
 
   async remove() {
