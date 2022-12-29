@@ -2,7 +2,7 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import './tab-content.css';
 import util from '../../core/util.js';
 
-
+// TODO add proper tab panel transitions
 customElements.define('mdw-tab-content', class MDWTabContentElement extends HTMLElementExtended {
   #bar;
   #tabChange_bound = this.#tabChange.bind(this);
