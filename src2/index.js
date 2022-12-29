@@ -25,6 +25,7 @@ import './components/panel/component.js';
 import './components/progress-circular/component.js';
 import './components/progress-linear/component.js';
 import './components/radio/index.js';
+import './components/segmented-button-group/index.js';
 import './components/select/index.js';
 import './components/slider/index.js';
 import './components/switch/component.js';

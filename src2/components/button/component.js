@@ -15,6 +15,7 @@ export default class MDWButtonElement extends HTMLElementExtended {
   #type = 'submit';
   #value = '';
   #toggled = false;
+  useRipple = !this.classList.contains('mdw-no-ripple');
   #isToggle = this.classList.contains('mdw-icon-toggle-button');
   #isAsync = this.classList.contains('mdw-async');
   #ripple;
@@ -42,14 +43,16 @@ export default class MDWButtonElement extends HTMLElementExtended {
   }
 
   afterRender() {
-    this.#ripple = new Ripple({
-      element: this.shadowRoot.querySelector('.ripple'),
-      triggerElement: this
-    });
+    if (this.useRipple) {
+      this.#ripple = new Ripple({
+        element: this.shadowRoot.querySelector('.ripple'),
+        triggerElement: this
+      });
+    }
   }
 
   disconnectedCallback() {
-    this.#ripple.destroy();
+    if (this.useRipple)  this.#ripple.destroy();
     this.removeEventListener('mouseup', this.#mouseUp_bound);
 
     if (this.classList.contains('mdw-icon-toggle-button')) {

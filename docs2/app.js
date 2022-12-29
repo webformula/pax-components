@@ -31,8 +31,9 @@ import lists from './pages/lists/page.js';
 import menus from './pages/menus/page.js';
 import progressIndicators from './pages/progress indicators/page.js';
 import radios from './pages/radios/page.js';
-import sliders from './pages/sliders/page.js';
+import segmentedButtons from './pages/segmented buttons/page.js';
 import selects from './pages/selects/page.js';
+import sliders from './pages/sliders/page.js';
 import switches from './pages/switches/page.js';
 import textFields from './pages/text fields/page.js';
 
@@ -54,8 +55,9 @@ registerPage(lists, '/lists');
 registerPage(menus, '/menus');
 registerPage(progressIndicators, '/progress-indicators');
 registerPage(radios, '/radios');
-registerPage(sliders, '/sliders');
+registerPage(segmentedButtons, '/segmented-buttons');
 registerPage(selects, '/selects');
+registerPage(sliders, '/sliders');
 registerPage(switches, '/switches');
 registerPage(textFields, '/text-fields');
 
