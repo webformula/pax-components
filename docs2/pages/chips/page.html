@@ -6,6 +6,16 @@
   </div>
   <div class="mdw-card-content">
     <div class="example" title="test">
+      <mdw-chip-group class="mdw-input" onchange="console.log(this.value)">
+        <mdw-chip value="One"></mdw-chip>
+        <mdw-chip value="two"><mdw-icon>home</mdw-icon></mdw-chip>
+      </mdw-chip-group>
+
+      <mdw-chip-group class="mdw-suggestion" onchange="console.log(this.value)">
+        <mdw-chip value="one">One</mdw-chip>
+        <mdw-chip value="two">two</mdw-chip>
+      </mdw-chip-group>
+
       <mdw-chip-group class="mdw-filter" onchange="console.log(this.value)">
         <mdw-chip value="one" checked>One</mdw-chip>
         <mdw-chip value="home">

@@ -61,6 +61,10 @@
   border-radius: 50%;
 }
 
+:host(.mdw-input) .clear {
+  display: block;
+}
+
 :host ::slotted(mdw-icon) {
   margin-top: -2px;
   margin-right: 5px;
@@ -123,4 +127,52 @@
 .ripple > .mdw-ripple-element {
   background-color: var(--mdw-on-surface--10);
   border-radius: 50%;
+}
+
+
+/* --- input chip --- */
+:host input {
+  display: none;
+  /* this is needed for type time on ios */
+  box-sizing: border-box;
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+
+  text-decoration: inherit;
+  text-transform: inherit;
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+  color: var(--mdw-on-surface);
+  caret-color: var(--mdw-primary);
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+:host(.mdw-edit) input {
+ display: block;
+}
+
+:host(.mdw-edit)::after,
+:host(.mdw-edit) .ripple,
+:host(.mdw-edit) .clear,
+:host(.mdw-edit) .value-display,
+:host(.mdw-edit) slot {
+  display: none;
+}
+
+
+:host(.mdw-edit) {
+  border: none;
+}
+ 
+:host(.mdw-filter[checked]) {
+  border-color: transparent;
+  background-color: var(--mdw-secondary-container);
+  color: var(--mdw-on-secondary-container);
 }

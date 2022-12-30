@@ -92,6 +92,18 @@ const mdwUtil = new class MDWUtil {
     return this.#textLengthDiv.offsetWidth;
   }
 
+  getTextWidthFromInput(inputElement) {
+    if (!inputElement || inputElement.nodeName !== 'INPUT') throw Error('requires input element');
+
+    const styles = window.getComputedStyle(inputElement);
+    this.#textLengthDiv.style.fontSize = styles.getPropertyValue('font-size');
+    this.#textLengthDiv.style.fontWeight = styles.getPropertyValue('font-weight');
+    this.#textLengthDiv.style.linHeight = styles.getPropertyValue('line-height');
+    this.#textLengthDiv.style.letterSpacing = styles.getPropertyValue('letter-spacing');
+    this.#textLengthDiv.innerText = inputElement.value;
+    return this.#textLengthDiv.offsetWidth;
+  }
+
   /** use observer to mimic process.nextTick behavior
    *    This triggers faster than using setTimeout and is more predictable
    */
