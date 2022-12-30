@@ -29,6 +29,7 @@ function initialize() {
     childList: true,
     attributeFilter: ['tooltip']
   });
+  prepareTooltip();
 }
 
 function prepareTooltip() {

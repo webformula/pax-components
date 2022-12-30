@@ -16,249 +16,57 @@
 </head>
 
 <body>
-  <mdw-navigation class="mdw-rail-enabled mdw-rail-label-only-active">
-    <nav class="mdw-drawer">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <mdw-navigation-button class="mdw-small-screen-only"></mdw-navigation-button>
-  
-        <mdw-button id="theme-toggle" class="mdw-icon-toggle-button" onClick="window.toggleColorScheme()">
-          <mdw-icon value="on">dark_mode</mdw-icon>
-          <mdw-icon value="off">light_mode</mdw-icon>
-        </mdw-button>
-      </div>
-      <div class="mdw-headline">Documentation</div>
-      <a href="/">
-        <div class="mdw-label">Welcome</div>
-        <div class="mdw-ripple"></div>
-      </a>
-  
-      <a href="/badges">
-        <div class="mdw-label">Badges</div>
-        <div class="mdw-ripple"></div>
-      </a>
-  
-      <a href="/bottom-app-bars">
-        <div class="mdw-label">Bottom app bars</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/buttons">
-        <div class="mdw-label">Buttons</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/cards">
-        <div class="mdw-label">Cards</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/checkboxes">
-        <div class="mdw-label">checkboxes</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/chips">
-        <div class="mdw-label">Chips</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/date-pickers">
-        <div class="mdw-label">Date pickers</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/dialogs">
-        <div class="mdw-label">Dialogs</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/fabs">
-        <div class="mdw-label">FAB</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/forms">
-        <div class="mdw-label">Forms</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/icons">
-        <div class="mdw-label">Icons</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/icon-buttons">
-        <div class="mdw-label">Icon buttons</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/lists">
-        <div class="mdw-label">Lists</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/menus">
-        <div class="mdw-label">menus</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/progress-indicators">
-        <div class="mdw-label">Progress</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/radios">
-        <div class="mdw-label">Radio buttons</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/segmented-buttons">
-        <div class="mdw-label">Segmented buttons</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/selects">
-        <div class="mdw-label">Selects</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/sliders">
-        <div class="mdw-label">Sliders</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/snackbars">
-        <div class="mdw-label">Snackbars</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/switches">
-        <div class="mdw-label">Switches</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/tabs">
-        <div class="mdw-label">Tabs</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/text-fields">
-        <div class="mdw-label">Text fields</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/tooltips">
-        <div class="mdw-label">Tooltips</div>
-        <div class="mdw-ripple"></div>
-      </a>
-      <a href="/top-app-bars">
-        <div class="mdw-label">Top app bars</div>
-        <div class="mdw-ripple"></div>
-      </a>
-    </nav>
-  
-    <nav class="mdw-rail">
-      <mdw-navigation-button class="mdw-small-screen-only"></mdw-navigation-button>
-  
-      <a href="/">
-        <mdw-icon>home</mdw-icon>
-        <div class="mdw-label">Welcome</div>
-      </a>
-  
-      <div class="mdw-nav-group">
-        <div class="mdw-nav-group-control">
-          <mdw-icon class="mdw-outlined">add</mdw-icon>
-          <div class="mdw-label">Components</div>
-        </div>
-  
-        <div class="mdw-nav-group-content">
-          <a href="/badges">
-            <div class="mdw-label">Badges</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/bottom-app-bars">
-            <div class="mdw-label">Bottom app bars</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/buttons">
-            <div class="mdw-label">Buttons</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/cards">
-            <div class="mdw-label">Cards</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/checkboxes">
-            <div class="mdw-label">checkboxes</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/chips">
-            <div class="mdw-label">Chips</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/date-pickers">
-            <div class="mdw-label">Date pickers</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/dialogs">
-            <div class="mdw-label">Dialogs</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/fabs">
-            <div class="mdw-label">FAB</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/forms">
-            <div class="mdw-label">Forms</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/icons">
-            <div class="mdw-label">Icons</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/icon-buttons">
-            <div class="mdw-label">Icon buttons</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/lists">
-            <div class="mdw-label">Lists</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/menus">
-            <div class="mdw-label">menus</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/progress-indicators">
-            <div class="mdw-label">Progress</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/radios">
-            <div class="mdw-label">Radio buttons</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/segmented-buttons">
-            <div class="mdw-label">Segmented buttons</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/selects">
-            <div class="mdw-label">Selects</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/sliders">
-            <div class="mdw-label">Sliders</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/snackbars">
-            <div class="mdw-label">Snackbars</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/switches">
-            <div class="mdw-label">Switches</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/tabs">
-            <div class="mdw-label">Tabs</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/text-fields">
-            <div class="mdw-label">Text fields</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/tooltips">
-            <div class="mdw-label">Tooltips</div>
-            <div class="mdw-ripple"></div>
-          </a>
-          <a href="/top-app-bars">
-            <div class="mdw-label">Top app bars</div>
-            <div class="mdw-ripple"></div>
-          </a>
-        </div>
-      </div>
-  
-      <mdw-button id="theme-toggle-2" class="mdw-icon-toggle-button" onClick="window.toggleColorScheme()"
-        style="margin-top: auto;">
+  <mdw-navigation>
+    <div class="mdw-header">
+      <mdw-navigation-button></mdw-navigation-button>
+
+      <mdw-button id="theme-toggle" class="mdw-icon-toggle-button" onClick="window.toggleColorScheme()">
         <mdw-icon value="on">dark_mode</mdw-icon>
         <mdw-icon value="off">light_mode</mdw-icon>
       </mdw-button>
-    </nav>
+    </div>
+
+    <div class="mdw-headline">Navigation</div>
+
+    <!-- <mdw-anchor href="/">
+      <mdw-icon>home</mdw-icon>
+      Welcome
+      <mdw-badge>9999</mdw-badge>
+    </mdw-anchor>
+
+    <mdw-anchor href="/">
+      <mdw-icon>home</mdw-icon>
+      Welcome
+      <div slot="rail">
+        <mdw-icon>home</mdw-icon>
+        Welcome
+      </div>
+    </mdw-anchor> -->
+
+    <mdw-anchor href="/">Welcome</mdw-anchor>
+    <mdw-anchor href="/badges">Badges</mdw-anchor>
+    <mdw-anchor href="/bottom-app-bars">Bottom app bars</mdw-anchor>
+    <mdw-anchor href="/buttons">Buttons</mdw-anchor>
+    <mdw-anchor href="/cards">Cards</mdw-anchor>
+    <mdw-anchor href="/checkboxes">Checkboxes</mdw-anchor>
+    <mdw-anchor href="/chips">Chips</mdw-anchor>
+    <mdw-anchor href="/date-pickers">Date pickers</mdw-anchor>
+    <mdw-anchor href="/dialogs">Dialogs</mdw-anchor>
+    <mdw-anchor href="/fabs">FAB</mdw-anchor>
+    <mdw-anchor href="/icons">Icons</mdw-anchor>
+    <mdw-anchor href="/icon-buttons">Icon buttons</mdw-anchor>
+    <mdw-anchor href="/lists">Lists</mdw-anchor>
+    <mdw-anchor href="/progress-indicators">Progress</mdw-anchor>
+    <mdw-anchor href="/radios">Radio buttons</mdw-anchor>
+    <mdw-anchor href="/segmented-buttons">Segmented buttons</mdw-anchor>
+    <mdw-anchor href="/selects">Selects</mdw-anchor>
+    <mdw-anchor href="/sliders">Sliders</mdw-anchor>
+    <mdw-anchor href="/snackbars">Snackbars</mdw-anchor>
+    <mdw-anchor href="/switches">Switches</mdw-anchor>
+    <mdw-anchor href="/tabs">Tabs</mdw-anchor>
+    <mdw-anchor href="/text-fields">Textfields</mdw-anchor>
+    <mdw-anchor href="/tooltips">Tooltips</mdw-anchor>
+    <mdw-anchor href="/top-app-bars">Top app bars</mdw-anchor>
   </mdw-navigation>
 
   <page-content></page-content>

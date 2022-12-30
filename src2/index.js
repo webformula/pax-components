@@ -22,7 +22,7 @@ import './components/fab/component.js';
 import './components/icon/component.js';
 import './components/list/index.js';
 import './components/menu/component.js';
-import './components/navigation/component.js';
+import './components/navigation/index.js';
 import './components/panel/component.js';
 import './components/progress-circular/component.js';
 import './components/progress-linear/component.js';

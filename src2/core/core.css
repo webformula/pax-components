@@ -88,3 +88,7 @@ mdw-snackbar .mdw-icon-svg > svg {
   bottom: 0;
   background-color: var(--mdw-scrim--16);
 }
+
+mdw-divider {
+  border-bottom: 1px solid var(--mdw-outline-variant);
+}

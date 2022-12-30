@@ -1,0 +1,235 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  height: 56px;
+  line-height: 56px;
+  padding-left: 16px;
+  padding-right: 12px;
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-bottom: 2px;
+
+  font-size: var(--mdw-font-size-large-label);
+  font-weight: var(--mdw-font-weight-large-label);
+  letter-spacing: var(--mdw-font-letter-spacing-large-label);
+  border-radius: var(--mdw-shape-extra-large);
+}
+
+:host ::slotted(mdw-icon) {
+  vertical-align: middle;
+  margin-top: -2px;
+  margin-right: 8px;
+  margin-left: 2px;
+  width: var(--mdw-font-size-icon-small) !important;
+  height: var(--mdw-font-size-icon-small) !important;
+  font-size: var(--mdw-font-size-icon-small) !important;
+}
+
+
+/* state layer */
+
+:host .background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  height: 56px;
+  border-radius: var(--mdw-shape-extra-large);
+}
+
+:host(.mdw-has-rail-content) .background {
+  transition: height 180ms;
+}
+
+:host(:focus) .background {
+  opacity: var(--mdw-state-layer-opacity-focus);
+  background-color: var(--mdw-on-surface);
+}
+
+:host(.mdw-active) .background {
+  background-color: var(--mdw-secondary-container);
+}
+
+/* hover state layers. Media needed to prevent hover on mobile */
+@media (hover: hover) {
+  :host(:hover) .background {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    background-color: var(--mdw-on-surface);
+  }
+}
+
+
+/* --- Ripple --- */
+
+.ripple {
+  overflow: hidden;
+  border-radius: inherit;
+  transform: translateZ(0);
+  /* fixes bug on ios safari */
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.ripple > .mdw-ripple-element {
+  background-color: var(--mdw-on-surface--16);
+  border-radius: 50%;
+}
+
+
+
+/* rail */
+
+:host-context(.mdw-rail.mdw-state-rail) .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 32px;
+  border-radius: var(--mdw-shape-extra-large);
+}
+/* make sure height does not adjust. Using this because there is no way to select :host(.mdw-has-host-content) when using :host-context */
+/* :host(:not(.mdw-has-rail-content)) .background {
+  height: 56px !important;
+} */
+
+
+:host(.mdw-has-rail-content) .main.has-rail-content {
+  display: block;
+  animation: mdw-anchor-main-show 180ms;
+}
+
+:host-context(.mdw-rail.mdw-state-rail) .main.has-rail-content {
+  opacity: 0;
+  animation: mdw-anchor-main-hide 180ms;
+}
+
+:host(.mdw-has-rail-content) .main.has-rail-content:not(.has-icon) {
+  display: block;
+  animation: mdw-anchor-main-show-no-icon 180ms;
+}
+
+:host-context(.mdw-rail.mdw-state-rail) .main.has-rail-content:not(.has-icon) {
+  opacity: 0;
+  animation: mdw-anchor-main-hide-no-icon 180ms;
+}
+
+
+@keyframes mdw-anchor-main-show {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes mdw-anchor-main-hide {
+  0% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mdw-anchor-main-show-no-icon {
+  0% {
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes mdw-anchor-main-hide-no-icon {
+  0% {
+    opacity: 1;
+  }
+
+  20% {
+    opacity: 0;
+  }
+}
+
+
+:host-context(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content) {
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  border-radius: var(--mdw-shape-extra-medium);
+}
+
+:host-context(.mdw-rail) .main:not(.has-rail-content):not(.has-icon) {
+  display: block;
+  margin-left: 0;
+  transition: margin-left 180ms;
+}
+
+:host-context(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content):not(.has-icon) {
+  margin-left: -12px;
+}
+
+:host-context(.mdw-rail.mdw-state-rail) .main.has-icon:not(.has-rail-content) {
+  color: transparent;
+}
+
+:host-context(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content)::slotted(mdw-icon) {
+  color: var(--mdw-on-surface);
+}
+
+:host(.mdw-has-rail-content) .rail.has-text:not(.has-icon) {
+  display: block;
+  position: absolute;
+  top: 17px;
+}
+
+:host(.mdw-has-rail-content) .rail.has-icon:not(.has-text) {
+  display: block;
+  position: absolute;
+  top: 13px;
+}
+
+:host-context(.mdw-rail.mdw-state-rail) .background.rail-has-icon:not(.rail-has-text) {
+  height: 56px;
+  border-radius: 50%;
+}
+
+:host-context(.mdw-rail.mdw-state-rail) .background:not(.has-rail-content) {
+  margin-left: -6px;
+  width: 70px;
+  height: 42px !important;
+  margin-top: 7px;
+}
+
+:host-context(.mdw-rail.mdw-state-rail) .background.has-rail-content:not(.rail-has-icon).rail-has-text {
+  margin-left: -6px;
+  width: 70px;
+  height: 42px !important;
+  margin-top: 7px;
+}

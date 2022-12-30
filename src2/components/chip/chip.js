@@ -131,8 +131,6 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
   #onClearClick(event) {
     this.remove();
     event.stopPropagation();
-    console.log(this)
-    console.log(this.#group)
     this.#group.dispatchEvent(new Event('change'));
   }
 
