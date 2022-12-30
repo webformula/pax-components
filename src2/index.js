@@ -15,6 +15,7 @@ import './components/bottom-app-bar/component.js';
 import './components/button/component.js';
 import './components/card/component.js';
 import './components/checkbox/component.js';
+import './components/chip/index.js';
 import './components/date-picker/index.js';
 import './components/dialog/component.js';
 import './components/fab/component.js';
