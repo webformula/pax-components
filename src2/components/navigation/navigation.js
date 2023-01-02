@@ -1,6 +1,7 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './navigation.css';
 import util from '../../core/util.js';
+import device from '../../core/device.js';
 
 
 // TODO mobile
@@ -10,14 +11,17 @@ import util from '../../core/util.js';
 customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLElementExtended {
   #open = true;
   #rail = this.classList.contains('mdw-rail');
+  #backdrop;
 
-  #mdwPageChange_bound = this.#mdwPageChange.bind(this)
+  #mdwPageChange_bound = this.#mdwPageChange.bind(this);
+  #backdropClick_bound = this.#backdropClick.bind(this);
 
   constructor() {
     super();
 
     this.classList.add('mdw-no-animation');
-    this.#open = !this.classList.contains('mdw-hide') && !this.classList.contains('mdw-state-rail')
+    if (device.isMobile) this.classList.add('mdw-hide');
+    this.#open = !this.classList.contains('mdw-hide') && !this.classList.contains('mdw-state-rail');
   }
 
   connectedCallback() {
@@ -37,10 +41,27 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
     this.#open = !!value;
     if (this.#rail) this.classList.toggle('mdw-state-rail', !this.#open);
     else this.classList.toggle('mdw-hide', !this.#open);
+
+    if (device.isMobile) {
+      if (this.#open) {
+        this.#backdrop = document.createElement('mdw-backdrop');
+        this.insertAdjacentElement('beforebegin', this.#backdrop);
+        this.#backdrop.addEventListener('click', this.#backdropClick_bound);
+      } else if (this.#backdrop) {
+        this.#backdrop.removeEventListener('click', this.#backdropClick_bound);
+        this.#backdrop.remove();
+      }
+    }
+
+    this.dispatchEvent(new Event('change'));
   }
 
   toggle() {
     this.open = !this.open;
+  }
+
+  #backdropClick() {
+    this.open = false;
   }
 
   #mdwPageChange() {
@@ -57,5 +78,7 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
 
     matches.forEach(anchor => anchor.classList.add('mdw-active'));
     // TODO nav group
+
+    if (device.isMobile) this.open = false;
   }
 });

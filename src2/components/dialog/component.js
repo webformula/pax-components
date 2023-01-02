@@ -1,6 +1,5 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './component.css';
-import util from '../../core/util.js';
 
 // NOTE: follows spec https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement
 
@@ -64,15 +63,16 @@ export default class MDWDialogElement extends HTMLElementExtended {
 
   #addBackdrop() {
     if (this.#backdropElement) return;
-    this.#backdropElement = util.addBackdrop(this);
+    this.#backdropElement = document.createElement('mdw-backdrop');
+    this.insertAdjacentElement('beforebegin', this.#backdropElement);
     if (this.#clickBackdropClose === true) this.#backdropElement.addEventListener('click', this.#backdropClickHandler_bound);
   }
 
   #removeBackdrop() {
     if (!this.#backdropElement) return;
-
     this.#backdropElement.removeEventListener('click', this.#backdropClickHandler_bound);
-    util.removeBackdrop();
+    this.#backdropElement.remove();
+    this.#backdropElement = undefined;
   }
 
   #backdropClickHandler() {

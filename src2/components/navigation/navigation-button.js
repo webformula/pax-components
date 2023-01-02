@@ -6,6 +6,7 @@ import menuOpenIconSVGRaw from '../../svg-icons/menu_open_FILL1_wght400_GRAD0_op
 customElements.define('mdw-navigation-button', class MDWNavigationButtonElement extends HTMLElementExtended {
   // useShadowRoot = true;
 
+  #navigation;
   #onclick_bound = this.#onclick.bind(this);
   #onNavigationState_bound = this.#onNavigationState.bind(this);
 
@@ -36,13 +37,13 @@ customElements.define('mdw-navigation-button', class MDWNavigationButtonElement 
 
   afterRender() {
     this.#onNavigationState();
-    window.addEventListener('mdw-navigation-state', this.#onNavigationState_bound);
+    this.navigation.addEventListener('change', this.#onNavigationState_bound);
     this.addEventListener('click', this.#onclick_bound);
   }
 
   disconnectedCallback() {
     this.removeEventListener('click', this.#onclick_bound);
-    window.removeEventListener('mdw-navigation-state', this.#onNavigationState_bound);
+    this.navigation.addEventListener('change', this.#onNavigationState_bound);
   }
 
   #onclick() {
@@ -50,7 +51,7 @@ customElements.define('mdw-navigation-button', class MDWNavigationButtonElement 
   }
 
   #onNavigationState() {
-    this.classList.toggle('mdw-navigation-hide', !this.open);
+    this.querySelector('mdw-button').toggled = !this.navigation.open;
   }
 
   template() {

@@ -16,9 +16,9 @@ export default class HTMLElementExtended extends HTMLElement {
   #rendered = false;
   #templateString;
   #templateElement;
-  #hasTemplate = this.template.toString() !== "template() {return /*html*/'';}";
+  // browser may or may not include the word "function" so we need to run an includes check
+  #hasTemplate = !this.template.toString().includes("template() {return /*html*/'';}");
   #root = this;
-  #useTemplate;
 
 
   constructor() {

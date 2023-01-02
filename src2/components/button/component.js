@@ -52,7 +52,7 @@ export default class MDWButtonElement extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    if (this.useRipple)  this.#ripple.destroy();
+    if (this.#ripple)  this.#ripple.destroy();
     this.removeEventListener('mouseup', this.#mouseUp_bound);
 
     if (this.classList.contains('mdw-icon-toggle-button')) {

@@ -17,6 +17,7 @@ export default class MDWPanelElement extends HTMLElementExtended {
   #targetScrollContainer;
   #positionOverlap = false;
   #onTargetScroll_bound = util.rafThrottle(this.#onTargetScroll.bind(this));
+  #backdropElement;
   
   constructor() {
     super();
@@ -29,7 +30,7 @@ export default class MDWPanelElement extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    util.removeBackdrop();
+    this.#removeBackdrop();
     document.body.removeEventListener('click', this.#onClickOutside_bound);
     if (this.#targetScrollContainer) this.#targetScrollContainer.removeEventListener('scroll', this.#onTargetScroll_bound);
   }
@@ -96,7 +97,7 @@ export default class MDWPanelElement extends HTMLElementExtended {
     if (this.#animation === 'scale') this.classList.add('mdw-animation-scale');
     if (this.#animation === 'expand') this.classList.add('mdw-animation-expand');
     if (this.#animation === 'transitionYReverse') this.classList.add('mdw-animation-transitionYReverse');
-    if (backdrop) util.addBackdrop(this);
+    if (backdrop) this.#addBackdrop();
     if (this.#target) this.#setupTarget();
     this.setAttribute('open', '');
     this.dispatchEvent(new Event('open'));
@@ -123,7 +124,7 @@ export default class MDWPanelElement extends HTMLElementExtended {
     if (this.#targetScrollContainer) this.#targetScrollContainer.removeEventListener('scroll', this.#onTargetScroll_bound);
 
     this.removeAttribute('open');
-    util.removeBackdrop();
+    this.#removeBackdrop();
     this.dispatchEvent(new Event('close'));
 
     this.classList.add('mdw-animating');
@@ -188,6 +189,18 @@ export default class MDWPanelElement extends HTMLElementExtended {
       parentNode = parentNode.parentNode;
       if (parentNode === document.body) return document.body;
     }
+  }
+
+  #addBackdrop() {
+    if (this.#backdropElement) return;
+    this.#backdropElement = document.createElement('mdw-backdrop');
+    this.insertAdjacentElement('beforebegin', this.#backdropElement);
+  }
+
+  #removeBackdrop() {
+    if (!this.#backdropElement) return;
+    this.#backdropElement.remove();
+    this.#backdropElement = undefined;
   }
 }
 

@@ -22,8 +22,6 @@ const mdwUtil = new class MDWUtil {
   #scrollCallbacks = [];
   #scrollCurrentDirection;
   #scrollDistanceFromDirectionChange;
-  #backdropElement;
-  #backDropIsRemoving = false;
   #scrollHandler_bound = this.rafThrottle(this.#scrollHandler).bind(this);
 
   constructor() {
@@ -186,32 +184,6 @@ const mdwUtil = new class MDWUtil {
   untrackPageScroll(callback = () => { }) {
     this.#scrollCallbacks = this.#scrollCallbacks.filter(c => c !== callback);
     if (this.#scrollCallbacks.length === 0) this.#scrollTarget.removeEventListener('scroll', this.#scrollHandler_bound);
-  }
-
-  addBackdrop(element) {
-    if (this.#backdropElement) return;
-
-    this.#backdropElement = document.createElement('div');
-    this.#backdropElement.classList.add('mdw-backdrop');
-    element.insertAdjacentElement('beforebegin', this.#backdropElement);
-    setTimeout(() => {
-      this.#backdropElement.style.opacity = 1;
-    }, 10);
-
-    return this.#backdropElement;
-  }
-
-  async removeBackdrop() {
-    if (!this.#backdropElement || this.#backDropIsRemoving === true) return;
-
-    this.#backDropIsRemoving = true;
-    this.#backdropElement.style.opacity = 0;
-
-    await this.transitionendAsync(this.#backdropElement);
-
-    this.#backdropElement.remove();
-    this.#backdropElement = undefined;
-    this.#backDropIsRemoving = false;
   }
 
   // can use array of strings ['one', 'two']
