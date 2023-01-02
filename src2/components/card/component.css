@@ -13,12 +13,6 @@ mdw-card {
   margin-bottom: 8px;
 }
 
-mdw-card[disabled] {
-  box-shadow: none;
-  opacity: 0.38;
-  pointer-events: none;
-  background-color: var(--mdw-surface-variant);
-}
 
 /* fixes outline overlap */
 mdw-card.mdw-outlined {
@@ -52,6 +46,10 @@ mdw-card > .mdw-card-image > img {
 
 mdw-card > .mdw-card-image.mdw-rounded {
   border-radius: var(--mdw-shape-medium);
+}
+
+mdw-card.mdw-fullscreen.mdw-show > .mdw-card-image.mdw-rounded {
+  border-radius: 0 0 var(--mdw-shape-medium) var(--mdw-shape-medium);
 }
 
 mdw-card .mdw-headline,
@@ -120,24 +118,6 @@ mdw-card .mdw-card-actions {
 
 mdw-card .mdw-card-actions mdw-button + mdw-button {
   margin-left: 6px;
-}
-
-mdw-card > .mdw-card-content {
-  position: relative;
-  padding: 16px;
-}
-
-mdw-card > .mdw-card-content > .mdw-contracted {
-  opacity: 1;
-  transition: opacity 120ms;
-}
-
-mdw-card > .mdw-card-content > .mdw-expanded {
-  height: 0;
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
-  background-color: inherit;
 }
 
 mdw-card > .mdw-card-image.mdw-size-small {
@@ -210,4 +190,79 @@ mdw-card.mdw-states:active::after {
 mdw-card.mdw-states:focus::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-on-surface);
+}
+
+
+
+/* --- expanding --- */
+
+mdw-card > .mdw-card-content .mdw-expand-arrow {
+  position: absolute;
+  right: 16px;
+  transition: transform 120ms;
+}
+
+mdw-card.mdw-show > .mdw-card-content .mdw-expand-arrow {
+  transform: rotate(180deg);
+}
+
+mdw-card > .mdw-card-content {
+  position: relative;
+  padding: 16px;
+}
+
+mdw-card > .mdw-card-content > .mdw-contracted {
+  opacity: 1;
+  transition: opacity 120ms;
+}
+
+mdw-card > .mdw-card-content > .mdw-expanded {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  background-color: inherit;
+
+  transition: height 120ms;
+}
+
+mdw-card.mdw-show > .mdw-card-content > .mdw-expanded {
+  height: auto;
+  opacity: 1;
+}
+
+
+mdw-card.mdw-fullscreen {
+  transition:
+    top 320ms,
+    left 320ms,
+    width 320ms,
+    height 320ms;
+}
+
+mdw-card.mdw-fullscreen.mdw-show {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  z-index: 11;
+  border-radius: 0;
+}
+
+
+mdw-card.mdw-fullscreen.mdw-show > .mdw-card-content > .mdw-expanded {
+  opacity: 1;
+  height: auto;
+  position: absolute;
+  top: 0;
+  background-color: var(--mdw-surface);
+}
+
+mdw-card.mdw-fullscreen > .mdw-card-image {
+  transition: height 220ms, border-radius 320ms;
+}
+
+mdw-card.mdw-fullscreen.mdw-show > .mdw-card-image {
+  height: var(--mdw-img-fullscreen-height, 300px);
 }
