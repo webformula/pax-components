@@ -1,55 +1,45 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import styleAsString from '!!raw-loader!./component.css';
+import './component.css';
 
 // TODO align at end of button with text
 
 export default class MDWBadgeElement extends HTMLElementExtended {
-  useShadowRoot = true;
-  
   #value = '';
-  #slotChange_bound = this.#slotChange.bind(this);
 
   constructor() {
     super();
+
+    if (this.innerText === '0' || this.innerText.trim() === '') super.innerText = '';
+    else this.value = this.innerText;
   }
 
-  disconnectedCallback() {
-    this.shadowRoot.removeEventListener('slotchange', this.#slotChange_bound);
-  }
-
-  afterRender() {
-    this.shadowRoot.addEventListener('slotchange', this.#slotChange_bound);
-  }
 
   get value() {
-    return this.#value;
+    return this.#value || '0';
   }
 
   set value(value) {
     value = parseInt(value);
     if (isNaN(value) || value <= 0) value = '';
     if (value > 999) value = '999+';
+
     this.#value = value;
-    this.shadowRoot.removeEventListener('slotchange', this.#slotChange_bound);
-    this.classList.toggle('mdw-contains-value', !!value);
-    this.innerHTML = value;
-    requestAnimationFrame(() => {
-      this.shadowRoot.addEventListener('slotchange', this.#slotChange_bound);
-    });
+    this.classList.toggle('mdw-has-value', !!value);
+    super.innerText = value;
   }
 
-  #slotChange() {
-    this.value = this.innerHTML;
+  get innerHTML() {
+    return super.innerHTML;
+  }
+  set innerHTML(value) {
+    this.value = value;
   }
 
-  template() {
-    return /*html*/`
-      <div class="mdw-content"><slot></slot></div>
-
-      <style>
-        ${styleAsString}
-      </style>
-    `;
+  get innerText() {
+    return super.innerText;
+  }
+  set innerText(value) {
+    this.value = value;
   }
 }
 

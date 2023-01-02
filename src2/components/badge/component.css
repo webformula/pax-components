@@ -1,57 +1,45 @@
-:host {
-  align-self: flex-start;
-  display: flex;
-  width: 0;
-  height: 0;
-  margin-top: 6px;
-}
-
-:host-context(.mdw-icon-button),
-:host-context(mdw-icon) {
+mdw-badge {
   position: absolute;
-  left: calc(50% + 5px);
-  top: 10px;
-  margin-top: 0;
-}
 
-:host > .mdw-content {
-  display: block;
-  position: absolute;
-  padding: 2px;
-  min-height: 2px;
   min-width: 2px;
+  min-height: 2px;
+  padding: 2px;
   border-radius: 8px;
-  
-  background-color: var(--mdw-error);
 
   font-size: 11px;
   font-weight: bold;
   line-height: 1;
   letter-spacing: var(--mdw-font-letter-spacing-small-label);
-  
+
   color: var(--mdw-on-error);
+  background-color: var(--mdw-error);
 }
 
+mdw-badge.mdw-has-value {
+  padding: 2px 3px;
+}
 
-:host(.mdw-contains-value) {
-  top: 3px;
-  margin-top: 2px;
+.mdw-icon-button mdw-badge,
+mdw-icon mdw-badge {
+  left: calc(50% + 5px);
+  top: 9px;
+}
+.mdw-icon-button mdw-badge.mdw-has-value,
+mdw-icon mdw-badge.mdw-has-value {
   left: calc(50% - 2px);
+  top: 3px;
 }
 
-
-:host-context(mdw-anchor) {
+mdw-anchor mdw-badge {
   flex: 1;
   justify-content: end;
   position: relative;
   align-self: center;
-  top: unset !important;
-  left: unset !important;
-  margin-top: -13px !important;
+  top: unset;
+  left: unset;
+  margin-top: -13px;
   margin-right: 10px;
-}
 
-:host-context(mdw-anchor) > .mdw-content {
   background-color: transparent;
   color: var(--mdw-on-surface-variant);
   font-size: var(--mdw-font-size-small-label);

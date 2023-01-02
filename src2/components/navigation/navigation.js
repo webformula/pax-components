@@ -53,6 +53,9 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
       }
     }
 
+    const active = this.querySelector('mdw-anchor.mdw-active');
+    if (active) active.scrollIntoView({ block: 'center' })
+
     this.dispatchEvent(new Event('change'));
   }
 

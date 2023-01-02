@@ -54,7 +54,7 @@
 :host(:not(.mdw-no-animation).mdw-hide-label.mdw-has-label) {
   transition:
     max-width 600ms,
-    color 120ms 480ms;
+    color 120ms 380ms;
   transition-timing-function: var(--mdw-transition-expand-in);
 }
 

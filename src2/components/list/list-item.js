@@ -80,11 +80,9 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
   }
 
   get checked() {
-    console.log('get checked');
     return this.#checked;
   }
   set checked(value) {
-    console.log('checked')
     this.#checked = !!value;
     this.classList.toggle('mdw-checked', this.#checked);
     this.setAttribute('aria-checked', this.#checked.toString() || 'false');

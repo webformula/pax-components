@@ -7,6 +7,7 @@ customElements.define('mdw-fab', class MDWFabElement extends HTMLElementExtended
   useShadowRoot = true;
 
   #ripple;
+  #isAnimating = false;
   #autoHideLabel = this.classList.contains('mdw-auto-hide-label');
   #scrollTarget = document.querySelector('page-content') || document.body; // TODO check is page-content needed
   #scrollHandler_bound = util.rafThrottle(this.#scrollHandler).bind(this);
@@ -61,10 +62,12 @@ customElements.define('mdw-fab', class MDWFabElement extends HTMLElementExtended
   }
 
   #scrollHandler({ distanceFromDirectionChange }) {
-    if (distanceFromDirectionChange < -100) {
+    const hasClass = this.classList.contains('mdw-hide-label');
+    
+    if (distanceFromDirectionChange < -100 && hasClass) {
       this.classList.remove('mdw-hide-label');
       this.style.maxWidth = `${this.offsetWidth + this.scrollWidth}px`;
-    } else if (distanceFromDirectionChange > 100) {
+    } else if (distanceFromDirectionChange > 100 && !hasClass) {
       this.classList.add('mdw-hide-label');
       this.style.maxWidth = '';
     }

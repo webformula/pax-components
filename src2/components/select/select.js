@@ -57,7 +57,8 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     this.#panel = this.shadowRoot.querySelector('mdw-panel');
     this.#panel.target = this;
     this.#panel.animation = 'expand';
-    this.#panel.addClickOutsideCloseIgnore(this.#textfield);
+    this.#panel.addClickOutsideCloseIgnore(this);
+    // this.#panel.addClickOutsideCloseIgnore(this.#textfield);
     this.#setWidth();
 
     // makes the input not usable, only clickable. Create normal select
