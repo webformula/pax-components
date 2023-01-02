@@ -138,6 +138,7 @@ mdw-date-picker-mobile .mdw-actions-container {
   padding-top: 8px;
   background-color: var(--mdw-surface);
   z-index: 1;
+  border-radius: 0 0 var(--mdw-shape-large) var(--mdw-shape-large);;
 }
 
 mdw-date-picker-mobile > .mdw-divider {

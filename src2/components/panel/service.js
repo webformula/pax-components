@@ -16,7 +16,7 @@ const MDWPanel = class MDWPanel {
     backdrop: false,
     clickOutsideClose: true,
     clickOutsideCloseIgnoreElements: [],
-    animation: 'translateY | scale | expand'
+    animation: 'translateY'
   }) {
     if (params.template)  this.#template = params.template;
     if (params.target) this.#target = params.target;

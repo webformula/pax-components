@@ -3,6 +3,7 @@ import './component.css';
 
 // NOTE: follows spec https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement
 
+// TODO panel element
 // TODO esc
 // TODO fullscreen
 

@@ -11,6 +11,10 @@ mdw-textfield {
   /* min-width: 200px; */
 }
 
+mdw-textfield input[type=date] {
+  min-width: 120px;
+}
+
 mdw-textfield::after {
   content: "";
   position: absolute;
