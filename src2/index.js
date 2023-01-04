@@ -14,7 +14,7 @@ import './components/backdrop/component.js';
 import './components/badge/component.js';
 import './components/bottom-app-bar/component.js';
 import './components/button/component.js';
-import './components/card/component.js';
+import './components/card/index.js';
 import './components/checkbox/component.js';
 import './components/chip/index.js';
 import './components/date-picker/index.js';
