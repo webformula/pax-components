@@ -40,7 +40,7 @@
   cursor: pointer;
 }
 
-:host-context(.mdw-checked)::after {
+:host(.mdw-checked)::after {
   opacity: 1;
 }
 
@@ -59,12 +59,12 @@
   animation: mdw-avatar-uncheck 90ms;
 }
 
-:host-context(.mdw-checked) > svg {
+:host(.mdw-checked) > svg {
   z-index: 1;
   opacity: 1;
 }
 
-:host-context(.mdw-checked) > svg > path {
+:host(.mdw-checked) > svg > path {
   stroke-dashoffset: 0;
   animation: mdw-avatar-check 180ms;
 }

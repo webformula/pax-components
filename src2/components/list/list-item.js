@@ -11,6 +11,7 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
   #checked = false;
   #value = this.getAttribute('value') || '';
   #selectCheckbox;
+  #avatar;
   #onclickSelect_bound = this.#onclickSelect.bind(this);
   #onclickAction_bound = this.#onclickAction.bind(this);
   #hasActions = this.querySelector('[action]');
@@ -30,10 +31,10 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
     this.setAttribute('role', 'listitem');
 
     if (this.#selectable) {
-      const avatar = this.querySelector('mdw-avatar');
-      if (avatar) {
-        avatar.classList.add('mdw-checkbox');
-        avatar.setAttribute('role', 'checkbox');
+      this.#avatar = this.querySelector('mdw-avatar');
+      if (this.#avatar) {
+        this.#avatar.classList.add('mdw-checkbox');
+        this.#avatar.setAttribute('role', 'checkbox');
       }
 
       this.#selectCheckbox = this.querySelector('mdw-checkbox');
@@ -88,6 +89,7 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
     this.classList.toggle('mdw-checked', this.#checked);
     this.setAttribute('aria-checked', this.#checked.toString() || 'false');
     if (this.#selectCheckbox) this.#selectCheckbox.checked = this.checked;
+    if (this.#avatar) this.#avatar.checked = this.checked;
     this.parentElement.updateSelection(this.value, this.checked);
   }
 

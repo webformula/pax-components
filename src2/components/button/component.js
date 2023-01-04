@@ -26,6 +26,8 @@ export default class MDWButtonElement extends HTMLElementExtended {
   constructor() {
     super();
     this.#handleTrailingIcon();
+
+    if (this.parentElement.nodeName === 'MDW-MENU') this.classList.add('mdw-menu')
   }
 
   connectedCallback() {

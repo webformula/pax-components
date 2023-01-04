@@ -13,6 +13,8 @@ customElements.define('mdw-radio', class MDWRadio extends HTMLElementExtended {
 
   constructor() {
     super();
+
+    if (this.parentElement.classList.contains('mdw-label-left')) this.classList.add('mdw-label-left');
   }
 
   template() {

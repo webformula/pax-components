@@ -22,6 +22,13 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
     this.classList.add('mdw-no-animation');
     if (device.isMobile) this.classList.add('mdw-hide');
     this.#open = !this.classList.contains('mdw-hide') && !this.classList.contains('mdw-state-rail');
+
+    if (this.classList.contains('mdw-rail')) {
+      [...this.querySelectorAll('mdw-anchor')].forEach(anchor => {
+        anchor.classList.add('mdw-rail');
+        anchor.classList.toggle('mdw-state-rail', !this.#open);
+      });
+    }
   }
 
   connectedCallback() {
@@ -39,8 +46,10 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
   }
   set open(value) {
     this.#open = !!value;
-    if (this.#rail) this.classList.toggle('mdw-state-rail', !this.#open);
-    else this.classList.toggle('mdw-hide', !this.#open);
+    if (this.#rail) {
+      this.classList.toggle('mdw-state-rail', !this.#open);
+      [...this.querySelectorAll('mdw-anchor')].forEach(anchor => anchor.classList.toggle('mdw-state-rail', !this.#open));
+    } else this.classList.toggle('mdw-hide', !this.#open);
 
     if (device.isMobile) {
       if (this.#open) {
@@ -53,8 +62,10 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
       }
     }
 
-    const active = this.querySelector('mdw-anchor.mdw-active');
-    if (active) active.scrollIntoView({ block: 'center' })
+    if (!this.open && !this.classList.contains('mdw-state-rail')) {
+      const active = this.querySelector('mdw-anchor.mdw-active');
+      if (active) active.scrollIntoView({ block: 'center' });
+    }
 
     this.dispatchEvent(new Event('change'));
   }

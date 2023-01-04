@@ -7,9 +7,18 @@ import styleAsString from '!!raw-loader!./avatar.css';
 
 customElements.define('mdw-avatar', class MDWAvatarElement extends HTMLElementExtended {
   useShadowRoot = true;
+  #checked = false;
 
   constructor() {
     super();
+  }
+
+  get checked() {
+    return this.#checked;
+  }
+  set checked(value) {
+    this.#checked = !!value;
+    this.classList.toggle('mdw-checked', this.#checked);
   }
 
   template() {

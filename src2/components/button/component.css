@@ -303,7 +303,7 @@
 
 /* --- mdw-menu --- */
 
-:host-context(mdw-menu) {
+:host(.mdw-menu) {
   border-radius: 0;
   height: 48px;
   line-height: 48px;
@@ -311,12 +311,12 @@
   color: var(--mdw-on-surface);
 }
 
-:host-context(mdw-menu)::after {
+:host(.mdw-menu)::after {
   border-radius: 0;
   height: 48px;
 }
 
-:host-context(mdw-menu) ::slotted(mdw-icon) {
+:host(.mdw-menu) ::slotted(mdw-icon) {
   margin-top: 0px;
   margin-right: 8px;
   width: var(--mdw-font-size-icon-medium) !important;
@@ -324,7 +324,7 @@
   font-size: var(--mdw-font-size-icon-medium) !important;
 }
 
-:host-context(mdw-menu) ::slotted(mdw-icon.mdw-trailing) {
+:host(.mdw-menu) ::slotted(mdw-icon.mdw-trailing) {
   margin-right: -2px;
   margin-left: 8px;
 }

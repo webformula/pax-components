@@ -91,7 +91,7 @@
 
 /* rail */
 
-:host-context(.mdw-rail.mdw-state-rail) .background {
+:host(.mdw-rail.mdw-state-rail) .background {
   position: absolute;
   top: 0;
   left: 0;
@@ -109,7 +109,7 @@
   animation: mdw-anchor-main-show 180ms;
 }
 
-:host-context(.mdw-rail.mdw-state-rail) .main.has-rail-content {
+:host(.mdw-rail.mdw-state-rail) .main.has-rail-content {
   opacity: 0;
   animation: mdw-anchor-main-hide 180ms;
 }
@@ -119,7 +119,7 @@
   animation: mdw-anchor-main-show-no-icon 180ms;
 }
 
-:host-context(.mdw-rail.mdw-state-rail) .main.has-rail-content:not(.has-icon) {
+:host(.mdw-rail.mdw-state-rail) .main.has-rail-content:not(.has-icon) {
   opacity: 0;
   animation: mdw-anchor-main-hide-no-icon 180ms;
 }
@@ -178,28 +178,28 @@
 }
 
 
-:host-context(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content) {
+:host(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content) {
   font-size: var(--mdw-font-size-medium-label);
   font-weight: var(--mdw-font-weight-medium-label);
   letter-spacing: var(--mdw-font-letter-spacing-medium-label);
   border-radius: var(--mdw-shape-extra-medium);
 }
 
-:host-context(.mdw-rail) .main:not(.has-rail-content):not(.has-icon) {
+:host(.mdw-rail) .main:not(.has-rail-content):not(.has-icon) {
   display: block;
   margin-left: 0;
   transition: margin-left 180ms;
 }
 
-:host-context(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content):not(.has-icon) {
+:host(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content):not(.has-icon) {
   margin-left: -12px;
 }
 
-:host-context(.mdw-rail.mdw-state-rail) .main.has-icon:not(.has-rail-content) {
+:host(.mdw-rail.mdw-state-rail) .main.has-icon:not(.has-rail-content) {
   color: transparent;
 }
 
-:host-context(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content)::slotted(mdw-icon) {
+:host(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content)::slotted(mdw-icon) {
   color: var(--mdw-on-surface);
 }
 
@@ -215,19 +215,19 @@
   top: 13px;
 }
 
-:host-context(.mdw-rail.mdw-state-rail) .background.rail-has-icon:not(.rail-has-text) {
+:host(.mdw-rail.mdw-state-rail) .background.rail-has-icon:not(.rail-has-text) {
   height: 56px;
   border-radius: 50%;
 }
 
-:host-context(.mdw-rail.mdw-state-rail) .background:not(.has-rail-content) {
+:host(.mdw-rail.mdw-state-rail) .background:not(.has-rail-content) {
   margin-left: -6px;
   width: 70px;
   height: 42px !important;
   margin-top: 7px;
 }
 
-:host-context(.mdw-rail.mdw-state-rail) .background.has-rail-content:not(.rail-has-icon).rail-has-text {
+:host(.mdw-rail.mdw-state-rail) .background.has-rail-content:not(.rail-has-icon).rail-has-text {
   margin-left: -6px;
   width: 70px;
   height: 42px !important;

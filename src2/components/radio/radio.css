@@ -72,6 +72,6 @@
   height: 20px;
 }
 
-:host-context(.mdw-label-left) > .background {
+:host(.mdw-label-left) > .background {
   order: 1;
 }
