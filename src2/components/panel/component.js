@@ -188,7 +188,7 @@ export default class MDWPanelElement extends HTMLElementExtended {
       const style = getComputedStyle(parentNode);
       if (this.#overflowScrollRegex.test(style.overflow + style.overflowY)) return parentNode;
       parentNode = parentNode.parentNode;
-      if (parentNode === document.body) return document.body;
+      if (parentNode === document.documentElement) return window;
     }
   }
 

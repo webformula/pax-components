@@ -18,6 +18,7 @@ mdw-panel,
   left: 50%;
   top: 50%;
   pointer-events: none;
+  
 
   opacity: 0;
   /* transform: translate(-50%, calc(-50% - 120px)); */

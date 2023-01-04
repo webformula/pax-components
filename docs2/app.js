@@ -19,6 +19,7 @@ window.escapeHTML = str => {
 import home from './pages/home/page.js';
 import badges from './pages/badges/page.js';
 import bottomAppBars from './pages/bottom app bars/page.js';
+import bottomSheets from './pages/bottom sheets/page.js';
 import buttons from './pages/buttons/page.js';
 import cards from './pages/cards/page.js';
 import checkboxes from './pages/checkboxes/page.js';
@@ -48,6 +49,7 @@ import tooltips from './pages/tooltips/page.js';
 registerPage(home, '/');
 registerPage(badges, '/badges');
 registerPage(bottomAppBars, '/bottom-app-bars');
+registerPage(bottomSheets, '/bottom-sheets');
 registerPage(buttons, '/buttons');
 registerPage(cards, '/cards');
 registerPage(checkboxes, '/checkboxes');

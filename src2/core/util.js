@@ -178,14 +178,14 @@ const mdwUtil = new class MDWUtil {
   }
 
   trackPageScroll(callback = () => { }) {
-    if (!this.#scrollTarget) this.#scrollTarget = document.body;
-    if (this.#scrollCallbacks.length === 0) this.#scrollTarget.addEventListener('scroll', this.#scrollHandler_bound);
+    if (!this.#scrollTarget) this.#scrollTarget = document.documentElement;
+    if (this.#scrollCallbacks.length === 0) window.addEventListener('scroll', this.#scrollHandler_bound);
     this.#scrollCallbacks.push(callback);
   }
 
   untrackPageScroll(callback = () => { }) {
     this.#scrollCallbacks = this.#scrollCallbacks.filter(c => c !== callback);
-    if (this.#scrollCallbacks.length === 0) this.#scrollTarget.removeEventListener('scroll', this.#scrollHandler_bound);
+    if (this.#scrollCallbacks.length === 0) window.removeEventListener('scroll', this.#scrollHandler_bound);
   }
 
   // can use array of strings ['one', 'two']
