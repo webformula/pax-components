@@ -6,7 +6,7 @@
 
   <div class="mdw-card-content" style="display: flex; flex-wrap: wrap;">
         
-    <mdw-card style="width: 200px; margin-right: 8px">
+    <mdw-card style="width: 200px; margin-right: 8px" value="one" onchange="console.log(event)">
       <div class="mdw-card-content">
         <div class="mdw-headline">Regular</div>
         <div class="mdw-subhead">card</div>
@@ -446,10 +446,27 @@
       <div class="mdw-subhead">Only works on mobile</div>
   
       <div class="example">
-        <mdw-card style="max-width: 320px;">
-          <mdw-card-swipe-action onchange="page.onSwipeAction(this)" checked><mdw-icon>Favorite</mdw-icon></mdw-card-swipe-action>
+        <mdw-card style="max-width: 320px;" value="favorite" onchange="console.log(event.detail)">
+          <mdw-card-swipe-action action="favorite" class="mdw-toggle">
+            <mdw-icon>favorite</mdw-icon>
+          </mdw-card-swipe-action>
+          
           <div class="mdw-card-content">
-            <div class="mdw-headline-medium">Headline</div>
+            <div class="mdw-headline-medium">Favorite toggle</div>
+            <div class="mdw-subhead-small">Subhead</div>
+            <div class="mdw-supporting-text">
+              one two three four five six.
+            </div>
+          </div>
+        </mdw-card>
+
+        <mdw-card style="max-width: 320px;" value="delete" onchange="console.log(event.detail)">
+          <mdw-card-swipe-action action="remove" action-remove>
+            <mdw-icon>delete</mdw-icon>
+          </mdw-card-swipe-action>
+        
+          <div class="mdw-card-content">
+            <div class="mdw-headline-medium">Remove</div>
             <div class="mdw-subhead-small">Subhead</div>
             <div class="mdw-supporting-text">
               one two three four five six.
@@ -461,26 +478,33 @@
   
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-card>
-    <mdw-card-swipe-action onchange="window.onSwipeAction(this)" checked>
-      <mdw-icon>Favorite</mdw-icon>
+  ${escapeHTML(`<mdw-card style="max-width: 320px;" value="favorite" onchange="console.log(event.detail)">
+    <mdw-card-swipe-action action="favorite" class="mdw-toggle">
+      <mdw-icon>favorite</mdw-icon>
     </mdw-card-swipe-action>
+  
     <div class="mdw-card-content">
-      <div class="mdw-headline-medium">Headline</div>
+      <div class="mdw-headline-medium">Favorite toggle</div>
+      <div class="mdw-subhead-small">Subhead</div>
+      <div class="mdw-supporting-text">
+        one two three four five six.
+      </div>
+    </div>
+  </mdw-card>
+  
+  <mdw-card style="max-width: 320px;" value="delete" onchange="console.log(event.detail)">
+    <mdw-card-swipe-action action="remove" action-remove>
+      <mdw-icon>delete</mdw-icon>
+    </mdw-card-swipe-action>
+  
+    <div class="mdw-card-content">
+      <div class="mdw-headline-medium">Remove</div>
       <div class="mdw-subhead-small">Subhead</div>
       <div class="mdw-supporting-text">
         one two three four five six.
       </div>
     </div>
   </mdw-card>`)}
-      </code>
-    </pre>
-
-    <pre>
-      <code class="language-javascript">
-  ${`window.onSwipeAction = element => {
-    console.log('checked', element.hasAttribute('checked'));
-  };`}
       </code>
     </pre>
   </mdw-card>

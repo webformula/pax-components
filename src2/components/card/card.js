@@ -1,5 +1,6 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './card.css';
+import Drag from '../../core/Drag.js';
 import arrowDropDownSVG from '../../svg-icons/expand_more_FILL0_wght400_GRAD0_opsz24.svg';
 import chevronLeftIconSVGRaw from '../../svg-icons/arrow_back_ios_FILL1_wght300_GRAD0_opsz24.svg';
 
@@ -20,9 +21,22 @@ export default class MDWCardElement extends HTMLElementExtended {
   #fullscreenClick_bound = this.#fullscreenClick.bind(this);
   #fullscreenBackClick_bound = this.#fullscreenBackClick.bind(this);
   #imgOnload_bound = this.#imgOnload.bind(this);
-
+  #ondragSwipeAction_bound = this.#ondragSwipeAction.bind(this);
+  #ondragSwipeActionStart_bound = this.#ondragSwipeActionStart.bind(this);
+  #ondragSwipeActionEnd_bound = this.#ondragSwipeActionEnd.bind(this);
+  #swipeActionClick_bound = this.#swipeActionClick.bind(this);
+  // #ondragFullscreen_bound = this.#ondragFullscreen.bind(this);
+  // #ondragFullscreenStart_bound = this.#ondragFullscreenStart.bind(this);
+  // #ondragFullscreenEnd_bound = this.#ondragFullscreenEnd.bind(this);
+  // #dragFullscreenStartPosition;
+  // #initialDragFullscreenPosition;
   #fullscreenPlaceHolder;
   #fullscreenBackButton;
+  #swipeActionElement = this.querySelector(':scope > mdw-card-swipe-action');
+  #dragSwipeActionStartPosition;
+  #dragSwipeAction;
+  #dragFullscreen;
+  #value = ''
 
 
   constructor() {
@@ -39,18 +53,71 @@ export default class MDWCardElement extends HTMLElementExtended {
       this.#fullscreenBackButton = document.createElement('div');
       this.#fullscreenBackButton.classList.add('mdw-card-fullscreen-back');
       this.#fullscreenBackButton.innerHTML = chevronLeftIconSVGRaw;
+      // this.#fullscreenBackButton.innerHTML = `${chevronLeftIconSVGRaw}<span class="text">Back</span>`;
       this.insertAdjacentElement('afterbegin', this.#fullscreenBackButton);
       this.#fullscreenBackButton.addEventListener('click', this.#fullscreenBackClick_bound);
       this.addEventListener('click', this.#fullscreenClick_bound);
-    } else if (this.#isExpanding) this.addEventListener('click', this.#expandClick_bound);
+    } else if (this.#isExpanding) {
+      this.addEventListener('click', this.#expandClick_bound);
+      // this.#dragFullscreen = new Drag(this);
+      // this.#dragFullscreen.onDrag(this.#ondragFullscreen_bound);
+      // this.#dragFullscreen.onStart(this.#ondragFullscreenStart_bound);
+      // this.#dragFullscreen.onEnd(this.#ondragFullscreenEnd_bound);
+      // this.#dragFullscreen.enable();
+    }
 
     this.#calculateImgMaxHeightForFullscreen();
 
-    this.classList.add('mdw-no-animation');
+    if (this.#swipeActionElement) {
+      this.#dragSwipeAction = new Drag(this);
+      this.#dragSwipeAction.lockScrollY = true;
+      this.#dragSwipeAction.onDrag(this.#ondragSwipeAction_bound);
+      this.#dragSwipeAction.onStart(this.#ondragSwipeActionStart_bound);
+      this.#dragSwipeAction.onEnd(this.#ondragSwipeActionEnd_bound);
+      this.#dragSwipeAction.enable();
+      this.#swipeActionElement.addEventListener('click', this.#swipeActionClick_bound);
+    }
 
     util.nextAnimationFrameAsync().then(() => {
       this.classList.remove('mdw-no-animation');
     });
+  }
+
+  disconnectedCallback() {
+    if (this.#isFullscreen) {
+      this.#fullscreenBackButton.removeEventListener('click', this.#fullscreenBackClick_bound);
+      this.removeEventListener('click', this.#fullscreenClick_bound);
+    } else {
+      this.removeEventListener('click', this.#expandClick_bound);
+
+    }
+
+    if (this.#swipeActionElement) {
+      this.#dragSwipeAction.destroy();
+      this.#swipeActionElement.removeEventListener('click', this.#swipeActionClick_bound);
+    }
+  }
+
+  static get observedAttributes() {
+    return ['value'];
+  }
+
+  attributeChangedCallback(name, _oldValue, newValue) {
+    this[name] = newValue;
+  }
+
+  get action(){
+    return this.#value;
+  }
+  set value(value) {
+    this.#value = value;
+  }
+
+  async remove() {
+    this.style.setProperty('--mdw-card-margin-top-remove', `-${this.offsetHeight}px`);
+    this.classList.add('mdw-remove');
+    await util.transitionendAsync(this);
+    super.remove();
   }
 
   async #fullscreen() {
@@ -69,7 +136,7 @@ export default class MDWCardElement extends HTMLElementExtended {
     this.classList.add('mdw-show');
   }
 
-  #expandClick(e) {
+  #expandClick() {
     const expanded = this.querySelector('.mdw-card-content > .mdw-expanded');
     if (this.classList.contains('mdw-show')) {
       expanded.style.height = '';
@@ -108,6 +175,76 @@ export default class MDWCardElement extends HTMLElementExtended {
     this.querySelector(':scope > .mdw-card-image img').removeEventListener('load', this.#imgOnload_bound);
     this.#calculateImgMaxHeightForFullscreen();
   }
+
+  #ondragSwipeActionStart() {
+    this.classList.add('mdw-dragging');
+    this.#dragSwipeActionStartPosition = parseInt(getComputedStyle(this).getPropertyValue('--mdw-card-swipe-action-position').replace('px', ''));
+  }
+
+  #ondragSwipeAction({ distance }) {
+    let position = this.#dragSwipeActionStartPosition + distance.x;
+    if (position > 60) position = 60;
+    if (position < 0) position = 0;
+    this.style.setProperty('--mdw-card-swipe-action-position', `${position}px`);
+  }
+
+  async #ondragSwipeActionEnd() {
+    this.classList.remove('mdw-dragging');
+    const position = parseInt(getComputedStyle(this).getPropertyValue('--mdw-card-swipe-action-position').replace('px', ''));
+    if (position < 30) this.style.setProperty('--mdw-card-swipe-action-position', `0px`);
+    else this.style.setProperty('--mdw-card-swipe-action-position', `60px`);
+  }
+
+  // TODO make action its own component so it can have .checked ?
+  #swipeActionClick(event) {
+    if (this.#swipeActionElement.classList.contains('mdw-toggle')) {
+      if (this.#swipeActionElement.hasAttribute('checked')) this.#swipeActionElement.removeAttribute('checked');
+      else this.#swipeActionElement.setAttribute('checked', '');
+    }
+
+    const action = this.#swipeActionElement.getAttribute('action');
+    const actionRemove = this.#swipeActionElement.hasAttribute('action-remove');
+    console.log(actionRemove)
+    if (action) {
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: {
+          action,
+          value: this.#value,
+          card: this,
+          ...(actionRemove && { remove: true })
+        }
+      }));
+    }
+
+    if (actionRemove) this.remove();
+
+    setTimeout(() => {
+      this.style.setProperty('--mdw-card-swipe-action-position', `0px`);
+    }, 240);
+  }
+
+  // #ondragFullscreenStart() {
+  //   this.classList.add('mdw-dragging');
+  //   this.#dragFullscreenStartPosition = parseInt(getComputedStyle(this).getPropertyValue('--mdw-card-drag-expand-position').replace('px', ''));
+  //   this.#initialDragFullscreenPosition = this.#dragFullscreenStartPosition;
+  // }
+
+  // #ondragFullscreen({ distance }) {
+  //   let position = this.#dragFullscreenStartPosition + distance.y;
+  //   this.style.setProperty('--mdw-card-drag-expand-position', `${position}px`);
+  // }
+
+  // async #ondragFullscreenEnd({ distance, direction }) {
+  //   this.classList.remove('mdw-dragging');
+  //   const bottom = this.#initialDragFullscreenPosition - distance.y;
+  //   if (direction.y === -1) {
+  //     if (bottom > this.#initialDragFullscreenPosition) this.#expandClick();
+  //     else this.style.setProperty('--mdw-card-drag-expand-position', `0px`);
+  //   } else {
+  //     if (bottom >= this.#initialDragFullscreenPosition) this.style.setProperty('--mdw-card-drag-expand-position', `0px`);
+  //     else this.#expandClick();
+  //   }
+  // }
 }
 
 customElements.define('mdw-card', MDWCardElement);

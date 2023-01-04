@@ -17,8 +17,11 @@ export default class Drag {
   #lastDistance;
   #initialTouchPos;
   #currentTouchPosition;
+  #totalDistance;
   #startTime;
   #lastTouchPos = { x: 0, y: 0 };
+  #lockScrollY = false;
+  #lockScrollThreshold = 12;
   
   constructor(element) {
     if (element) this.#element = element;
@@ -36,12 +39,27 @@ export default class Drag {
   get includeMouseEvents() {
     return this.#includeMouseEvents;
   }
-  set includeMouseEvents(value = false) {
-    this.#includeMouseEvents = value;
+  set includeMouseEvents(value) {
+    this.#includeMouseEvents = !!value;
   }
 
   get isDragging() {
     return this.#isDragging;
+  }
+
+  get lockScrollY() {
+    return this.#lockScrollY;
+  }
+  set lockScrollY(value) {
+    this.#lockScrollY = !!value;
+  }
+
+  get lockScrollThreshold() {
+    return this.#lockScrollThreshold;
+  }
+  set lockScrollThreshold(value) {
+    if (isNaN(value)) throw Error('lockScrollThreshold must be a number')
+    this.#lockScrollThreshold = parseInt(value);
   }
 
   enable() {
@@ -55,6 +73,7 @@ export default class Drag {
   destroy() {
     this.disable();
     this.#element = undefined;
+    util.unlockPageScroll();
   }
 
   onDrag(callback = () => { }) {
@@ -91,6 +110,7 @@ export default class Drag {
     this.#startTime = Date.now();
     this.#initialTouchPos = this.#getTouchPosition(event);
     this.#lastDistance = this.#getDistance(event);
+    this.#totalDistance = this.#getDistance(event);
     this.#onStartCallbacks.forEach(callback => callback({
       event,
       element: this.#element
@@ -118,6 +138,8 @@ export default class Drag {
     }
 
     const distance = this.#getDistance(event);
+    if (this.#lockScrollY) util.unlockPageScroll();
+
     this.#onEndCallbacks.forEach(callback => callback({
       distance,
       direction: this.#getDirection({ x: 0, y: 0 }, distance),
@@ -130,7 +152,13 @@ export default class Drag {
   #touchmove(event) {
     this.#currentTouchPosition = this.#getTouchPosition(event);
     const distance = this.#getDistance(event);
-
+    this.#totalDistance.x += distance.x;
+    this.#totalDistance.y += distance.y;
+    this.#totalDistance.moveX += distance.moveX;
+    this.#totalDistance.moveY += distance.moveY;
+    if (this.#lockScrollY) {
+      if (Math.abs(this.#totalDistance.moveX) > this.#lockScrollThreshold) util.lockPageScroll();
+    }
     this.#onDragCallbacks.forEach(callback => callback({
       distance,
       direction: this.#getDirection(this.#lastDistance, distance),

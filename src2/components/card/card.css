@@ -1,4 +1,7 @@
 mdw-card {
+  --mdw-card-swipe-action-position: 0;
+  --mdw-card-drag-expand-position: 0;
+
   position: relative;
   display: flex;
   flex-direction: column;
@@ -11,12 +14,20 @@ mdw-card {
   -webkit-tap-highlight-color: transparent;
 
   margin-bottom: 8px;
+
+  left: var(--mdw-card-swipe-action-position);
+  transition: left 120ms;
 }
 
+mdw-card.mdw-remove {
+  margin-top: var(--mdw-card-margin-top-remove);
+  opacity: 0;
+  transition: margin-top 120ms, opacity 80ms 40ms;
+}
 
 /* fixes outline overlap */
 mdw-card.mdw-outlined {
-  --mdw-card-swipe-position: 0;
+  --mdw-card-swipe-action-position: 0;
 }
 
 mdw-card.mdw-dragging {
@@ -24,8 +35,8 @@ mdw-card.mdw-dragging {
 }
 
 mdw-card.mdw-has-swipe-action {
-  --mdw-card-swipe-position: 0px;
-  left: var(--mdw-card-swipe-position);
+  --mdw-card-swipe-action-position: 0px;
+  left: var(--mdw-card-swipe-action-position);
   transition: left 120ms;
 }
 
@@ -362,12 +373,41 @@ mdw-card > .mdw-card-fullscreen-back {
   pointer-events: none;
   opacity: 0;
   transition: opacity 120ms;
+
+  /* color: var(--mdw-surface);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75); */
+}
+
+mdw-card > .mdw-card-fullscreen-back .text {
+  font-size: var(--mdw-font-size-medium-title);
+  font-weight: var(--mdw-font-weight-medium-title);
+  line-height: var(--mdw-font-line-height-medium-title);
+  letter-spacing: var(--mdw-font-letter-spacing-medium-title);
+  color: var(--mdw-surface);
+  margin-left: -6px;
+
+  filter:
+    drop-shadow(-1px -1px 1px rgba(0, 0, 0, .3))
+    drop-shadow(1px -1px 1px rgba(0, 0, 0, .3))
+    drop-shadow(1px 1px 1px rgba(0, 0, 0, .3))
+    drop-shadow(-1px 1px 1px rgba(0, 0, 0, .3));
+  /* filter: drop-shadow(0 0 3px rgba(0, 0, 0, .5)); */
 }
 
 mdw-card > .mdw-card-fullscreen-back > svg {
   transform: scale(1.1);
   fill: var(--mdw-surface);
-  filter: drop-shadow(0 0 3px rgba(0, 0, 0, .5));
+  /* filter: drop-shadow(0 0 3px rgba(0, 0, 0, .5)); */
+  filter:
+    drop-shadow(-1px -1px 1px rgba(0, 0, 0, .3))
+    drop-shadow(1px -1px 1px rgba(0, 0, 0, .3))
+    drop-shadow(1px 1px 1px rgba(0, 0, 0, .3))
+    drop-shadow(-1px 1px 1px rgba(0, 0, 0, .3));
+}
+
+mdw-card > .mdw-card-fullscreen-back > svg path {
+  stroke-width: 0.5px;
+  stroke: var(--mdw-surface);
 }
 
 mdw-card.mdw-fullscreen.mdw-show > .mdw-card-fullscreen-back {
@@ -399,3 +439,131 @@ mdw-card-group:not(.mdw-grid) > mdw-card .mdw-supporting-text,
 mdw-card-group:not(.mdw-grid) > mdw-card.mdw-card-list-item .mdw-card-actions {
   display: none;
 }
+
+
+/* --- swipe action --- */
+
+mdw-card > mdw-card-swipe-action {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 1px;
+  left: calc(var(--mdw-card-swipe-action-position) * -1);
+  bottom: 0;
+  width: 100px;
+  padding-top: 18px;
+  padding-left: 18px;
+  z-index: 0;
+  border-radius: var(--mdw-shape-medium) 0 0 var(--mdw-shape-medium);
+  box-sizing: border-box;
+
+  background-color: var(--mdw-surface-tint--16);
+  color: var(--mdw-on-surface-variant);
+
+  transition:
+    left 120ms,
+    background-color 120ms;
+}
+
+mdw-card.mdw-outlined > mdw-card-swipe-action {
+  top: -1px;
+  bottom: -1px;
+  border-left: 1px solid var(--mdw-outline);
+  border-top: 1px solid var(--mdw-outline);
+  border-bottom: 1px solid var(--mdw-outline);
+}
+
+mdw-card > mdw-card-swipe-action mdw-icon {
+  pointer-events: none;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
+}
+
+mdw-card.mdw-dragging > mdw-card-swipe-action {
+  transition: none;
+}
+
+mdw-card > mdw-card-swipe-action::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: var(--mdw-card-swipe-action-position);
+  width: 101px;
+  padding-top: 18px;
+  padding-left: 18px;
+  bottom: 0;
+  border-radius: var(--mdw-shape-medium) 0 0 var(--mdw-shape-medium);
+  background-color: var(--mdw-surface);
+  z-index: 1;
+  box-sizing: border-box;
+
+  transition: left 120ms;
+}
+
+mdw-card.mdw-filled > mdw-card-swipe-action::after {
+  background-color: var(--mdw-surface-variant);
+}
+
+mdw-card.mdw-dragging > mdw-card-swipe-action::after {
+  transition: none;
+}
+
+mdw-card > mdw-card-swipe-action[checked] {
+  background-color: var(--mdw-surface-tint--38);
+}
+
+mdw-card > mdw-card-swipe-action[checked] mdw-icon {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
+}
+
+
+/* --- orientation landscape --- */
+
+
+/* mdw-card.mdw-card-orientation-landscape {
+  flex-direction: row;
+  overflow: hidden;
+}
+
+mdw-card.mdw-card-orientation-landscape > .mdw-card-content {
+  flex: 1;
+  margin-left: 16px;
+}
+
+mdw-card.mdw-card-orientation-landscape > .mdw-card-image {
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  width: auto;
+}
+
+mdw-card.mdw-card-orientation-landscape > .mdw-card-image > img {
+  height: inherit;
+  width: auto;
+}
+
+mdw-card.mdw-card-orientation-landscape > .mdw-card-image.mdw-size-small {
+  height: 80px;
+  transition: none;
+}
+
+mdw-card.mdw-card-orientation-landscape > .mdw-card-image.mdw-size-medium {
+  height: 140px;
+  transition: none;
+}
+
+mdw-card.mdw-card-orientation-landscape > .mdw-card-image.mdw-size-large {
+  height: 200px;
+  transition: none;
+}
+
+mdw-card.mdw-card-orientation-landscape .mdw-card-actions {
+  justify-content: end;
+  width: 100%;
+} */

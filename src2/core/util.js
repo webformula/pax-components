@@ -22,6 +22,8 @@ const mdwUtil = new class MDWUtil {
   #scrollCallbacks = [];
   #scrollCurrentDirection;
   #scrollDistanceFromDirectionChange;
+  #pageScrollIsLocked = false;
+  #pageScrollLockHTMLScrollTop;
   #scrollHandler_bound = this.rafThrottle(this.#scrollHandler).bind(this);
 
   constructor() {
@@ -214,6 +216,51 @@ const mdwUtil = new class MDWUtil {
       .filter(({ distance }) => distance <= distanceCap)
       .sort((a, b) => a.distance - b.distance)
       .map(({ item }) => item);
+  }
+
+  lockPageScroll() {
+    if (this.#pageScrollIsLocked === true) return;
+    this.#pageScrollIsLocked = true;
+
+    const htmlElement = document.querySelector('html');
+    this.#pageScrollLockHTMLScrollTop = htmlElement.scrollTop;
+    htmlElement.style.overflow = 'hidden';
+    htmlElement.style.position = 'relative';
+    htmlElement.style.touchAction = 'none';
+
+    const bodyElement = document.body;
+    bodyElement.style.overflow = 'hidden';
+    bodyElement.style.position = 'absolute';
+    bodyElement.style.touchAction = 'none';
+    bodyElement.style.bottom = '0';
+    bodyElement.style.height = 'unset';
+    bodyElement.style.top = `-${this.#pageScrollLockHTMLScrollTop}px`;
+
+    // return offset
+    // Locking page can
+    return this.#pageScrollLockHTMLScrollTop;
+  }
+
+  unlockPageScroll() {
+    if (this.#pageScrollIsLocked === false) return;
+    this.#pageScrollIsLocked = false;
+
+    const htmlElement = document.querySelector('html');
+    htmlElement.style.overflow = '';
+    htmlElement.style.position = '';
+    htmlElement.style.touchAction = '';
+    htmlElement.style.top = '';
+    htmlElement.style.bottom = '';
+    htmlElement.style.height = '';
+    htmlElement.scrollTop = this.#pageScrollLockHTMLScrollTop;
+
+    const bodyElement = document.body;
+    bodyElement.style.overflow = '';
+    bodyElement.style.position = '';
+    bodyElement.style.touchAction = '';
+    bodyElement.style.top = '';
+    bodyElement.style.bottom = '';
+    bodyElement.style.height = '';
   }
 
   #calculateDistance(searchTerm, target) {
