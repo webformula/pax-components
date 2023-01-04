@@ -1,0 +1,24 @@
+mdw-navigation-group {
+  --mdw-navigation-group-height: 56px;
+
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: hidden;
+
+  padding-right: 16px;
+  margin-right: -16px;
+  padding-left: 32px;
+  margin-left: -16px;
+  margin-bottom: 2px;
+  
+  height: var(--mdw-navigation-group-height);
+  transition: height 320ms;
+  transition-timing-function: var(--mdw-transition-expand-in);
+}
+
+
+mdw-navigation-group mdw-anchor[group] {
+  padding-left: 16px;
+  margin-left: -32px;
+}

@@ -77,13 +77,14 @@ export default class MDWCardElement extends HTMLElementExtended {
       this.#dragSwipeAction.enable();
       this.#swipeActionElement.addEventListener('click', this.#swipeActionClick_bound);
     }
-
-    util.nextAnimationFrameAsync().then(() => {
+    
+    setTimeout(() => {
       this.classList.remove('mdw-no-animation');
-    });
+    }, 200);
   }
 
   disconnectedCallback() {
+    this.classList.add('mdw-no-animation');
     if (this.#isFullscreen) {
       this.#fullscreenBackButton.removeEventListener('click', this.#fullscreenBackClick_bound);
       this.removeEventListener('click', this.#fullscreenClick_bound);

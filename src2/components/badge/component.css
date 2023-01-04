@@ -31,13 +31,12 @@ mdw-icon mdw-badge.mdw-has-value {
 }
 
 mdw-anchor mdw-badge {
+  display: flex;
   flex: 1;
   justify-content: end;
   position: relative;
-  align-self: center;
   top: unset;
   left: unset;
-  margin-top: -13px;
   margin-right: 10px;
 
   background-color: transparent;

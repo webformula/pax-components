@@ -11,7 +11,8 @@ const mdwDevice = new class MDWDevice {
   ).toLowerCase();
   #iosRegex = /ipad|iphone|ipod/;
   #androidRegex = /android/;
-  // #smallViewportSize = 900;
+  #smallViewportMinWidth = 600;
+  #smallViewportMaxWidth = 1239;
   // #fullscreenCutoff = 600;
 
   constructor() {
@@ -34,19 +35,26 @@ const mdwDevice = new class MDWDevice {
     return this.#androidRegex.test(this.#platform);
   }
 
+  get isSmallViewport() {
+    return window.innerWidth > this.#smallViewportMinWidth && window.innerWidth < this.#smallViewportMaxWidth;
+  }
+
   get hasTouch() {
     return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
   }
 
   #setViewport(initial = false) {
     document.body.classList.remove('mdw-mobile');
-    // document.body.classList.remove('mdw-viewport-small');
+    document.body.classList.remove('mdw-viewport-small');
 
     if (this.isMobile) {
       document.body.classList.add('mdw-mobile');
-      if (!initial) window.dispatchEvent(new Event('mdw-viewport-mobile'));
+      if (!initial) window.dispatchEvent(new CustomEvent('mdw-viewport', { detail: { state: 'mobile' }}));
+    } else if (this.isSmallViewport) {
+      document.body.classList.add('mdw-viewport-small');
+      if (!initial) window.dispatchEvent(new CustomEvent('mdw-viewport', { detail: { state: 'smallScreen' } }));
     } else {
-      if (!initial) window.dispatchEvent(new Event('mdw-viewport-normal'));
+      if (!initial) window.dispatchEvent(new CustomEvent('mdw-viewport', { detail: { state: 'none' } }));
     }
   }
 }

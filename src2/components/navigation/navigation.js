@@ -26,14 +26,17 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
     if (this.classList.contains('mdw-rail')) {
       [...this.querySelectorAll('mdw-anchor')].forEach(anchor => {
         anchor.classList.add('mdw-rail');
-        anchor.classList.toggle('mdw-state-rail', !this.#open);
+        if (!device.isMobile) anchor.classList.toggle('mdw-state-rail', !this.#open);
       });
     }
   }
 
   connectedCallback() {
-    this.setAttribute('role', 'nav')
-    this.#mdwPageChange();
+    this.setAttribute('role', 'nav');
+    // the nested components are not ready until next frame
+    util.nextAnimationFrameAsync().then(() => {
+      this.#mdwPageChange();
+    });
     window.addEventListener('mdwPageChange', this.#mdwPageChange_bound);
 
     util.nextAnimationFrameAsync().then(() => {
@@ -46,10 +49,14 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
   }
   set open(value) {
     this.#open = !!value;
-    if (this.#rail) {
+
+    if (!this.#rail || device.isMobile) {
+      this.classList.toggle('mdw-hide', !this.#open);
+      [...this.querySelectorAll('mdw-anchor')].forEach(anchor => anchor.classList.remove('mdw-state-rail'));
+    } else {
       this.classList.toggle('mdw-state-rail', !this.#open);
       [...this.querySelectorAll('mdw-anchor')].forEach(anchor => anchor.classList.toggle('mdw-state-rail', !this.#open));
-    } else this.classList.toggle('mdw-hide', !this.#open);
+    }
 
     if (device.isMobile) {
       if (this.#open) {
@@ -79,7 +86,7 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
   }
 
   #mdwPageChange() {
-    [...this.querySelectorAll('.mdw-active')].forEach(anchor => anchor.classList.remove('mdw-active'));
+    [...this.querySelectorAll('.mdw-active')].forEach(anchor => anchor.active = false);
 
     const fullUrl = location.href;
     const pathname = location.pathname;
@@ -90,8 +97,7 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
     if (matches.length === 0) matches = [...this.querySelectorAll(`mdw-anchor[href="${pathname}"]`)];
     if (matches.length === 0) matches = [...this.querySelectorAll(`mdw-anchor[href="${pathname}?${searchParameters}"]`)];
 
-    matches.forEach(anchor => anchor.classList.add('mdw-active'));
-    // TODO nav group
+    matches.forEach(anchor => anchor.active = true);
 
     if (device.isMobile) this.open = false;
   }

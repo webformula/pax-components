@@ -3,6 +3,9 @@ import styleAsString from '!!raw-loader!./anchor.css';
 import Ripple from '../../core/Ripple.js';
 import './anchor-global.css';
 import util from '../../core/util.js';
+import arrowDropDownSVG from '../../svg-icons/expand_more_FILL0_wght400_GRAD0_opsz24.svg';
+
+
 
 customElements.define('mdw-anchor', class MDWAnchorElement extends HTMLElementExtended {
   useShadowRoot = true;
@@ -16,7 +19,22 @@ customElements.define('mdw-anchor', class MDWAnchorElement extends HTMLElementEx
   constructor() {
     super();
     
-    if (this.querySelector('[slot=rail]')) this.classList.add('mdw-has-rail-content');
+    this.#setupClasses();
+    
+    if (this.hasAttribute('group')) this.insertAdjacentHTML('beforeend', `<div class="mdw-group-arrow">${arrowDropDownSVG}</div>`);
+  }
+
+  #setupClasses() {
+    const hasIcon = this.querySelector(':scope > mdw-icon');
+    const rail = this.querySelector('[slot=rail]');
+    const hasRailContent = rail !== null;
+    const railHasIcon = hasRailContent ? this.querySelector('[slot=rail] mdw-icon') : false;
+    const railHasText = hasRailContent && util.getTextFromNode(rail) !== '';
+
+    if (hasIcon) this.classList.add('mdw-has-icon');
+    if (hasRailContent) this.classList.add('mdw-has-rail');
+    if (railHasIcon) this.classList.add('mdw-has-rail-icon');
+    if (railHasText) this.classList.add('mdw-has-rail-text');
   }
 
   connectedCallback() {
@@ -38,15 +56,10 @@ customElements.define('mdw-anchor', class MDWAnchorElement extends HTMLElementEx
   }
 
   template() {
-    const rail = this.querySelector('[slot=rail]');
-    const hasRailContent = rail !== null;
-    const mainHasIcon = this.querySelector(':scope > mdw-icon');
-    const railHasIcon = this.querySelector('[slot=rail] mdw-icon');
-    const railHasText = hasRailContent && util.getTextFromNode(rail) !== '';
     return /*html*/`
-      <div class="background ${hasRailContent ? 'has-rail-content' : ''} ${railHasIcon ? 'rail-has-icon' : ''} ${railHasText ? 'rail-has-text' : ''}"></div>
-      <slot class="main ${hasRailContent ? 'has-rail-content' : ''} ${mainHasIcon ? 'has-icon' : ''}"></slot>
-      <slot class="rail ${hasRailContent ? 'has-rail-content' : ''} ${railHasIcon ? 'has-icon' : ''} ${railHasText ? 'has-text' : ''}" name="rail"></slot>
+      <div class="background"></div>
+      <slot class="main"></slot>
+      <slot class="rail" name="rail"></slot>
       <div class="ripple"></div>
       <style>${styleAsString}</style>
     `;
@@ -62,6 +75,12 @@ customElements.define('mdw-anchor', class MDWAnchorElement extends HTMLElementEx
   set active(value) {
     this.#active = !!value;
     this.classList.toggle('mdw-active', this.#active);
+
+    if (this.parentElement.nodeName === 'MDW-NAVIGATION-GROUP') {
+      util.nextAnimationFrameAsync().then(() => {
+        this.parentElement.updateActive();
+      });
+    }
   }
 
   #onClick() {

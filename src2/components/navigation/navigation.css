@@ -118,27 +118,3 @@ body.mdw-mobile mdw-navigation + page-content {
   margin-left: 0;
   width: 100%;
 }
-
-
-/* body.mdw-mobile  mdw-navigation::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 100vw;
-  background-color: black;
-  z-index: -1;
-
-  opacity: 0.12;
-  left: min(var(--mdw-navigation-drawer-width), calc(100% - 64px));
-}
-
-body.mdw-mobile mdw-navigation.mdw-hide::before {
-  pointer-events: none;
-  opacity: 0;
-  left: 0;
-  transition:
-    left 180ms,
-    opacity 180ms;
-  transition-timing-function: var(--mdw-transition-expand-out);
-} */

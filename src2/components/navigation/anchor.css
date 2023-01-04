@@ -45,7 +45,7 @@
   border-radius: var(--mdw-shape-extra-large);
 }
 
-:host(.mdw-has-rail-content) .background {
+:host(.mdw-has-rail) .background {
   transition: height 180ms;
 }
 
@@ -56,6 +56,11 @@
 
 :host(.mdw-active) .background {
   background-color: var(--mdw-secondary-container);
+}
+
+:host([group].mdw-active) .background {
+  opacity: var(--mdw-state-layer-opacity-hover);
+  background-color: var(--mdw-on-surface);
 }
 
 /* hover state layers. Media needed to prevent hover on mobile */
@@ -89,39 +94,91 @@
 
 
 
-/* rail */
+/* --- rail --- */
+
+/* look in rail global for more styles */
+
+
+:host(.mdw-has-rail.mdw-has-rail) .main {
+  display: block;
+  animation: mdw-anchor-main-show 180ms;
+}
+
+:host(.mdw-rail.mdw-state-rail.mdw-has-rail) .main {
+  opacity: 0;
+  animation: mdw-anchor-main-hide 180ms;
+}
+
+:host(.mdw-has-rail:not(.mdw-has-icon)) .main {
+  display: block;
+  animation: mdw-anchor-main-show-no-icon 180ms;
+}
+
+:host(.mdw-rail.mdw-state-rail.mdw-has-rail:not(.mdw-has-icon)) .main {
+  opacity: 0;
+  animation: mdw-anchor-main-hide-no-icon 180ms;
+}
+
+/* hide text show icon using colors when no rail content and has icon */
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail).mdw-has-icon) .main {
+  color: transparent;
+}
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail)) .main::slotted(mdw-icon) {
+  color: var(--mdw-on-surface);
+}
+
+
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail)) .main {
+  font-size: var(--mdw-font-size-medium-label);
+  font-weight: var(--mdw-font-weight-medium-label);
+  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
+  border-radius: var(--mdw-shape-extra-medium);
+}
+
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail):not(.mdw-has-icon)) {
+  align-self: center;
+}
+
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail).mdw-has-icon) .main {
+  margin: 0;
+  margin-left: -2px;
+  align-self: center;
+}
 
 :host(.mdw-rail.mdw-state-rail) .background {
   position: absolute;
   top: 0;
   left: 0;
+  border-radius: 50%;
+}
+
+:host(.mdw-rail.mdw-state-rail.mdw-has-rail-icon.mdw-has-rail-text) .background {
   height: 32px;
   border-radius: var(--mdw-shape-extra-large);
 }
-/* make sure height does not adjust. Using this because there is no way to select :host(.mdw-has-host-content) when using :host-context */
-/* :host(:not(.mdw-has-rail-content)) .background {
-  height: 56px !important;
-} */
-
-
-:host(.mdw-has-rail-content) .main.has-rail-content {
-  display: block;
-  animation: mdw-anchor-main-show 180ms;
+:host(.mdw-rail.mdw-state-rail.mdw-has-rail-icon.mdw-has-rail-text) .ripple {
+  height: 32px;
+  bottom: unset;
+  border-radius: var(--mdw-shape-extra-large);
 }
 
-:host(.mdw-rail.mdw-state-rail) .main.has-rail-content {
-  opacity: 0;
-  animation: mdw-anchor-main-hide 180ms;
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail):not(.mdw-has-rail-icon)) .background {
+  height: 56px;
+  width: 56px;
+}
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail):not(.mdw-has-rail-icon)) .ripple {
+  right: unset;
+  bottom: unset;
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
 }
 
-:host(.mdw-has-rail-content) .main.has-rail-content:not(.has-icon) {
-  display: block;
-  animation: mdw-anchor-main-show-no-icon 180ms;
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail):not(.mdw-has-rail-icon):not(.mdw-has-icon)) .background {
+  margin-left: 12px;
 }
-
-:host(.mdw-rail.mdw-state-rail) .main.has-rail-content:not(.has-icon) {
-  opacity: 0;
-  animation: mdw-anchor-main-hide-no-icon 180ms;
+:host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail):not(.mdw-has-rail-icon):not(.mdw-has-icon)) .ripple {
+  left: 12px;
 }
 
 
@@ -178,58 +235,15 @@
 }
 
 
-:host(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content) {
-  font-size: var(--mdw-font-size-medium-label);
-  font-weight: var(--mdw-font-weight-medium-label);
-  letter-spacing: var(--mdw-font-letter-spacing-medium-label);
-  border-radius: var(--mdw-shape-extra-medium);
-}
 
-:host(.mdw-rail) .main:not(.has-rail-content):not(.has-icon) {
-  display: block;
-  margin-left: 0;
-  transition: margin-left 180ms;
-}
-
-:host(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content):not(.has-icon) {
-  margin-left: -12px;
-}
-
-:host(.mdw-rail.mdw-state-rail) .main.has-icon:not(.has-rail-content) {
-  color: transparent;
-}
-
-:host(.mdw-rail.mdw-state-rail) .main:not(.has-rail-content)::slotted(mdw-icon) {
-  color: var(--mdw-on-surface);
-}
-
-:host(.mdw-has-rail-content) .rail.has-text:not(.has-icon) {
-  display: block;
+:host([group]) .main::slotted(.mdw-group-arrow) {
   position: absolute;
-  top: 17px;
+  display: flex;
+  align-self: center;
+  right: 16px;
+  transition: transform 120ms;
 }
 
-:host(.mdw-has-rail-content) .rail.has-icon:not(.has-text) {
-  display: block;
-  position: absolute;
-  top: 13px;
-}
-
-:host(.mdw-rail.mdw-state-rail) .background.rail-has-icon:not(.rail-has-text) {
-  height: 56px;
-  border-radius: 50%;
-}
-
-:host(.mdw-rail.mdw-state-rail) .background:not(.has-rail-content) {
-  margin-left: -6px;
-  width: 70px;
-  height: 42px !important;
-  margin-top: 7px;
-}
-
-:host(.mdw-rail.mdw-state-rail) .background.has-rail-content:not(.rail-has-icon).rail-has-text {
-  margin-left: -6px;
-  width: 70px;
-  height: 42px !important;
-  margin-top: 7px;
+:host([group].mdw-open) .main::slotted(.mdw-group-arrow) {
+  transform: rotate(180deg);
 }
