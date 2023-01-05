@@ -240,7 +240,9 @@
 :host([group]) .main::slotted(.mdw-group-arrow) {
   position: absolute;
   display: flex;
-  align-self: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
   right: 16px;
   transition: transform 120ms;
 }
