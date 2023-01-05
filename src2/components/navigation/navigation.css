@@ -12,7 +12,7 @@ mdw-navigation {
   z-index: 11;
   box-sizing: border-box;
   background-color: var(--mdw-surface);
-  padding: 18px 28px;
+  padding: 18px 0;
   overflow-x: hidden;
 
   width: var(--mdw-navigation-drawer-width);
@@ -31,6 +31,8 @@ mdw-navigation.mdw-hide {
 
 mdw-navigation .mdw-headline {
   line-height: 56px;
+  height: 56px;
+  margin: 0 36px;
   font-size: var(--mdw-font-size-small-title);
   font-weight: var(--mdw-font-weight-small-title);
   letter-spacing: var(--mdw-font-letter-spacing-small-title);
@@ -92,12 +94,16 @@ mdw-navigation.mdw-no-animation + page-content {
 mdw-navigation .mdw-header {
   display: flex;
   justify-content: space-between;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
-mdw-navigation .mdw-header > mdw-navigation-button {
-  margin-right: 16px;
+mdw-navigation .mdw-header {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 12px;
+  margin-right: 12px;
 }
-
 
 /* --- mobile --- */
 

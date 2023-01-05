@@ -10,10 +10,8 @@
   -webkit-tap-highlight-color: transparent;
   height: 56px;
   line-height: 56px;
-  padding-left: 16px;
-  padding-right: 12px;
-  margin-left: -16px;
-  margin-right: -16px;
+  margin: 1px 12px;
+  padding: 0 24px;
   margin-bottom: 2px;
 
   font-size: var(--mdw-font-size-large-label);
@@ -26,11 +24,12 @@
   vertical-align: middle;
   margin-top: -2px;
   margin-right: 8px;
-  margin-left: 2px;
+  margin-left: -6px;
   width: var(--mdw-font-size-icon-small) !important;
   height: var(--mdw-font-size-icon-small) !important;
   font-size: var(--mdw-font-size-icon-small) !important;
 }
+
 
 
 /* state layer */
@@ -145,7 +144,7 @@
   align-self: center;
 }
 
-:host(.mdw-rail.mdw-state-rail) .background {
+:host(.mdw-rail.mdw-state-rail.mdw-has-rail-text.mdw-has-rail-icon) .background {
   position: absolute;
   top: 0;
   left: 0;
@@ -175,10 +174,12 @@
 }
 
 :host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail):not(.mdw-has-rail-icon):not(.mdw-has-icon)) .background {
-  margin-left: 12px;
+  margin: 0 auto;
 }
 :host(.mdw-rail.mdw-state-rail:not(.mdw-has-rail):not(.mdw-has-rail-icon):not(.mdw-has-icon)) .ripple {
-  left: 12px;
+  /* left: 12px; */
+  left: 50%;
+  margin-left: -25%;
 }
 
 
