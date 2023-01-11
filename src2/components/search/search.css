@@ -6,9 +6,6 @@
   box-shadow: var(--mdw-elevation-3);
 }
 
-/* :host(.mdw-open.mdw-has-suggestions) {
-  border-radius: 28px 28px 0 0;
-} */
 :host(.mdw-open.mdw-has-search-value) {
   border-radius: 28px 28px 0 0;
 }
@@ -26,9 +23,6 @@
   background-color: var(--mdw-surface-tint--16);
 }
 
-/* :host(.mdw-open.mdw-has-suggestions) .textfield {
-  border-radius: 28px 28px 0 0;
-} */
 :host(.mdw-open.mdw-has-search-value) .textfield {
   border-radius: 28px 28px 0 0;
 }
@@ -138,73 +132,3 @@
 :host(.mdw-open.mdw-pending) .spinner {
   opacity: 1;
 }
-
-
-
-/* :host .textfield > .mdw-svg-icon {
-  width: 24px;
-  height: 24px;
-  align-self: center;
-  padding: 0 16px;
-}
-
-:host .textfield > .mdw-svg-icon > svg {
-  fill: var(--mdw-on-surface);
-}
-
-
-:host .textfield > .mdw-svg-icon + .mdw-svg-icon {
-  padding-left: 0;
-}
-
-:host .textfield > .mdw-svg-icon.close {
-  pointer-events: none;
-  opacity: 0;
-}
-:host .textfield > .mdw-svg-icon.mic {
-  pointer-events: none;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-}
-:host(.mdw-has-begin) .textfield > .search {
-  pointer-events: none;
-  opacity: 0;
-}
-:host slot[name=begin],
-:host slot[name=end] {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  top: 0;
-  bottom: 0;
-}
-:host slot[name=begin] {
-  left: 0;
-}
-:host slot[name=end] {
-  right: 0;
-}
-
-
-:host(.mdw-open) slot[name=begin],
-:host(.mdw-open) slot[name=end] {
-  pointer-events: none;
-  opacity: 0;
-}
-
-:host(.mdw-open) .textfield > .search {
-  pointer-events: all;
-  opacity: 1;
-}
-
-:host(.mdw-open.mdw-has-search-value) .textfield > .close {
-  cursor: pointer;
-  pointer-events: all;
-  opacity: 1;
-}
-
-:host(.mdw-open:not(.mdw-has-search-value)) .textfield > .mic {
-  pointer-events: all;
-  opacity: 1;
-} */

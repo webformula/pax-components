@@ -65,6 +65,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.shadowRoot.querySelector('.clear').removeEventListener('click', this.#onClearClick_bound);
     window.removeEventListener('keydown', this.#onKeydown_bound);
     this.suggestionsContainer.close();
+    this.suggestionsContainer.removeEventListener('click', this.#itemClick_bound);
     this.suggestionsContainer.removeEventListener('close', this.#close_bound);
   }
 

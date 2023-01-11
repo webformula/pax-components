@@ -2,14 +2,12 @@ mdw-suggestions.mdw-panel {
   min-width: 112px;
   max-width: 280px;
   max-height: 320px;
-  /* padding: 8px 0; */
   overflow-y: auto;
   border-radius: 0 0 28px 28px;
   background-color: var(--mdw-surface);
   box-sizing: border-box;
   box-shadow: var(--mdw-elevation-3);
   clip-path: inset(0px -30px -30px -30px);
-  /* border-top: 1px solid var(--mdw-surface-variant); */
 }
 
 mdw-suggestions::after {
@@ -25,11 +23,6 @@ mdw-suggestions::after {
   z-index: -1;
 }
 
-/* mdw-search.mdw-has-suggestions mdw-suggestions,
-mdw-search.mdw-has-suggestions mdw-suggestions::after {
-  padding: 8px 0;
-  border-top: 1px solid var(--mdw-surface-variant);
-} */
 mdw-search.mdw-has-search-value mdw-suggestions,
 mdw-search.mdw-has-search-value mdw-suggestions::after {
   padding: 8px 0;
@@ -65,7 +58,6 @@ mdw-suggestions mdw-list,
 mdw-suggestions mdw-list-item {
   background-color: transparent;
 }
-
 
 mdw-suggestions mark {
   background-color: var(--mdw-primary--20);
