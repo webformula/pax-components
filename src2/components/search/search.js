@@ -37,6 +37,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   #onClearClick_bound = this.#onClearClick.bind(this);
   #close_bound = this.close.bind(this);
   #itemClick_bound = this.#itemClick.bind(this);
+  #clickOutsideCloseFix_bound = this.#clickOutsideCloseFix.bind(this);
 
 
 
@@ -67,6 +68,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.suggestionsContainer.close();
     this.suggestionsContainer.removeEventListener('click', this.#itemClick_bound);
     this.suggestionsContainer.removeEventListener('close', this.#close_bound);
+    this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
   }
 
   template() {
@@ -144,6 +146,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.suggestionsContainer.show();
     this.suggestionsContainer.addEventListener('close', this.#close_bound);
     this.suggestionsContainer.addEventListener('click', this.#itemClick_bound);
+    this.addEventListener('click', this.#clickOutsideCloseFix_bound);
     this.classList.add('mdw-open');
     this.#open = true;
     this.#render();
@@ -157,6 +160,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.suggestionsContainer.close();
     this.suggestionsContainer.removeEventListener('click', this.#itemClick_bound);
     this.suggestionsContainer.removeEventListener('close', this.#close_bound);
+    this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
     this.#clearAll();
     this.classList.remove('mdw-open');
     this.#open = false;
@@ -428,5 +432,16 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     else if (!nextFocus) nextFocus = [...this.querySelectorAll('mdw-list-item')].pop();
 
     if (nextFocus) nextFocus.focus();
+  }
+
+
+  // close when leading or trailing icons are clicked
+  #clickOutsideCloseFix(event) {
+    const leading = this.querySelector('[slot=leading]');
+    if (leading && leading.contains(event.target)) this.close();
+    else {
+      const trailing = this.querySelector('[slot=trailing]');
+      if (trailing && trailing.contains(event.target)) this.close();
+    }
   }
 });
