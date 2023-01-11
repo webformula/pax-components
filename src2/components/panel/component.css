@@ -111,6 +111,23 @@ mdw-panel[open].mdw-animation-transitionYReverse.mdw-target,
   animation: mdw-panel-show-transitionYReverse 180ms;
 }
 
+
+mdw-panel:not([open]).mdw-animation-opacity,
+mdw-panel:not([open]).mdw-animation-opacity.mdw-target,
+.mdw-panel:not([open]).mdw-animation-opacity,
+.mdw-panel:not([open]).mdw-animation-opacity.mdw-target {
+  transition-timing-function: linear;
+  animation: mdw-panel-hide-opacity 80ms;
+}
+
+mdw-panel[open].mdw-animation-opacity,
+mdw-panel[open].mdw-animation-opacity.mdw-target,
+.mdw-panel[open].mdw-animation-opacity,
+.mdw-panel[open].mdw-animation-opacity.mdw-target {
+  transition-timing-function: linear;
+  animation: mdw-panel-show-opacity 80ms;
+}
+
 mdw-panel.mdw-no-animation,
 mdw-panel.mdw-no-animation.mdw-target,
 .mdw-panel.mdw-no-animation,
@@ -250,5 +267,25 @@ mdw-panel.mdw-no-animation.mdw-target,
 
   100% {
     transform: translate(-50%, calc(-50% + 120px));
+  }
+}
+
+@keyframes mdw-panel-show-opacity {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes mdw-panel-hide-opacity {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }

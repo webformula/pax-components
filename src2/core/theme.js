@@ -36,6 +36,7 @@ export function generate() {
     document.documentElement.style.setProperty(`${name}--10`, `${value}1a`);
     document.documentElement.style.setProperty(`${name}--12`, `${value}1f`);
     document.documentElement.style.setProperty(`${name}--16`, `${value}29`);
+    document.documentElement.style.setProperty(`${name}--20`, `${value}33`);
     document.documentElement.style.setProperty(`${name}--26`, `${value}42`);
     document.documentElement.style.setProperty(`${name}--38`, `${value}61`);
     // document.documentElement.style.setProperty(`${name}--50`, `${value}80`);

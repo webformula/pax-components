@@ -9,6 +9,7 @@ customElements.define('mdw-progress-circular', class MDWProgressCircular extends
   #diameter = 40;
   #max = 1;
   #value = 1;
+  #thickness = 4;
 
   constructor() {
     super();
@@ -19,7 +20,7 @@ customElements.define('mdw-progress-circular', class MDWProgressCircular extends
   }
 
   static get observedAttributes() {
-    return ['max', 'value', 'diameter'];
+    return ['max', 'value', 'diameter', 'thickness'];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
@@ -62,6 +63,14 @@ customElements.define('mdw-progress-circular', class MDWProgressCircular extends
   set diameter(value) {
     if (isNaN(value)) throw Error('Failed to set the \'diameter\' property on \'mdw-progress-circular\': Must provide a number');
     this.#diameter = parseFloat(value);
+  }
+
+  get thickness() {
+    return this.#thickness;
+  }
+  set thickness(value) {
+    if (isNaN(value)) throw Error('Failed to set the \'thickness\' property on \'mdw-progress-circular\': Must provide a number');
+    this.#thickness = parseFloat(value);
   }
 
 
@@ -111,7 +120,7 @@ customElements.define('mdw-progress-circular', class MDWProgressCircular extends
           style="
             animation-name: mdw-progress-circular-rotate-${this.#diameter};
             stroke-dasharray: ${this.#strokeCircumference}px;
-            stroke-width: 4px;
+            stroke-width: ${this.#thickness}px;
             stroke-dashoffset: ${this.#strokeDashoffset}px;
           "
           ></circle>

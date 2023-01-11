@@ -3,7 +3,6 @@ mdw-navigation {
   top: 0;
   bottom: 0;
   left: 0;
-  overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   display: flex;
@@ -13,7 +12,6 @@ mdw-navigation {
   box-sizing: border-box;
   background-color: var(--mdw-surface);
   padding: 18px 0;
-  overflow-x: hidden;
 
   width: var(--mdw-navigation-drawer-width);
 
@@ -127,4 +125,21 @@ body.mdw-mobile mdw-navigation + mdw-top-app-bar + page-content,
 body.mdw-mobile mdw-navigation + page-content {
   margin-left: 0;
   width: 100%;
+}
+
+
+/* --- secondary draw for rail --- */
+mdw-navigation.mdw-rail.mdw-state-rail + .mdw-navigation-secondary-draw {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: calc(-230px + var(--mdw-navigation-rail-width));
+  width: 230px;
+  background-color: var(--mdw-surface);
+  border-radius: 0 var(--mdw-shape-large) var(--mdw-shape-large) 0;
+  z-index: 9;
+}
+
+mdw-navigation.mdw-rail.mdw-state-rail.mdw-secondary-drawer-open + .mdw-navigation-secondary-draw {
+  left: var(--mdw-navigation-rail-width);
 }

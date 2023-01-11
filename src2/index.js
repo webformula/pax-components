@@ -10,6 +10,7 @@ import MDWSnackbar from './components/snackbar/service.js';
 import mdwUtil from './core/util.js';
 
 
+import './components/avatar/component.js';
 import './components/backdrop/component.js';
 import './components/badge/component.js';
 import './components/bottom-app-bar/component.js';
@@ -29,6 +30,7 @@ import './components/panel/component.js';
 import './components/progress-circular/component.js';
 import './components/progress-linear/component.js';
 import './components/radio/index.js';
+import './components/search/index.js';
 import './components/segmented-button-group/index.js';
 import './components/select/index.js';
 import './components/slider/index.js';

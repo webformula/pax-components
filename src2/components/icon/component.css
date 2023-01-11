@@ -22,6 +22,10 @@ mdw-icon {
     'opsz' 48
 }
 
+mdw-icon[onclick] {
+  cursor: pointer;
+}
+
 /* handles in src/components/icon/component.js */
 html:not(.mdw-material-icon-font-loaded) mdw-icon {
   opacity: 0;

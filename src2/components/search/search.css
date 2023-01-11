@@ -1,0 +1,210 @@
+:host {
+  display: inline-block;
+  min-height: 56px;
+  background-color: var(--mdw-surface);
+  border-radius: 28px;
+  box-shadow: var(--mdw-elevation-3);
+}
+
+/* :host(.mdw-open.mdw-has-suggestions) {
+  border-radius: 28px 28px 0 0;
+} */
+:host(.mdw-open.mdw-has-search-value) {
+  border-radius: 28px 28px 0 0;
+}
+
+:host .textfield {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  vertical-align: top;
+  position: relative;
+  box-sizing: border-box;
+  height: 56px;
+  border-radius: 28px;
+
+  background-color: var(--mdw-surface-tint--16);
+}
+
+/* :host(.mdw-open.mdw-has-suggestions) .textfield {
+  border-radius: 28px 28px 0 0;
+} */
+:host(.mdw-open.mdw-has-search-value) .textfield {
+  border-radius: 28px 28px 0 0;
+}
+
+:host .textfield > input {
+  flex: 1;
+  align-self: flex-end;
+  width: 100%;
+  height: 56px;
+  line-height: 56px;
+  outline: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+
+  text-decoration: inherit;
+  text-transform: inherit;
+  font-size: var(--mdw-font-size-large-body);
+  font-weight: var(--mdw-font-weight-large-body);
+  line-height: var(--mdw-font-line-height-large-body);
+  letter-spacing: var(--mdw-font-letter-spacing-large-body);
+  color: var(--mdw-on-surface);
+  caret-color: var(--mdw-primary);
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+:host .textfield > input::placeholder {
+  color: var(--mdw-on-surface-variant);
+}
+
+
+
+/* --- leading / trailing ---- */
+
+
+:host .textfield > .mdw-svg-icon {
+  width: 24px;
+  height: 24px;
+  align-self: center;
+  margin: 0 16px;
+  opacity: 0;
+  pointer-events: none;
+}
+:host .textfield > .mdw-svg-icon > svg {
+  fill: var(--mdw-on-surface);
+}
+:host .textfield > .mdw-svg-icon + .mdw-svg-icon {
+  margin-left: 0;
+}
+
+:host(.mdw-has-leading) .textfield > .search {
+  display: none;
+}
+:host(:not(.mdw-has-leading)) .textfield > .search {
+  opacity: 1;
+}
+
+
+:host(.mdw-has-trailing) .textfield > .clear {
+  position: absolute;
+}
+
+:host(.mdw-open.mdw-has-search-value) .textfield > .clear {
+  opacity: 1;
+  cursor: pointer;
+  pointer-events: all;
+  right: 0;
+}
+
+
+:host slot[name=leading],
+:host slot[name=trailing] {
+  display: flex;
+  align-items: center;
+}
+
+:host slot[name=leading]::slotted(mdw-icon),
+:host slot[name=trailing]::slotted(mdw-icon) {
+  width: 24px;
+  height: 24px;
+  align-self: center;
+  margin: 0 16px;
+  pointer-events: none;
+}
+
+:host(.mdw-open.mdw-has-search-value) slot[name=trailing] {
+  pointer-events: none;
+  opacity: 0;
+}
+
+
+
+:host .spinner {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  width: 28px;
+  height: 28px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+:host(.mdw-open.mdw-pending) .spinner {
+  opacity: 1;
+}
+
+
+
+/* :host .textfield > .mdw-svg-icon {
+  width: 24px;
+  height: 24px;
+  align-self: center;
+  padding: 0 16px;
+}
+
+:host .textfield > .mdw-svg-icon > svg {
+  fill: var(--mdw-on-surface);
+}
+
+
+:host .textfield > .mdw-svg-icon + .mdw-svg-icon {
+  padding-left: 0;
+}
+
+:host .textfield > .mdw-svg-icon.close {
+  pointer-events: none;
+  opacity: 0;
+}
+:host .textfield > .mdw-svg-icon.mic {
+  pointer-events: none;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+}
+:host(.mdw-has-begin) .textfield > .search {
+  pointer-events: none;
+  opacity: 0;
+}
+:host slot[name=begin],
+:host slot[name=end] {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+}
+:host slot[name=begin] {
+  left: 0;
+}
+:host slot[name=end] {
+  right: 0;
+}
+
+
+:host(.mdw-open) slot[name=begin],
+:host(.mdw-open) slot[name=end] {
+  pointer-events: none;
+  opacity: 0;
+}
+
+:host(.mdw-open) .textfield > .search {
+  pointer-events: all;
+  opacity: 1;
+}
+
+:host(.mdw-open.mdw-has-search-value) .textfield > .close {
+  cursor: pointer;
+  pointer-events: all;
+  opacity: 1;
+}
+
+:host(.mdw-open:not(.mdw-has-search-value)) .textfield > .mic {
+  pointer-events: all;
+  opacity: 1;
+} */

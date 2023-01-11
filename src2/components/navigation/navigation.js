@@ -12,6 +12,7 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
   #open = true;
   #rail = this.classList.contains('mdw-rail');
   #backdrop;
+  #secondaryDrawer;
 
   #mdwPageChange_bound = this.#mdwPageChange.bind(this);
   #backdropClick_bound = this.#backdropClick.bind(this);
@@ -29,6 +30,13 @@ customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLE
         if (!device.isMobile) anchor.classList.toggle('mdw-state-rail', !this.#open);
       });
     }
+
+    // TODO secondary drawer
+    // if (this.querySelector(':scope > mdw-navigation-group')) {
+    //   this.#secondaryDrawer = document.createElement('div');
+    //   this.#secondaryDrawer.classList.add('mdw-navigation-secondary-draw');
+    //   this.insertAdjacentElement('afterend', this.#secondaryDrawer);
+    // }
   }
 
   connectedCallback() {

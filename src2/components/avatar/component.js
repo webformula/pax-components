@@ -1,5 +1,5 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import styleAsString from '!!raw-loader!./avatar.css';
+import styleAsString from '!!raw-loader!./component.css';
 
 
 

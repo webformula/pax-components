@@ -1,6 +1,6 @@
 mdw-navigation-group {
   --mdw-navigation-group-height: 56px;
-
+  position: relative;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -38,4 +38,3 @@ mdw-navigation:not(.mdw-state-rail) mdw-navigation-group > mdw-anchor[group] {
 mdw-navigation.mdw-rail.mdw-state-rail > mdw-navigation-group mdw-anchor[group] {
   margin: 0 12px;
 } */
-

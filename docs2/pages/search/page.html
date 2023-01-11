@@ -1,0 +1,53 @@
+<mdw-card class="header-card">
+  <div class="mdw-card-content">
+    <div class="mdw-headline" style="font-size: 36px;">Search</div>
+    <div class="mdw-supporting-text">Search allows users to enter a keyword or phrase and get relevant information. It’s an alternative to other forms of
+    navigation.</div>
+  </div>
+  <div class="mdw-card-content">
+
+  </div>
+</mdw-card>
+
+<a href="https://m3.material.io/components/search/overview" target="_new">Material Design Guidelines: Search</a>
+<p>Search allows users to enter a keyword or phrase and get relevant information. It’s an alternative to other forms of
+navigation.</p>
+
+<div class="links">
+  <a href="#standard">Standard</a>
+</div>
+
+
+<section>
+  <h4>Types</h4>
+
+  <mdw-card id="standard">
+    <div class="mdw-card-content">
+      <div class="mdw-headline">Standard</div>
+
+      <div class="example">
+        <mdw-search placeholder="search" history="one">
+          <mdw-navigation-button slot="leading"></mdw-navigation-button>
+          <!-- <mdw-icon slot="trailing">mic</mdw-icon> -->
+          <mdw-avatar slot="trailing"><img src="../../woman.jpg"></img></mdw-avatar>
+        </mdw-search>
+      </div>
+    </div>
+
+    <pre>
+      <code class="language-html">
+  ${escapeHTML(`<mdw-radio-group>
+    <mdw-radio checked value="one">One</mdw-radio>
+    <mdw-radio value="two">Two</mdw-radio>
+  </mdw-radio-group>`)}
+      </code>
+    </pre>
+
+    <pre>
+      <code class="language-javascript">
+  ${`// get value
+  document.querySelector('mdw-radio-group').value`}
+      </code>
+    </pre>
+  </mdw-card>
+</section>

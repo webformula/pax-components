@@ -35,12 +35,20 @@ mdw-list-item.mdw-dragging {
   transition: none;
 }
 
-mdw-list.mdw-line-two > mdw-list-item {
+mdw-list.mdw-line-compact > mdw-list-item,
+mdw-list > mdw-list-item.mdw-line-compact {
+  height: 24px;
+  /* 72 - (12 * 2) padding */
+}
+
+mdw-list.mdw-line-two > mdw-list-item,
+mdw-list > mdw-list-item.mdw-line-two {
   height: 48px;
   /* 72 - (12 * 2) padding */
 }
 
-mdw-list.mdw-line-three > mdw-list-item {
+mdw-list.mdw-line-three > mdw-list-item,
+mdw-list > mdw-list-item.mdw-line-three {
   height: 64px;
   /* 72 - (12 * 2) padding */
   align-items: start;
@@ -88,7 +96,17 @@ mdw-list-item > .mdw-text > .mdw-supporting-text {
   color: var(--mdw-on-surface-variant);
 }
 
-mdw-list-item > mdw-icon {
+mdw-list-item > .mdw-svg-icon {
+  width: 24px;
+  height: 24px;
+}
+
+mdw-list-item > .mdw-svg-icon > svg {
+  fill: var(--mdw-on-surface--76);
+}
+
+mdw-list-item > mdw-icon,
+mdw-list-item > .mdw-svg-icon {
   margin-right: 32px;
 }
 

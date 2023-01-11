@@ -4,8 +4,6 @@ import './component.css';
 // TODO bottom sheet on mobile
 // TODO sub menus
 
-// TODO look into allowing mdw-menu to be a panel
-
 customElements.define('mdw-menu', class MDWMenuElement extends MDWPanelElement {
   #control;
   #controlSelector = this.getAttribute('control');

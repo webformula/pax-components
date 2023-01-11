@@ -263,6 +263,32 @@ const mdwUtil = new class MDWUtil {
     bodyElement.style.height = '';
   }
 
+  async waitForElement(selector, timeout = 200) {
+    const element = document.querySelector(selector);
+    if (element) return element;
+
+    return new Promise((resolve, reject) => {
+      let timer;
+      const observer = new MutationObserver((_mutationRecords, observer) => {
+        const element = document.querySelector(selector);
+        if (element) {
+          observer.disconnect();
+          clearTimeout(timer);
+          resolve(element);
+        }
+      });
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+      });
+
+      timer = setTimeout(() => {
+        observer.disconnect();
+        reject();
+      }, timeout);
+    });
+  }
+
   #calculateDistance(searchTerm, target) {
     const regex = new RegExp(`^${searchTerm}`, 'i');
     const matchesStart = target.match(regex) !== null;
