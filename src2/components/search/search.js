@@ -7,11 +7,11 @@ import svgIconSearch from '../../svg-icons/search_FILL0_wght400_GRAD0_opsz24.svg
 import svgIconClose from '../../svg-icons/close_FILL0_wght400_GRAD0_opsz24.svg';
 import svgIconHistory from '../../svg-icons/history_FILL0_wght400_GRAD0_opsz24.svg';
 import chevronLeftIconSVGRaw from '../../svg-icons/arrow_back_ios_FILL1_wght300_GRAD0_opsz24.svg';
+import svgIconMic from '../../svg-icons/mic_FILL1_wght400_GRAD0_opsz24.svg';
 
-// import svgIconMic from '../../svg-icons/mic_FILL1_wght400_GRAD0_opsz24.svg';
 
+const speechRecognitionSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
 
-// TODO fullscreen back button
 
 
 customElements.define('mdw-search', class MDWSearchElement extends HTMLElementExtended {
@@ -46,12 +46,22 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   #backClick_bound = this.#backClick.bind(this);
 
   #fullscreenPlaceHolder;
+  #speechRecognition;
+  #hasSpeech = this.hasAttribute('speech');
+  #micClick_bound = this.#micClick.bind(this);
 
 
 
   constructor() {
     super();
     this.classList.add('mdw-no-animation');
+
+    if (this.#hasSpeech) {
+      if (!speechRecognitionSupported) {
+        console.warn('Browser does not support speech recognition');
+        this.#hasSpeech = false;
+      } else this.#enableSpeechRecognition();
+    }
   }
 
   connectedCallback() {
@@ -103,6 +113,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#chipGroup.removeEventListener('click', this.#filterChange_bound);
     this.#suggestionsContainer.removeEventListener('close', this.#close_bound);
     this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
+    if (this.#hasSpeech) this.shadowRoot.removeEventListener('.mic').addEventListener('click', this.#micClick_bound);
   }
 
   template() {
@@ -113,6 +124,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
         <div class="mdw-svg-icon search">${svgIconSearch}</div>
         <input placeholder="${this.#placeholder}">
         <span class="spinner"></span>
+        ${this.#hasSpeech ? `<div class="mdw-svg-icon mic">${svgIconMic}</div>` : ``}
         <div class="mdw-svg-icon clear">${svgIconClose}</div>
         <slot name="trailing"></slot>
       </div>
@@ -196,6 +208,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#list.addEventListener('click', this.#itemClick_bound);
     this.#chipGroup.addEventListener('change', this.#filterChange_bound);
     this.addEventListener('click', this.#clickOutsideCloseFix_bound);
+    if (this.#hasSpeech) this.shadowRoot.querySelector('.mic').addEventListener('click', this.#micClick_bound);
 
     this.classList.add('mdw-open');
     this.#open = true;
@@ -226,6 +239,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#list.removeEventListener('click', this.#itemClick_bound);
     this.#chipGroup.removeEventListener('change', this.#filterChange_bound);
     this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
+    if (this.#hasSpeech) this.shadowRoot.querySelector('.mic').removeEventListener('click', this.#micClick_bound);
 
     if (device.isMobile) {
       this.#fullscreenClose();
@@ -530,5 +544,33 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
 
   #backClick() {
     this.close();
+  }
+
+  #enableSpeechRecognition() {
+    this.#speechRecognition = webkitSpeechRecognition ? new webkitSpeechRecognition() : new SpeechRecognition();
+    // this.#speechRecognition.continuous = false;
+    // this.#speechRecognition.lang = 'en-US';
+    // this.#speechRecognition.interimResults = true;
+    // this.#speechRecognition.maxAlternatives = 1;
+    // recognition.onstart = () => {
+    //   console.log('start');
+    // };
+    // recognition.onend = () => {
+    //   console.log('end');
+    // };
+
+    this.#speechRecognition.onresult = (event) => {
+      const text = event.results[0][0].transcript;;
+
+      if (text) {
+        this.#hasSearchValue = true;
+        this.#input.value = text;
+      }
+    };
+  }
+
+
+  #micClick() {
+    if (this.#speechRecognition) this.#speechRecognition.start();
   }
 });
