@@ -97,6 +97,7 @@
   position: absolute;
 }
 
+:host(.mdw-open.mdw-fullscreen) .textfield > .clear,
 :host(.mdw-open.mdw-has-search-value) .textfield > .clear {
   opacity: 1;
   cursor: pointer;
@@ -120,9 +121,26 @@
   pointer-events: none;
 }
 
+:host(.mdw-open.mdw-fullscreen) slot[name=trailing],
 :host(.mdw-open.mdw-has-search-value) slot[name=trailing] {
   pointer-events: none;
   opacity: 0;
+}
+
+:host(.mdw-open.mdw-fullscreen) slot[name=leading] {
+  pointer-events: none;
+  opacity: 0;
+}
+:host .textfield > .fullscreen-back {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+}
+:host(.mdw-open.mdw-fullscreen) .textfield > .fullscreen-back {
+  opacity: 1;
+  pointer-events: all;
 }
 
 

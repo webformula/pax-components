@@ -43,6 +43,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   #itemClick_bound = this.#itemClick.bind(this);
   #filterChange_bound = this.#filterChange.bind(this);
   #clickOutsideCloseFix_bound = this.#clickOutsideCloseFix.bind(this);
+  #backClick_bound = this.#backClick.bind(this);
 
   #fullscreenPlaceHolder;
 
@@ -92,6 +93,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   }
 
   disconnectedCallback() {
+    this.shadowRoot.querySelector('.fullscreen-back').removeEventListener('click', this.#backClick_bound);
     this.#input.removeEventListener('focus', this.#open_bound);
     this.#input.removeEventListener('input', this.#onInput_bound);
     this.shadowRoot.querySelector('.clear').removeEventListener('click', this.#onClearClick_bound);
@@ -107,6 +109,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     return /*html*/`
       <div class="textfield">
         <slot name="leading"></slot>
+        <div class="mdw-svg-icon fullscreen-back">${chevronLeftIconSVGRaw}</div>
         <div class="mdw-svg-icon search">${svgIconSearch}</div>
         <input placeholder="${this.#placeholder}">
         <span class="spinner"></span>
@@ -211,6 +214,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.style.setProperty('--mdw-search-fullscreen-left', `${bounds.left}px`);
     this.style.setProperty('--mdw-search-fullscreen-width', `${bounds.width}px`);
     this.style.setProperty('--mdw-search-fullscreen-height', `${bounds.height}px`);
+    this.shadowRoot.querySelector('.fullscreen-back').addEventListener('click', this.#backClick_bound);
   }
 
   close() {
@@ -236,6 +240,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   }
 
   async #fullscreenClose() {
+    this.shadowRoot.querySelector('.fullscreen-back').removeEventListener('click', this.#backClick_bound);
     this.classList.remove('mdw-open');
     this.#open = false;
     await util.animationendAsync(this);
@@ -426,7 +431,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     const downArrow = key === 'ArrowDown';
     const upArrow = key === 'ArrowUp';
 
-    if (escape) this.close();
+    if (escape && !device.isMobile) this.close();
 
     if ((tab && !shiftKey) || downArrow) {
       this.#focusNext();
@@ -521,5 +526,9 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
       const trailing = this.querySelector('[slot=trailing]');
       if (trailing && trailing.contains(event.target)) this.close();
     }
+  }
+
+  #backClick() {
+    this.close();
   }
 });
