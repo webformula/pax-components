@@ -38,12 +38,14 @@ mdw-search.mdw-has-filters mdw-suggestions.mdw-panel {
   clip-path: inset(1px -30px -30px -30px);
 }
 
+.mdw-suggestions mdw-list-item,
 mdw-suggestions mdw-list-item {
   cursor: pointer;
 }
 
 
 /* state layer */
+.mdw-suggestions mdw-list-item::after,
 mdw-suggestions mdw-list-item::after {
   position: absolute;
   content: "";
@@ -54,20 +56,25 @@ mdw-suggestions mdw-list-item::after {
   opacity: 0;
 }
 
+.mdw-suggestions mdw-list-item:focus::after,
 mdw-suggestions mdw-list-item:focus::after {
   opacity: var(--mdw-state-layer-opacity-focus);
   background-color: var(--mdw-on-surface);
 }
 
+.mdw-suggestions mdw-list-item > *,
 mdw-suggestions mdw-list-item > * {
   pointer-events: none;
 }
 
+.mdw-suggestions mdw-list,
+.mdw-suggestions mdw-list-item,
 mdw-suggestions mdw-list,
 mdw-suggestions mdw-list-item {
   background-color: transparent;
 }
 
+.mdw-suggestions mark,
 mdw-suggestions mark {
   background-color: var(--mdw-primary--20);
 }

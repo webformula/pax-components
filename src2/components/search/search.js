@@ -2,11 +2,16 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import styleAsString from '!!raw-loader!./search.css';
 import './search-global.css';
 import util from '../../core/util.js';
+import device from '../../core/device.js';
 import svgIconSearch from '../../svg-icons/search_FILL0_wght400_GRAD0_opsz24.svg';
 import svgIconClose from '../../svg-icons/close_FILL0_wght400_GRAD0_opsz24.svg';
 import svgIconHistory from '../../svg-icons/history_FILL0_wght400_GRAD0_opsz24.svg';
+import chevronLeftIconSVGRaw from '../../svg-icons/arrow_back_ios_FILL1_wght300_GRAD0_opsz24.svg';
+
 // import svgIconMic from '../../svg-icons/mic_FILL1_wght400_GRAD0_opsz24.svg';
 
+
+// TODO fullscreen back button
 
 
 customElements.define('mdw-search', class MDWSearchElement extends HTMLElementExtended {
@@ -39,21 +44,36 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   #filterChange_bound = this.#filterChange.bind(this);
   #clickOutsideCloseFix_bound = this.#clickOutsideCloseFix.bind(this);
 
+  #fullscreenPlaceHolder;
+
 
 
   constructor() {
     super();
+    this.classList.add('mdw-no-animation');
   }
 
   connectedCallback() {
     const filters = this.querySelector('[slot=filters]');
     if (filters) this.classList.add('mdw-has-filters');
-    this.insertAdjacentHTML('beforeend', /*html*/`
-      <mdw-suggestions slot="suggestions">
-        <mdw-list class="mdw-line-compact">
-        </mdw-list>
-      </mdw-suggestions>
-    `);
+
+    if (device.isMobile) {
+      this.classList.add('mdw-fullscreen');
+      this.insertAdjacentHTML('beforeend', /*html*/`
+        <div class="mdw-suggestions" slot="suggestions">
+          <mdw-list class="mdw-line-compact">
+          </mdw-list>
+        </div>
+      `);
+    } else {
+      this.insertAdjacentHTML('beforeend', /*html*/`
+        <mdw-suggestions slot="suggestions">
+          <mdw-list class="mdw-line-compact">
+          </mdw-list>
+        </mdw-suggestions>
+      `);
+    }
+
     if (this.querySelector('[slot=leading]')) this.classList.add('mdw-has-leading');
     if (this.querySelector('[slot=trailing]')) this.classList.add('mdw-has-trailing');
 
@@ -65,6 +85,10 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#input = this.shadowRoot.querySelector('input');
     this.#input.addEventListener('focus', this.#open_bound);
     this.shadowRoot.querySelector('.clear').addEventListener('click', this.#onClearClick_bound);
+
+    setTimeout(() => {
+      this.classList.remove('mdw-no-animation');
+    }, 200);
   }
 
   disconnectedCallback() {
@@ -120,14 +144,14 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   }
 
   get #suggestionsContainer() {
-    return this.querySelector('mdw-suggestions');
+    return this.querySelector('mdw-suggestions') || this.querySelector('.mdw-suggestions');
   }
 
   get #list() {
-    return this.querySelector('mdw-suggestions > mdw-list');
+    return this.#suggestionsContainer.querySelector(':scope > mdw-list');
   }
   get #chipGroup() {
-    return this.querySelector('mdw-search > mdw-chip-group');
+    return this.querySelector(':scope > mdw-chip-group');
   }
 
   get sections() {
@@ -159,14 +183,34 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#input.selectionStart = 10000;
     this.#input.addEventListener('input', this.#onInput_bound);
     window.addEventListener('keydown', this.#onKeydown_bound);
-    this.#suggestionsContainer.show();
-    this.#suggestionsContainer.addEventListener('close', this.#close_bound);
+    
+    if (device.isMobile) this.#fullscreenOpen();
+    else {
+      this.#suggestionsContainer.show();
+      this.#suggestionsContainer.addEventListener('close', this.#close_bound);
+    }
+
     this.#list.addEventListener('click', this.#itemClick_bound);
     this.#chipGroup.addEventListener('change', this.#filterChange_bound);
     this.addEventListener('click', this.#clickOutsideCloseFix_bound);
+
     this.classList.add('mdw-open');
     this.#open = true;
     this.#render();
+  }
+
+  #fullscreenOpen() {
+    if (!this.#fullscreenPlaceHolder) this.#fullscreenPlaceHolder = document.createElement('div');
+    const bounds = this.getBoundingClientRect();
+
+    this.#fullscreenPlaceHolder.style.height = `${bounds.height}px`;
+    this.#fullscreenPlaceHolder.style.width = `${bounds.width}px`;
+    this.#fullscreenPlaceHolder.style.margin = getComputedStyle(this).margin;
+    this.insertAdjacentElement('beforebegin', this.#fullscreenPlaceHolder);
+    this.style.setProperty('--mdw-search-fullscreen-top', `${bounds.top}px`);
+    this.style.setProperty('--mdw-search-fullscreen-left', `${bounds.left}px`);
+    this.style.setProperty('--mdw-search-fullscreen-width', `${bounds.width}px`);
+    this.style.setProperty('--mdw-search-fullscreen-height', `${bounds.height}px`);
   }
 
   close() {
@@ -174,14 +218,29 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
 
     this.#input.removeEventListener('input', this.#onInput_bound);
     window.removeEventListener('keydown', this.#onKeydown_bound);
-    this.#suggestionsContainer.close();
+
     this.#list.removeEventListener('click', this.#itemClick_bound);
     this.#chipGroup.removeEventListener('change', this.#filterChange_bound);
-    this.#suggestionsContainer.removeEventListener('close', this.#close_bound);
     this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
-    this.#clearAll();
+
+    if (device.isMobile) {
+      this.#fullscreenClose();
+    } else {
+      this.#suggestionsContainer.close();
+      this.#suggestionsContainer.removeEventListener('close', this.#close_bound);
+
+      this.#clearAll();
+      this.classList.remove('mdw-open');
+      this.#open = false;
+    }
+  }
+
+  async #fullscreenClose() {
     this.classList.remove('mdw-open');
     this.#open = false;
+    await util.animationendAsync(this);
+    this.#fullscreenPlaceHolder.remove();
+    this.#clearAll();
   }
 
 
@@ -248,7 +307,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
       this.#list.replaceChildren(this.#templateElement.content.cloneNode(true));
       
     // history and quick results
-    } else if (this.#hasSearchValue && (this.#history.length > 0 || this.#quickResults.length > 0)) {
+    } else if (this.#open && this.#hasSearchValue && (this.#history.length > 0 || this.#quickResults.length > 0)) {
       this.#templateElement.innerHTML = /*html*/`
         ${util.fuzzySearch(this.searchValue, this.#history).slice(0, 10).map(this.#historyTemplate).join('\n')}
         ${this.quickResults.length > 0 ? /*html*/`
