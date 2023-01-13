@@ -15,18 +15,27 @@ mdw-suggestions::after {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   pointer-events: none;
   border-radius: 0 0 28px 28px;
-  background-color: var(--mdw-surface-tint--16);
+  background-color: var(--mdw-elevation-tint-3);
   z-index: -1;
 }
 
+mdw-search.mdw-has-filters mdw-suggestions,
+mdw-search.mdw-has-filters mdw-suggestions::after,
 mdw-search.mdw-has-search-value mdw-suggestions,
 mdw-search.mdw-has-search-value mdw-suggestions::after {
   padding: 8px 0;
   border-top: 1px solid var(--mdw-surface-variant);
+}
+
+mdw-search.mdw-has-filters mdw-suggestions.mdw-panel {
+  min-height: 76px;
+  padding-top: 46px;
+  border-top: none;
+  clip-path: inset(1px -30px -30px -30px);
 }
 
 mdw-suggestions mdw-list-item {
@@ -62,3 +71,4 @@ mdw-suggestions mdw-list-item {
 mdw-suggestions mark {
   background-color: var(--mdw-primary--20);
 }
+

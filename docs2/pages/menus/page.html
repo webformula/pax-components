@@ -40,9 +40,10 @@
   <mdw-card id="basic">
     <div class="mdw-card-content">
       <div class="mdw-headline">Basic menu</div>
+      <div class="mdw-supporting-text">Menus can be connected top controls by adding a selector or nesting them inside.</div>
       
       <div class="example">
-        <mdw-button id="control">menu</mdw-button>
+        <mdw-button id="control">Selector</mdw-button>
         <mdw-menu control="#control">
           <mdw-button>
             <mdw-icon>content_copy</mdw-icon>
@@ -54,12 +55,27 @@
           </mdw-button>
           <mdw-button>plain</mdw-button>
         </mdw-menu>
+
+        <mdw-button>
+          Nested
+          <mdw-menu>
+            <mdw-button>
+              <mdw-icon>content_copy</mdw-icon>
+              copy
+            </mdw-button>
+            <mdw-button>
+              <mdw-icon>content_paste</mdw-icon>
+              paste
+            </mdw-button>
+            <mdw-button>plain</mdw-button>
+          </mdw-menu>
+        </mdw-button>
       </div>
     </div>
 
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-button id="control">menu</mdw-button>
+  ${escapeHTML(`<mdw-button id="control">Selector</mdw-button>
   <mdw-menu control="#control">
     <mdw-button>
       <mdw-icon>content_copy</mdw-icon>
@@ -70,7 +86,18 @@
       paste
     </mdw-button>
     <mdw-button>plain</mdw-button>
-  </mdw-menu>`)}
+  </mdw-menu>
+  
+  <mdw-button>
+    Nested
+    <mdw-menu>
+      <mdw-button>
+        <mdw-icon>content_copy</mdw-icon>
+        copy
+      </mdw-button>
+      ...
+    </mdw-menu>
+  </mdw-button>`)}
       </code>
     </pre>
   </mdw-card>

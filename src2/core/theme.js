@@ -31,9 +31,11 @@ export function generate() {
     // document.documentElement.style.setProperty(`${name}--2`, `${value}05`);
     // document.documentElement.style.setProperty(`${name}--3`, `${value}08`);
     document.documentElement.style.setProperty(`${name}--4`, `${value}0a`);
+    document.documentElement.style.setProperty(`${name}--5`, `${value}0d`);
     document.documentElement.style.setProperty(`${name}--6`, `${value}0f`);
     document.documentElement.style.setProperty(`${name}--8`, `${value}14`);
     document.documentElement.style.setProperty(`${name}--10`, `${value}1a`);
+    document.documentElement.style.setProperty(`${name}--11`, `${value}1c`);
     document.documentElement.style.setProperty(`${name}--12`, `${value}1f`);
     document.documentElement.style.setProperty(`${name}--16`, `${value}29`);
     document.documentElement.style.setProperty(`${name}--20`, `${value}33`);

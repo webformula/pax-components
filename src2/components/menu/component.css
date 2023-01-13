@@ -12,3 +12,8 @@ mdw-menu.mdw-panel {
 }
 
 /* button styles are in src/components/button/component.css */
+
+
+mdw-search mdw-chip-group > mdw-chip > mdw-menu.mdw-panel {
+  z-index: 12;
+}

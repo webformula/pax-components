@@ -48,7 +48,8 @@ export default class MDWButtonElement extends HTMLElementExtended {
     if (this.useRipple) {
       this.#ripple = new Ripple({
         element: this.shadowRoot.querySelector('.ripple'),
-        triggerElement: this
+        triggerElement: this,
+        ignoreElements: [this.querySelector('mdw-menu')]
       });
     }
   }

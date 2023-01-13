@@ -1,4 +1,5 @@
 import util from './util.js';
+import device from './device.js';
 
 
 export default class Drag {
@@ -22,6 +23,7 @@ export default class Drag {
   #lastTouchPos = { x: 0, y: 0 };
   #lockScrollY = false;
   #lockScrollThreshold = 12;
+  #desktopOnly = false;
   
   constructor(element) {
     if (element) this.#element = element;
@@ -62,6 +64,14 @@ export default class Drag {
     this.#lockScrollThreshold = parseInt(value);
   }
 
+  get desktopOnly() {
+    return this.#desktopOnly;
+  }
+  set desktopOnly(value) {
+    this.#desktopOnly = !!value;
+  }
+  
+
   enable() {
     if (this.#initiated === false) this.#initiate();
   }
@@ -101,8 +111,12 @@ export default class Drag {
   }
 
   #initiate() {
-    this.#element.addEventListener('touchstart', this.#touchstart_bound, false);
-    if (this.#includeMouseEvents === true) this.#element.addEventListener('mousedown', this.#touchstart_bound, false);
+    if (this.#desktopOnly && !device.isMobile) {
+      this.#element.addEventListener('mousedown', this.#touchstart_bound, false);
+    } else {
+      this.#element.addEventListener('touchstart', this.#touchstart_bound, false);
+      if (this.#includeMouseEvents === true) this.#element.addEventListener('mousedown', this.#touchstart_bound, false);
+    }
   }
 
   #touchstart(event) {
@@ -117,10 +131,12 @@ export default class Drag {
     }));
 
     // TODO try using window to fix ios issues
-    this.#element.addEventListener('touchend', this.#touchend_bound, false);
-    this.#element.addEventListener('touchmove', this.#touchmove_throttled, false);
+    if (!this.#desktopOnly) {
+      this.#element.addEventListener('touchend', this.#touchend_bound, false);
+      this.#element.addEventListener('touchmove', this.#touchmove_throttled, false);
+    }
 
-    if (this.#includeMouseEvents === true) {
+    if (this.#includeMouseEvents || this.#desktopOnly) {
       window.addEventListener('mouseup', this.#touchend_bound, false);
       window.addEventListener('mousemove', this.#touchmove_throttled, false);
     }
@@ -129,10 +145,12 @@ export default class Drag {
   }
 
   #touchend(event) {
-    this.#element.removeEventListener('touchend', this.#touchend_bound, false);
-    this.#element.removeEventListener('touchmove', this.#touchmove_throttled, false);
+    if (!this.#desktopOnly) {
+      this.#element.removeEventListener('touchend', this.#touchend_bound, false);
+      this.#element.removeEventListener('touchmove', this.#touchmove_throttled, false);
+    }
 
-    if (this.#includeMouseEvents === true) {
+    if (this.#includeMouseEvents || this.#desktopOnly) {
       window.removeEventListener('mouseup', this.#touchend_bound, false);
       window.removeEventListener('mousemove', this.#touchmove_throttled, false);
     }

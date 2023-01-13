@@ -30,7 +30,8 @@ customElements.define('mdw-fab', class MDWFabElement extends HTMLElementExtended
   afterRender() {
     this.#ripple = new Ripple({
       element: this.shadowRoot.querySelector('.ripple'),
-      triggerElement: this
+      triggerElement: this,
+      ignoreElements: [this.querySelector('mdw-menu')]
     });
   }
 

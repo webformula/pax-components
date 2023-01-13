@@ -8,7 +8,6 @@ import svgIconHistory from '../../svg-icons/history_FILL0_wght400_GRAD0_opsz24.s
 // import svgIconMic from '../../svg-icons/mic_FILL1_wght400_GRAD0_opsz24.svg';
 
 
-// TODO search view mobile
 
 customElements.define('mdw-search', class MDWSearchElement extends HTMLElementExtended {
   useShadowRoot = true;
@@ -37,6 +36,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   #onClearClick_bound = this.#onClearClick.bind(this);
   #close_bound = this.close.bind(this);
   #itemClick_bound = this.#itemClick.bind(this);
+  #filterChange_bound = this.#filterChange.bind(this);
   #clickOutsideCloseFix_bound = this.#clickOutsideCloseFix.bind(this);
 
 
@@ -46,7 +46,14 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   }
 
   connectedCallback() {
-    if (!this.suggestionsContainer) this.insertAdjacentHTML('beforeend', '<mdw-suggestions></mdw-suggestions>');
+    const filters = this.querySelector('[slot=filters]');
+    if (filters) this.classList.add('mdw-has-filters');
+    this.insertAdjacentHTML('beforeend', /*html*/`
+      <mdw-suggestions slot="suggestions">
+        <mdw-list class="mdw-line-compact">
+        </mdw-list>
+      </mdw-suggestions>
+    `);
     if (this.querySelector('[slot=leading]')) this.classList.add('mdw-has-leading');
     if (this.querySelector('[slot=trailing]')) this.classList.add('mdw-has-trailing');
 
@@ -65,9 +72,10 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#input.removeEventListener('input', this.#onInput_bound);
     this.shadowRoot.querySelector('.clear').removeEventListener('click', this.#onClearClick_bound);
     window.removeEventListener('keydown', this.#onKeydown_bound);
-    this.suggestionsContainer.close();
-    this.suggestionsContainer.removeEventListener('click', this.#itemClick_bound);
-    this.suggestionsContainer.removeEventListener('close', this.#close_bound);
+    this.#suggestionsContainer.close();
+    this.#list.removeEventListener('click', this.#itemClick_bound);
+    this.#chipGroup.removeEventListener('click', this.#filterChange_bound);
+    this.#suggestionsContainer.removeEventListener('close', this.#close_bound);
     this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
   }
 
@@ -81,13 +89,10 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
         <div class="mdw-svg-icon clear">${svgIconClose}</div>
         <slot name="trailing"></slot>
       </div>
-      <slot></slot>
+      <slot name="filters"></slot>
+      <slot name="suggestions"></slot> <!-- filled in programmatically, used for global css access -->
       <style>${styleAsString}</style>
     `;
-  }
-
-  attributeChangedCallback(name, _oldValue, newValue) {
-    this[name] = newValue;
   }
 
   get placeholder() {
@@ -110,8 +115,19 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     if (this.rendered) this.shadowRoot.querySelector('input').value = value;
   }
 
-  get suggestionsContainer() {
+  get filterValue() {
+    return this.#chipGroup.value;
+  }
+
+  get #suggestionsContainer() {
     return this.querySelector('mdw-suggestions');
+  }
+
+  get #list() {
+    return this.querySelector('mdw-suggestions > mdw-list');
+  }
+  get #chipGroup() {
+    return this.querySelector('mdw-search > mdw-chip-group');
   }
 
   get sections() {
@@ -143,9 +159,10 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#input.selectionStart = 10000;
     this.#input.addEventListener('input', this.#onInput_bound);
     window.addEventListener('keydown', this.#onKeydown_bound);
-    this.suggestionsContainer.show();
-    this.suggestionsContainer.addEventListener('close', this.#close_bound);
-    this.suggestionsContainer.addEventListener('click', this.#itemClick_bound);
+    this.#suggestionsContainer.show();
+    this.#suggestionsContainer.addEventListener('close', this.#close_bound);
+    this.#list.addEventListener('click', this.#itemClick_bound);
+    this.#chipGroup.addEventListener('change', this.#filterChange_bound);
     this.addEventListener('click', this.#clickOutsideCloseFix_bound);
     this.classList.add('mdw-open');
     this.#open = true;
@@ -157,9 +174,10 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
 
     this.#input.removeEventListener('input', this.#onInput_bound);
     window.removeEventListener('keydown', this.#onKeydown_bound);
-    this.suggestionsContainer.close();
-    this.suggestionsContainer.removeEventListener('click', this.#itemClick_bound);
-    this.suggestionsContainer.removeEventListener('close', this.#close_bound);
+    this.#suggestionsContainer.close();
+    this.#list.removeEventListener('click', this.#itemClick_bound);
+    this.#chipGroup.removeEventListener('change', this.#filterChange_bound);
+    this.#suggestionsContainer.removeEventListener('close', this.#close_bound);
     this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
     this.#clearAll();
     this.classList.remove('mdw-open');
@@ -210,6 +228,8 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   }
 
   #render() {
+    if (!this.rendered) return;
+
     // TODO one problem here is when user calls updateSuggestions with empty array. Should i auto switch to history
     if (this.#hasSuggestions) {
       const sectionSplit = this.#sections.map(({ id, title }) => ({
@@ -218,37 +238,31 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
         suggestions: this.#suggestions.filter(v => (v.section || 'default') === id)
       })).filter(v => v.suggestions.length > 0);
 
-      this.#templateElement.innerHTML = /*html*/`
-        <mdw-list class="mdw-line-compact">
-          ${sectionSplit.map(section => /*html*/`
-            ${section.title ? /*html*/`<div class="mdw-sub-header">${section.title}</div>` : ''}
-            ${section.suggestions.map(sug => /*html*/`
-              ${this.#templates[section.id || 'default'](sug)}
-            `).join('\n')}
-          `).join('\n')}
-        </mdw-list>
-      `;
+      this.#templateElement.innerHTML = sectionSplit.map(section => /*html*/`
+        ${section.title ? /*html*/`<div class="mdw-sub-header">${section.title}</div>` : ''}
+        ${section.suggestions.map(sug => /*html*/`
+          ${this.#templates[section.id || 'default'](sug)}
+        `).join('\n')}
+      `).join('\n');
       this.#highlight();
-      this.suggestionsContainer.replaceChildren(this.#templateElement.content.cloneNode(true));
+      this.#list.replaceChildren(this.#templateElement.content.cloneNode(true));
       
     // history and quick results
     } else if (this.#hasSearchValue && (this.#history.length > 0 || this.#quickResults.length > 0)) {
       this.#templateElement.innerHTML = /*html*/`
-        <mdw-list class="mdw-line-compact">
-          ${util.fuzzySearch(this.searchValue, this.#history).slice(0, 10).map(this.#historyTemplate).join('\n')}
-          ${this.quickResults.length > 0 ? /*html*/`
-            <div class="mdw-sub-header">Quick results</div>
-            ${this.#quickResults.map(v => /*html*/`
-              ${this.#templates.quick(v)}
-            `).join('\n')}
-          ` : ''}
-        </mdw-list>
+        ${util.fuzzySearch(this.searchValue, this.#history).slice(0, 10).map(this.#historyTemplate).join('\n')}
+        ${this.quickResults.length > 0 ? /*html*/`
+          <div class="mdw-sub-header">Quick results</div>
+          ${this.#quickResults.map(v => /*html*/`
+            ${this.#templates.quick(v)}
+          `).join('\n')}
+        ` : ''}
       `;
       this.#highlight();
-      this.suggestionsContainer.replaceChildren(this.#templateElement.content.cloneNode(true));
+      this.#list.replaceChildren(this.#templateElement.content.cloneNode(true));
     // clear
     } else {
-      this.suggestionsContainer.innerHTML = '';
+      this.#list.innerHTML = '';
     }
   }
 
@@ -313,6 +327,11 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
 
     this.#value = event.target.getAttribute('value');
     this.close();
+    this.dispatchEvent(new Event('change'));
+  }
+
+  #filterChange() {
+    this.dispatchEvent(new Event('filter'));
     this.dispatchEvent(new Event('change'));
   }
 
@@ -386,7 +405,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
 
     // if no focus on options then try focusing on element after selected
     if (!focusedElement || focusedElement.nodeName !== 'MDW-LIST-ITEM') {
-      nextFocus = this.querySelector('mdw-list-item');
+      nextFocus = this.#list.querySelector('mdw-list-item');
     }
 
     // try next sibling
@@ -402,7 +421,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
       focusedElement.nextElementSibling.nextElementSibling.nodeName === 'MDW-LIST-ITEM'
     ) nextFocus = focusedElement.nextElementSibling.nextElementSibling;
 
-    else if (!nextFocus) nextFocus = this.querySelector('mdw-list-item');
+    else if (!nextFocus) nextFocus = this.#list.querySelector('mdw-list-item');
 
     if (nextFocus) nextFocus.focus();
   }
@@ -413,7 +432,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
 
     // if no focus on options then try focusing on element after selected
     if (!focusedElement || focusedElement.nodeName !== 'MDW-LIST-ITEM') {
-      nextFocus = [...this.querySelectorAll('mdw-list-item')].pop();
+      nextFocus = [...this.#list.querySelectorAll('mdw-list-item')].pop();
     }
 
     // try next sibling
@@ -429,7 +448,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
       focusedElement.previousElementSibling.previousElementSibling.nodeName === 'MDW-LIST-ITEM'
     ) nextFocus = focusedElement.previousElementSibling.previousElementSibling;
 
-    else if (!nextFocus) nextFocus = [...this.querySelectorAll('mdw-list-item')].pop();
+    else if (!nextFocus) nextFocus = [...this.#list.querySelectorAll('mdw-list-item')].pop();
 
     if (nextFocus) nextFocus.focus();
   }

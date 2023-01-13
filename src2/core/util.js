@@ -289,6 +289,31 @@ const mdwUtil = new class MDWUtil {
     });
   }
 
+  addClickTimeout(element, listener, ms = 200) {
+    let timeout; 
+    let target;
+    function down(event) {
+      target = event.target;
+      timeout = setTimeout(() => {
+        element.removeEventListener('mouseup', up);
+      }, ms);
+      element.addEventListener('mouseup', up);
+    }
+
+    function up(event) {
+      element.removeEventListener('mouseup', up);
+      clearTimeout(timeout);
+      if (target === event.target) listener(event);
+    }
+
+    element.addEventListener('mousedown', down);
+  }
+
+  removeClickTimeout(element, listener) {
+    element.removeEventListener('mousedown', down);
+    element.removeEventListener('mouseup', up);
+  }
+
   #calculateDistance(searchTerm, target) {
     const regex = new RegExp(`^${searchTerm}`, 'i');
     const matchesStart = target.match(regex) !== null;

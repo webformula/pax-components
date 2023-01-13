@@ -49,6 +49,9 @@ export default new class extends Page {
     document.querySelector('mdw-search').addEventListener('change', event => {
       console.log(event.target.value);
     });
+    document.querySelector('mdw-search').addEventListener('filter', event => {
+      console.log(event.target.filterValue);
+    });
     document.querySelector('mdw-search').addEventListener('search', this.onSearch_bound);
 
     document.querySelector('mdw-search').addEventListener('input', () => {

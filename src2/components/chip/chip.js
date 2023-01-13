@@ -20,11 +20,15 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
   #input;
   #valueDisplay;
   #group;
+  #menuValue = '';
+  #hasMenu;
   #onClick_bound = this.#onClick.bind(this);
   #onClearClick_bound = this.#onClearClick.bind(this);
   #onInput_bound = this.#onInput.bind(this);
   #onInputBlur_bound = this.#onInputBlur.bind(this);
   #onKeydown_bound = this.#onKeydown.bind(this);
+  #menuOpen_bound = this.#menuOpen.bind(this);
+  #menuClose_bound = this.#menuClose.bind(this);
 
 
   constructor() {
@@ -33,8 +37,15 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
   
   connectedCallback() {
     this.#group = this.parentElement;
+    this.#hasMenu = this.querySelector('mdw-menu');
+    this.#menuValue = this.getAttribute('menu');
+    if (this.#hasMenu) {
+      this.insertAdjacentHTML('beforeend', '<div class="mdw-select-arrow"></div>');
+      this.querySelector('mdw-menu').addEventListener('open', this.#menuOpen_bound);
+      this.querySelector('mdw-menu').addEventListener('close', this.#menuClose_bound);
+    }
     this.#type = this.#getType();
-    this.addEventListener('click',  this.#onClick_bound);
+    util.addClickTimeout(this, this.#onClick_bound);
   }
 
   afterRender() {
@@ -45,7 +56,8 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
     }
     this.#ripple = new Ripple({
       element: this.shadowRoot.querySelector('.ripple'),
-      triggerElement: this
+      triggerElement: this,
+      ignoreElements: [this.querySelector('mdw-menu')]
     });
   }
 
@@ -55,6 +67,12 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
       this.#input.removeEventListener('input', this.#onInput_bound);
       this.#input.removeEventListener('blur', this.#onInputBlur_bound);
     }
+
+    if (this.#hasMenu) {
+      this.querySelector('mdw-menu').removeEventListener('open', this.#menuOpen_bound);
+      this.querySelector('mdw-menu').removeEventListener('close', this.#menuClose_bound);
+    }
+    util.removeClickTimeout(this, this.#onClick_bound);
     this.#ripple.destroy();
   }
 
@@ -68,10 +86,18 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
   }
 
   get value() {
+    if (this.#menuValue) return `${this.#menuValue}:${this.#value}`;  
     return this.#value;
   }
   set value(value) {
-    this.#value = value;
+    if (this.#menuValue) {
+      this.#value = value.replace(`${this.#menuValue}:`, '');
+      const current = this.querySelector(`mdw-button[checked]`);
+      if (current) current.removeAttribute('checked');
+      const next = this.querySelector(`mdw-button[value="${this.#value}"]`);
+      if (next) next.setAttribute('checked', '');
+    } else this.#value = value;
+
     if (this.#type === 'input') {
       if (this.#value === '') this.remove();
     }
@@ -87,7 +113,7 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
 
   template() {
     return /*html*/`
-      ${this.#type === 'filter' ? `<div class="check">${checkIconSVGRaw}</div>` : ''}
+      ${this.#type === 'filter' || this.#type === 'filter-menu' ? `<div class="check">${checkIconSVGRaw}</div>` : ''}
       <slot></slot>
       ${this.#type === 'input' ? /*html*/`
         <input value="${this.value}">
@@ -100,7 +126,28 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
     `;
   }
 
-  #onClick() {
+  #menuOpen() {
+    this.classList.add('mdw-open');
+  }
+  #menuClose() {
+    this.classList.remove('mdw-open');
+  }
+
+  #onClick(event) {
+    if (this.#type === 'filter-menu') {
+      if (event.target.nodeName === 'MDW-BUTTON') {
+        const value = event.target.getAttribute('value');
+        if (this.#value !== value) {
+          this.checked = true;
+          this.value = value;
+        } else {
+          this.value = '';
+          this.checked = false;
+        }
+        this.#group.dispatchEvent(new Event('change'));
+      }
+    }
+
     if (this.#type === 'filter') {
       this.checked = !this.checked;
       this.#group.dispatchEvent(new Event('change'));
@@ -140,6 +187,11 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
       this.classList.add('mdw-input');
       return 'input';
     }
+    if (group.classList.contains('mdw-filter') && this.#hasMenu) {
+      this.classList.add('mdw-filter-menu');
+      return 'filter-menu';
+    }
+
     if (group.classList.contains('mdw-filter')) {
       this.classList.add('mdw-filter');
       return 'filter';

@@ -22,6 +22,13 @@
           <mdw-icon>home</mdw-icon>
           home
         </mdw-chip>
+        <mdw-chip menu="menu">
+          Menu
+          <mdw-menu>
+            <mdw-button value="a">plain</mdw-button>
+            <mdw-button value="b">plain</mdw-button>
+          </mdw-menu>
+        </mdw-chip>
       </mdw-chip-group>
 
 
@@ -101,7 +108,7 @@ series of email contacts. There are four types of chips: assist, filter, input, 
       <div class="mdw-headline">Filter</div>
   
       <div class="example">
-        <mdw-chip-group class="mdw-type-filter">
+        <mdw-chip-group class="mdw-filter">
           <mdw-chip value="one" checked>
             <mdw-icon class="mdw-check">check</mdw-icon>
             One
@@ -114,13 +121,20 @@ series of email contacts. There are four types of chips: assist, filter, input, 
             <mdw-icon class="mdw-check">check</mdw-icon>
             Three
           </mdw-chip>
+          <mdw-chip menu="menu">
+            Menu
+            <mdw-menu>
+              <mdw-button value="a">plain</mdw-button>
+              <mdw-button value="b">plain</mdw-button>
+            </mdw-menu>
+          </mdw-chip>
         </mdw-chip-group>
       </div>
     </div>
   
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-chip-group class="mdw-type-filter">
+  ${escapeHTML(`<mdw-chip-group class="mdw-filter">
     <mdw-chip value="one" checked>
       <mdw-icon class="mdw-check">check</mdw-icon>
       One
@@ -133,6 +147,13 @@ series of email contacts. There are four types of chips: assist, filter, input, 
       <mdw-icon class="mdw-check">check</mdw-icon>
       Three
     </mdw-chip>
+    <mdw-chip menu="menu">
+      Menu
+      <mdw-menu>
+        <mdw-button value="a">plain</mdw-button>
+        <mdw-button value="b">plain</mdw-button>
+      </mdw-menu>
+    </mdw-chip>
   </mdw-chip-group>`)}
       </code>
     </pre>
@@ -140,7 +161,7 @@ series of email contacts. There are four types of chips: assist, filter, input, 
     <pre>
       <code class="language-javascript">
   ${`// set value
-  document.querySelector('mdw-chip-group.mdw-type-filter').value = 'one,two';`}
+  document.querySelector('mdw-chip-group.mdw-filter').value = 'one,two';`}
       </code>
     </pre>
   </mdw-card>
@@ -203,7 +224,7 @@ series of email contacts. There are four types of chips: assist, filter, input, 
     <pre>
       <code class="language-javascript">
   ${`// add chip
-  document.querySelector('mdw-chip-group.mdw-type-input').addChip({
+  document.querySelector('mdw-chip-group.mdw-input').addChip({
     label: 'Three',
     value: 'three@email.com',
     clearButton: true,
@@ -220,7 +241,7 @@ series of email contacts. There are four types of chips: assist, filter, input, 
       <div class="mdw-headline">Input</div>
   
       <div class="example">
-        <mdw-chip-group class="mdw-type-input">
+        <mdw-chip-group class="mdw-input">
           <mdw-chip value="one@email.com">
             one@email.com
             <mdw-icon class="mdw-clear">clear</mdw-icon>
@@ -235,7 +256,7 @@ series of email contacts. There are four types of chips: assist, filter, input, 
   
     <pre>
       <code class="language-html">
-  ${escapeHTML(`<mdw-chip-group class="mdw-type-input">
+  ${escapeHTML(`<mdw-chip-group class="mdw-input">
     <mdw-chip value="one@email.com">
       one@email.com
       <mdw-icon class="mdw-clear">clear</mdw-icon>
@@ -251,7 +272,7 @@ series of email contacts. There are four types of chips: assist, filter, input, 
     <pre>
       <code class="language-javascript">
   ${`// add chip
-  document.querySelector('mdw-chip-group.mdw-type-input').addChip({
+  document.querySelector('mdw-chip-group.mdw-input').addChip({
     label: 'Three',
     value: 'three@email.com',
     clearButton: true,

@@ -1,15 +1,31 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import './chip-group.css';
+import Drag from '../../core/Drag.js';
 
-
+// TODO horizontal scroll with drag
 // TODO figure out if we should add properties to dynamically interact with chips
 
 customElements.define('mdw-chip-group', class MDWChipGroupElement extends HTMLElementExtended {
   #type = this.#getType();
   #value = '';
+  #drag;
+  #onDrag_bound = this.#onDrag.bind(this);
   
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    this.#drag = new Drag(this);
+    this.#drag.desktopOnly = true;
+    // this.#drag.horizontalOnly = true;
+    // this.#drag.lockScrollY = true;
+    this.#drag.onDrag(this.#onDrag_bound);
+    this.#drag.enable();
+  }
+
+  disconnectedCallback() {
+    this.#drag.destroy();
   }
 
   get value() {
@@ -47,5 +63,9 @@ customElements.define('mdw-chip-group', class MDWChipGroupElement extends HTMLEl
     if (this.classList.contains('mdw-filter')) return 'filter';
     if (this.classList.contains('mdw-suggestion')) return 'suggestion';
     return 'assist';
+  }
+
+  #onDrag({ distance }) {
+    this.scrollLeft -= distance.x;
   }
 });

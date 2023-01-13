@@ -30,6 +30,19 @@ navigation.</p>
           <mdw-navigation-button slot="leading"></mdw-navigation-button>
           <!-- <mdw-icon slot="trailing">mic</mdw-icon> -->
           <mdw-avatar slot="trailing"><img src="../../woman.jpg"></img></mdw-avatar>
+
+          <mdw-chip-group slot="filters" class="mdw-filter">
+            <mdw-chip value="one">One</mdw-chip>
+            <mdw-chip value="two">Two</mdw-chip>
+            <mdw-chip menu="three">
+              Three
+              <mdw-menu>
+                <mdw-button value="a">3A</mdw-button>
+                <mdw-button value="b">3B</mdw-button>
+                <mdw-button value="c">3C</mdw-button>
+              </mdw-menu>
+            </mdw-chip>
+          </mdw-chip-group>
         </mdw-search>
       </div>
     </div>

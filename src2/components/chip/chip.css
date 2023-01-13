@@ -9,19 +9,13 @@
   box-sizing: border-box;
   cursor: pointer;
   outline: none;
+  user-select: none;
 
   font-size: var(--mdw-font-size-large-label);
   font-weight: var(--mdw-font-weight-large-label);
   letter-spacing: var(--mdw-font-letter-spacing-large-label);
 
-  background-color: var(--mdw-surface);
   color: var(--mdw-on-surface);
-}
-
-:host(.mdw-filter[checked]) {
-  border-color: transparent;
-  background-color: var(--mdw-secondary-container);
-  color: var(--mdw-on-secondary-container);
 }
 
 :host .check,
@@ -72,9 +66,11 @@
   width: var(--mdw-font-size-icon-small) !important;
   height: var(--mdw-font-size-icon-small) !important;
   font-size: var(--mdw-font-size-icon-small) !important;
+  user-select: none;
 }
 
-:host(.mdw-filter[checked]) ::slotted(mdw-icon) {
+:host(.mdw-filter[checked]) ::slotted(mdw-icon),
+:host(.mdw-filter-menu[checked]) ::slotted(mdw-icon) {
   display: none !important;
 }
 
@@ -170,9 +166,4 @@
 :host(.mdw-edit) {
   border: none;
 }
- 
-:host(.mdw-filter[checked]) {
-  border-color: transparent;
-  background-color: var(--mdw-secondary-container);
-  color: var(--mdw-on-secondary-container);
-}
+

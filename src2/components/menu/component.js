@@ -15,14 +15,15 @@ customElements.define('mdw-menu', class MDWMenuElement extends MDWPanelElement {
   constructor() {
     super();
 
-    if (!this.#controlSelector) throw Error('No control found. Must provide the attributer "control" with a valid css selector');
+    // if (!this.#controlSelector) throw Error('No control found. Must provide the attributer "control" with a valid css selector');
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute('role', 'menu');
 
-    this.#control = document.querySelector(this.#controlSelector);
+    if (this.#controlSelector) this.#control = document.querySelector(this.#controlSelector);
+    else this.#control = this.parentElement;
     if (!this.#control) throw Error('No control found. Must provide the attributer "control" with a valid css selector');
 
     this.target = this.#control;

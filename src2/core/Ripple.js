@@ -10,6 +10,7 @@ export default class Ripple {
 
   #element;
   #triggerElement;
+  #ignoreElements = [];
   #centered = false;
   #color;
   #persistent = false;
@@ -25,6 +26,7 @@ export default class Ripple {
   constructor(params = {
     element,
     triggerElement,
+    ignoreElements: [],
     centered: false,
     color: null,
     persistent: false,
@@ -36,6 +38,7 @@ export default class Ripple {
 
     this.#element = params.element;
     this.#triggerElement = [].concat(params.triggerElement);
+    this.#ignoreElements = [].concat(params.ignoreElements).filter(v => !!v);
     this.#centered = params.centered !== undefined ? params.centered : this.#centered;
     this.#color = params.color;
     this.#persistent = params.persistent !== undefined ? params.persistent : this.#persistent;
@@ -56,8 +59,13 @@ export default class Ripple {
     });
   }
 
+  addIgnoreElement(element) {
+    this.#ignoreElements.push(element);
+  }
+
 
   #mouseDown(event) {
+    if (this.#ignoreElements.find(v => v.contains(event.target))) return;
     this.#isMousedown = true;
     this.#triggerElement.forEach(element => {
       element.addEventListener('mouseup', this.#fadeOutAllRipples_bound);
