@@ -41,16 +41,10 @@ import './components/textfield/component.js';
 import './components/top-app-bar/component.js';
 import './components/tooltip/index.js';
 
-// const p = Date.now();
-// TODO look into whenDefined https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/whenDefined
-requestAnimationFrame(() => {
-  // console.log('a', Date.now() - p)
+
+customElements.whenDefined('mdw-tooltip').then(() => {
   document.querySelector('html').classList.add('mdw-initiated');
 });
-// setTimeout(() => {
-//   console.log(Date.now() - p)
-//   document.querySelector('html').classList.add('mdw-initiated');
-// });
 
 export {
   mdwDate,
