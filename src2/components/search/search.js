@@ -12,7 +12,8 @@ import svgIconMic from '../../svg-icons/mic_FILL1_wght400_GRAD0_opsz24.svg';
 
 const speechRecognitionSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
 
-
+// TODO spinner with mic
+// TODO should i add a go arrow, right now only enter or history click searches
 
 customElements.define('mdw-search', class MDWSearchElement extends HTMLElementExtended {
   useShadowRoot = true;
@@ -206,7 +207,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     }
 
     this.#list.addEventListener('click', this.#itemClick_bound);
-    this.#chipGroup.addEventListener('change', this.#filterChange_bound);
+    if (this.#chipGroup) this.#chipGroup.addEventListener('change', this.#filterChange_bound);
     this.addEventListener('click', this.#clickOutsideCloseFix_bound);
     if (this.#hasSpeech) this.shadowRoot.querySelector('.mic').addEventListener('click', this.#micClick_bound);
 
@@ -237,7 +238,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     window.removeEventListener('keydown', this.#onKeydown_bound);
 
     this.#list.removeEventListener('click', this.#itemClick_bound);
-    this.#chipGroup.removeEventListener('change', this.#filterChange_bound);
+    if (this.#chipGroup) this.#chipGroup.removeEventListener('change', this.#filterChange_bound);
     this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
     if (this.#hasSpeech) this.shadowRoot.querySelector('.mic').removeEventListener('click', this.#micClick_bound);
 
@@ -319,7 +320,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
       this.#templateElement.innerHTML = sectionSplit.map(section => /*html*/`
         ${section.title ? /*html*/`<div class="mdw-sub-header">${section.title}</div>` : ''}
         ${section.suggestions.map(sug => /*html*/`
-          ${this.#templates[section.id || 'default'](sug)}
+          ${(this.#templates[section.id] || this.#templates.default)(sug)}
         `).join('\n')}
       `).join('\n');
       this.#highlight();
@@ -380,7 +381,10 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
 
     if (this.searchValue !== '') {
       if (this.#hasSearchValue === false) this.#hasSearchValue = true;
-    } else if (this.#hasSearchValue === true) this.#hasSearchValue = false;
+    } else if (this.#hasSearchValue === true) {
+      this.#hasSearchValue = false;
+      this.#clearAll();
+    }
 
     this.dispatchEvent(new Event('input'));
   }

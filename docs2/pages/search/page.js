@@ -3,7 +3,7 @@ import MDWSearch from '../../../src2/components/search/service.js';
 import html from './page.html';
 
 export default new class extends Page {
-  search = new MDWSearch('mdw-search');
+  searchOne = new MDWSearch('mdw-search#one');
   onSearch_bound = this.onSearch.bind(this);
 
   constructor() {
@@ -15,16 +15,32 @@ export default new class extends Page {
   }
 
   afterRender() {
-    this.search.registerSection('alt', 'Alt results');
+    this.one();
+    this.two();
+    this.three();
+    this.four();
+    this.five();
+    this.six();
+    this.seven();
+    this.eight();
+    this.nine();
+  }
 
-    this.search.registerTemplate(data => /*html*/`
+  disconnectedCallback() {
+    this.searchOne.destroy();
+  }
+
+  one() {
+    this.searchOne.registerSection('alt', 'Alt results');
+
+    this.searchOne.registerTemplate(data => /*html*/`
       <mdw-list-item value="${data.value}">
         <mdw-avatar>A</mdw-avatar>
         ${data.primary}
       </mdw-list-item>
     `, 'default');
 
-    this.search.registerTemplate(data => /*html*/`
+    this.searchOne.registerTemplate(data => /*html*/`
       <mdw-list-item value="${data.value}" class="mdw-line-two">
         <mdw-icon>inbox</mdw-icon>
         <div class="mdw-text">
@@ -36,7 +52,7 @@ export default new class extends Page {
 
 
     // quick results
-    this.search.registerTemplate(data => /*html*/`
+    this.searchOne.registerTemplate(data => /*html*/`
       <mdw-list-item value="${data.value}" class="mdw-line-two">
         <mdw-icon>inbox</mdw-icon>
         <div class="mdw-text">
@@ -46,16 +62,8 @@ export default new class extends Page {
       </mdw-list-item>
     `, 'quick');
 
-    document.querySelector('mdw-search').addEventListener('change', event => {
-      console.log(event.target.value);
-    });
-    document.querySelector('mdw-search').addEventListener('filter', event => {
-      console.log(event.target.filterValue);
-    });
-    document.querySelector('mdw-search').addEventListener('search', this.onSearch_bound);
-
-    document.querySelector('mdw-search').addEventListener('input', () => {
-      this.search.updateQuickResults([
+    document.querySelector('mdw-search#one').addEventListener('input', () => {
+      this.searchOne.updateQuickResults([
         {
           value: 'four',
           primary: 'Four',
@@ -74,13 +82,114 @@ export default new class extends Page {
           secondary: 'Secondary',
           section: 'quick'
         }
-      ].filter(v => v.primary.toLocaleLowerCase().includes(this.search.searchValue)));
+      ].filter(v => v.primary.toLocaleLowerCase().includes(this.searchOne.searchValue)));
+    });
+    document.querySelector('mdw-search#one').addEventListener('search', this.onSearch_bound);
+    document.querySelector('mdw-search#one').addEventListener('change', event => {
+      console.log(event.target.value);
+    });
+    document.querySelector('mdw-search#one').addEventListener('filter', event => {
+      console.log(event.target.filterValue);
     });
   }
 
-  async onSearch() {
+
+  two() {
+    document.querySelector('mdw-search#two').addEventListener('search', this.onSearch_bound);
+  }
+
+  three() {
+    document.querySelector('mdw-search#three').addEventListener('search', this.onSearch_bound);
+  }
+
+  four() {
+    document.querySelector('mdw-search#four').addEventListener('search', this.onSearch_bound);
+  }
+
+  five() {
+    document.querySelector('mdw-search#five').addEventListener('search', this.onSearch_bound);
+  }
+
+  six() {
+    document.querySelector('mdw-search#six').addEventListener('search', this.onSearch_bound);
+    document.querySelector('mdw-search#six').registerSection('alt', 'Alt results');
+  }
+
+  seven() {
+    document.querySelector('mdw-search#seven').registerSection('alt', 'Alt results');
+
+    document.querySelector('mdw-search#seven').registerTemplate(data => /*html*/`
+      <mdw-list-item value="${data.value}">
+        <mdw-avatar>A</mdw-avatar>
+        ${data.primary}
+      </mdw-list-item>
+    `, 'default');
+
+    document.querySelector('mdw-search#seven').registerTemplate(data => /*html*/`
+      <mdw-list-item value="${data.value}" class="mdw-line-two">
+        <mdw-icon>inbox</mdw-icon>
+        <div class="mdw-text">
+          <div class="mdw-headline">${data.primary}</div>
+          <div class="mdw-supporting-text">${data.secondary}</div>
+        </div>
+      </mdw-list-item>
+    `, 'alt');
+
+    document.querySelector('mdw-search#seven').addEventListener('search', this.onSearch_bound);
+  }
+
+
+  eight() {
+    document.querySelector('mdw-search#eight').registerTemplate(data => /*html*/`
+      <mdw-list-item value="${data.value}">
+        <mdw-avatar>A</mdw-avatar>
+        ${data.primary}
+      </mdw-list-item>
+    `, 'default');
+
+    // quick results
+    document.querySelector('mdw-search#eight').registerTemplate(data => /*html*/`
+      <mdw-list-item value="${data.value}" class="mdw-line-two">
+        <mdw-icon>inbox</mdw-icon>
+        <div class="mdw-text">
+          <div class="mdw-headline">${data.primary}</div>
+          <div class="mdw-supporting-text">${data.secondary}</div>
+        </div>
+      </mdw-list-item>
+    `, 'quick');
+
+    document.querySelector('mdw-search#eight').addEventListener('input', event => {
+      event.target.updateQuickResults([
+        {
+          value: 'one',
+          primary: 'One',
+          secondary: 'Secondary',
+          section: 'quick'
+        },
+        {
+          value: 'two',
+          primary: 'Two',
+          secondary: 'Secondary',
+          section: 'quick'
+        },
+        {
+          value: 'three',
+          primary: 'Three',
+          secondary: 'Secondary',
+          section: 'quick'
+        }
+      ].filter(v => v.primary.toLocaleLowerCase().includes(event.target.searchValue)));
+    });
+    document.querySelector('mdw-search#eight').addEventListener('search', this.onSearch_bound);
+  }
+
+  nine() {
+    document.querySelector('mdw-search#nine').addEventListener('search', this.onSearch_bound);
+  }
+
+  async onSearch(event) {
     await this.wait(1000);
-    this.search.updateSuggestions([
+    event.target.updateSuggestions([
       {
         value: 'one',
         primary: 'One',
@@ -93,6 +202,24 @@ export default new class extends Page {
       {
         value: 'three',
         primary: 'Three',
+      },
+
+
+      {
+        value: 'onealt',
+        primary: 'One Alt',
+        section: 'alt'
+      },
+      {
+        value: 'twoalt',
+        primary: 'Two Alt',
+        section: 'alt'
+      },
+
+      {
+        value: 'threealt',
+        primary: 'Three Alt',
+        section: 'alt'
       },
 
       {
@@ -113,7 +240,7 @@ export default new class extends Page {
         secondary: 'Secondary',
         section: 'quick'
       }
-    ].filter(v => v.primary.toLocaleLowerCase().includes(this.search.searchValue)));
+    ].filter(v => v.primary.toLocaleLowerCase().includes(event.target.searchValue)));
   }
 
   async wait(time = 1000) {

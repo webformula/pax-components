@@ -92,6 +92,7 @@
 
 :host(:not(.mdw-has-leading)) .textfield > .search {
   opacity: 1;
+  margin-left: 16px;
 }
 
 
