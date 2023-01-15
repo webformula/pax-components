@@ -81,6 +81,11 @@ registerPage(tooltips, '/tooltips');
 
 window.addEventListener('load', () => {
   hljs.highlightAll();
+  if (location.hash) {
+    setTimeout(() => {
+      handleHashAnchor(location.hash, false);
+    });
+  }
 });
 
 window.addEventListener('mdwPageChange', () => {
@@ -88,3 +93,20 @@ window.addEventListener('mdwPageChange', () => {
     hljs.highlightAll();
   });
 });
+
+
+window.addEventListener('hashchange', () => {
+  if (!location.hash) return;
+  handleHashAnchor(location.hash);
+});
+
+
+function handleHashAnchor(hash, animate = true) {
+  try {
+    const element = document.querySelector(hash);
+    if (element) {
+      if (animate) element.scrollIntoView({ behavior: 'smooth' });
+      else element.scrollIntoView();
+    }
+  } catch { console.log('error'); }
+}

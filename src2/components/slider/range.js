@@ -2,7 +2,6 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import Drag from '../../core/Drag.js';
 import styleAsString from '!!raw-loader!./range.css';
 
-// TODO arrow inputs, include on focus
 
 customElements.define('mdw-slider-range', class MDWSliderRange extends HTMLElementExtended {
   useShadowRoot = true;
@@ -28,12 +27,14 @@ customElements.define('mdw-slider-range', class MDWSliderRange extends HTMLEleme
   #labelOne;
   #labelTwo;
   #isDiscrete = false;
+  #onKeydown_bound = this.#onKeydown.bind(this);
+  #onFocus_bound = this.#onFocus.bind(this);
+  #onBlur_bound = this.#onBlur.bind(this);
 
 
   constructor() {
     super();
 
-    this.tabIndex = 0;
     this.setAttribute('role', 'slider');
     this.#isDiscrete = this.classList.contains('mdw-discrete');
   }
@@ -48,10 +49,10 @@ customElements.define('mdw-slider-range', class MDWSliderRange extends HTMLEleme
         ${!this.#isDiscrete ? '' : [...new Array(this.#stepCount)].map(i => `<div class="mdw-mark"></div>`).join('\n')}
       </div>
 
-      <div class="mdw-thumb mdw-one">
+      <div class="mdw-thumb mdw-one" tabindex="0">
         <div class="mdw-label"><div class="mdw-label-text"></div></div>
       </div>
-      <div class="mdw-thumb mdw-two">
+      <div class="mdw-thumb mdw-two" tabindex="0">
         <div class="mdw-label"><div class="mdw-label-text"></div></div>
       </div>
 
@@ -62,8 +63,9 @@ customElements.define('mdw-slider-range', class MDWSliderRange extends HTMLEleme
   }
 
   connectedCallback() {
-    this.tabIndex = 0;
     this.setAttribute('role', 'slider');
+
+    this.addEventListener('focus', this.#onFocus_bound);
   }
 
   afterRender() {
@@ -100,6 +102,9 @@ customElements.define('mdw-slider-range', class MDWSliderRange extends HTMLEleme
     this.#inactiveTrack.removeEventListener('click', this.#onclick_bound);
     this.#inactiveTrack2.removeEventListener('click', this.#onclick_bound);
     this.#activeTrack.removeEventListener('click', this.#onclick_bound);
+    this.removeEventListener('focus', this.#onFocus_bound);
+    this.removeEventListener('blur', this.#onBlur_bound);
+    document.body.removeEventListener('keydown', this.#onKeydown_bound);
   }
 
   static get observedAttributes() {
@@ -300,5 +305,37 @@ customElements.define('mdw-slider-range', class MDWSliderRange extends HTMLEleme
 
   #onDragTwo({ distance }) {
     this.#setValueTwoFromPixels(this.#dragTwoStartLeftPosition + distance.x);
+  }
+
+  #onFocus() {
+    this.addEventListener('blur', this.#onBlur_bound);
+    document.body.addEventListener('keydown', this.#onKeydown_bound);
+  }
+
+  #onBlur() {
+    this.removeEventListener('blur', this.#onBlur_bound);
+    document.body.removeEventListener('keydown', this.#onKeydown_bound);
+  }
+
+  #onKeydown(event) {
+    const leftArrow = event.key === 'ArrowLeft';
+    const rightArrow = event.key === 'ArrowRight';
+    const downArrow = event.key === 'ArrowDown';
+    const upArrow = event.key === 'ArrowUp';
+
+    const isOne = this.shadowRoot.querySelector(':focus').classList.contains('mdw-one');
+    const valueSplit = this.value.split(',');
+    let valueOne = parseFloat(valueSplit[0] || 0);
+    let valueTwo = parseFloat(valueSplit[1] || 0);
+
+    if (leftArrow || downArrow) {
+      if (isOne) valueOne -= this.#step;
+      else valueTwo -= this.#step;
+    } else if (rightArrow || upArrow) {
+      if (isOne) valueOne += this.#step;
+      else valueTwo += this.#step;
+    }
+
+    this.value = `${valueOne},${valueTwo}`;
   }
 });

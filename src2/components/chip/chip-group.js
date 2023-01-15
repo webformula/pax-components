@@ -2,8 +2,8 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import './chip-group.css';
 import Drag from '../../core/Drag.js';
 
-// TODO horizontal scroll with drag
-// TODO figure out if we should add properties to dynamically interact with chips
+
+// TODO figure out if we should add properties to dynamically interact with chips (add, remove)
 
 customElements.define('mdw-chip-group', class MDWChipGroupElement extends HTMLElementExtended {
   #type = this.#getType();
@@ -45,7 +45,7 @@ customElements.define('mdw-chip-group', class MDWChipGroupElement extends HTMLEl
     this.#value = value;
   }
 
-
+  // TODO is the correct? should it be here?
   addSuggestion(value, label) {
     const chip = document.createElement('mdw-chip');
     chip.setAttribute('value', value);

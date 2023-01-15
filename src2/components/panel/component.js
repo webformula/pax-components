@@ -147,8 +147,6 @@ export default class MDWPanelElement extends HTMLElementExtended {
     this.#targetScrollContainer = this.#getScrollContainerForTarget();
   }
 
-  // TODO use bottom on reposition. This will help with select search
-
   #setTargetPosition() {
     const bounds = this.#target.getBoundingClientRect();
     const { clientWidth, clientHeight } = document.documentElement;

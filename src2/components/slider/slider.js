@@ -2,8 +2,6 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import styleAsString from '!!raw-loader!./slider.css';
 import Drag from '../../core/Drag.js';
 
-// TODO arrow inputs, include on focus
-
 
 customElements.define('mdw-slider', class MDWSlider extends HTMLElementExtended {
   useShadowRoot = true;
@@ -24,6 +22,9 @@ customElements.define('mdw-slider', class MDWSlider extends HTMLElementExtended 
   #onDrag_bound = this.#onDrag.bind(this);
   #onDragStart_bound = this.#onDragStart.bind(this);
   #onclick_bound = this.#onclick.bind(this);
+  #onKeydown_bound = this.#onKeydown.bind(this);
+  #onFocus_bound = this.#onFocus.bind(this);
+  #onBlur_bound = this.#onBlur.bind(this);
 
   useTemplate = false;
 
@@ -57,12 +58,17 @@ customElements.define('mdw-slider', class MDWSlider extends HTMLElementExtended 
   connectedCallback() {
     this.tabIndex = 0;
     this.setAttribute('role', 'slider');
+
+    this.addEventListener('focus', this.#onFocus_bound);
   }
 
   disconnectedCallback() {
     this.#drag.destroy();
     this.#inactiveTrack.removeEventListener('click', this.#onclick_bound);
     this.#activeTrack.removeEventListener('click', this.#onclick_bound);
+    this.removeEventListener('focus', this.#onFocus_bound);
+    this.removeEventListener('blur', this.#onBlur_bound);
+    document.body.removeEventListener('keydown', this.#onKeydown_bound);
   }
 
   afterRender() {
@@ -155,8 +161,8 @@ customElements.define('mdw-slider', class MDWSlider extends HTMLElementExtended 
   }
 
   #setPosition({ percent, pixels }) {
-    if (percent && percent > 1) throw Error('percent must be from 0 - 1');
-    if (percent) pixels = this.offsetWidth * percent;
+    if (!isNaN(percent) && percent > 1) throw Error('percent must be from 0 - 1');
+    if (!isNaN(percent)) pixels = this.offsetWidth * percent;
     if (pixels < 0) pixels = 0;
     if (pixels > this.offsetWidth) pixels = this.offsetWidth;
 
@@ -207,5 +213,28 @@ customElements.define('mdw-slider', class MDWSlider extends HTMLElementExtended 
 
   #onDrag({ distance }) {
     this.#setValueFromPixels(this.#dragStartLeftPosition + distance.x);
+  }
+
+  #onFocus() {
+    this.addEventListener('blur', this.#onBlur_bound);
+    document.body.addEventListener('keydown', this.#onKeydown_bound);
+  }
+
+  #onBlur() {
+    this.removeEventListener('blur', this.#onBlur_bound);
+    document.body.removeEventListener('keydown', this.#onKeydown_bound);
+  }
+
+  #onKeydown(event) {
+    const leftArrow = event.key === 'ArrowLeft';
+    const rightArrow = event.key === 'ArrowRight';
+    const downArrow = event.key === 'ArrowDown';
+    const upArrow = event.key === 'ArrowUp';
+
+    if (leftArrow || downArrow) {
+      this.value = parseFloat(this.value) - this.#step;
+    } else if (rightArrow || upArrow) {
+      this.value = parseFloat(this.value) + this.#step;
+    }
   }
 });

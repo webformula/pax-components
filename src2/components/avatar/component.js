@@ -2,9 +2,6 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import styleAsString from '!!raw-loader!./component.css';
 
 
-
-// TODO add mutation observer for added list items?
-
 customElements.define('mdw-avatar', class MDWAvatarElement extends HTMLElementExtended {
   useShadowRoot = true;
   #checked = false;

@@ -5,12 +5,6 @@ import styleAsStringPanel from '!!raw-loader!../panel/component.css';
 import util from '../../core/util.js';
 
 
-
-// TODO async filter. figure out how to handle filter clear / re open
-// TODO keyboard for filter (enter key). Do i want this?
-// TODO fix click for non input. the text field clickable area that is not the input
-
-
 customElements.define('mdw-select', class MDWSelectElement extends HTMLElementExtended {
   useShadowRoot = true;
   useTemplate = false;
@@ -34,6 +28,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
   #onInputFilter_debounce = util.debounce(this.#onInputFilter, 300).bind(this);
   #onInputFilterAsync_bound = this.#onInputFilterAsync.bind(this);
   #filterAsyncEvent_debounced = util.debounce(this.#filterAsyncEvent, 300).bind(this);
+  #originalOptions;
 
 
   constructor() {
@@ -48,6 +43,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
       label: util.getTextFromNode(element),
       element
     }));
+    this.#originalOptions = this.#options;
   }
 
   afterRender() {
@@ -87,6 +83,9 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     document.body.removeEventListener('keydown', this.#onKeydown_bound);
     if (this.#isFilter) this.#input.removeEventListener('input', this.#onInputFilter_debounce);
     if (this.#isFilterAsync) this.#input.removeEventListener('input', this.#onInputFilterAsync_bound);
+
+    this.#originalOptions = undefined;
+    this.#options = undefined;
   }
 
   template() {
@@ -128,7 +127,10 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
 
     const element = this.querySelector(`mdw-option[value="${value}"]`);
     if (element) this.#displayValue = util.getTextFromNode(element);
-    if (this.#input) this.#input.value = this.#displayValue;
+    if (this.#input) {
+      this.#input.value = this.#displayValue;
+      if (this.#input.parentElement.classList.contains('mdw-outlined')) this.#input.parentElement.updateNotch();
+    }
     if (this.#panel && this.#panel.open === true) this.#updateOptionDisplay();
   }
 
@@ -187,7 +189,6 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
   #onOpen() {
     this.#textfield.classList.add('mdw-raise-label');
     if (!this.#isFilter) this.#updateOptionDisplay();
-    // else this.#renderOptions();
 
     this.#arrowElement.classList.add('mdw-open');
     this.addEventListener('click', this.#onClick_bound);
@@ -196,7 +197,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     if (this.#isFilterAsync) this.#input.addEventListener('input', this.#onInputFilterAsync_bound);
   }
 
-  #onClose() {
+  async #onClose() {
     this.#textfield.classList.remove('mdw-raise-label');
     this.#arrowElement.classList.remove('mdw-open');
     this.removeEventListener('click', this.#onClick_bound);
@@ -206,6 +207,11 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
 
     // reset value if not changed
     this.#input.value = this.#displayValue;
+
+    if (this.#isFilter || this.#isFilterAsync) {
+      await util.animationendAsync(this.#panel);
+      this.#renderInitialOptions();
+    }
   }
 
   #onClick(event) {
@@ -235,6 +241,7 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
       nextSelected.setAttribute('selected', '');
       nextSelected.setAttribute('aria-selected', 'true');
       nextSelected.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (this.#panel.scrollTop < 56) this.#panel.scrollTop = 0;
     }
   }
 
@@ -339,6 +346,18 @@ customElements.define('mdw-select', class MDWSelectElement extends HTMLElementEx
     if (this.#options.length === 0) this.insertAdjacentHTML('beforeend', '<div class="mdw-no-items">No items</div> ');
     this.#updateOptionDisplay();
     this.resolveFilter();
+  }
+
+  #renderInitialOptions() {
+    const fragment = new DocumentFragment();
+    for (const item of this.#originalOptions) {
+      fragment.append(item.element);
+    }
+    this.replaceChildren(fragment);
+    if (this.#isFilterAsync) {
+      this.insertAdjacentHTML('afterbegin', '<mdw-progress-linear class="mdw-indeterminate"></mdw-progress-linear>');
+    }
+    if (this.#originalOptions.length === 0) this.insertAdjacentHTML('beforeend', '<div class="mdw-no-items">No items</div> ');
   }
 
   #onInputFilterAsync() {

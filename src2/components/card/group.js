@@ -1,10 +1,6 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
-import util from '../../core/util.js';
 import device from '../../core/device.js';
 import './group.css';
-
-// TODO dynamic width
-// TODO dynamic columns. switch from desktop to mobile on grid
 
 
 customElements.define('mdw-card-group', class MDWCardGroupElement extends HTMLElementExtended {
@@ -18,10 +14,6 @@ customElements.define('mdw-card-group', class MDWCardGroupElement extends HTMLEl
 
     this.#layout();
     this.#observer.observe(this, { childList: true });
-  }
-
-  connectedCallback() {
-    // this.classList.remove('mdw-no-animation');
   }
 
   disconnectedCallback() {
@@ -63,7 +55,6 @@ customElements.define('mdw-card-group', class MDWCardGroupElement extends HTMLEl
     });
     
     if (this.#cards.length === 0) return;
-
     if (this.#isGrid) this.#layoutGrid();
     else this.#layoutList();
   }
@@ -85,6 +76,16 @@ customElements.define('mdw-card-group', class MDWCardGroupElement extends HTMLEl
         else element.style.height = `${height}px`;
       }
     });
+
+    // auto adjust column count to keep content on screen
+    const overFlow = this.scrollWidth - this.offsetWidth;
+    if (overFlow > 0) {
+      let cardWidth = 0;
+      [...this.querySelectorAll('mdw-card')].forEach(card => {
+        if (card.offsetWidth > cardWidth) cardWidth = card.offsetWidth;
+      });
+      this.style.setProperty('--mdw-card-group-columns', Math.max(1, Math.floor(this.offsetWidth / cardWidth)));
+    }
   }
 
   #layoutList() {

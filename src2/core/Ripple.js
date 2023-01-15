@@ -111,7 +111,10 @@ export default class Ripple {
     const ripple = this.#createRippleElement(offsetX, offsetY, radius, duration);
     this.#element.appendChild(ripple);
 
-    this.#enforceStyleRecalculation(ripple);
+    // Enforce a style recalculation by calling `getComputedStyle` and accessing any property.
+    // https://gist.github.com/paulirish/5d52fb081b3570c81e3a
+    window.getComputedStyle(ripple).getPropertyValue('opacity');
+
     ripple.style.transform = 'scale(1)';
 
     const reference = {
@@ -181,14 +184,5 @@ export default class Ripple {
     ripple.style.transitionDuration = `${duration}ms`;
 
     return ripple;
-  }
-
-  // Enforces a style recalculation of a DOM element by computing its styles
-  // TODO Move into global utility function.
-  #enforceStyleRecalculation(element) {
-    // Enforce a style recalculation by calling `getComputedStyle` and accessing any property.
-    // Calling `getPropertyValue` is important to let optimizers know that this is not a noop.
-    // See: https://gist.github.com/paulirish/5d52fb081b3570c81e3a
-    window.getComputedStyle(element).getPropertyValue('opacity');
   }
 }

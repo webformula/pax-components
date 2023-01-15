@@ -4,9 +4,6 @@ import Ripple from '../../core/Ripple.js';
 import util from '../../core/util.js';
 
 
-// TODO toggle
-// TODO form
-
 export default class MDWButtonElement extends HTMLElementExtended {
   useShadowRoot = true;
 

@@ -12,14 +12,13 @@ import svgIconMic from '../../svg-icons/mic_FILL1_wght400_GRAD0_opsz24.svg';
 
 const speechRecognitionSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
 
-// TODO spinner with mic
-// TODO should i add a go arrow, right now only enter or history click searches
-
 customElements.define('mdw-search', class MDWSearchElement extends HTMLElementExtended {
   useShadowRoot = true;
+  useTemplate = false;
 
   #value = '';
   #placeholder = 'Search';
+  #debounce;
   #open = false;
   #suggestions = [];
   #quickResults = [];
@@ -45,11 +44,12 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   #filterChange_bound = this.#filterChange.bind(this);
   #clickOutsideCloseFix_bound = this.#clickOutsideCloseFix.bind(this);
   #backClick_bound = this.#backClick.bind(this);
-
+  #inputSearch_debounced;
   #fullscreenPlaceHolder;
   #speechRecognition;
   #hasSpeech = this.hasAttribute('speech');
   #micClick_bound = this.#micClick.bind(this);
+  #noSpinner = this.classList.contains('mdw-no-spinner')
 
 
 
@@ -62,6 +62,11 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
         console.warn('Browser does not support speech recognition');
         this.#hasSpeech = false;
       } else this.#enableSpeechRecognition();
+    }
+
+    if (this.hasAttribute('debounce')) {
+      this.#debounce = parseInt(this.getAttribute('debounce') || 300);
+      this.#inputSearch_debounced = util.debounce(this.#inputSearch.bind(this), this.#debounce);
     }
   }
 
@@ -114,7 +119,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#chipGroup.removeEventListener('click', this.#filterChange_bound);
     this.#suggestionsContainer.removeEventListener('close', this.#close_bound);
     this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
-    if (this.#hasSpeech) this.shadowRoot.removeEventListener('.mic').addEventListener('click', this.#micClick_bound);
+    if (this.#hasSpeech) this.shadowRoot.querySelector('.mic').addEventListener('click', this.#micClick_bound);
   }
 
   template() {
@@ -124,8 +129,8 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
         <div class="mdw-svg-icon fullscreen-back">${chevronLeftIconSVGRaw}</div>
         <div class="mdw-svg-icon search">${svgIconSearch}</div>
         <input placeholder="${this.#placeholder}">
-        <span class="spinner"></span>
         ${this.#hasSpeech ? `<div class="mdw-svg-icon mic">${svgIconMic}</div>` : ``}
+        <span class="spinner"></span>
         <div class="mdw-svg-icon clear">${svgIconClose}</div>
         <slot name="trailing"></slot>
       </div>
@@ -265,6 +270,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
 
 
   pending() {
+    if (this.#noSpinner) return;
     this.shadowRoot.querySelector('.spinner').innerHTML = `
       <mdw-progress-circular thickness="2" diameter="28" class="mdw-indeterminate"></mdw-progress-circular>
     `;
@@ -272,6 +278,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   }
 
   resolve() {
+    if (this.#noSpinner) return;
     this.shadowRoot.querySelector('.spinner').innerHTML = '';
     this.classList.remove('mdw-pending');
   }
@@ -309,7 +316,6 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
   #render() {
     if (!this.rendered) return;
 
-    // TODO one problem here is when user calls updateSuggestions with empty array. Should i auto switch to history
     if (this.#hasSuggestions) {
       const sectionSplit = this.#sections.map(({ id, title }) => ({
         id,
@@ -386,7 +392,15 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
       this.#clearAll();
     }
 
+    if (this.#debounce) this.#inputSearch_debounced();
+
     this.dispatchEvent(new Event('input'));
+  }
+
+  #inputSearch() {
+    this.#storeHistory(this.searchValue);
+    this.pending();
+    this.dispatchEvent(new Event('search'));
   }
 
   #onClearClick() {
@@ -459,7 +473,7 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
       event.preventDefault();
     }
 
-    if (enter) {
+    if (enter && !this.#debounce) {
       const focusedElement = document.activeElement;
       if (focusedElement.nodeName === 'MDW-SEARCH' && !!this.searchValue) {
         this.#storeHistory(this.searchValue);

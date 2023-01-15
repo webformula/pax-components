@@ -4,6 +4,7 @@ import util from '../../core/util.js';
 const MDWDialog = new class MDWDialog {
   #currentDialog;
   #currentDialogPromiseResolve;
+  #onClose_bound = this.#onClose.bind(this);
 
   simple(params = {
     headline: '',
@@ -31,11 +32,8 @@ const MDWDialog = new class MDWDialog {
     `);
 
     document.body.appendChild(element);
-
-    // for show animation
-    setTimeout(() => {
-      element.show(params.backdrop === undefined ? true : params.backdrop);
-    }, 0);
+    element.addEventListener('close', this.#onClose_bound);
+    element.show(params.backdrop === undefined ? true : params.backdrop);
 
     this.#currentDialog = element;
     return new Promise(resolve => {
@@ -43,13 +41,19 @@ const MDWDialog = new class MDWDialog {
     });
   }
 
+  #onClose() {
+    this.#currentDialog.removeEventListener('close', this.#onClose_bound);
+    this.#currentDialog = undefined;
+  }
+
   async close(returnValue) {
     if (!this.#currentDialog) throw Error('No dialog to close');
 
+    this.#currentDialog.removeEventListener('close', this.#onClose_bound);
     if (this.#currentDialogPromiseResolve) this.#currentDialogPromiseResolve(returnValue);
     this.#currentDialog.close(returnValue);
 
-    await util.transitionendAsync(this.#currentDialog);
+    await util.animationendAsync(this.#currentDialog);
 
     this.#currentDialog.remove();
     this.#currentDialog = undefined;

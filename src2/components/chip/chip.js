@@ -6,9 +6,6 @@ import checkIconSVGRaw from '../../svg-icons/check_FILL1_wght400_GRAD0_opsz20.sv
 import closeIconSVGRaw from '../../svg-icons/close_FILL1_wght400_GRAD0_opsz20.svg';
 
 
-
-// TODO figure out if we should add properties to dynamically interact with chips
-
 customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtended {
   useShadowRoot = true;
   useTemplate = false;
@@ -167,12 +164,6 @@ customElements.define('mdw-chip', class MDWChipElement extends HTMLElementExtend
       this.#input.addEventListener('blur', this.#onInputBlur_bound);
       document.body.addEventListener('keydown', this.#onKeydown_bound);
     }
-
-    // this.#group.dispatchEvent(new CustomEvent('change', { detail: {
-    //   value: this.value,
-    //   type: this.#type,
-    //   action: 'figure out'
-    // }}))
   }
 
   #onClearClick(event) {

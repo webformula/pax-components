@@ -3,8 +3,6 @@ import './list.css';
 import util from '../../core/util.js';
 
 
-// TODO add mutation observer for added list items?
-
 customElements.define('mdw-list', class MDWListElement extends HTMLElementExtended {
   #value = '';
   #selectable = this.classList.contains('mdw-select') || this.classList.contains('mdw-select-multiple');
@@ -12,6 +10,7 @@ customElements.define('mdw-list', class MDWListElement extends HTMLElementExtend
   #subHeaders = [...this.querySelectorAll('.mdw-sub-header')];
   #scrollParent = this.#getScrollParent(this);
   #scroll_bound = this.#scroll.bind(this);
+  #observer;
 
 
   constructor() {
@@ -22,6 +21,11 @@ customElements.define('mdw-list', class MDWListElement extends HTMLElementExtend
     this.setAttribute('role', 'list');
 
     if (this.#subHeaders.length > 0) this.#scrollParent.addEventListener('scroll', this.#scroll_bound);
+  }
+
+  disconnectedCallback() {
+    this.#observer.disconnect();
+    this.#observer = undefined;
   }
 
   static get observedAttributes() {
@@ -45,7 +49,7 @@ customElements.define('mdw-list', class MDWListElement extends HTMLElementExtend
     // if we call checked before the component is connected, it will overwrite the setter/getter
     util.nextAnimationFrameAsync().then(() => {
       [...this.querySelectorAll('mdw-list-item')].forEach(item => {
-        item.checked = valueArray.includes(item.value);
+        item.setCheckedWithoutUpdate(valueArray.includes(item.value));
       });
     });
   }
@@ -64,11 +68,10 @@ customElements.define('mdw-list', class MDWListElement extends HTMLElementExtend
       }
       this.#value = valueArray.filter(v => !!v.trim()).join(',');
 
-
     } else {
       if (checked === true) {
         const currentChecked = [...this.querySelectorAll('mdw-list-item.mdw-checked')].filter(i => i.value !== value);
-        currentChecked.forEach(v => v.checked = false);
+        currentChecked.forEach(v => v.setCheckedWithoutUpdate(false));
         this.#value = value;
       } else this.#value = ''; 
     }

@@ -197,7 +197,7 @@ export default class MDWCardElement extends HTMLElementExtended {
   }
 
   // TODO make action its own component so it can have .checked ?
-  #swipeActionClick(event) {
+  #swipeActionClick() {
     if (this.#swipeActionElement.classList.contains('mdw-toggle')) {
       if (this.#swipeActionElement.hasAttribute('checked')) this.#swipeActionElement.removeAttribute('checked');
       else this.#swipeActionElement.setAttribute('checked', '');

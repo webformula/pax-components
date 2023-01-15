@@ -4,10 +4,6 @@ import util from '../../core/util.js';
 import device from '../../core/device.js';
 
 
-// TODO mobile
-// TODO small screens
-
-
 customElements.define('mdw-navigation', class MDWNavigationElement extends HTMLElementExtended {
   #open = true;
   #rail = this.classList.contains('mdw-rail');

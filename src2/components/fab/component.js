@@ -7,9 +7,7 @@ customElements.define('mdw-fab', class MDWFabElement extends HTMLElementExtended
   useShadowRoot = true;
 
   #ripple;
-  #isAnimating = false;
   #autoHideLabel = this.classList.contains('mdw-auto-hide-label');
-  #scrollTarget = document.querySelector('page-content') || document.body; // TODO check is page-content needed
   #scrollHandler_bound = util.rafThrottle(this.#scrollHandler).bind(this);
 
 
@@ -24,7 +22,7 @@ customElements.define('mdw-fab', class MDWFabElement extends HTMLElementExtended
     this.tabIndex = 0;
     this.setAttribute('role', 'button');
 
-    if (this.#autoHideLabel && this.#scrollTarget) util.trackPageScroll(this.#scrollHandler_bound);
+    if (this.#autoHideLabel) util.trackPageScroll(this.#scrollHandler_bound);
   }
 
   afterRender() {
@@ -36,7 +34,7 @@ customElements.define('mdw-fab', class MDWFabElement extends HTMLElementExtended
   }
 
   disconnectedCallback() {
-    if (this.#autoHideLabel && this.#scrollTarget) util.untrackPageScroll(this.#scrollHandler_bound);
+    if (this.#autoHideLabel) util.untrackPageScroll(this.#scrollHandler_bound);
     this.#ripple.destroy();
   }
 

@@ -72,16 +72,12 @@
   transition: opacity 100ms;
 }
 
-:host > .thumb:hover::before {
-  opacity: var(--mdw-state-layer-opacity-hover);
-  transition: opacity 180ms;
-}
-
 :host > .thumb:active::before {
   opacity: var(--mdw-state-layer-opacity-pressed);
   transition: opacity 180ms;
 }
 
+:host(:focus) > .thumb::before,
 :host > .thumb:focus::before {
   opacity: var(--mdw-state-layer-opacity-focus);
   transition: opacity 180ms;
@@ -117,12 +113,24 @@
   color: var(--mdw-on-primary);
 }
 
-
-:host > .thumb:hover > .label,
+:host(:focus) > .thumb > .label,
 :host > .thumb:focus > .label,
 :host > .thumb:active > .label {
   opacity: 1;
   transition: opacity 180ms;
+}
+
+/* hover state layers. Media needed to prevent hover on mobile */
+@media (hover: hover) {
+  :host > .thumb:hover::before {
+    opacity: var(--mdw-state-layer-opacity-hover);
+    transition: opacity 180ms;
+  }
+
+  :host > .thumb:hover > .label {
+    opacity: 1;
+    transition: opacity 180ms;
+  }
 }
 
 :host > .marks {

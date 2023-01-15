@@ -114,6 +114,11 @@
   opacity: 1;
 }
 
+/* offset to overlay spinner */
+:host .textfield >  .mic {
+  margin-right: -16px;
+}
+
 
 :host slot[name=leading],
 :host slot[name=trailing] {

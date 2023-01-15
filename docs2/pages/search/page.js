@@ -1,9 +1,7 @@
 import { Page } from '@webformula/pax-core';
-import MDWSearch from '../../../src2/components/search/service.js';
 import html from './page.html';
 
 export default new class extends Page {
-  searchOne = new MDWSearch('mdw-search#one');
   onSearch_bound = this.onSearch.bind(this);
 
   constructor() {
@@ -16,6 +14,7 @@ export default new class extends Page {
 
   afterRender() {
     this.one();
+    this.debounce();
     this.two();
     this.three();
     this.four();
@@ -26,21 +25,18 @@ export default new class extends Page {
     this.nine();
   }
 
-  disconnectedCallback() {
-    this.searchOne.destroy();
-  }
-
   one() {
-    this.searchOne.registerSection('alt', 'Alt results');
+    const searchOne = document.querySelector('mdw-search#one');
+    searchOne.registerSection('alt', 'Alt results');
 
-    this.searchOne.registerTemplate(data => /*html*/`
+    searchOne.registerTemplate(data => /*html*/`
       <mdw-list-item value="${data.value}">
         <mdw-avatar>A</mdw-avatar>
         ${data.primary}
       </mdw-list-item>
     `, 'default');
 
-    this.searchOne.registerTemplate(data => /*html*/`
+    searchOne.registerTemplate(data => /*html*/`
       <mdw-list-item value="${data.value}" class="mdw-line-two">
         <mdw-icon>inbox</mdw-icon>
         <div class="mdw-text">
@@ -52,7 +48,7 @@ export default new class extends Page {
 
 
     // quick results
-    this.searchOne.registerTemplate(data => /*html*/`
+    searchOne.registerTemplate(data => /*html*/`
       <mdw-list-item value="${data.value}" class="mdw-line-two">
         <mdw-icon>inbox</mdw-icon>
         <div class="mdw-text">
@@ -63,7 +59,7 @@ export default new class extends Page {
     `, 'quick');
 
     document.querySelector('mdw-search#one').addEventListener('input', () => {
-      this.searchOne.updateQuickResults([
+      searchOne.updateQuickResults([
         {
           value: 'four',
           primary: 'Four',
@@ -82,7 +78,7 @@ export default new class extends Page {
           secondary: 'Secondary',
           section: 'quick'
         }
-      ].filter(v => v.primary.toLocaleLowerCase().includes(this.searchOne.searchValue)));
+      ].filter(v => v.primary.toLocaleLowerCase().includes(searchOne.searchValue)));
     });
     document.querySelector('mdw-search#one').addEventListener('search', this.onSearch_bound);
     document.querySelector('mdw-search#one').addEventListener('change', event => {
@@ -96,6 +92,10 @@ export default new class extends Page {
 
   two() {
     document.querySelector('mdw-search#two').addEventListener('search', this.onSearch_bound);
+  }
+
+  debounce() {
+    document.querySelector('mdw-search#debounce').addEventListener('search', this.onSearch_bound);
   }
 
   three() {

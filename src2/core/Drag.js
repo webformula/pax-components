@@ -130,7 +130,6 @@ export default class Drag {
       element: this.#element
     }));
 
-    // TODO try using window to fix ios issues
     if (!this.#desktopOnly) {
       this.#element.addEventListener('touchend', this.#touchend_bound, false);
       this.#element.addEventListener('touchmove', this.#touchmove_throttled, false);

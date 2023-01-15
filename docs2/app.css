@@ -1,5 +1,7 @@
 html {
   color-scheme: light;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 section {

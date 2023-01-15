@@ -4,9 +4,6 @@ import util from '../../core/util.js';
 import errorIconSVGString from '../../svg-icons/error_FILL1_wght400_GRAD0_opsz24.svg';
 
 
-// TODO fix disabled when using input attr directly
-
-
 const handleReportValidityScrollIntoView = util.debounce(input => {
   // check if already on screen
   const bounds = input.getBoundingClientRect();
@@ -192,6 +189,11 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     event.preventDefault();
   }
 
+  updateNotch() {
+    if (this.querySelector('input').value) this.#setNotchWidth();
+    else this.#unsetNotchWidth();
+  }
+
   #setNotchWidth() {
     const label = this.querySelector('label');
     if (!label) return;
@@ -200,7 +202,12 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     const computedStyle = getComputedStyle(notch);
     // already open
     if (computedStyle.width !== '0px') return;
+
     this.querySelector('.mdw-outlined-notch').style.width = `${label.offsetWidth * 0.9}px`;
+    // font size changes and we need to recalculate width because of animation
+    setTimeout(() => {
+      this.querySelector('.mdw-outlined-notch').style.width = `${label.offsetWidth + 4}px`;
+    }, 165)
   }
 
   #unsetNotchWidth() {

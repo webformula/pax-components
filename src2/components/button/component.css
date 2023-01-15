@@ -105,20 +105,32 @@
   font-size: var(--mdw-font-size-icon-medium) !important;
   margin: 0;
   margin-top: -1px;
+  transition: font-variation-settings 60ms;
 }
 
-/* TODO add animations for icon switching */
 :host(:not(.mdw-icon-toggle-button):not(.mdw-icon-button)) ::slotted([value]) {
   margin-right: 4px;
   font-size: 20px !important;
 }
 
+:host(.mdw-icon-toggle-button) ::slotted([value="on"]),
+:host(.mdw-icon-toggle-button) ::slotted([value="off"]) {
+  opacity: 1;
+  transition: opacity 180ms !important;
+}
+
+:host(.mdw-icon-toggle-button) ::slotted([value="on"]) {
+  position: absolute;
+  top: 50%;
+  margin-top: calc(-25% - 3px);
+}
+
 :host(.mdw-icon-toggle-button:not(.mdw-toggled)) ::slotted([value="on"]) {
-  display: none !important;
+  opacity: 0;
 }
 
 :host(.mdw-icon-toggle-button.mdw-toggled) ::slotted([value="off"]) {
-  display: none !important;
+  opacity: 0;
 }
 
 :host(.mdw-icon-toggle-button:not(.mdw-toggled)) ::slotted(mdw-icon:not([value])) {

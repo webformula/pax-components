@@ -4,8 +4,6 @@ import Drag from '../../core/Drag.js';
 import util from '../../core/util.js';
 
 
-// TODO add mutation observer for added list items?
-
 customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElementExtended {
   #drag;
   #checked = false;
@@ -45,7 +43,8 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
 
     if (this.#hasSwipeActions) {
       this.#drag = new Drag(this);
-      this.#drag.lockScrollY = true;
+      // TODO fix this. Ty swiping and you will see
+      // this.#drag.lockScrollY = true;
       this.#drag.onDrag(this.#onDrag_bound);
       this.#drag.onStart(this.#onDragStart_bound);
       this.#drag.onEnd(this.#onDragEnd_bound);
@@ -78,7 +77,6 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
 
   set value(value) {
     this.#value = value;
-    // TODO update parent
   }
 
   get checked() {
@@ -90,7 +88,16 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
     this.setAttribute('aria-checked', this.#checked.toString() || 'false');
     if (this.#selectCheckbox) this.#selectCheckbox.checked = this.checked;
     if (this.#avatar) this.#avatar.checked = this.checked;
+
     this.parentElement.updateSelection(this.value, this.checked);
+  }
+
+  setCheckedWithoutUpdate(value) {
+    this.#checked = !!value;
+    this.classList.toggle('mdw-checked', this.#checked);
+    this.setAttribute('aria-checked', this.#checked.toString() || 'false');
+    if (this.#selectCheckbox) this.#selectCheckbox.checked = this.checked;
+    if (this.#avatar) this.#avatar.checked = this.checked;
   }
 
   get #selectable() {
@@ -165,7 +172,6 @@ customElements.define('mdw-list-item', class MDWListItemElement extends HTMLElem
       if (remove) {
         actionElement.style.opacity = 0;
         this.style.setProperty('--mdw-list-item-swipe-position', position > 0 ? `100%` : '-100%');
-        // TODO figure out why action is bouncing. not happening with right
         await util.transitionendAsync(this);
         this.remove();
       } else {

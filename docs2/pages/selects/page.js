@@ -38,6 +38,26 @@ export default new class extends Page {
       {
         label: 'Five',
         value: '5'
+      },
+      {
+        label: 'Six',
+        value: '6'
+      },
+      {
+        label: 'Seven',
+        value: '7'
+      },
+      {
+        label: 'Eight',
+        value: '8'
+      },
+      {
+        label: 'Nine',
+        value: '9'
+      },
+      {
+        label: 'Ten',
+        value: '10'
       }
     ].filter(v => v.label.toLowerCase().includes(value.toLowerCase().trim()));;
   }
@@ -51,7 +71,12 @@ export default new class extends Page {
         'Two',
         'Three',
         'Four',
-        'Five'
+        'Five',
+        'Six',
+        'Seven',
+        'Eight',
+        'Nine',
+        'Ten'
       ];
       return;
     }
@@ -62,7 +87,12 @@ export default new class extends Page {
       'Two',
       'Three',
       'Four',
-      'Five'
+      'Five',
+      'Six',
+      'Seven',
+      'Eight',
+      'Nine',
+      'Ten'
     ].filter(v => v.toLowerCase().includes(value.toLowerCase().trim()));
   }
 
