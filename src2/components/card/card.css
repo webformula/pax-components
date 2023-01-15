@@ -89,7 +89,7 @@ mdw-card .mdw-subhead-large {
   font-weight: var(--mdw-font-weight-large-body);
   line-height: var(--mdw-font-line-height-large-body);
   letter-spacing: var(--mdw-font-letter-spacing-large-body);
-  color: var(--mdw-on-surface--76);
+  color: var(--mdw-on-surface-variant);
 }
 
 mdw-card .mdw-subhead-medium,
@@ -98,7 +98,7 @@ mdw-card .mdw-subhead {
   font-weight: var(--mdw-font-weight-medium-body);
   line-height: var(--mdw-font-line-height-medium-body);
   letter-spacing: var(--mdw-font-letter-spacing-medium-body);
-  color: var(--mdw-on-surface--76);
+  color: var(--mdw-on-surface-variant);
 }
 
 mdw-card .mdw-subhead-small {
@@ -106,7 +106,7 @@ mdw-card .mdw-subhead-small {
   font-weight: var(--mdw-font-weight-small-body);
   line-height: var(--mdw-font-line-height-small-body);
   letter-spacing: var(--mdw-font-letter-spacing-small-body);
-  color: var(--mdw-on-surface--76);
+  color: var(--mdw-on-surface-variant);
 }
 
 mdw-card .mdw-supporting-text {
@@ -115,7 +115,7 @@ mdw-card .mdw-supporting-text {
   font-weight: var(--mdw-font-weight-small-body);
   line-height: var(--mdw-font-line-height-small-body);
   letter-spacing: var(--mdw-font-letter-spacing-small-body);
-  color: var(--mdw-on-surface--76);
+  color: var(--mdw-on-surface-variant);
 }
 
 mdw-card .mdw-card-actions {

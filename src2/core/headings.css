@@ -98,6 +98,14 @@ p,
   text-transform: inherit;
 }
 
+.mdw-supporting-text {
+  font-size: var(--mdw-font-size-small-body);
+  font-weight: var(--mdw-font-weight-small-body);
+  line-height: var(--mdw-font-line-height-small-body);
+  letter-spacing: var(--mdw-font-letter-spacing-small-body);
+  color: var(--mdw-on-surface-variant);
+}
+
 caption,
 .mdw-caption {
   font-size: .75rem;

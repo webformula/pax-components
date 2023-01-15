@@ -114,9 +114,9 @@ customElements.define('mdw-search', class MDWSearchElement extends HTMLElementEx
     this.#input.removeEventListener('input', this.#onInput_bound);
     this.shadowRoot.querySelector('.clear').removeEventListener('click', this.#onClearClick_bound);
     window.removeEventListener('keydown', this.#onKeydown_bound);
-    this.#suggestionsContainer.close();
+    this.#suggestionsContainer.close && this.#suggestionsContainer.close();
     this.#list.removeEventListener('click', this.#itemClick_bound);
-    this.#chipGroup.removeEventListener('click', this.#filterChange_bound);
+    this.#chipGroup?.removeEventListener('click', this.#filterChange_bound);
     this.#suggestionsContainer.removeEventListener('close', this.#close_bound);
     this.removeEventListener('click', this.#clickOutsideCloseFix_bound);
     if (this.#hasSpeech) this.shadowRoot.querySelector('.mic').addEventListener('click', this.#micClick_bound);

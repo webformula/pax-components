@@ -10,8 +10,6 @@ customElements.define('mdw-list', class MDWListElement extends HTMLElementExtend
   #subHeaders = [...this.querySelectorAll('.mdw-sub-header')];
   #scrollParent = this.#getScrollParent(this);
   #scroll_bound = this.#scroll.bind(this);
-  #observer;
-
 
   constructor() {
     super();
@@ -21,11 +19,6 @@ customElements.define('mdw-list', class MDWListElement extends HTMLElementExtend
     this.setAttribute('role', 'list');
 
     if (this.#subHeaders.length > 0) this.#scrollParent.addEventListener('scroll', this.#scroll_bound);
-  }
-
-  disconnectedCallback() {
-    this.#observer.disconnect();
-    this.#observer = undefined;
   }
 
   static get observedAttributes() {

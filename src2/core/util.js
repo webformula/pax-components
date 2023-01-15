@@ -289,6 +289,7 @@ const mdwUtil = new class MDWUtil {
     });
   }
 
+  #clickTimeoutReferences = [];
   addClickTimeout(element, listener, ms = 200) {
     let timeout; 
     let target;
@@ -307,11 +308,24 @@ const mdwUtil = new class MDWUtil {
     }
 
     element.addEventListener('mousedown', down);
+
+    this.#clickTimeoutReferences.push({
+      element,
+      removeClickTimeout() {
+        element.removeEventListener('mousedown', down);
+        element.removeEventListener('mouseup', up);
+      }
+    });
   }
 
-  removeClickTimeout(element, listener) {
-    element.removeEventListener('mousedown', down);
-    element.removeEventListener('mouseup', up);
+  removeClickTimeout(element) {
+    this.#clickTimeoutReferences = this.#clickTimeoutReferences.filter(v => {
+      if (v.element === element) {
+        v.removeClickTimeout();
+        return false;
+      }
+      return true;
+    });
   }
 
   #calculateDistance(searchTerm, target) {

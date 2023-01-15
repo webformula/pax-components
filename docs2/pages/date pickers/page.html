@@ -29,6 +29,20 @@
           <label>Date</label>
           <mdw-date-picker></mdw-date-picker>
         </mdw-textfield>
+
+
+        <div style="display: flex;">
+          <mdw-textfield id="start">
+            <input type="date" value="2023-01-02">
+            <label>Start</label>
+            <mdw-date-picker-range end-input="#end" label="Departures"></mdw-date-picker-range>
+          </mdw-textfield>
+          
+          <mdw-textfield id="end">
+            <input type="date" value="2023-02-03">
+            <label>End</label>
+          </mdw-textfield>
+        </div>
       </div>
     </div>
 

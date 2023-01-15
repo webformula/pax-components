@@ -30,7 +30,6 @@ export function monthDaysTemplate(date, value, minDate, maxDate, fillPreviousMon
     extraRow
   }).map(week => week.map(({ display, date, currentMonth, interactive, beforeMinDate, afterMaxDate, isToday }) => {
     let classes = 'mdw-day';
-    // let { year, month, day } = dateUtil.getParts(date);
     if (beforeMinDate) classes += ' mdw-before-min-date';
     if (afterMaxDate) classes += ' mdw-after-max-date';
     if (interactive) classes += ' mdw-interactive';
@@ -39,5 +38,35 @@ export function monthDaysTemplate(date, value, minDate, maxDate, fillPreviousMon
     if (!currentMonth) classes += ' mdw-not-current-month';
     const formattedDate = dateUtil.format(date, 'YYYY-MM-dd');
     return /* html */`<div class="${classes}" mdw-date="${formattedDate}" ${value === formattedDate ? 'selected' : ''}>${display}</div>`;
+  }).join('\n')).join('\n');
+}
+
+
+export function monthDaysRangeTemplate(date, valueStart, valueEnd, minDate, maxDate, extraRow) {
+  const dateStart = dateUtil.parse(valueStart).getTime();
+  const dateEnd = dateUtil.parse(valueEnd).getTime();
+  const dateEndMonth = dateUtil.parse(valueEnd).getMonth();
+  const dateMonth = date.getMonth();
+  return dateUtil.getMonthDays(date, {
+    fillPreviousMonth: false,
+    fillNextMonth: false,
+    minDate,
+    maxDate,
+    extraRow
+  }).map(week => week.map(({ display, date, currentMonth, interactive, beforeMinDate, afterMaxDate, isToday }) => {
+    let classes = 'mdw-day';
+    if (beforeMinDate) classes += ' mdw-before-min-date';
+    if (afterMaxDate) classes += ' mdw-after-max-date';
+    if (interactive) classes += ' mdw-interactive';
+    if (beforeMinDate || afterMaxDate) classes += ' mdw-out-of-range';
+    if (isToday && display !== '') classes += ' mdw-today';
+    if (!currentMonth) classes += ' mdw-not-current-month';
+    const formattedDate = dateUtil.format(date, 'YYYY-MM-dd');
+    const selectedStart = currentMonth && valueStart === formattedDate;
+    const selectedEnd = currentMonth && valueEnd === formattedDate;
+    const time = date.getTime();
+    const inSelectionRange = (time > dateStart && time < dateEnd) || (!currentMonth && dateEndMonth > dateMonth);
+
+    return /* html */`<div class="${classes}" mdw-date="${formattedDate}" ${selectedStart ? 'selected start' : ''} ${selectedEnd ? 'selected end' : ''} ${inSelectionRange ? 'in-selection-range' : ''}>${display}</div>`;
   }).join('\n')).join('\n');
 }

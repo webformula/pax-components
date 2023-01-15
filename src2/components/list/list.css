@@ -93,7 +93,6 @@ mdw-list-item > .mdw-text > .mdw-supporting-text {
   font-weight: var(--mdw-font-weight-medium-body);
   line-height: var(--mdw-font-line-height-medium-body);
   letter-spacing: var(--mdw-font-letter-spacing-medium-body);
-  color: var(--mdw-on-surface-variant);
 }
 
 mdw-list-item > .mdw-svg-icon {
@@ -102,7 +101,7 @@ mdw-list-item > .mdw-svg-icon {
 }
 
 mdw-list-item > .mdw-svg-icon > svg {
-  fill: var(--mdw-on-surface--76);
+  fill: var(--mdw-on-surface-variant);
 }
 
 mdw-list-item > mdw-icon,
