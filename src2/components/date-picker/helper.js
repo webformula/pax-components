@@ -21,12 +21,13 @@ export function checkMinMax(minDate, maxDate, displayDate) {
 }
 
 
-export function monthDaysTemplate(date, value, minDate, maxDate, fillPreviousMonth, fillNextMonth) {
+export function monthDaysTemplate(date, value, minDate, maxDate, fillPreviousMonth, fillNextMonth, extraRow) {
   return dateUtil.getMonthDays(date, {
     fillPreviousMonth,
     fillNextMonth,
     minDate,
-    maxDate
+    maxDate,
+    extraRow
   }).map(week => week.map(({ display, date, currentMonth, interactive, beforeMinDate, afterMaxDate, isToday }) => {
     let classes = 'mdw-day';
     // let { year, month, day } = dateUtil.getParts(date);

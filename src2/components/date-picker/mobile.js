@@ -1,6 +1,7 @@
-import HTMLElementExtended from '../HTMLElementExtended.js';
+import MDWPanelElement from '../panel/component.js';
 import dateUtil from '../../core/dateUtil.js';
 import util from '../../core/util.js';
+import Drag from '../../core/Drag.js';
 import './mobile.css';
 import chevronLeftIconSVGRaw from '../../svg-icons/chevron_left_FILL1_wght400_GRAD0_opsz24.svg';
 import chevronRightIconSVGRaw from '../../svg-icons/chevron_right_FILL1_wght400_GRAD0_opsz24.svg';
@@ -8,13 +9,10 @@ import menuDropDownIconSVGRaw from '../../svg-icons/arrow_drop_down_FILL1_wght40
 import editIconSVGRaw from '../../svg-icons/edit_FILL1_wght400_GRAD0_opsz24.svg';
 import { checkMinMax, monthDaysTemplate } from './helper.js';
 
-// TODO drag
 
-
-customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement extends HTMLElementExtended {
+customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement extends MDWPanelElement {
   useTemplate = false;
 
-  #component;
   #showInputView_bound = this.#showInputView.bind(this);
   #onInput_bound = util.debounce(this.#onInput, 100).bind(this);
   #cancel_bound = this.#cancel.bind(this);
@@ -25,11 +23,22 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement
   #nextMonthClick_bound = this.#nextMonthClick.bind(this);
   #yearDropDownClick_bound = this.#yearDropDownClick.bind(this);
   #yearClickHandler_bound = this.#yearClickHandler.bind(this);
+  #drag = new Drag(this);
+  #onDrag_bound = this.#onDrag.bind(this);
+  #onDragStart_bound = this.#onDragStart.bind(this);
+  #onDragEnd_bound = this.#onDragEnd.bind(this);
+  #onClose_bound = this.#onClose.bind(this);
 
   constructor() {
     super();
 
-    this.#component = document.querySelector(`#${this.getAttribute('mdw-date-picker-id')}`);
+    this.backdrop = true;
+    this.clickOutsideClose = false;
+
+    this.addClickOutsideCloseIgnore(this.parentElement.control);
+    this.#drag.onDrag(this.#onDrag_bound);
+    this.#drag.onStart(this.#onDragStart_bound);
+    this.#drag.onEnd(this.#onDragEnd_bound);
   }
 
   afterRender() {
@@ -42,10 +51,11 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement
     this.querySelector('.mdw-year-drop-down').addEventListener('click', this.#yearDropDownClick_bound);
     this.querySelector('.mdw-years-container').addEventListener('click', this.#yearClickHandler_bound);
 
-    this.#panel.addEventListener('open', this.#onShow_bound);
+    this.addEventListener('open', this.#onShow_bound);
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     this.querySelector('.mdw-edit').removeEventListener('click', this.#showInputView_bound);
     this.querySelector('.mdw-cancel').removeEventListener('click', this.#cancel_bound);
     this.querySelector('.mdw-ok').removeEventListener('click', this.#ok_bound);
@@ -54,45 +64,43 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement
     this.querySelector('.mdw-month-next').removeEventListener('click', this.#nextMonthClick_bound);
     this.querySelector('.mdw-year-drop-down').removeEventListener('click', this.#yearDropDownClick_bound);
     this.querySelector('.mdw-years-container').removeEventListener('click', this.#yearClickHandler_bound);
-
-    this.#panel.removeEventListener('open', this.#onShow_bound);
+    this.#drag.destroy();
+    this.#drag = undefined;
+    this.removeEventListener('close', this.#onClose_bound);
+    this.removeEventListener('open', this.#onShow_bound);
   }
 
   get #value() {
-    return this.#component.value;
+    return this.parentElement.value;
   }
   set #value(value) {
-    this.#component.value = value;
-  }
-
-  get #panel() {
-    return this.#component.panel;
+    this.parentElement.value = value;
   }
 
   get #displayDate() {
-    return this.#component.displayDate;
+    return this.parentElement.displayDate;
   }
   set #displayDate(value) {
-    this.#component.displayDate = value;
+    this.parentElement.displayDate = value;
   }
 
   get #initialValue() {
-    return this.#component.initialValue;
+    return this.parentElement.initialValue;
   }
 
   get #valueDate() {
-    return this.#component.valueDate;
+    return this.parentElement.valueDate;
   }
   set #valueDate(value) {
-    this.#component.valueDate = value;
+    this.parentElement.valueDate = value;
   }
 
   get #minDate() {
-    return this.#component.minDate;
+    return this.parentElement.minDate;
   }
 
   get #maxDate() {
-    return this.#component.maxDate;
+    return this.parentElement.maxDate;
   }
 
 
@@ -229,11 +237,11 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement
 
   #cancel() {
     this.#value = this.#initialValue;
-    this.#component.close();
+    this.close();
   }
 
   #ok() {
-    this.#component.close();
+    this.close();
   }
 
   #dayClick(event) {
@@ -248,6 +256,13 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement
 
   #onShow() {
     this.#updateDisplayDate(this.#displayDate, true);
+    this.addEventListener('close', this.#onClose_bound);
+    this.#drag.enable();
+  }
+
+  #onClose() {
+    this.removeEventListener('close', this.#onClose_bound);
+    this.#drag.disable();
   }
 
   #previousMonthClick() {
@@ -325,5 +340,37 @@ customElements.define('mdw-date-picker-mobile', class MDWDatePickerMobileElement
     this.#updateDisplayDate(dateUtil.setDateByParts(this.#displayDate, { year: parseInt(event.target.getAttribute('mdw-year')) }));
 
     this.classList.remove('mdw-year-view');
+  }
+
+  #onDragStart() {
+    this.classList.add('mdw-dragging');
+  }
+
+  #onDrag({ distance }) {
+    this.style.setProperty('--mdw-months-container-drag-left', `${distance.x}px`);
+  }
+
+  async #onDragEnd({ distance }) {
+    if (distance.x > 100) {
+      this.classList.add('mdw-drag-animation');
+      this.style.setProperty('--mdw-months-container-drag-left', '320px');
+    } else if (distance.x < -100) {
+      this.classList.add('mdw-drag-animation');
+      this.style.setProperty('--mdw-months-container-drag-left', '-320px');
+    }
+
+    await util.transitionendAsync(this);
+
+    this.classList.remove('mdw-drag-animation');
+
+    if (distance.x > 100) {
+      this.#updateDisplayDate(dateUtil.addToDateByParts(this.#displayDate, { month: -1 }), true);
+      this.style.setProperty('--mdw-months-container-drag-left', '0');
+    } else if (distance.x < -100) {
+      this.#updateDisplayDate(dateUtil.addToDateByParts(this.#displayDate, { month: 1 }), true);
+      this.style.setProperty('--mdw-months-container-drag-left', '0');
+    }
+
+    this.classList.remove('mdw-dragging');
   }
 });

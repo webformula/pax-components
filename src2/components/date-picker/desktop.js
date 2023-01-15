@@ -1,4 +1,4 @@
-import HTMLElementExtended from '../HTMLElementExtended.js';
+import MDWPanelElement from '../panel/component.js';
 import './desktop.css';
 import dateUtil from '../../core/dateUtil.js';
 import util from '../../core/util.js';
@@ -12,10 +12,9 @@ import { checkMinMax, monthDaysTemplate } from './helper.js';
 // TODO keyboard
 
 
-customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktopElement extends HTMLElementExtended {
+customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktopElement extends MDWPanelElement {
   useTemplate = false;
 
-  #component;
   #dayClick_bound = this.#dayClick.bind(this);
   #nextMonth_bound = this.#nextMonth.bind(this);
   #previousMonth_bound = this.#previousMonth.bind(this);
@@ -33,7 +32,12 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktopEleme
   constructor() {
     super();
 
-    this.#component = document.querySelector(`#${this.getAttribute('mdw-date-picker-id')}`);
+    this.animation = 'scale';
+    this.backdrop = false;
+    this.clickOutsideClose = true;
+    this.target = this.parentElement.control;
+
+    this.addClickOutsideCloseIgnore(this.parentElement.control);
   }
 
   afterRender() {
@@ -50,10 +54,11 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktopEleme
     this.querySelector('.mdw-clear').addEventListener('click', this.#clear_bound);
     this.querySelector('.mdw-ok').addEventListener('click', this.#close_bound);
 
-    this.#panel.addEventListener('open', this.#onShow_bound);
+    this.addEventListener('open', this.#onShow_bound);
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     this.querySelector('.mdw-month-days-container').removeEventListener('click', this.#dayClick_bound);
     this.querySelector('.mdw-month-next').removeEventListener('click', this.#nextMonth_bound);
     this.querySelector('.mdw-month-previous').removeEventListener('click', this.#previousMonth_bound);
@@ -67,42 +72,38 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktopEleme
     this.querySelector('.mdw-clear').removeEventListener('click', this.#clear_bound);
     this.querySelector('.mdw-ok').removeEventListener('click', this.#close_bound);
 
-    this.#panel.removeEventListener('open', this.#onShow_bound);
+    this.removeEventListener('open', this.#onShow_bound);
   }
   
 
   get #value() {
-    return this.#component.value;
+    return this.parentElement.value;
   }
   set #value(value) {
-    this.#component.value = value;
-  }
-
-  get #panel() {
-    return this.#component.panel;
+    this.parentElement.value = value;
   }
 
   get #displayDate() {
-    return this.#component.displayDate;
+    return this.parentElement.displayDate;
   }
   set #displayDate(value) {
-    this.#component.displayDate = value;
+    this.parentElement.displayDate = value;
   }
 
   get #initialValue() {
-    return this.#component.initialValue;
+    return this.parentElement.initialValue;
   }
 
   set #valueDate(value) {
-    this.#component.valueDate = value;
+    this.parentElement.valueDate = value;
   }
 
   get #minDate() {
-    return this.#component.minDate;
+    return this.parentElement.minDate;
   }
 
   get #maxDate() {
-    return this.#component.maxDate;
+    return this.parentElement.maxDate;
   }
 
   template() {
@@ -334,12 +335,12 @@ customElements.define('mdw-date-picker-desktop', class MDWDatePickerDesktopEleme
   }
 
   #close() {
-    this.#component.close();
+    this.close();
   }
 
   #cancel() {
     this.#value = this.#initialValue;
-    this.#component.close();
+    this.close();
   }
 
   #clear() {

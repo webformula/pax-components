@@ -1,6 +1,5 @@
 import HTMLElementExtended from '../HTMLElementExtended.js';
 import dateUtil from '../../core/dateUtil.js';
-import Panel from '../panel/service.js';
 import device from '../../core/device.js';
 import util from '../../core/util.js';
 
@@ -21,10 +20,10 @@ customElements.define('mdw-date-picker', class MDWDatePickerElement extends HTML
   #input;
   #displayDate = '';
   #initialValue = '';
-  #panel;
   #onControlFocus_bound = this.#onControlFocus.bind(this);
   #onControlClick_bound = this.#onControlClick.bind(this);
   #onShow_bound = this.#onShow.bind(this);
+  #onClose_bound = this.#onClose.bind(this);
 
   constructor() {
     super();
@@ -36,7 +35,6 @@ customElements.define('mdw-date-picker', class MDWDatePickerElement extends HTML
     this.#control.classList.add('mdw-has-date-picker');
     this.#displayDate = dateUtil.parse(this.value ? this.value : dateUtil.today());
     this.#initialValue = this.value;
-    this.#createPanel();
   }
 
   connectedCallback() {
@@ -45,8 +43,11 @@ customElements.define('mdw-date-picker', class MDWDatePickerElement extends HTML
     // on mobile to prevent the default browser control we disable click events on the input, so no focus
     if (device.isMobile) this.#control.addEventListener('click', this.#onControlClick_bound);
     // else this.#control.querySelector('input').addEventListener('input', this.#onInput_bound);
+  }
 
-    this.#panel.element.addEventListener('open', this.#onShow_bound);
+  afterRender() {
+    this.firstChild.addEventListener('open', this.#onShow_bound);
+    this.firstChild.addEventListener('close', this.#onClose_bound);
   }
 
   disconnectedCallback() {
@@ -54,8 +55,8 @@ customElements.define('mdw-date-picker', class MDWDatePickerElement extends HTML
     this.#control.removeEventListener('click', this.#onControlClick_bound);
     // this.#control.querySelector('input').removeEventListener('input', this.#onInput_bound);
 
-    this.#panel.element.removeEventListener('open', this.#onShow_bound);
-    this.#panel.remove();
+    this.firstChild.removeEventListener('open', this.#onShow_bound);
+    this.firstChild.removeEventListener('close', this.#onClose_bound);
   }
 
   get value() {
@@ -69,10 +70,6 @@ customElements.define('mdw-date-picker', class MDWDatePickerElement extends HTML
   }
   get max() {
     return this.#input.max;
-  }
-
-  get panel() {
-    return this.#panel.element;
   }
 
   get valueDate() {
@@ -104,43 +101,45 @@ customElements.define('mdw-date-picker', class MDWDatePickerElement extends HTML
     return dateUtil.parse(this.#input.max);
   }
 
+  get control() {
+    return this.#control;
+  }
+
+  show() {
+    this.firstChild.show();
+  }
+
   close() {
-    this.#panel.close();
+    this.firstChild.close();
   }
 
 
   #onControlFocus() {
-    this.#panel.show();
+    this.firstChild.show();
   }
 
   #onControlClick() {
-    this.#panel.show();
+    this.firstChild.show();
   }
 
   #onShow() {
+    if (device.isMobile) this.#control.removeEventListener('click', this.#onControlClick_bound);
+    else this.#control.querySelector('input').removeEventListener('focus', this.#onControlFocus_bound);
+
     this.#displayDate = dateUtil.parse(this.value ? this.value : dateUtil.today());
     this.#initialValue = this.value;
   }
 
-  #createPanel() {
-    this.#panel = new Panel();
-    this.#panel.template = this.#template();
-    this.#panel.addClickOutsideCloseIgnore(this.#control);
-
-    if (device.isMobile) {
-      this.#panel.backdrop = true;
-      this.#panel.clickOutsideClose = false;
-    } else {
-      this.#panel.animation = 'scale';
-      this.#panel.backdrop = false;
-      this.#panel.clickOutsideClose = true;
-      this.#panel.target = this.#control;
-    }
-
+  #onClose() {
+    setTimeout(() => {
+      if (device.isMobile) this.#control.addEventListener('click', this.#onControlClick_bound);
+      else this.#control.querySelector('input').addEventListener('focus', this.#onControlFocus_bound);
+    });
   }
 
-  #template() {
-    if (device.isMobile) return `<mdw-date-picker-mobile mdw-date-picker-id="${this.#id}"></mdw-date-picker-mobile>`;
+  template() {
+    const fullscreenMobile = this.classList.contains('mdw-fullscreen-mobile');
+    if (device.isMobile) return `<mdw-date-picker-mobile mdw-date-picker-id="${this.#id}" ${fullscreenMobile ? 'class="fullscreen"' : ''}></mdw-date-picker-mobile>`;
     else return `<mdw-date-picker-desktop mdw-date-picker-id="${this.#id}"></mdw-date-picker-desktop>`;
   }
 });

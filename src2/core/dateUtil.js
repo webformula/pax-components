@@ -198,7 +198,7 @@ const mdwDate = new class MDWDate {
     return [...new Array(range)].map((_, i) => startYear + i);
   }
 
-  getMonthDays(date, { fillNextMonth = false, fillPreviousMonth = true, minDate, maxDate }) {
+  getMonthDays(date, { fillNextMonth = false, fillPreviousMonth = true, minDate, maxDate, extraRow = true }) {
     if (minDate && !this.isValid(minDate)) minDate = undefined;
     if (maxDate && !this.isValid(maxDate)) maxDate = undefined;
 
@@ -211,8 +211,8 @@ const mdwDate = new class MDWDate {
     let currentDate = this.setDateByParts(date, { day: 1 });
     currentDate = this.addToDateByParts(currentDate, { day: -firstDay });
 
-
-    const monthDays = [...Array(6 * 7)].map((_, i) => {
+    const count = extraRow === false ? 5 * 7 : 6 * 7;
+    const monthDays = [...Array(count)].map((_, i) => {
       const date = currentDate;
       const parts = this.getParts(date);
 
