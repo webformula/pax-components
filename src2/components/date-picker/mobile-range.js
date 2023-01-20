@@ -7,23 +7,23 @@ import editIconSVGRaw from '../../svg-icons/edit_FILL1_wght400_GRAD0_opsz24.svg'
 import { monthDaysRangeTemplate } from './helper.js';
 
 
-// TODO adjust for when end is selected before start
-// TODO add hover range selection
-// TODO back button
-// TODO date display range
-// TODO edit input
+// TODO input min max
+// TODO figure out scroll range
 
 customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMobileElement extends MDWPanelElement {
   useTemplate = false;
 
   #showInputView_bound = this.#showInputView.bind(this);
-  #onInput_bound = util.debounce(this.#onInput, 100).bind(this);
+  #onInputStart_bound = util.debounce(this.#onInputStart, 100).bind(this);
+  #onInputEnd_bound = util.debounce(this.#onInputEnd, 100).bind(this);
   #cancel_bound = this.#cancel.bind(this);
   #ok_bound = this.#ok.bind(this);
   #dayClick_bound = this.#dayClick.bind(this);
   #onShow_bound = this.#onShow.bind(this);
   #onClose_bound = this.#onClose.bind(this);
   #onScroll_throttle = util.rafThrottle(this.#onScroll.bind(this));
+  #selectedDateA;
+  #selectedDateB;
 
   constructor() {
     super();
@@ -35,8 +35,9 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
   }
 
   afterRender() {
-    // this.querySelector('.mdw-edit').addEventListener('click', this.#showInputView_bound);
+    this.querySelector('.mdw-edit').addEventListener('click', this.#showInputView_bound);
     this.querySelector('.mdw-cancel').addEventListener('click', this.#cancel_bound);
+    this.querySelector('.mdw-close').addEventListener('click', this.#cancel_bound);
     this.querySelector('.mdw-ok').addEventListener('click', this.#ok_bound);
     this.querySelector('.mdw-months-container').addEventListener('click', this.#dayClick_bound);
 
@@ -52,6 +53,8 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
     this.querySelector('.mdw-months-container').removeEventListener('scroll', this.#onScroll_throttle);
     this.removeEventListener('close', this.#onClose_bound);
     this.removeEventListener('open', this.#onShow_bound);
+    this.querySelector('input.start').removeEventListener('input', this.#onInputStart_bound);
+    this.querySelector('input.end').removeEventListener('input', this.#onInputEnd_bound);
   }
 
   get #value() {
@@ -122,13 +125,16 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
 
   template() {
     return /*html*/`
+      <div class="mdw-header-controls">
+        <div class="mdw-close mdw-icon-svg">${closeIconSVGRaw}</div>
+      </div>
+      
       <div class="mdw-header">
-        <div class="mdw-header-controls">
-          <div class="mdw-close mdw-icon-svg">${closeIconSVGRaw}</div>
-        </div>
         <div class="mdw-supporting-text">${this.parentElement.label}</div>
         <div class="mdw-display-date-container">
-          <div class="mdw-display-date-text">${dateUtil.format(this.#displayDateStart, 'ddd, MMM DD')}</div>
+          <div class="mdw-display-date-text start">${dateUtil.format(this.#displayDateStart, 'MMM DD')}</div>
+          <span class="mdw-date-range-dash"></span>
+          <div class="mdw-display-date-text end">${dateUtil.format(this.#displayDateEnd, 'MMM DD')}</div>
           <div class="mdw-edit mdw-icon-svg">${editIconSVGRaw}</div>
         </div>
 
@@ -147,6 +153,17 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
         <div class="mdw-month" mdw-date="${this.#handleMonthDate(this.#displayDateStart, 1) }">${this.#monthDaysTemplate(dateUtil.addToDateByParts(this.#displayDateStart, { month: 1 }))}</div>
         <div class="mdw-month" mdw-date="${this.#handleMonthDate(this.#displayDateStart, 2) }">${this.#monthDaysTemplate(dateUtil.addToDateByParts(this.#displayDateStart, { month: 2 }))}</div>
         ${[...new Array(34)].map((_, i) => `<div class="mdw-month-placeholder"  mdw-date="${dateUtil.format(dateUtil.addToDateByParts(this.#displayDateStart, { month: i + 3 }), 'YYYY-MM-DD')}"></div>`).join('\n')}
+      </div>
+
+      <div class="mdw-input-container">
+        <mdw-textfield>
+          <input class="start" type="date">
+          <label>Start date</label>
+        </mdw-textfield>
+        <mdw-textfield>
+          <input class="end" type="date">
+          <label>End date</label>
+        </mdw-textfield>
       </div>
 
       <div class="mdw-actions-container">
@@ -170,52 +187,59 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
   }
 
   #showInputView() {
-    this.classList.remove('mdw-year-view');
-
     if (this.classList.contains('mdw-input-view')) {
-      this.querySelector('input').removeEventListener('input', this.#onInput_bound);
+      this.querySelector('input.start').removeEventListener('input', this.#onInputStart_bound);
+      this.querySelector('input.end').removeEventListener('input', this.#onInputEnd_bound);
       this.classList.remove('mdw-input-view');
     } else {
       this.classList.add('mdw-input-view');
-      this.classList.remove('mdw-years-view');
-      this.querySelector('input').addEventListener('click', e => e.preventDefault());
-      this.querySelector('input').value = dateUtil.format(this.#displayDateStart, 'YYYY-MM-DD');
-      this.querySelector('input').addEventListener('input', this.#onInput_bound);
+      this.querySelector('input.start').addEventListener('click', e => e.preventDefault());
+      this.querySelector('input.start').value = dateUtil.format(this.#displayDateStart, 'YYYY-MM-DD');
+      this.querySelector('input.start').addEventListener('input', this.#onInputStart_bound);
+      this.querySelector('input.end').addEventListener('click', e => e.preventDefault());
+      this.querySelector('input.end').value = dateUtil.format(this.#displayDateEnd, 'YYYY-MM-DD');
+      this.querySelector('input.end').addEventListener('input', this.#onInputEnd_bound);
     }
   }
 
-  #onInput(event) {
-    // this.#value = event.target.value;
-    // this.#updateDisplayDate(dateUtil.parse(event.target.value));
+  #onInputStart(event) {
+    this.#valueStart = event.target.value;
   }
 
+  #onInputEnd(event) {
+    this.#valueEnd = event.target.value;
+  }
 
   #updateDisplayDate(date) {
-    const selectedStart = this.querySelector('.mdw-day.mdw-interactive[selected][start]');
-    const selectedEnd = this.querySelector('.mdw-day.mdw-interactive[selected][end]');
-    const newSelected = this.querySelector(`.mdw-day[mdw-date="${dateUtil.format(date, 'YYYY-MM-DD')}"]`);
-    newSelected.setAttribute('selected', '');
+    if (this.#selectedDateB) {
+      this.#selectedDateA = date;
+      this.#selectedDateB = undefined;
 
-    // set start date
-    if (selectedEnd) {
-      this.#displayDateStart = date;
-      this.#displayDateEnd = ''
-      this.#valueDateStart = date;
+      this.#valueDateStart = '';
       this.#valueDateEnd = '';
-      if (selectedStart) {
-        selectedStart.removeAttribute('start');
-        selectedStart.removeAttribute('selected');
-      }
-      selectedEnd.removeAttribute('end');
-      selectedEnd.removeAttribute('selected');
-      newSelected.setAttribute('start', '');
 
-    // set end date
+      const selectedA = this.querySelector(`.mdw-day[mdw-date="${dateUtil.format(date, 'YYYY-MM-DD')}"]`);
+      if (selectedA) selectedA.setAttribute('selected', '');
     } else {
-      this.#displayDateEnd = date;
-      this.#valueDateEnd = date;
-      this.#render();
+      this.#selectedDateB = date;
+      const selectedA = this.querySelector('.mdw-day.mdw-interactive[selected]');
+      const selectedADate = dateUtil.parse(selectedA.getAttribute('mdw-date'));
+      const selectedB = this.querySelector(`.mdw-day[mdw-date="${dateUtil.format(date, 'YYYY-MM-DD')}"]`);
+      selectedB.setAttribute('selected', '');
+      if (selectedADate.getTime() > date.getTime()) {
+        selectedA.setAttribute('start', '');
+        selectedB.setAttribute('end', '');
+        this.#valueDateStart = date;
+        this.#valueDateEnd = selectedADate;
+      } else {
+        selectedB.setAttribute('start', '');
+        selectedA.setAttribute('end', '');
+        this.#valueDateStart = selectedADate;
+        this.#valueDateEnd = date;
+      }
     }
+
+    this.#render();
   }
 
   #render(clearSelected = true) {
@@ -230,12 +254,19 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
         selectedEnd.removeAttribute('selected');
         selectedEnd.removeAttribute('end');
       }
+
+      this.querySelector('.mdw-display-date-text.start').innerText = '';
+      this.querySelector('.mdw-display-date-text.end').innerText = '';
     }
 
     [...this.querySelectorAll('[in-selection-range]')].forEach(d => d.removeAttribute('in-selection-range'));
+
+    if (!dateUtil.isValid(this.#valueDateStart) || !dateUtil.isValid(this.#valueDateEnd)) return;
+
     const container = this.querySelector('.mdw-months-container');
     const template = document.createElement('template');
     const monthRange = dateUtil.getMonthRange(this.#valueDateStart, this.#valueDateEnd);
+    
     monthRange.forEach(monthDate => {
       const month = this.querySelector(`.mdw-month[mdw-date="${dateUtil.format(monthDate, 'YYYY-MM-DD')}"]`);
       template.innerHTML = `
@@ -243,6 +274,9 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
         `;
       container.replaceChild(template.content.cloneNode(true), month);
     });
+
+    this.querySelector('.mdw-display-date-text.start').innerText = dateUtil.format(this.#valueDateStart, 'MMM DD');
+    this.querySelector('.mdw-display-date-text.end').innerText = dateUtil.format(this.#valueDateEnd, 'MMM DD');
   }
 
   #cancel() {
@@ -262,12 +296,18 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
   }
 
   #onShow() {
+    this.classList.remove('mdw-input-view');
     const current = this.querySelector('.mdw-month.current');
     if (current) {
       current.scrollIntoView({ block: 'center' });
       this.addEventListener('close', this.#onClose_bound);
       this.querySelector('.mdw-months-container').addEventListener('scroll', this.#onScroll_throttle);
     }
+
+    const selectedStart = this.querySelector('.mdw-day.mdw-interactive[selected][start]');
+    if (selectedStart) this.#selectedDateA = dateUtil.parse(selectedStart.getAttribute('mdw-date'));
+    const selectedEnd = this.querySelector('.mdw-day.mdw-interactive[selected][start]');
+    if (selectedEnd) this.#selectedDateB = dateUtil.parse(selectedEnd.getAttribute('mdw-date'));
   }
 
   #onClose() {

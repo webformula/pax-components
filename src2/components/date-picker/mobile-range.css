@@ -20,13 +20,13 @@ mdw-date-picker-range-mobile .mdw-header {
   box-sizing: border-box;
 }
 
-mdw-date-picker-range-mobile .mdw-header .mdw-header-controls {
+mdw-date-picker-range-mobile .mdw-header-controls {
+  padding: 0 24px;
   display: flex;
   padding-top: 24px;
-  padding-bottom: 12px;
 }
 
-mdw-date-picker-range-mobile .mdw-header .mdw-header-controls .mdw-close > svg > path {
+mdw-date-picker-range-mobile .mdw-header-controls .mdw-close > svg > path {
   stroke: var(--mdw-on-surface-variant);
   stroke-width: 0.5px;
 }
@@ -64,6 +64,13 @@ mdw-date-picker-range-mobile .mdw-header .mdw-display-date-container .mdw-displa
   letter-spacing: var(--mdw-font-letter-spacing-large-headline);
   line-height: 40px;
   height: 40px;
+  color: var(--mdw-on-surface-variant);
+}
+
+mdw-date-picker-range-mobile .mdw-header .mdw-display-date-container .mdw-date-range-dash {
+  border-top: 2px solid var(--mdw-on-surface-variant);
+  width: 16px;
+  margin: 0 -42px;
 }
 
 mdw-date-picker-range-mobile .mdw-header .mdw-days-header {
@@ -373,6 +380,9 @@ mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day.mdw-out-of-
 mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected] {
   color: var(--mdw-on-primary);
   background-color: var(--mdw-surface-variant);
+}
+
+mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected][start] {
   border-radius: 50% 0 0 50%;
 }
 
@@ -479,21 +489,30 @@ mdw-date-picker-range-mobile .mdw-views-container .mdw-years-container .mdw-year
 /* --- input --- */
 
 
-mdw-date-picker-range-mobile .mdw-views-container .mdw-input-container {
+mdw-date-picker-range-mobile .mdw-input-container {
   position: absolute;
-  top: 16px;
+  top: 72px;
   left: 24px;
   right: 24px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 120ms;
+  display: flex;
+  justify-content: space-between;
 }
 
-mdw-date-picker-range-mobile.mdw-input-view .mdw-views-container .mdw-input-container {
+mdw-date-picker-range-mobile.mdw-input-view .mdw-input-container {
   opacity: 1;
   pointer-events: all;
 }
 
-mdw-date-picker-range-mobile .mdw-views-container .mdw-input-container mdw-textfield {
-  width: 100%;
+mdw-date-picker-range-mobile .mdw-input-container mdw-textfield {
+  width: 162px
+}
+
+mdw-date-picker-range-mobile.mdw-input-view .mdw-header,
+mdw-date-picker-range-mobile.mdw-input-view .mdw-divider,
+mdw-date-picker-range-mobile.mdw-input-view .mdw-months-container {
+  opacity: 0;
+  pointer-events: none;
 }

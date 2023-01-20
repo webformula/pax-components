@@ -44,6 +44,8 @@ const mdwDate = new class MDWDate {
   }
 
   parse(value) {
+    if (value === undefined) return undefined;
+
     // this will return an invalid date abject
     if (['null', 'undefined', 'Invalid Date'].includes(value)) return new Date('');
 
@@ -124,6 +126,7 @@ const mdwDate = new class MDWDate {
   }
 
   isValid(date) {
+    if (date === undefined) return false;
     if (date.constructor.name !== 'Date') return false;
     return !isNaN(date.getTime());
   }
