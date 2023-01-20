@@ -57,13 +57,6 @@ customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMo
     this.querySelector('input.end').removeEventListener('input', this.#onInputEnd_bound);
   }
 
-  get #value() {
-    return this.parentElement.value;
-  }
-  set #value(value) {
-    this.parentElement.value = value;
-  }
-
   get #valueStart() {
     return this.parentElement.valueStart;
   }

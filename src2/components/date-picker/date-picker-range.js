@@ -2,6 +2,7 @@ import HTMLElementExtended from '../HTMLElementExtended.js';
 import dateUtil from '../../core/dateUtil.js';
 import device from '../../core/device.js';
 
+import './desktop-range.js';
 import './mobile-range.js';
 
 
@@ -213,6 +214,6 @@ customElements.define('mdw-date-picker-range', class MDWDatePickerRangeElement e
 
   template() {
     if (device.isMobile) return `<mdw-date-picker-range-mobile></mdw-date-picker-range-mobile>`;
-    // else return `<mdw-date-picker-desktop></mdw-date-picker-desktop>`;
+    else return `<mdw-date-picker-range-desktop></mdw-date-picker-range-desktop>`;
   }
 });
