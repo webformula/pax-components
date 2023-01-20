@@ -3,6 +3,8 @@ import './component.css';
 import util from '../../core/util.js';
 import errorIconSVGString from '../../svg-icons/error_FILL1_wght400_GRAD0_opsz24.svg';
 
+// TODO mask regex
+// TODO format regex
 
 const handleReportValidityScrollIntoView = util.debounce(input => {
   // check if already on screen
@@ -21,6 +23,12 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   #clear_bound = this.clear.bind(this);
   #originalSupportingText = this.querySelector('.mdw-supporting-text')?.innerText;
   #autocomplete;
+  #parser;
+  #mask;
+  #format;
+  #parseValue = '';
+  #inputInterceptor_bound = this.#inputInterceptor.bind(this);
+  #inputPasteInterceptor_bound = this.#inputPasteInterceptor.bind(this);
 
 
   constructor() {
@@ -59,13 +67,15 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   connectedCallback() {
+    if (this.#parser && this.#mask) this.#setupInterceptor();
+
     if (this.querySelector('.mdw-outlined-border-container + mdw-icon')) {
       this.classList.add('mdw-has-leading-icon');
     }
 
     setTimeout(() => {
       this.classList.remove('mdw-no-animation');
-    }, 100)
+    }, 100);
   }
 
   disconnectedCallback() {
@@ -80,11 +90,13 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   static get observedAttributes() {
-    return ['disabled'];
+    return ['disabled', 'parser', 'mask'];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
     if (name === 'disabled') this.disabled = newValue !== null;
+    if (name === 'parser') this.parser = newValue;
+    if (name === 'mask') this.mask = newValue;
   }
 
   get autocomplete() {
@@ -103,6 +115,42 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     const input = this.querySelector('input');
     input.blur();
     input.toggleAttribute('disabled', !!value);
+  }
+
+  get parser() {
+    if (!this.#parser) return '';
+    else return this.#regexToString(this.#parser);
+  }
+  set parser(value) {
+    if (!value) this.#parser = undefined;
+    else this.#parser = this.#stringToRegex(value);
+  }
+
+  get mask() {
+    if (!this.#mask) return '';
+    else return this.#regexToString(this.#mask);
+  }
+  set mask(value) {
+    if (!value) this.#mask = undefined;
+    else this.#mask = this.#stringToRegex(value);
+  }
+
+  get format() {
+    if (!this.#format) return '';
+    else return this.#regexToString(this.#format);
+  }
+  set format(value) {
+    if (!value) this.#format = undefined;
+    else this.#format = this.#stringToRegex(value);
+  }
+
+  // add regex slashes and begin and end operators (/^ $/)
+  #stringToRegex(value) {
+    return new RegExp(`^${value.replace(/^\//, '').replace(/^\^/, '').replace(/\$$/, '').replace(/\/$/, '')}$`);
+  }
+  // remove regex slashes and begin and end operators (/^ $/)
+  #regexToString(regex) {
+    return regex.replace(/^\/\^/, '').replace(/\$\/$/, '');
   }
 
   setCustomValidity(value = '') {
@@ -163,8 +211,75 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
       return valid;
     };
   }
+
+  #inputValueGetter() {
+    return this.#parseValue;
+  }
+
+  #inputValueSetter(value) {
+    // Handle masking
+    this.#parseValue = value;
+    return value.split('').map(() => '*').join('');
+  }
+
+  #navigationKeys = [
+    'Backspace',
+    'Delete',
+    'Shift',
+    'ArrowUp',
+    'ArrowDown',
+    'ArrowLeft',
+    'ArrowRight',
+    'Tab'
+  ];
+  #inputInterceptor(event) {
+    // TODO handle this on mozilla window.
+    // Meta does not work on windows key
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey    
+    if (event.metaKey) return;
+
+    let selectionStart = event.target.selectionStart;
+    if (!this.#navigationKeys.includes(event.key)) {
+      this.#parseValue += event.key;
+      event.target.value = this.#parseValue;
+      event.preventDefault();
+    } else if (event.key === 'Backspace' || event.key === 'Delete') {
+      selectionStart = selectionStart - 1 <= 0 ? 0 : selectionStart - 1;
+      const arr = this.#parseValue.split('');
+      arr.splice(selectionStart, 1);
+      event.target.value = arr.join('');
+      event.target.selectionStart = selectionStart;
+    }
+  }
+
+  #inputPasteInterceptor(event) {
+    event.preventDefault();
+
+    const paste = (event.clipboardData || window.clipboardData).getData('text');
+    const arr = this.#parseValue.split('');
+    const start = arr.slice(0, event.target.selectionStart).join('');
+    const end = arr.slice(event.target.selectionEnd).join('');
+    event.target.value = `${start}${paste}${end}`;
+  }
+
+  #setupInterceptor() {
+    const that = this;
+    const input = this.querySelector('input');
+    const inputDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    Object.defineProperty(input, 'value', {
+      get: function () {
+        return that.#inputValueGetter();
+      },
+      set: function (value) {
+        value = that.#inputValueSetter(value);
+        return inputDescriptor.set.call(this, value);
+      }
+    });
+    input.addEventListener('keydown', this.#inputInterceptor_bound);
+    input.addEventListener('paste', this.#inputPasteInterceptor_bound);
+  }
   
-  #onInput() {
+  #onInput(event) {
     const input = this.querySelector('input');
     this.#updateInputValidity(!input.checkValidity());
     this.#setAutocomplete();
