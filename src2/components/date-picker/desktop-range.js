@@ -33,6 +33,7 @@ customElements.define('mdw-date-picker-range-desktop', class MDWDatePickerRangeD
     this.clickOutsideClose = false;
     this.backdrop = false;
     this.animation = 'opacity';
+    this.target = this.parentElement.parentElement;
     this.addClickOutsideCloseIgnore(this.parentElement.control);
   }
 
