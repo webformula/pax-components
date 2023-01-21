@@ -26,9 +26,11 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   #parser;
   #mask;
   #format;
-  #parseValue = '';
-  #inputInterceptor_bound = this.#inputInterceptor.bind(this);
+  #parseInputValue = '';
+  #displayValue = '';
+  #inputKeydownInterceptor_bound = this.#inputKeydownInterceptor.bind(this);
   #inputPasteInterceptor_bound = this.#inputPasteInterceptor.bind(this);
+  #replaceStringGroupRegex = /(\$\d)/;
 
 
   constructor() {
@@ -87,16 +89,20 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
     const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
     if (inputClearIcon) inputClearIcon.removeEventListener('click', this.#clear_bound);
+
+    input.removeEventListener('keydown', this.#inputKeydownInterceptor_bound);
+    input.removeEventListener('paste', this.#inputPasteInterceptor_bound);
   }
 
   static get observedAttributes() {
-    return ['disabled', 'parser', 'mask'];
+    return ['disabled', 'parser', 'mask', 'format'];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
     if (name === 'disabled') this.disabled = newValue !== null;
     if (name === 'parser') this.parser = newValue;
     if (name === 'mask') this.mask = newValue;
+    if (name === 'format') this.format = newValue;
   }
 
   get autocomplete() {
@@ -127,30 +133,32 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   get mask() {
-    if (!this.#mask) return '';
-    else return this.#regexToString(this.#mask);
+    return this.#mask;
   }
   set mask(value) {
-    if (!value) this.#mask = undefined;
-    else this.#mask = this.#stringToRegex(value);
+    this.#mask = value;
   }
 
   get format() {
-    if (!this.#format) return '';
-    else return this.#regexToString(this.#format);
+    return this.#format;
   }
   set format(value) {
-    if (!value) this.#format = undefined;
-    else this.#format = this.#stringToRegex(value);
+    this.#format = value;
+  }
+
+  get displayValue() {
+    return this.#displayValue;
   }
 
   // add regex slashes and begin and end operators (/^ $/)
   #stringToRegex(value) {
-    return new RegExp(`^${value.replace(/^\//, '').replace(/^\^/, '').replace(/\$$/, '').replace(/\/$/, '')}$`);
+    return new RegExp(`${value.replace(/^\//, '').replace(/\/$/, '')}`);
+    // return new RegExp(`^${value.replace(/^\//, '').replace(/^\^/, '').replace(/\$$/, '').replace(/\/$/, '')}$`);
   }
   // remove regex slashes and begin and end operators (/^ $/)
   #regexToString(regex) {
-    return regex.replace(/^\/\^/, '').replace(/\$\/$/, '');
+    return regex.replace(/^\//, '').replace(/\/$/, '');
+    // return regex.replace(/^\/\^/, '').replace(/\$\/$/, '');
   }
 
   setCustomValidity(value = '') {
@@ -213,13 +221,88 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   #inputValueGetter() {
-    return this.#parseValue;
+    return this.#parseInputValue;
+  }
+
+  #splitFormat() {
+    const formatSplit = this.#format.split(this.#replaceStringGroupRegex)
+    // for some reason splitting with regex will inset spaces. This will remove them if not already existing
+    if (this.format[0] !== formatSplit[0]) formatSplit.splice(0, 1);
+    if (this.format[this.format.length - 1] !== formatSplit[formatSplit.length - 1]) formatSplit.splice(-1);
+    return formatSplit;
+  }
+
+  #checkIfValueIsMask(value) {
+    if (!this.#mask) return false;
+    if (value.length < this.#mask.length) return false;
+    
+    // should contains at least one of each char
+    const maskUniqueCharacters = new Set(this.#mask.replace(/(\$\d)/g, ''));
+    if ([...maskUniqueCharacters.values()].filter(v => !value.includes(v)).length > 0) return false;
+
+    let matches = true;
+    this.#splitFormat()
+      .map(v => ({
+        isMatcher: v.match(this.#replaceStringGroupRegex) !== null,
+        item: v
+      }))
+      .forEach((v, i, arr) => {
+          if (v.isMatcher) {
+            if (i < arr.length - 1) {
+              const index = value.indexOf(arr[i + 1].item);
+              if (index) {
+                v.match = value.slice(0, index);
+                value = value.slice(index);
+              }
+            } else {
+              v.match = v.item;
+            }
+          } else if (value.indexOf(v.item) === 0) {
+            v.match = v.item;
+            value = value.replace(v.item, '');
+          } else {
+            matches = false;
+          }
+        });
+
+    return matches;
   }
 
   #inputValueSetter(value) {
-    // Handle masking
-    this.#parseValue = value;
-    return value.split('').map(() => '*').join('');
+    const match = value.match(this.#parser);
+
+    // the mask might not be compatible with the parser
+    // In the case when the input is prefilled / server filled
+    //   we want to be able to show a masked value
+    // this will run some checks to see if it passes
+    if (!match && this.#checkIfValueIsMask(value)) {
+      this.#parseInputValue = value;
+      return value;
+    }
+
+    // remove any extra input or clear invalid
+    value = match ? match[0] : '';
+
+    this.#parseInputValue = value;
+    let wall = false;
+    // replace parse and remove non replaced items
+    const formatValues = this.#splitFormat().map(v => ({
+      isMatcher: v.match(this.#replaceStringGroupRegex) !== null,
+      value: value.replace(this.#parser, v)
+    })).filter(({ value }) => {
+      if (value  === '') wall = true;
+      return !wall;
+    });
+    let combined = formatValues.map(({ value }) => value).join('');
+    // trim off static parts at end if not typed in
+    if (formatValues[formatValues.length - 1]?.isMatcher === false && combined.length > value.length) {
+      combined = formatValues.slice(0, -1).map(({ value }) => value).join('');
+    }
+
+    if (this.#mask) this.#displayValue = combined.replace(this.#parser, this.#mask).slice(0, combined.length);
+    else this.#displayValue = combined;
+
+    return this.#displayValue;
   }
 
   #navigationKeys = [
@@ -232,23 +315,35 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     'ArrowRight',
     'Tab'
   ];
-  #inputInterceptor(event) {
+  #inputKeydownInterceptor(event) {
     // TODO handle this on mozilla window.
     // Meta does not work on windows key
     // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey    
     if (event.metaKey) return;
 
-    let selectionStart = event.target.selectionStart;
+    // do not do anything on enter
+    if (event.key === 'Enter') return;
+
     if (!this.#navigationKeys.includes(event.key)) {
-      this.#parseValue += event.key;
-      event.target.value = this.#parseValue;
+      this.#parseInputValue += event.key;
+      event.target.value = this.#parseInputValue;
       event.preventDefault();
     } else if (event.key === 'Backspace' || event.key === 'Delete') {
-      selectionStart = selectionStart - 1 <= 0 ? 0 : selectionStart - 1;
-      const arr = this.#parseValue.split('');
-      arr.splice(selectionStart, 1);
-      event.target.value = arr.join('');
+      const selectionStart = event.target.selectionStart - 1 < 0 ? 0 : event.target.selectionStart - 1;
+      let index = 0;
+      this.#displayValue.split('').find((c, i) => {
+        if (i === selectionStart) {
+          if (c !== this.#parseInputValue[index]) index = -1;
+          return true;
+        }
+        if (c === this.#parseInputValue[index]) index += 1;
+        return false;
+      });
+
+      event.target.value = index === -1 ? this.#parseInputValue : `${this.#parseInputValue.slice(0, index)}${this.#parseInputValue.slice(index + 1)}`;
+      event.preventDefault();
       event.target.selectionStart = selectionStart;
+      event.target.selectionEnd = selectionStart;
     }
   }
 
@@ -256,7 +351,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     event.preventDefault();
 
     const paste = (event.clipboardData || window.clipboardData).getData('text');
-    const arr = this.#parseValue.split('');
+    const arr = this.#parseInputValue.split('');
     const start = arr.slice(0, event.target.selectionStart).join('');
     const end = arr.slice(event.target.selectionEnd).join('');
     event.target.value = `${start}${paste}${end}`;
@@ -275,11 +370,11 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
         return inputDescriptor.set.call(this, value);
       }
     });
-    input.addEventListener('keydown', this.#inputInterceptor_bound);
+    input.addEventListener('keydown', this.#inputKeydownInterceptor_bound);
     input.addEventListener('paste', this.#inputPasteInterceptor_bound);
   }
   
-  #onInput(event) {
+  #onInput() {
     const input = this.querySelector('input');
     this.#updateInputValidity(!input.checkValidity());
     this.#setAutocomplete();

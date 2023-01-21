@@ -19,8 +19,7 @@
       <mdw-icon class="mdw-outlined">person</mdw-icon>
     </mdw-textfield>
 
-
-    <mdw-textfield parser="(?<area>[0-9]{3})[- ]?(?<group>[0-9]{2})[- ]?(?<serial>[0-9]{4})" mask="xxx-xx-$3">
+    <mdw-textfield parser="^(?<one>[0-9]{1,3})[- ]?([0-9]{1,2})?[- ]?([0-9]{1,4})?" mask="xxx-xx-$3" format="$1-$2-$3">
       <input>
       <label>Label</label>
       <div class="mdw-supporting-text">SSN</div>
