@@ -134,6 +134,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
   set mask(value) {
     this.#mask = value;
+    this.#buildMask(value);
   }
 
   get format() {
@@ -285,6 +286,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
   #parser;
   #mask;
+  #maskParts;
   #format;
   #formatParts;
   #formatSplitter;
@@ -295,6 +297,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   #replaceStringGroupRegex = /(\$[\d\&])/;
   #pattern;
   #patternRegex;
+  #patternValidityIsBlocked = false;
   #navigationKeys = [
     'Backspace',
     'Delete',
@@ -332,7 +335,13 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
   #patternInputValueSetter(value) {
     const parsed = value.match(this.#parser);
+    if (!parsed && this.#checkIfValueIsMask(value)) {
+      this.#stopPatternValidity(true);
+    } else {
+      this.#stopPatternValidity(false);
+    }
     if (!parsed || !this.#format) {
+      if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
       this.#displayValue = value;
       return value;
     }
@@ -352,16 +361,34 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
       return v;
     }).join('');
     this.#displayValue = `${formatted}${leftOvers}`;
+    if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
     return this.#displayValue;
+  }
+
+  // used for masking
+  #stopPatternValidity(hold = true) {
+    if (hold === this.patternValidityIsBlocked) return;
+    this.patternValidityIsBlocked = hold;
+
+    if (hold) this.querySelector('input').removeAttribute('pattern');
+    else this.querySelector('input').setAttribute('pattern', this.#pattern);
   }
 
   #buildFormat(value) {
     const formatParts = value.split(this.#replaceStringGroupRegex);
     // for some reason splitting with regex will inset spaces. This will remove them if not already existing
-    if (value[0] !== formatParts[0]) formatParts.splice(0, 1);
+    if (value[0] === '' && value[0] !== formatParts[0]) formatParts.splice(0, 1);
     if (value[value.length - 1] !== formatParts[formatParts.length - 1]) formatParts.splice(-1);
     this.#formatParts = formatParts;
     this.#formatSplitter = formatParts.filter(v => v.match(this.#replaceStringGroupRegex)).join('_:_');
+  }
+
+  #buildMask(value) {
+    const maskParts = value.split(this.#replaceStringGroupRegex);
+    // for some reason splitting with regex will inset spaces. This will remove them if not already existing
+    if (maskParts[0] === '' && value[0] !== maskParts[0]) maskParts.splice(0, 1);
+    if (value[value.length - 1] !== maskParts[maskParts.length - 1]) maskParts.splice(-1);
+    this.#maskParts = maskParts;
   }
 
   // add regex slashes and begin and end operators (/^ $/)
@@ -442,41 +469,16 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     if (previousPatternMismatch !== input.validity.patternMismatch) input.reportValidity();
   }
 
-  // #checkIfValueIsMask(value) {
-  //   if (!this.#mask) return false;
-  //   if (value.length < this.#mask.length) return false;
+  #checkIfValueIsMask(value) {
+    if (!this.#mask) return false;
+    if (value.length < this.#mask.length) return false;
 
-  //   // should contains at least one of each char
-  //   const maskUniqueCharacters = new Set(this.#mask.replace(/(\$\d)/g, ''));
-  //   if ([...maskUniqueCharacters.values()].filter(v => !value.includes(v)).length > 0) return false;
-
-  //   let matches = true;
-  //   this.#splitFormat()
-  //     .map(v => ({
-  //       isMatcher: v.match(this.#replaceStringGroupRegex) !== null,
-  //       item: v
-  //     }))
-  //     .forEach((v, i, arr) => {
-  //       if (v.isMatcher) {
-  //         if (i < arr.length - 1) {
-  //           const index = value.indexOf(arr[i + 1].item);
-  //           if (index) {
-  //             v.match = value.slice(0, index);
-  //             value = value.slice(index);
-  //           }
-  //         } else {
-  //           v.match = v.item;
-  //         }
-  //       } else if (value.indexOf(v.item) === 0) {
-  //         v.match = v.item;
-  //         value = value.replace(v.item, '');
-  //       } else {
-  //         matches = false;
-  //       }
-  //     });
-
-  //   return matches;
-  // }
+    // check if all non pattern groups exist in value
+    const nonGroupMatches = this.#maskParts
+      .filter(v => v.match(this.#replaceStringGroupRegex) === null)
+      .filter(v => !value.includes(v)).length;
+    return nonGroupMatches === 0;
+  }
 }
 
 
