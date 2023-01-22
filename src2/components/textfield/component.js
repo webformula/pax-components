@@ -20,17 +20,10 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   #unsetNotchWidth_bound = this.#unsetNotchWidth.bind(this);
   #onInvalid_bound = this.#onInvalid.bind(this);
   #onInput_bound = this.#onInput.bind(this);
+  #onBlur_bound = this.#onBlur.bind(this);
   #clear_bound = this.clear.bind(this);
   #originalSupportingText = this.querySelector('.mdw-supporting-text')?.innerText;
   #autocomplete;
-  #parser;
-  #mask;
-  #format;
-  #parseInputValue = '';
-  #displayValue = '';
-  #inputKeydownInterceptor_bound = this.#inputKeydownInterceptor.bind(this);
-  #inputPasteInterceptor_bound = this.#inputPasteInterceptor.bind(this);
-  #replaceStringGroupRegex = /(\$\d)/;
 
 
   constructor() {
@@ -63,13 +56,16 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
     input.addEventListener('invalid', this.#onInvalid_bound);
     input.addEventListener('input', this.#onInput_bound);
+    input.addEventListener('blur', this.#onBlur_bound);
 
     const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
     if (inputClearIcon) inputClearIcon.addEventListener('click', this.#clear_bound);
   }
 
   connectedCallback() {
-    if (this.#parser && this.#mask) this.#setupInterceptor();
+    const inputPattern = this.querySelector('input').pattern;
+    if (inputPattern) this.pattern = inputPattern;
+    this.#setupPattern();
 
     if (this.querySelector('.mdw-outlined-border-container + mdw-icon')) {
       this.classList.add('mdw-has-leading-icon');
@@ -86,21 +82,23 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     input.removeEventListener('blur', this.#unsetNotchWidth_bound);
     input.removeEventListener('invalid', this.#onInvalid_bound);
     input.removeEventListener('input', this.#onInput_bound);
+    input.removeEventListener('blur', this.#onBlur_bound);
 
     const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
     if (inputClearIcon) inputClearIcon.removeEventListener('click', this.#clear_bound);
 
-    input.removeEventListener('keydown', this.#inputKeydownInterceptor_bound);
-    input.removeEventListener('paste', this.#inputPasteInterceptor_bound);
+    input.removeEventListener('keydown', this.#patternInputKeydown_bound);
+    input.removeEventListener('paste', this.#patternInputPaste_bound);
   }
 
   static get observedAttributes() {
-    return ['disabled', 'parser', 'mask', 'format'];
+    return ['disabled', 'pattern',  'mask', 'format'];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
     if (name === 'disabled') this.disabled = newValue !== null;
     if (name === 'parser') this.parser = newValue;
+    if (name === 'pattern') this.pattern = newValue;
     if (name === 'mask') this.mask = newValue;
     if (name === 'format') this.format = newValue;
   }
@@ -123,13 +121,12 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     input.toggleAttribute('disabled', !!value);
   }
 
-  get parser() {
-    if (!this.#parser) return '';
-    else return this.#regexToString(this.#parser);
+  get pattern() {
+    return this.#pattern;
   }
-  set parser(value) {
-    if (!value) this.#parser = undefined;
-    else this.#parser = this.#stringToRegex(value);
+  set pattern(value) {
+    this.#pattern = value;
+    this.#setPattern(value);
   }
 
   get mask() {
@@ -144,21 +141,11 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
   set format(value) {
     this.#format = value;
+    this.#buildFormat(value);
   }
 
   get displayValue() {
     return this.#displayValue;
-  }
-
-  // add regex slashes and begin and end operators (/^ $/)
-  #stringToRegex(value) {
-    return new RegExp(`${value.replace(/^\//, '').replace(/\/$/, '')}`);
-    // return new RegExp(`^${value.replace(/^\//, '').replace(/^\^/, '').replace(/\$$/, '').replace(/\/$/, '')}$`);
-  }
-  // remove regex slashes and begin and end operators (/^ $/)
-  #regexToString(regex) {
-    return regex.replace(/^\//, '').replace(/\/$/, '');
-    // return regex.replace(/^\/\^/, '').replace(/\$\/$/, '');
   }
 
   setCustomValidity(value = '') {
@@ -218,160 +205,6 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
       this.#updateInputValidity(!valid);
       return valid;
     };
-  }
-
-  #inputValueGetter() {
-    return this.#parseInputValue;
-  }
-
-  #splitFormat() {
-    const formatSplit = this.#format.split(this.#replaceStringGroupRegex)
-    // for some reason splitting with regex will inset spaces. This will remove them if not already existing
-    if (this.format[0] !== formatSplit[0]) formatSplit.splice(0, 1);
-    if (this.format[this.format.length - 1] !== formatSplit[formatSplit.length - 1]) formatSplit.splice(-1);
-    return formatSplit;
-  }
-
-  #checkIfValueIsMask(value) {
-    if (!this.#mask) return false;
-    if (value.length < this.#mask.length) return false;
-    
-    // should contains at least one of each char
-    const maskUniqueCharacters = new Set(this.#mask.replace(/(\$\d)/g, ''));
-    if ([...maskUniqueCharacters.values()].filter(v => !value.includes(v)).length > 0) return false;
-
-    let matches = true;
-    this.#splitFormat()
-      .map(v => ({
-        isMatcher: v.match(this.#replaceStringGroupRegex) !== null,
-        item: v
-      }))
-      .forEach((v, i, arr) => {
-          if (v.isMatcher) {
-            if (i < arr.length - 1) {
-              const index = value.indexOf(arr[i + 1].item);
-              if (index) {
-                v.match = value.slice(0, index);
-                value = value.slice(index);
-              }
-            } else {
-              v.match = v.item;
-            }
-          } else if (value.indexOf(v.item) === 0) {
-            v.match = v.item;
-            value = value.replace(v.item, '');
-          } else {
-            matches = false;
-          }
-        });
-
-    return matches;
-  }
-
-  #inputValueSetter(value) {
-    const match = value.match(this.#parser);
-
-    // the mask might not be compatible with the parser
-    // In the case when the input is prefilled / server filled
-    //   we want to be able to show a masked value
-    // this will run some checks to see if it passes
-    if (!match && this.#checkIfValueIsMask(value)) {
-      this.#parseInputValue = value;
-      return value;
-    }
-
-    // remove any extra input or clear invalid
-    value = match ? match[0] : '';
-
-    this.#parseInputValue = value;
-    let wall = false;
-    // replace parse and remove non replaced items
-    const formatValues = this.#splitFormat().map(v => ({
-      isMatcher: v.match(this.#replaceStringGroupRegex) !== null,
-      value: value.replace(this.#parser, v)
-    })).filter(({ value }) => {
-      if (value  === '') wall = true;
-      return !wall;
-    });
-    let combined = formatValues.map(({ value }) => value).join('');
-    // trim off static parts at end if not typed in
-    if (formatValues[formatValues.length - 1]?.isMatcher === false && combined.length > value.length) {
-      combined = formatValues.slice(0, -1).map(({ value }) => value).join('');
-    }
-
-    if (this.#mask) this.#displayValue = combined.replace(this.#parser, this.#mask).slice(0, combined.length);
-    else this.#displayValue = combined;
-
-    return this.#displayValue;
-  }
-
-  #navigationKeys = [
-    'Backspace',
-    'Delete',
-    'Shift',
-    'ArrowUp',
-    'ArrowDown',
-    'ArrowLeft',
-    'ArrowRight',
-    'Tab'
-  ];
-  #inputKeydownInterceptor(event) {
-    // TODO handle this on mozilla window.
-    // Meta does not work on windows key
-    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey    
-    if (event.metaKey) return;
-
-    // do not do anything on enter
-    if (event.key === 'Enter') return;
-
-    if (!this.#navigationKeys.includes(event.key)) {
-      this.#parseInputValue += event.key;
-      event.target.value = this.#parseInputValue;
-      event.preventDefault();
-    } else if (event.key === 'Backspace' || event.key === 'Delete') {
-      const selectionStart = event.target.selectionStart - 1 < 0 ? 0 : event.target.selectionStart - 1;
-      let index = 0;
-      this.#displayValue.split('').find((c, i) => {
-        if (i === selectionStart) {
-          if (c !== this.#parseInputValue[index]) index = -1;
-          return true;
-        }
-        if (c === this.#parseInputValue[index]) index += 1;
-        return false;
-      });
-
-      event.target.value = index === -1 ? this.#parseInputValue : `${this.#parseInputValue.slice(0, index)}${this.#parseInputValue.slice(index + 1)}`;
-      event.preventDefault();
-      event.target.selectionStart = selectionStart;
-      event.target.selectionEnd = selectionStart;
-    }
-  }
-
-  #inputPasteInterceptor(event) {
-    event.preventDefault();
-
-    const paste = (event.clipboardData || window.clipboardData).getData('text');
-    const arr = this.#parseInputValue.split('');
-    const start = arr.slice(0, event.target.selectionStart).join('');
-    const end = arr.slice(event.target.selectionEnd).join('');
-    event.target.value = `${start}${paste}${end}`;
-  }
-
-  #setupInterceptor() {
-    const that = this;
-    const input = this.querySelector('input');
-    const inputDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
-    Object.defineProperty(input, 'value', {
-      get: function () {
-        return that.#inputValueGetter();
-      },
-      set: function (value) {
-        value = that.#inputValueSetter(value);
-        return inputDescriptor.set.call(this, value);
-      }
-    });
-    input.addEventListener('keydown', this.#inputKeydownInterceptor_bound);
-    input.addEventListener('paste', this.#inputPasteInterceptor_bound);
   }
   
   #onInput() {
@@ -439,6 +272,211 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     const offset = util.getTextLengthFromInput(this.querySelector('input'));
     this.querySelector('.mdw-autocomplete').style.left = `${offset + 16}px`;
   }
+
+  #onBlur() {
+    if (this.#pattern) this.reportValidity();
+  }
+
+
+
+
+  // --- Regex (matcher, mask, format) ---
+
+
+  #parser;
+  #mask;
+  #format;
+  #formatParts;
+  #formatSplitter;
+  #patternRawInputValue = '';
+  #displayValue = '';
+  #patternInputKeydown_bound = this.#patternInputKeydown.bind(this);
+  #patternInputPaste_bound = this.#patternInputPaste.bind(this);
+  #replaceStringGroupRegex = /(\$[\d\&])/;
+  #pattern;
+  #patternRegex;
+  #navigationKeys = [
+    'Backspace',
+    'Delete',
+    'Shift',
+    'ArrowUp',
+    'ArrowDown',
+    'ArrowLeft',
+    'ArrowRight',
+    'Tab'
+  ];
+  #regexGroupMatcher = /(\((?:\?\<\w+\>)?([^\)]+)\)\??)/g;
+  
+  #setupPattern() {
+    if (!this.#pattern) return;
+    
+    const that = this;
+    const input = this.querySelector('input');
+    const inputDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    Object.defineProperty(input, 'value', {
+      get: function () {
+        return that.#patternInputValueGetter();
+      },
+      set: function (value) {
+        value = that.#patternInputValueSetter(value);
+        return inputDescriptor.set.call(this, value);
+      }
+    });
+    input.addEventListener('keydown', this.#patternInputKeydown_bound);
+    input.addEventListener('paste', this.#patternInputPaste_bound);
+  }
+
+  #patternInputValueGetter() {
+    return this.#patternRawInputValue;
+  }
+
+  #patternInputValueSetter(value) {
+    const parsed = value.match(this.#parser);
+    if (!parsed || !this.#format) {
+      this.#displayValue = value;
+      return value;
+    }
+
+    const matchedValue = parsed[0];
+    const leftOvers = value.replace(matchedValue, '');
+    let endMatches = false;
+    let matchIndex = 0;
+    const formatGroupMatches = matchedValue.replace(this.#parser, this.#formatSplitter).split('_:_');
+    const formatted = this.#formatParts.map(v => {
+      if (endMatches) return;
+      if (v.match(this.#replaceStringGroupRegex)) {
+        v = formatGroupMatches[matchIndex];
+        matchIndex += 1;
+        if (v === '') endMatches = true;
+      }
+      return v;
+    }).join('');
+    this.#displayValue = `${formatted}${leftOvers}`;
+    return this.#displayValue;
+  }
+
+  #buildFormat(value) {
+    const formatParts = value.split(this.#replaceStringGroupRegex);
+    // for some reason splitting with regex will inset spaces. This will remove them if not already existing
+    if (value[0] !== formatParts[0]) formatParts.splice(0, 1);
+    if (value[value.length - 1] !== formatParts[formatParts.length - 1]) formatParts.splice(-1);
+    this.#formatParts = formatParts;
+    this.#formatSplitter = formatParts.filter(v => v.match(this.#replaceStringGroupRegex)).join('_:_');
+  }
+
+  // add regex slashes and begin and end operators (/^ $/)
+  #setPattern(regexString) {
+    this.querySelector('input').pattern = regexString;
+    this.#patternRegex = new RegExp(regexString.replace(/^\//, '').replace(/\/$/, ''));
+    // this.#patternRegex = new RegExp(`^${regexString.replace(/^\//, '').replace(/^\^/, '').replace(/(?<!\\)\$$/, '').replace(/\/$/, '')}$`);
+    let i = 0;
+    // make all groups after first optional. This will help with parsing for formatting
+    const modified = regexString.replace(this.#regexGroupMatcher, (_match, value) => {
+      if (i > 0 && value.slice(-1) !== '?') value += '?';
+      i += 1;
+      return value;
+    });
+    this.#parser = new RegExp(`^${modified.replace(/^\//, '').replace(/^\^/, '').replace(/(?<!\\)\$$/, '').replace(/\/$/, '')}`);
+  }
+  
+  #patternInputKeydown(event) {
+    // TODO handle this on mozilla window.
+    // Meta does not work on windows key
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey    
+    if (event.metaKey) return;
+
+    // do not do anything on enter
+    if (event.key === 'Enter') return;
+
+    // input keys
+    if (!this.#navigationKeys.includes(event.key)) {
+      const input = this.querySelector('input');
+      const previousPatternMismatch = input.validity.patternMismatch;
+      const selectionStart = event.target.selectionStart;
+      const selectionEnd = event.target.selectionEnd;
+      const isSelectionAtEnd = selectionEnd === this.#displayValue.length;
+      const arr = this.#patternRawInputValue.split('');
+      const start = arr.slice(0, selectionStart).join('');
+      const end = arr.slice(selectionEnd).join('');
+      this.#patternRawInputValue = `${start}${event.key}${end}`;
+      event.target.value = this.#patternRawInputValue;
+      event.preventDefault();
+      // since we can inject characters on format we need to not touch selection when at end
+      if (!isSelectionAtEnd) {
+        event.target.selectionStart = selectionEnd + 1;
+        event.target.selectionEnd = selectionEnd + 1;
+      }
+      
+      if (previousPatternMismatch === true && input.validity.patternMismatch === false) input.reportValidity();
+
+    } else if (event.key === 'Backspace' || event.key === 'Delete') {
+      const selectionStart = event.target.selectionStart - 1 < 0 ? 0 : event.target.selectionStart - 1;
+      let index = 0;
+      // adjust index based on raw import. We do not want to delete characters added by formatter
+      this.#displayValue.split('').find((c, i) => {
+        if (i === selectionStart) {
+          if (c !== this.#patternRawInputValue[index]) index = -1;
+          return true;
+        }
+        if (c === this.#patternRawInputValue[index]) index += 1;
+        return false;
+      });
+      this.#patternRawInputValue = index === -1 ? this.#patternRawInputValue : `${this.#patternRawInputValue.slice(0, index)}${this.#patternRawInputValue.slice(index + 1)}`;
+      event.target.value = this.#patternRawInputValue;
+      event.preventDefault();
+      event.target.selectionStart = selectionStart;
+      event.target.selectionEnd = selectionStart;
+    }
+  }
+
+  #patternInputPaste(event) {
+    event.preventDefault();
+
+    const input = this.querySelector('input');
+    const previousPatternMismatch = input.validity.patternMismatch;
+    const paste = (event.clipboardData || window.clipboardData).getData('text');
+    const arr = this.#patternRawInputValue.split('');
+    const start = arr.slice(0, event.target.selectionStart).join('');
+    const end = arr.slice(event.target.selectionEnd).join('');
+    event.target.value = `${start}${paste}${end}`;
+    if (previousPatternMismatch !== input.validity.patternMismatch) input.reportValidity();
+  }
+
+  // #checkIfValueIsMask(value) {
+  //   if (!this.#mask) return false;
+  //   if (value.length < this.#mask.length) return false;
+
+  //   // should contains at least one of each char
+  //   const maskUniqueCharacters = new Set(this.#mask.replace(/(\$\d)/g, ''));
+  //   if ([...maskUniqueCharacters.values()].filter(v => !value.includes(v)).length > 0) return false;
+
+  //   let matches = true;
+  //   this.#splitFormat()
+  //     .map(v => ({
+  //       isMatcher: v.match(this.#replaceStringGroupRegex) !== null,
+  //       item: v
+  //     }))
+  //     .forEach((v, i, arr) => {
+  //       if (v.isMatcher) {
+  //         if (i < arr.length - 1) {
+  //           const index = value.indexOf(arr[i + 1].item);
+  //           if (index) {
+  //             v.match = value.slice(0, index);
+  //             value = value.slice(index);
+  //           }
+  //         } else {
+  //           v.match = v.item;
+  //         }
+  //       } else if (value.indexOf(v.item) === 0) {
+  //         v.match = v.item;
+  //         value = value.replace(v.item, '');
+  //       } else {
+  //         matches = false;
+  //       }
+  //     });
+
+  //   return matches;
+  // }
 }
 
 
