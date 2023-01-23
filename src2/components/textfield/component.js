@@ -359,10 +359,20 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
       return this.#displayValue;
     }
 
+    const formatted = this.#formatValue(value);
+    this.#displayValue = this.#maskValue(formatted);
+    if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
+    return this.#displayValue;
+  }
+
+  #formatValue(value) {
+    const parsed = value.match(this.#parser);
+    if (!parsed) return value;
+
     const matchedValue = parsed[0];
-    const leftOvers = value.replace(matchedValue, '');
     let endMatches = false;
     let matchIndex = 0;
+    const leftOvers = value.replace(matchedValue, '');
     const formatGroupMatches = matchedValue.replace(this.#parser, this.#formatSplitter).split('_:_');
     const formatted = this.#formatParts.map(v => {
       if (endMatches) return;
@@ -373,9 +383,8 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
       }
       return v;
     }).join('');
-    this.#displayValue = this.#maskValue(`${formatted}${leftOvers}`);
-    if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
-    return this.#displayValue;
+
+    return `${formatted}${leftOvers}`;
   }
 
   // TODO do i limit length?
@@ -410,7 +419,6 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     else this.querySelector('input').removeAttribute('pattern');
 
     this.#patternRegex = new RegExp(regexString.replace(/^\//, '').replace(/\/$/, ''));
-    // this.#patternRegex = new RegExp(`^${regexString.replace(/^\//, '').replace(/^\^/, '').replace(/(?<!\\)\$$/, '').replace(/\/$/, '')}$`);
     let i = 0;
     // make all groups after first optional. This will help with parsing for formatting
     const modified = regexString.replace(this.#regexGroupMatcher, (_match, value) => {
@@ -432,42 +440,71 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
     // input keys
     if (!this.#navigationKeys.includes(event.key)) {
-      const selectionStart = event.target.selectionStart;
-      const selectionEnd = event.target.selectionEnd;
-      const isSelectionAtEnd = selectionEnd === this.#displayValue.length;
+      const selection = this.#convertSelection();
       const arr = this.#patternRawInputValue.split('');
-      const start = arr.slice(0, selectionStart).join('');
-      const end = arr.slice(selectionEnd).join('');
+      const start = arr.slice(0, selection.rawStart).join('');
+      const end = arr.slice(selection.rawEnd).join('');
       this.#patternRawInputValue = `${start}${event.key}${end}`;
+      
       event.target.value = this.#patternRawInputValue;
       event.preventDefault();
-      // since we can inject characters on format we need to not touch selection when at end
-      if (!isSelectionAtEnd) {
-        event.target.selectionStart = selectionEnd + 1;
-        event.target.selectionEnd = selectionEnd + 1;
+
+      // move cursor to end
+      if (!selection.isAtEnd) {
+        event.target.selectionStart = selection.displayEnd + 1;
+        event.target.selectionEnd = selection.displayEnd + 1;
       }
       
       this.#patternReportValidityOnType();
 
     } else if (event.key === 'Backspace' || event.key === 'Delete') {
-      const selectionStart = event.target.selectionStart - 1 < 0 ? 0 : event.target.selectionStart - 1;
-      let index = 0;
-      // adjust index based on raw import. We do not want to delete characters added by formatter
-      this.#displayValue.split('').find((c, i) => {
-        // TODO figure out how to handle skip characters for masks.
-        if (i === selectionStart) {
-          if (!this.#mask && c !== this.#patternRawInputValue[index]) index = -1;
-          return true;
-        }
-        if (!this.#mask && c === this.#patternRawInputValue[index]) index += 1;
-        return false;
-      });
-      this.#patternRawInputValue = index === -1 ? this.#patternRawInputValue : `${this.#patternRawInputValue.slice(0, index)}${this.#patternRawInputValue.slice(index + 1)}`;
+      const selection = this.#convertSelection();
+      if (selection.rawStart > 0) {
+        // selecting multiple items we do not want to delete the item before the cursor
+        if (selection.rawStart !== selection.rawEnd) this.#patternRawInputValue = `${this.#patternRawInputValue.slice(0, selection.rawStart)}${this.#patternRawInputValue.slice(selection.rawEnd)}`;
+        else this.#patternRawInputValue = `${this.#patternRawInputValue.slice(0, selection.rawStart - 1)}${this.#patternRawInputValue.slice(selection.rawEnd)}`;
+      }
+
       event.target.value = this.#patternRawInputValue;
       event.preventDefault();
-      event.target.selectionStart = selectionStart;
-      event.target.selectionEnd = selectionStart;
+      if (selection.rawStart !== selection.rawEnd) {
+        event.target.selectionStart = selection.displayStart;
+        event.target.selectionEnd = selection.displayStart;
+      } else {
+        event.target.selectionStart = selection.displayStart - 1;
+        event.target.selectionEnd = selection.displayStart - 1;
+      }
     }
+  }
+
+  #convertSelection() {
+    const input = this.querySelector('input');
+    const displayStart = input.selectionStart;
+    const displayEnd = input.selectionEnd;
+    let rawStart = displayStart;
+    let rawEnd = displayEnd;
+    const isSelectionAtEnd = rawEnd === this.#displayValue.length;
+
+    let rawIndex = 0;
+    // we need to check against non masked for this to work
+    const selectCheckValue = this.#mask ? this.#formatValue(this.#patternRawInputValue) : this.#displayValue;
+    selectCheckValue.slice(0, rawStart).split('').filter(c => {
+      if (c === this.#patternRawInputValue[rawIndex]) rawIndex += 1;
+    });
+    rawStart = rawIndex;
+    rawIndex = 0;
+    selectCheckValue.slice(0, rawEnd).split('').filter(c => {
+      if (c === this.#patternRawInputValue[rawIndex]) rawIndex += 1;
+    });
+    rawEnd = rawIndex;
+
+    return {
+      displayStart,
+      displayEnd,
+      rawStart: rawStart,
+      rawEnd: rawEnd,
+      isAtEnd: isSelectionAtEnd
+    };
   }
 
   #patternInputPaste(event) {
