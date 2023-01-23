@@ -342,8 +342,8 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     }
     if (!parsed || !this.#format) {
       if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
-      this.#displayValue = value;
-      return value;
+      this.#displayValue = this.#maskValue(value, false);
+      return this.#displayValue;
     }
 
     const matchedValue = parsed[0];
@@ -360,9 +360,18 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
       }
       return v;
     }).join('');
-    this.#displayValue = `${formatted}${leftOvers}`;
+    this.#displayValue = this.#maskValue(`${formatted}${leftOvers}`);
     if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
     return this.#displayValue;
+  }
+
+  // TODO do i limit length?
+  #maskValue(value, parsed = true) {
+    if (!this.#mask) return value;
+    if (!parsed) return this.#mask.slice(0, value.length);
+    const masked = value.replace(this.#parser, this.#mask);
+    if (masked.length > value.length) return masked.slice(0, value.length);
+    return masked;
   }
 
   // used for masking
