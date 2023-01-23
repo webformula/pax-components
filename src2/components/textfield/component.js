@@ -275,7 +275,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   #onBlur() {
-    if (this.#pattern) this.reportValidity();
+    this.#patternReportValidity();
   }
 
 
@@ -335,11 +335,6 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
   #patternInputValueSetter(value) {
     const parsed = value.match(this.#parser);
-    if (!parsed && this.#checkIfValueIsMask(value)) {
-      this.#stopPatternValidity(true);
-    } else {
-      this.#stopPatternValidity(false);
-    }
     if (!parsed || !this.#format) {
       if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
       this.#displayValue = this.#maskValue(value, false);
@@ -374,15 +369,6 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     return masked;
   }
 
-  // used for masking
-  #stopPatternValidity(hold = true) {
-    if (hold === this.patternValidityIsBlocked) return;
-    this.patternValidityIsBlocked = hold;
-
-    if (hold) this.querySelector('input').removeAttribute('pattern');
-    else this.querySelector('input').setAttribute('pattern', this.#pattern);
-  }
-
   #buildFormat(value) {
     const formatParts = value.split(this.#replaceStringGroupRegex);
     // for some reason splitting with regex will inset spaces. This will remove them if not already existing
@@ -402,7 +388,9 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
   // add regex slashes and begin and end operators (/^ $/)
   #setPattern(regexString) {
-    this.querySelector('input').pattern = regexString;
+    if (!this.#mask) this.querySelector('input').pattern = regexString;
+    else this.querySelector('input').removeAttribute('pattern');
+
     this.#patternRegex = new RegExp(regexString.replace(/^\//, '').replace(/\/$/, ''));
     // this.#patternRegex = new RegExp(`^${regexString.replace(/^\//, '').replace(/^\^/, '').replace(/(?<!\\)\$$/, '').replace(/\/$/, '')}$`);
     let i = 0;
@@ -426,8 +414,6 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
     // input keys
     if (!this.#navigationKeys.includes(event.key)) {
-      const input = this.querySelector('input');
-      const previousPatternMismatch = input.validity.patternMismatch;
       const selectionStart = event.target.selectionStart;
       const selectionEnd = event.target.selectionEnd;
       const isSelectionAtEnd = selectionEnd === this.#displayValue.length;
@@ -443,7 +429,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
         event.target.selectionEnd = selectionEnd + 1;
       }
       
-      if (previousPatternMismatch === true && input.validity.patternMismatch === false) input.reportValidity();
+      this.#patternReportValidity(true);
 
     } else if (event.key === 'Backspace' || event.key === 'Delete') {
       const selectionStart = event.target.selectionStart - 1 < 0 ? 0 : event.target.selectionStart - 1;
@@ -469,13 +455,29 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     event.preventDefault();
 
     const input = this.querySelector('input');
-    const previousPatternMismatch = input.validity.patternMismatch;
     const paste = (event.clipboardData || window.clipboardData).getData('text');
     const arr = this.#patternRawInputValue.split('');
     const start = arr.slice(0, event.target.selectionStart).join('');
     const end = arr.slice(event.target.selectionEnd).join('');
     event.target.value = `${start}${paste}${end}`;
-    if (previousPatternMismatch !== input.validity.patternMismatch) input.reportValidity();
+    this.#patternReportValidity(true);
+  }
+
+  #previousPatternMismatch;
+  // falseOnly is used so when the user is typing they do not see invalid until blur
+  #patternReportValidity(falseOnly = true) {
+    const input = this.querySelector('input');
+    if (falseOnly && this.#previousPatternMismatch === false && input.validity.patternMismatch === true) {
+      if (this.#mask) {
+        // TODO manually validate value because pattern is not set
+      } else input.reportValidity();
+    } else if (!falseOnly && this.#previousPatternMismatch !== input.validity.patternMismatch) {
+      if (this.#mask) {
+        // TODO manually validate value because pattern is not set
+      } else input.reportValidity();
+    }
+
+    this.#previousPatternMismatch = input.validity.patternMismatch;
   }
 
   #checkIfValueIsMask(value) {
