@@ -21,6 +21,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   #onInvalid_bound = this.#onInvalid.bind(this);
   #onInput_bound = this.#onInput.bind(this);
   #onBlur_bound = this.#onBlur.bind(this);
+  #onFocus_bound = this.#onFocus.bind(this);
   #clear_bound = this.clear.bind(this);
   #originalSupportingText = this.querySelector('.mdw-supporting-text')?.innerText;
   #autocomplete;
@@ -57,6 +58,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     input.addEventListener('invalid', this.#onInvalid_bound);
     input.addEventListener('input', this.#onInput_bound);
     input.addEventListener('blur', this.#onBlur_bound);
+    input.addEventListener('focus', this.#onFocus_bound);
 
     const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
     if (inputClearIcon) inputClearIcon.addEventListener('click', this.#clear_bound);
@@ -83,6 +85,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     input.removeEventListener('invalid', this.#onInvalid_bound);
     input.removeEventListener('input', this.#onInput_bound);
     input.removeEventListener('blur', this.#onBlur_bound);
+    input.removeEventListener('focus', this.#onFocus_bound);
 
     const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
     if (inputClearIcon) inputClearIcon.removeEventListener('click', this.#clear_bound);
@@ -274,8 +277,15 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     this.querySelector('.mdw-autocomplete').style.left = `${offset + 16}px`;
   }
 
+  #onFocus() {
+    if (this.#pattern) this.#previousPatternMismatch = this.querySelector('input').validity.patternMismatch;
+  }
+
   #onBlur() {
-    this.#patternReportValidity();
+    if (this.#pattern) {
+      if (this.#mask && !this.#checkIfValueIsMask(this.#patternRawInputValue) && this.#patternRawInputValue.match(this.#patternRegex) === null) this.querySelector('input').setAttribute('pattern', this.#pattern);
+      this.querySelector('input').reportValidity();
+    }
   }
 
 
@@ -297,7 +307,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   #replaceStringGroupRegex = /(\$[\d\&])/;
   #pattern;
   #patternRegex;
-  #patternValidityIsBlocked = false;
+  #previousPatternMismatch;
   #navigationKeys = [
     'Backspace',
     'Delete',
@@ -335,6 +345,14 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
 
   #patternInputValueSetter(value) {
     const parsed = value.match(this.#parser);
+
+    // if value was set with the mask do not re mask it. This could be value on render or from server
+    if (!parsed && this.#mask && this.#checkIfValueIsMask(value)) {
+      if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
+      this.#displayValue = value;
+      return this.#displayValue;
+    }
+
     if (!parsed || !this.#format) {
       if (!this.#patternRawInputValue) this.#patternRawInputValue = value;
       this.#displayValue = this.#maskValue(value, false);
@@ -429,18 +447,19 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
         event.target.selectionEnd = selectionEnd + 1;
       }
       
-      this.#patternReportValidity(true);
+      this.#patternReportValidityOnType();
 
     } else if (event.key === 'Backspace' || event.key === 'Delete') {
       const selectionStart = event.target.selectionStart - 1 < 0 ? 0 : event.target.selectionStart - 1;
       let index = 0;
       // adjust index based on raw import. We do not want to delete characters added by formatter
       this.#displayValue.split('').find((c, i) => {
+        // TODO figure out how to handle skip characters for masks.
         if (i === selectionStart) {
-          if (c !== this.#patternRawInputValue[index]) index = -1;
+          if (!this.#mask && c !== this.#patternRawInputValue[index]) index = -1;
           return true;
         }
-        if (c === this.#patternRawInputValue[index]) index += 1;
+        if (!this.#mask && c === this.#patternRawInputValue[index]) index += 1;
         return false;
       });
       this.#patternRawInputValue = index === -1 ? this.#patternRawInputValue : `${this.#patternRawInputValue.slice(0, index)}${this.#patternRawInputValue.slice(index + 1)}`;
@@ -454,30 +473,25 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   #patternInputPaste(event) {
     event.preventDefault();
 
-    const input = this.querySelector('input');
     const paste = (event.clipboardData || window.clipboardData).getData('text');
     const arr = this.#patternRawInputValue.split('');
     const start = arr.slice(0, event.target.selectionStart).join('');
     const end = arr.slice(event.target.selectionEnd).join('');
     event.target.value = `${start}${paste}${end}`;
-    this.#patternReportValidity(true);
+    this.#patternReportValidityOnType();
   }
 
-  #previousPatternMismatch;
-  // falseOnly is used so when the user is typing they do not see invalid until blur
-  #patternReportValidity(falseOnly = true) {
+  #patternReportValidityOnType() {
     const input = this.querySelector('input');
-    if (falseOnly && this.#previousPatternMismatch === false && input.validity.patternMismatch === true) {
-      if (this.#mask) {
-        // TODO manually validate value because pattern is not set
-      } else input.reportValidity();
-    } else if (!falseOnly && this.#previousPatternMismatch !== input.validity.patternMismatch) {
-      if (this.#mask) {
-        // TODO manually validate value because pattern is not set
-      } else input.reportValidity();
+    if (!this.#mask && this.#previousPatternMismatch === true && input.validity.patternMismatch === false) {
+      input.reportValidity();
+      this.#previousPatternMismatch = true;
+    } else if (this.#mask && input.hasAttribute('pattern')) {
+      if (this.#patternRawInputValue.match(this.#patternRegex) !== null) {
+        input.removeAttribute('pattern');
+        input.reportValidity();
+      }
     }
-
-    this.#previousPatternMismatch = input.validity.patternMismatch;
   }
 
   #checkIfValueIsMask(value) {
