@@ -17,6 +17,7 @@ const handleReportValidityScrollIntoView = util.debounce(input => {
 
 
 export default class MDWTextfieldElement extends HTMLElementExtended {
+  #input;
   #setNotchWidth_bound = this.#setNotchWidth.bind(this);
   #unsetNotchWidth_bound = this.#unsetNotchWidth.bind(this);
   #onInvalid_bound = this.#onInvalid.bind(this);
@@ -31,9 +32,9 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     super();
 
     // used in css for label position
-    const input = this.querySelector('input');
-    const placeholder = input.getAttribute('placeholder');
-    input.setAttribute('placeholder', placeholder || ' ');
+    this.#input = this.querySelector('input');
+    const placeholder = this.#input.getAttribute('placeholder');
+    this.#input.setAttribute('placeholder', placeholder || ' ');
     this.classList.add('mdw-no-animation');
 
     this.#handleDisabledInput();
@@ -48,22 +49,22 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
         </div>
       `);
       
-      if (input.value || input.type === 'date' || input.type === 'month' || input.type === 'time' || input.placeholder !== ' ') this.#setNotchWidth();
-      input.addEventListener('focus', this.#setNotchWidth_bound);
-      input.addEventListener('blur', this.#unsetNotchWidth_bound);
+      if (this.#input.value || this.#input.type === 'date' || this.#input.type === 'month' || this.#input.type === 'time' || this.#input.placeholder !== ' ') this.#setNotchWidth();
+      this.#input.addEventListener('focus', this.#setNotchWidth_bound);
+      this.#input.addEventListener('blur', this.#unsetNotchWidth_bound);
     }
 
     this.insertAdjacentHTML('beforeend', `<div class="mdw-autocomplete"></div>`);
 
-    input.addEventListener('invalid', this.#onInvalid_bound);
-    input.addEventListener('input', this.#onInput_bound);
+    this.#input.addEventListener('invalid', this.#onInvalid_bound);
+    this.#input.addEventListener('input', this.#onInput_bound);
 
     const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
     if (inputClearIcon) inputClearIcon.addEventListener('click', this.#clear_bound);
   }
 
   connectedCallback() {
-    const inputPattern = this.querySelector('input').pattern;
+    const inputPattern = this.#input.pattern;
     if (inputPattern) this.pattern = inputPattern;
     if (this.pattern) this.#formatter.enable();
 
@@ -77,11 +78,10 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   disconnectedCallback() {
-    const input = this.querySelector('input');
-    input.removeEventListener('focus', this.#setNotchWidth_bound);
-    input.removeEventListener('blur', this.#unsetNotchWidth_bound);
-    input.removeEventListener('invalid', this.#onInvalid_bound);
-    input.removeEventListener('input', this.#onInput_bound);
+    this.#input.removeEventListener('focus', this.#setNotchWidth_bound);
+    this.#input.removeEventListener('blur', this.#unsetNotchWidth_bound);
+    this.#input.removeEventListener('invalid', this.#onInvalid_bound);
+    this.#input.removeEventListener('input', this.#onInput_bound);
 
     const inputClearIcon = this.querySelector('mdw-icon.mdw-input-clear');
     if (inputClearIcon) inputClearIcon.removeEventListener('click', this.#clear_bound);
@@ -113,48 +113,58 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
   set disabled(value) {
     this.toggleAttribute('disabled', !!value);
-    const input = this.querySelector('input');
-    input.blur();
-    input.toggleAttribute('disabled', !!value);
+    this.#input.blur();
+    this.#input.toggleAttribute('disabled', !!value);
   }
 
   get pattern() {
-    return this.#formatter?.pattern;
+    return this.#formatter.pattern;
   }
   set pattern(value) {
     this.#formatter.pattern = value;
   }
 
   get mask() {
-    return this.#formatter?.mask;
+    return this.#formatter.mask;
   }
   set mask(value) {
     this.#formatter.mask = value;
   }
 
   get format() {
-    return this.#formatter?.format;
+    return this.#formatter.format;
   }
   set format(value) {
     this.#formatter.format = value;
   }
 
+  get value() {
+    return this.#input.value;
+  }
+
+  get formattedValue() {
+    return this.#formatter.formattedValue;
+  }
+
+  get maskedValue() {
+    return this.#formatter.maskedValue;
+  }
+
   setCustomValidity(value = '') {
-    this.querySelector('input').setCustomValidity(value);
+    this.#input.setCustomValidity(value);
   }
 
   reportValidity() {
-    return this.querySelector('input').reportValidity();
+    return this.#input.reportValidity();
   }
 
   clear(event) {
-    const input = this.querySelector('input');
-    input.value = '';
+    this.#input.value = '';
 
     // prevent label from moving and focus
     if (event && event.target.classList.contains('mdw-input-clear')) {
       this.classList.add('mdw-raise-label');
-      input.focus();
+      this.#input.focus();
       setTimeout(() => {
         this.classList.remove('mdw-raise-label');
       });
@@ -162,8 +172,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   #handleDisabledInput() {
-    const input = this.querySelector('input');
-    if (input.hasAttribute('disabled')) {
+    if (this.#input.hasAttribute('disabled')) {
       this.setAttribute('disabled', '');
     } else {
       this.removeAttribute('disabled');
@@ -176,31 +185,29 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
       that.toggleAttribute('disabled', !!value);
       originalSet.apply(this, arguments);
     };
-    Object.defineProperty(input, 'disabled', descriptor);
+    Object.defineProperty(this.#input, 'disabled', descriptor);
   }
 
   // change supporting text for invalid input when user called setCustomValidity()
   #overrideInputSetCustomValidity() {
-    const input = this.querySelector('input');
-    const originalSetCustomValidity = input.setCustomValidity;
-    input.setCustomValidity = str => {
-      originalSetCustomValidity.call(input, str);
+    const originalSetCustomValidity = this.#input.setCustomValidity;
+    this.#input.setCustomValidity = str => {
+      originalSetCustomValidity.call(this.#input, str);
       this.#onInput();
     };
 
 
-    const originalReportValidity = input.reportValidity;
-    input.reportValidity = () => {
-      handleReportValidityScrollIntoView(input);
-      const valid = originalReportValidity.call(input);
+    const originalReportValidity = this.#input.reportValidity;
+    this.#input.reportValidity = () => {
+      handleReportValidityScrollIntoView(this.#input);
+      const valid = originalReportValidity.call(this.#input);
       this.#updateInputValidity(!valid);
       return valid;
     };
   }
   
   #onInput() {
-    const input = this.querySelector('input');
-    this.#updateInputValidity(!input.checkValidity());
+    this.#updateInputValidity(!this.#input.checkValidity());
     this.#setAutocomplete();
   }
 
@@ -210,7 +217,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
     
     if (invalid) {
       this.classList.add('mdw-invalid');
-      if (supportingTextElement) supportingTextElement.innerText = this.querySelector('input').validationMessage;
+      if (supportingTextElement) supportingTextElement.innerText = this.#input.validationMessage;
       if (!invalidIcon) this.insertAdjacentHTML('beforeend', `<div class="mdw-invalid-icon">${errorIconSVGString}</div>`);
     } else {
       this.classList.remove('mdw-invalid');
@@ -224,7 +231,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   updateNotch() {
-    if (this.querySelector('input').value) this.#setNotchWidth();
+    if (this.#input.value) this.#setNotchWidth();
     else this.#unsetNotchWidth();
   }
 
@@ -245,8 +252,7 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   }
 
   #unsetNotchWidth() {
-    const input = this.querySelector('input');
-    if ((input.value) || input.type === 'date' || input.type === 'time' || input.type === 'month' || input.placeholder !== ' ') return;
+    if ((this.#input.value) || this.#input.type === 'date' || this.#input.type === 'time' || this.#input.type === 'month' || this.#input.placeholder !== ' ') return;
     const label = this.querySelector('label');
     if (!label) return;
     this.querySelector('.mdw-outlined-notch').style.width = '0';
@@ -255,12 +261,11 @@ export default class MDWTextfieldElement extends HTMLElementExtended {
   #setAutocomplete() {
     if (typeof this.#autocomplete !== 'string') return;
 
-    const input = this.querySelector('input');
-    const match = this.#autocomplete.match(new RegExp(`^${input.value}(.*)`, 'i'));
+    const match = this.#autocomplete.match(new RegExp(`^${this.#input.value}(.*)`, 'i'));
     const value = !match || match[0] === match[1] ? '' : match[1];
 
     this.querySelector('.mdw-autocomplete').innerText = value;
-    const offset = util.getTextLengthFromInput(this.querySelector('input'));
+    const offset = util.getTextLengthFromInput(this.#input);
     this.querySelector('.mdw-autocomplete').style.left = `${offset + 16}px`;
   }
 }

@@ -98,3 +98,8 @@ page-content > section > mdw-card {
   margin-top: -20px;
   margin-bottom: -20px;
 }
+
+
+.mdw-supporting-text + .example {
+  margin-top: 32px;
+}

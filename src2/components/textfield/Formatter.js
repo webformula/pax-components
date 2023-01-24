@@ -10,6 +10,8 @@ export default class Formatter {
   #maskParts;
   #rawValue = '';
   #displayValue = '';
+  #formattedValue = '';
+  #maskedValue = '';
   #initialized = false;
   #previousPatternMismatch;
   #replaceStringGroupRegex = /(\$[\d\&])/;
@@ -35,6 +37,14 @@ export default class Formatter {
 
   get value() {
     return this.#rawValue;
+  }
+
+  get formattedValue() {
+    return this.#formattedValue;
+  }
+
+  get maskedValue() {
+    return this.#maskedValue;
   }
 
   get displayValue() {
@@ -66,6 +76,7 @@ export default class Formatter {
   }
 
   enable() {
+    if (!this.#format) return;
     if (!this.#pattern) throw Error('Must set pattern before enabling');
     this.#initialize();
 
@@ -150,18 +161,22 @@ export default class Formatter {
     // if value was set with the mask do not re-mask. This could be value on render or from server
     if (!parsed && this.#mask && this.#checkIfValueIsMask(value)) {
       this.#rawValue = value;
+      this.#formattedValue = value;
       this.#displayValue = value;
       return this.#displayValue;
     }
 
     if (!parsed || !this.#format) {
       this.#rawValue = value;
+      this.#formattedValue = value;
+      if (this.#mask) this.#maskedValue = this.#maskValue(value, false);
       this.#displayValue = this.#maskValue(value, false);
       return this.#displayValue;
     }
     
-    const formatted = this.#formatValue(value);
-    this.#displayValue = this.#maskValue(formatted);
+    this.#formattedValue = this.#formatValue(value);
+    if (this.#mask) this.#maskedValue = this.#maskValue(this.#formattedValue);
+    this.#displayValue = this.#maskedValue || this.#formattedValue;
     if (!this.#rawValue) this.#rawValue = value;
     return this.#displayValue;
   }
@@ -218,6 +233,8 @@ export default class Formatter {
         event.target.selectionStart = selection.displayStart - 1;
         event.target.selectionEnd = selection.displayStart - 1;
       }
+
+      this.#reportValidityOnInput();
     }
   }
 
