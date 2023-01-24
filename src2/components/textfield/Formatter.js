@@ -62,6 +62,7 @@ export default class Formatter {
   }
   set mask(value) {
     this.#mask = value;
+    this.#buildMask(value);
   }
 
   enable() {
@@ -136,6 +137,14 @@ export default class Formatter {
     this.#formatSplitter = formatParts.filter(v => v.match(this.#replaceStringGroupRegex)).join('_:_');
   }
 
+  #buildMask(value) {
+    const maskParts = value.split(this.#replaceStringGroupRegex);
+    // for some reason splitting with regex will inset spaces. This will remove them if not already existing
+    if (maskParts[0] === '' && value[0] !== maskParts[0]) maskParts.splice(0, 1);
+    if (value[value.length - 1] !== maskParts[maskParts.length - 1]) maskParts.splice(-1);
+    this.#maskParts = maskParts;
+  }
+
 
   #valueGetter() {
     return this.#rawValue;
@@ -156,7 +165,7 @@ export default class Formatter {
       this.#displayValue = this.#maskValue(value, false);
       return this.#displayValue;
     }
-
+    
     const formatted = this.#formatValue(value);
     this.#displayValue = this.#maskValue(formatted);
     if (!this.#rawValue) this.#rawValue = value;
@@ -228,7 +237,8 @@ export default class Formatter {
     const arr = this.#rawValue.split('');
     const start = arr.slice(0, selection.rawStart).join('');
     const end = arr.slice(selection.rawEnd).join('');
-    event.target.value = `${start}${paste}${end}`;
+    this.#rawValue = `${start}${paste}${end}`;
+    event.target.value = this.#rawValue;
 
     // move selection to end of pasted content
     event.target.selectionStart = selection.displayStart + paste.length;
