@@ -82,11 +82,6 @@ export default class Formatter {
     this.#input.removeEventListener('focus', this.#onFocus_bound);
   }
 
-  // destroy() {
-  //   if (!this.#initialized) return;
-  //   this.disable();
-  // }
-
   #initialize() {
     if (this.#initialized) return;
     this.#initialized = true;
@@ -111,7 +106,6 @@ export default class Formatter {
     if (!this.#mask) this.#input.pattern = regexString;
     else this.#input.removeAttribute('pattern');
 
-    // this.#pattern = new RegExp(regexString.replace(/^\//, '').replace(/\/$/, ''));
     this.#pattern = new RegExp(regexString);
     let i = 0;
     // make all groups after first optional. This will help with parsing for formatting
