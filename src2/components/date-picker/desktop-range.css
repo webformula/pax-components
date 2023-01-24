@@ -25,58 +25,12 @@ mdw-date-picker-range-desktop .mdw-control-container > .mdw-icon-svg {
   justify-content: center;
   cursor: pointer;
 }
-mdw-date-picker-range-desktop .mdw-years-container .mdw-year-item[disabled],
-mdw-date-picker-range-desktop .mdw-months-container .mdw-month-item[disabled],
-mdw-date-picker-range-desktop .mdw-control-container .mdw-year-drop-down[disabled],
-mdw-date-picker-range-desktop .mdw-control-container .mdw-month-drop-down[disabled],
-mdw-date-picker-range-desktop .mdw-control-container .mdw-year-previous[disabled],
-mdw-date-picker-range-desktop .mdw-control-container .mdw-year-next[disabled],
+
 mdw-date-picker-range-desktop .mdw-control-container .mdw-month-previous[disabled],
 mdw-date-picker-range-desktop .mdw-control-container .mdw-month-next[disabled] {
   pointer-events: none;
   cursor: none;
   opacity: 0.38;
-}
-
-mdw-date-picker-range-desktop.mdw-years-view .mdw-control-container .mdw-month-previous,
-mdw-date-picker-range-desktop.mdw-years-view .mdw-control-container .mdw-month-next,
-mdw-date-picker-range-desktop.mdw-years-view .mdw-control-container .mdw-year-previous,
-mdw-date-picker-range-desktop.mdw-years-view .mdw-control-container .mdw-year-next,
-mdw-date-picker-range-desktop.mdw-months-view .mdw-control-container .mdw-month-previous,
-mdw-date-picker-range-desktop.mdw-months-view .mdw-control-container .mdw-month-next,
-mdw-date-picker-range-desktop.mdw-months-view .mdw-control-container .mdw-year-previous,
-mdw-date-picker-range-desktop.mdw-months-view .mdw-control-container .mdw-year-next {
-  pointer-events: none;
-  cursor: none;
-  opacity: 0;
-}
-
-mdw-date-picker-range-desktop.mdw-years-view .mdw-control-container .mdw-month-drop-down,
-mdw-date-picker-range-desktop.mdw-months-view .mdw-control-container .mdw-year-drop-down {
-  opacity: .38;
-  pointer-events: none;
-}
-
-mdw-date-picker-range-desktop.mdw-years-view .mdw-control-container .mdw-month-drop-down .mdw-icon-svg,
-mdw-date-picker-range-desktop.mdw-months-view .mdw-control-container .mdw-year-drop-down .mdw-icon-svg {
-  opacity: 0;
-}
-
-mdw-date-picker-range-desktop .mdw-control-container > .mdw-month-drop-down {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 102px;
-  margin-left: 6px;
-  cursor: pointer;
-}
-
-mdw-date-picker-range-desktop .mdw-control-container > .mdw-year-drop-down {
-  display: flex;
-  align-items: center;
-  width: 60px;
-  margin-left: 6px;
-  cursor: pointer;
 }
 
 mdw-date-picker-range-desktop .mdw-control-container .mdw-month-label,
@@ -86,7 +40,19 @@ mdw-date-picker-range-desktop .mdw-control-container .mdw-year-label {
   line-height: var(--mdw-font-line-height-large-label);
   letter-spacing: var(--mdw-font-letter-spacing-large-label);
   color: var(--mdw-on-surface);
-  margin-right: 4px
+  margin-right: 6px;
+  margin-left: 6px;
+}
+
+mdw-date-picker-range-desktop .mdw-month-container-start .mdw-control-container {
+  /* justify-content: end;
+  margin-right: 64px; */
+}
+
+mdw-date-picker-range-desktop .mdw-month-container-end .mdw-control-container {
+  /* margin-left: 36px; */
+  justify-content: end;
+  margin-right: 27px;
 }
 
 
@@ -94,7 +60,7 @@ mdw-date-picker-range-desktop .mdw-month-range-container {
   display: flex;
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container {
+mdw-date-picker-range-desktop .mdw-month {
   position: relative;
   width: 328px;
   height: 294px;
@@ -107,13 +73,7 @@ mdw-date-picker-range-desktop .mdw-month-days-container {
   transition: opacity 120ms;
 }
 
-mdw-date-picker-range-desktop.mdw-years-view .mdw-month-days-container,
-mdw-date-picker-range-desktop.mdw-months-view .mdw-month-days-container {
-  pointer-events: none;
-  opacity: 0;
-}
-
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-header {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -130,7 +90,7 @@ mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-header {
   color: var(--mdw-on-surface);
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container {
   position: absolute;
   display: grid;
   top: 40px;
@@ -146,18 +106,14 @@ mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container {
   opacity: 0;
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container.mdw-active {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container.mdw-active {
   display: grid;
   left: 0;
   pointer-events: all;
   opacity: 1;
 }
 
-mdw-date-picker-range-desktop.mdw-years-view .mdw-month-days-container .mdw-days-container.mdw-active {
-  pointer-events: none;
-}
-
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day {
   position: relative;
   display: flex;
   align-items: center;
@@ -178,7 +134,7 @@ mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw
   color: var(--mdw-on-surface);
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day::before {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day::before {
   content: "";
   position: absolute;
   top: 0;
@@ -190,35 +146,86 @@ mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw
   z-index: -1;
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day.mdw-interactive {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day.mdw-interactive {
   cursor: pointer;
   pointer-events: auto;
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day.mdw-not-current-month {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day.mdw-not-current-month {
   color: var(--mdw-on-surface--60);
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day.mdw-out-of-range {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day.mdw-out-of-range {
   pointer-events: none;
   cursor: auto;
   color: var(--mdw-on-surface--60);
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day[selected] {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected] {
   color: var(--mdw-on-primary);
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day[selected]::before {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected]::before {
+  background-color: var(--mdw-surface-variant);
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  border-radius: 50%;
+  z-index: -1;
   background-color: var(--mdw-primary);
+  margin: 1px;
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day.mdw-today {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected][start]::before {
+  border-radius: 50% 0 0 50%;
+}
+
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected][end]::before {
+  border-radius: 0 50% 50% 0;
+}
+
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day:not(.mdw-not-current-month)[in-selection-range]::before {
+  background-color: var(--mdw-surface-variant);
+  border-radius: 0;
+  margin-left: -4px;
+  margin-right: -4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[in-selection-range].mdw-first-day::before {
+  border-radius: 20px 0 0 20px;
+  /* use pixels because margin is stretched */
+  margin-left: 0;
+}
+
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[in-selection-range].mdw-last-day::before {
+  border-radius: 0 20px 20px 0;
+  /* use pixels because margin is stretched */
+  margin-right: 0;
+}
+
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day.mdw-today::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  border-radius: 50%;
   border: 1px solid var(--mdw-outline--60);
-}
-
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container .mdw-day.mdw-not-current-month[selected] {
-  color: var(--mdw-on-primary);
+  margin: 2px;
+  z-index: 11;
 }
 
 mdw-date-picker-range-desktop .mdw-actions {
@@ -227,30 +234,24 @@ mdw-date-picker-range-desktop .mdw-actions {
   transition: opacity 120ms;
 }
 
-mdw-date-picker-range-desktop.mdw-years-view .mdw-actions,
-mdw-date-picker-range-desktop.mdw-months-view .mdw-actions {
-  opacity: 0;
-  pointer-events: none;
-}
-
 mdw-date-picker-range-desktop .mdw-actions > mdw-button:first-of-type {
   margin-right: auto;
 }
 
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container.mdw-animation-next-to-active {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container.mdw-animation-next-to-active {
   animation: mdw-month-range-next-to-active 180ms;
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container.mdw-animation-next-from-active {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container.mdw-animation-next-from-active {
   animation: mdw-month-range-next-from-active 180ms;
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container.mdw-animation-previous-to-active {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container.mdw-animation-previous-to-active {
   animation: mdw-month-range-previous-to-active 180ms;
 }
 
-mdw-date-picker-range-desktop .mdw-month-days-container .mdw-days-container.mdw-animation-previous-from-active {
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container.mdw-animation-previous-from-active {
   animation: mdw-month-range-previous-from-active 180ms;
 }
 
@@ -336,85 +337,4 @@ mdw-date-picker-range-desktop .mdw-months-container {
   transition: opacity 120ms;
   background-color: var(--mdw-surface);
   border-radius: var(--mdw-shape-large);
-}
-
-mdw-date-picker-range-desktop.mdw-months-view .mdw-months-container {
-  opacity: 1;
-  pointer-events: all;
-}
-
-mdw-date-picker-range-desktop .mdw-months-container .mdw-month-item {
-  display: flex;
-  height: 48px;
-  line-height: 48px;
-  align-items: center;
-  cursor: pointer;
-}
-
-mdw-date-picker-range-desktop .mdw-months-container .mdw-month-item[selected] {
-  background-color: var(--mdw-surface-tint--6);
-}
-
-mdw-date-picker-range-desktop .mdw-months-container .mdw-month-item:hover {
-  background-color: var(--mdw-surface-tint--12);
-}
-
-mdw-date-picker-range-desktop .mdw-months-container .mdw-icon-svg {
-  opacity: 0;
-  margin: 0 14px;
-  pointer-events: none;
-}
-
-mdw-date-picker-range-desktop .mdw-months-container .mdw-month-item[selected] .mdw-icon-svg {
-  opacity: 1;
-}
-
-
-/* --- years view --- */
-
-mdw-date-picker-range-desktop .mdw-years-container {
-  position: absolute;
-  top: 54px;
-  left: 0;
-  width: 100%;
-  height: 364px;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 120ms;
-  background-color: var(--mdw-surface);
-  border-radius: var(--mdw-shape-large);
-}
-
-mdw-date-picker-range-desktop.mdw-years-view .mdw-years-container {
-  opacity: 1;
-  pointer-events: all;
-}
-
-mdw-date-picker-range-desktop .mdw-years-container .mdw-year-item {
-  display: flex;
-  height: 48px;
-  line-height: 48px;
-  align-items: center;
-  cursor: pointer;
-}
-
-mdw-date-picker-range-desktop .mdw-years-container .mdw-year-item[selected] {
-  background-color: var(--mdw-surface-tint--6);
-}
-
-mdw-date-picker-range-desktop .mdw-years-container .mdw-year-item:hover {
-  background-color: var(--mdw-surface-tint--12);
-}
-
-mdw-date-picker-range-desktop .mdw-years-container .mdw-icon-svg {
-  opacity: 0;
-  margin: 0 14px;
-  pointer-events: none;
-}
-
-mdw-date-picker-range-desktop .mdw-years-container .mdw-year-item[selected] .mdw-icon-svg {
-  opacity: 1;
 }

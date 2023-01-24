@@ -9,6 +9,8 @@ import svgIconHistory from '../../svg-icons/history_FILL0_wght400_GRAD0_opsz24.s
 import chevronLeftIconSVGRaw from '../../svg-icons/arrow_back_ios_FILL1_wght300_GRAD0_opsz24.svg';
 import svgIconMic from '../../svg-icons/mic_FILL1_wght400_GRAD0_opsz24.svg';
 
+// TODO search header (fixed at top of page, hides on scroll)
+
 
 const speechRecognitionSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
 

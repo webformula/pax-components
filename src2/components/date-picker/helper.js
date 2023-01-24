@@ -45,6 +45,7 @@ export function monthDaysTemplate(date, value, minDate, maxDate, fillPreviousMon
 export function monthDaysRangeTemplate(date, valueStart, valueEnd, minDate, maxDate, extraRow) {
   const startTime = dateUtil.parse(valueStart).getTime();
   const endTime = dateUtil.parse(valueEnd).getTime();
+  const lastDayInMonth = dateUtil.setDateByParts(date, { day: -1 }).getDate() + 1;
 
   return dateUtil.getMonthDays(date, {
     fillPreviousMonth: false,
@@ -60,6 +61,8 @@ export function monthDaysRangeTemplate(date, valueStart, valueEnd, minDate, maxD
     if (beforeMinDate || afterMaxDate) classes += ' mdw-out-of-range';
     if (isToday && display !== '') classes += ' mdw-today';
     if (!currentMonth) classes += ' mdw-not-current-month';
+    if (currentMonth && date.getDate() === 1) classes += ' mdw-first-day';
+    if (currentMonth && date.getDate() === lastDayInMonth) classes += ' mdw-last-day';
     const formattedDate = dateUtil.format(date, 'YYYY-MM-dd');
     const selectedStart = currentMonth && valueStart === formattedDate;
     const selectedEnd = currentMonth && valueEnd === formattedDate;

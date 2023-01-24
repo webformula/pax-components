@@ -379,51 +379,71 @@ mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day.mdw-out-of-
 
 mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected] {
   color: var(--mdw-on-primary);
-  background-color: var(--mdw-surface-variant);
 }
 
-mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected][start] {
-  border-radius: 50% 0 0 50%;
-}
-
-mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected]::before {
-  background-color: var(--mdw-primary);
-}
-
-mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-today::after {
+mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected]::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+  z-index: -1;
   box-sizing: border-box;
   border-radius: 50%;
-  z-index: 1;
-  border: 1px solid var(--mdw-outline--60);
+  background-color: var(--mdw-primary);
+  margin: 1px;
 }
 
-/* --- selection range --- */
-mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[in-selection-range]::before {
+mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected][start]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  box-sizing: border-box;
   background-color: var(--mdw-surface-variant);
-  border-radius: 0;
-  margin-left: -20px;
-  margin-right: -20px;
+  border-radius: 50% 0 0 50%;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  margin-right: -6px;
 }
-/* mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[in-selection-range] ~ .mdw-day.mdw-not-current-month::before {
+
+mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected][end]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  box-sizing: border-box;
   background-color: var(--mdw-surface-variant);
-  border-radius: 0;
-  margin-left: -20px;
-  margin-right: -20px;
-} */
-mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[selected] + .mdw-day[in-selection-range]::before {
-  margin-left: -12px;
-}
-mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[in-selection-range] + .mdw-day[selected] {
   border-radius: 0 50% 50% 0;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  margin-left: -6px;
 }
-mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-today + .mdw-day[in-selection-range]::before {
-  margin-left: -12px;
+
+mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day:not(.mdw-not-current-month)[in-selection-range]::before {
+  background-color: var(--mdw-surface-variant);
+  border-radius: 0;
+  margin-left: -6px;
+  margin-right: -6px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[in-selection-range].mdw-first-day::before {
+  border-radius: 20px 0 0 20px; /* use pixels because margin is stretched */
+  margin-left: 0;
+}
+
+mdw-date-picker-range-mobile .mdw-month .mdw-days-container .mdw-day[in-selection-range].mdw-last-day::before {
+  border-radius: 0 20px 20px 0; /* use pixels because margin is stretched */
+  margin-right: 0;
 }
 
 
