@@ -4,6 +4,11 @@
     <div class="mdw-supporting-text"></div>
   </div>
   <div class="mdw-card-content">
+    <mdw-textfield>
+      <input type="date">
+      <label>Date</label>
+      <mdw-date-picker></mdw-date-picker>
+    </mdw-textfield>
   </div>
 </mdw-card>
 
@@ -14,8 +19,7 @@
   <a href="#basic">Date</a>
   <a href="#dateminmax">Date min max</a>
   <a href="#daterange">Date range</a>
-  <a href="#time">Time</a>
-  <a href="#timeminmax">Time min max</a>
+  <a href="#native">Date native component</a>
 </div>
 
 
@@ -110,15 +114,14 @@
     </pre>
   </mdw-card>
 
-  <mdw-card id="time">
+  <mdw-card id="native">
     <div class="mdw-card-content">
-      <div class="mdw-headline">Min max</div>
+      <div class="mdw-headline">Date native component</div>
   
       <div class="example">
         <mdw-textfield>
-          <input type="time">
-          <label>Time min max</label>
-          <mdw-time-picker></mdw-time-picker>
+          <input type="date">
+          <label>Date</label>
         </mdw-textfield>
       </div>
     </div>
@@ -126,9 +129,8 @@
     <pre>
       <code class="language-html">
   ${escapeHTML(`<mdw-textfield>
-    <input type="time">
-    <label>Time min max</label>
-    <mdw-time-picker></mdw-time-picker>
+    <input type="date">
+    <label>Date</label>
   </mdw-textfield>`)}
       </code>
     </pre>

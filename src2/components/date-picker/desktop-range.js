@@ -46,6 +46,7 @@ customElements.define('mdw-date-picker-range-desktop', class MDWDatePickerRangeD
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     this.querySelector('.mdw-ok').removeEventListener('click', this.#ok_bound);
     this.querySelector('.mdw-cancel').removeEventListener('click', this.#cancel_bound);
     this.removeEventListener('close', this.#onClose_bound);
