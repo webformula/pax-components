@@ -7,9 +7,6 @@ import editIconSVGRaw from '../../svg-icons/edit_FILL1_wght400_GRAD0_opsz24.svg'
 import { monthDaysRangeTemplate } from './helper.js';
 
 
-// TODO input min max
-// TODO figure out scroll range
-
 customElements.define('mdw-date-picker-range-mobile', class MDWDatePickerRangeMobileElement extends MDWPanelElement {
   useTemplate = false;
 

@@ -232,6 +232,7 @@ const mdwDate = new class MDWDate {
       const afterMaxDate = maxDate ? date.getTime() > maxDate.getTime() : false;
       const interactive = !beforeMinDate && !afterMaxDate && display !== '';
       const isToday = todayParts.year === parts.year && todayParts.month === parts.month && todayParts.day === parts.day;
+      const dayOfWeek = date.getDay();
 
       currentDate = this.addToDateByParts(date, { day: 1 });
 
@@ -242,7 +243,8 @@ const mdwDate = new class MDWDate {
         currentMonth,
         beforeMinDate,
         afterMaxDate,
-        isToday
+        isToday,
+        dayOfWeek
       };
     });
 

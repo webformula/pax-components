@@ -70,6 +70,14 @@ customElements.define('mdw-date-picker-range', class MDWDatePickerRangeElement e
     return `${this.valueStart}:${this.valueEnd}`;
   }
 
+  get inputStart() {
+    return this.#inputStart;
+  }
+
+  get inputEnd() {
+    return this.#inputEnd;
+  }
+
   get valueStart() {
     return this.#inputStart.value;
   }

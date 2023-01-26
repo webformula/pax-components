@@ -45,7 +45,7 @@ export function monthDaysTemplate(date, value, minDate, maxDate, fillPreviousMon
 export function monthDaysRangeTemplate(date, valueStart, valueEnd, minDate, maxDate, extraRow) {
   const startTime = dateUtil.parse(valueStart).getTime();
   const endTime = dateUtil.parse(valueEnd).getTime();
-  const lastDayInMonth = dateUtil.setDateByParts(date, { day: -1 }).getDate() + 1;
+  const lastDayInMonth = dateUtil.setDateByParts(dateUtil.addToDateByParts(date, { month: 1 }), { day: -1 }).getDate() + 1;
 
   return dateUtil.getMonthDays(date, {
     fillPreviousMonth: false,
@@ -53,8 +53,8 @@ export function monthDaysRangeTemplate(date, valueStart, valueEnd, minDate, maxD
     minDate,
     maxDate,
     extraRow
-  }).map(week => week.map(({ display, date, currentMonth, interactive, beforeMinDate, afterMaxDate, isToday }) => {
-    let classes = 'mdw-day';
+  }).map(week => week.map(({ display, date, currentMonth, interactive, beforeMinDate, afterMaxDate, isToday, dayOfWeek }) => {
+    let classes = `mdw-day mdw-week-day-${dayOfWeek}`;
     if (beforeMinDate) classes += ' mdw-before-min-date';
     if (afterMaxDate) classes += ' mdw-after-max-date';
     if (interactive) classes += ' mdw-interactive';

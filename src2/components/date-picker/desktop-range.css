@@ -189,8 +189,16 @@ mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected][
   border-radius: 50% 0 0 50%;
 }
 
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected][start].mdw-week-day-6::before {
+  border-radius: 50%;
+}
+
 mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected][end]::before {
   border-radius: 0 50% 50% 0;
+}
+
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[selected][end].mdw-week-day-0::before {
+  border-radius: 50%;
 }
 
 mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day:not(.mdw-not-current-month)[in-selection-range]::before {
@@ -203,14 +211,20 @@ mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day:not(.mdw-n
 }
 
 mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[in-selection-range].mdw-first-day::before {
-  border-radius: 20px 0 0 20px;
-  /* use pixels because margin is stretched */
+  border-radius: 20px 0 0 20px; /* use pixels because margin is stretched */
   margin-left: 0;
 }
 
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[in-selection-range].mdw-week-day-0::before {
+  border-radius: 20px 0 0 20px; /* use pixels because margin is stretched */
+}
+
+mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[in-selection-range].mdw-week-day-6::before {
+  border-radius: 0 20px 20px 0; /* use pixels because margin is stretched */
+}
+
 mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day[in-selection-range].mdw-last-day::before {
-  border-radius: 0 20px 20px 0;
-  /* use pixels because margin is stretched */
+  border-radius: 0 20px 20px 0; /* use pixels because margin is stretched */
   margin-right: 0;
 }
 
@@ -230,12 +244,9 @@ mdw-date-picker-range-desktop .mdw-month .mdw-days-container .mdw-day.mdw-today:
 
 mdw-date-picker-range-desktop .mdw-actions {
   display: flex;
+  justify-content: end;
   opacity: 1;
   transition: opacity 120ms;
-}
-
-mdw-date-picker-range-desktop .mdw-actions > mdw-button:first-of-type {
-  margin-right: auto;
 }
 
 
