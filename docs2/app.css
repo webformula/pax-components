@@ -47,7 +47,7 @@ mdw-card.header-card {
   box-shadow: none;
 }
 
-mdw-card.header-card .mdw-headline {
+mdw-card.header-card > .mdw-headline {
   font-size: 32px;
 }
 

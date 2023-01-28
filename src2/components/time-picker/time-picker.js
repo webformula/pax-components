@@ -10,7 +10,7 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
 
   #control;
   #input;
-  #displayTime = '';
+  #displayValue = '';
   #initialValue = '';
   #onControlFocus_bound = this.#onControlFocus.bind(this);
   #onControlClick_bound = this.#onControlClick.bind(this);
@@ -24,8 +24,8 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
     if (this.#control.nodeName !== 'MDW-TEXTFIELD') throw Error('mdw-date-picker must be a child of mdw-textfield');
     this.#input = this.#control.querySelector('input');
     this.#control.classList.add('mdw-has-time-picker');
-    // this.#displayTime = dateUtil.parse(this.value ? this.value : dateUtil.today());
-    // this.#initialValue = this.value;
+    this.#displayValue = this.#input.value || this.currentTimeValue;
+    this.#initialValue = this.#input.value;
   }
 
   connectedCallback() {
@@ -53,6 +53,14 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
   set value(value) {
     this.#input.value = value;
   }
+
+  get currentTimeValue() {
+    const date = new Date();
+    const hour = (date.getHours() < 10 ? '0' : '') + date.getHours();
+    const minute = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+    return `${hour}:${minute}`;
+  }
+
   get min() {
     return this.#input.min;
   }
@@ -60,37 +68,23 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
     return this.#input.max;
   }
 
-  get valueTime() {
-    // return dateUtil.parse(this.#input.value);
-  }
-  set valueTime(date) {
-    // this.#input.value = dateUtil.format(date, 'YYYY-MM-dd') || '';
-  }
   get displayValue() {
-    // return dateUtil.format(this.#displayTime, 'YYYY-MM-dd');
+    return this.#displayValue;
   }
   set displayValue(value) {
-    // this.#displayTime = dateUtil.parse(value);
+    // this.#displayValue = dateUtil.parse(value);
   }
-  get displayTime() {
-    return this.#displayTime;
-  }
-  set displayTime(date) {
-    // this.#displayTime = dateUtil.parse(date);
-  }
+
   get initialValue() {
     return this.#initialValue;
   }
 
-  get minTime() {
-    // return dateUtil.parse(this.#input.min);
-  }
-  get maxTime() {
-    // return dateUtil.parse(this.#input.max);
-  }
-
   get control() {
     return this.#control;
+  }
+
+  get input() {
+    return this.#input;
   }
 
   show() {
@@ -101,6 +95,39 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
     this.firstChild.close();
   }
 
+  updateDisplayValueMeridiem({ hour, minute, meridiem }) {
+    const split = this.#displayValue.split(':');
+    const currentMeridiem = meridiem ? meridiem : parseInt(split[0]) > 12 ? 'PM' : 'AM';
+    if (hour) {
+      hour = parseInt(hour);
+      if (currentMeridiem === 'PM') {
+        if (hour !== 12) hour += 12;
+      } else if (hour === 12) hour = 0;
+      split[0] = `${hour}`;
+    }
+    if (parseInt(split[0]) < 10) split[0] = `0${split[0]}`
+    if (minute) split[1] = minute;
+
+    this.#displayValue = `${split[0]}:${split[1]}`;
+  }
+
+  convert24ToMeridiemParts(time) {
+    const split = time.split(':');
+    let hour = parseInt(split[0]);
+    let meridiem = 'AM';
+    if (hour > 12) {
+      meridiem = 'PM';
+      hour = hour - 12;
+    }
+    hour = hour < 10 ? `0${hour}` : `${hour}`;
+
+    return {
+      hour: meridiem === 'AM' && hour === '00' ? '12' : hour,
+      minute: split[1],
+      meridiem,
+      formatted: `${hour}:${split[1]} ${split[2]}`
+    };
+  }
 
   #onControlFocus() {
     this.firstChild.show();
@@ -114,7 +141,7 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
     if (device.isMobile) this.#control.removeEventListener('click', this.#onControlClick_bound);
     else this.#input.removeEventListener('focus', this.#onControlFocus_bound);
 
-    // this.#displayTime = dateUtil.parse(this.value ? this.value : dateUtil.today());
+    // this.#displayValue = dateUtil.parse(this.value ? this.value : dateUtil.today());
     // this.#initialValue = this.value;
   }
 
