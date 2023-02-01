@@ -12,6 +12,7 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
   #input;
   #displayValue = '';
   #initialValue = '';
+  #hour24 = this.hasAttribute('hour-24');
   #onControlFocus_bound = this.#onControlFocus.bind(this);
   #onControlClick_bound = this.#onControlClick.bind(this);
   #onShow_bound = this.#onShow.bind(this);
@@ -24,8 +25,7 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
     if (this.#control.nodeName !== 'MDW-TEXTFIELD') throw Error('mdw-date-picker must be a child of mdw-textfield');
     this.#input = this.#control.querySelector('input');
     this.#control.classList.add('mdw-has-time-picker');
-    this.#displayValue = this.#input.value || this.currentTimeValue;
-    this.#initialValue = this.#input.value;
+    this.#setInitialTime();
   }
 
   connectedCallback() {
@@ -87,12 +87,52 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
     return this.#input;
   }
 
+  get step() {
+    return this.#input.step;
+  }
+
+  get hourStep() {
+    return Math.max(1, Math.floor(parseInt(this.step || 1) / 3600))
+  }
+
+  get minuteStep() {
+    const step = Math.max(1, Math.floor(parseInt(this.step || 1) / 60));
+    if (step > 59) return -1;
+    return step;
+  }
+
+  get hour24() {
+    return this.#hour24;
+  }
+
+  get view() {
+    if (this.classList.contains('mdw-minute-view')) return 'minute';
+    return 'hour';
+  }
+
   show() {
     this.firstChild.show();
   }
 
   close() {
     this.firstChild.close();
+  }
+
+  #setInitialTime() {
+    if (this.#input.value) {
+      this.#displayValue = this.#input.value;
+      this.#initialValue = this.#input.value;
+    } else {
+      const date = new Date();
+      const hourStep = this.hourStep;
+      let hour = Math.round(date.getHours() / hourStep) * hourStep;
+      if (hour < 10) hour = `0${hour}`;
+      const minuteStep = this.minuteStep;
+      let minute = minuteStep === -1 ? 0 : Math.round(date.getMinutes() / minuteStep) * minuteStep;
+      if (minute < 10) minute = `0${minute}`;
+      this.#displayValue = `${hour}:${minute}`;
+      this.#initialValue = '';
+    }
   }
 
   updateDisplayValueMeridiem({ hour, minute, meridiem }) {
@@ -111,6 +151,15 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
     this.#displayValue = `${split[0]}:${split[1]}`;
   }
 
+  updateDisplayValue24({ hour, minute }) {
+    const split = this.#displayValue.split(':');
+    hour = hour || parseInt(split[0]);
+    if (hour < 10) hour = `0${hour}`;
+    minute = minute || parseInt(split[1]);
+    if (minute < 10) minute = `0${minute}`;
+    this.#displayValue = `${hour}:${minute}`;
+  }
+
   convert24ToMeridiemParts(time) {
     const split = time.split(':');
     let hour = parseInt(split[0]);
@@ -119,13 +168,33 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
       meridiem = 'PM';
       hour = hour - 12;
     }
-    hour = hour < 10 ? `0${hour}` : `${hour}`;
+    const paddedHour = hour < 10 ? `0${hour}` : `${hour}`;
+    const minute = parseInt(split[1]);
+    const paddedMinute = minute < 10 ? `0${minute}` : `${minute}`;
 
     return {
-      hour: meridiem === 'AM' && hour === '00' ? '12' : hour,
-      minute: split[1],
+      hour: `${hour}`,
+      paddedHour,
+      minute,
+      paddedMinute,
       meridiem,
-      formatted: `${hour}:${split[1]} ${split[2]}`
+      formatted: `${paddedHour}:${paddedMinute} ${meridiem}`
+    };
+  }
+
+  convertTo24Parts(time) {
+    const split = time.split(':');
+    let hour = parseInt(split[0]);
+    const paddedHour = hour < 10 ? `0${hour}` : `${hour}`;
+    const minute = parseInt(split[1]);
+    const paddedMinute = minute < 10 ? `0${minute}` : `${minute}`;
+
+    return {
+      hour: `${hour}`,
+      paddedHour,
+      minute: `${minute}`,
+      paddedMinute,
+      formatted: `${paddedHour}:${paddedMinute}`
     };
   }
 
@@ -138,6 +207,7 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends HTML
   }
 
   #onShow() {
+    this.#setInitialTime();
     if (device.isMobile) this.#control.removeEventListener('click', this.#onControlClick_bound);
     else this.#input.removeEventListener('focus', this.#onControlFocus_bound);
 
