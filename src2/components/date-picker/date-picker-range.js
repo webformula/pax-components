@@ -218,6 +218,8 @@ customElements.define('mdw-date-picker-range', class MDWDatePickerRangeElement e
         this.#inputEnd.addEventListener('focus', this.#onControlFocus_bound);
       }
     });
+    this.#controlStart.querySelector('input').reportValidity();
+    this.#controlEnd.querySelector('input').reportValidity();
   }
 
   template() {

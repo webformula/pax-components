@@ -4,7 +4,7 @@ import './component.css';
 import keyboardSVGIcon from '../../svg-icons/keyboard_FILL0_wght400_GRAD0_opsz24.svg';
 import scheduleSVGIcon from '../../svg-icons/schedule_FILL0_wght400_GRAD0_opsz24.svg';
 
-// NOTE for now this only works with text fields, but there is no reason it cannot work with other controls
+// TODO min max
 
 customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWPanelElement {
   useTemplate = false;
@@ -82,8 +82,11 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
     this.#input.removeEventListener('focus', this.#onControlFocus_bound);
     this.#input.removeEventListener('input', this.#onInput_bound);
     this.querySelector('.mdw-dial-container').removeEventListener('mousedown', this.#selectMouseDown_bound);
+    this.querySelector('.mdw-dial-container').removeEventListener('touchstart', this.#selectMouseDown_bound);
     window.removeEventListener('mouseup', this.#selectMouseUp_bound);
     window.removeEventListener('mousemove', this.#selectMouseMove_bound);
+    window.removeEventListener('touchend', this.#selectMouseUp_bound);
+    window.removeEventListener('touchmove', this.#selectMouseMove_bound);
     this.querySelector('.mdw-dial-hour').removeEventListener('click', this.#dialHourClick_bound);
     this.querySelector('.mdw-dial-minute').removeEventListener('click', this.#dialMinuteClick_bound);
     this.querySelector('.mdw-time-hour').removeEventListener('click', this.#hourClick_bound);
@@ -358,6 +361,7 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
     }
     this.#input.removeEventListener('focus', this.#onControlFocus_bound);
     this.querySelector('.mdw-dial-container').addEventListener('mousedown', this.#selectMouseDown_bound);
+    this.querySelector('.mdw-dial-container').addEventListener('touchstart', this.#selectMouseDown_bound);
     this.#input.addEventListener('input', this.#onInput_bound);
     this.querySelector('.mdw-dial-hour').addEventListener('click', this.#dialHourClick_bound);
     this.querySelector('.mdw-dial-container').addEventListener('click', this.#dialMinuteClick_bound);
@@ -374,8 +378,11 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
   #onClose() {
     this.removeEventListener('close', this.#onClose_bound);
     this.querySelector('.mdw-dial-container').removeEventListener('mousedown', this.#selectMouseDown_bound);
+    this.querySelector('.mdw-dial-container').removeEventListener('touchstart', this.#selectMouseDown_bound);
     window.removeEventListener('mouseup', this.#selectMouseUp_bound);
     window.removeEventListener('mousemove', this.#selectMouseMove_bound);
+    window.removeEventListener('touchend', this.#selectMouseUp_bound);
+    window.removeEventListener('touchmove', this.#selectMouseMove_bound);
     this.#input.removeEventListener('input', this.#onInput_bound);
     this.querySelector('.mdw-dial-hour').removeEventListener('click', this.#dialHourClick_bound);
     this.querySelector('.mdw-dial-minute').removeEventListener('click', this.#dialMinuteClick_bound);
@@ -397,6 +404,8 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
       }
       this.#input.addEventListener('focus', this.#onControlFocus_bound);
     });
+
+    this.#input.reportValidity();
   }
 
   #ok() {
@@ -411,21 +420,26 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
 
   #selectMouseDown(event) {
     const selectorBounds = this.#selector.getBoundingClientRect();
+    const { x, y } = this.#getMousePosition(event);
     if (
-      event.clientX < selectorBounds.x
-      && event.clientX > selectorBounds.right
-      && event.clientY < selectorBounds.y
-      && event.clientY > selectorBounds.bottom
+      x < selectorBounds.x
+      && x > selectorBounds.right
+      && y < selectorBounds.y
+      && y > selectorBounds.bottom
     ) return;
 
     window.addEventListener('mouseup', this.#selectMouseUp_bound);
     window.addEventListener('mousemove', this.#selectMouseMove_bound);
+    window.addEventListener('touchend', this.#selectMouseUp_bound);
+    window.addEventListener('touchmove', this.#selectMouseMove_bound);
     event.preventDefault();
   }
 
   #selectMouseUp(event) {
     window.removeEventListener('mouseup', this.#selectMouseUp_bound);
     window.removeEventListener('mousemove', this.#selectMouseMove_bound);
+    window.removeEventListener('touchend', this.#selectMouseUp_bound);
+    window.removeEventListener('touchmove', this.#selectMouseMove_bound);
     event.preventDefault();
     setTimeout(() => this.#switchView('minute'));
   }
@@ -484,8 +498,9 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
   #selectMouseMove(event) {
     const center = this.querySelector('.mdw-selector-center');
     const centerBounds = center.getBoundingClientRect();
-    const x = centerBounds.x - event.clientX;
-    const y = centerBounds.y - event.clientY;
+    const mousePosition = this.#getMousePosition(event);
+    const x = centerBounds.x - mousePosition.x;
+    const y = centerBounds.y - mousePosition.y;
     const theta = Math.atan2(y, x) * (180 / Math.PI);
 
     const view = this.#view;
@@ -498,7 +513,6 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
 
       // in inner radius
       const isHour24 = this.#hour24 && x > -80 && x < 80 && y > -80 && y < 80;
-
       this.#selectedHour = this.#hourData.find(v => v.theta === `${positionTheta}` && (isHour24 ? v.is24 === true : v.is24 !== true)).hour;
       this.style.setProperty('--mdw-time-selector-selector-degrees', `${positionTheta}deg`);
 
@@ -517,7 +531,7 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
 
     this.#updateSelection();
     event.stopPropagation();
-    event.preventDefault();
+    // event.preventDefault();
   }
 
   #updateSelection(change = false) {
@@ -629,5 +643,12 @@ customElements.define('mdw-time-picker', class MDWTimePickerElement extends MDWP
   #minuteInput(event) {
     this.#selectedMinute = event.target.value;
     this.#updateDisplayValue24({ minute: this.#selectedMinute });
+  }
+
+  #getMousePosition(event) {
+    return {
+      x: event.changedTouches ? event.changedTouches[0].clientX : event.clientX,
+      y: event.changedTouches ? event.changedTouches[0].clientY : event.clientY,
+    }
   }
 });

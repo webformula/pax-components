@@ -125,6 +125,7 @@ customElements.define('mdw-date-picker', class MDWDatePickerElement extends HTML
       if (device.isMobile) this.#control.addEventListener('click', this.#onControlClick_bound);
       else this.#input.addEventListener('focus', this.#onControlFocus_bound);
     });
+    this.#input.reportValidity();
   }
 
   template() {
