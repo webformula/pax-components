@@ -37,7 +37,7 @@ import './components/slider/index.js';
 import './components/snackbar/index.js';
 import './components/switch/component.js';
 import './components/tab/index.js';
-import './components/time-picker/index.js';
+import './components/time-picker/component.js';
 import './components/textfield/component.js';
 import './components/top-app-bar/component.js';
 import './components/tooltip/index.js';
